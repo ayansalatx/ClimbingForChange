@@ -8,14 +8,14 @@ import axios from "axios";
 function App() {
   const [count, setCount] = useState(0)
 
-  const fetchAPI = async () => {
-    const response = await axios.get("http://localhost:8080/c4c-api")
-    console.log(response.data.participants);
-  };
+  // const fetchAPI = async () => {
+  //   const response = await axios.get("http://localhost:8080/c4c-api")
+  //   console.log(response.data.participants);
+  // };
 
-  useEffect(() => {
-    fetchAPI();
-  }, []);
+  // useEffect(() => {
+  //   fetchAPI();
+  // }, []);
 
   return (
     <>
