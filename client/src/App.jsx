@@ -19,7 +19,7 @@ function App() {
 
   return (
     <>
-    <a href="https://https://www.climbingforchange.ca/" target="_blank">
+    <a href="https://www.climbingforchange.ca/" target="_blank">
       <img src={C4Clogo} alt="Climbing for Change Logo" height={400}/>
     </a>
       {/* <div>
