@@ -1,9 +1,9 @@
 import Landing from "../components/Landing"
 
-const AdminDashboard = () => {
+const ProgressBoard = () => {
     return (
         <Landing/>
     )
 }
 
-export default AdminDashboard;
+export default ProgressBoard;
