@@ -1,0 +1,359 @@
+[
+    {
+        "participantID": "22",
+        "lastName": "Pelletier",
+        "firstName": "Justine",
+        "mountain": "Rainier",
+        "teamName": "Alberta SPCA"
+    },
+    {
+        "participantID": "23",
+        "lastName": "Winegarden",
+        "firstName": "Aimee",
+        "mountain": "Rainier",
+        "teamName": "Alberta SPCA"
+    },
+    {
+        "participantID": "34",
+        "lastName": "Laser",
+        "firstName": "Jason",
+        "mountain": "Denali",
+        "teamName": "BIMbros"
+    },
+    {
+        "participantID": "43",
+        "lastName": "Gilligan",
+        "firstName": "Michael",
+        "mountain": "Denali",
+        "teamName": "BIMbros"
+    },
+    {
+        "participantID": "44",
+        "lastName": "Simunkovic",
+        "firstName": "Robert",
+        "mountain": "Denali",
+        "teamName": "BIMbros"
+    },
+    {
+        "participantID": "50",
+        "lastName": "Simunkovic",
+        "firstName": "Katherine",
+        "mountain": "Denali",
+        "teamName": "BIMbros"
+    },
+    {
+        "participantID": "51",
+        "lastName": "de Jong",
+        "firstName": "Linda",
+        "mountain": "Denali",
+        "teamName": "BIMbros"
+    },
+    {
+        "participantID": "29",
+        "lastName": "Schafer",
+        "firstName": "Blake",
+        "mountain": "Everest",
+        "teamName": "Glenrose Human Ability"
+    },
+    {
+        "participantID": "9",
+        "lastName": "Barzagar",
+        "firstName": "Moe",
+        "mountain": "Rainier",
+        "teamName": "HIBCO Generals"
+    },
+    {
+        "participantID": "24",
+        "lastName": "Hetu",
+        "firstName": "Michel",
+        "mountain": "Rainier",
+        "teamName": "HIBCO Generals"
+    },
+    {
+        "participantID": "25",
+        "lastName": "Anthony",
+        "firstName": "Blair",
+        "mountain": "Rainier",
+        "teamName": "HIBCO Generals"
+    },
+    {
+        "participantID": "30",
+        "lastName": "Pagtalunan",
+        "firstName": "Cherry",
+        "mountain": "Rainier",
+        "teamName": "HIBCO Generals"
+    },
+    {
+        "participantID": "37",
+        "lastName": "Aissiou",
+        "firstName": "Amira",
+        "mountain": "Rainier",
+        "teamName": "HIBCO Generals"
+    },
+    {
+        "participantID": "38",
+        "lastName": "Zaytsoff",
+        "firstName": "Booker",
+        "mountain": "Denali",
+        "teamName": "Hill Billies"
+    },
+    {
+        "participantID": "39",
+        "lastName": "Zaytsoff",
+        "firstName": "Lisa",
+        "mountain": "Denali",
+        "teamName": "Hill Billies"
+    },
+    {
+        "participantID": "40",
+        "lastName": "Brooks",
+        "firstName": "Tyler",
+        "mountain": "Denali",
+        "teamName": "Hill Billies"
+    },
+    {
+        "participantID": "41",
+        "lastName": "Waraich",
+        "firstName": "Navpreet",
+        "mountain": "Denali",
+        "teamName": "Hill Billies"
+    },
+    {
+        "participantID": "42",
+        "lastName": "Parent",
+        "firstName": "Quinn",
+        "mountain": "Denali",
+        "teamName": "Hill Billies"
+    },
+    {
+        "participantID": "12",
+        "lastName": "Aubin",
+        "firstName": "Matt",
+        "mountain": "Denali",
+        "teamName": "KEEN Team"
+    },
+    {
+        "participantID": "13",
+        "lastName": "Xu",
+        "firstName": "Jennifer",
+        "mountain": "Denali",
+        "teamName": "KEEN Team"
+    },
+    {
+        "participantID": "32",
+        "lastName": "Cooper",
+        "firstName": "Lindsay",
+        "mountain": "Denali",
+        "teamName": "Like A Boss"
+    },
+    {
+        "participantID": "33",
+        "lastName": "Cooper",
+        "firstName": "Shawn",
+        "mountain": "Denali",
+        "teamName": "Like A Boss"
+    },
+    {
+        "participantID": "26",
+        "lastName": "Look",
+        "firstName": "Derek",
+        "mountain": "Rainier",
+        "teamName": "Rabbit Hill"
+    },
+    {
+        "participantID": "27",
+        "lastName": "Chodzicki",
+        "firstName": "Leah",
+        "mountain": "Rainier",
+        "teamName": "Rabbit Hill"
+    },
+    {
+        "participantID": "28",
+        "lastName": "Haniak",
+        "firstName": "Cheryl",
+        "mountain": "Rainier",
+        "teamName": "Rabbit Hill"
+    },
+    {
+        "participantID": "36",
+        "lastName": "Pettigrew",
+        "firstName": "Doug",
+        "mountain": "Rainier",
+        "teamName": "Rabbit Hill"
+    },
+    {
+        "participantID": "19",
+        "lastName": "Lottering",
+        "firstName": "Annamarie",
+        "mountain": "Rainier",
+        "teamName": "Springboks"
+    },
+    {
+        "participantID": "20",
+        "lastName": "Lottering",
+        "firstName": "Barend",
+        "mountain": "Rainier",
+        "teamName": "Springboks"
+    },
+    {
+        "participantID": "14",
+        "lastName": "Foy",
+        "firstName": "Brittany",
+        "mountain": "Everest",
+        "teamName": "STARS"
+    },
+    {
+        "participantID": "15",
+        "lastName": "Perry",
+        "firstName": "Adam",
+        "mountain": "Everest",
+        "teamName": "STARS"
+    },
+    {
+        "participantID": "16",
+        "lastName": "Mazzolini",
+        "firstName": "Justin",
+        "mountain": "Everest",
+        "teamName": "STARS"
+    },
+    {
+        "participantID": "17",
+        "lastName": "Mazzolini",
+        "firstName": "Angela",
+        "mountain": "Everest",
+        "teamName": "STARS"
+    },
+    {
+        "participantID": "18",
+        "lastName": "Kirkman",
+        "firstName": "Erica",
+        "mountain": "Everest",
+        "teamName": "STARS"
+    },
+    {
+        "participantID": "21",
+        "lastName": "Saunders",
+        "firstName": "Sarah",
+        "mountain": "Everest",
+        "teamName": "STARS"
+    },
+    {
+        "participantID": "6",
+        "lastName": "Guillette",
+        "firstName": "Lauren",
+        "mountain": "Denali",
+        "teamName": "Team Order"
+    },
+    {
+        "participantID": "7",
+        "lastName": "Batty",
+        "firstName": "Ryan",
+        "mountain": "Denali",
+        "teamName": "Team Order"
+    },
+    {
+        "participantID": "8",
+        "lastName": "Green",
+        "firstName": "Nick",
+        "mountain": "Denali",
+        "teamName": "Team Order"
+    },
+    {
+        "participantID": "31",
+        "lastName": "Wilkie",
+        "firstName": "Andrew",
+        "mountain": "Denali",
+        "teamName": "United Nations"
+    },
+    {
+        "participantID": "35",
+        "lastName": "Rogers",
+        "firstName": "Bryce",
+        "mountain": "Denali",
+        "teamName": "United Nations"
+    },
+    {
+        "participantID": "45",
+        "lastName": "Ngo",
+        "firstName": "Viet",
+        "mountain": "Denali",
+        "teamName": "United Nations"
+    },
+    {
+        "participantID": "47",
+        "lastName": "Gillese",
+        "firstName": "Andrew",
+        "mountain": "Denali",
+        "teamName": "United Nations"
+    },
+    {
+        "participantID": "48",
+        "lastName": "Gillese",
+        "firstName": "Adrianne",
+        "mountain": "Denali",
+        "teamName": "United Nations"
+    },
+    {
+        "participantID": "1",
+        "lastName": "Williamson",
+        "firstName": "Luke",
+        "mountain": "Everest",
+        "teamName": ""
+    },
+    {
+        "participantID": "2",
+        "lastName": "Wyllie",
+        "firstName": "Stewart",
+        "mountain": "Everest",
+        "teamName": ""
+    },
+    {
+        "participantID": "3",
+        "lastName": "McDaniel",
+        "firstName": "Andrew",
+        "mountain": "Everest",
+        "teamName": ""
+    },
+    {
+        "participantID": "4",
+        "lastName": "Chorney",
+        "firstName": "Devon",
+        "mountain": "Rainier",
+        "teamName": ""
+    },
+    {
+        "participantID": "5",
+        "lastName": "Baetjer",
+        "firstName": "Nelson",
+        "mountain": "Everest",
+        "teamName": ""
+    },
+    {
+        "participantID": "10",
+        "lastName": "Gerretsen",
+        "firstName": "Jeff",
+        "mountain": "Rainier",
+        "teamName": ""
+    },
+    {
+        "participantID": "11",
+        "lastName": "Douglas",
+        "firstName": "Bennett",
+        "mountain": "Rainier",
+        "teamName": ""
+    },
+    {
+        "participantID": "46",
+        "lastName": "Dampf",
+        "firstName": "Mike",
+        "mountain": "Rainier",
+        "teamName": ""
+    },
+    {
+        "participantID": "49",
+        "lastName": "Hamel",
+        "firstName": "Jen",
+        "mountain": "Rainier",
+        "teamName": ""
+    }
+]
