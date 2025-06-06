@@ -1,5 +1,5 @@
 
-export const dummyParticipants = [
+export const initialParticipants = [
   {
     lastName: "Pelletier",
     firstName: "Justine",
