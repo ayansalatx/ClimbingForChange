@@ -3,6 +3,7 @@ import cors from "cors"
 
 import participantRoutes from './routes/participants.js'
 import { requestLogger } from './utils/middleware.js'
+import eventRoutes from './routes/event.js'
 
 const app = express()
 
@@ -17,6 +18,7 @@ app.use(json())
 const appRouter = express.Router();
 
 appRouter.use('/participants', participantRoutes)
+appRouter.use('/events', eventRoutes)
 
 app.use("/api", appRouter)
 
