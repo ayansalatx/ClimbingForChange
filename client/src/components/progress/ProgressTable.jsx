@@ -7,7 +7,7 @@ import TableDataRows from "./TableDataRows";
 import TableHeaderRow from "./TableHeaderRow";
 
 // temporary mock data
-import mockData from "../../mock-data/progressboard-team-only.json"
+import mockData from "../../mock-data/progressboard-team-only.json";
 
 // Define columns for full width screen
 const fullColumns = [
@@ -61,6 +61,6 @@ const ProgressTable = () => {
       />
     </Paper>
   );
-}
+};
 
 export default ProgressTable;

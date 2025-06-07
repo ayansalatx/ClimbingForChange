@@ -1,9 +1,7 @@
-import Landing from "../components/Landing"
+import Landing from "../components/shared/Landing";
 
 const ParticipantManager = () => {
-    return (
-        <Landing/>
-    )
-}
+  return <Landing />;
+};
 
 export default ParticipantManager;

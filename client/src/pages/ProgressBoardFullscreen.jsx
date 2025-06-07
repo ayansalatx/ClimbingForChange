@@ -1,9 +1,7 @@
-import Landing from "../components/Landing"
+import Landing from "../components/shared/Landing";
 
 const ProgressBoardFullscreen = () => {
-    return (
-        <Landing/>
-    )
-}
+  return <Landing />;
+};
 
 export default ProgressBoardFullscreen;
