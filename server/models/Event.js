@@ -25,7 +25,7 @@ const eventSchema = new Schema({
     type: Number, 
     required: true
   },
-  lap: {
+  lapDistance: {
     type: Number,
     default: 1
   },
