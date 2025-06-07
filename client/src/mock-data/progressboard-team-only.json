@@ -1,0 +1,233 @@
+[
+    {
+        "team-name": "Alberta SPCA",
+        "mountain": "Rainier",
+        "elevation": "20310",
+        "current-elevation": "15407",
+        "total-laps": "94",
+        "laps-completed": "71",
+        "laps-to-go": "23",
+        "best-lap": "17:23",
+        "time-elapsed": "11:32:48"
+    },
+    {
+        "team-name": "Andrew McDaniel",
+        "mountain": "Everest",
+        "elevation": "29029",
+        "current-elevation": "24087",
+        "total-laps": "134",
+        "laps-completed": "111",
+        "laps-to-go": "23",
+        "best-lap": "40:13",
+        "time-elapsed": "17:02:43"
+    },
+    {
+        "team-name": "Bennett Douglas",
+        "mountain": "Rainier",
+        "elevation": "20310",
+        "current-elevation": "14105",
+        "total-laps": "94",
+        "laps-completed": "65",
+        "laps-to-go": "29",
+        "best-lap": "39:10",
+        "time-elapsed": "26:02:11"
+    },
+    {
+        "team-name": "BIMbros",
+        "mountain": "Denali",
+        "elevation": "14410",
+        "current-elevation": "11935",
+        "total-laps": "66",
+        "laps-completed": "55",
+        "laps-to-go": "11",
+        "best-lap": "29:09",
+        "time-elapsed": "40:02:02"
+    },
+    {
+        "team-name": "Devon Chorney",
+        "mountain": "Rainier",
+        "elevation": "20310",
+        "current-elevation": "7378",
+        "total-laps": "94",
+        "laps-completed": "34",
+        "laps-to-go": "60",
+        "best-lap": "15:60",
+        "time-elapsed": "36:36:05"
+    },
+    {
+        "team-name": "Glenrose Human Ability",
+        "mountain": "Everest",
+        "elevation": "29029",
+        "current-elevation": "9982",
+        "total-laps": "134",
+        "laps-completed": "46",
+        "laps-to-go": "88",
+        "best-lap": "34:38",
+        "time-elapsed": "37:38:26"
+    },
+    {
+        "team-name": "HIBCO Generals",
+        "mountain": "Rainier",
+        "elevation": "20310",
+        "current-elevation": "12369",
+        "total-laps": "94",
+        "laps-completed": "57",
+        "laps-to-go": "37",
+        "best-lap": "21:53",
+        "time-elapsed": "34:02:25"
+    },
+    {
+        "team-name": "Hill Billies",
+        "mountain": "Denali",
+        "elevation": "14410",
+        "current-elevation": "13671",
+        "total-laps": "66",
+        "laps-completed": "63",
+        "laps-to-go": "3",
+        "best-lap": "44:54",
+        "time-elapsed": "25:32:37"
+    },
+    {
+        "team-name": "Jeff Gerretsen",
+        "mountain": "Rainier",
+        "elevation": "20310",
+        "current-elevation": "18445",
+        "total-laps": "94",
+        "laps-completed": "85",
+        "laps-to-go": "9",
+        "best-lap": "44:29",
+        "time-elapsed": "37:60:53"
+    },
+    {
+        "team-name": "Jen Hamel",
+        "mountain": "Rainier",
+        "elevation": "20310",
+        "current-elevation": "19964",
+        "total-laps": "94",
+        "laps-completed": "92",
+        "laps-to-go": "2",
+        "best-lap": "26:39",
+        "time-elapsed": "20:13:39"
+    },
+    {
+        "team-name": "KEEN Team",
+        "mountain": "Denali",
+        "elevation": "14410",
+        "current-elevation": "9765",
+        "total-laps": "66",
+        "laps-completed": "45",
+        "laps-to-go": "21",
+        "best-lap": "42:20",
+        "time-elapsed": "23:33:25"
+    },
+    {
+        "team-name": "Like A Boss",
+        "mountain": "Denali",
+        "elevation": "14410",
+        "current-elevation": "11501",
+        "total-laps": "66",
+        "laps-completed": "53",
+        "laps-to-go": "13",
+        "best-lap": "30:46",
+        "time-elapsed": "41:50:13"
+    },
+    {
+        "team-name": "Luke Williamson",
+        "mountain": "Everest",
+        "elevation": "29029",
+        "current-elevation": "14539",
+        "total-laps": "134",
+        "laps-completed": "67",
+        "laps-to-go": "67",
+        "best-lap": "36:44",
+        "time-elapsed": "13:53:60"
+    },
+    {
+        "team-name": "Mike Dampf",
+        "mountain": "Rainier",
+        "elevation": "20310",
+        "current-elevation": "11935",
+        "total-laps": "94",
+        "laps-completed": "55",
+        "laps-to-go": "39",
+        "best-lap": "37:27",
+        "time-elapsed": "31:31:08"
+    },
+    {
+        "team-name": "Nelson Baetjer",
+        "mountain": "Everest",
+        "elevation": "29029",
+        "current-elevation": "9548",
+        "total-laps": "134",
+        "laps-completed": "44",
+        "laps-to-go": "90",
+        "best-lap": "34:57",
+        "time-elapsed": "39:05:43"
+    },
+    {
+        "team-name": "Rabbit Hill",
+        "mountain": "Rainier",
+        "elevation": "20310",
+        "current-elevation": "10416",
+        "total-laps": "94",
+        "laps-completed": "48",
+        "laps-to-go": "46",
+        "best-lap": "37:48",
+        "time-elapsed": "44:45:15"
+    },
+    {
+        "team-name": "Springboks",
+        "mountain": "Rainier",
+        "elevation": "20310",
+        "current-elevation": "13888",
+        "total-laps": "94",
+        "laps-completed": "64",
+        "laps-to-go": "30",
+        "best-lap": "39:49",
+        "time-elapsed": "32:50:15"
+    },
+    {
+        "team-name": "STARS",
+        "mountain": "Everest",
+        "elevation": "29029",
+        "current-elevation": "23219",
+        "total-laps": "134",
+        "laps-completed": "107",
+        "laps-to-go": "27",
+        "best-lap": "44:54",
+        "time-elapsed": "26:03:03"
+    },
+    {
+        "team-name": "Stewart Wyllie",
+        "mountain": "Everest",
+        "elevation": "29029",
+        "current-elevation": "6076",
+        "total-laps": "134",
+        "laps-completed": "28",
+        "laps-to-go": "106",
+        "best-lap": "22:46",
+        "time-elapsed": "25:58:41"
+    },
+    {
+        "team-name": "Team Order",
+        "mountain": "Denali",
+        "elevation": "14410",
+        "current-elevation": "11718",
+        "total-laps": "66",
+        "laps-completed": "54",
+        "laps-to-go": "12",
+        "best-lap": "17:07",
+        "time-elapsed": "16:09:36"
+    },
+    {
+        "team-name": "United Nations",
+        "mountain": "Denali",
+        "elevation": "14410",
+        "current-elevation": "12803",
+        "total-laps": "66",
+        "laps-completed": "59",
+        "laps-to-go": "7",
+        "best-lap": "17:29",
+        "time-elapsed": "21:55:40"
+    }
+]
