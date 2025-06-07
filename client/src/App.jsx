@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css'
 import Landing from './components/shared/Landing'
 import ProgressBoard from './pages/ProgressBoard';
-import AdminLogin from './pages/AdminLogin';
-import AdminDashboard from './pages/AdminDashboard';
+import AdminLogin from './pages/Admin/AdminLogin';
+import AdminDashboard from './pages/Admin/AdminDashboard';
 import EventManager from './pages/EventManager';
 import ParticipantManager from './pages/ParticipantManager';
 import MountainManager from './pages/MountainManager';
