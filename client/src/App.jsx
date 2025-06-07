@@ -19,7 +19,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/progress" element={<ProgressBoard/>}>
-          <Route path="/fullscreen" element={<ProgressBoardFullscreen />}/>
+          <Route path="fullscreen" element={<ProgressBoardFullscreen />}/>
         </Route>
         <Route path="/login" element={<AdminLogin />}/>
         <Route path="/admin" element={<AdminDashboard />}>
