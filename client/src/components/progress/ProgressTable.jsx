@@ -6,25 +6,7 @@ import TablePagination from "@mui/material/TablePagination";
 import TableDataRows from "./TableDataRows";
 import TableHeaderRow from "./TableHeaderRow";
 
-// temporary mock data
-import mockData from "../../mock-data/progressboard-team-only.json";
-
-// Define columns for full width screen
-const fullColumns = [
-  { id: "team-name", label: "Team", minWidth: 270 },
-  { id: "mountain", label: "Mountain", minWidth: 85 },
-  { id: "elevation", label: "Elevation", minWidth: 85 },
-  { id: "current-elevation", label: "Current Elevation", minWidth: 85 },
-  { id: "total-laps", label: "Total Laps", minWidth: 85 },
-  { id: "laps-completed", label: "Laps Completed", minWidth: 85 },
-  { id: "laps-to-go", label: "Laps To Go", minWidth: 85 },
-  { id: "best-lap", label: "Best Lap", minWidth: 85 },
-  { id: "time-elapsed", label: "Time Elapsed", minWidth: 90 },
-];
-
-const rows = mockData;
-
-const ProgressTable = () => {
+const ProgressTable = ({rows, columns}) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -39,12 +21,12 @@ const ProgressTable = () => {
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer sx={{ maxHeight: 500 }}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHeaderRow columns={fullColumns} />
+      <TableContainer sx={{ maxHeight: "65vh" }}>
+        <Table stickyHeader aria-label="team/participant progress table">
+          <TableHeaderRow columns={columns} />
           <TableDataRows
+            columns={columns}
             rows={rows}
-            columns={fullColumns}
             page={page}
             rowsPerPage={rowsPerPage}
           />
