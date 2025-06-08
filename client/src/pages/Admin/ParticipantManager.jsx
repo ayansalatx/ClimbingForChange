@@ -1,4 +1,4 @@
-import Landing from "../components/shared/Landing";
+import Landing from "../../components/shared/Landing";
 
 const ParticipantManager = () => {
   return <Landing />;

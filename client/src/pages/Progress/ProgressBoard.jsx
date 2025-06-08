@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Container, Box } from "@mui/material";
-import ProgressTable from "../components/progress/ProgressTable";
-import C4CHorizontalGreenLogo from "../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png";
+import ProgressTable from "../../components/progress/ProgressTable";
+import C4CHorizontalGreenLogo from "../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png";
 
 // temporary mock data
-import mockData from "../mock-data/progressboard-team-only.json";
-import ProgressSearch from "../components/progress/ProgressSearch";
+import mockData from "../../mock-data/progressboard-team-only.json";
+import ProgressSearch from "../../components/progress/ProgressSearch";
+import { Outlet } from "react-router-dom";
 
 // Define columns for full width screen
 const fullColumns = [
@@ -44,20 +45,20 @@ const ProgressBoard = () => {
         height: "90vh",
         display: "flex",
         flexDirection: "column",
-        overflow: "hidden",
+        overflow: "hidden", 
       }}
     >
-      <Box sx={{ display: "flex", justifyContent: "flex-start", mb: 3 }}>
+      <Box sx={{ display: "flex", justifyContent: "flex-start", mb: "1rem"}}>
         <a href="https://www.climbingforchange.ca/" target="_blank">
           <img
             src={C4CHorizontalGreenLogo}
             alt="Climbing for Change Logo"
-            style={{ maxWidth: 250, width: "auto" }}
+            style={{ maxWidth: "15.5rem", width: "auto" }}
           />
         </a>
       </Box>
 
-      <Box sx={{ mb: 4 }} >
+      <Box sx={{ mb: "1rem", maxWidth: "25vw"}} >
         <ProgressSearch />
       </Box>
 
