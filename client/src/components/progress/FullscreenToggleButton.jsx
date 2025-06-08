@@ -1,17 +1,22 @@
 import React from "react";
-import { IconButton, Tooltip } from '@mui/material';
+import { IconButton, Tooltip } from "@mui/material";
 import { Fullscreen, FullscreenExit } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
-const FullscreenToggleButton = ({sx}) => {
+const FullscreenToggleButton = ({ sx }) => {
+  const navigate = useNavigate();
 
-    return (
-        <Tooltip title="Fullscreen">
-            <IconButton sx={sx}>
-                <Fullscreen />
-            </IconButton>
-        </Tooltip>
-    )
+  const handleClick = () => {
+    navigate("/progress/fullscreen");
+  };
 
-}
+  return (
+    <Tooltip title="Fullscreen">
+      <IconButton onClick={handleClick} sx={sx}>
+        <Fullscreen />
+      </IconButton>
+    </Tooltip>
+  );
+};
 
 export default FullscreenToggleButton;
