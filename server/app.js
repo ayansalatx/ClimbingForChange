@@ -8,6 +8,7 @@ import locationRoutes from './routes/location.js'
 import mountainRoutes from './routes/mountain.js'
 import swaggerUi from 'swagger-ui-express'
 import YAML from 'yamljs'
+import { errorHandler } from './error.js'
 
 const app = express()
 const openapiDoc = YAML.load('./openapi.yaml')
@@ -30,5 +31,7 @@ appRouter.use('/locations', locationRoutes)
 appRouter.use('/mountains', mountainRoutes)
 
 app.use('/api', appRouter)
+
+app.use(errorHandler);
 
 export default app

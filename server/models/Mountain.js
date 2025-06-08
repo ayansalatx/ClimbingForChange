@@ -8,7 +8,7 @@ const mountainSchema = new Schema({
     required: true,
     trim: true
   },
-  elavation: {
+  elevation: {
     type: Number,
     required: true,
   },

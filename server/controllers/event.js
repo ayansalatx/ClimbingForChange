@@ -27,5 +27,5 @@ export const saveOneEvent = async (request, response) => {
 
   const savedEvent = await newEvent.save()
 
-  response.json(savedEvent)
+  response.status(201).json(savedEvent)
 }

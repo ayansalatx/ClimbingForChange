@@ -3,7 +3,7 @@ import mongoose from '../utils/db.js'
 import Location from '../models/Location.js'
 import Participant from '../models/participant.js'
 import Event from '../models/event.js'
-import Mountain from '../models/Lountain.js'
+import Mountain from '../models/Mountain.js'
 import { dummyEvents, dummyLocations, dummyMountains, initialParticipants } from './seedData.js'
 
 async function seed() {

@@ -27,5 +27,5 @@ export const saveOneLocation = async (request, response) => {
 
   const savedLocation = await newLocation.save()
 
-  response.json(savedLocation)
+  response.status(201).json(savedLocation)
 }

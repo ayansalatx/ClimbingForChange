@@ -3,7 +3,7 @@ import mongoose from '../utils/db.js'
 const {Schema, model} = mongoose
 
 const locationSchema = new Schema({
-  Name: {
+  name: {
     type: String,
     required: true,
     trim: true

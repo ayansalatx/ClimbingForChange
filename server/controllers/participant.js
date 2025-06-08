@@ -24,5 +24,5 @@ export const saveOneParticipant = async (request, response) => {
 
   const savedParticipant = await newParticipant.save()
 
-  response.json(savedParticipant)
+  response.status(201).json(savedParticipant)
 }

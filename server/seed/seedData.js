@@ -310,7 +310,7 @@ export const initialParticipants = [
 
 export const dummyLocations = [
   {
-    Name: 'Rocky Ridge Park',
+    name: 'Rocky Ridge Park',
     address: '123 Mountain Road',
     city: 'Banff',
     province: 'Alberta',
@@ -319,7 +319,7 @@ export const dummyLocations = [
     active: true,
   },
   {
-    Name: 'City Skyline Trail',
+    name: 'City Skyline Trail',
     address: '456 Downtown Ave',
     city: 'Edmonton',
     province: 'Alberta',
@@ -328,7 +328,7 @@ export const dummyLocations = [
     active: true,
   },
   {
-    Name: 'Whistler Summit',
+    name: 'Whistler Summit',
     address: '789 Alpine Way',
     city: 'Whistler',
     province: 'British Columbia',
@@ -337,7 +337,7 @@ export const dummyLocations = [
     active: false,
   },
   {
-    Name: 'Lakeside Loop',
+    name: 'Lakeside Loop',
     address: '101 Lakeview Drive',
     city: 'Kelowna',
     province: 'British Columbia',
@@ -346,7 +346,7 @@ export const dummyLocations = [
     active: true,
   },
   {
-    Name: 'Prairie Plains Course',
+    name: 'Prairie Plains Course',
     address: '202 Wheatfield Road',
     city: 'Saskatoon',
     province: 'Saskatchewan',
@@ -407,27 +407,27 @@ export const dummyEvents = [
 export const dummyMountains = [
   {
     name: 'Mount Everest',
-    elavation: 8848,
+    elevation: 8848,
     active: true
   },
   {
     name: 'K2',
-    elavation: 8611,
+    elevation: 8611,
     active: true
   },
   {
     name: 'Denali',
-    elavation: 6190,
+    elevation: 6190,
     active: true
   },
   {
     name: 'Mount Kilimanjaro',
-    elavation: 5895,
+    elevation: 5895,
     active: true
   },
   {
     name: 'Mont Blanc',
-    elavation: 4808,
+    elevation: 4808,
     active: false
   }
 ]

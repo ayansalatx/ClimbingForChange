@@ -23,5 +23,5 @@ export const saveOneMountain = async (request, response) => {
 
   const savedMountain = await newMountain.save()
 
-  response.json(savedMountain)
+  response.status(201).json(savedMountain)
 }
