@@ -1,7 +1,10 @@
-import Landing from "../../components/shared/Landing";
+import SideBar from "../../components/shared/SideBar";
 
 const AdminDashboard = () => {
-  return <Landing />;
+  return <>
+    <SideBar />
+    <h1>In Development</h1>
+  </>
 };
 
 export default AdminDashboard;
