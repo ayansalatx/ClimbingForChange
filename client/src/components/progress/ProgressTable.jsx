@@ -1,10 +1,14 @@
 import React from "react";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableContainer from "@mui/material/TableContainer";
-import TablePagination from "@mui/material/TablePagination";
+import {
+  Paper,
+  Table,
+  TableContainer,
+  TablePagination,
+  Box,
+} from "@mui/material";
 import TableDataRows from "./TableDataRows";
 import TableHeaderRow from "./TableHeaderRow";
+import FullscreenToggleButton from "./FullscreenToggleButton";
 
 const ProgressTable = ({rows, columns}) => {
   const [page, setPage] = React.useState(0);
@@ -32,15 +36,25 @@ const ProgressTable = ({rows, columns}) => {
           />
         </Table>
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+<Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <FullscreenToggleButton sx={{ml: ".25rem"}}/>
+
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Box>
     </Paper>
   );
 };
