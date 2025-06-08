@@ -6,12 +6,7 @@ import mockData from "../../mock-data/progressboard-team-only.json";
 
 const ProgressSearch = () => {
   return (
-    <Autocomplete
-      sx={{
-        "& .MuiOutlinedInput-root": {
-          padding: "6px 6px",
-        },
-      }}
+    <Autocomplete size="small"
       freeSolo
       id="progress-search"
       disableClearable

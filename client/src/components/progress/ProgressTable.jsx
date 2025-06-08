@@ -12,7 +12,7 @@ import FullscreenToggleButton from "./FullscreenToggleButton";
 
 const ProgressTable = ({rows, columns}) => {
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(rows.length);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -25,7 +25,7 @@ const ProgressTable = ({rows, columns}) => {
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer sx={{ maxHeight: "65vh" }}>
+      <TableContainer sx={{ height: "65vh" }}>
         <Table stickyHeader aria-label="team/participant progress table">
           <TableHeaderRow columns={columns} />
           <TableDataRows
@@ -46,7 +46,7 @@ const ProgressTable = ({rows, columns}) => {
         <FullscreenToggleButton sx={{ml: ".25rem"}}/>
 
         <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
+          rowsPerPageOptions={[15, 25, 100, {label: "All", value: rows.length}]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}

@@ -20,7 +20,7 @@ const TableDataRows = ({ rows, columns, page, rowsPerPage }) => {
                     ? "right"
                     : "center";
                 return (
-                  <TableCell key={column.id} align={align}>
+                  <TableCell sx={{padding: "0.4rem"}} key={column.id} align={align}>
                     {column.format && typeof value === "number"
                       ? column.format(value)
                       : value}
