@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Container, Box } from "@mui/material";
 import ProgressTable from "../../components/progress/ProgressTable";
+import ProgressSearch from "../../components/progress/ProgressSearch";
 import C4CHorizontalGreenLogo from "../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png";
 
 // temporary mock data
 import mockData from "../../mock-data/progressboard-team-only.json";
-import ProgressSearch from "../../components/progress/ProgressSearch";
-import { Outlet } from "react-router-dom";
 
 // Define columns for full width screen
 const fullColumns = [
@@ -36,6 +35,18 @@ const medColumns = [
 const rows = mockData;
 
 const ProgressBoard = () => {
+  const [searchString, setsearchString] = useState("");
+  const [filteredRows, setFilteredRows] = useState(mockData);
+
+  useEffect(() => {
+    const filtered = mockData.filter((row) =>
+      Object.values(row).some((val) =>
+        String(val).toLowerCase().includes(searchString.toLowerCase())
+      )
+    );
+    setFilteredRows(filtered);
+  }, [searchString]);
+
   return (
     <Container
       maxWidth={false}
@@ -45,10 +56,10 @@ const ProgressBoard = () => {
         height: "90vh",
         display: "flex",
         flexDirection: "column",
-        overflow: "hidden", 
+        overflow: "hidden",
       }}
     >
-      <Box sx={{ display: "flex", justifyContent: "flex-start", mb: "1rem"}}>
+      <Box sx={{ display: "flex", justifyContent: "flex-start", mb: "1rem" }}>
         <a href="https://www.climbingforchange.ca/" target="_blank">
           <img
             src={C4CHorizontalGreenLogo}
@@ -58,12 +69,12 @@ const ProgressBoard = () => {
         </a>
       </Box>
 
-      <Box sx={{ mb: "1rem", maxWidth: "25vw"}} >
-        <ProgressSearch />
+      <Box sx={{ mb: "1rem", maxWidth: "25vw" }}>
+        <ProgressSearch searchString={searchString} onChange={setsearchString}/>
       </Box>
 
       <Box sx={{ flexGrow: 1, width: "100%" }}>
-        <ProgressTable columns={fullColumns} rows={rows} />
+        <ProgressTable columns={fullColumns} rows={filteredRows} />
       </Box>
     </Container>
   );

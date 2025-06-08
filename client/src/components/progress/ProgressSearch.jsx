@@ -4,13 +4,18 @@ import { TextField, Stack, Autocomplete } from "@mui/material";
 // temporary mock data
 import mockData from "../../mock-data/progressboard-team-only.json";
 
-const ProgressSearch = () => {
+const ProgressSearch = ({ searchString, onChange }) => {
   return (
-    <Autocomplete size="small"
+    <Autocomplete
+      size="small"
       freeSolo
       id="progress-search"
       disableClearable
       options={mockData.map((option) => option["team-name"])}
+      inputValue={searchString}
+      onInputChange={(event, newInputValue) => {
+        onChange(newInputValue);
+      }}
       renderInput={(params) => (
         <TextField
           {...params}
