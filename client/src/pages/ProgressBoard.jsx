@@ -5,6 +5,7 @@ import C4CHorizontalGreenLogo from "../assets/C4C-branding/Climbing-For-Change-F
 
 // temporary mock data
 import mockData from "../mock-data/progressboard-team-only.json";
+import ProgressSearch from "../components/progress/ProgressSearch";
 
 // Define columns for full width screen
 const fullColumns = [
@@ -46,15 +47,18 @@ const ProgressBoard = () => {
         overflow: "hidden",
       }}
     >
-
-      <Box sx={{ display: "flex", justifyContent: "flex-start", mb: 2 }}>
+      <Box sx={{ display: "flex", justifyContent: "flex-start", mb: 3 }}>
         <a href="https://www.climbingforchange.ca/" target="_blank">
           <img
             src={C4CHorizontalGreenLogo}
             alt="Climbing for Change Logo"
-            style={{ maxWidth: 275, width: "auto" }}
+            style={{ maxWidth: 250, width: "auto" }}
           />
         </a>
+      </Box>
+
+      <Box sx={{ mb: 4 }} >
+        <ProgressSearch />
       </Box>
 
       <Box sx={{ flexGrow: 1, width: "100%" }}>
