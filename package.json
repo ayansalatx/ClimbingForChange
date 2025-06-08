@@ -1,7 +1,12 @@
 {
   "scripts": {
-    "install:client": "npm install --prefix pumppro-client",
-    "install:server": "npm install --prefix pumppro-server",
+    "install:client": "npm install --prefix client",
+    "install:server": "npm install --prefix server",
+    "clean": "rimraf client/public && rimraf server/public && rimraf server/dist",
+    "build:client": "npm run build --prefix client",
+    "build:server": "npm run build --prefix server",
+    "copy:client-to-server": "cpr client/public server/public -f",
+    "build:integrated": "npm install && npm run clean && npm run install:client && npm run build:client && npm run copy:client-to-server && npm run install:server && npm run build:server",
     "client": "npm run dev --prefix client",
     "server": "npm run dev   --prefix server",
     "dev": "concurrently \"npm:server\" \"npm:client\""

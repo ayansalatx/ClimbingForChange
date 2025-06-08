@@ -14,7 +14,7 @@ const openapiDoc = YAML.load('./openapi.yaml')
 
 app.use(cors())
 
-app.use(express.static('dist'))
+app.use(express.static('public'))
 
 app.use(requestLogger)
 
