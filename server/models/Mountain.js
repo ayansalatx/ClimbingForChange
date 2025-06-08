@@ -1,6 +1,6 @@
-import mongoose from '../utils/db.js';
+import mongoose from '../utils/db.js'
 
-const {Schema, model} = mongoose;
+const {Schema, model} = mongoose
 
 const mountainSchema = new Schema({
   name: {

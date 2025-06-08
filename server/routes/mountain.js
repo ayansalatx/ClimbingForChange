@@ -1,11 +1,11 @@
-import express from "express";
-import asyncHandler from "express-async-handler";
-import { getMountains, saveOneMountain } from "../controllers/mountains.js";
+import express from 'express'
+import asyncHandler from 'express-async-handler'
+import { getMountains, saveOneMountain } from '../controllers/mountains.js'
 
-const mountainRoutes = express.Router();
+const mountainRoutes = express.Router()
 
-mountainRoutes.get("/", asyncHandler(getMountains));
+mountainRoutes.get('/', asyncHandler(getMountains))
 
-mountainRoutes.post("/", asyncHandler(saveOneMountain));
+mountainRoutes.post('/', asyncHandler(saveOneMountain))
 
-export default mountainRoutes;
+export default mountainRoutes

@@ -1,8 +1,8 @@
-import express from "express";
-import asyncHandler from "express-async-handler";
-import { body, validationResult } from 'express-validator';
+import express from 'express'
+import asyncHandler from 'express-async-handler'
+import { body, validationResult } from 'express-validator'
 
-import { getEvents, saveOneEvent } from "../controllers/event.js";
+import { getEvents, saveOneEvent } from '../controllers/event.js'
 
 const validateEvent = [
   body('eventName')
@@ -23,12 +23,12 @@ const validateEvent = [
     .isISO8601().withMessage('endDate must be a valid ISO 8601 date')
     .custom((value, { req }) => {
       // Ensure endDate ≥ startDate
-      const start = new Date(req.body.startDate);
-      const end = new Date(value);
+      const start = new Date(req.body.startDate)
+      const end = new Date(value)
       if (end < start) {
-        throw new Error('endDate must be the same or after startDate');
+        throw new Error('endDate must be the same or after startDate')
       }
-      return true;
+      return true
     }),
 
   body('duration')
@@ -42,21 +42,21 @@ const validateEvent = [
   body('active')
     .optional()
     .isBoolean().withMessage('active must be true or false'),
-];
+]
 
 const checkEventValidation = (req, res, next) => {
-  const errors = validationResult(req);
+  const errors = validationResult(req)
   if (!errors.isEmpty()) {
     // Return a 400 with a JSON listing all validation errors
-    return res.status(400).json({ errors: errors.array() });
+    return res.status(400).json({ errors: errors.array() })
   }
-  next();
-};
+  next()
+}
 
-const eventRoutes = express.Router();
+const eventRoutes = express.Router()
 
-eventRoutes.get("/", asyncHandler(getEvents));
+eventRoutes.get('/', asyncHandler(getEvents))
 
-eventRoutes.post("/", validateEvent, checkEventValidation, asyncHandler(saveOneEvent));
+eventRoutes.post('/', validateEvent, checkEventValidation, asyncHandler(saveOneEvent))
 
-export default eventRoutes;
+export default eventRoutes
