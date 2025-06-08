@@ -11,10 +11,16 @@ const TableDataRows = ({ rows, columns, page, rowsPerPage }) => {
           return (
             <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
               {/* For each column in the column definition, render a matching cell */}
-              {columns.map((column) => {
+              {columns.map((column, index) => {
                 const value = row[column.id];
+                const align =
+                  index === 0
+                    ? "left"
+                    : index === columns.length - 1
+                    ? "right"
+                    : "center";
                 return (
-                  <TableCell key={column.id} align={column.align}>
+                  <TableCell key={column.id} align={align}>
                     {column.format && typeof value === "number"
                       ? column.format(value)
                       : value}

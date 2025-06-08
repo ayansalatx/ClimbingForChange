@@ -5,11 +5,22 @@ const TableHeaderRow = ({ columns }) => {
   return (
     <TableHead>
       <TableRow>
-        {columns.map((column) => (
+        {columns.map((column, index) => (
           <TableCell
             key={column.id}
-            align={column.align || "left"}
-            style={{ minWidth: column.minWidth }}
+            align={
+              index === 0
+                ? "left"
+                : index === columns.length - 1
+                ? "right"
+                : "center"
+            }
+            sx={{
+              minWidth: column.minWidth,
+              fontWeight: "bold",
+              fontSize: "1rem",
+              textTransform: "uppercase",
+            }}
           >
             {column.label}
           </TableCell>
