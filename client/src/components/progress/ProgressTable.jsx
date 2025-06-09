@@ -16,7 +16,7 @@ const ProgressTable = ({ rows, columns }) => {
 
   // State for number of rows per page (default is full list if less than 100)
   const [rowsPerPage, setRowsPerPage] = useState(
-    rows.length > 100 ? 100 : rows.length
+    rows.length > 100 ? 100 : rows.length > 25 ? 25 : 15
   );
 
   // Handle page change via pagination controls
@@ -71,7 +71,6 @@ const ProgressTable = ({ rows, columns }) => {
             15,
             25,
             100,
-            { label: "All", value: rows.length },
           ]}
           component="div"
           count={rows.length}
