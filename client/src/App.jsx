@@ -1,15 +1,16 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import "./App.css";
-import Landing from "./components/shared/Landing";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './App.css'
+import Landing from './components/shared/Landing'
 import ProgressBoard from "./pages/Progress/ProgressBoard";
 import ProgressBoardFullscreen from "./pages/Progress/ProgressBoardFullscreen";
-import AdminLogin from "./pages/Admin/AdminLogin";
-import AdminDashboard from "./pages/Admin/AdminDashboard";
-import EventManager from "./pages/Admin/EventManager";
-import ParticipantManager from "./pages/Admin/ParticipantManager";
-import MountainManager from "./pages/Admin/MountainManager";
-import LocationManager from "./pages/Admin/LocationManager";
+import AdminLogin from './pages/Admin/AdminLogin';
+import AdminDashboard from './pages/Admin/AdminDashboard';
+import EventManager from './pages/Admin/Events/EventManager';
+import ParticipantManager from './pages/Admin/Participants/ParticipantManager'
+import MountainManager from './pages/Admin/Mountains/MountainManager';
+import LocationManager from './pages/Admin/Locations/LocationManager';
+
 
 
 function App() {

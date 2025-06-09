@@ -1,7 +1,6 @@
-import Landing from "../../../components/shared/Landing";
 
 const MountainManager = () => {
-  return <Landing />;
+  return <h1>Mountains</h1>
 };
 
 export default MountainManager;

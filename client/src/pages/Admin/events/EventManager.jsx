@@ -1,7 +1,6 @@
-import Landing from "../../../components/shared/Landing";
 
 const EventManager = () => {
-  return <Landing />;
+  return <h1>Events</h1>
 };
 
 export default EventManager;
