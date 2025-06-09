@@ -1,16 +1,11 @@
-// const express = require("express");
-// const app = express();
-// const cors = require("cors");
-// const corsOptions = {
-//   origin: ["http://localhost:5173"],
-// };
+import http from 'http'
+import app from './app.js'
+import config from './utils/config.js'
 
-// app.use(cors(corsOptions));
+const server = http.createServer(app)
 
-// app.get("/c4c-api", (req, res) => {
-//   res.json({ participants: ["john Doe", "jane doe", "john smith"] });
-// });
+const PORT = config.PORT
 
-// app.listen(8080, () => {
-//   console.log("Server started on port 8080");
-// });
+server.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`)
+})

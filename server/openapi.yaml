@@ -1,0 +1,409 @@
+openapi: 3.0.3
+info:
+  title: Climbing For Change API
+  version: 1.0.0
+  description: API for managing participants, events, locations, and mountains.
+servers:
+  - url: http://localhost:5001/api
+paths:
+  /participants:
+    get:
+      tags:
+        - Participants
+      summary: List all participants
+      responses:
+        '200':
+          description: A list of participants
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Participant'
+    post:
+      tags:
+        - Participants
+      summary: Create a new participant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Participant'
+      responses:
+        '201':
+          description: Created participant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Participant'
+  /participants/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the participant
+    get:
+      tags:
+        - Participants
+      summary: Get a participant by ID
+      responses:
+        '200':
+          description: A participant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Participant'
+        '404':
+          description: Participant not found
+    put:
+      tags:
+        - Participants
+      summary: Update a participant by ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Participant'
+      responses:
+        '200':
+          description: Updated participant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Participant'
+    delete:
+      tags:
+        - Participants
+      summary: Delete a participant by ID
+      responses:
+        '204':
+          description: Participant deleted
+
+  /events:
+    get:
+      tags:
+        - Events
+      summary: List all events
+      responses:
+        '200':
+          description: A list of events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+    post:
+      tags:
+        - Events
+      summary: Create a new event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        '201':
+          description: Created event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+  /events/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the event
+    get:
+      tags:
+        - Events
+      summary: Get an event by ID
+      responses:
+        '200':
+          description: An event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '404':
+          description: Event not found
+    put:
+      tags:
+        - Events
+      summary: Update an event by ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        '200':
+          description: Updated event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+    delete:
+      tags:
+        - Events
+      summary: Delete an event by ID
+      responses:
+        '204':
+          description: Event deleted
+
+  /locations:
+    get:
+      tags:
+        - Locations
+      summary: List all locations
+      responses:
+        '200':
+          description: A list of locations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Location'
+    post:
+      tags:
+        - Locations
+      summary: Create a new location
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Location'
+      responses:
+        '201':
+          description: Created location
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+  /locations/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the location
+    get:
+      tags:
+        - Locations
+      summary: Get a location by ID
+      responses:
+        '200':
+          description: A location
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        '404':
+          description: Location not found
+    put:
+      tags:
+        - Locations
+      summary: Update a location by ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Location'
+      responses:
+        '200':
+          description: Updated location
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+    delete:
+      tags:
+        - Locations
+      summary: Delete a location by ID
+      responses:
+        '204':
+          description: Location deleted
+
+  /mountains:
+    get:
+      tags:
+        - Mountains
+      summary: List all mountains
+      responses:
+        '200':
+          description: A list of mountains
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mountain'
+    post:
+      tags:
+        - Mountains
+      summary: Create a new mountain
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Mountain'
+      responses:
+        '201':
+          description: Created mountain
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mountain'
+  /mountains/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the mountain
+    get:
+      tags:
+        - Mountains
+      summary: Get a mountain by ID
+      responses:
+        '200':
+          description: A mountain
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mountain'
+        '404':
+          description: Mountain not found
+    put:
+      tags:
+        - Mountains
+      summary: Update a mountain by ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Mountain'
+      responses:
+        '200':
+          description: Updated mountain
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mountain'
+    delete:
+      tags:
+        - Mountains
+      summary: Delete a mountain by ID
+      responses:
+        '204':
+          description: Mountain deleted
+
+components:
+  schemas:
+    Participant:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier generated by MongoDB
+        lastName:
+          type: string
+        firstName:
+          type: string
+        subEvent:
+          type: string
+        teamName:
+          type: string
+      required:
+        - lastName
+        - firstName
+        - subEvent
+
+    Event:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier generated by MongoDB
+        eventName:
+          type: string
+        location:
+          type: string
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        duration:
+          type: number
+        lap:
+          type: number
+        active:
+          type: boolean
+      required:
+        - eventName
+        - location
+        - startDate
+        - endDate
+        - duration
+
+    Location:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier generated by MongoDB
+        Name:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        province:
+          type: string
+        country:
+          type: string
+        lap:
+          type: string
+        active:
+          type: boolean
+      required:
+        - Name
+        - address
+        - city
+        - province
+        - country
+        - lap
+
+    Mountain:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier generated by MongoDB
+        name:
+          type: string
+        elavation:
+          type: number
+        active:
+          type: boolean
+      required:
+        - name
+        - elavation
