@@ -5,10 +5,10 @@ import Landing from './components/shared/Landing'
 import ProgressBoard from './pages/ProgressBoard';
 import AdminLogin from './pages/Admin/AdminLogin';
 import AdminDashboard from './pages/Admin/AdminDashboard';
-import EventManager from './pages/EventManager';
-import ParticipantManager from './pages/ParticipantManager';
-import MountainManager from './pages/MountainManager';
-import LocationManager from './pages/LocationManager';
+import EventManager from './pages/Admin/Events/EventManager';
+import ParticipantManager from './pages/Admin/Participants/ParticipantManager'
+import MountainManager from './pages/Admin/Mountains/MountainManager';
+import LocationManager from './pages/Admin/Locations/LocationManager';
 import ProgressBoardFullscreen from './pages/ProgressBoardFullscreen';
 
 
