@@ -1,4 +1,4 @@
-import Mountain from '../models/Mountain.js'
+import Mountain from '../models/mountain.js'
 
 export const getMountains = async(req, response) => {
 

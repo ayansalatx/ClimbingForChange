@@ -1,9 +1,9 @@
 // seed.js
-import mongoose from '../utils/db.js'
-import Location from '../models/Location.js'
-import Participant from '../models/participant.js'
-import Event from '../models/event.js'
-import Mountain from '../models/Mountain.js'
+import mongoose from '../src/utils/db.js'
+import Location from '../src/models/location.js'
+import Participant from '../src/models/participant.js'
+import Event from '../src/models/event.js'
+import Mountain from '../src/models/mountain.js'
 import { dummyEvents, dummyLocations, dummyMountains, initialParticipants } from './seedData.js'
 
 async function seed() {
