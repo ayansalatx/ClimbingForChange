@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Paper,
   Table,
@@ -12,10 +12,10 @@ import FullscreenToggleButton from "./FullscreenToggleButton";
 
 const ProgressTable = ({ rows, columns }) => {
   // State for current page number
-  const [page, setPage] = React.useState(0);
+  const [page, setPage] = useState(0);
 
   // State for number of rows per page (default is full list if less than 100)
-  const [rowsPerPage, setRowsPerPage] = React.useState(
+  const [rowsPerPage, setRowsPerPage] = useState(
     rows.length > 100 ? 100 : rows.length
   );
 
@@ -31,8 +31,22 @@ const ProgressTable = ({ rows, columns }) => {
   };
 
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer sx={{ height: "65vh" }}>
+    <Paper
+      elevation={3}
+      sx={{
+        width: "100%",
+        height: "100%",
+        overflow: "hidden",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <TableContainer
+        sx={{
+          flexGrow: 1,
+          overflowX: "hidden",
+        }}
+      >
         <Table stickyHeader aria-label="team/participant progress table">
           <TableHeaderRow columns={columns} />
           <TableDataRows

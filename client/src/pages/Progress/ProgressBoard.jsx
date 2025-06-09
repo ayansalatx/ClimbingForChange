@@ -76,7 +76,7 @@ const ProgressBoard = () => {
         <ProgressSearch searchString={searchString} onChange={setsearchString}/>
       </Box>
 
-      <Box sx={{ flexGrow: 1, width: "100%" }}>
+      <Box sx={{ flexGrow: 1, width: "100%", overflowX: "hidden" }}>
         <ProgressTable columns={fullColumns} rows={filteredRows} />
       </Box>
     </Container>

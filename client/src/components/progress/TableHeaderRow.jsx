@@ -6,6 +6,7 @@ const TableHeaderRow = ({ columns }) => {
   return (
     <TableHead>
       <TableRow>
+        <TableCell sx={{width: "0"}}></TableCell>
         {columns.map((column, index) => (
           <TableCell
             key={column.id}
