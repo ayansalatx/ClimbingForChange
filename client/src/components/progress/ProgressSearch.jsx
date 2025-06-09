@@ -6,13 +6,16 @@ import mockData from "../../mock-data/progressboard-team-only.json";
 
 const ProgressSearch = ({ searchString, onChange }) => {
   return (
+    // Use MUI Autocomplete to display search suggestions for teams
     <Autocomplete
       size="small"
-      freeSolo
+      freeSolo // Allow any input - not limited to the options
       id="progress-search"
       disableClearable
-      options={mockData.map((option) => option["team-name"])}
+      options={mockData.map((option) => option["team-name"])} // List of team names as suggestions
       inputValue={searchString}
+
+      // Notify Progress Board of input change
       onInputChange={(event, newInputValue) => {
         onChange(newInputValue);
       }}

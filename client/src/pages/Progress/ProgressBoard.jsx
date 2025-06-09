@@ -32,14 +32,17 @@ const medColumns = [
   { id: "time-elapsed", label: "Time Elapsed", minWidth: 60 },
 ];
 
-const rows = mockData;
-
 const ProgressBoard = () => {
+  // State to store current search input string
   const [searchString, setsearchString] = useState("");
+  
+  // State for rows filtered by the search input
   const [filteredRows, setFilteredRows] = useState(mockData);
 
+  // Update filteredRows whenever searchString changes
   useEffect(() => {
     const filtered = mockData.filter((row) =>
+      // Filter the data by checking if any cell value contains the search string
       Object.values(row).some((val) =>
         String(val).toLowerCase().includes(searchString.toLowerCase())
       )

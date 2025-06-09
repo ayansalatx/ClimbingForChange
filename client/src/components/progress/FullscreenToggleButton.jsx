@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 const FullscreenToggleButton = ({ sx }) => {
   const navigate = useNavigate();
 
+  // Navigate to fullscreen page for large onsite display
   const handleClick = () => {
     navigate("/progress/fullscreen");
   };

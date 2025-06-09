@@ -1,6 +1,7 @@
 import React from "react";
 import { TableHead, TableRow, TableCell } from "@mui/material";
 
+// Renders the header row of the table using provided column definitions
 const TableHeaderRow = ({ columns }) => {
   return (
     <TableHead>
