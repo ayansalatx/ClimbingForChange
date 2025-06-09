@@ -1,7 +1,7 @@
 import { test, after, beforeEach } from 'node:test'
 import mongoose from 'mongoose'
 import supertest from 'supertest'
-import app from '../app.js'
+import app from '../../app.js'
 import Mountain from '../models/Mountain.js'
 import assert from 'node:assert'
 

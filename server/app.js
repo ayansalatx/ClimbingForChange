@@ -1,14 +1,14 @@
 import express, { json } from 'express'
 import cors from 'cors'
 
-import participantRoutes from './routes/participants.js'
-import { requestLogger } from './utils/middleware.js'
-import eventRoutes from './routes/event.js'
-import locationRoutes from './routes/location.js'
-import mountainRoutes from './routes/mountain.js'
+import participantRoutes from './src/routes/participants.js'
+import { requestLogger } from './src/utils/middleware.js'
+import eventRoutes from './src/routes/event.js'
+import locationRoutes from './src/routes/location.js'
+import mountainRoutes from './src/routes/mountain.js'
 import swaggerUi from 'swagger-ui-express'
 import YAML from 'yamljs'
-import { errorHandler } from './error.js'
+import { errorHandler } from './src/error.js'
 
 const app = express()
 const openapiDoc = YAML.load('./openapi.yaml')
@@ -32,6 +32,6 @@ appRouter.use('/mountains', mountainRoutes)
 
 app.use('/api', appRouter)
 
-app.use(errorHandler);
+app.use(errorHandler)
 
 export default app
