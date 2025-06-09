@@ -2,7 +2,7 @@ import { useState } from "react";
 import TopAppBar from "../../components/shared/TopAppBar";
 import SideBar from "../../components/shared/SideBar";
 import { Box } from "@mui/material";
-import { useNavigate, Outlet } from "react-router-dom"; // <-- add Outlet
+import { useNavigate, Outlet } from "react-router-dom";
 
 const AdminDashboard = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
