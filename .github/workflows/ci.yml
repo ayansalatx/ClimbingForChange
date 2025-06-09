@@ -23,4 +23,6 @@ jobs:
             - name: Run linters
               run: npm run lint
             - name: Run Tests
+              env:
+                MONGODB_URI: ${{ secrets.MONGODB_URI }}
               run: npm run test # concurent test one not working
