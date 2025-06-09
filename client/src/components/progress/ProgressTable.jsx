@@ -1,64 +1,85 @@
-import React from "react";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableContainer from "@mui/material/TableContainer";
-import TablePagination from "@mui/material/TablePagination";
+import React, { useState } from "react";
+import {
+  Paper,
+  Table,
+  TableContainer,
+  TablePagination,
+  Box,
+} from "@mui/material";
 import TableDataRows from "./TableDataRows";
 import TableHeaderRow from "./TableHeaderRow";
+import FullscreenToggleButton from "./FullscreenToggleButton";
 
-// temporary mock data
-import mockData from "../../mock-data/progressboard-team-only.json";
+const ProgressTable = ({ rows, columns }) => {
+  // State for current page number
+  const [page, setPage] = useState(0);
 
-// Define columns for full width screen
-const fullColumns = [
-  { id: "team-name", label: "Team", minWidth: 270 },
-  { id: "mountain", label: "Mountain", minWidth: 85 },
-  { id: "elevation", label: "Elevation", minWidth: 85 },
-  { id: "current-elevation", label: "Current Elevation", minWidth: 85 },
-  { id: "total-laps", label: "Total Laps", minWidth: 85 },
-  { id: "laps-completed", label: "Laps Completed", minWidth: 85 },
-  { id: "laps-to-go", label: "Laps To Go", minWidth: 85 },
-  { id: "best-lap", label: "Best Lap", minWidth: 85 },
-  { id: "time-elapsed", label: "Time Elapsed", minWidth: 90 },
-];
+  // State for number of rows per page (default is full list if less than 100)
+  const [rowsPerPage, setRowsPerPage] = useState(
+    rows.length > 100 ? 100 : rows.length > 25 ? 25 : 15
+  );
 
-const rows = mockData;
-
-const ProgressTable = () => {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
+  // Handle page change via pagination controls
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
+  // Handle changing how many rows to show per page
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
-    setPage(0);
+    setPage(0); // reset to first page
   };
 
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer sx={{ maxHeight: 500 }}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHeaderRow columns={fullColumns} />
+    <Paper
+      elevation={3}
+      sx={{
+        width: "100%",
+        height: "100%",
+        overflow: "hidden",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <TableContainer
+        sx={{
+          flexGrow: 1,
+          overflowX: "hidden",
+        }}
+      >
+        <Table stickyHeader aria-label="team/participant progress table">
+          <TableHeaderRow columns={columns} />
           <TableDataRows
+            columns={columns}
             rows={rows}
-            columns={fullColumns}
             page={page}
             rowsPerPage={rowsPerPage}
           />
         </Table>
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <FullscreenToggleButton sx={{ ml: ".25rem" }} />
+
+        <TablePagination
+          rowsPerPageOptions={[
+            15,
+            25,
+            100,
+          ]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Box>
     </Paper>
   );
 };
