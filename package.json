@@ -8,10 +8,11 @@
     "build:integrated": "npm install && npm run clean && npm run install:client && npm run build:client && npm run copy:client-to-server && npm run install:server",
     "lint:client": "npm run lint --prefix client",
     "lint:server": "npm run lint --prefix server",
-    "lint": "concurrently \"npm:lint:*\"",
+    "lint": "npm run lint:server",
     "client": "npm run dev --prefix client",
     "server": "npm run dev   --prefix server",
-    "dev": "concurrently \"npm:server\" \"npm:client\""
+    "dev": "concurrently \"npm:server\" \"npm:client\"",
+    "test": "npm run test --prefix server"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
