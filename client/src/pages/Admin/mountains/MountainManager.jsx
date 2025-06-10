@@ -1,218 +1,53 @@
 import React, { useState } from 'react';
-import {Box,Typography,InputBase,InputAdornment,IconButton,Button,Paper,Table,TableBody,TableCell,
-    TableContainer,TableHead,TableRow, Dialog,DialogTitle,DialogContent,DialogActions,TextField} from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import AddIcon    from '@mui/icons-material/Add';
-import EditIcon   from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import MountainsTable from '../../../components/admin/forms/mountainforms/MountainTable.jsx';
+import C4CHorizontalGreenLogo from '../../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png';
+import SearchBar from '../../../components/admin/forms/mountainforms/SearchBar.jsx';
 
-const initialData = [
-  { id: 1,  name: "Rainier",  height: 20310 },
-  { id: 2,  name: "Everest",  height: 29029 },
-  { id: 3,  name: "Rainier",  height: 20310 },
-  { id: 4,  name: "Denali",   height: 14410 },
-  { id: 5,  name: "Rainier",  height: 20310 },
-  { id: 6,  name: "Everest",  height: 29029 },
-  { id: 7,  name: "Rainier",  height: 20310 },
-  { id: 8,  name: "Denali",   height: 14410 },
-  { id: 9,  name: "Rainier",  height: 20310 },
-  { id: 10, name: "Rainier",  height: 20310 },
-  { id: 11, name: "Denali",   height: 14410 },
-  { id: 12, name: "Denali",   height: 14410 },
-  { id: 13, name: "Everest",  height: 29029 },
-  { id: 14, name: "Rainier",  height: 20310 },
-  { id: 15, name: "Everest",  height: 29029 },
-];
+import Button from '@mui/material/Button';
+import { Box, Typography } from '@mui/material';
+import AddMountainModal from '../../../components/admin/modals/MountainModal.jsx';
 
-export default function MountainManager() {
-  const [mountains, setMountains]     = useState(initialData);
-  const [searchTerm, setSearchTerm]   = useState("");
+const Mountains = () => {
+  const [openPopup, setOpenPopup] = useState(false);
 
-  const [editOpen, setEditOpen]       = useState(false);
-  const [current, setCurrent]         = useState({ id: null, name: "", height: "" });
+  const handleOpenPopup = () => setOpenPopup(true);
+  const handleClosePopup = () => setOpenPopup(false);
 
-  const [deleteOpen, setDeleteOpen]   = useState(false);
-  const [toDeleteId, setToDeleteId]   = useState(null);
-
-  const [addOpen, setAddOpen]         = useState(false);
-  const [newMountain, setNewMountain] = useState({ name: "", height: "" });
-
-  const filtered = mountains.filter(m =>
-    m.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const openAdd = () => {
-    setNewMountain({ name: "", height: "" });
-    setAddOpen(true);
-  };
-  const closeAdd = () => setAddOpen(false);
-  const saveAdd = () => {
-    const { name, height } = newMountain;
-    if (!name.trim()) return; 
-    const nextId = Math.max(...mountains.map(m => m.id)) + 1;
-    setMountains([
-      ...mountains,
-      { id: nextId, name: name.trim(), height: parseInt(height, 10) || 0 }
-    ]);
-    setAddOpen(false);
-  };
-
-  const handleDeleteClick = id => {
-    setToDeleteId(id);
-    setDeleteOpen(true);
-  };
-  const handleDeleteCancel = () => {
-    setDeleteOpen(false);
-    setToDeleteId(null);
-  };
-  const handleDeleteConfirm = () => {
-    setMountains(mountains.filter(m => m.id !== toDeleteId));
-    setDeleteOpen(false);
-    setToDeleteId(null);
-  };
-
-  const openEdit = mountain => {
-    setCurrent({ ...mountain });
-    setEditOpen(true);
-  };
-  const closeEdit = () => setEditOpen(false);
-  const saveEdit = () => {
-    setMountains(mountains.map(m =>
-      m.id === current.id
-        ? { ...m, name: current.name.trim(), height: parseInt(current.height, 10) || m.height }
-        : m
-    ));
-    setEditOpen(false);
+  const handleAddMountain = (mountainData) => {
+    console.log('Added Mountain:', mountainData);
+    handleClosePopup();
   };
 
   return (
-    <Box sx={{ pt: 10, pb: 2, width: '90vw', maxWidth: 1200, mx: 'auto', px: 3 }}>
-      <Typography variant="h4" align="center" gutterBottom>
+    <Box sx={{ px: 4, py: 3 }}>
+      <a href="https://www.climbingforchange.ca/" target="_blank" rel="noopener noreferrer">
+        <img src={C4CHorizontalGreenLogo} alt="Climbing for Change Logo" height={100} />
+      </a>
+
+      <Typography variant="h4" mt={2} mb={2}>
         Mountains
       </Typography>
 
-      {/* Search + Add Mountain */}
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography sx={{ mr: 1, fontWeight: 500 }}>Search</Typography>
-          <InputBase
-            placeholder="Search for a mountain…"
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-            startAdornment={
-              <InputAdornment position="start">
-                <SearchIcon fontSize="small" />
-              </InputAdornment>
-            }
-            sx={{
-              backgroundColor: '#f0f0f0',
-              borderRadius: 1,
-              px: 1,
-              height: 32,
-              width: 300
-            }}
-          />
-        </Box>
-
-        <Button variant="contained" startIcon={<AddIcon />} onClick={openAdd}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+        <SearchBar />
+        <Button
+          variant="contained"
+          sx={{ backgroundColor: '#c9d82c', color: 'black', '&:hover': { backgroundColor: '#b3c623'}}}
+          onClick={handleOpenPopup}
+        >
           Add Mountain
         </Button>
-      </Box>
+      </div>
+      
+      <MountainsTable />
 
-      {/* Table */}
-      <TableContainer component={Paper} elevation={0} sx={{ backgroundColor: '#f0f0f0' }}>
-        <Table sx={{ minWidth: 650 }}>
-          <TableHead>
-            <TableRow>
-              <TableCell sx={{ fontWeight: 'bold' }}>Mountain Name</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Elevation</TableCell>
-              <TableCell align="center" sx={{ fontWeight: 'bold' }}>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {filtered.map(m => (
-              <TableRow key={m.id}>
-                <TableCell>{m.name}</TableCell>
-                <TableCell>{m.height}</TableCell>
-                <TableCell align="center">
-                  <IconButton size="small" onClick={() => openEdit(m)}>
-                    <EditIcon fontSize="small" />
-                  </IconButton>
-                  <IconButton size="small" onClick={() => handleDeleteClick(m.id)}>
-                    <DeleteIcon fontSize="small" />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-
-      <Dialog open={editOpen} onClose={closeEdit}>
-        <DialogTitle>Edit Mountain</DialogTitle>
-        <DialogContent dividers>
-          <TextField
-            fullWidth
-            label="Mountain Name"
-            value={current.name}
-            onChange={e => setCurrent({ ...current, name: e.target.value })}
-            margin="dense"
-          />
-          <TextField
-            fullWidth
-            label="Elevation (m)"
-            type="number"
-            value={current.height}
-            onChange={e => setCurrent({ ...current, height: e.target.value })}
-            margin="dense"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeEdit}>Cancel</Button>
-          <Button variant="contained" onClick={saveEdit}>Save</Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog open={deleteOpen} onClose={handleDeleteCancel}>
-        <DialogTitle>Delete Mountain?</DialogTitle>
-        <DialogContent dividers>
-          <Typography>
-            Are you sure you want to delete this mountain?
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDeleteCancel}>Cancel</Button>
-          <Button color="error" variant="contained" onClick={handleDeleteConfirm}>
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog open={addOpen} onClose={closeAdd}>
-        <DialogTitle>Add Mountain</DialogTitle>
-        <DialogContent dividers>
-          <TextField
-            fullWidth
-            label="Mountain Name"
-            value={newMountain.name}
-            onChange={e => setNewMountain({ ...newMountain, name: e.target.value })}
-            margin="dense"
-          />
-          <TextField
-            fullWidth
-            label="Elevation (m)"
-            type="number"
-            value={newMountain.height}
-            onChange={e => setNewMountain({ ...newMountain, height: e.target.value })}
-            margin="dense"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeAdd}>Cancel</Button>
-          <Button variant="contained" onClick={saveAdd}>Save</Button>
-        </DialogActions>
-      </Dialog>
+      <AddMountainModal
+        open={openPopup}
+        onClose={handleClosePopup}
+        onAdd={handleAddMountain}
+      />
     </Box>
   );
-}
+};
+
+export default Mountains;
