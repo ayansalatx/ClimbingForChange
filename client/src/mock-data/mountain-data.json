@@ -1,0 +1,110 @@
+[
+    {
+        "mountainName": "Mount Everest",
+        "elevation": 28883
+    },
+    {
+        "mountainName": "Mount Kilimanjaro",
+        "elevation": 19406
+    },
+    {
+        "mountainName": "Mount Elbrus",
+        "elevation": 18463
+    },
+    {
+        "mountainName": "Denali",
+        "elevation": 20439
+    },
+    {
+        "mountainName": "Mount Vinson",
+        "elevation": 16094
+    },
+    {
+        "mountainName": "Pico de Orizaba",
+        "elevation": 18621
+    },
+    {
+        "mountainName": "Aconcagua",
+        "elevation": 22918
+    },
+    {
+        "mountainName": "Mount Kosciuszko",
+        "elevation": 7185
+    },
+    {
+        "mountainName": "Mount Logan",
+        "elevation": 19554
+    },
+    {
+        "mountainName": "Mount Rainier",
+        "elevation": 14367
+    },
+    {
+        "mountainName": "Makalu",
+        "elevation": 27908
+    },
+    {
+        "mountainName": "Lhotse",
+        "elevation": 28001
+    },
+    {
+        "mountainName": "Cho Oyu",
+        "elevation": 26944
+    },
+    {
+        "mountainName": "Dhaulagiri",
+        "elevation": 26688
+    },
+    {
+        "mountainName": "Manaslu",
+        "elevation": 26754
+    },
+    {
+        "mountainName": "Nanga Parbat",
+        "elevation": 26755
+    },
+    {
+        "mountainName": "Annapurna",
+        "elevation": 26468
+    },
+    {
+        "mountainName": "Gasherbrum I",
+        "elevation": 26648
+    },
+    {
+        "mountainName": "Broad Peak",
+        "elevation": 26349
+    },
+    {
+        "mountainName": "Gasherbrum II",
+        "elevation": 26151
+    },
+    {
+        "mountainName": "Mount Everest Ridge 2",
+        "elevation": 28983
+    },
+    {
+        "mountainName": "Mount Kilimanjaro Ridge 2",
+        "elevation": 19228
+    },
+    {
+        "mountainName": "Mount Elbrus Ridge 2",
+        "elevation": 18643
+    },
+    {
+        "mountainName": "Denali Ridge 2",
+        "elevation": 20319
+    },
+    {
+        "mountainName": "Mount Vinson Ridge 2",
+        "elevation": 16146
+    },
+    {
+        "mountainName": "Pico de Orizaba Ridge 2",
+        "elevation": 18606
+    },
+    {
+        "mountainName": "Aconcagua Ridge 2",
+        "elevation": 22912
+    }
+]
