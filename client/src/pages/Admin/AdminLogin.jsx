@@ -1,51 +1,51 @@
-import { useState } from 'react';
-import { TextField, Button, Box, Typography, Paper } from '@mui/material';
-import { useNavigate } from 'react-router-dom'; 
+import { Box, Button, Paper,TextField, Typography } from '@mui/material'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom' 
 
 const AdminLogin = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const navigate = useNavigate()
 
   const handleLogin = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     //TODO add login function
-    navigate('/admin'); 
-  };
+    navigate('/admin') 
+  }
 
   return (
     <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      minHeight="100vh"
+      display='flex'
+      justifyContent='center'
+      alignItems='center'
+      minHeight='100vh'
     >
       <Paper elevation={3} sx={{ padding: 4, width: 300 }}>
-        <Typography variant="h5" textAlign="center" marginBottom={2}>
+        <Typography variant='h5' textAlign='center' marginBottom={2}>
           Admin Login
         </Typography>
         <form onSubmit={handleLogin}>
           <TextField
             fullWidth
-            label="Username"
+            label='Username'
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            margin="normal"
+            margin='normal'
             required
           />
           <TextField
             fullWidth
-            label="Password"
-            type="password"
+            label='Password'
+            type='password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            margin="normal"
+            margin='normal'
             required
           />
           <Button
-            type="submit"
+            type='submit'
             fullWidth
-            variant="contained"
+            variant='contained'
             sx={{ marginTop: 2 }}
           >
             Login
@@ -53,7 +53,7 @@ const AdminLogin = () => {
         </form>
       </Paper>
     </Box>
-  );
-};
+  )
+}
 
-export default AdminLogin;
+export default AdminLogin
