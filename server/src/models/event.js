@@ -3,37 +3,35 @@ import mongoose from '../utils/db.js'
 const {Schema, model} = mongoose
 
 const eventSchema = new Schema({
-  eventName: {
+  name: {
     type: String,
     required: true,
     trim: true
   },
-  location: {
-    type: String,
-    required: true,
-    trim: true
+  locationId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Location',
+    required: true
   },
-  startDate: {
+  startDateTime: {
     type: Date,
     required: true
   },
-  endDate: {
+  endDateTime: {
     type: Date,
     required: true
   },
-  duration: {
-    type: Number, 
-    required: true
-  },
-  lapDistance: {
-    type: Number,
-    default: 1
-  },
+  physicalMountainIds: [{
+    type: Schema.Types.ObjectId,
+    ref: 'PhysicalMountain'
+  }],
   active: {
     type: Boolean,
     default: true
   }
-})
+}, {
+  timestamps: true
+});
 
 eventSchema.set('toJSON', {
   transform: (document, returnedObject) => {

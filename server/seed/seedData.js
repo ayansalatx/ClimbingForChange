@@ -315,8 +315,7 @@ export const dummyLocations = [
     city: 'Banff',
     province: 'Alberta',
     country: 'Canada',
-    lap: '5km Loop',
-    active: true,
+
   },
   {
     name: 'City Skyline Trail',
@@ -324,8 +323,6 @@ export const dummyLocations = [
     city: 'Edmonton',
     province: 'Alberta',
     country: 'Canada',
-    lap: '3.2km Circuit',
-    active: true,
   },
   {
     name: 'Whistler Summit',
@@ -333,8 +330,6 @@ export const dummyLocations = [
     city: 'Whistler',
     province: 'British Columbia',
     country: 'Canada',
-    lap: '8km Ascent',
-    active: false,
   },
   {
     name: 'Lakeside Loop',
@@ -342,8 +337,6 @@ export const dummyLocations = [
     city: 'Kelowna',
     province: 'British Columbia',
     country: 'Canada',
-    lap: '4km Shoreline',
-    active: true,
   },
   {
     name: 'Prairie Plains Course',
@@ -351,8 +344,6 @@ export const dummyLocations = [
     city: 'Saskatoon',
     province: 'Saskatchewan',
     country: 'Canada',
-    lap: '6.5km Loop',
-    active: false,
   },
 ]
 
@@ -362,8 +353,6 @@ export const dummyEvents = [
     location: 'Rocky Ridge Park',
     startDate: new Date('2025-07-12T09:00:00Z'),
     endDate: new Date('2025-07-12T12:30:00Z'),
-    duration: 210, // in minutes (3.5 hours)
-    lap: 2,
     active: true
   },
   {
@@ -371,7 +360,6 @@ export const dummyEvents = [
     location: 'Downtown Edmonton',
     startDate: new Date('2025-08-05T07:00:00Z'),
     endDate: new Date('2025-08-05T09:00:00Z'),
-    duration: 120, // in minutes (2 hours)
     lap: 1,
     active: true
   },
@@ -380,7 +368,6 @@ export const dummyEvents = [
     location: 'Whistler Alpine Network',
     startDate: new Date('2025-09-01T06:30:00Z'),
     endDate: new Date('2025-09-01T11:00:00Z'),
-    duration: 270, // in minutes (4.5 hours)
     lap: 3,
     active: false
   },
@@ -389,7 +376,6 @@ export const dummyEvents = [
     location: 'Okanagan Lake Park',
     startDate: new Date('2025-07-25T08:00:00Z'),
     endDate: new Date('2025-07-25T10:15:00Z'),
-    duration: 135, // in minutes (2.25 hours)
     lap: 4,
     active: true
   },
@@ -398,36 +384,53 @@ export const dummyEvents = [
     location: 'Saskatoon Riverfront',
     startDate: new Date('2025-06-20T06:00:00Z'),
     endDate: new Date('2025-06-20T11:00:00Z'),
-    duration: 300, // in minutes (5 hours)
     lap: 5,
     active: true
   }
 ]
 
-export const dummyMountains = [
+export const dummyPhysicalMountains = [
+  {
+    name: 'Rabbit Hill',
+    elevationPerLap: 50.0,
+  },
+  {
+    name: 'Summer Hill',
+    elevationPerLap: 45.6,
+  },
+  {
+    name: 'Groove Climb',
+    elevationPerLap: 51.2,
+  },
+  {
+    name: 'Small Kilimanjaro',
+    elevationPerLap: 55.0,
+  },
+  {
+    name: 'The Mount',
+    elevationPerLap: 40.3,
+  }
+]
+
+export const dummyTargetMountains = [
   {
     name: 'Mount Everest',
-    elevation: 8848,
-    active: true
+    totalElevation: 8848,
   },
   {
     name: 'K2',
-    elevation: 8611,
-    active: true
+    totalElevation: 8611,
   },
   {
     name: 'Denali',
-    elevation: 6190,
-    active: true
+    totalElevation: 6190,
   },
   {
     name: 'Mount Kilimanjaro',
-    elevation: 5895,
-    active: true
+    totalElevation: 5895,
   },
   {
     name: 'Mont Blanc',
-    elevation: 4808,
-    active: false
+    totalElevation: 4808,
   }
 ]

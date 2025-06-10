@@ -2,23 +2,15 @@ import mongoose from '../utils/db.js'
 
 const {Schema, model} = mongoose
 
-const mountainSchema = new Schema({
-  name: {
+const rfidTagSchema = new Schema({
+  serialNumber: {
     type: String,
     required: true,
     trim: true
-  },
-  elevation: {
-    type: Number,
-    required: true,
-  },
-  active: {
-    type: Boolean,
-    default: true
   }
 })
 
-mountainSchema.set('toJSON', {
+rfidTagSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
@@ -26,4 +18,4 @@ mountainSchema.set('toJSON', {
   }
 })
 
-export default model('Mountain', mountainSchema)
+export default model('RFIDTag', rfidTagSchema)
