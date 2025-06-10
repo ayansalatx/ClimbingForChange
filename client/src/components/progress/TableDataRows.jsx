@@ -13,21 +13,20 @@ import React, { useState } from 'react'
 
 // Mock participant data
 const mockParticipants = {
-  'Alberta SPCA': ['Aimee Winegarden', 'Justine Pelletier'],
-  'Andrew McDaniel': ['Andrew McDaniel'],
-  BIMbros: ['Jason Laser', 'Katherine Simunkovic', 'Linda de Jong'],
-  'Glenrose Human Ability': ['Blake Schafer'],
-  'HIBCO Generals': ['Amira Aissiou', 'Blair Anthony', 'Cherry Pagtalunan'],
-  'Hill Billies': ['Booker Zaytsoff', 'Lisa Zaytsoff'],
-  STARS: ['Adam Perry', 'Angela Mazzolini'],
+  // 'Alberta SPCA': ['Aimee Winegarden', 'Justine Pelletier'],
+  // 'Andrew McDaniel': ['Andrew McDaniel'],
+  // BIMbros: ['Jason Laser', 'Katherine Simunkovic', 'Linda de Jong'],
+  // 'Glenrose Human Ability': ['Blake Schafer'],
+  // 'HIBCO Generals': ['Amira Aissiou', 'Blair Anthony', 'Cherry Pagtalunan'],
+  // 'Hill Billies': ['Booker Zaytsoff', 'Lisa Zaytsoff'],
+  // STARS: ['Adam Perry', 'Angela Mazzolini'],
   // fallback
   default: ['Participant A', 'Participant B'],
 }
 
-const CollapsibleRow = ({ row, columns }) => {
+const CollapsibleRow = ({ row, participants, columns }) => {
   const [open, setOpen] = useState(false)
-  const teamName = row['team-name']
-  const participants = mockParticipants[teamName] || mockParticipants.default
+  const teamName = row['teamName']
 
   return (
     <React.Fragment>
@@ -84,7 +83,7 @@ const CollapsibleRow = ({ row, columns }) => {
                         sx={{ padding: '0.4rem', fontWeight: 'bold' }}
                         align='right' // Changed to align right as you requested
                       >
-                        {participant}
+                        {participant.fullName}
                       </TableCell>
 
                       {/* Remaining cells: placeholder values */}
@@ -114,7 +113,7 @@ const CollapsibleRow = ({ row, columns }) => {
   )
 }
 
-const TableDataRows = ({ rows, columns, page, rowsPerPage }) => {
+const TableDataRows = ({ rows, participants, columns, page, rowsPerPage }) => {
   return (
     <TableBody>
       {/* Slice the rows array to get only the rows for the current page. */}
@@ -122,9 +121,10 @@ const TableDataRows = ({ rows, columns, page, rowsPerPage }) => {
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
         .map((row, rowIndex) => (
           <CollapsibleRow
-            key={row['team-name'] || rowIndex}
+            key={row['teamName'] || rowIndex}
             row={row}
             columns={columns}
+            participants={participants[row['teamName']] || mockParticipants.default}
           />
         ))}
     </TableBody>

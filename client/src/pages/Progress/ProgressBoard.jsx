@@ -9,7 +9,7 @@ import mockData from '../../mock-data/progressboard-team-only.json'
 
 // Define columns for full width screen
 const fullColumns = [
-  { id: 'team-name', label: 'Team', minWidth: 200 },
+  { id: 'teamName', label: 'Team', minWidth: 200 },
   { id: 'mountain', label: 'Mountain', minWidth: 115 },
   { id: 'elevation', label: 'Elevation', minWidth: 60 },
   { id: 'current-elevation', label: 'Current Elevation', minWidth: 60 },
@@ -21,7 +21,7 @@ const fullColumns = [
 ]
 
 // const medColumns = [
-//   { id: 'team-name', label: 'Team', minWidth: 200 },
+//   { id: 'teamName', label: 'Team', minWidth: 200 },
 //   { id: 'mountain', label: 'Mountain', minWidth: 115 },
 //   { id: 'elevation', label: 'Elevation', minWidth: 60 },
 //   { id: 'current-elevation', label: 'Current Elevation', minWidth: 60 },
