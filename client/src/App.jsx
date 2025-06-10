@@ -1,17 +1,18 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './App.css'
-import Landing from './components/shared/Landing'
-import ProgressBoard from "./pages/Progress/ProgressBoard";
-import ProgressBoardFullscreen from "./pages/Progress/ProgressBoardFullscreen";
+
+import './App.css';
+
+import Landing from './components/shared/Landing';
+import ProgressBoard from './pages/Progress/ProgressBoard';
+import ProgressBoardFullscreen from './pages/Progress/ProgressBoardFullscreen';
+
 import AdminLogin from './pages/Admin/AdminLogin';
 import AdminDashboard from './pages/Admin/AdminDashboard';
 import EventManager from './pages/Admin/Events/EventManager';
-import ParticipantManager from './pages/Admin/Participants/ParticipantManager'
-import MountainManager from './pages/Admin/Mountains/MountainManager';
+import ParticipantManager from './pages/Admin/Participants/ParticipantManager';
+import MountainManager from './pages/Admin/mountains/MountainManager';
 import LocationManager from './pages/Admin/Locations/LocationManager';
-
-
 
 function App() {
   return (
@@ -19,17 +20,15 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/progress" element={<ProgressBoard />} />
-        <Route
-          path="/progress/fullscreen"
-          element={<ProgressBoardFullscreen />}
-        />
-
+        <Route path="/progress/fullscreen" element={<ProgressBoardFullscreen />} />
         <Route path="/login" element={<AdminLogin />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/admin/events" element={<EventManager />} />
-        <Route path="/admin/participants" element={<ParticipantManager />} />
-        <Route path="/admin/mountains" element={<MountainManager />} />
-        <Route path="/admin/locations" element={<LocationManager />} />
+        <Route path="/mountains" element={<MountainManager />} />
+        <Route path="/admin" element={<AdminDashboard />}>
+          <Route path="events" element={<EventManager />} />
+          <Route path="participants" element={<ParticipantManager />} />
+          <Route path="mountains" element={<MountainManager />} />
+          <Route path="locations" element={<LocationManager />} />
+        </Route>
       </Routes>
     </Router>
   );
