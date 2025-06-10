@@ -20,11 +20,15 @@ const fullColumns = [
   { id: "active", label: "Active", minWidth: 90 },
 ];
 
-const rows = mockData;
-
-const EventsTable = () => {
+const EventsTable = ({ searchTerm = "" }) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  
+  const filteredRows = mockData.filter((row) => {
+    const event = row?.eventName || "";
+    return event.toLowerCase().includes(searchTerm.toLowerCase());
+  });
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -41,7 +45,7 @@ const EventsTable = () => {
         <Table stickyHeader aria-label="sticky table">
           <TableHeaderRow columns={fullColumns} />
           <TableDataRows
-            rows={rows}
+            rows={filteredRows}
             columns={fullColumns}
             page={page}
             rowsPerPage={rowsPerPage}
@@ -51,7 +55,7 @@ const EventsTable = () => {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={filteredRows.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
@@ -59,6 +63,6 @@ const EventsTable = () => {
       />
     </Paper>
   );
-}
+};
 
 export default EventsTable;

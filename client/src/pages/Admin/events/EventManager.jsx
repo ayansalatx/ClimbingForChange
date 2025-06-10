@@ -10,13 +10,12 @@ import AddEventModal from '../../../components/admin/modals/EventModal.jsx';
 
 const EventManager = () => {
   const [openPopup, setOpenPopup] = useState(false);
+   const [searchTerm, setSearchTerm] = useState(''); 
 
   const handleOpenPopup = () => setOpenPopup(true);
   const handleClosePopup = () => setOpenPopup(false);
 
   const handleAddEvent = (eventData) => {
-    // TODO
-    console.log('Added Event:', eventData);
     handleClosePopup();
   };
 
@@ -31,7 +30,7 @@ const EventManager = () => {
       </Typography>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-        <SearchBar />
+      <SearchBar setSearchTerm={setSearchTerm} />
         <Button
           variant="contained"
           sx={{ backgroundColor: '#c9d82c', color: 'black', '&:hover': { backgroundColor: '#b3c623'}}}
@@ -39,7 +38,7 @@ const EventManager = () => {
         >Add Event</Button>
       </div>
       
-      <EventsTable />
+      <EventsTable searchTerm={searchTerm} />
 
       <AddEventModal
         open={openPopup}
