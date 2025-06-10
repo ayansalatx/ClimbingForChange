@@ -7,7 +7,7 @@ import TableDataRows from "./TableDataRows";
 import TableHeaderRow from "./TableHeaderRow";
 
 // temporary mock data
-import mockData from "../../../../mock-data/event-data.json"
+//import mockData from "../../../../mock-data/event-data.json"
 
 // Define columns for full width screen
 const fullColumns = [
@@ -20,12 +20,12 @@ const fullColumns = [
   { id: "active", label: "Active", minWidth: 90 },
 ];
 
-const EventsTable = ({ searchTerm = "" }) => {
+
+const EventsTable = ({ searchTerm = "", events = [] }) => {  
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-  
-  const filteredRows = mockData.filter((row) => {
+  const filteredRows = events.filter((row) => {
     const event = row?.eventName || "";
     return event.toLowerCase().includes(searchTerm.toLowerCase());
   });

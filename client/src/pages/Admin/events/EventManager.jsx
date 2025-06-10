@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import EventsTable from '../../../components/admin/forms/eventforms/EventTable';
+import mockData from "../../../mock-data/event-data.json"
 import C4CHorizontalGreenLogo from '../../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png';
 import SearchBar from "../../../components/admin/forms/eventforms/SearchBar";
 import Button from '@mui/material/Button';
@@ -8,14 +9,17 @@ import Button from '@mui/material/Button';
 import { Box, Typography } from '@mui/material';
 import AddEventModal from '../../../components/admin/modals/EventModal.jsx';
 
+
 const EventManager = () => {
   const [openPopup, setOpenPopup] = useState(false);
-   const [searchTerm, setSearchTerm] = useState(''); 
+  const [searchTerm, setSearchTerm] = useState('');
+  const [events, setEvents] = useState(mockData); 
 
   const handleOpenPopup = () => setOpenPopup(true);
   const handleClosePopup = () => setOpenPopup(false);
 
   const handleAddEvent = (eventData) => {
+    setEvents([...events, eventData]); 
     handleClosePopup();
   };
 
@@ -37,14 +41,15 @@ const EventManager = () => {
           onClick={handleOpenPopup}
         >Add Event</Button>
       </div>
-      
-      <EventsTable searchTerm={searchTerm} />
+     
+      <EventsTable searchTerm={searchTerm} events={events} /> 
 
       <AddEventModal
         open={openPopup}
         onClose={handleClosePopup}
-        onAdd={handleAddEvent}
+        onAdd={handleAddEvent} 
       />
+
     </Box>
   );
 };
