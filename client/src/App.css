@@ -38,3 +38,14 @@
 .read-the-docs {
   color: #888;
 }
+
+@font-face {
+  font-family: 'Gibson';
+  src: url('/fonts/Fontspring-DEMO-gibson-bolditalic.woff') format('woff');
+  font-weight: bold;
+  font-style: italic;
+}
+
+body {
+  font-family: 'Gibson', sans-serif;
+}
