@@ -6,10 +6,8 @@ import TablePagination from "@mui/material/TablePagination";
 import TableDataRows from "./TableDataRows";
 import TableHeaderRow from "./TableHeaderRow";
 
-// temporary mock data
-import mockData from "../../../../mock-data/location-data.json"
+import mockData from "../../../../mock-data/location-data.json";
 
-// Define columns for full width screen
 const fullColumns = [
   { id: "locationName", label: "Location", minWidth: 270 },
   { id: "address", label: "Address", minWidth: 85 },
@@ -19,11 +17,16 @@ const fullColumns = [
   { id: "lap", label: "Laps", minWidth: 85 },
 ];
 
-const rows = mockData;
-
-const LocationTable = () => {
+const LocationTable = ({ searchTerm }) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const filteredRows = mockData.filter((row) =>
+    Object.values(row)
+      .join(" ")
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
+  );
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -36,11 +39,11 @@ const LocationTable = () => {
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer sx={{ maxHeight: 500 }}>
-        <Table stickyHeader aria-label="sticky table">
+      <TableContainer sx={{ maxHeight: 500, width: 1200}}>
+        <Table stickyHeader aria-label="sticky table" sx={{}}>
           <TableHeaderRow columns={fullColumns} />
           <TableDataRows
-            rows={rows}
+            rows={filteredRows}
             columns={fullColumns}
             page={page}
             rowsPerPage={rowsPerPage}
@@ -50,7 +53,7 @@ const LocationTable = () => {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={filteredRows.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
@@ -58,6 +61,6 @@ const LocationTable = () => {
       />
     </Paper>
   );
-}
+};
 
 export default LocationTable;

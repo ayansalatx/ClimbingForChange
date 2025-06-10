@@ -15,8 +15,7 @@ const SearchBar = () => {
         input: { color: 'white' },
         label: { color: '#c9d82c' },
         '& fieldset': { borderColor: '#c9d82c' }
-      }}
-
+          }}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">

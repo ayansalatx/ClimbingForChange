@@ -9,6 +9,8 @@ import React, { useState } from 'react';
 
 const LocationManager = () => {
   const [popupOpen, setPopupOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+
   const handleAddLocation = (newLocation) => {
     console.log('Add location:', newLocation);
       setPopupOpen(false);
@@ -16,6 +18,7 @@ const LocationManager = () => {
 
   
   return (
+
     <div>
       <a href="https://www.climbingforchange.ca/" target="_blank">
         <img src={C4CHorizontalGreenLogo} alt="Climbing for Change Logo" height={150} />
@@ -23,7 +26,7 @@ const LocationManager = () => {
       <h1>Locations</h1>
      
      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-        <SearchBar />
+        <SearchBar value={searchTerm} onChange={setSearchTerm} />
         <Button
           variant="contained"
           sx={{ backgroundColor: '#c9d82c', color: 'black', '&:hover': { backgroundColor: '#b3c623'}}}
@@ -31,7 +34,7 @@ const LocationManager = () => {
         >Add Location</Button>
       </div>
 
-      <LocationTable />
+      <LocationTable searchTerm={searchTerm} />
       
       <AddLocationModal
         open={popupOpen}

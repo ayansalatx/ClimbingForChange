@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Box, Typography, TextField, Button } from '@mui/material';
+import { Modal, Box, Typography, TextField, Button, InputAdornment  } from '@mui/material';
 
 const style = {
   position: 'absolute',
@@ -79,16 +79,23 @@ const AddLocationModal = ({ open, onClose, onAdd }) => {
             required
           />
           <TextField
-            fullWidth
-            label="Lap Distance"
-            variant="outlined"
-            margin="normal"
-            type="number"
-            value={lap}
-            onChange={(e) => setLap(e.target.value)}
-            required
-          />
-
+              fullWidth
+              label="Lap Distance"
+              variant="outlined"
+              margin="normal"
+              type="number"
+              value={lap}
+              onChange={(e) => setLap(e.target.value)}
+              required
+              InputProps={{
+                endAdornment: <InputAdornment position="end">ft</InputAdornment>,
+              }}
+              inputProps={{
+                // to prevent negative or decimal 
+                min: 0,
+                step: 1,
+              }}
+            />
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
             <Button variant="outlined" onClick={onClose}>
               Cancel
