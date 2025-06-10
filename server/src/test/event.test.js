@@ -9,22 +9,20 @@ const api = supertest(app)
 
 const initialEvents = [
   {
-    eventName: 'Charity Mountain Hike',
-    location: 'Rocky Ridge Park',
-    startDate: new Date('2025-07-12T09:00:00Z'),
-    endDate: new Date('2025-07-12T12:30:00Z'),
-    duration: 210, // in minutes (3.5 hours)
-    lap: 2,
-    active: true
+    name: 'Charity Mountain Hike',
+    locationName: 'Rocky Ridge Park',
+    startDateTime: new Date('2025-07-12T09:00:00Z'),
+    endDateTime: new Date('2025-07-12T12:30:00Z'),
+    physicalMountainNames: ['Rabbit Hill', 'Summer Hill'],
+    active: true,
   },
   {
-    eventName: 'City Skyline 10K Run',
-    location: 'Downtown Edmonton',
-    startDate: new Date('2025-08-05T07:00:00Z'),
-    endDate: new Date('2025-08-05T09:00:00Z'),
-    duration: 120, // in minutes (2 hours)
-    lap: 1,
-    active: true
+    name: 'City Skyline Climb',
+    locationName: 'City Skyline Trail',
+    startDateTime: new Date('2025-08-05T07:00:00Z'),
+    endDateTime: new Date('2025-08-05T09:00:00Z'),
+    physicalMountainNames: ['Groove Climb'],
+    active: true,
   },
 ]
 

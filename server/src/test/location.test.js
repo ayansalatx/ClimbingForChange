@@ -4,6 +4,7 @@ import supertest from 'supertest'
 import app from '../../app.js'
 import Location from '../models/location.js'
 import assert from 'node:assert'
+import { emptyTestDB } from './index.test.js'
 
 const api = supertest(app)
 
@@ -12,24 +13,21 @@ const initialLocations = [
     name: 'Rocky Ridge Park',
     address: '123 Mountain Road',
     city: 'Banff',
-    province: 'Alberta',
+    provState: 'Alberta',
     country: 'Canada',
-    lap: '5km Loop',
-    active: true,
+
   },
   {
     name: 'City Skyline Trail',
     address: '456 Downtown Ave',
     city: 'Edmonton',
-    province: 'Alberta',
+    provState: 'Alberta',
     country: 'Canada',
-    lap: '3.2km Circuit',
-    active: true,
   },
 ]
 
 beforeEach(async () => {
-  await Location.deleteMany({})
+  await emptyTestDB()
   await Promise.all(initialLocations.map(async (l) => {
     const locationToSave = new Location(l)
     return await locationToSave.save()
@@ -55,7 +53,7 @@ test('a valid location can be added', async () => {
     name: 'Whistler Summit',
     address: '789 Alpine Way',
     city: 'Whistler',
-    province: 'British Columbia',
+    provState: 'British Columbia',
     country: 'Canada',
     lap: '8km Ascent',
     active: false,
