@@ -1,21 +1,20 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 
-
-const SearchBar = () => {
+const SearchBar = ({ setSearchTerm }) => {
   return (
     <TextField
       label="Search"
       variant="outlined"
+      onChange={(e) => setSearchTerm(e.target.value)} 
       sx={{
         width: 500,
         input: { color: 'white' },
         label: { color: '#c9d82c' },
         '& fieldset': { borderColor: '#c9d82c' }
-          }}
+      }}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
@@ -27,4 +26,4 @@ const SearchBar = () => {
   );
 };
 
-export default SearchBar
+export default SearchBar;

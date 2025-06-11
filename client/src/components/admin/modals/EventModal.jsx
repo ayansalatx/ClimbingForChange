@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, Box, Typography, TextField, Button } from '@mui/material';
 
 const style = {
@@ -14,16 +14,36 @@ const style = {
 };
 
 const AddEventModal = ({ open, onClose, onAdd }) => {
-  const [eventName, setEventName] = React.useState('');
-  const [location, setLocation] = React.useState('');
-  const [startDate, setStartDate] = React.useState('');
-  const [startTime, setStartTime] = React.useState('');
-  const [duration, setDuration] = React.useState('');
-  const [lapDistance, setLapDistance] = React.useState('');
+  const [eventName, setEventName] = useState('');
+  const [location, setLocation] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [startTime, setStartTime] = useState('');
+  const [duration, setDuration] = useState('');
+  const [lapDistance, setLapDistance] = useState('');
 
   const handleAdd = (e) => {
     e.preventDefault();
-    // To Do:
+
+    const eventData = {
+      eventName,
+      location,
+      start: `${startDate} ${startTime}`,
+      end: '', 
+      duration,
+      lap: lapDistance,
+      active: true,
+    };
+
+    onAdd(eventData); 
+    onClose(); 
+
+  
+    setEventName('');
+    setLocation('');
+    setStartDate('');
+    setStartTime('');
+    setDuration('');
+    setLapDistance('');
   };
 
   return (
@@ -58,9 +78,9 @@ const AddEventModal = ({ open, onClose, onAdd }) => {
             type="date"
             variant="outlined"
             margin="normal"
-            InputLabelProps={{ shrink: true }}
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
+            InputLabelProps={{ shrink: true }}
             required
           />
           <TextField
@@ -69,9 +89,9 @@ const AddEventModal = ({ open, onClose, onAdd }) => {
             type="time"
             variant="outlined"
             margin="normal"
-            InputLabelProps={{ shrink: true }}
             value={startTime}
             onChange={(e) => setStartTime(e.target.value)}
+            InputLabelProps={{ shrink: true }}
             required
           />
           <TextField
