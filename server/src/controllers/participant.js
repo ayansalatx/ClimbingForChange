@@ -1,7 +1,7 @@
 import Participant from '../models/participant.js'
-import '../models/team.js'; // registring the Team model for the populate to work
-import RFIDTag from '../models/rfidTag.js';
-import Team from '../models/team.js';
+import '../models/team.js' // registring the Team model for the populate to work
+import RFIDTag from '../models/rfidTag.js'
+import Team from '../models/team.js'
 
 export const getParticipants = async (req, response) => {
 
@@ -36,9 +36,9 @@ export const saveOneParticipant = async (request, response) => {
     })
 
     if (participantWithThisRFIDTag) {
-      return response.status(400).json({ error: "This RFIDTag is already assigned" })
+      return response.status(400).json({ error: 'This RFIDTag is already assigned' })
     } else {
-      newParticipantObject.rfidTagId = existingRFIDTag;
+      newParticipantObject.rfidTagId = existingRFIDTag
     }
   }
 

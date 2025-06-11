@@ -50,7 +50,7 @@ teamSchema.virtual('participants', {
   localField: '_id',          
   foreignField: 'teamId',     
   justOne: false
-});
+})
 
 teamSchema.set('toJSON', {
   virtuals: true,

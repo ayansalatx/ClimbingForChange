@@ -233,7 +233,7 @@ export const dummyParticipantsAndTeams = [
 
     ],
   },
-  	{
+  {
     teamName: 'Solo Team Douglas',
     isSoloTeam: true,
     eventLookup: { name: 'Lakeside Ascent Run', locationName: 'Lakeside Loop' },
@@ -245,7 +245,7 @@ export const dummyParticipantsAndTeams = [
 
     ],
   },
-	{
+  {
     teamName: 'Solo Team Dampf',
     isSoloTeam: true,
     eventLookup: { name: 'Lakeside Ascent Run', locationName: 'Lakeside Loop' },
@@ -257,7 +257,7 @@ export const dummyParticipantsAndTeams = [
 
     ],
   },
-	{
+  {
     teamName: 'Solo Team Hamel',
     isSoloTeam: true,
     eventLookup: { name: 'Lakeside Ascent Run', locationName: 'Lakeside Loop' },
