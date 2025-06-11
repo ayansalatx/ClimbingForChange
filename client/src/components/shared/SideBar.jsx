@@ -1,27 +1,28 @@
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+import DashboardIcon from '@mui/icons-material/Dashboard'
+import EventIcon from '@mui/icons-material/Event'
+import PeopleIcon from '@mui/icons-material/People'
+import PlaceIcon from '@mui/icons-material/Place'
+import TerrainIcon from '@mui/icons-material/Terrain'
+import UploadIcon from '@mui/icons-material/Upload'
 import {
+  Box,
+  Divider,
   Drawer,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Box,
   Typography,
-  Divider,
-} from '@mui/material';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import EventIcon from '@mui/icons-material/Event';
-import PeopleIcon from '@mui/icons-material/People';
-import PlaceIcon from '@mui/icons-material/Place';
-import TerrainIcon from '@mui/icons-material/Terrain';
-import UploadIcon from '@mui/icons-material/Upload';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import C4CBanner from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png';
+} from '@mui/material'
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
-import { useNavigate } from 'react-router-dom';
+import C4CBanner from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 
 const SideBar = ({ open, toggleDrawer }) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   // Navigation List Definitions
   const dashboardList = [
@@ -30,7 +31,7 @@ const SideBar = ({ open, toggleDrawer }) => {
       icon: <DashboardIcon />,
       onClick: () => navigate('/admin'),
     },
-  ];
+  ]
 
   const manageList = [
     {
@@ -53,7 +54,7 @@ const SideBar = ({ open, toggleDrawer }) => {
       icon: <TerrainIcon />,
       onClick: () => navigate('/admin/mountains'),
     },
-  ];
+  ]
 
 
   const quickAccessList = [
@@ -67,10 +68,10 @@ const SideBar = ({ open, toggleDrawer }) => {
       icon: <AddCircleIcon />,
       onClick: () => navigate('/admin'),
     },
-  ];
+  ]
 
   return (
-    <Drawer anchor="left" open={open} onClose={toggleDrawer(false)}>
+    <Drawer anchor='left' open={open} onClose={toggleDrawer(false)}>
       <Box
         sx={{
           width: 250,
@@ -81,10 +82,10 @@ const SideBar = ({ open, toggleDrawer }) => {
       >
         <Box sx={{ textAlign: 'center', p: 2 }}>
           <a
-            href="https://www.climbingforchange.ca/"
-            target="_blank"
+            href='https://www.climbingforchange.ca/'
+            target='_blank' rel="noreferrer"
           >
-            <img src={C4CBanner} alt="Climbing for Change Logo" height={70} />
+            <img src={C4CBanner} alt='Climbing for Change Logo' height={70} />
           </a>
         </Box>
 
@@ -102,7 +103,7 @@ const SideBar = ({ open, toggleDrawer }) => {
         <Divider sx={{ backgroundColor: '#fff', opacity: 0.2 }} />
 
         <Box sx={{ pl: 2, pt: 1 }}>
-          <Typography variant="subtitle2" sx={{ color: 'white', fontWeight: 'bold' }}>
+          <Typography variant='subtitle2' sx={{ color: 'white', fontWeight: 'bold' }}>
             Manage
           </Typography>
         </Box>
@@ -118,7 +119,7 @@ const SideBar = ({ open, toggleDrawer }) => {
         </List>
 
         <Box sx={{ pl: 2, pt: 2 }}>
-          <Typography variant="subtitle2" sx={{ color: 'white', fontWeight: 'bold' }}>
+          <Typography variant='subtitle2' sx={{ color: 'white', fontWeight: 'bold' }}>
             Quick Access
           </Typography>
         </Box>
@@ -134,7 +135,7 @@ const SideBar = ({ open, toggleDrawer }) => {
         </List>
       </Box>
     </Drawer>
-  );
-};
+  )
+}
 
-export default SideBar;
+export default SideBar

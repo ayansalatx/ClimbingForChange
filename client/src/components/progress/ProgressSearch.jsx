@@ -1,74 +1,74 @@
-import * as React from "react";
-import { TextField, Stack, Autocomplete } from "@mui/material";
+import { Autocomplete, TextField } from '@mui/material'
+import * as React from 'react'
 
 // temporary mock data
-import mockData from "../../mock-data/progressboard-team-only.json";
+import mockData from '../../mock-data/progressboard-team-only.json'
 
 const ProgressSearch = ({ searchString, onChange }) => {
   return (
     // Use MUI Autocomplete to display search suggestions for teams
     <Autocomplete
-      size="small"
+      size='small'
       freeSolo // Allow any input - not limited to the options
-      id="progress-search"
+      id='progress-search'
       disableClearable
-      options={mockData.map((option) => option["team-name"])} // List of team names as suggestions
+      options={mockData.map((option) => option['team-name'])} // List of team names as suggestions
       inputValue={searchString}
 
       // Notify Progress Board of input change
       onInputChange={(event, newInputValue) => {
-        onChange(newInputValue);
+        onChange(newInputValue)
       }}
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Search"
+          label='Search'
           slotProps={{
             input: {
               ...params.InputProps,
-              type: "search",
+              type: 'search',
             },
           }}
           sx={{
-            "& .MuiOutlinedInput-root": {
-              color: "var(--c4c-green)",
-              fontSize: ".9rem",
+            '& .MuiOutlinedInput-root': {
+              color: 'var(--c4c-green)',
+              fontSize: '.9rem',
 
-              "&:hover input": {
-                color: "var(--c4c-light-blue)",
+              '&:hover input': {
+                color: 'var(--c4c-light-blue)',
               },
-              "&.Mui-focused input": {
-                color: "var(--c4c-teal)",
+              '&.Mui-focused input': {
+                color: 'var(--c4c-teal)',
               },
-              "& fieldset": {
-                borderColor: "var(--c4c-green)",
+              '& fieldset': {
+                borderColor: 'var(--c4c-green)',
               },
-              "&:hover fieldset": {
-                borderColor: "var(--c4c-light-blue)",
+              '&:hover fieldset': {
+                borderColor: 'var(--c4c-light-blue)',
               },
-              "&.Mui-focused fieldset": {
-                borderColor: "var(--c4c-teal)",
+              '&.Mui-focused fieldset': {
+                borderColor: 'var(--c4c-teal)',
               },
             },
-            "& .MuiInputLabel-root": {
-              color: "var(--c4c-green)",
-              fontSize: ".9rem",
+            '& .MuiInputLabel-root': {
+              color: 'var(--c4c-green)',
+              fontSize: '.9rem',
             },
-            "&:hover .MuiInputLabel-root": {
-              color: "var(--c4c-light-blue)",
+            '&:hover .MuiInputLabel-root': {
+              color: 'var(--c4c-light-blue)',
             },
-            "& .MuiInputLabel-root.Mui-focused": {
-              color: "var(--c4c-teal)",
+            '& .MuiInputLabel-root.Mui-focused': {
+              color: 'var(--c4c-teal)',
             },
-            "& input::placeholder": {
-              color: "var(--c4c-green)",
+            '& input::placeholder': {
+              color: 'var(--c4c-green)',
               opacity: 1,
             },
           }}
         />
       )}
     />
-  );
-};
+  )
+}
 
-export default ProgressSearch;
+export default ProgressSearch

@@ -1,15 +1,19 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css'
+
+
+import React from 'react'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+
 import Landing from './components/shared/Landing'
-import ProgressBoard from "./pages/Progress/ProgressBoard";
-import ProgressBoardFullscreen from "./pages/Progress/ProgressBoardFullscreen";
-import AdminLogin from './pages/Admin/AdminLogin';
-import AdminDashboard from './pages/Admin/AdminDashboard';
-import EventManager from './pages/Admin/events/EventManager';
-import ParticipantManager from './pages/Admin/participants/ParticipantManager'
-import MountainManager from './pages/Admin/mountains/MountainManager';
-import LocationManager from './pages/Admin/locations/LocationManager';
+import AdminDashboard from './pages/admin/AdminDashboard'
+import AdminLogin from './pages/admin/AdminLogin'
+import EventManager from './pages/admin/events/EventManager'
+import LocationManager from './pages/admin/locations/LocationManager'
+import MountainManager from './pages/admin/mountains/MountainManager'
+import ParticipantManager from './pages/admin/participants/ParticipantManager'
+import ProgressBoard from './pages/progress/ProgressBoard'
+import ProgressBoardFullscreen from './pages/progress/ProgressBoardFullscreen'
+
 
 function App() {
   return (
@@ -18,8 +22,8 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/progress" element={<ProgressBoard />} />
         <Route path="/progress/fullscreen" element={<ProgressBoardFullscreen />} />
-        <Route path="/login" element={<AdminLogin />} />
 
+        <Route path="/login" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminDashboard />}>
           <Route path="events" element={<EventManager />} />
           <Route path="participants" element={<ParticipantManager />} />
@@ -28,6 +32,7 @@ function App() {
         </Route>
       </Routes>
     </Router>
-  );
+  )
 }
+
 export default App;

@@ -1,27 +1,27 @@
-import React from "react";
-import { TableHead, TableRow, TableCell } from "@mui/material";
+import { TableCell,TableHead, TableRow } from '@mui/material'
+import React from 'react'
 
 // Renders the header row of the table using provided column definitions
 const TableHeaderRow = ({ columns }) => {
   return (
     <TableHead>
       <TableRow>
-        <TableCell sx={{width: "0"}}></TableCell>
+        <TableCell sx={{width: '0'}}></TableCell>
         {columns.map((column, index) => (
           <TableCell
             key={column.id}
             align={
               index === 0
-                ? "left"
+                ? 'left'
                 : index === columns.length - 1
-                ? "right"
-                : "center"
+                  ? 'right'
+                  : 'center'
             }
             sx={{
               minWidth: column.minWidth,
-              fontWeight: "bold",
-              fontSize: "1rem",
-              textTransform: "uppercase",
+              fontWeight: 'bold',
+              fontSize: '1rem',
+              textTransform: 'uppercase',
             }}
           >
             {column.label}
@@ -29,7 +29,7 @@ const TableHeaderRow = ({ columns }) => {
         ))}
       </TableRow>
     </TableHead>
-  );
-};
+  )
+}
 
-export default TableHeaderRow;
+export default TableHeaderRow

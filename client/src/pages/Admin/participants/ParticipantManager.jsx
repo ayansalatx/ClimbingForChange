@@ -1,6 +1,7 @@
+import React from 'react'
 
 const ParticipantManager = () => {
   return <h1>Participants</h1>
-};
+}
 
-export default ParticipantManager;
+export default ParticipantManager
