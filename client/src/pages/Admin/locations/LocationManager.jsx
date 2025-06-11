@@ -1,3 +1,4 @@
+import React from 'react'
 
 import LocationTable from '../../../components/admin/forms/locationforms/LocationTable';
 import C4CHorizontalGreenLogo from '../../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png';
