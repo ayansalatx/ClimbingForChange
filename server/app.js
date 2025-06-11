@@ -9,7 +9,7 @@ import mountainRoutes from './src/routes/mountain.js'
 import swaggerUi from 'swagger-ui-express'
 import YAML from 'yamljs'
 import { errorHandler } from './src/error.js'
-import rfiftagRoutes from './src/routes/rfidtag.js'
+import rfidtagRoutes from './src/routes/rfidtag.js'
 import teamsRoutes from './src/routes/team.js'
 import lapRoutes from './src/routes/lap.js'
 
@@ -32,7 +32,7 @@ appRouter.use('/participants', participantRoutes)
 appRouter.use('/events', eventRoutes)
 appRouter.use('/locations', locationRoutes)
 appRouter.use('/mountains', mountainRoutes)
-appRouter.use('/rfidtag', rfiftagRoutes)
+appRouter.use('/rfidtag', rfidtagRoutes)
 appRouter.use('/teams', teamsRoutes)
 appRouter.use('/laps', lapRoutes)
 

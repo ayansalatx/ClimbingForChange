@@ -14,7 +14,7 @@ const validateTeam = [
 
   body('lapsRequired')
     .isInt({ min: 1})
-    .withMessage('Lap must be a valid number between 1 and 120'),
+    .withMessage('Lap must be a valid with a minimum of 1'),
 
   body('eventId')
     .trim()
