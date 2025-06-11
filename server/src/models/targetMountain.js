@@ -12,6 +12,8 @@ const targetMountainSchema = new Schema({
     type: Number,
     required: true,
   }
+}, {
+  timestamps: true
 })
 
 targetMountainSchema.set('toJSON', {

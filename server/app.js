@@ -10,6 +10,7 @@ import swaggerUi from 'swagger-ui-express'
 import YAML from 'yamljs'
 import { errorHandler } from './src/error.js'
 import rfiftagRoutes from './src/routes/rfidtag.js'
+import teamsRoutes from './src/routes/team.js'
 
 const app = express()
 const openapiDoc = YAML.load('./openapi.yaml')
@@ -18,9 +19,9 @@ app.use(cors())
 
 app.use(express.static('public'))
 
-app.use(requestLogger)
-
 app.use(json())
+
+app.use(requestLogger)
 
 const appRouter = express.Router()
 
@@ -31,6 +32,7 @@ appRouter.use('/events', eventRoutes)
 appRouter.use('/locations', locationRoutes)
 appRouter.use('/mountains', mountainRoutes)
 appRouter.use('/rfidtag', rfiftagRoutes)
+appRouter.use('/teams', teamsRoutes)
 
 app.use('/api', appRouter)
 

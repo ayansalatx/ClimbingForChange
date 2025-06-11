@@ -26,15 +26,15 @@ const seedDatabase = async () => {
 
     console.log('Clearing existing data...')
     await Promise.all([
-      Location.deleteMany({}),
-      PhysicalMountain.deleteMany({}),
-      TargetMountain.deleteMany({}),
-      RFIDTag.deleteMany({}),
-      Event.deleteMany({}),
-      Team.deleteMany({}),
-      Participant.deleteMany({}),
-      Lap.deleteMany({}),
-    ])
+      Location.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e; }), // Drop collection, ignore if not found
+      PhysicalMountain.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e; }),
+      TargetMountain.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e; }),
+      RFIDTag.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e; }),
+      Event.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e; }),
+      Team.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e; }),
+      Participant.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e; }),
+      Lap.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e; }),
+    ]);
     console.log('Existing data cleared.')
 
     console.log('Inserting Locations...')
@@ -99,10 +99,10 @@ const seedDatabase = async () => {
 
       for (const participantData of teamData.participants) {
         const rfidTagId = rfidTagMap.get(participantData.rfidSerialNumber)
-        if (!rfidTagId) {
-          console.error(`Skipping participant ${participantData.firstName} ${participantData.lastName}: RFID tag not found for serial ${participantData.rfidSerialNumber}`)
-          continue
-        }
+        // if (!rfidTagId) {
+        //   console.error(`Skipping participant ${participantData.firstName} ${participantData.lastName}: RFID tag not found for serial ${participantData.rfidSerialNumber}`)
+        //   continue
+        // }
 
         const newParticipant = await Participant.create({
           firstName: participantData.firstName,

@@ -25,7 +25,9 @@ const lapSchema = new Schema({
   endDateTime: {
     type: Date,
     required: true,
-  },
+  }
+}, {
+  timestamps: true
 })
 
 lapSchema.set('toJSON', {

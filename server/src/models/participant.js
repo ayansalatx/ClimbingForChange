@@ -1,13 +1,20 @@
 import mongoose from '../utils/db.js'
 
-const {Schema, model} = mongoose
+const { Schema, model } = mongoose
 
 const participantSchema = new Schema({
   teamId: {
     type: Schema.Types.ObjectId,
     ref: 'Team',
-    required: true,
+    required: false, // participant can be created without a team
     index: true
+  },
+  rfidTagId: { // This field is included for the "RFID per Participant" scenario
+    type: Schema.Types.ObjectId,
+    ref: 'RFIDTag',
+    required: false,
+    unique: true,
+    sparse: true // allows for null duplicate though we specified unique: true
   },
   firstName: {
     type: String,
@@ -19,12 +26,6 @@ const participantSchema = new Schema({
     required: true,
     trim: true
   },
-  rfidTagId: { // This field is included for the "RFID per Participant" scenario
-    type: Schema.Types.ObjectId,
-    ref: 'RFIDTag',
-    required: false,
-    unique: true, 
-  }
 }, {
   timestamps: true
 })

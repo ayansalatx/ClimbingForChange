@@ -28,6 +28,8 @@ const locationSchema = new Schema({
     required: true,
     trim: true
   }
+}, {
+  timestamps: true
 })
 
 locationSchema.set('toJSON', {

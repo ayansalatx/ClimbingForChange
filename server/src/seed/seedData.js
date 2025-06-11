@@ -38,13 +38,12 @@ export const dummyParticipantsAndTeams = [
       { firstName: 'Blake', lastName: 'Schafer', rfidSerialNumber: 'RFID008' },
     ],
   },
-  // ... continue with other teams based on your initialParticipants and the new structure
   {
     teamName: 'HIBCO Generals',
     isSoloTeam: false,
     eventLookup: { name: 'Lakeside Ascent Run', locationName: 'Lakeside Loop' },
     physicalMountainName: 'The Mount',
-    targetMountainName: 'Mont Blanc', // Changed from Rainier
+    targetMountainName: 'Mont Blanc',
     startDateTime: new Date('2025-07-25T08:10:00Z'),
     participants: [
       { firstName: 'Moe', lastName: 'Barzagar', rfidSerialNumber: 'RFID009' },
@@ -62,7 +61,7 @@ export const dummyParticipantsAndTeams = [
     targetMountainName: 'Denali',
     startDateTime: new Date('2025-06-20T06:30:00Z'),
     participants: [
-      { firstName: 'Booker', lastName: 'Zaytsoff', rfidSerialNumber: 'RFID014' },
+      { firstName: 'Booker', lastName: 'Zaytsoff' }, // participant that don't yet have a RFID tag
       { firstName: 'Lisa', lastName: 'Zaytsoff', rfidSerialNumber: 'RFID015' },
       { firstName: 'Tyler', lastName: 'Brooks', rfidSerialNumber: 'RFID016' },
       { firstName: 'Navpreet', lastName: 'Waraich', rfidSerialNumber: 'RFID017' },
@@ -98,12 +97,176 @@ export const dummyParticipantsAndTeams = [
     isSoloTeam: false,
     eventLookup: { name: 'Charity Mountain Hike', locationName: 'Rocky Ridge Park' }, // Example for Rabbit Hill joining an existing event
     physicalMountainName: 'Rabbit Hill',
-    targetMountainName: 'Mont Blanc', // Changed from Rainier
+    targetMountainName: 'Mont Blanc',
     startDateTime: new Date('2025-07-12T09:45:00Z'),
     participants: [
       { firstName: 'Derek', lastName: 'Look', rfidSerialNumber: 'RFID023' },
       { firstName: 'Leah', lastName: 'Chodzicki', rfidSerialNumber: 'RFID024' },
       { firstName: 'Cheryl', lastName: 'Haniak', rfidSerialNumber: 'RFID025' },
+    ],
+  },
+  {
+    teamName: 'Springboks',
+    isSoloTeam: false,
+    eventLookup: { name: 'Charity Mountain Hike', locationName: 'Rocky Ridge Park' },
+    physicalMountainName: 'Rabbit Hill',
+    targetMountainName: 'Mont Blanc',
+    startDateTime: new Date('2025-07-12T09:45:00Z'),
+    participants: [
+      { firstName: 'Barend', lastName: 'Lottering', rfidSerialNumber: 'RFID026' },
+      { firstName: 'Lottering', lastName: 'Lottering', rfidSerialNumber: 'RFID027' },
+    ],
+  },
+  {
+    teamName: 'STARS',
+    isSoloTeam: false,
+    eventLookup: { name: 'City Skyline Climb', locationName: 'City Skyline Trail' }, // Example for KEEN Team joining an existing event
+    physicalMountainName: 'Groove Climb',
+    targetMountainName: 'Denali',
+    startDateTime: new Date('2025-08-05T07:20:00Z'),
+    participants: [
+      { firstName: 'Brittany', lastName: 'Foy', rfidSerialNumber: 'RFID028' },
+      { firstName: 'Adam', lastName: 'Perry', rfidSerialNumber: 'RFID029' },
+      { firstName: 'Justin', lastName: 'Mazzolini', rfidSerialNumber: 'RFID030' },
+      { firstName: 'Angela', lastName: 'Mazzolini', rfidSerialNumber: 'RFID031' },
+      { firstName: 'Erica', lastName: 'Kirkman', rfidSerialNumber: 'RFID032' },
+      { firstName: 'Sarah', lastName: 'Saunders', rfidSerialNumber: 'RFID033' },
+    ],
+  },
+  {
+    teamName: 'Team Order',
+    isSoloTeam: false,
+    eventLookup: { name: 'City Skyline Climb', locationName: 'City Skyline Trail' }, // Example for KEEN Team joining an existing event
+    physicalMountainName: 'Groove Climb',
+    targetMountainName: 'Denali',
+    startDateTime: new Date('2025-08-05T07:20:00Z'),
+    participants: [
+      { firstName: 'Lauren', lastName: 'Guillette', rfidSerialNumber: 'RFID034' },
+      { firstName: 'Ryan', lastName: 'Batty', rfidSerialNumber: 'RFID035' },
+      { firstName: 'Nick', lastName: 'Green', rfidSerialNumber: 'RFID036' },
+    ],
+  },
+  {
+    teamName: 'United Nations',
+    isSoloTeam: false,
+    eventLookup: { name: 'City Skyline Climb', locationName: 'City Skyline Trail' },
+    physicalMountainName: 'Groove Climb',
+    targetMountainName: 'Denali',
+    startDateTime: new Date('2025-08-05T07:20:00Z'),
+    participants: [
+      { firstName: 'Andrew', lastName: 'Wilkie', rfidSerialNumber: 'RFID037' },
+      { firstName: 'Rogers', lastName: 'Bryce', rfidSerialNumber: 'RFID038' },
+      { firstName: 'Viet', lastName: 'Ngo', rfidSerialNumber: 'RFID039' },
+      { firstName: 'Andrew', lastName: 'Gillese', rfidSerialNumber: 'RFID040' },
+      { firstName: 'Adrianne', lastName: 'Gillese', rfidSerialNumber: 'RFID041' },
+    ],
+  },
+  {
+    teamName: 'Solo Team Williamson',
+    isSoloTeam: true,
+    eventLookup: { name: 'Lakeside Ascent Run', locationName: 'Lakeside Loop' },
+    physicalMountainName: 'Groove Climb',
+    targetMountainName: 'Denali',
+    startDateTime: new Date('2025-08-05T07:20:00Z'),
+    participants: [
+      { firstName: 'Luke', lastName: 'Williamson', rfidSerialNumber: 'RFID042' },
+
+    ],
+  },
+  {
+    teamName: 'Solo Team Wyllie',
+    isSoloTeam: true,
+    eventLookup: { name: 'Lakeside Ascent Run', locationName: 'Lakeside Loop' },
+    physicalMountainName: 'Groove Climb',
+    targetMountainName: 'Denali',
+    startDateTime: new Date('2025-08-05T07:20:00Z'),
+    participants: [
+      { firstName: 'Stewart', lastName: 'Wyllie', rfidSerialNumber: 'RFID043' },
+
+    ],
+  },
+  {
+    teamName: 'Solo Team McDaniel',
+    isSoloTeam: true,
+    eventLookup: { name: 'Lakeside Ascent Run', locationName: 'Lakeside Loop' },
+    physicalMountainName: 'Groove Climb',
+    targetMountainName: 'Denali',
+    startDateTime: new Date('2025-08-05T07:20:00Z'),
+    participants: [
+      { firstName: 'Andrew', lastName: 'McDaniel' },
+
+    ],
+  },
+  {
+    teamName: 'Solo Team Chorney',
+    isSoloTeam: true,
+    eventLookup: { name: 'Lakeside Ascent Run', locationName: 'Lakeside Loop' },
+    physicalMountainName: 'Groove Climb',
+    targetMountainName: 'Denali',
+    startDateTime: new Date('2025-08-05T07:20:00Z'),
+    participants: [
+      { firstName: 'Devon', lastName: 'Chorney', rfidSerialNumber: 'RFID045' },
+
+    ],
+  },
+  {
+    teamName: 'Solo Team Baetjer',
+    isSoloTeam: true,
+    eventLookup: { name: 'Lakeside Ascent Run', locationName: 'Lakeside Loop' },
+    physicalMountainName: 'Groove Climb',
+    targetMountainName: 'Denali',
+    startDateTime: new Date('2025-08-05T07:20:00Z'),
+    participants: [
+      { firstName: 'Nelson', lastName: 'Baetjer', rfidSerialNumber: 'RFID046' },
+
+    ],
+  },
+  {
+    teamName: 'Solo Team Gerretsen',
+    isSoloTeam: true,
+    eventLookup: { name: 'Lakeside Ascent Run', locationName: 'Lakeside Loop' },
+    physicalMountainName: 'Groove Climb',
+    targetMountainName: 'Denali',
+    startDateTime: new Date('2025-08-05T07:20:00Z'),
+    participants: [
+      { firstName: 'Jeff', lastName: 'Gerretsen', rfidSerialNumber: 'RFID047' },
+
+    ],
+  },
+  	{
+    teamName: 'Solo Team Douglas',
+    isSoloTeam: true,
+    eventLookup: { name: 'Lakeside Ascent Run', locationName: 'Lakeside Loop' },
+    physicalMountainName: 'Groove Climb',
+    targetMountainName: 'Denali',
+    startDateTime: new Date('2025-08-05T07:20:00Z'),
+    participants: [
+      { firstName: 'Bennett', lastName: 'Douglas', rfidSerialNumber: 'RFID048' },
+
+    ],
+  },
+	{
+    teamName: 'Solo Team Dampf',
+    isSoloTeam: true,
+    eventLookup: { name: 'Lakeside Ascent Run', locationName: 'Lakeside Loop' },
+    physicalMountainName: 'Groove Climb',
+    targetMountainName: 'Denali',
+    startDateTime: new Date('2025-08-05T07:20:00Z'),
+    participants: [
+      { firstName: 'Mike', lastName: 'Dampf', rfidSerialNumber: 'RFID049' },
+
+    ],
+  },
+	{
+    teamName: 'Solo Team Hamel',
+    isSoloTeam: true,
+    eventLookup: { name: 'Lakeside Ascent Run', locationName: 'Lakeside Loop' },
+    physicalMountainName: 'Groove Climb',
+    targetMountainName: 'Denali',
+    startDateTime: new Date('2025-08-05T07:20:00Z'),
+    participants: [
+      { firstName: 'Jen', lastName: 'Hamel', rfidSerialNumber: 'RFID050' },
+
     ],
   },
 ]
@@ -247,4 +410,49 @@ export const dummyRFIDTags = [
   { serialNumber: 'RFID008' },
   { serialNumber: 'RFID009' },
   { serialNumber: 'RFID010' },
+  { serialNumber: 'RFID011' },
+  { serialNumber: 'RFID012' },
+  { serialNumber: 'RFID013' },
+  { serialNumber: 'RFID014' },
+  { serialNumber: 'RFID015' },
+  { serialNumber: 'RFID016' },
+  { serialNumber: 'RFID017' },
+  { serialNumber: 'RFID018' },
+  { serialNumber: 'RFID019' },
+  { serialNumber: 'RFID020' },
+  { serialNumber: 'RFID021' },
+  { serialNumber: 'RFID022' },
+  { serialNumber: 'RFID023' },
+  { serialNumber: 'RFID024' },
+  { serialNumber: 'RFID025' },
+  { serialNumber: 'RFID026' },
+  { serialNumber: 'RFID027' },
+  { serialNumber: 'RFID028' },
+  { serialNumber: 'RFID029' },
+  { serialNumber: 'RFID030' },
+  { serialNumber: 'RFID031' },
+  { serialNumber: 'RFID032' },
+  { serialNumber: 'RFID033' },
+  { serialNumber: 'RFID034' },
+  { serialNumber: 'RFID035' },
+  { serialNumber: 'RFID036' },
+  { serialNumber: 'RFID037' },
+  { serialNumber: 'RFID038' },
+  { serialNumber: 'RFID039' },
+  { serialNumber: 'RFID040' },
+  { serialNumber: 'RFID041' },
+  { serialNumber: 'RFID042' },
+  { serialNumber: 'RFID043' },
+  { serialNumber: 'RFID044' },
+  { serialNumber: 'RFID045' },
+  { serialNumber: 'RFID046' },
+  { serialNumber: 'RFID047' },
+  { serialNumber: 'RFID048' },
+  { serialNumber: 'RFID049' },
+  { serialNumber: 'RFID050' },
+  { serialNumber: 'RFID051' },
+  { serialNumber: 'RFID052' },
+  { serialNumber: 'RFID053' },
+  { serialNumber: 'RFID054' },
+  { serialNumber: 'RFID055' },
 ]

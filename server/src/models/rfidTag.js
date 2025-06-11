@@ -8,6 +8,8 @@ const rfidTagSchema = new Schema({
     required: true,
     trim: true
   }
+}, {
+  timestamps: true
 })
 
 rfidTagSchema.set('toJSON', {

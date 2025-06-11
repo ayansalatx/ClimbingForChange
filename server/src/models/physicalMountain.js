@@ -12,6 +12,8 @@ const physicalMountainSchema = new Schema({
     type: Number,
     required: true
   }
+}, {
+  timestamps: true
 })
 
 physicalMountainSchema.set('toJSON', {
