@@ -106,7 +106,7 @@ export const dummyParticipantsAndTeams = [
       { firstName: 'Cheryl', lastName: 'Haniak', rfidSerialNumber: 'RFID025' },
     ],
   },
-];
+]
 
 export const dummyLocations = [
   {
@@ -188,7 +188,7 @@ export const dummyEvents = [
     physicalMountainNames: ['Rabbit Hill'],
     active: true,
   },
-];
+]
 
 export const dummyPhysicalMountains = [
   {
@@ -247,4 +247,4 @@ export const dummyRFIDTags = [
   { serialNumber: 'RFID008' },
   { serialNumber: 'RFID009' },
   { serialNumber: 'RFID010' },
-];
+]

@@ -9,6 +9,7 @@ import mountainRoutes from './src/routes/mountain.js'
 import swaggerUi from 'swagger-ui-express'
 import YAML from 'yamljs'
 import { errorHandler } from './src/error.js'
+import rfiftagRoutes from './src/routes/rfidtag.js'
 
 const app = express()
 const openapiDoc = YAML.load('./openapi.yaml')
@@ -29,6 +30,7 @@ appRouter.use('/participants', participantRoutes)
 appRouter.use('/events', eventRoutes)
 appRouter.use('/locations', locationRoutes)
 appRouter.use('/mountains', mountainRoutes)
+appRouter.use('/rfidtag', rfiftagRoutes)
 
 app.use('/api', appRouter)
 

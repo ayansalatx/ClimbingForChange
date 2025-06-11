@@ -3,15 +3,19 @@ import mongoose from '../utils/db.js'
 const {Schema, model} = mongoose
 
 const eventSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-    trim: true
-  },
+  physicalMountainIds: [{
+    type: Schema.Types.ObjectId,
+    ref: 'PhysicalMountain'
+  }],
   locationId: {
     type: Schema.Types.ObjectId,
     ref: 'Location',
     required: true
+  },
+  name: {
+    type: String,
+    required: true,
+    trim: true
   },
   startDateTime: {
     type: Date,
@@ -21,17 +25,13 @@ const eventSchema = new Schema({
     type: Date,
     required: true
   },
-  physicalMountainIds: [{
-    type: Schema.Types.ObjectId,
-    ref: 'PhysicalMountain'
-  }],
   active: {
     type: Boolean,
     default: true
   }
 }, {
   timestamps: true
-});
+})
 
 eventSchema.set('toJSON', {
   transform: (document, returnedObject) => {

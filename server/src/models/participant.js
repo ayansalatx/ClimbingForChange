@@ -22,12 +22,12 @@ const participantSchema = new Schema({
   rfidTagId: { // This field is included for the "RFID per Participant" scenario
     type: Schema.Types.ObjectId,
     ref: 'RFIDTag',
-    required: true,
+    required: false,
     unique: true, 
   }
 }, {
   timestamps: true
-});
+})
 
 participantSchema.set('toJSON', {
   transform: (document, returnedObject) => {

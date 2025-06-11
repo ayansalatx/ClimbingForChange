@@ -2,10 +2,29 @@ import { test, after, beforeEach } from 'node:test'
 import mongoose from 'mongoose'
 import supertest from 'supertest'
 import app from '../../app.js'
+import assert from 'node:assert'
+
+import Location from '../models/location.js'
 import PhysicalMountain from '../models/physicalMountain.js'
 import TargetMountain from '../models/targetMountain.js'
-import assert from 'node:assert'
-import { emptyTestDB } from './index.test.js'
+import RFIDTag from '../models/rfidTag.js'
+import Event from '../models/event.js'
+import Team from '../models/team.js'
+import Participant from '../models/participant.js'
+import Lap from '../models/lap.js'
+
+export const emptyTestDB = async () => {
+  await Promise.all([
+    Location.deleteMany({}),
+    PhysicalMountain.deleteMany({}),
+    TargetMountain.deleteMany({}),
+    RFIDTag.deleteMany({}),
+    Event.deleteMany({}),
+    Team.deleteMany({}),
+    Participant.deleteMany({}),
+    Lap.deleteMany({}),
+  ])
+}
 
 const api = supertest(app)
 
@@ -33,14 +52,15 @@ const initialTargetMountains = [
 
 beforeEach(async () => {
   await emptyTestDB()
+
   await Promise.all(initialPhysicalMountains.map(async (pm) => {
-      const physicalMountainToSave = new PhysicalMountain(pm)
-      return await physicalMountainToSave.save()
+    const physicalMountainToSave = new PhysicalMountain(pm)
+    return await physicalMountainToSave.save()
   }))
 
   await Promise.all(initialTargetMountains.map(async (tm) => {
-      const tmSave = new TargetMountain(tm)
-      return await tmSave.save()
+    const tmSave = new TargetMountain(tm)
+    return await tmSave.save()
   }))
 })
 

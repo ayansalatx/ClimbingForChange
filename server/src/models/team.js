@@ -43,7 +43,7 @@ const teamSchema = new Schema({
   // }
 }, {
   timestamps: true // Adds createdAt and updatedAt fields automatically
-});
+})
 
 teamSchema.set('toJSON', {
   transform: (document, returnedObject) => {

@@ -3,6 +3,8 @@ import Event from '../models/event.js'
 export const getEvents = async(req, response) => {
 
   const events = await Event.find({})
+    .populate('locationId')
+    .populate('physicalMountainIds')
 
   response.json(events)
 }
@@ -16,12 +18,11 @@ export const saveOneEvent = async (request, response) => {
   }
 
   const newEvent = new Event({
-    eventName: body.eventName,
-    location: body.location,
-    startDate: body.startDate,
-    endDate: body.endDate,
-    duration: body.duration,
-    lap: body.lap,
+    name: body.name,
+    locationId: body.locationId,
+    physicalMountainIds: body.physicalMountainIds,
+    startDateTime: body.startDateTime,
+    endDateTime: body.endDateTime,
     active: body.active,
   })
 
