@@ -1,5 +1,7 @@
 import React from 'react';
-import { Modal, Box, Typography, TextField, Button, InputAdornment  } from '@mui/material';
+import { Modal, Box, Typography, TextField, InputAdornment } from '@mui/material';
+import CancelButton from '../buttons/CancelButton';
+import CreateButton from '../buttons/CreateButton';
 
 const style = {
   position: 'absolute',
@@ -21,10 +23,28 @@ const AddLocationModal = ({ open, onClose, onAdd }) => {
   const [country, setCountry] = React.useState('');
   const [lap, setLap] = React.useState('');
 
-  const handleAdd = () => {
-    e.preventDefault(); 
-    //To Do
+  const handleAdd = (e) => {
+    e.preventDefault();
+    const locationData = {
+      locationName,
+      address,
+      city,
+      province,
+      country,
+      lap,
+    };
+    onAdd(locationData);
+    onClose();
+
+    // Clear the form fields
+    setLocationName('');
+    setAddress('');
+    setCity('');
+    setProvince('');
+    setCountry('');
+    setLap('');
   };
+
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={style}>
@@ -51,7 +71,7 @@ const AddLocationModal = ({ open, onClose, onAdd }) => {
             onChange={(e) => setAddress(e.target.value)}
             required
           />
-           <TextField
+          <TextField
             fullWidth
             label="City"
             variant="outlined"
@@ -79,30 +99,25 @@ const AddLocationModal = ({ open, onClose, onAdd }) => {
             required
           />
           <TextField
-              fullWidth
-              label="Lap Distance"
-              variant="outlined"
-              margin="normal"
-              type="number"
-              value={lap}
-              onChange={(e) => setLap(e.target.value)}
-              required
-              InputProps={{
-                endAdornment: <InputAdornment position="end">ft</InputAdornment>,
-              }}
-              inputProps={{
-                // to prevent negative or decimal 
-                min: 0,
-                step: 1,
-              }}
-            />
+            fullWidth
+            label="Lap Distance"
+            variant="outlined"
+            margin="normal"
+            type="number"
+            value={lap}
+            onChange={(e) => setLap(e.target.value)}
+            required
+            InputProps={{
+              endAdornment: <InputAdornment position="end">ft</InputAdornment>,
+            }}
+            inputProps={{
+              min: 0,
+              step: 1,
+            }}
+          />
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
-            <Button variant="outlined" onClick={onClose}>
-              Cancel
-            </Button>
-            <Button type="submit" variant="contained">
-              Add
-            </Button>
+            <CancelButton onClick={onClose} />
+            <CreateButton type="submit" label="Create" />
           </Box>
         </form>
       </Box>

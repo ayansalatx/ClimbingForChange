@@ -1,6 +1,7 @@
 
 import LocationTable from '../../../components/admin/forms/locationforms/LocationTable';
 import C4CHorizontalGreenLogo from '../../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png';
+import mockData from "../../../mock-data/location-data.json"
 import SearchBar from "../../../components/admin/forms/locationforms/SearchBar";
 import Button from '@mui/material/Button';
 
@@ -10,14 +11,13 @@ import React, { useState } from 'react';
 const LocationManager = () => {
   const [popupOpen, setPopupOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  
+  const [locations, setLocation] = useState(mockData); 
 
-  const handleAddLocation = (newLocation) => {
-    console.log('Add location:', newLocation);
-      setPopupOpen(false);
+  const handleAddLocation = (eventData) => {
+    setLocation([...locations, eventData]); 
+    setPopupOpen(false);
   };
 
-  
   return (
 
     <div>
@@ -37,7 +37,7 @@ const LocationManager = () => {
         >Add Location</Button>
       </div>
 
-      <LocationTable searchTerm={searchTerm} />
+      <LocationTable searchTerm={searchTerm} location={locations}/>
       
       <AddLocationModal
         open={popupOpen}
