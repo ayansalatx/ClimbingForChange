@@ -1,7 +1,8 @@
 import './App.css'
 
+
 import React from 'react'
-import { BrowserRouter as Router, Route,Routes } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 import Landing from './components/shared/Landing'
 import AdminDashboard from './pages/admin/AdminDashboard'
@@ -14,27 +15,24 @@ import ProgressBoard from './pages/progress/ProgressBoard'
 import ProgressBoardFullscreen from './pages/progress/ProgressBoardFullscreen'
 
 
-
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<Landing />} />
-        <Route path='/progress' element={<ProgressBoard />} />
-        <Route
-          path='/progress/fullscreen'
-          element={<ProgressBoardFullscreen />}
-        />
+        <Route path="/" element={<Landing />} />
+        <Route path="/progress" element={<ProgressBoard />} />
+        <Route path="/progress/fullscreen" element={<ProgressBoardFullscreen />} />
 
-        <Route path='/login' element={<AdminLogin />} />
-        <Route path='/admin' element={<AdminDashboard />} />
-        <Route path='/admin/events' element={<EventManager />} />
-        <Route path='/admin/participants' element={<ParticipantManager />} />
-        <Route path='/admin/mountains' element={<MountainManager />} />
-        <Route path='/admin/locations' element={<LocationManager />} />
+        <Route path="/login" element={<AdminLogin />} />
+        <Route path="/admin" element={<AdminDashboard />}>
+          <Route path="events" element={<EventManager />} />
+          <Route path="participants" element={<ParticipantManager />} />
+          <Route path="mountains" element={<MountainManager />} />
+          <Route path="locations" element={<LocationManager />} />
+        </Route>
       </Routes>
     </Router>
   )
 }
 
-export default App
+export default App;

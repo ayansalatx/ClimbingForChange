@@ -131,4 +131,4 @@ const TableDataRows = ({ rows, participants, columns, page, rowsPerPage }) => {
   )
 }
 
-export default TableDataRows
+export default TableDataRows;

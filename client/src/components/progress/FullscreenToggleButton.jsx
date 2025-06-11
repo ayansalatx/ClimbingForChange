@@ -1,6 +1,5 @@
 import { Fullscreen } from '@mui/icons-material'
 import { IconButton, Tooltip } from '@mui/material'
-import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const FullscreenToggleButton = ({ sx }) => {
@@ -20,4 +19,4 @@ const FullscreenToggleButton = ({ sx }) => {
   )
 }
 
-export default FullscreenToggleButton
+export default FullscreenToggleButton;

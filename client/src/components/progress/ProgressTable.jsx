@@ -5,7 +5,7 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { fetchParticipants } from '../../services/progressService'
 import FullscreenToggleButton from './FullscreenToggleButton'
@@ -114,4 +114,4 @@ const ProgressTable = ({ rows, columns }) => {
   )
 }
 
-export default ProgressTable
+export default ProgressTable;
