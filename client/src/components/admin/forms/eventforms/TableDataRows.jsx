@@ -1,4 +1,3 @@
-import React from "react";
 import { TableBody, TableRow, TableCell } from "@mui/material";
 import Switch from "@mui/material/Switch";
 import {Edit, Delete} from '@mui/icons-material';

@@ -1,13 +1,10 @@
-import React from 'react'
-
+import { useState } from 'react';
 import LocationTable from '../../../components/admin/forms/locationforms/LocationTable';
-import C4CHorizontalGreenLogo from '../../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png';
 import mockData from "../../../mock-data/location-data.json"
 import SearchBar from "../../../components/admin/forms/locationforms/SearchBar";
 import Button from '@mui/material/Button';
 
 import AddLocationModal from '../../../components/admin/modals/LocationModal.jsx';
-import React, { useState } from 'react';
 
 const LocationManager = () => {
   const [popupOpen, setPopupOpen] = useState(false);

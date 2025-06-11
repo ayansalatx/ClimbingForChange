@@ -7,7 +7,7 @@ import TableDataRows from "./TableDataRows";
 import TableHeaderRow from "./TableHeaderRow";
 
 // temporary mock data
-//import mockData from "../../../../mock-data/event-data.json"
+// import mockData from "../../../../mock-data/event-data.json"
 
 // Define columns for full width screen
 const fullColumns = [

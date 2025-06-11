@@ -1,5 +1,4 @@
 import { TableCell,TableHead, TableRow } from '@mui/material'
-import React from 'react'
 
 // Renders the header row of the table using provided column definitions
 const TableHeaderRow = ({ columns }) => {
@@ -32,4 +31,4 @@ const TableHeaderRow = ({ columns }) => {
   )
 }
 
-export default TableHeaderRow
+export default TableHeaderRow;

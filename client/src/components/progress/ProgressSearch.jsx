@@ -1,5 +1,4 @@
 import { Autocomplete, TextField } from '@mui/material'
-import * as React from 'react'
 
 // temporary mock data
 import mockData from '../../mock-data/progressboard-team-only.json'
@@ -71,4 +70,4 @@ const ProgressSearch = ({ searchString, onChange }) => {
   )
 }
 
-export default ProgressSearch
+export default ProgressSearch;

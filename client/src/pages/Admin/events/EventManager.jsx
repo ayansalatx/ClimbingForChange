@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import EventsTable from '../../../components/admin/forms/eventforms/EventTable';
 import mockData from "../../../mock-data/event-data.json"
 import C4CHorizontalGreenLogo from '../../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png';
