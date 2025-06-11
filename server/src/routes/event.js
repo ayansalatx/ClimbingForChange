@@ -39,7 +39,7 @@ const validateEvent = [
     .isBoolean().withMessage('active must be true or false'),
 ]
 
-const checkEventValidation = (req, res, next) => {
+export const checkValidation = (req, res, next) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
     // Return a 400 with a JSON listing all validation errors
@@ -52,6 +52,6 @@ const eventRoutes = express.Router()
 
 eventRoutes.get('/', asyncHandler(getEvents))
 
-eventRoutes.post('/', validateEvent, checkEventValidation, asyncHandler(saveOneEvent))
+eventRoutes.post('/', validateEvent, checkValidation, asyncHandler(saveOneEvent))
 
 export default eventRoutes

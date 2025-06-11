@@ -45,7 +45,15 @@ const teamSchema = new Schema({
   timestamps: true // Adds createdAt and updatedAt fields automatically
 })
 
+teamSchema.virtual('participants', {
+  ref: 'Participant',         
+  localField: '_id',          
+  foreignField: 'teamId',     
+  justOne: false
+});
+
 teamSchema.set('toJSON', {
+  virtuals: true,
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
