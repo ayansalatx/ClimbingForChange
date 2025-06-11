@@ -1,170 +1,19 @@
-openapi: 3.0.3
+openapi: 3.0.0
 info:
-  title: Climbing For Change API
+  title: Climbing for Change API
   version: 1.0.0
-  description: API for managing participants, events, locations, and mountains.
+  description: API for managing a charity climbing event, tracking teams, participants, and laps.
+
 servers:
-  - url: http://localhost:5001/api
+  - url: /api # Base path for all API endpoints
+
 paths:
-  /participants:
-    get:
-      tags:
-        - Participants
-      summary: List all participants
-      responses:
-        '200':
-          description: A list of participants
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Participant'
-    post:
-      tags:
-        - Participants
-      summary: Create a new participant
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Participant'
-      responses:
-        '201':
-          description: Created participant
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Participant'
-  /participants/{id}:
-    parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-        description: ID of the participant
-    get:
-      tags:
-        - Participants
-      summary: Get a participant by ID
-      responses:
-        '200':
-          description: A participant
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Participant'
-        '404':
-          description: Participant not found
-    put:
-      tags:
-        - Participants
-      summary: Update a participant by ID
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Participant'
-      responses:
-        '200':
-          description: Updated participant
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Participant'
-    delete:
-      tags:
-        - Participants
-      summary: Delete a participant by ID
-      responses:
-        '204':
-          description: Participant deleted
-
-  /events:
-    get:
-      tags:
-        - Events
-      summary: List all events
-      responses:
-        '200':
-          description: A list of events
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Event'
-    post:
-      tags:
-        - Events
-      summary: Create a new event
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Event'
-      responses:
-        '201':
-          description: Created event
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Event'
-  /events/{id}:
-    parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-        description: ID of the event
-    get:
-      tags:
-        - Events
-      summary: Get an event by ID
-      responses:
-        '200':
-          description: An event
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Event'
-        '404':
-          description: Event not found
-    put:
-      tags:
-        - Events
-      summary: Update an event by ID
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Event'
-      responses:
-        '200':
-          description: Updated event
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Event'
-    delete:
-      tags:
-        - Events
-      summary: Delete an event by ID
-      responses:
-        '204':
-          description: Event deleted
-
   /locations:
     get:
       tags:
         - Locations
-      summary: List all locations
+      summary: Get all locations
+      operationId: getLocations
       responses:
         '200':
           description: A list of locations
@@ -178,232 +27,870 @@ paths:
       tags:
         - Locations
       summary: Create a new location
+      operationId: createLocation
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Location'
+              $ref: '#/components/schemas/LocationRequest'
       responses:
         '201':
-          description: Created location
+          description: Location created successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Location'
-  /locations/{id}:
-    parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-        description: ID of the location
-    get:
-      tags:
-        - Locations
-      summary: Get a location by ID
-      responses:
-        '200':
-          description: A location
+        '400':
+          description: Bad request (e.g., missing body)
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Location'
-        '404':
-          description: Location not found
-    put:
-      tags:
-        - Locations
-      summary: Update a location by ID
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Location'
-      responses:
-        '200':
-          description: Updated location
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Location'
-    delete:
-      tags:
-        - Locations
-      summary: Delete a location by ID
-      responses:
-        '204':
-          description: Location deleted
+                $ref: '#/components/schemas/ErrorResponse'
 
-  /mountains:
+  /mountains/physical:
     get:
       tags:
         - Mountains
-      summary: List all mountains
+      summary: Get all physical mountains
+      operationId: getPhysicalMountains
       responses:
         '200':
-          description: A list of mountains
+          description: A list of physical mountains
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Mountain'
+                  $ref: '#/components/schemas/PhysicalMountain'
     post:
       tags:
         - Mountains
-      summary: Create a new mountain
+      summary: Create a new physical mountain
+      operationId: createPhysicalMountain
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Mountain'
+              $ref: '#/components/schemas/PhysicalMountainRequest'
       responses:
         '201':
-          description: Created mountain
+          description: Physical mountain created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Mountain'
-  /mountains/{id}:
-    parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-        description: ID of the mountain
+                $ref: '#/components/schemas/PhysicalMountain'
+        '400':
+          description: Bad request (e.g., missing body)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /mountains/target:
     get:
       tags:
         - Mountains
-      summary: Get a mountain by ID
+      summary: Get all target mountains
+      operationId: getTargetMountains
       responses:
         '200':
-          description: A mountain
+          description: A list of target mountains
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Mountain'
-        '404':
-          description: Mountain not found
-    put:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TargetMountain'
+    post:
       tags:
         - Mountains
-      summary: Update a mountain by ID
+      summary: Create a new target mountain
+      operationId: createTargetMountain
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Mountain'
+              $ref: '#/components/schemas/TargetMountainRequest'
       responses:
-        '200':
-          description: Updated mountain
+        '201':
+          description: Target mountain created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Mountain'
-    delete:
+                $ref: '#/components/schemas/TargetMountain'
+        '400':
+          description: Bad request (e.g., missing body)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /rfidtag:
+    get:
       tags:
-        - Mountains
-      summary: Delete a mountain by ID
+        - RFID Tags
+      summary: Get all RFID tags
+      operationId: getRFIDTags
       responses:
-        '204':
-          description: Mountain deleted
+        '200':
+          description: A list of RFID tags
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RFIDTag'
+    post:
+      tags:
+        - RFID Tags
+      summary: Create a new RFID tag
+      operationId: createRFIDTag
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RFIDTagRequest'
+      responses:
+        '201':
+          description: RFID tag created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFIDTag'
+        '400':
+          description: Bad request (e.g., missing body)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /events:
+    get:
+      tags:
+        - Events
+      summary: Get all events with populated location and physical mountains
+      operationId: getEvents
+      responses:
+        '200':
+          description: A list of events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventPopulated'
+    post:
+      tags:
+        - Events
+      summary: Create a new event
+      operationId: createEvent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventRequest'
+      responses:
+        '201':
+          description: Event created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          description: Bad request (e.g., validation errors)
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ValidationErrorResponse'
+                  - $ref: '#/components/schemas/ErrorResponse'
+
+  /teams:
+    get:
+      tags:
+        - Teams
+      summary: Get all teams with populated participants
+      operationId: getTeams
+      responses:
+        '200':
+          description: A list of teams
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TeamPopulated'
+    post:
+      tags:
+        - Teams
+      summary: Create a new team
+      operationId: createTeam
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamRequest'
+      responses:
+        '201':
+          description: Team created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '400':
+          description: Bad request (e.g., validation errors, referenced entities not found)
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ValidationErrorResponse'
+                  - $ref: '#/components/schemas/ErrorResponse'
+
+  /participants:
+    get:
+      tags:
+        - Participants
+      summary: Get all participants with populated RFID tag and team
+      operationId: getParticipants
+      responses:
+        '200':
+          description: A list of participants
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ParticipantPopulated'
+    post:
+      tags:
+        - Participants
+      summary: Create a new participant
+      operationId: createParticipant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParticipantRequest'
+      responses:
+        '201':
+          description: Participant created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Participant'
+        '400':
+          description: Bad request (e.g., content missing, RFIDTag already assigned)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /laps:
+    get:
+      tags:
+        - Laps
+      summary: Get all laps with populated team, participant, and RFID tag
+      operationId: getLaps
+      responses:
+        '200':
+          description: A list of laps
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LapPopulated'
+    post:
+      tags:
+        - Laps
+      summary: Record a new lap
+      operationId: recordLap
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LapRequest'
+      responses:
+        '201':
+          description: Lap recorded successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lap'
+        '400':
+          description: Bad request (e.g., validation errors, references not found, ownership mismatch)
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ValidationErrorResponse'
+                  - $ref: '#/components/schemas/ErrorResponse'
 
 components:
   schemas:
-    Participant:
+    # --- Base Entities (as stored/returned when not populated) ---
+    Location:
       type: object
       properties:
         id:
           type: string
-          description: Unique identifier generated by MongoDB
-        lastName:
+          description: Unique identifier for the location
+        name:
           type: string
-        firstName:
+        address:
           type: string
-        subEvent:
+        city:
           type: string
-        teamName:
+        provState:
+          type: string
+        country:
           type: string
       required:
-        - lastName
-        - firstName
-        - subEvent
+        - name
+        - address
+        - city
+        - provState
+        - country
+      example:
+        id: "654c..."
+        name: "Rocky Ridge Park"
+        address: "123 Mountain Road"
+        city: "Banff"
+        provState: "Alberta"
+        country: "Canada"
+
+    PhysicalMountain:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the physical mountain
+        name:
+          type: string
+        elevationPerLap:
+          type: number
+          format: float
+      required:
+        - name
+        - elevationPerLap
+      example:
+        id: "654d..."
+        name: "Rabbit Hill"
+        elevationPerLap: 50.0
+
+    TargetMountain:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the target mountain
+        name:
+          type: string
+        totalElevation:
+          type: number
+          format: float
+      required:
+        - name
+        - totalElevation
+      example:
+        id: "654e..."
+        name: "Mount Everest"
+        totalElevation: 8848.0
+
+    RFIDTag:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the RFID tag
+        serialNumber:
+          type: string
+      required:
+        - serialNumber
+      example:
+        id: "654f..."
+        serialNumber: "ABC123456789"
 
     Event:
       type: object
       properties:
         id:
           type: string
-          description: Unique identifier generated by MongoDB
-        eventName:
+          description: Unique identifier for the event
+        name:
           type: string
-        location:
+        locationId:
           type: string
-        startDate:
-          type: string
-          format: date-time
-        endDate:
+          description: ID of the location where the event is held
+        startDateTime:
           type: string
           format: date-time
-        duration:
-          type: number
-        lap:
-          type: number
+        endDateTime:
+          type: string
+          format: date-time
+        physicalMountainIds:
+          type: array
+          items:
+            type: string
+            description: ID of a physical mountain available at this event
         active:
           type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
       required:
-        - eventName
-        - location
-        - startDate
-        - endDate
-        - duration
+        - name
+        - locationId
+        - startDateTime
+        - endDateTime
+        - physicalMountainIds
+        - active
+      example:
+        id: "6550..."
+        name: "Charity Mountain Hike"
+        locationId: "654c..."
+        startDateTime: "2025-07-12T09:00:00Z"
+        endDateTime: "2025-07-12T12:30:00Z"
+        physicalMountainIds: ["654d...", "654d_b..."]
+        active: true
+        createdAt: "2024-01-01T10:00:00.000Z"
+        updatedAt: "2024-01-01T10:00:00.000Z"
 
-    Location:
+    Team:
       type: object
       properties:
         id:
           type: string
-          description: Unique identifier generated by MongoDB
-        Name:
+          description: Unique identifier for the team
+        eventId:
+          type: string
+          description: ID of the event the team participates in
+        physicalMountainId:
+          type: string
+          description: ID of the physical mountain assigned to this team
+        targetMountainId:
+          type: string
+          description: ID of the target mountain chosen by this team
+        name:
+          type: string
+        isSoloTeam:
+          type: boolean
+        lapsRequired:
+          type: number
+        startDateTime:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - eventId
+        - physicalMountainId
+        - targetMountainId
+        - name
+        - isSoloTeam
+        - lapsRequired
+        - startDateTime
+      example:
+        id: "6551..."
+        eventId: "6550..."
+        physicalMountainId: "654d..."
+        targetMountainId: "654e..."
+        name: "The Summit Seekers"
+        isSoloTeam: false
+        lapsRequired: 177
+        startDateTime: "2025-07-12T09:30:00Z"
+        createdAt: "2024-01-01T10:00:00.000Z"
+        updatedAt: "2024-01-01T10:00:00.000Z"
+
+    Participant:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the participant
+        teamId:
+          type: string
+          description: ID of the team the participant belongs to
+        firstName:
+          type: string
+        lastName:
+          type: string
+        rfidTagId:
+          type: string
+          nullable: true # Because it's required: false in schema
+          description: ID of the RFID tag assigned to this participant (optional on creation)
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - teamId
+        - firstName
+        - lastName
+      example:
+        id: "6552..."
+        teamId: "6551..."
+        firstName: "Alice"
+        lastName: "Smith"
+        rfidTagId: "654f..."
+        createdAt: "2024-01-01T10:00:00.000Z"
+        updatedAt: "2024-01-01T10:00:00.000Z"
+
+    Lap:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the lap record
+        teamId:
+          type: string
+          description: ID of the team associated with the lap
+        participantId:
+          type: string
+          description: ID of the participant who completed the lap
+        rfidTagId:
+          type: string
+          description: ID of the RFID tag that recorded the lap
+        startDateTime:
+          type: string
+          format: date-time
+        endDateTime:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - teamId
+        - participantId
+        - rfidTagId
+        - startDateTime
+        - endDateTime
+      example:
+        id: "6553..."
+        teamId: "6551..."
+        participantId: "6552..."
+        rfidTagId: "654f..."
+        startDateTime: "2025-07-12T09:35:00Z"
+        endDateTime: "2025-07-12T09:40:30Z"
+        createdAt: "2024-01-01T10:00:00.000Z"
+        updatedAt: "2024-01-01T10:00:00.000Z"
+
+    # --- Populated Response Schemas ---
+    EventPopulated:
+      allOf:
+        - $ref: '#/components/schemas/Event'
+        - type: object
+          properties:
+            locationId:
+              $ref: '#/components/schemas/Location' # Populated Location object
+            physicalMountainIds:
+              type: array
+              items:
+                $ref: '#/components/schemas/PhysicalMountain' # Populated PhysicalMountain objects
+          required:
+            - locationId
+            - physicalMountainIds
+
+    TeamPopulated:
+      allOf:
+        - $ref: '#/components/schemas/Team'
+        - type: object
+          properties:
+            participants:
+              type: array
+              items:
+                $ref: '#/components/schemas/Participant' # Populated Participant objects (base schema)
+          required:
+            - participants
+
+    ParticipantPopulated:
+      allOf:
+        - $ref: '#/components/schemas/Participant'
+        - type: object
+          properties:
+            teamId:
+              $ref: '#/components/schemas/Team' # Populated Team object (base schema)
+            rfidTagId:
+              $ref: '#/components/schemas/RFIDTag' # Populated RFIDTag object
+          required:
+            - teamId
+            - rfidTagId
+
+    LapPopulated:
+      allOf:
+        - $ref: '#/components/schemas/Lap'
+        - type: object
+          properties:
+            teamId:
+              $ref: '#/components/schemas/Team' # Populated Team object
+            participantId:
+              $ref: '#/components/schemas/Participant' # Populated Participant object
+            rfidTagId:
+              $ref: '#/components/schemas/RFIDTag' # Populated RFIDTag object
+          required:
+            - teamId
+            - participantId
+            - rfidTagId
+
+    # --- Request Body Schemas (often identical to base entity, but sometimes with helper fields or different types) ---
+    LocationRequest:
+      type: object
+      properties:
+        name:
           type: string
         address:
           type: string
         city:
           type: string
-        province:
+        provState:
           type: string
         country:
           type: string
-        lap:
-          type: string
-        active:
-          type: boolean
       required:
-        - Name
+        - name
         - address
         - city
-        - province
+        - provState
         - country
-        - lap
+      example:
+        name: "New Event Location"
+        address: "123 Test St"
+        city: "Testville"
+        provState: "TS"
+        country: "Canada"
 
-    Mountain:
+    PhysicalMountainRequest:
       type: object
       properties:
-        id:
-          type: string
-          description: Unique identifier generated by MongoDB
         name:
           type: string
-        elavation:
+        elevationPerLap:
           type: number
+          format: float
+      required:
+        - name
+        - elevationPerLap
+      example:
+        name: "Test Hill"
+        elevationPerLap: 60.0
+
+    TargetMountainRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        totalElevation:
+          type: number
+          format: float
+      required:
+        - name
+        - totalElevation
+      example:
+        name: "Test Peak"
+        totalElevation: 1000.0
+
+    RFIDTagRequest:
+      type: object
+      properties:
+        serialNumber:
+          type: string
+      required:
+        - serialNumber
+      example:
+        serialNumber: "NEWTAG001"
+
+    EventRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 3
+        locationId:
+          type: string
+          description: MongoDB ObjectId string for the Location
+        startDateTime:
+          type: string
+          format: date-time
+        endDateTime:
+          type: string
+          format: date-time
+        physicalMountainIds:
+          type: array
+          items:
+            type: string
+            description: MongoDB ObjectId string for a Physical Mountain
+          minItems: 1
         active:
           type: boolean
       required:
         - name
-        - elavation
+        - locationId
+        - startDateTime
+        - endDateTime
+        - physicalMountainIds
+      example:
+        name: "Annual Charity Climb"
+        locationId: "654c..."
+        startDateTime: "2025-10-01T09:00:00Z"
+        endDateTime: "2025-10-01T17:00:00Z"
+        physicalMountainIds: ["654d_c...", "654d_d..."]
+        active: true
+
+    TeamRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 3
+        isSoloTeam:
+          type: boolean
+          default: false
+        lapsRequired:
+          type: number
+          minimum: 1
+          maximum: 120 # Based on `isInt({ min: 1, max: 120})` from validation
+        eventId:
+          type: string
+          description: MongoDB ObjectId string for the Event
+        physicalMountainId:
+          type: string
+          description: MongoDB ObjectId string for the Physical Mountain assigned to this team
+        targetMountainId:
+          type: string
+          description: MongoDB ObjectId string for the Target Mountain chosen by this team
+        startDateTime:
+          type: string
+          format: date-time
+      required:
+        - name
+        - lapsRequired
+        - eventId
+        - physicalMountainId
+        - targetMountainId
+        - startDateTime
+      example:
+        name: "The Climbers"
+        isSoloTeam: false
+        lapsRequired: 50
+        eventId: "6550..."
+        physicalMountainId: "654d..."
+        targetMountainId: "654e..."
+        startDateTime: "2025-10-01T09:30:00Z"
+
+    ParticipantRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        teamId:
+          type: string
+          description: MongoDB ObjectId string for the Team
+        rfidTagId: # This is expected to be serialNumber from the request body as per controller logic
+          type: string
+          description: Serial number of the RFID Tag to assign
+      required:
+        - firstName
+        - lastName
+        - teamId
+      example:
+        firstName: "Jane"
+        lastName: "Doe"
+        teamId: "6551..."
+        rfidTagId: "RFID001" # Example serial number
+
+    LapRequest:
+      type: object
+      properties:
+        teamId:
+          type: string
+          description: MongoDB ObjectId string for the Team
+        participantId:
+          type: string
+          description: MongoDB ObjectId string for the Participant
+        rfidTagId:
+          type: string
+          description: MongoDB ObjectId string for the RFID Tag
+        startDateTime:
+          type: string
+          format: date-time
+        endDateTime:
+          type: string
+          format: date-time
+      required:
+        - teamId
+        - participantId
+        - rfidTagId
+        - startDateTime
+        - endDateTime
+      example:
+        teamId: "6551..."
+        participantId: "6552..."
+        rfidTagId: "654f..."
+        startDateTime: "2025-10-01T09:35:00Z"
+        endDateTime: "2025-10-01T09:40:00Z"
+
+    # --- Error Responses ---
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+      example:
+        error: "Lap missing"
+
+    ValidationErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              value:
+                type: string
+              msg:
+                type: string
+              path:
+                type: string
+              location:
+                type: string
+            required:
+              - msg
+              - path
+              - location
+      required:
+        - errors
+      example:
+        errors:
+          - type: "field"
+            value: ""
+            msg: "Team name is required"
+            path: "name"
+            location: "body"
