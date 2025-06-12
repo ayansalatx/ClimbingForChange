@@ -13,7 +13,7 @@ const fullColumns = [
   { id: 'mountainName', label: 'Mountain', minWidth: 115 },
   { id: 'elevation', label: 'Elevation', minWidth: 60 },
   { id: 'currentElevation', label: 'Current Elevation', minWidth: 60 },
-  { id: 'totalLaps', label: 'Total Laps', minWidth: 40 },
+  { id: 'lapsRequired', label: 'Total Laps', minWidth: 40 },
   { id: 'lapsCompleted', label: 'Laps Completed', minWidth: 70 },
   { id: 'lapsToGo', label: 'Laps To Go', minWidth: 40 },
   { id: 'bestLap', label: 'Best Lap', minWidth: 40 },
@@ -38,7 +38,7 @@ const ProgressBoard = () => {
   // State to store current search input string
   const [searchString, setsearchString] = useState('')
   // State for teams filtered by the search input
-  const [filteredTeams, setFilteredTeams] = useState(teams)
+  const [filteredTeams, setFilteredTeams] = useState([])
 
   // Load Participant data from server
   useEffect(() => {
@@ -70,23 +70,27 @@ const ProgressBoard = () => {
     loadData()
   }, [])
 
-  // useEffect(() => {
-  //   const filteredTeams = teams.filter((team) => {
-  //     const search = searchString.toLowerCase()
+  useEffect(() => {
+    if (!searchString) {
+      setFilteredTeams(teams)
+      return
+    }
+    const filteredTeams = teams.filter((team) => {
+      const search = searchString.toLowerCase()
 
-  //     const teamMatch = team.name.toLowerCase().includes(search)
+      const teamMatch = team.name.toLowerCase().includes(search)
 
-  //     const participantMatch = team.participants.some((participant) => {
-  //       return (
-  //         participant.firstName.toLowerCase().includes(search) ||
-  //         participant.lastName.toLowerCase().includes(search)
-  //       )
-  //     })
+      const participantMatch = team.participants.some((participant) => {
+        return (
+          participant.firstName.toLowerCase().includes(search) ||
+          participant.lastName.toLowerCase().includes(search)
+        )
+      })
 
-  //     return teamMatch || participantMatch
-  //   })
-  //   setFilteredTeams(filteredTeams)
-  // }, [searchString])
+      return teamMatch || participantMatch
+    })
+    setFilteredTeams(filteredTeams)
+  }, [searchString, teams.length])
 
   return (
     <Container
@@ -122,7 +126,7 @@ const ProgressBoard = () => {
       </Box>
 
       <Box sx={{ flexGrow: 1, width: '100%', overflowX: 'hidden' }}>
-        <ProgressTable columns={fullColumns} teams={teams} />
+        <ProgressTable columns={fullColumns} teams={filteredTeams} />
       </Box>
     </Container>
   )

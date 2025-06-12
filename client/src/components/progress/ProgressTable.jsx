@@ -29,7 +29,7 @@ const ProgressTable = ({ columns, teams }) => {
     setRowsPerPage(+event.target.value)
     setPage(0) // reset to first page
   }
-console.log(teams)
+
   return (
     <Paper
       elevation={3}
