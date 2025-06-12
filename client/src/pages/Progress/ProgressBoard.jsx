@@ -1,24 +1,23 @@
-import { Box,Container } from '@mui/material'
+import { Box, Container } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import ProgressSearch from '../../components/progress/ProgressSearch'
 import ProgressTable from '../../components/progress/ProgressTable'
-// temporary mock data
-import mockData from '../../mock-data/progressboard-team-only.json'
-import { fetchParticipants } from '../../services/progressService'
+import { getAllTeams } from '../../services/teamService'
+import { getAllParticipants } from '../../services/participantService'
 
 // Define columns for full width screen
 const fullColumns = [
-  { id: 'teamName', label: 'Team', minWidth: 200 },
-  { id: 'mountain', label: 'Mountain', minWidth: 115 },
+  { id: 'name', label: 'Team', minWidth: 200 },
+  { id: 'mountainName', label: 'Mountain', minWidth: 115 },
   { id: 'elevation', label: 'Elevation', minWidth: 60 },
-  { id: 'current-elevation', label: 'Current Elevation', minWidth: 60 },
-  { id: 'total-laps', label: 'Total Laps', minWidth: 40 },
-  { id: 'laps-completed', label: 'Laps Completed', minWidth: 70 },
-  { id: 'laps-to-go', label: 'Laps To Go', minWidth: 40 },
-  { id: 'best-lap', label: 'Best Lap', minWidth: 40 },
-  { id: 'time-elapsed', label: 'Time Elapsed', minWidth: 60 },
+  { id: 'currentElevation', label: 'Current Elevation', minWidth: 60 },
+  { id: 'totalLaps', label: 'Total Laps', minWidth: 40 },
+  { id: 'lapsCompleted', label: 'Laps Completed', minWidth: 70 },
+  { id: 'lapsToGo', label: 'Laps To Go', minWidth: 40 },
+  { id: 'bestLap', label: 'Best Lap', minWidth: 40 },
+  { id: 'timeElapsed', label: 'Time Elapsed', minWidth: 60 },
 ]
 
 // const medColumns = [
@@ -34,27 +33,60 @@ const fullColumns = [
 // ]
 
 const ProgressBoard = () => {
+  // State for teams
+  const [teams, setTeams] = useState([])
   // State to store current search input string
   const [searchString, setsearchString] = useState('')
-  
-  // State for rows filtered by the search input
-  const [filteredRows, setFilteredRows] = useState(mockData)
+  // State for teams filtered by the search input
+  const [filteredTeams, setFilteredTeams] = useState(teams)
 
-  // Update filteredRows whenever searchString changes
+  // Load Participant data from server
   useEffect(() => {
-    const getParticipants = async () => {
-      const participants = await fetchParticipants();
-      console.log("🚀 ~ getParticipants ~ participants:", participants)
+    async function loadData() {
+      try {
+        const teamList = await getAllTeams()
+        const participantList = await getAllParticipants()
+
+        // Group participants by ID
+        const participantMap = {}
+        participantList.forEach((participant) => {
+          const teamId = participant.teamId?._id || participant.teamId
+          if (!participantMap[teamId]) participantMap[teamId] = []
+          participantMap[teamId].push(participant)
+        })
+
+        // Create array in team for participants
+        const teamsWithParticipants = teamList.map((team) => ({
+          ...team,
+          participants: participantMap[team._id] || [],
+        }))
+
+        setTeams(teamsWithParticipants)
+      } catch (e) {
+        console.log('Failed to load progress data', e)
+      }
     }
-    getParticipants();
-    const filtered = mockData.filter((row) =>
-      // Filter the data by checking if any cell value contains the search string
-      Object.values(row).some((val) =>
-        String(val).toLowerCase().includes(searchString.toLowerCase())
-      )
-    )
-    setFilteredRows(filtered)
-  }, [searchString])
+
+    loadData()
+  }, [])
+
+  // useEffect(() => {
+  //   const filteredTeams = teams.filter((team) => {
+  //     const search = searchString.toLowerCase()
+
+  //     const teamMatch = team.name.toLowerCase().includes(search)
+
+  //     const participantMatch = team.participants.some((participant) => {
+  //       return (
+  //         participant.firstName.toLowerCase().includes(search) ||
+  //         participant.lastName.toLowerCase().includes(search)
+  //       )
+  //     })
+
+  //     return teamMatch || participantMatch
+  //   })
+  //   setFilteredTeams(filteredTeams)
+  // }, [searchString])
 
   return (
     <Container
@@ -69,21 +101,28 @@ const ProgressBoard = () => {
       }}
     >
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: '1rem' }}>
-        <a href='https://www.climbingforchange.ca/' target='_blank' rel="noreferrer">
+        <a
+          href="https://www.climbingforchange.ca/"
+          target="_blank"
+          rel="noreferrer"
+        >
           <img
             src={C4CHorizontalGreenLogo}
-            alt='Climbing for Change Logo'
+            alt="Climbing for Change Logo"
             style={{ maxWidth: '15.5rem', width: 'auto' }}
           />
         </a>
       </Box>
 
       <Box sx={{ mb: '1rem', maxWidth: '25vw' }}>
-        <ProgressSearch searchString={searchString} onChange={setsearchString}/>
+        <ProgressSearch
+          searchString={searchString}
+          onChange={setsearchString}
+        />
       </Box>
 
       <Box sx={{ flexGrow: 1, width: '100%', overflowX: 'hidden' }}>
-        <ProgressTable columns={fullColumns} rows={filteredRows} />
+        <ProgressTable columns={fullColumns} teams={teams} />
       </Box>
     </Container>
   )

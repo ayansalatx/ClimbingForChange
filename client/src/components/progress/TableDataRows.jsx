@@ -11,31 +11,18 @@ import {
 } from '@mui/material'
 import React, { useState } from 'react'
 
-// Mock participant data
-const mockParticipants = {
-  // 'Alberta SPCA': ['Aimee Winegarden', 'Justine Pelletier'],
-  // 'Andrew McDaniel': ['Andrew McDaniel'],
-  // BIMbros: ['Jason Laser', 'Katherine Simunkovic', 'Linda de Jong'],
-  // 'Glenrose Human Ability': ['Blake Schafer'],
-  // 'HIBCO Generals': ['Amira Aissiou', 'Blair Anthony', 'Cherry Pagtalunan'],
-  // 'Hill Billies': ['Booker Zaytsoff', 'Lisa Zaytsoff'],
-  // STARS: ['Adam Perry', 'Angela Mazzolini'],
-  // fallback
-  default: ['Participant A', 'Participant B'],
-}
-
-const CollapsibleRow = ({ row, participants, columns }) => {
+const CollapsibleRow = ({ team, columns, participants }) => {
   const [open, setOpen] = useState(false)
-  const teamName = row['teamName']
+  const teamName = team.name
 
   return (
     <React.Fragment>
-      <TableRow hover role='checkbox' tabIndex={-1} key={teamName}>
+      <TableRow hover role="checkbox" tabIndex={-1} key={teamName}>
         {/* Expand/Collapse toggle */}
         <TableCell>
           <IconButton
-            aria-label='expand row'
-            size='small'
+            aria-label="expand team"
+            size="small"
             disableRipple
             sx={{
               padding: 0,
@@ -51,7 +38,7 @@ const CollapsibleRow = ({ row, participants, columns }) => {
 
         {/* For each column in the column definition, render a matching cell */}
         {columns.map((column, index) => {
-          const value = row[column.id]
+          const value = team[column.id]
           const align =
             index === 0
               ? 'left'
@@ -73,7 +60,7 @@ const CollapsibleRow = ({ row, participants, columns }) => {
           sx={{ paddingBottom: 0, paddingTop: 0 }}
           colSpan={columns.length + 1}
         >
-          <Collapse in={open} timeout='auto' unmountOnExit>
+          <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Table>
                 <TableBody>
@@ -81,9 +68,9 @@ const CollapsibleRow = ({ row, participants, columns }) => {
                     <TableRow key={i}>
                       <TableCell
                         sx={{ padding: '0.4rem', fontWeight: 'bold' }}
-                        align='right' // Changed to align right as you requested
+                        align="right"
                       >
-                        {participant.fullName}
+                        {participant.firstName} {participant.lastName}
                       </TableCell>
 
                       {/* Remaining cells: placeholder values */}
@@ -113,22 +100,22 @@ const CollapsibleRow = ({ row, participants, columns }) => {
   )
 }
 
-const TableDataRows = ({ rows, participants, columns, page, rowsPerPage }) => {
+const TableDataRows = ({ teams, columns, page, rowsPerPage }) => {
   return (
     <TableBody>
-      {/* Slice the rows array to get only the rows for the current page. */}
-      {rows
+      {/* Slice the teams array to get only the teams for the current page. */}
+      {teams
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-        .map((row, rowIndex) => (
+        .map((team, teamIndex) => (
           <CollapsibleRow
-            key={row['teamName'] || rowIndex}
-            row={row}
+            key={team.name || teamIndex}
+            team={team}
             columns={columns}
-            participants={participants[row['teamName']] || mockParticipants.default}
+            participants={team.participants}
           />
         ))}
     </TableBody>
   )
 }
 
-export default TableDataRows;
+export default TableDataRows
