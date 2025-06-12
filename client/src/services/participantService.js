@@ -10,3 +10,12 @@ export const getAllParticipants = async () => {
     throw error
   }
 }
+
+export const getParticipantsByTeam = async (id) => {
+  try {
+    const res = await axios.get(`${BASE_URL}/teams/${id}/participants`)
+    return res.data
+  } catch (error) {
+    throw error
+  }
+}

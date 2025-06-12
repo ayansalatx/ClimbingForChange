@@ -5,7 +5,8 @@ import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Chang
 import ProgressSearch from '../../components/progress/ProgressSearch'
 import ProgressTable from '../../components/progress/ProgressTable'
 import { getAllTeams } from '../../services/teamService'
-import { getAllParticipants } from '../../services/participantService'
+import { getAllParticipants, getParticipantsByTeam } from '../../services/participantService'
+import { getMountainById } from '../../services/mountainService'
 
 // Define columns for full width screen
 const fullColumns = [
@@ -46,6 +47,12 @@ const ProgressBoard = () => {
       try {
         const teamList = await getAllTeams()
         const participantList = await getAllParticipants()
+        // const teamId = '6849a981d4f16de000528a41'
+        // const participantsByTeam = await getParticipantsByTeam(teamId)
+        // const mountainId = '6849a980d4f16de0005289fd'
+        // const mountainById = await getMountainById(mountainId)
+        // console.log(participantsByTeam)
+        // console.log(mountainById)
 
         // Group participants by ID
         const participantMap = {}
