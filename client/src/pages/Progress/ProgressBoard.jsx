@@ -6,6 +6,7 @@ import ProgressSearch from '../../components/progress/ProgressSearch'
 import ProgressTable from '../../components/progress/ProgressTable'
 // temporary mock data
 import mockData from '../../mock-data/progressboard-team-only.json'
+import { fetchParticipants } from '../../services/progressService'
 
 // Define columns for full width screen
 const fullColumns = [
@@ -41,6 +42,11 @@ const ProgressBoard = () => {
 
   // Update filteredRows whenever searchString changes
   useEffect(() => {
+    const getParticipants = async () => {
+      const participants = await fetchParticipants();
+      console.log("🚀 ~ getParticipants ~ participants:", participants)
+    }
+    getParticipants();
     const filtered = mockData.filter((row) =>
       // Filter the data by checking if any cell value contains the search string
       Object.values(row).some((val) =>

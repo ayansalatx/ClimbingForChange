@@ -18,7 +18,7 @@ const locationSchema = new Schema({
     required: true,
     trim: true
   },
-  province: {
+  provState: {
     type: String,
     required: true,
     trim: true
@@ -27,16 +27,9 @@ const locationSchema = new Schema({
     type: String,
     required: true,
     trim: true
-  },
-  lap: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  active: {
-    type: Boolean,
-    default: true
   }
+}, {
+  timestamps: true
 })
 
 locationSchema.set('toJSON', {

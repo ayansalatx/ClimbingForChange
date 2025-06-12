@@ -1,27 +1,33 @@
 import mongoose from '../utils/db.js'
 
-const {Schema, model} = mongoose
+const { Schema, model } = mongoose
 
 const participantSchema = new Schema({
-  lastName: {
-    type: String,
-    required: true,
-    trim: true
+  teamId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Team',
+    required: false, // participant can be created without a team
+    index: true
+  },
+  rfidTagId: { // This field is included for the "RFID per Participant" scenario
+    type: Schema.Types.ObjectId,
+    ref: 'RFIDTag',
+    required: false,
+    unique: true,
+    sparse: true // allows for null duplicate though we specified unique: true
   },
   firstName: {
     type: String,
     required: true,
     trim: true
   },
-  subEvent: {
+  lastName: {
     type: String,
     required: true,
     trim: true
   },
-  teamName: {
-    type: String,
-    trim: true
-  },
+}, {
+  timestamps: true
 })
 
 participantSchema.set('toJSON', {
