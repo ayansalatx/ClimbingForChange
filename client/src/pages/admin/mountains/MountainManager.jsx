@@ -7,42 +7,42 @@ import EditIcon   from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 
 const initialData = [
-  { id: 1,  name: "Rainier",  height: 20310 },
-  { id: 2,  name: "Everest",  height: 29029 },
-  { id: 3,  name: "Rainier",  height: 20310 },
-  { id: 4,  name: "Denali",   height: 14410 },
-  { id: 5,  name: "Rainier",  height: 20310 },
-  { id: 6,  name: "Everest",  height: 29029 },
-  { id: 7,  name: "Rainier",  height: 20310 },
-  { id: 8,  name: "Denali",   height: 14410 },
-  { id: 9,  name: "Rainier",  height: 20310 },
-  { id: 10, name: "Rainier",  height: 20310 },
-  { id: 11, name: "Denali",   height: 14410 },
-  { id: 12, name: "Denali",   height: 14410 },
-  { id: 13, name: "Everest",  height: 29029 },
-  { id: 14, name: "Rainier",  height: 20310 },
-  { id: 15, name: "Everest",  height: 29029 },
+  { id: 1,  name: 'Rainier',  height: 20310 },
+  { id: 2,  name: 'Everest',  height: 29029 },
+  { id: 3,  name: 'Rainier',  height: 20310 },
+  { id: 4,  name: 'Denali',   height: 14410 },
+  { id: 5,  name: 'Rainier',  height: 20310 },
+  { id: 6,  name: 'Everest',  height: 29029 },
+  { id: 7,  name: 'Rainier',  height: 20310 },
+  { id: 8,  name: 'Denali',   height: 14410 },
+  { id: 9,  name: 'Rainier',  height: 20310 },
+  { id: 10, name: 'Rainier',  height: 20310 },
+  { id: 11, name: 'Denali',   height: 14410 },
+  { id: 12, name: 'Denali',   height: 14410 },
+  { id: 13, name: 'Everest',  height: 29029 },
+  { id: 14, name: 'Rainier',  height: 20310 },
+  { id: 15, name: 'Everest',  height: 29029 },
 ]
 
 export default function MountainManager() {
-  const [mountains, setMountains]     = useState(initialData)
-  const [searchTerm, setSearchTerm]   = useState("")
+  const [mountains, setMountains] = useState(initialData)
+  const [searchTerm, setSearchTerm] = useState('')
 
-  const [editOpen, setEditOpen]       = useState(false)
-  const [current, setCurrent]         = useState({ id: null, name: "", height: "" })
+  const [editOpen, setEditOpen] = useState(false)
+  const [current, setCurrent] = useState({ id: null, name: '', height: '' })
 
-  const [deleteOpen, setDeleteOpen]   = useState(false)
-  const [toDeleteId, setToDeleteId]   = useState(null)
+  const [deleteOpen, setDeleteOpen] = useState(false)
+  const [toDeleteId, setToDeleteId] = useState(null)
 
-  const [addOpen, setAddOpen]         = useState(false)
-  const [newMountain, setNewMountain] = useState({ name: "", height: "" })
+  const [addOpen, setAddOpen] = useState(false)
+  const [newMountain, setNewMountain] = useState({ name: '', height: '' })
 
   const filtered = mountains.filter(m =>
     m.name.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   const openAdd = () => {
-    setNewMountain({ name: "", height: "" })
+    setNewMountain({ name: '', height: '' })
     setAddOpen(true)
   }
   const closeAdd = () => setAddOpen(false)
@@ -87,7 +87,7 @@ export default function MountainManager() {
 
   return (
     <Box sx={{ pt: 10, pb: 2, width: '90vw', maxWidth: 1200, mx: 'auto', px: 3 }}>
-      <Typography variant="h4" align="center" gutterBottom>
+      <Typography variant='h4' align='center' gutterBottom>
         Mountains
       </Typography>
 
@@ -96,12 +96,12 @@ export default function MountainManager() {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography sx={{ mr: 1, fontWeight: 500 }}>Search</Typography>
           <InputBase
-            placeholder="Search for a mountain…"
+            placeholder='Search for a mountain…'
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
             startAdornment={
-              <InputAdornment position="start">
-                <SearchIcon fontSize="small" />
+              <InputAdornment position='start'>
+                <SearchIcon fontSize='small' />
               </InputAdornment>
             }
             sx={{
@@ -114,7 +114,7 @@ export default function MountainManager() {
           />
         </Box>
 
-        <Button variant="contained" startIcon={<AddIcon />} onClick={openAdd}>
+        <Button variant='contained' startIcon={<AddIcon />} onClick={openAdd}>
           Add Mountain
         </Button>
       </Box>
@@ -126,7 +126,7 @@ export default function MountainManager() {
             <TableRow>
               <TableCell sx={{ fontWeight: 'bold' }}>Mountain Name</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Elevation</TableCell>
-              <TableCell align="center" sx={{ fontWeight: 'bold' }}>Actions</TableCell>
+              <TableCell align='center' sx={{ fontWeight: 'bold' }}>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -134,12 +134,12 @@ export default function MountainManager() {
               <TableRow key={m.id}>
                 <TableCell>{m.name}</TableCell>
                 <TableCell>{m.height}</TableCell>
-                <TableCell align="center">
-                  <IconButton size="small" onClick={() => openEdit(m)}>
-                    <EditIcon fontSize="small" />
+                <TableCell align='center'>
+                  <IconButton size='small' onClick={() => openEdit(m)}>
+                    <EditIcon fontSize='small' />
                   </IconButton>
-                  <IconButton size="small" onClick={() => handleDeleteClick(m.id)}>
-                    <DeleteIcon fontSize="small" />
+                  <IconButton size='small' onClick={() => handleDeleteClick(m.id)}>
+                    <DeleteIcon fontSize='small' />
                   </IconButton>
                 </TableCell>
               </TableRow>
@@ -154,23 +154,23 @@ export default function MountainManager() {
         <DialogContent dividers>
           <TextField
             fullWidth
-            label="Mountain Name"
+            label='Mountain Name'
             value={current.name}
             onChange={e => setCurrent({ ...current, name: e.target.value })}
-            margin="dense"
+            margin='dense'
           />
           <TextField
             fullWidth
-            label="Elevation (m)"
-            type="number"
+            label='Elevation (m)'
+            type='number'
             value={current.height}
             onChange={e => setCurrent({ ...current, height: e.target.value })}
-            margin="dense"
+            margin='dense'
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={closeEdit}>Cancel</Button>
-          <Button variant="contained" onClick={saveEdit}>Save</Button>
+          <Button variant='contained' onClick={saveEdit}>Save</Button>
         </DialogActions>
       </Dialog>
 
@@ -183,7 +183,7 @@ export default function MountainManager() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleDeleteCancel}>Cancel</Button>
-          <Button color="error" variant="contained" onClick={handleDeleteConfirm}>
+          <Button color='error' variant='contained' onClick={handleDeleteConfirm}>
             Delete
           </Button>
         </DialogActions>
@@ -194,23 +194,23 @@ export default function MountainManager() {
         <DialogContent dividers>
           <TextField
             fullWidth
-            label="Mountain Name"
+            label='Mountain Name'
             value={newMountain.name}
             onChange={e => setNewMountain({ ...newMountain, name: e.target.value })}
-            margin="dense"
+            margin='dense'
           />
           <TextField
             fullWidth
-            label="Elevation (m)"
-            type="number"
+            label='Elevation (m)'
+            type='number'
             value={newMountain.height}
             onChange={e => setNewMountain({ ...newMountain, height: e.target.value })}
-            margin="dense"
+            margin='dense'
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={closeAdd}>Cancel</Button>
-          <Button variant="contained" onClick={saveAdd}>Save</Button>
+          <Button variant='contained' onClick={saveAdd}>Save</Button>
         </DialogActions>
       </Dialog>
     </Box>
