@@ -1,9 +1,10 @@
+import { useState } from 'react'
 import {Box,Typography,InputBase,InputAdornment,IconButton,Button,Paper,Table,TableBody,TableCell,
-    TableContainer,TableHead,TableRow, Dialog,DialogTitle,DialogContent,DialogActions,TextField} from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import AddIcon    from '@mui/icons-material/Add';
-import EditIcon   from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+    TableContainer,TableHead,TableRow, Dialog,DialogTitle,DialogContent,DialogActions,TextField} from '@mui/material'
+import SearchIcon from '@mui/icons-material/Search'
+import AddIcon    from '@mui/icons-material/Add'
+import EditIcon   from '@mui/icons-material/Edit'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 const initialData = [
   { id: 1,  name: "Rainier",  height: 20310 },
@@ -21,68 +22,68 @@ const initialData = [
   { id: 13, name: "Everest",  height: 29029 },
   { id: 14, name: "Rainier",  height: 20310 },
   { id: 15, name: "Everest",  height: 29029 },
-];
+]
 
 export default function MountainManager() {
-  const [mountains, setMountains]     = useState(initialData);
-  const [searchTerm, setSearchTerm]   = useState("");
+  const [mountains, setMountains]     = useState(initialData)
+  const [searchTerm, setSearchTerm]   = useState("")
 
-  const [editOpen, setEditOpen]       = useState(false);
-  const [current, setCurrent]         = useState({ id: null, name: "", height: "" });
+  const [editOpen, setEditOpen]       = useState(false)
+  const [current, setCurrent]         = useState({ id: null, name: "", height: "" })
 
-  const [deleteOpen, setDeleteOpen]   = useState(false);
-  const [toDeleteId, setToDeleteId]   = useState(null);
+  const [deleteOpen, setDeleteOpen]   = useState(false)
+  const [toDeleteId, setToDeleteId]   = useState(null)
 
-  const [addOpen, setAddOpen]         = useState(false);
-  const [newMountain, setNewMountain] = useState({ name: "", height: "" });
+  const [addOpen, setAddOpen]         = useState(false)
+  const [newMountain, setNewMountain] = useState({ name: "", height: "" })
 
   const filtered = mountains.filter(m =>
     m.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  )
 
   const openAdd = () => {
-    setNewMountain({ name: "", height: "" });
-    setAddOpen(true);
-  };
-  const closeAdd = () => setAddOpen(false);
+    setNewMountain({ name: "", height: "" })
+    setAddOpen(true)
+  }
+  const closeAdd = () => setAddOpen(false)
   const saveAdd = () => {
-    const { name, height } = newMountain;
-    if (!name.trim()) return; 
-    const nextId = Math.max(...mountains.map(m => m.id)) + 1;
+    const { name, height } = newMountain
+    if (!name.trim()) return
+    const nextId = Math.max(...mountains.map(m => m.id)) + 1
     setMountains([
       ...mountains,
       { id: nextId, name: name.trim(), height: parseInt(height, 10) || 0 }
-    ]);
-    setAddOpen(false);
-  };
+    ])
+    setAddOpen(false)
+  }
 
   const handleDeleteClick = id => {
-    setToDeleteId(id);
-    setDeleteOpen(true);
-  };
+    setToDeleteId(id)
+    setDeleteOpen(true)
+  }
   const handleDeleteCancel = () => {
-    setDeleteOpen(false);
-    setToDeleteId(null);
-  };
+    setDeleteOpen(false)
+    setToDeleteId(null)
+  }
   const handleDeleteConfirm = () => {
-    setMountains(mountains.filter(m => m.id !== toDeleteId));
-    setDeleteOpen(false);
-    setToDeleteId(null);
-  };
+    setMountains(mountains.filter(m => m.id !== toDeleteId))
+    setDeleteOpen(false)
+    setToDeleteId(null)
+  }
 
   const openEdit = mountain => {
-    setCurrent({ ...mountain });
-    setEditOpen(true);
-  };
-  const closeEdit = () => setEditOpen(false);
+    setCurrent({ ...mountain })
+    setEditOpen(true)
+  }
+  const closeEdit = () => setEditOpen(false)
   const saveEdit = () => {
     setMountains(mountains.map(m =>
       m.id === current.id
         ? { ...m, name: current.name.trim(), height: parseInt(current.height, 10) || m.height }
         : m
-    ));
-    setEditOpen(false);
-  };
+    ))
+    setEditOpen(false)
+  }
 
   return (
     <Box sx={{ pt: 10, pb: 2, width: '90vw', maxWidth: 1200, mx: 'auto', px: 3 }}>
@@ -213,5 +214,5 @@ export default function MountainManager() {
         </DialogActions>
       </Dialog>
     </Box>
-  );
+  )
 }

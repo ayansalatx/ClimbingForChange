@@ -1,6 +1,7 @@
 import MenuIcon from '@mui/icons-material/Menu'
-import { AppBar, Box,Button, IconButton, Toolbar, Typography } from '@mui/material'
-import React from 'react'
+import { AppBar, Box,Button, IconButton, Toolbar, Container} from '@mui/material'
+
+import C4CBanner from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 
 const TopAppBar = ({ onMenuClick, onLogout }) => (
   <AppBar
@@ -21,7 +22,7 @@ const TopAppBar = ({ onMenuClick, onLogout }) => (
 
        
         <Box component="span" sx={{ ml: 2 }}>
-          <img src={Logo} alt="Climbing for Change" height={40} />
+          <img src={C4CBanner} alt="Climbing for Change" height={40} />
         </Box>
 
         <Box sx={{ flexGrow: 1 }} />
