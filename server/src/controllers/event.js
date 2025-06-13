@@ -96,5 +96,5 @@ export const deleteOneEvent = async (request, response) => {
     }
   );
 
-  response.status(201).json(updated)
+  response.status(200).json(updated)
 }
