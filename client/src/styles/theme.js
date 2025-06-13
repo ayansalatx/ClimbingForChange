@@ -2,32 +2,31 @@ import { createTheme } from '@mui/material'
 
 // Theme to override MUI defaults
 const themeOptions = createTheme({
-  typography: {
-    fontFamily: 'canada-type-gibson, sans-serif',
-  },
   palette: {
+    mode: 'light',
     primary: {
-      main: '#FFFFFF',
+      main: '#191447',
+      light: '#2e2958',
+      dark: '#0d0a24',
     },
-
     secondary: {
-      main: '#000000',
+      main: '#cddc29',
     },
-
-    c4c: {
-      purple: '#191447',
-      darkPurple: '#0d0a24',
-      medPurple: '#2e2958',
-      teal: '#3db7c6',
-      lightBlue: '#8bd4e0',
-      green: '#cddc29',
-      darkCoral: '#d56d6d',
-      lightCoral: '#d97a7a',
-      lightGray: '#dddbdb',
-      medGray: '#9f9898',
+    error: {
+      main: '#d56d6d',
+      light: '#d97a7a',
+    },
+    warning: {
+      main: '#ea9055',
+    },
+    info: {
+      main: '#3db7c6',
+      light: '#8bd4e0',
+    },
+    success: {
+      main: '#8bb73f',
     },
   },
-  components: {},
 })
 
 export default themeOptions
