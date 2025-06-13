@@ -53,7 +53,7 @@ export const updateOneRFIDTag = async (request, response) => {
     {
       new: true,
     }
-  );
+  )
 
   response.status(201).json(updated)
 }
@@ -70,5 +70,5 @@ export const deleteOneRFIDTag = async (request, response) => {
     _id: rfidTagIdToDelete.id
   })
 
-  response.status(200).json(updated)
+  response.status(200).json(deleted)
 }

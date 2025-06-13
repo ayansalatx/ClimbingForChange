@@ -1,4 +1,3 @@
-import event from '../models/event.js'
 import Event from '../models/event.js'
 
 export const getEvents = async (req, response) => {
@@ -70,7 +69,7 @@ export const updateOneEvent = async (request, response) => {
       new: true,
       runValidators: true
     }
-  );
+  )
 
   response.status(201).json(updated)
 }
@@ -84,7 +83,7 @@ export const deleteOneEvent = async (request, response) => {
   }
 
   const updated = await Event.findByIdAndUpdate(
-      eventIdToDelete,
+    eventIdToDelete,
     {
       $set: {
         active: false,
@@ -94,7 +93,7 @@ export const deleteOneEvent = async (request, response) => {
       new: true,
       runValidators: true
     }
-  );
+  )
 
   response.status(200).json(updated)
 }

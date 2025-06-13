@@ -89,7 +89,7 @@ export const updateOneParticipant = async (request, response) => {
     const participantWithThisRFIDTag = await Participant.findOne({
       rfidTagId: existingRFIDTag.id
     })
-    console.log("🚀 ~ updateOneParticipant ~ participantWithThisRFIDTag:", participantWithThisRFIDTag)
+    console.log('🚀 ~ updateOneParticipant ~ participantWithThisRFIDTag:', participantWithThisRFIDTag)
 
     if (participantWithThisRFIDTag.id !== participantObjectToUpdate.id ) {
       return response.status(400).json({ error: 'This RFIDTag is already assigned to a different person.' })
@@ -105,20 +105,20 @@ export const updateOneParticipant = async (request, response) => {
     delete participantObjectToUpdate.teamId 
   }
 
-   const updated = await Participant.findByIdAndUpdate(
-        participantObjectToUpdate.id,
-      {
-        $set: {
-          firstName: participantObjectToUpdate.firstName,
-          lastName: participantObjectToUpdate.lastName,
-          teamId: participantObjectToUpdate.teamId,
-          rfidTagId: participantObjectToUpdate.rfidTagId,
-        }
-      },
-      {
-        new: true,
+  const updated = await Participant.findByIdAndUpdate(
+    participantObjectToUpdate.id,
+    {
+      $set: {
+        firstName: participantObjectToUpdate.firstName,
+        lastName: participantObjectToUpdate.lastName,
+        teamId: participantObjectToUpdate.teamId,
+        rfidTagId: participantObjectToUpdate.rfidTagId,
       }
-    );
+    },
+    {
+      new: true,
+    }
+  )
 
   response.status(201).json(updated)
 }
@@ -132,7 +132,7 @@ export const deleteOneParticipant = async (request, response) => {
   }
 
   const updated = await Participant.findByIdAndUpdate(
-      participantIdToDelete,
+    participantIdToDelete,
     {
       $set: {
         active: false,
@@ -142,7 +142,7 @@ export const deleteOneParticipant = async (request, response) => {
       new: true,
       runValidators: true
     }
-  );
+  )
 
   response.status(200).json(updated)
 }

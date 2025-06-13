@@ -61,6 +61,6 @@ teamSchema.set('toJSON', {
   }
 })
 
-teamSchema.set('toObject', { virtuals: true });
+teamSchema.set('toObject', { virtuals: true })
 
 export default model('Team', teamSchema)
