@@ -1,12 +1,6 @@
-import React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Container from '@mui/material/Container';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Logo from '../../assets/C4C-branding/Climbing-For-Change-Logo_Green.png';
+import MenuIcon from '@mui/icons-material/Menu'
+import { AppBar, Box,Button, IconButton, Toolbar, Typography } from '@mui/material'
+import React from 'react'
 
 const TopAppBar = ({ onMenuClick, onLogout }) => (
   <AppBar
@@ -40,4 +34,4 @@ const TopAppBar = ({ onMenuClick, onLogout }) => (
   </AppBar>
 );
 
-export default TopAppBar;
+export default TopAppBar

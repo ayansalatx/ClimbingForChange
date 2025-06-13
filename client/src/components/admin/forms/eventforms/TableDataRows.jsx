@@ -1,0 +1,42 @@
+import { TableBody, TableRow, TableCell } from "@mui/material";
+import Switch from "@mui/material/Switch";
+import {Edit, Delete} from '@mui/icons-material';
+
+
+const TableDataRows = ({ rows, columns, page, rowsPerPage }) => {
+  return (
+    <TableBody>
+      {rows
+        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        .map((row, rowIndex) => {
+          const rowKey = `${row.eventName}-${row.start}-${rowIndex}`; 
+
+          return (
+            <TableRow hover role="checkbox" tabIndex={-1} key={rowKey}>
+              {columns.map((column) => {
+                const value = row[column.id];
+                return (
+                  <TableCell
+                    key={`${rowKey}-${column.id}`} 
+                    align={column.align}
+                  >
+                    {column.format && typeof value === "number"
+                      ? column.format(value)
+                      : typeof value === "boolean"
+                      ? <Switch disabled defaultChecked={value} />
+                      : value}
+                  </TableCell>
+                );
+              })}
+              <TableCell key={`${rowKey}-actions`} align="right">
+                <Edit />
+                <Delete />
+              </TableCell>
+            </TableRow>
+          );
+        })}
+    </TableBody>
+  );
+};
+
+export default TableDataRows;

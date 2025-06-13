@@ -19,7 +19,7 @@ export const saveOneLocation = async (request, response) => {
     name: body.name,
     address: body.address,
     city: body.city,
-    province: body.province,
+    provState: body.provState,
     country: body.country,
     lap: body.lap,
     active: body.active,

@@ -1,15 +1,14 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import C4Clogo from '../../assets/C4C-branding/Climbing-For-Change-Logo_Green.png';
+import { Link } from 'react-router-dom'
+
+import C4Clogo from '../../assets/C4C-branding/Climbing-For-Change-Logo_Green.png'
 
 const Landing = () => {
   return (
-    <div className="p-6 text-center">
-      <a href="https://www.climbingforchange.ca/" target="_blank" rel="noopener noreferrer">
-        <img src={C4Clogo} alt="Climbing for Change Logo" height={300} />
+    <div className='p-6 text-center'>
+      <a href='https://www.climbingforchange.ca/' target='_blank' rel="noreferrer">
+        <img src={C4Clogo} alt='Climbing for Change Logo' height={300} />
       </a>
-
-      <h1 className="text-3xl font-bold mb-4">
+      <h1 className='text-3xl font-bold mb-4'>
         Welcome to the C4C Team Two WebApp
       </h1>
       <h2 className="text-lg mb-6">
@@ -38,7 +37,7 @@ const Landing = () => {
         </ul>
       </nav>
     </div>
-  );
-};
+  )
+}
 
 export default Landing;
