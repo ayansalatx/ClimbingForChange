@@ -5,7 +5,10 @@ import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Chang
 import ProgressSearch from '../../components/progress/ProgressSearch'
 import ProgressTable from '../../components/progress/ProgressTable'
 import { getAllTeams } from '../../services/teamService'
-import { getAllParticipants, getParticipantsByTeam } from '../../services/participantService'
+import {
+  getAllParticipants,
+  getParticipantsByTeam,
+} from '../../services/participantService'
 import { getMountainById } from '../../services/mountainService'
 
 // Define columns for full width screen
@@ -41,34 +44,51 @@ const ProgressBoard = () => {
   // State for teams filtered by the search input
   const [filteredTeams, setFilteredTeams] = useState([])
 
+  const [mountainCache, setMountainCache] = useState({})
+
   // Load Participant data from server
   useEffect(() => {
     async function loadData() {
       try {
         const teamList = await getAllTeams()
         const participantList = await getAllParticipants()
-        // const teamId = '6849a981d4f16de000528a41'
-        // const participantsByTeam = await getParticipantsByTeam(teamId)
-        // const mountainId = '6849a980d4f16de0005289fd'
-        // const mountainById = await getMountainById(mountainId)
-        // console.log(participantsByTeam)
-        // console.log(mountainById)
 
-        // Group participants by ID
         const participantMap = {}
-        participantList.forEach((participant) => {
+
+        participantList.map(async (participant) => {
           const teamId = participant.teamId?._id || participant.teamId
+
           if (!participantMap[teamId]) participantMap[teamId] = []
           participantMap[teamId].push(participant)
         })
 
         // Create array in team for participants
-        const teamsWithParticipants = teamList.map((team) => ({
-          ...team,
-          participants: participantMap[team._id] || [],
-        }))
+        const teamsFullyLoaded = await Promise.all(
+          teamList.map(async (team) => {
+            const mountainId = team.targetMountainId
+            let mountain = null
 
-        setTeams(teamsWithParticipants)
+            if (mountainId) {
+              try {
+                mountain = await getMountainById(mountainId)
+              } catch (err) {
+                console.error(
+                  `Error fetching mountain for team ${team._id}`,
+                  err
+                )
+              }
+            }
+
+            return {
+              ...team,
+              participants: participantMap[team._id] || [],
+              mountainName: mountain?.name || '',
+              elevation: mountain?.totalElevation || 0,
+            }
+          })
+        )
+
+        setTeams(teamsFullyLoaded)
       } catch (e) {
         console.log('Failed to load progress data', e)
       }
@@ -129,6 +149,7 @@ const ProgressBoard = () => {
         <ProgressSearch
           searchString={searchString}
           onChange={setsearchString}
+          teamNames={[...new Set(teams.map(team => team.name))]}
         />
       </Box>
 

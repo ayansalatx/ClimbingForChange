@@ -108,7 +108,7 @@ const TableDataRows = ({ teams, columns, page, rowsPerPage }) => {
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
         .map((team, teamIndex) => (
           <CollapsibleRow
-            key={team.name || teamIndex}
+            key={team._id || teamIndex}
             team={team}
             columns={columns}
             participants={team.participants}
