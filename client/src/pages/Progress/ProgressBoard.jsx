@@ -67,30 +67,16 @@ const ProgressBoard = () => {
         })
 
         // Create array in team for participants
-        const teamsFullyLoaded = await Promise.all(
-          teamList.map((team) => {
-            const mountainId = team.targetMountainId
-            let mountain = null
+        const teamsFullyLoaded = teamList.map((team) => {
+          const mountain = mountainMap[team.targetMountainId]
 
-            if (mountainId) {
-              try {
-                mountain = mountainMap[team.targetMountainId]
-              } catch (err) {
-                console.error(
-                  `Error fetching mountain for team ${team.id}`,
-                  err
-                )
-              }
-            }
-
-            return {
-              ...team,
-              participants: participantMap[team._id] || [],
-              mountainName: mountain?.name || '',
-              elevation: mountain?.totalElevation || 0,
-            }
-          })
-        )
+          return {
+            ...team,
+            participants: participantMap[team._id] || [],
+            mountainName: mountain?.name || '',
+            elevation: mountain?.totalElevation || 0,
+          }
+        })
 
         setTeams(teamsFullyLoaded)
       } catch (e) {
