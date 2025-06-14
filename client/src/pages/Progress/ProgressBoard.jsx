@@ -4,12 +4,9 @@ import React, { useEffect, useState } from 'react'
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import ProgressSearch from '../../components/progress/ProgressSearch'
 import ProgressTable from '../../components/progress/ProgressTable'
-import { getAllTeams } from '../../services/teamService'
-import {
-  getAllParticipants,
-  getParticipantsByTeam,
-} from '../../services/participantService'
 import { getMountainById } from '../../services/mountainService'
+import { getAllParticipants } from '../../services/participantService'
+import { getAllTeams } from '../../services/teamService'
 
 // Define columns for full width screen
 const fullColumns = [
@@ -44,17 +41,17 @@ const ProgressBoard = () => {
   // State for teams filtered by the search input
   const [filteredTeams, setFilteredTeams] = useState([])
 
-  const [mountainCache, setMountainCache] = useState({})
-
   // Load Participant data from server
   useEffect(() => {
     async function loadData() {
       try {
-        const teamList = await getAllTeams()
-        const participantList = await getAllParticipants()
+        const [teamList, participantList] = await Promise.all([
+          getAllTeams(),
+          getAllParticipants(),
+        ])
 
+        // Build participant map grouped by team id
         const participantMap = {}
-
         participantList.map(async (participant) => {
           const teamId = participant.teamId?._id || participant.teamId
 
@@ -117,7 +114,7 @@ const ProgressBoard = () => {
       return teamMatch || participantMatch
     })
     setFilteredTeams(filteredTeams)
-  }, [searchString, teams.length])
+  }, [searchString, teams])
 
   return (
     <Container
@@ -149,7 +146,7 @@ const ProgressBoard = () => {
         <ProgressSearch
           searchString={searchString}
           onChange={setsearchString}
-          teamNames={[...new Set(teams.map(team => team.name))]}
+          teamNames={[...new Set(teams.map((team) => team.name))]}
         />
       </Box>
 
