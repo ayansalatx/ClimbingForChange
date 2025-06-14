@@ -32,7 +32,7 @@ appRouter.use('/participants', participantRoutes)
 appRouter.use('/events', eventRoutes)
 appRouter.use('/locations', locationRoutes)
 appRouter.use('/mountains', mountainRoutes)
-appRouter.use('/rfidtag', rfidtagRoutes)
+appRouter.use('/rfidtags', rfidtagRoutes)
 appRouter.use('/teams', teamsRoutes)
 appRouter.use('/laps', lapRoutes)
 
