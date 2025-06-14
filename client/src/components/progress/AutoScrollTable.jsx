@@ -1,4 +1,5 @@
 import { Paper, Table, TableContainer } from '@mui/material'
+import React from 'react'
 
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
@@ -16,4 +17,4 @@ const AutoScrollTable = ({ rows, columns }) => {
   )
 }
 
-export default AutoScrollTable;
+export default AutoScrollTable

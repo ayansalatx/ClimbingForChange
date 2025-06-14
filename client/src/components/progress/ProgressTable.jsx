@@ -5,7 +5,7 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material'
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 import FullscreenToggleButton from './FullscreenToggleButton'
 import TableDataRows from './TableDataRows'

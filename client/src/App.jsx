@@ -1,6 +1,6 @@
 import './App.css'
 
-
+import { ThemeProvider } from '@mui/material'
 import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
@@ -13,26 +13,32 @@ import MountainManager from './pages/admin/mountains/MountainManager'
 import ParticipantManager from './pages/admin/participants/ParticipantManager'
 import ProgressBoard from './pages/progress/ProgressBoard'
 import ProgressBoardFullscreen from './pages/progress/ProgressBoardFullscreen'
-
+import theme from './styles/theme'
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/progress" element={<ProgressBoard />} />
-        <Route path="/progress/fullscreen" element={<ProgressBoardFullscreen />} />
+    <ThemeProvider theme={theme}>
+      {/* <CssBaseline/> */}
+      <Router>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/progress" element={<ProgressBoard />} />
+          <Route
+            path="/progress/fullscreen"
+            element={<ProgressBoardFullscreen />}
+          />
 
-        <Route path="/login" element={<AdminLogin />} />
-        <Route path="/admin" element={<AdminDashboard />}>
-          <Route path="events" element={<EventManager />} />
-          <Route path="participants" element={<ParticipantManager />} />
-          <Route path="mountains" element={<MountainManager />} />
-          <Route path="locations" element={<LocationManager />} />
-        </Route>
-      </Routes>
-    </Router>
+          <Route path="/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<AdminDashboard />}>
+            <Route path="events" element={<EventManager />} />
+            <Route path="participants" element={<ParticipantManager />} />
+            <Route path="mountains" element={<MountainManager />} />
+            <Route path="locations" element={<LocationManager />} />
+          </Route>
+        </Routes>
+      </Router>
+    </ThemeProvider>
   )
 }
 
-export default App;
+export default App

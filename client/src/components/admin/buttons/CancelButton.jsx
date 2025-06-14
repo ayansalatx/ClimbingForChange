@@ -1,6 +1,7 @@
-import { Button } from '@mui/material';
+import { Button } from '@mui/material'
+import React from 'react'
 
-const CancelButton = ({ onClick, label = "Cancel" }) => {
+const CancelButton = ({ onClick, label = 'Cancel' }) => {
   return (
     <Button
       variant="outlined"
@@ -16,7 +17,7 @@ const CancelButton = ({ onClick, label = "Cancel" }) => {
     >
       {label}
     </Button>
-  );
-};
+  )
+}
 
-export default CancelButton;
+export default CancelButton

@@ -1,6 +1,7 @@
-import { Button } from '@mui/material';
+import { Button } from '@mui/material'
+import React from 'react'
 
-const SaveButton = ({ onClick, label = "Save" }) => {
+const SaveButton = ({ onClick, label = 'Save' }) => {
   return (
     <Button
       variant="contained"
@@ -15,7 +16,7 @@ const SaveButton = ({ onClick, label = "Save" }) => {
     >
       {label}
     </Button>
-  );
-};
+  )
+}
 
-export default SaveButton;
+export default SaveButton
