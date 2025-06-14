@@ -14,6 +14,7 @@ import ParticipantManager from './pages/admin/participants/ParticipantManager'
 import ProgressBoard from './pages/progress/ProgressBoard'
 import ProgressBoardFullscreen from './pages/progress/ProgressBoardFullscreen'
 import theme from './styles/theme'
+import Layout from './Layout.jsx'
 
 function App() {
   return (

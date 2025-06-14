@@ -20,6 +20,7 @@ const Landing = () => {
       <nav>
         <ul style={{ listStyle: 'none', padding: 0 }}>
           <li><Link to='/progress'>Progress Board</Link></li>
+          <li><Link to='/admin'>Admin Dashboard</Link></li>
         </ul>
       </nav>
     </div>
