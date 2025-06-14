@@ -2,16 +2,16 @@ import express from 'express'
 import asyncHandler from 'express-async-handler'
 import { deleteOneRFIDTag, getBySerialNumber, getRFIDTags, saveOneRFIDTag, updateOneRFIDTag } from '../controllers/rfidtag.js'
 
-const rfiftagRoutes = express.Router()
+const rfidtagRoutes = express.Router()
 
-rfiftagRoutes.get('/', asyncHandler(getRFIDTags))
+rfidtagRoutes.get('/', asyncHandler(getRFIDTags))
 
-rfiftagRoutes.get('/:serialNumber', asyncHandler(getBySerialNumber))
+rfidtagRoutes.get('/:serialNumber', asyncHandler(getBySerialNumber))
 
-rfiftagRoutes.post('/', asyncHandler(saveOneRFIDTag))
+rfidtagRoutes.post('/', asyncHandler(saveOneRFIDTag))
 
-rfiftagRoutes.put('/', asyncHandler(updateOneRFIDTag))
+rfidtagRoutes.put('/', asyncHandler(updateOneRFIDTag))
 
-rfiftagRoutes.delete('/', asyncHandler(deleteOneRFIDTag))
+rfidtagRoutes.delete('/', asyncHandler(deleteOneRFIDTag))
 
-export default rfiftagRoutes
+export default rfidtagRoutes
