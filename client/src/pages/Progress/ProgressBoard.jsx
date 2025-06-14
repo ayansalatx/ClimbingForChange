@@ -144,7 +144,7 @@ const ProgressBoard = () => {
       </Box>
 
       <Box sx={{ flexGrow: 1, width: '100%', overflowX: 'hidden' }}>
-        <ProgressTable columns={fullColumns} teams={filteredTeams} />
+        <ProgressTable columns={fullColumns} teams={filteredTeams}/>
       </Box>
     </Container>
   )

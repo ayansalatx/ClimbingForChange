@@ -1,18 +1,64 @@
-import { Paper, Table, TableContainer } from '@mui/material'
-import React from 'react'
+import {
+  Paper,
+  Table,
+  TableContainer,
+  TablePagination,
+} from '@mui/material'
+import React, { useEffect, useRef,useState } from 'react'
 
-import TableDataRows from './TableDataRows'
+import ScrollingTableRow from './ScrollingTableRows'
 import TableHeaderRow from './TableHeaderRow'
 
-const AutoScrollTable = ({ rows, columns }) => {
+const AutoScrollTable = ({ teams, columns }) => {
+  const containerRef = useRef(null)
+  const scrollSpeed = 0.5 // 0.5px per frame
+  const [page, setPage] = useState(0)
+  const rowsPerPage = 10
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage)
+  }
+
+  // Smooth scrolling effect
+  useEffect(() => {
+    let animationFrameId
+
+    const scrollStep = () => {
+      const container = containerRef.current
+      if (!container) return
+
+      container.scrollTop += scrollSpeed
+
+      if (
+        container.scrollTop + container.clientHeight >=
+        container.scrollHeight
+      ) {
+        container.scrollTop = 0
+      }
+
+      animationFrameId = requestAnimationFrame(scrollStep)
+    }
+
+    animationFrameId = requestAnimationFrame(scrollStep)
+
+    return () => cancelAnimationFrame(animationFrameId)
+  }, [])
+
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ height: '65vh' }}>
-        <Table stickyHeader aria-label="team/participant progress table">
+      <TableContainer ref={containerRef} sx={{ height: '65vh' }}>
+        <Table stickyHeader aria-label="auto scrolling table">
           <TableHeaderRow columns={columns} />
-          <TableDataRows columns={columns} rows={rows} />
+          <ScrollingTableRow columns={columns} teams={teams} />
         </Table>
       </TableContainer>
+      <TablePagination
+        component="div"
+        count={teams.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+      />
     </Paper>
   )
 }
