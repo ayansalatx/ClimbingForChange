@@ -10,6 +10,15 @@ export const getParticipants = async (req, response) => {
   response.json(participants)
 }
 
+export const getParticipantsByTeam = async (req, response) => {
+  const { teamId } = req.params
+
+  const participants = await Participant.find({ teamId }).populate('rfidTagId').populate('teamId')
+
+  response.json(participants)
+}
+
+
 export const saveOneParticipant = async (request, response) => {
 
   const body = request.body

@@ -1,18 +1,27 @@
 import PhysicalMountain from '../models/physicalMountain.js'
 import TargetMountain from '../models/targetMountain.js'
 
-export const getPhysicalMountain = async(req, response) => {
+export const getPhysicalMountains = async(req, response) => {
 
   const mountains = await PhysicalMountain.find({})
 
   response.json(mountains)
 }
 
-export const getTargetMountain = async(req, response) => {
+export const getTargetMountains = async(req, response) => {
 
   const mountains = await TargetMountain.find({})
 
   response.json(mountains)
+}
+
+export const getTargetMountainById = async (req, response) => {
+  
+  const { id } = req.params
+  
+  const mountain = await TargetMountain.findById(id)
+
+  response.json(mountain)
 }
 
 export const saveOnePhysicalMountain = async (request, response) => {

@@ -3,7 +3,7 @@ import { Autocomplete, TextField } from '@mui/material'
 // temporary mock data
 import mockData from '../../mock-data/progressboard-team-only.json'
 
-const ProgressSearch = ({ searchString, onChange }) => {
+const ProgressSearch = ({ searchString, onChange, teamNames }) => {
   return (
     // Use MUI Autocomplete to display search suggestions for teams
     <Autocomplete
@@ -11,7 +11,7 @@ const ProgressSearch = ({ searchString, onChange }) => {
       freeSolo // Allow any input - not limited to the options
       id='progress-search'
       disableClearable
-      options={mockData.map((option) => option['team-name'])} // List of team names as suggestions
+      options={teamNames} // List of team names as suggestions
       inputValue={searchString}
 
       // Notify Progress Board of input change
