@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import ProgressSearch from '../../components/progress/ProgressSearch'
 import ProgressTable from '../../components/progress/ProgressTable'
-import { getMountainById } from '../../services/mountainService'
+import { getAllMountains } from '../../services/mountainService'
 import { getAllParticipants } from '../../services/participantService'
 import { getAllTeams } from '../../services/teamService'
 
@@ -45,32 +45,39 @@ const ProgressBoard = () => {
   useEffect(() => {
     async function loadData() {
       try {
-        const [teamList, participantList] = await Promise.all([
+        const [teamList, participantList, mountainList] = await Promise.all([
           getAllTeams(),
           getAllParticipants(),
+          getAllMountains(),
         ])
 
         // Build participant map grouped by team id
         const participantMap = {}
         participantList.map(async (participant) => {
-          const teamId = participant.teamId?._id || participant.teamId
+          const teamId = participant.teamId?.id || participant.teamId
 
           if (!participantMap[teamId]) participantMap[teamId] = []
           participantMap[teamId].push(participant)
         })
 
+        // Map mountains by ID
+        const mountainMap = {}
+        mountainList.forEach((mountain) => {
+          mountainMap[mountain.id] = mountain
+        })
+
         // Create array in team for participants
         const teamsFullyLoaded = await Promise.all(
-          teamList.map(async (team) => {
+          teamList.map((team) => {
             const mountainId = team.targetMountainId
             let mountain = null
 
             if (mountainId) {
               try {
-                mountain = await getMountainById(mountainId)
+                mountain = mountainMap[team.targetMountainId]
               } catch (err) {
                 console.error(
-                  `Error fetching mountain for team ${team._id}`,
+                  `Error fetching mountain for team ${team.id}`,
                   err
                 )
               }
