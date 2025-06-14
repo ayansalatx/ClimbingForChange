@@ -27,6 +27,9 @@ const theme = createTheme({
       main: '#8bb73f',
     },
   },
+  typography: {
+    fontFamily: `canada-type-gibson, "Roboto", "Helvetica", "Arial", sans-serif`,
+  },
 })
 
 export default theme
