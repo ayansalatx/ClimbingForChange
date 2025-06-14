@@ -1,4 +1,4 @@
-import { Box, Container } from '@mui/material'
+import { Box, Container, duration } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
@@ -7,6 +7,7 @@ import ProgressTable from '../../components/progress/ProgressTable'
 import { getAllMountains } from '../../services/mountainService'
 import { getAllParticipants } from '../../services/participantService'
 import { getAllTeams } from '../../services/teamService'
+import { getAllLaps } from '../../services/lapService'
 
 // Define columns for full width screen
 const fullColumns = [
@@ -45,12 +46,13 @@ const ProgressBoard = () => {
   useEffect(() => {
     async function loadData() {
       try {
-        const [teamList, participantList, mountainList] = await Promise.all([
-          getAllTeams(),
-          getAllParticipants(),
-          getAllMountains(),
-        ])
-
+        const [teamList, participantList, mountainList, lapList] =
+          await Promise.all([
+            getAllTeams(),
+            getAllParticipants(),
+            getAllMountains(),
+            getAllLaps(),
+          ])
         // Build participant map grouped by team id
         const participantMap = {}
         participantList.map(async (participant) => {
@@ -66,15 +68,34 @@ const ProgressBoard = () => {
           mountainMap[mountain.id] = mountain
         })
 
+        const lapMap = {}
+        lapList.forEach((lap) => {
+          const teamId = lap.teamId?.id || lap.teamId
+          if (!lapMap[teamId]) lapMap[teamId] = []
+          lapMap[teamId].push(lap)
+        })
+
         // Create array in team for participants
         const teamsFullyLoaded = teamList.map((team) => {
           const mountain = mountainMap[team.targetMountainId]
+          const laps = lapMap[team.id] || []
 
           return {
             ...team,
-            participants: participantMap[team._id] || [],
+            participants: participantMap[team.id] || [],
             mountainName: mountain?.name || '',
             elevation: mountain?.totalElevation || 0,
+            currentElevation: laps.length * 217,
+            lapsCompleted: laps.length,
+            lapsToGo: Math.max((team.lapsRequired || 0) - laps.length, 0),
+            bestLap:
+              laps.length > 0
+                ? `${Math.floor((new Date(laps[0].endDateTime) - new Date(laps[0].startDateTime)) / 60000)}:${String(Math.floor((new Date(laps[0].endDateTime) - new Date(laps[0].startDateTime)) / 1000) % 60).padStart(2, '0')}`
+                : null,
+            timeElapsed:
+              laps.length > 0
+                ? `${Math.floor((new Date(laps[0].endDateTime) - new Date(laps[0].startDateTime)) / 60000)}:${String(Math.floor((new Date(laps[0].endDateTime) - new Date(laps[0].startDateTime)) / 1000) % 60).padStart(2, '0')}`
+                : null,
           }
         })
 
@@ -144,7 +165,7 @@ const ProgressBoard = () => {
       </Box>
 
       <Box sx={{ flexGrow: 1, width: '100%', overflowX: 'hidden' }}>
-        <ProgressTable columns={fullColumns} teams={filteredTeams}/>
+        <ProgressTable columns={fullColumns} teams={filteredTeams} />
       </Box>
     </Container>
   )

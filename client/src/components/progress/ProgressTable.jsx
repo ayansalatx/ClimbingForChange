@@ -31,6 +31,7 @@ const ProgressTable = ({ columns, teams = [] }) => {
     setPage(0) // reset to first page
   }
 
+
   return (
     <Paper
       elevation={3}
