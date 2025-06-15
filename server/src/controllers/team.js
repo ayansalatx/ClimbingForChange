@@ -4,14 +4,17 @@ import PhysicalMountain from '../models/physicalMountain.js'
 import TargetMountainId from '../models/targetMountain.js'
 
 export const getAllTeams = async (req, response) => {
+  const teams = await Team.find({})
+    .populate({
+      path: 'participants',
+      populate: { path: 'laps' },
+    })
+    .populate('targetMountainId')
 
-  const mountains = await Team.find({}).populate('participants')
-
-  response.json(mountains)
+  response.json(teams)
 }
 
 export const saveOneTeam = async (request, response) => {
-
   const body = request.body
 
   if (!body) {
@@ -19,11 +22,18 @@ export const saveOneTeam = async (request, response) => {
   }
 
   const event = await Event.findById(body.eventId)
-  const physicalMountain = await PhysicalMountain.findById(body.physicalMountainId)
+  const physicalMountain = await PhysicalMountain.findById(
+    body.physicalMountainId
+  )
   const targetMountain = await TargetMountainId.findById(body.targetMountainId)
 
   if (!event || !physicalMountain || !targetMountain) {
-    return response.status(400).json({ error: 'Event, physical or target mountain have been deleted or no longer exist.' })
+    return response
+      .status(400)
+      .json({
+        error:
+          'Event, physical or target mountain have been deleted or no longer exist.',
+      })
   }
   const newTeam = new Team({
     ...body,

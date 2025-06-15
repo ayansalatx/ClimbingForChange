@@ -39,29 +39,9 @@ const ProgressBoardFullscreen = () => {
   useEffect(() => {
     async function loadData() {
       try {
-        const [teamList, mountainList] = await Promise.all([
-          getAllTeams(),
-          getAllMountains(),
-        ])
+        const teamList = await getAllTeams()
 
-        // Map mountains by ID
-        const mountainMap = {}
-        mountainList.forEach((mountain) => {
-          mountainMap[mountain.id] = mountain
-        })
-
-        // Create array in team for participants
-        const teamsFullyLoaded = teamList.map((team) => {
-          const mountain = mountainMap[team.targetMountainId]
-
-          return {
-            ...team,
-            mountainName: mountain?.name || '',
-            elevation: mountain?.totalElevation || 0,
-          }
-        })
-
-        setTeams(teamsFullyLoaded)
+        setTeams(teamList)
       } catch (e) {
         console.log('Failed to load progress data', e)
       }

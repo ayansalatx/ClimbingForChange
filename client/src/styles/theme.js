@@ -26,6 +26,10 @@ const theme = createTheme({
     success: {
       main: '#8bb73f',
     },
+    gray: {
+      main: '#9f9898',
+      light: '#dddbdb',
+    }
   },
   typography: {
     fontFamily: `canada-type-gibson, "Roboto", "Helvetica", "Arial", sans-serif`,

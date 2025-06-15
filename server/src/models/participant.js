@@ -30,7 +30,15 @@ const participantSchema = new Schema({
   timestamps: true
 })
 
+participantSchema.virtual('laps', {
+  ref: 'Lap',
+  localField: '_id',
+  foreignField: 'participantId',
+  justOne: false
+});
+
 participantSchema.set('toJSON', {
+  virtuals: true,
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id

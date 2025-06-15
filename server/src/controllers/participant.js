@@ -4,23 +4,18 @@ import RFIDTag from '../models/rfidTag.js'
 import Team from '../models/team.js'
 
 export const getParticipants = async (req, response) => {
-
-  const participants = await Participant.find({}).populate('rfidTagId').populate('teamId')
-
-  response.json(participants)
-}
-
-export const getParticipantsByTeam = async (req, response) => {
-  const { teamId } = req.params
-
-  const participants = await Participant.find({ teamId }).populate('rfidTagId').populate('teamId')
+  const participants = await Participant.find({})
+    .populate('rfidTagId')
+    .populate('teamId')
+    .populate({
+      path: 'participants',
+      populate: { path: 'laps' },
+    })
 
   response.json(participants)
 }
-
 
 export const saveOneParticipant = async (request, response) => {
-
   const body = request.body
 
   if (!body) {
@@ -30,22 +25,24 @@ export const saveOneParticipant = async (request, response) => {
   // we need RFIDTag and Team as optional
 
   const newParticipantObject = {
-    ...body
+    ...body,
   }
 
   const existingRFIDTag = await RFIDTag.findOne({
-    serialNumber: body.rfidTagId
+    serialNumber: body.rfidTagId,
   })
 
   const existingTeam = await Team.findById(body.teamId)
 
   if (existingRFIDTag) {
     const participantWithThisRFIDTag = await Participant.findOne({
-      rfidTagId: existingRFIDTag.id
+      rfidTagId: existingRFIDTag.id,
     })
 
     if (participantWithThisRFIDTag) {
-      return response.status(400).json({ error: 'This RFIDTag is already assigned' })
+      return response
+        .status(400)
+        .json({ error: 'This RFIDTag is already assigned' })
     } else {
       newParticipantObject.rfidTagId = existingRFIDTag
     }
@@ -56,7 +53,7 @@ export const saveOneParticipant = async (request, response) => {
   }
 
   const newParticipant = new Participant({
-    ...newParticipantObject
+    ...newParticipantObject,
   })
 
   const savedParticipant = await newParticipant.save()

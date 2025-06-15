@@ -1,13 +1,10 @@
-import { Box, Container, duration } from '@mui/material'
+import { Box, Container } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import ProgressSearch from '../../components/progress/ProgressSearch'
 import ProgressTable from '../../components/progress/ProgressTable'
-import { getAllMountains } from '../../services/mountainService'
-import { getAllParticipants } from '../../services/participantService'
 import { getAllTeams } from '../../services/teamService'
-import { getAllLaps } from '../../services/lapService'
 
 // Define columns for full width screen
 const fullColumns = [
@@ -34,6 +31,13 @@ const fullColumns = [
 //   { id: 'time-elapsed', label: 'Time Elapsed', minWidth: 60 },
 // ]
 
+function formatLapDuration(lap) {
+  const durationMs = new Date(lap.endDateTime) - new Date(lap.startDateTime)
+  const minutes = Math.floor(durationMs / 60000)
+  const seconds = Math.floor((durationMs / 1000) % 60)
+  return `${minutes}:${String(seconds).padStart(2, '0')}`
+}
+
 const ProgressBoard = () => {
   // State for teams
   const [teams, setTeams] = useState([])
@@ -46,56 +50,33 @@ const ProgressBoard = () => {
   useEffect(() => {
     async function loadData() {
       try {
-        const [teamList, participantList, mountainList, lapList] =
-          await Promise.all([
-            getAllTeams(),
-            getAllParticipants(),
-            getAllMountains(),
-            getAllLaps(),
-          ])
-        // Build participant map grouped by team id
-        const participantMap = {}
-        participantList.map(async (participant) => {
-          const teamId = participant.teamId?.id || participant.teamId
-
-          if (!participantMap[teamId]) participantMap[teamId] = []
-          participantMap[teamId].push(participant)
-        })
-
-        // Map mountains by ID
-        const mountainMap = {}
-        mountainList.forEach((mountain) => {
-          mountainMap[mountain.id] = mountain
-        })
-
-        const lapMap = {}
-        lapList.forEach((lap) => {
-          const teamId = lap.teamId?.id || lap.teamId
-          if (!lapMap[teamId]) lapMap[teamId] = []
-          lapMap[teamId].push(lap)
-        })
-
-        // Create array in team for participants
+        const teamList = await getAllTeams()
+        // Create array for display
         const teamsFullyLoaded = teamList.map((team) => {
-          const mountain = mountainMap[team.targetMountainId]
-          const laps = lapMap[team.id] || []
+          // get laps for each participant
+          const laps = team.participants?.flatMap((p) => p.laps || []) || []
 
+          //get best lap
+          const bestLap =
+            laps.length > 0
+              ? laps.reduce((best, current) => {
+                  const bestDuration =
+                    new Date(best.endDateTime) - new Date(best.startDateTime)
+                  const currentDuration =
+                    new Date(current.endDateTime) -
+                    new Date(current.startDateTime)
+                  return currentDuration < bestDuration ? current : best
+                }, laps[0])
+              : null
           return {
             ...team,
-            participants: participantMap[team.id] || [],
-            mountainName: mountain?.name || '',
-            elevation: mountain?.totalElevation || 0,
-            currentElevation: laps.length * 217,
-            lapsCompleted: laps.length,
+            mountainName: team.targetMountainId?.name,
+            elevation: team.targetMountainId?.totalElevation,
+            currentElevation: laps.length ? laps.length * 217 : '-',
+            lapsCompleted: laps.length ? laps.length : '-',
             lapsToGo: Math.max((team.lapsRequired || 0) - laps.length, 0),
-            bestLap:
-              laps.length > 0
-                ? `${Math.floor((new Date(laps[0].endDateTime) - new Date(laps[0].startDateTime)) / 60000)}:${String(Math.floor((new Date(laps[0].endDateTime) - new Date(laps[0].startDateTime)) / 1000) % 60).padStart(2, '0')}`
-                : null,
-            timeElapsed:
-              laps.length > 0
-                ? `${Math.floor((new Date(laps[0].endDateTime) - new Date(laps[0].startDateTime)) / 60000)}:${String(Math.floor((new Date(laps[0].endDateTime) - new Date(laps[0].startDateTime)) / 1000) % 60).padStart(2, '0')}`
-                : null,
+            bestLap: bestLap ? formatLapDuration(bestLap) : '-',
+            timeElapsed: '-',
           }
         })
 
