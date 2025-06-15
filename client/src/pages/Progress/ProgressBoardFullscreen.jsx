@@ -3,8 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import AutoScrollTable from '../../components/progress/AutoScrollTable'
-import { getAllMountains } from '../../services/mountainService'
-import { getAllTeams } from '../../services/teamService'
+import { getTeamsForDisplay } from '../../services/teamService'
 
 // Define columns for full width screen
 const fullColumns = [
@@ -39,7 +38,7 @@ const ProgressBoardFullscreen = () => {
   useEffect(() => {
     async function loadData() {
       try {
-        const teamList = await getAllTeams()
+        const teamList = await getTeamsForDisplay()
 
         setTeams(teamList)
       } catch (e) {

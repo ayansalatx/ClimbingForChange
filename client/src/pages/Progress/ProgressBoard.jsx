@@ -43,8 +43,8 @@ const ProgressBoard = () => {
   useEffect(() => {
     async function loadData() {
       try {
-        const displayTeams = await getTeamsForDisplay()
-        setTeams(displayTeams)
+        const teamsList = await getTeamsForDisplay()
+        setTeams(teamsList)
       } catch (e) {
         console.log('Failed to load progress data', e)
       }
