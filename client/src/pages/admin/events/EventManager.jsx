@@ -7,13 +7,14 @@ import EventsTable from '../../../components/admin/forms/eventforms/EventTable'
 import SearchBar from '../../../components/admin/forms/eventforms/SearchBar'
 import AddEventModal from '../../../components/admin/modals/EventModal.jsx'
 import mockData from '../../../mock-data/event-data.json'
-
+import { getAllLocations } from '../../../services/locationService.js';
+import { getAllEvents } from '../../../services/eventService.js';
 
 const EventManager = () => {
   const [openPopup, setOpenPopup] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [events, setEvents] = useState(mockData) 
-
+  const [locations, setLocations] = useState([])
   const handleOpenPopup = () => setOpenPopup(true)
   const handleClosePopup = () => setOpenPopup(false)
 
@@ -21,6 +22,23 @@ const EventManager = () => {
     setEvents([...events, eventData]) 
     handleClosePopup()
   }
+    useEffect(() => {
+    const fetchLocations = async () => {
+      const locations = await getAllLocations()
+      setLocations(locations)
+
+      console.log(locations)
+    }
+
+     const fetchEvents = async () => {
+      const events = await getAllEvents()
+      setEvents(events)
+     }
+      fetchEvents()
+    
+    fetchLocations()
+   }, [])
+
 
   return (
     <Box sx={{ px: 4, py: 3 }}>
