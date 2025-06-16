@@ -41,7 +41,7 @@ const EventsTable = ({ searchTerm = '', events = [] }) => {
     end: formatDateTime(event.endDateTime),
     eventName: event.name || '',
     location: event.locationId?.name || '',
-    duration: event.duration || '',  
+    //duration: event.duration || '',  
     lap: event.physicalMountainIds?.length || 0,
     active: event.active ? 'Yes' : 'No',
   }))
