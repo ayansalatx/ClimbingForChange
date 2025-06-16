@@ -39,7 +39,7 @@ const CollapsibleRow = ({ team, columns, participants }) => {
         {/* For each column in the column definition, render a matching cell */}
         {columns.map((column, index) => {
           const value = team[column.id]
-          const align =
+          const columnAlign =
             index === 0
               ? 'left'
               : index === columns.length - 1
@@ -52,7 +52,7 @@ const CollapsibleRow = ({ team, columns, participants }) => {
                 ...(index === columns.length - 1 && { pr: '1.75rem' }),
               }}
               key={column.id}
-              align={align}
+              align={columnAlign}
             >
               {column.format && typeof value === 'number'
                 ? column.format(value)
@@ -154,7 +154,6 @@ const CollapsibleRow = ({ team, columns, participants }) => {
                           default:
                             value = participant[column.id] ?? '-'
                         }
-                        const align = column.align || 'right'
 
                         return (
                           <TableCell

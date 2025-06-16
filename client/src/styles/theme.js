@@ -32,7 +32,7 @@ const theme = createTheme({
     }
   },
   typography: {
-    fontFamily: `canada-type-gibson, "Roboto", "Helvetica", "Arial", sans-serif`,
+    fontFamily: 'canada-type-gibson, "Roboto", "Helvetica", "Arial", sans-serif',
   },
 })
 

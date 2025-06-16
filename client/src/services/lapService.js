@@ -6,8 +6,3 @@ export const getAllLaps = async () => {
   const res = await axios.get(`${BASE_URL}/laps`)
   return res.data
 }
-
-export const getLapsByEvent = async () => {
-  const res = await axios.get(`${BASE_URL}/events/${lapId}/laps`)
-  return res.data
-}

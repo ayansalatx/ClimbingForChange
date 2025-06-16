@@ -20,12 +20,12 @@ export const getTeamsForDisplay = async () => {
     const bestLap =
       laps.length > 0
         ? laps.reduce((best, current) => {
-            const bestDuration =
+          const bestDuration =
               new Date(best.endDateTime) - new Date(best.startDateTime)
-            const currentDuration =
+          const currentDuration =
               new Date(current.endDateTime) - new Date(current.startDateTime)
-            return currentDuration < bestDuration ? current : best
-          }, laps[0])
+          return currentDuration < bestDuration ? current : best
+        }, laps[0])
         : null
     return {
       ...team,

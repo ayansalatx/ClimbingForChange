@@ -2,7 +2,7 @@ import { Box, Container } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
-import AutoScrollTable from '../../components/progress/AutoScrollTable'
+import AutoScrollTable from '../../components/progress/Fullscreen/AutoScrollTable'
 import { getTeamsForDisplay } from '../../services/teamService'
 
 // Define columns for full width screen

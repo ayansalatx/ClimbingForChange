@@ -1,9 +1,10 @@
 // Layout.jsx
-import React, { useState, Suspense } from 'react'
-import { Outlet, useNavigate } from 'react-router-dom'
 import { Box, CircularProgress } from '@mui/material'
-import TopAppBar from './components/shared/TopAppBar'
+import React, { Suspense,useState } from 'react'
+import { Outlet, useNavigate } from 'react-router-dom'
+
 import SideBar from './components/shared/SideBar'
+import TopAppBar from './components/shared/TopAppBar'
 
 function Layout() {
   const [drawerOpen, setDrawerOpen] = useState(false)

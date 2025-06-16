@@ -6,8 +6,8 @@ import {
 } from '@mui/material'
 import React, { useEffect, useRef,useState } from 'react'
 
+import TableHeaderRow from '../TableHeaderRow'
 import ScrollingTableRow from './ScrollingTableRows'
-import TableHeaderRow from './TableHeaderRow'
 
 const AutoScrollTable = ({ teams, columns }) => {
   const containerRef = useRef(null)
