@@ -46,7 +46,7 @@ const AutoScrollTable = ({ teams, columns }) => {
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer ref={containerRef} sx={{ height: '65vh' }}>
+      <TableContainer ref={containerRef} sx={{ height: '74vh' }}>
         <Table stickyHeader aria-label="auto scrolling table">
           <TableHeaderRow columns={columns} />
           <ScrollingTableRow columns={columns} teams={teams} />
@@ -58,6 +58,7 @@ const AutoScrollTable = ({ teams, columns }) => {
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
+        sx={{display: 'none'}}
       />
     </Paper>
   )
