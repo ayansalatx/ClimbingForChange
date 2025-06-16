@@ -12,10 +12,10 @@ import TableHeaderRow from './TableHeaderRow'
 
 // Define columns for full width screen
 const fullColumns = [
-  { id: 'eventName', label: 'Event', minWidth: 270 },
-  { id: 'location', label: 'Location', minWidth: 85 },
-  { id: 'start', label: 'Start-Time', minWidth: 85 },
-  { id: 'end', label: 'End-Time', minWidth: 85 },
+  { id: 'name', label: 'Event', minWidth: 270 },
+  { id: 'locationId.name', label: 'Location', minWidth: 85 },
+  { id: 'startDateTime', label: 'Start-Time', minWidth: 85 },
+  { id: 'endDateTime', label: 'End-Time', minWidth: 85 },
   { id: 'duration', label: 'Duration', minWidth: 85 },
   { id: 'lap', label: 'Lap', minWidth: 85 },
   { id: 'active', label: 'Active', minWidth: 90 },
