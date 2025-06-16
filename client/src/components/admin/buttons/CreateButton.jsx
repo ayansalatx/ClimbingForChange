@@ -1,9 +1,9 @@
 import { Button } from '@mui/material'
-import React from 'react'
 
-export default function CreateButton({ onClick, disabled }) {
+export default function CreateButton({  onClick, disabled, type = 'button'}) {
   return (
     <Button
+      type={type}
       variant="contained"
       sx={{
         backgroundColor: '#191447',
