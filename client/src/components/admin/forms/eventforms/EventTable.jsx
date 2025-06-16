@@ -38,19 +38,21 @@ const EventsTable = ({ searchTerm = '', events = [] }) => {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
-  const filteredRows = events.filter((row) => {
+    const formattedEvents = events.map(event => ({
+    ...event,
+    start: formatDateTime(event.startDateTime),
+    end: formatDateTime(event.endDateTime),
+    eventName: event.name || '',
+    location: event.locationId?.name || '',
+    //duration: event.duration || '',  
+    lap: event.physicalMountainIds?.length || 0,
+    active: event.active ? 'Yes' : 'No',
+  }))
+
+  const filteredRows = formattedEvents.filter((row) => {
     const event = row?.eventName || ''
     return event.toLowerCase().includes(searchTerm.toLowerCase())
   })
-  .map(event => ({
-      eventName: event.name,
-      location: event.locationId?.name || '',
-      start: new Date(event.startDateTime).toLocaleString(),
-      end: new Date(event.endDateTime).toLocaleString(),
-      //duration: calculateDuration(event.startDateTime, event.endDateTime),
-      lap: event.physicalMountainIds?.length || 0,
-      active: event.active ? 'Yes' : 'No',
-  }))
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
