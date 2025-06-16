@@ -39,7 +39,7 @@ const AddEventModal = ({ open, onClose, onAdd, onLocation }) => {
       active: true,
     }
 
-    onAdd(eventData) 
+    onAdd(eventData, setLocations) 
     onClose() 
 
   
