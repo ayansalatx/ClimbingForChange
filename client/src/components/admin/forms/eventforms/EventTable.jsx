@@ -30,6 +30,15 @@ const EventsTable = ({ searchTerm = '', events = [] }) => {
     const event = row?.eventName || ''
     return event.toLowerCase().includes(searchTerm.toLowerCase())
   })
+  .map(event => ({
+      eventName: event.name,
+      location: event.locationId?.name || '',
+      start: new Date(event.startDateTime).toLocaleString(),
+      end: new Date(event.endDateTime).toLocaleString(),
+      duration: calculateDuration(event.startDateTime, event.endDateTime),
+      lap: event.physicalMountainIds?.length || 0,
+      active: event.active ? 'Yes' : 'No',
+  }))
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
