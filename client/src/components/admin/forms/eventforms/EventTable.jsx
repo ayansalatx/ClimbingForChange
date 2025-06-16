@@ -34,18 +34,26 @@ const fullColumns = [
 const EventsTable = ({ searchTerm = '', events = [] }) => {  
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
-
-    const formattedEvents = events.map(event => ({
-    ...event,
-    start: formatDateTime(event.startDateTime),
-    end: formatDateTime(event.endDateTime),
-    eventName: event.name || '',
-    location: event.locationId?.name || '',
-    duration: event.duration || '',  
-    lap: event.physicalMountainIds?.length || 0,
-    active: event.active
-  }))
-
+ 
+    const formattedEvents = events.map(event => {
+      const startTime = event.startDateTime
+      const endTime = event.endDateTime
+      const startDate = new Date(startTime)
+      const endDate = new Date(endTime)
+      const durationTime = (endDate - startDate) / (1000 * 60)
+ 
+      return  ({
+        ...event,
+        start: formatDateTime(startTime),
+        end:formatDateTime(endTime),
+        eventName: event.name || '',
+        location: event.locationId?.name || '',
+        duration: durationTime,  
+        lap: event.physicalMountainIds?.length || 0,
+        active: event.active
+      })
+     
+    })
   const filteredRows = formattedEvents.filter((row) => {
     const event = row?.eventName || ''
     return event.toLowerCase().includes(searchTerm.toLowerCase())
