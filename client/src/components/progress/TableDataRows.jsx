@@ -13,11 +13,10 @@ import React, { useState } from 'react'
 
 const CollapsibleRow = ({ team, columns, participants }) => {
   const [open, setOpen] = useState(false)
-  const teamName = team.name
 
   return (
     <React.Fragment>
-      <TableRow hover role="checkbox" tabIndex={-1} key={teamName}>
+      <TableRow hover role="checkbox" tabIndex={-1} key={team._id}>
         {/* Expand/Collapse toggle */}
         <TableCell>
           <IconButton
@@ -38,7 +37,7 @@ const CollapsibleRow = ({ team, columns, participants }) => {
 
         {/* For each column in the column definition, render a matching cell */}
         {columns.map((column, index) => {
-          const value = team[column.id]
+          const value = team[column.id] ?? '-'
           const columnAlign =
             index === 0
               ? 'left'
@@ -93,67 +92,7 @@ const CollapsibleRow = ({ team, columns, participants }) => {
 
                       {/* Remaining cells: placeholder values */}
                       {columns.slice(1).map((column) => {
-                        const laps = participant.laps || []
-                        let value = '--'
-
-                        switch (column.id) {
-                          case 'currentElevation':
-                            value = laps.length * 217
-                            break
-                          case 'lapsRequired':
-                            value = team.lapsRequired ?? '-'
-                            break
-                          case 'lapsCompleted':
-                            value = laps.length
-                            break
-                          case 'lapsToGo':
-                            value = Math.max(
-                              (team.lapsRequired || 0) - laps.length,
-                              0
-                            )
-                            break
-                          case 'bestLap':
-                            if (laps.length) {
-                              const bestLap = laps.reduce((best, lap) => {
-                                const bestDuration =
-                                  new Date(best.endDateTime) -
-                                  new Date(best.startDateTime)
-                                const currentDuration =
-                                  new Date(lap.endDateTime) -
-                                  new Date(lap.startDateTime)
-                                return currentDuration < bestDuration
-                                  ? lap
-                                  : best
-                              }, laps[0])
-                              const minutes = Math.floor(
-                                (new Date(bestLap.endDateTime) -
-                                  new Date(bestLap.startDateTime)) /
-                                  60000
-                              )
-                              const seconds =
-                                Math.floor(
-                                  (new Date(bestLap.endDateTime) -
-                                    new Date(bestLap.startDateTime)) /
-                                    1000
-                                ) % 60
-                              value = `${minutes}:${String(seconds).padStart(2, '0')}`
-                            }
-                            break
-                          case 'timeElapsed':
-                            if (laps.length) {
-                              const first = new Date(laps[0].startDateTime)
-                              const last = new Date(
-                                laps[laps.length - 1].endDateTime
-                              )
-                              const minutes = Math.floor((last - first) / 60000)
-                              const seconds =
-                                Math.floor((last - first) / 1000) % 60
-                              value = `${minutes}:${String(seconds).padStart(2, '0')}`
-                            }
-                            break
-                          default:
-                            value = participant[column.id] ?? '-'
-                        }
+                        const value = participant[column.id] ?? '-'
 
                         return (
                           <TableCell
