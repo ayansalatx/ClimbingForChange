@@ -16,6 +16,7 @@ const style = {
 const AddEventModal = ({ open, onClose, onAdd, onLocation }) => {
   const [eventName, setEventName] = useState('')
   const [location, setLocation] = useState('')
+  const [locations, setLocations] = useState([])  
   const [startDate, setStartDate] = useState('')
   const [startTime, setStartTime] = useState('')
   const [duration, setDuration] = useState('')
