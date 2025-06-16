@@ -1,5 +1,6 @@
 import { Box, Container } from '@mui/material'
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import AutoScrollTable from '../../components/progress/Fullscreen/AutoScrollTable'
@@ -33,6 +34,18 @@ const fullColumns = [
 const ProgressBoardFullscreen = () => {
   // State for teams
   const [teams, setTeams] = useState([])
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const handleEsc = (event) => {
+      if (event.key === 'Escape') {
+        navigate('/progress')
+      }
+    }
+
+    window.addEventListener('keydown', handleEsc)
+    return () => window.removeEventListener('keydown', handleEsc)
+  }, [navigate])
 
   // Load Participant data from server
   useEffect(() => {
