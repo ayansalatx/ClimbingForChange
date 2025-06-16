@@ -1,5 +1,5 @@
-import { Box, Button,Modal, TextField, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { Modal, Box, Typography, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 const style = {
   position: 'absolute',
@@ -20,6 +20,11 @@ const AddEventModal = ({ open, onClose, onAdd }) => {
   const [startTime, setStartTime] = useState('')
   const [duration, setDuration] = useState('')
   const [lapDistance, setLapDistance] = useState('')
+
+  useEffect(() => {
+      console.log("Location in event-modal updated");
+      setLocations(onLocation);
+    }, [onLocation])
 
   const handleAdd = (e) => {
     e.preventDefault()
