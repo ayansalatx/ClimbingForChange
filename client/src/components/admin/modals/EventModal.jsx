@@ -13,7 +13,7 @@ const style = {
   borderRadius: 2,
 }
 
-const AddEventModal = ({ open, onClose, onAdd }) => {
+const AddEventModal = ({ open, onClose, onAdd, onLocation }) => {
   const [eventName, setEventName] = useState('')
   const [location, setLocation] = useState('')
   const [startDate, setStartDate] = useState('')
@@ -80,7 +80,7 @@ const AddEventModal = ({ open, onClose, onAdd }) => {
               {locations.map((location) => <MenuItem value={location.id}> {location.name} </MenuItem> )}
             </Select>
           </FormControl>
-          
+
           <TextField
             fullWidth
             label="Start Date"
