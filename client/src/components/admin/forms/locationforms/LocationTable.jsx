@@ -17,7 +17,7 @@ const fullColumns = [
   { id: 'lap', label: 'Laps', minWidth: 85 },
 ]
 
-const LocationTable = ({ searchTerm }) => {
+const LocationTable = ({ searchTerm, location }) => {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
