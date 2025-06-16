@@ -1,7 +1,7 @@
 import './App.css'
 
 import { ThemeProvider } from '@mui/material'
-import React from 'react'
+import React, { Suspense } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 import Landing from './components/shared/Landing'
@@ -11,10 +11,24 @@ import EventManager from './pages/admin/events/EventManager'
 import LocationManager from './pages/admin/locations/LocationManager'
 import MountainManager from './pages/admin/mountains/MountainManager'
 import ParticipantManager from './pages/admin/participants/ParticipantManager'
-import ProgressBoard from './pages/progress/ProgressBoard'
-import ProgressBoardFullscreen from './pages/progress/ProgressBoardFullscreen'
+import LoadingSpinner from './components/shared/LoadingSpinner.jsx'
 import theme from './styles/theme'
 import Layout from './Layout.jsx'
+
+const ProgressBoard = React.lazy(
+  () =>
+    new Promise(
+      (resolve) =>
+        setTimeout(
+          () => resolve(import('./pages/progress/ProgressBoard')),
+          1000
+        ) // 1 second delay
+    )
+)
+
+const ProgressBoardFullscreen = React.lazy(
+  () => import('./pages/progress/ProgressBoardFullscreen')
+)
 
 function App() {
   return (
@@ -23,10 +37,22 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/progress" element={<ProgressBoard />} />
+
+          <Route
+            path="/progress"
+            element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <ProgressBoard />
+              </Suspense>
+            }
+          />
           <Route
             path="/progress/fullscreen"
-            element={<ProgressBoardFullscreen />}
+            element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <ProgressBoardFullscreen />
+              </Suspense>
+            }
           />
 
           <Route path="/login" element={<AdminLogin />} />

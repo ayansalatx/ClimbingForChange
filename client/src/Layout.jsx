@@ -1,4 +1,3 @@
-// Layout.jsx
 import { Box, CircularProgress } from '@mui/material'
 import React, { Suspense,useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'

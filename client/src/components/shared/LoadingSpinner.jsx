@@ -1,4 +1,4 @@
-import { Box,CircularProgress } from '@mui/material'
+import { Box, CircularProgress } from '@mui/material'
 import React from 'react'
 
 const LoadingSpinner = () => {
@@ -8,11 +8,11 @@ const LoadingSpinner = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100%',
+        height: '100vh',
         minHeight: '60vh',
       }}
     >
-      <CircularProgress />
+      <CircularProgress color="secondary"  />
     </Box>
   )
 }
