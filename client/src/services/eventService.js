@@ -13,6 +13,10 @@ export const getAllEvents = async () => {
 //   const res = await axios.get(`${BASE_URL}/events`)
 //   const allEvents = res.data
 
-  
 
 // }
+
+export const addEvent = async (data) => {
+  const res = await axios.post(`${BASE_URL}/events`, data)
+  return res.data
+}

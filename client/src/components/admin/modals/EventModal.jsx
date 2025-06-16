@@ -68,15 +68,19 @@ const AddEventModal = ({ open, onClose, onAdd }) => {
             onChange={(e) => setEventName(e.target.value)}
             required
           />
-          <TextField
-            fullWidth
-            label="Location"
-            variant="outlined"
-            margin="normal"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            required
-          />
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Location</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={location}
+              label="Location"
+              onChange={(e) => setLocation(e.target.value)}
+            >
+              {locations.map((location) => <MenuItem value={location.id}> {location.name} </MenuItem> )}
+            </Select>
+          </FormControl>
+          
           <TextField
             fullWidth
             label="Start Date"
