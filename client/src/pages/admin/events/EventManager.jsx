@@ -19,7 +19,7 @@ const EventManager = () => {
   const handleClosePopup = () => setOpenPopup(false)
 
   const handleAddEvent = (eventData) => {
-    setEvents([...events, eventData]) 
+    setEvents(prevEvents => [...prevEvents, eventData]); 
     handleClosePopup()
   }
     useEffect(() => {
