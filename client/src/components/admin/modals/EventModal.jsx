@@ -30,15 +30,27 @@ const AddEventModal = ({ open, onClose, onAdd, onLocation }) => {
   const handleAdd = (e) => {
     e.preventDefault()
 
+    const selectedLocation = locations.find((loc) => loc.id === location);
+    
+    // const eventData = {
+    //   eventName,
+    //   location,
+    //   start: `${startDate} ${startTime}`,
+    //   end: '', 
+    //   duration,
+    //   lap: lapDistance,
+    //   active: true,
+    // }
     const eventData = {
-      eventName,
-      location,
-      start: `${startDate} ${startTime}`,
-      end: '', 
-      duration,
-      lap: lapDistance,
+      name: eventName,
+      locationId: selectedLocation,
+      startDateTime: `${startDate} ${startTime}`,
+      endDateTime: '', // add logic if needed
+      duration: Number(duration),
+      physicalMountainIds: new Array(Number(lapDistance)).fill('lap'), // or however laps are stored
       active: true,
-    }
+    };
+
 
     onAdd(eventData, setLocations) 
     onClose() 
@@ -78,7 +90,7 @@ const AddEventModal = ({ open, onClose, onAdd, onLocation }) => {
               label="Location"
               onChange={(e) => setLocation(e.target.value)}
             >
-              {locations.map((location) => <MenuItem value={location.id}> {location.name} </MenuItem> )}
+              {locations.map((location) => <MenuItem value={location.id} key={location.id}> {location.name} </MenuItem> )}
             </Select>
           </FormControl>
 
