@@ -46,7 +46,14 @@ const CollapsibleRow = ({ team, columns, participants }) => {
                 ? 'right'
                 : 'center'
           return (
-            <TableCell sx={{ padding: '0.4rem' }} key={column.id} align={align}>
+            <TableCell
+              sx={{
+                padding: '0.4rem',
+                ...(index === columns.length - 1 && { pr: '1.75rem' }),
+              }}
+              key={column.id}
+              align={align}
+            >
               {column.format && typeof value === 'number'
                 ? column.format(value)
                 : value}
@@ -66,23 +73,95 @@ const CollapsibleRow = ({ team, columns, participants }) => {
                 <TableBody>
                   {participants.map((participant, i) => (
                     <TableRow key={i}>
-                      <TableCell
-                        sx={{ padding: '0.4rem', fontWeight: 'bold' }}
-                        align="right"
-                      >
+                      <TableCell>
+                        <IconButton
+                          aria-label="expand team"
+                          size="small"
+                          color="#fff"
+                          disableRipple
+                          sx={{
+                            padding: 0,
+                            visibility: 'hidden',
+                          }}
+                        >
+                          <KeyboardArrowRightIcon />
+                        </IconButton>
+                      </TableCell>
+                      <TableCell sx={{ padding: '0.4rem', textAlign: 'right' }}>
                         {participant.firstName} {participant.lastName}
                       </TableCell>
 
                       {/* Remaining cells: placeholder values */}
                       {columns.slice(1).map((column) => {
-                        const value = '--'
+                        const laps = participant.laps || []
+                        let value = '--'
+
+                        switch (column.id) {
+                          case 'currentElevation':
+                            value = laps.length * 217
+                            break
+                          case 'lapsRequired':
+                            value = team.lapsRequired ?? '-'
+                            break
+                          case 'lapsCompleted':
+                            value = laps.length
+                            break
+                          case 'lapsToGo':
+                            value = Math.max(
+                              (team.lapsRequired || 0) - laps.length,
+                              0
+                            )
+                            break
+                          case 'bestLap':
+                            if (laps.length) {
+                              const bestLap = laps.reduce((best, lap) => {
+                                const bestDuration =
+                                  new Date(best.endDateTime) -
+                                  new Date(best.startDateTime)
+                                const currentDuration =
+                                  new Date(lap.endDateTime) -
+                                  new Date(lap.startDateTime)
+                                return currentDuration < bestDuration
+                                  ? lap
+                                  : best
+                              }, laps[0])
+                              const minutes = Math.floor(
+                                (new Date(bestLap.endDateTime) -
+                                  new Date(bestLap.startDateTime)) /
+                                  60000
+                              )
+                              const seconds =
+                                Math.floor(
+                                  (new Date(bestLap.endDateTime) -
+                                    new Date(bestLap.startDateTime)) /
+                                    1000
+                                ) % 60
+                              value = `${minutes}:${String(seconds).padStart(2, '0')}`
+                            }
+                            break
+                          case 'timeElapsed':
+                            if (laps.length) {
+                              const first = new Date(laps[0].startDateTime)
+                              const last = new Date(
+                                laps[laps.length - 1].endDateTime
+                              )
+                              const minutes = Math.floor((last - first) / 60000)
+                              const seconds =
+                                Math.floor((last - first) / 1000) % 60
+                              value = `${minutes}:${String(seconds).padStart(2, '0')}`
+                            }
+                            break
+                          default:
+                            value = participant[column.id] ?? '-'
+                        }
                         const align = column.align || 'right'
 
                         return (
                           <TableCell
                             sx={{ padding: '0.4rem' }}
                             key={column.id}
-                            align={align}
+                            align={'center'}
+                            width={column.width}
                           >
                             {value}
                           </TableCell>
