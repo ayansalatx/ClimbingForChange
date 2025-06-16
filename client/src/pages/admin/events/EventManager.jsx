@@ -43,13 +43,7 @@ const EventManager = () => {
 
   return (
     <Box sx={{ px: 4, py: 3 }}>
-      <a href="https://www.climbingforchange.ca/" target="_blank" rel="noopener noreferrer">
-        <img src={C4CHorizontalGreenLogo} alt="Climbing for Change Logo" height={100} />
-      </a>
-
-      <Typography variant="h4" mt={2} mb={2}>
-        Events
-      </Typography>
+      <Typography variant="h3" mb={2} sx={{ fontFamily: 'Gibson, sans-serif', textTransform: 'uppercase', color: '#CDDC29', letterSpacing: '0.05em' }}>Events</Typography>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
         <SearchBar setSearchTerm={setSearchTerm} />

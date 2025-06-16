@@ -62,7 +62,7 @@ const EventsTable = ({ searchTerm = '', events = [] }) => {
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 500 }}>
+      <TableContainer sx={{ width: 1400}}>
         <Table stickyHeader aria-label="sticky table">
           <TableHeaderRow columns={fullColumns} />
           <TableDataRows
