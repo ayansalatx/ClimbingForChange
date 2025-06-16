@@ -32,7 +32,7 @@ const EventManager = () => {
 
      const fetchEvents = async () => {
       const events = await getAllEvents()
-      console.log('Fetched events:', fetchedEvents);
+      console.log('Fetched events:', events);
       setEvents(events)
      }
       fetchEvents()
