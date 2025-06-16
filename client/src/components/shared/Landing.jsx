@@ -12,15 +12,29 @@ const Landing = () => {
       <h1 className='text-3xl font-bold mb-4'>
         Welcome to the C4C Team Two WebApp
       </h1>
-      <h2 className='text-lg'>
+      <h2 className="text-lg mb-6">
         This is a temporary page while development is underway.
       </h2>
 
-      <p>Visit these existing pages that are currently in development:</p>
+      <p className="mb-2">Visit these existing pages that are currently in development</p>
       <nav>
-        <ul style={{ listStyle: 'none', padding: 0 }}>
-          <li><Link to='/progress'>Progress Board</Link></li>
-          <li><Link to='/admin'>Admin Dashboard</Link></li>
+        <ul className="list-none p-0 flex justify-center space-x-6">
+          <li>
+            <Link
+              to="/progress"
+              className="text-blue-600 hover:underline font-medium"
+            >
+              Progress Board
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/admin" 
+              className="text-blue-600 hover:underline font-medium"
+            >
+              Admin Dashboard
+            </Link>
+          </li>
         </ul>
       </nav>
     </div>

@@ -2,28 +2,39 @@ import express from 'express'
 import asyncHandler from 'express-async-handler'
 import { body, validationResult } from 'express-validator'
 
-import { getEvents, saveOneEvent } from '../controllers/event.js'
+import {
+  deleteOneEvent,
+  getEventByID,
+  getEvents,
+  saveOneEvent,
+  updateOneEvent,
+} from '../controllers/event.js'
 
 const validateEvent = [
-  body('locationId')
-    .trim()
-    .notEmpty().withMessage('location is required'),
+  body('locationId').trim().notEmpty().withMessage('location is required'),
 
   body('physicalMountainIds')
-    .notEmpty().withMessage('Physical mountain or hill is required'),
+    .notEmpty()
+    .withMessage('Physical mountain or hill is required'),
 
   body('name')
     .trim()
-    .notEmpty().withMessage('eventName is required')
-    .isLength({ min: 3 }).withMessage('eventName must be at least 3 characters'),
+    .notEmpty()
+    .withMessage('eventName is required')
+    .isLength({ min: 3 })
+    .withMessage('eventName must be at least 3 characters'),
 
   body('startDateTime')
-    .notEmpty().withMessage('startDateTime is required')
-    .isISO8601().withMessage('startDateTime must be a valid ISO 8601 date'),
+    .notEmpty()
+    .withMessage('startDateTime is required')
+    .isISO8601()
+    .withMessage('startDateTime must be a valid ISO 8601 date'),
 
   body('endDateTime')
-    .notEmpty().withMessage('endDateTime is required')
-    .isISO8601().withMessage('endDate must be a valid ISO 8601 date')
+    .notEmpty()
+    .withMessage('endDateTime is required')
+    .isISO8601()
+    .withMessage('endDate must be a valid ISO 8601 date')
     .custom((value, { req }) => {
       // Ensure endDate ≥ startDate
       const start = new Date(req.body.startDate)
@@ -36,7 +47,8 @@ const validateEvent = [
 
   body('active')
     .optional()
-    .isBoolean().withMessage('active must be true or false'),
+    .isBoolean()
+    .withMessage('active must be true or false'),
 ]
 
 export const checkValidation = (req, res, next) => {
@@ -52,6 +64,22 @@ const eventRoutes = express.Router()
 
 eventRoutes.get('/', asyncHandler(getEvents))
 
-eventRoutes.post('/', validateEvent, checkValidation, asyncHandler(saveOneEvent))
+eventRoutes.get('/:id', asyncHandler(getEventByID))
+
+eventRoutes.post(
+  '/',
+  validateEvent,
+  checkValidation,
+  asyncHandler(saveOneEvent)
+)
+
+eventRoutes.put(
+  '/',
+  validateEvent,
+  checkValidation,
+  asyncHandler(updateOneEvent)
+)
+
+eventRoutes.delete('/', asyncHandler(deleteOneEvent))
 
 export default eventRoutes
