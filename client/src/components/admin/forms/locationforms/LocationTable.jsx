@@ -4,7 +4,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 import React from 'react'
 
-import mockData from '../../../../mock-data/location-data.json'
+//import mockData from '../../../../mock-data/location-data.json'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
 
@@ -21,7 +21,7 @@ const LocationTable = ({ searchTerm }) => {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
-  const filteredRows = mockData.filter((row) =>
+  const filteredRows = location.filter((row) =>
     Object.values(row)
       .join(' ')
       .toLowerCase()
