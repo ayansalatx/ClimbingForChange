@@ -11,6 +11,18 @@ import TableHeaderRow from './TableHeaderRow'
 // import mockData from "../../../../mock-data/event-data.json"
 
 // Define columns for full width screen
+const formatDateTime = (dateString) => {
+  const date = new Date(dateString)
+  return date.toLocaleString([], {
+    year: 'numeric',
+    month: 'long',  
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+  })
+}
+
 const fullColumns = [
   { id: 'eventName', label: 'Event', minWidth: 270 },
   { id: 'location', label: 'Location', minWidth: 85 },
