@@ -65,6 +65,7 @@ const EventManager = () => {
         open={openPopup}
         onClose={handleClosePopup}
         onAdd={handleAddEvent} 
+        onLocation={locations}
       />
 
     </Box>
