@@ -19,11 +19,6 @@ const LocationManager = () => {
   return (
 
     <div>
-      {/* <a href="https://www.climbingforchange.ca/" target="_blank">
-        <img src={C4CHorizontalGreenLogo} alt="Climbing for Change Logo" height={150} />
-      </a> */}
-
-      {/* to do: make a proper css styling */}
       <h1 style={{ fontFamily: 'Gibson, sans-serif', textTransform: 'uppercase', color: '#CDDC29', letterSpacing: '0.05em' }}>Locations</h1>
      
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
