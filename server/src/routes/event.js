@@ -2,7 +2,7 @@ import express from 'express'
 import asyncHandler from 'express-async-handler'
 import { body, validationResult } from 'express-validator'
 
-import { getEvents, getDisplayEvent, saveOneEvent } from '../controllers/event.js'
+import { deleteOneEvent, getEventByID, getDisplayEvent, getEvents, saveOneEvent, updateOneEvent } from '../controllers/event.js'
 
 const validateEvent = [
   body('locationId')
@@ -52,8 +52,13 @@ const eventRoutes = express.Router()
 
 eventRoutes.get('/', asyncHandler(getEvents))
 
+eventRoutes.get('/:id', asyncHandler(getEventByID))
 eventRoutes.get('/display', asyncHandler(getDisplayEvent))
 
 eventRoutes.post('/', validateEvent, checkValidation, asyncHandler(saveOneEvent))
+
+eventRoutes.put('/', validateEvent, checkValidation, asyncHandler(updateOneEvent))
+
+eventRoutes.delete('/', asyncHandler(deleteOneEvent))
 
 export default eventRoutes

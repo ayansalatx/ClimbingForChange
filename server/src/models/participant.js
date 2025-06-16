@@ -26,6 +26,10 @@ const participantSchema = new Schema({
     required: true,
     trim: true
   },
+  active: {
+    type: Boolean,
+    default: true
+  }
 }, {
   timestamps: true
 })
