@@ -35,7 +35,7 @@ const EventsTable = ({ searchTerm = '', events = [] }) => {
       location: event.locationId?.name || '',
       start: new Date(event.startDateTime).toLocaleString(),
       end: new Date(event.endDateTime).toLocaleString(),
-      duration: calculateDuration(event.startDateTime, event.endDateTime),
+      //duration: calculateDuration(event.startDateTime, event.endDateTime),
       lap: event.physicalMountainIds?.length || 0,
       active: event.active ? 'Yes' : 'No',
   }))
