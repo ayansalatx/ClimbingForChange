@@ -5,35 +5,30 @@ import C4Clogo from '../../assets/C4C-branding/Climbing-For-Change-Logo_Green.pn
 
 const Landing = () => {
   return (
-    <div className='p-6 text-center'>
-      <a href='https://www.climbingforchange.ca/' target='_blank' rel="noreferrer">
-        <img src={C4Clogo} alt='Climbing for Change Logo' height={300} />
+    <div className="p-6 text-center">
+      <a
+        href="https://www.climbingforchange.ca/"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <img src={C4Clogo} alt="Climbing for Change Logo" height={250} />
       </a>
-      <h1 className='text-3xl font-bold mb-4'>
+      <h1 style={{ letterSpacing: '0.05rem' }}>
         Welcome to the C4C Team Two WebApp
       </h1>
-      <h2 className="text-lg mb-6">
+      <h2 style={{ letterSpacing: '0.075rem' }}>
         This is a temporary page while development is underway.
       </h2>
-
-      <p className="mb-2">Visit these existing pages that are currently in development</p>
+      <h3 style={{ letterSpacing: '0.075rem' }}>
+        Visit these existing pages that are currently in development:
+      </h3>
       <nav>
-        <ul className="list-none p-0 flex justify-center space-x-6">
+        <ul style={{ listStyle: 'none' }}>
           <li>
-            <Link
-              to="/progress"
-              className="text-blue-600 hover:underline font-medium"
-            >
-              Progress Board
-            </Link>
+            <Link to="/progress">Progress Board</Link>
           </li>
           <li>
-            <Link
-              to="/admin" 
-              className="text-blue-600 hover:underline font-medium"
-            >
-              Admin Dashboard
-            </Link>
+            <Link to="/admin">Admin Dashboard</Link>
           </li>
         </ul>
       </nav>

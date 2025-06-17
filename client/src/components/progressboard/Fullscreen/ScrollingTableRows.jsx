@@ -8,7 +8,7 @@ const ScrollingTableRow = ({ teams, columns }) => {
         <TableRow key={team.id || index}>
           <TableCell></TableCell>
           {columns.map((column, colIndex) => {
-            const value = team[column.id]
+            const value = team[column.id] ?? '-'
             let align = 'center'
             if (colIndex === 0) align = 'left'
             if (colIndex === columns.length - 1) align = 'right'

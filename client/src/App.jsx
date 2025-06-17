@@ -20,14 +20,14 @@ const ProgressBoard = React.lazy(
     new Promise(
       (resolve) =>
         setTimeout(
-          () => resolve(import('./pages/progress/ProgressBoard')),
+          () => resolve(import('./pages/progressboard/ProgressBoard')),
           1000
         ) // 1 second delay
     )
 )
 
 const ProgressBoardFullscreen = React.lazy(
-  () => import('./pages/progress/ProgressBoardFullscreen')
+  () => import('./pages/progressboard/ProgressBoardFullscreen')
 )
 
 function App() {
