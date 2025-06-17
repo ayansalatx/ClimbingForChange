@@ -3,10 +3,11 @@ import Table from '@mui/material/Table'
 import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 import React from 'react'
-
+import {deleteEvent} from '../../../../services/eventService.js'
+//import { getAllEvents } from '../../../services/eventService.js';
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
-
+ 
 // Define columns for full width screen
 const formatDateTime = (dateString) => {
   const date = new Date(dateString)
@@ -19,7 +20,7 @@ const formatDateTime = (dateString) => {
     hour12: true,
   })
 }
-
+ 
 const fullColumns = [
   { id: 'eventName', label: 'Event', minWidth: 270 },
   { id: 'location', label: 'Location', minWidth: 85 },
@@ -29,8 +30,8 @@ const fullColumns = [
   { id: 'lap', label: 'Lap', minWidth: 85 },
   { id: 'active', label: 'Active', minWidth: 90 },
 ]
-
-
+ 
+ 
 const EventsTable = ({ searchTerm = '', events = [] }) => {  
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
@@ -58,22 +59,27 @@ const EventsTable = ({ searchTerm = '', events = [] }) => {
     const event = row?.eventName || ''
     return event.toLowerCase().includes(searchTerm.toLowerCase())
   })
-
+ 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
   }
-
+ 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value)
     setPage(0)
   }
-
+ 
+  const onDelete = async (id) => {
+    await deleteEvent()
+  }
+ 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer sx={{ width: 1400}}>
         <Table stickyHeader aria-label="sticky table">
           <TableHeaderRow columns={fullColumns} />
           <TableDataRows
+          onDelete={onDelete}
             rows={filteredRows}
             columns={fullColumns}
             page={page}
@@ -93,5 +99,6 @@ const EventsTable = ({ searchTerm = '', events = [] }) => {
     </Paper>
   )
 }
-
+ 
 export default EventsTable
+ 
