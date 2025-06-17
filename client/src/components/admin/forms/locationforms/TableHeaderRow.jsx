@@ -1,5 +1,5 @@
-import React from "react";
-import { TableHead, TableRow, TableCell } from "@mui/material";
+import { TableCell,TableHead, TableRow } from '@mui/material'
+import React from 'react'
 
 const TableHeaderRow = ({ columns }) => {
   return (
@@ -8,7 +8,7 @@ const TableHeaderRow = ({ columns }) => {
         {columns.map((column) => (
           <TableCell
             key={column.id}
-            align={column.align || "left"}
+            align={column.align || 'left'}
             style={{ minWidth: column.minWidth, fontWeight: 'bold'}}
           >
             {column.label}
@@ -16,7 +16,7 @@ const TableHeaderRow = ({ columns }) => {
         ))}
       </TableRow>
     </TableHead>
-  );
-};
+  )
+}
 
-export default TableHeaderRow;
+export default TableHeaderRow

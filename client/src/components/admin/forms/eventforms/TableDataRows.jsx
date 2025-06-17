@@ -1,6 +1,7 @@
-import { TableBody, TableRow, TableCell } from "@mui/material";
-import Switch from "@mui/material/Switch";
-import {Edit, Delete} from '@mui/icons-material';
+import { Delete, Edit } from '@mui/icons-material'
+import { TableBody, TableCell,TableRow } from '@mui/material'
+import Switch from '@mui/material/Switch'
+import React from 'react'
 
 
 const TableDataRows = ({ rows, columns, page, rowsPerPage }) => {
@@ -9,34 +10,34 @@ const TableDataRows = ({ rows, columns, page, rowsPerPage }) => {
       {rows
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
         .map((row, rowIndex) => {
-          const rowKey = `${row.eventName}-${row.start}-${rowIndex}`; 
+          const rowKey = `${row.eventName}-${row.start}-${rowIndex}` 
 
           return (
             <TableRow hover role="checkbox" tabIndex={-1} key={rowKey}>
               {columns.map((column) => {
-                const value = row[column.id];
+                const value = row[column.id]
                 return (
                   <TableCell
                     key={`${rowKey}-${column.id}`} 
                     align={column.align}
                   >
-                    {column.format && typeof value === "number"
+                    {column.format && typeof value === 'number'
                       ? column.format(value)
-                      : typeof value === "boolean"
-                      ? <Switch disabled defaultChecked={value} />
-                      : value}
+                      : typeof value === 'boolean'
+                        ? <Switch disabled defaultChecked={value} />
+                        : value}
                   </TableCell>
-                );
+                )
               })}
               <TableCell key={`${rowKey}-actions`} align="right">
                 <Edit />
                 <Delete />
               </TableCell>
             </TableRow>
-          );
+          )
         })}
     </TableBody>
-  );
-};
+  )
+}
 
-export default TableDataRows;
+export default TableDataRows

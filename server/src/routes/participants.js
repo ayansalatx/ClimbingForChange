@@ -1,14 +1,13 @@
 import express from 'express'
 import asyncHandler from 'express-async-handler'
-import { deleteOneParticipant, getParticipantById, getParticipantsByTeam, getParticipants, saveOneParticipant, updateOneParticipant } from '../controllers/participant.js'
-import teamsRoutes from './team.js'
+
+import { deleteOneParticipant, getParticipantById, getParticipants, saveOneParticipant, updateOneParticipant } from '../controllers/participant.js'
 
 const participantRoutes = express.Router()
 
 participantRoutes.get('/', asyncHandler(getParticipants))
 
 participantRoutes.get('/:id', asyncHandler(getParticipantById))
-teamsRoutes.get(`/:teamId/participants`, getParticipantsByTeam)
 
 participantRoutes.post('/', asyncHandler(saveOneParticipant))
 

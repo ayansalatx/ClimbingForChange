@@ -1,7 +1,8 @@
-import React from 'react';
-import { Modal, Box, Typography, TextField, InputAdornment } from '@mui/material';
-import CancelButton from '../buttons/CancelButton';
-import CreateButton from '../buttons/CreateButton';
+import { Box, InputAdornment,Modal, TextField, Typography } from '@mui/material'
+import React from 'react'
+
+import CancelButton from '../buttons/CancelButton'
+import CreateButton from '../buttons/CreateButton'
 
 const style = {
   position: 'absolute',
@@ -13,18 +14,18 @@ const style = {
   boxShadow: 24,
   p: 4,
   borderRadius: 2,
-};
+}
 
 const AddLocationModal = ({ open, onClose, onAdd }) => {
-  const [locationName, setLocationName] = React.useState('');
-  const [address, setAddress] = React.useState('');
-  const [city, setCity] = React.useState('');
-  const [province, setProvince] = React.useState('');
-  const [country, setCountry] = React.useState('');
-  const [lap, setLap] = React.useState('');
+  const [locationName, setLocationName] = React.useState('')
+  const [address, setAddress] = React.useState('')
+  const [city, setCity] = React.useState('')
+  const [province, setProvince] = React.useState('')
+  const [country, setCountry] = React.useState('')
+  const [lap, setLap] = React.useState('')
 
   const handleAdd = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     const locationData = {
       locationName,
       address,
@@ -32,18 +33,18 @@ const AddLocationModal = ({ open, onClose, onAdd }) => {
       province,
       country,
       lap,
-    };
-    onAdd(locationData);
-    onClose();
+    }
+    onAdd(locationData)
+    onClose()
 
     // Clear the form fields
-    setLocationName('');
-    setAddress('');
-    setCity('');
-    setProvince('');
-    setCountry('');
-    setLap('');
-  };
+    setLocationName('')
+    setAddress('')
+    setCity('')
+    setProvince('')
+    setCountry('')
+    setLap('')
+  }
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -122,7 +123,7 @@ const AddLocationModal = ({ open, onClose, onAdd }) => {
         </form>
       </Box>
     </Modal>
-  );
-};
+  )
+}
 
-export default AddLocationModal;
+export default AddLocationModal

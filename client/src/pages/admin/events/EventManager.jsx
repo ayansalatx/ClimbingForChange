@@ -1,27 +1,26 @@
-import { useState } from 'react';
-import EventsTable from '../../../components/admin/forms/eventforms/EventTable';
-import mockData from "../../../mock-data/event-data.json"
-import C4CHorizontalGreenLogo from '../../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png';
-import SearchBar from "../../../components/admin/forms/eventforms/SearchBar";
-import Button from '@mui/material/Button';
+import { Box, Typography } from '@mui/material'
+import Button from '@mui/material/Button'
+import React, { useState } from 'react'
 
-
-import { Box, Typography } from '@mui/material';
-import AddEventModal from '../../../components/admin/modals/EventModal.jsx';
+import C4CHorizontalGreenLogo from '../../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
+import EventsTable from '../../../components/admin/forms/eventforms/EventTable'
+import SearchBar from '../../../components/admin/forms/eventforms/SearchBar'
+import AddEventModal from '../../../components/admin/modals/EventModal.jsx'
+import mockData from '../../../mock-data/event-data.json'
 
 
 const EventManager = () => {
-  const [openPopup, setOpenPopup] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [events, setEvents] = useState(mockData); 
+  const [openPopup, setOpenPopup] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [events, setEvents] = useState(mockData) 
 
-  const handleOpenPopup = () => setOpenPopup(true);
-  const handleClosePopup = () => setOpenPopup(false);
+  const handleOpenPopup = () => setOpenPopup(true)
+  const handleClosePopup = () => setOpenPopup(false)
 
   const handleAddEvent = (eventData) => {
-    setEvents([...events, eventData]); 
-    handleClosePopup();
-  };
+    setEvents([...events, eventData]) 
+    handleClosePopup()
+  }
 
   return (
     <Box sx={{ px: 4, py: 3 }}>
@@ -34,7 +33,7 @@ const EventManager = () => {
       </Typography>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-      <SearchBar setSearchTerm={setSearchTerm} />
+        <SearchBar setSearchTerm={setSearchTerm} />
         <Button
           variant="contained"
           sx={{ backgroundColor: '#c9d82c', color: 'black', '&:hover': { backgroundColor: '#b3c623'}}}
@@ -51,7 +50,7 @@ const EventManager = () => {
       />
 
     </Box>
-  );
-};
+  )
+}
 
-export default EventManager;
+export default EventManager

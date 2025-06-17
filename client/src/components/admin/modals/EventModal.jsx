@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Modal, Box, Typography, TextField, Button } from '@mui/material';
+import { Box, Button,Modal, TextField, Typography } from '@mui/material'
+import React, { useState } from 'react'
 
 const style = {
   position: 'absolute',
@@ -11,18 +11,18 @@ const style = {
   boxShadow: 24,
   p: 4,
   borderRadius: 2,
-};
+}
 
 const AddEventModal = ({ open, onClose, onAdd }) => {
-  const [eventName, setEventName] = useState('');
-  const [location, setLocation] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [duration, setDuration] = useState('');
-  const [lapDistance, setLapDistance] = useState('');
+  const [eventName, setEventName] = useState('')
+  const [location, setLocation] = useState('')
+  const [startDate, setStartDate] = useState('')
+  const [startTime, setStartTime] = useState('')
+  const [duration, setDuration] = useState('')
+  const [lapDistance, setLapDistance] = useState('')
 
   const handleAdd = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     const eventData = {
       eventName,
@@ -32,19 +32,19 @@ const AddEventModal = ({ open, onClose, onAdd }) => {
       duration,
       lap: lapDistance,
       active: true,
-    };
+    }
 
-    onAdd(eventData); 
-    onClose(); 
+    onAdd(eventData) 
+    onClose() 
 
   
-    setEventName('');
-    setLocation('');
-    setStartDate('');
-    setStartTime('');
-    setDuration('');
-    setLapDistance('');
-  };
+    setEventName('')
+    setLocation('')
+    setStartDate('')
+    setStartTime('')
+    setDuration('')
+    setLapDistance('')
+  }
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -126,7 +126,7 @@ const AddEventModal = ({ open, onClose, onAdd }) => {
         </form>
       </Box>
     </Modal>
-  );
-};
+  )
+}
 
-export default AddEventModal;
+export default AddEventModal

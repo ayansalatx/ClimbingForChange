@@ -2,14 +2,9 @@ import { Box, Container } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
-import ProgressSearch from '../../components/progress/ProgressSearch'
-import ProgressTable from '../../components/progress/ProgressTable'
-import { getAllTeams } from '../../services/teamService'
-import {
-  getAllParticipants,
-  getParticipantsByTeam,
-} from '../../services/participantService'
-import { getMountainById } from '../../services/mountainService'
+import ProgressSearch from '../../components/progressboard/ProgressSearch'
+import ProgressTable from '../../components/progressboard/ProgressTable'
+import { getTeamsForDisplay } from '../../services/teamService'
 
 // Define columns for full width screen
 const fullColumns = [
@@ -44,51 +39,12 @@ const ProgressBoard = () => {
   // State for teams filtered by the search input
   const [filteredTeams, setFilteredTeams] = useState([])
 
-  const [mountainCache, setMountainCache] = useState({})
-
   // Load Participant data from server
   useEffect(() => {
     async function loadData() {
       try {
-        const teamList = await getAllTeams()
-        const participantList = await getAllParticipants()
-
-        const participantMap = {}
-
-        participantList.map(async (participant) => {
-          const teamId = participant.teamId?._id || participant.teamId
-
-          if (!participantMap[teamId]) participantMap[teamId] = []
-          participantMap[teamId].push(participant)
-        })
-
-        // Create array in team for participants
-        const teamsFullyLoaded = await Promise.all(
-          teamList.map(async (team) => {
-            const mountainId = team.targetMountainId
-            let mountain = null
-
-            if (mountainId) {
-              try {
-                mountain = await getMountainById(mountainId)
-              } catch (err) {
-                console.error(
-                  `Error fetching mountain for team ${team._id}`,
-                  err
-                )
-              }
-            }
-
-            return {
-              ...team,
-              participants: participantMap[team._id] || [],
-              mountainName: mountain?.name || '',
-              elevation: mountain?.totalElevation || 0,
-            }
-          })
-        )
-
-        setTeams(teamsFullyLoaded)
+        const teamsList = await getTeamsForDisplay()
+        setTeams(teamsList)
       } catch (e) {
         console.log('Failed to load progress data', e)
       }
@@ -117,7 +73,7 @@ const ProgressBoard = () => {
       return teamMatch || participantMatch
     })
     setFilteredTeams(filteredTeams)
-  }, [searchString, teams.length])
+  }, [searchString, teams])
 
   return (
     <Container
@@ -149,7 +105,7 @@ const ProgressBoard = () => {
         <ProgressSearch
           searchString={searchString}
           onChange={setsearchString}
-          teamNames={[...new Set(teams.map(team => team.name))]}
+          teamNames={[...new Set(teams.map((team) => team.name))]}
         />
       </Box>
 

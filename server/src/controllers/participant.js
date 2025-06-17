@@ -4,8 +4,13 @@ import RFIDTag from '../models/rfidTag.js'
 import Team from '../models/team.js'
 
 export const getParticipants = async (req, response) => {
-
-  const participants = await Participant.find({}).populate('rfidTagId').populate('teamId')
+  const participants = await Participant.find({})
+    .populate('rfidTagId')
+    .populate('teamId')
+    .populate({
+      path: 'participants',
+      populate: { path: 'laps' },
+    })
 
   response.json(participants)
 }
@@ -17,22 +22,14 @@ export const getParticipantById = async (request, response) => {
     return response.status(400).json({ error: 'Participant id is missing' })
   }
 
-  const participant = await Participant.findById(id).populate('rfidTagId').populate('teamId')
+  const participant = await Participant.findById(id)
+    .populate('rfidTagId')
+    .populate('teamId')
 
   response.json(participant)
 }
 
-export const getParticipantsByTeam = async (req, response) => {
-  const { teamId } = req.params
-
-  const participants = await Participant.find({ teamId }).populate('rfidTagId').populate('teamId')
-
-  response.json(participants)
-}
-
-
 export const saveOneParticipant = async (request, response) => {
-
   const body = request.body
 
   if (!body) {
@@ -42,23 +39,25 @@ export const saveOneParticipant = async (request, response) => {
   // we need RFIDTag and Team as optional
 
   const newParticipantObject = {
-    ...body
+    ...body,
   }
 
   const existingRFIDTag = await RFIDTag.findOne({
-    serialNumber: body.rfidTagId
+    serialNumber: body.rfidTagId,
   })
 
   const existingTeam = await Team.findById(body.teamId)
 
   if (existingRFIDTag) {
     const participantWithThisRFIDTag = await Participant.findOne({
-      rfidTagId: existingRFIDTag.id
+      rfidTagId: existingRFIDTag.id,
     })
 
     // This RFIDTag already exists and is assigned to another person
     if (participantWithThisRFIDTag) {
-      return response.status(400).json({ error: 'This RFIDTag is already assigned' })
+      return response
+        .status(400)
+        .json({ error: 'This RFIDTag is already assigned' })
     } else {
       newParticipantObject.rfidTagId = existingRFIDTag
     }
@@ -70,7 +69,7 @@ export const saveOneParticipant = async (request, response) => {
   }
 
   const newParticipant = new Participant({
-    ...newParticipantObject
+    ...newParticipantObject,
   })
 
   const savedParticipant = await newParticipant.save()
@@ -79,7 +78,6 @@ export const saveOneParticipant = async (request, response) => {
 }
 
 export const updateOneParticipant = async (request, response) => {
-
   const body = request.body
 
   if (!body) {
@@ -87,21 +85,30 @@ export const updateOneParticipant = async (request, response) => {
   }
 
   const participantObjectToUpdate = {
-    ...body
+    ...body,
   }
 
-  const existingRFIDTag = await RFIDTag.findById(participantObjectToUpdate.rfidTagId)
+  const existingRFIDTag = await RFIDTag.findById(
+    participantObjectToUpdate.rfidTagId
+  )
 
   const existingTeam = await Team.findById(participantObjectToUpdate.teamId)
 
   if (existingRFIDTag) {
     const participantWithThisRFIDTag = await Participant.findOne({
-      rfidTagId: existingRFIDTag.id
+      rfidTagId: existingRFIDTag.id,
     })
-    console.log('🚀 ~ updateOneParticipant ~ participantWithThisRFIDTag:', participantWithThisRFIDTag)
+    console.log(
+      '🚀 ~ updateOneParticipant ~ participantWithThisRFIDTag:',
+      participantWithThisRFIDTag
+    )
 
-    if (participantWithThisRFIDTag.id !== participantObjectToUpdate.id ) {
-      return response.status(400).json({ error: 'This RFIDTag is already assigned to a different person.' })
+    if (participantWithThisRFIDTag.id !== participantObjectToUpdate.id) {
+      return response
+        .status(400)
+        .json({
+          error: 'This RFIDTag is already assigned to a different person.',
+        })
     } else {
       participantObjectToUpdate.rfidTagId = existingRFIDTag.id
     }
@@ -110,8 +117,9 @@ export const updateOneParticipant = async (request, response) => {
   // Attach the team id to this participant to assign them to that team.
   if (existingTeam) {
     participantObjectToUpdate.teamId = existingTeam.id
-  } else { // Remove them from that team as it doesn't exist anymore
-    delete participantObjectToUpdate.teamId 
+  } else {
+    // Remove them from that team as it doesn't exist anymore
+    delete participantObjectToUpdate.teamId
   }
 
   const updated = await Participant.findByIdAndUpdate(
@@ -122,7 +130,7 @@ export const updateOneParticipant = async (request, response) => {
         lastName: participantObjectToUpdate.lastName,
         teamId: participantObjectToUpdate.teamId,
         rfidTagId: participantObjectToUpdate.rfidTagId,
-      }
+      },
     },
     {
       new: true,
@@ -133,11 +141,12 @@ export const updateOneParticipant = async (request, response) => {
 }
 
 export const deleteOneParticipant = async (request, response) => {
-
   const participantIdToDelete = request.body.id
 
   if (!participantIdToDelete) {
-    return response.status(400).json({ error: 'Participant id to delete is missing' })
+    return response
+      .status(400)
+      .json({ error: 'Participant id to delete is missing' })
   }
 
   const updated = await Participant.findByIdAndUpdate(
@@ -145,11 +154,11 @@ export const deleteOneParticipant = async (request, response) => {
     {
       $set: {
         active: false,
-      }
+      },
     },
     {
       new: true,
-      runValidators: true
+      runValidators: true,
     }
   )
 

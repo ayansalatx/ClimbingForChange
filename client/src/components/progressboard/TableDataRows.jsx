@@ -13,11 +13,10 @@ import React, { useState } from 'react'
 
 const CollapsibleRow = ({ team, columns, participants }) => {
   const [open, setOpen] = useState(false)
-  const teamName = team.name
 
   return (
     <React.Fragment>
-      <TableRow hover role="checkbox" tabIndex={-1} key={teamName}>
+      <TableRow hover role="checkbox" tabIndex={-1} key={team._id}>
         {/* Expand/Collapse toggle */}
         <TableCell>
           <IconButton
@@ -38,15 +37,22 @@ const CollapsibleRow = ({ team, columns, participants }) => {
 
         {/* For each column in the column definition, render a matching cell */}
         {columns.map((column, index) => {
-          const value = team[column.id]
-          const align =
+          const value = team[column.id] ?? '-'
+          const columnAlign =
             index === 0
               ? 'left'
               : index === columns.length - 1
                 ? 'right'
                 : 'center'
           return (
-            <TableCell sx={{ padding: '0.4rem' }} key={column.id} align={align}>
+            <TableCell
+              sx={{
+                padding: '0.4rem',
+                ...(index === columns.length - 1 && { pr: '1.75rem' }),
+              }}
+              key={column.id}
+              align={columnAlign}
+            >
               {column.format && typeof value === 'number'
                 ? column.format(value)
                 : value}
@@ -66,23 +72,34 @@ const CollapsibleRow = ({ team, columns, participants }) => {
                 <TableBody>
                   {participants.map((participant, i) => (
                     <TableRow key={i}>
-                      <TableCell
-                        sx={{ padding: '0.4rem', fontWeight: 'bold' }}
-                        align="right"
-                      >
+                      <TableCell>
+                        <IconButton
+                          aria-label="expand team"
+                          size="small"
+                          color="#fff"
+                          disableRipple
+                          sx={{
+                            padding: 0,
+                            visibility: 'hidden',
+                          }}
+                        >
+                          <KeyboardArrowRightIcon />
+                        </IconButton>
+                      </TableCell>
+                      <TableCell sx={{ padding: '0.4rem', textAlign: 'right' }}>
                         {participant.firstName} {participant.lastName}
                       </TableCell>
 
                       {/* Remaining cells: placeholder values */}
                       {columns.slice(1).map((column) => {
-                        const value = '--'
-                        const align = column.align || 'right'
+                        const value = participant[column.id] ?? '-'
 
                         return (
                           <TableCell
                             sx={{ padding: '0.4rem' }}
                             key={column.id}
-                            align={align}
+                            align={'center'}
+                            width={column.width}
                           >
                             {value}
                           </TableCell>

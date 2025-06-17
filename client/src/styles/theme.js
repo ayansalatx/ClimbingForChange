@@ -1,7 +1,7 @@
 import { createTheme } from '@mui/material'
 
 // Theme to override MUI defaults
-const themeOptions = createTheme({
+const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
@@ -26,7 +26,14 @@ const themeOptions = createTheme({
     success: {
       main: '#8bb73f',
     },
+    gray: {
+      main: '#9f9898',
+      light: '#dddbdb',
+    }
+  },
+  typography: {
+    fontFamily: 'canada-type-gibson, "Roboto", "Helvetica", "Arial", sans-serif',
   },
 })
 
-export default themeOptions
+export default theme

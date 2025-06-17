@@ -1,6 +1,6 @@
-import React from "react";
-import { TableBody, TableRow, TableCell } from "@mui/material";
-import { Edit, Delete } from "@mui/icons-material";
+import { Delete,Edit } from '@mui/icons-material'
+import { TableBody, TableCell,TableRow } from '@mui/material'
+import React from 'react'
 
 const TableDataRows = ({ rows, columns, page, rowsPerPage }) => {
   return (
@@ -13,24 +13,24 @@ const TableDataRows = ({ rows, columns, page, rowsPerPage }) => {
             <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
               {/* For each column in the column definition, render a matching cell */}
               {columns.map((column) => {
-                const value = row[column.id];
+                const value = row[column.id]
                 return (
                   <TableCell key={column.id} align={column.align}>
-                    {column.format && typeof value === "number"
+                    {column.format && typeof value === 'number'
                       ? column.format(value)
                       : value}
                   </TableCell>
-                );
+                )
               })}
-                   <TableCell key={row} align={"right"}>
-                            <Edit/>
-                            <Delete/>
-                            </TableCell>
+              <TableCell key={row} align={'right'}>
+                <Edit/>
+                <Delete/>
+              </TableCell>
             </TableRow>
-          );
+          )
         })}
     </TableBody>
-  );
-};
+  )
+}
 
-export default TableDataRows;
+export default TableDataRows

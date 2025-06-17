@@ -5,14 +5,17 @@ import TargetMountain from '../models/targetMountain.js'
 import Participant from '../models/participant.js'
 
 export const getAllTeams = async (req, response) => {
-
-  const allTeams = await Team.find({}).populate('participants')
+  const allTeams = await Team.find({})
+    .populate({
+      path: 'participants',
+      populate: { path: 'laps' },
+    })
+    .populate('targetMountainId')
 
   response.json(allTeams)
 }
 
 export const getTeamById = async (request, response) => {
-
   const id = request.params.id
 
   const team = await Team.findById(id).populate('participants')
@@ -21,7 +24,6 @@ export const getTeamById = async (request, response) => {
 }
 
 export const saveOneTeam = async (request, response) => {
-
   const body = request.body
 
   if (!body) {
@@ -29,11 +31,16 @@ export const saveOneTeam = async (request, response) => {
   }
 
   const event = await Event.findById(body.eventId)
-  const physicalMountain = await PhysicalMountain.findById(body.physicalMountainId)
+  const physicalMountain = await PhysicalMountain.findById(
+    body.physicalMountainId
+  )
   const targetMountain = await TargetMountain.findById(body.targetMountainId)
 
   if (!event || !physicalMountain || !targetMountain) {
-    return response.status(400).json({ error: 'Event, physical or target mountain have been deleted or no longer exist.' })
+    return response.status(400).json({
+      error:
+        'Event, physical or target mountain have been deleted or no longer exist.',
+    })
   }
 
   const newTeam = new Team({
@@ -56,35 +63,66 @@ export const updateOneTeam = async (request, response) => {
   const existingTeam = await Team.findById(teamID).populate('participants')
 
   if (!existingTeam) {
-    return response.status(400).json({ error: 'Team id missing or the team you want to update no longer exists' })
+    return response.status(400).json({
+      error: 'Team id missing or the team you want to update no longer exists',
+    })
   }
 
   existingTeam.name = body.name !== undefined ? body.name : existingTeam.name
-  existingTeam.isSoloTeam = body.isSoloTeam !== undefined ? body.isSoloTeam : existingTeam.isSoloTeam
-  existingTeam.eventId = body.eventId !== undefined ? body.eventId : existingTeam.eventId
-  existingTeam.physicalMountainId = body.physicalMountainId !== undefined ? body.physicalMountainId : existingTeam.physicalMountainId
-  existingTeam.targetMountainId = body.targetMountainId !== undefined ? body.targetMountainId : existingTeam.targetMountainId
-  existingTeam.lapsRequired = body.lapsRequired !== undefined ? body.lapsRequired : existingTeam.lapsRequired
-  existingTeam.startDateTime = body.startDateTime !== undefined ? body.startDateTime : existingTeam.startDateTime
+  existingTeam.isSoloTeam =
+    body.isSoloTeam !== undefined ? body.isSoloTeam : existingTeam.isSoloTeam
+  existingTeam.eventId =
+    body.eventId !== undefined ? body.eventId : existingTeam.eventId
+  existingTeam.physicalMountainId =
+    body.physicalMountainId !== undefined
+      ? body.physicalMountainId
+      : existingTeam.physicalMountainId
+  existingTeam.targetMountainId =
+    body.targetMountainId !== undefined
+      ? body.targetMountainId
+      : existingTeam.targetMountainId
+  existingTeam.lapsRequired =
+    body.lapsRequired !== undefined
+      ? body.lapsRequired
+      : existingTeam.lapsRequired
+  existingTeam.startDateTime =
+    body.startDateTime !== undefined
+      ? body.startDateTime
+      : existingTeam.startDateTime
 
   const event = await Event.findById(body.eventId)
-  const physicalMountain = await PhysicalMountain.findById(body.physicalMountainId)
+  const physicalMountain = await PhysicalMountain.findById(
+    body.physicalMountainId
+  )
   const targetMountain = await TargetMountain.findById(body.targetMountainId)
 
   if (!event || !physicalMountain || !targetMountain) {
-    return response.status(400).json({ error: 'Event, physical or target mountain have been deleted or no longer exist.' })
+    return response.status(400).json({
+      error:
+        'Event, physical or target mountain have been deleted or no longer exist.',
+    })
   }
 
   const newParticipantsIds = body.participantsIds
-  const currentParticipantsIds = existingTeam.participants.map(p => p.id.toString())
+  const currentParticipantsIds = existingTeam.participants.map((p) =>
+    p.id.toString()
+  )
 
   if (Array.isArray(newParticipantsIds)) {
-    const participantsToAdd = newParticipantsIds.filter(pid => !currentParticipantsIds.includes(pid))
-    const participantsToRemove = currentParticipantsIds.filter(pid => !newParticipantsIds.includes(pid))
+    const participantsToAdd = newParticipantsIds.filter(
+      (pid) => !currentParticipantsIds.includes(pid)
+    )
+    const participantsToRemove = currentParticipantsIds.filter(
+      (pid) => !newParticipantsIds.includes(pid)
+    )
 
     if (participantsToAdd.length > 0) {
-      const existingParticipantsToAdd = await Participant.find({ _id: { $in: participantsToAdd } })
-      const validParticipantIdsToAdd = existingParticipantsToAdd.map(p => p._id)
+      const existingParticipantsToAdd = await Participant.find({
+        _id: { $in: participantsToAdd },
+      })
+      const validParticipantIdsToAdd = existingParticipantsToAdd.map(
+        (p) => p._id
+      )
 
       if (validParticipantIdsToAdd.length !== participantsToAdd.length) {
         // Handle case where some participant IDs sent by frontend don't exist
@@ -99,7 +137,6 @@ export const updateOneTeam = async (request, response) => {
     }
 
     if (participantsToRemove.length > 0) {
-
       // b. Remove participants from this team (reassign them)
       // CRITICAL: Your Participant schema has teamId: required.
       // This means participants must ALWAYS belong to a team.
@@ -108,7 +145,8 @@ export const updateOneTeam = async (request, response) => {
       if (participantsToRemove.length > 0) {
         for (const participantId of participantsToRemove) {
           const participant = await Participant.findById(participantId)
-          if (participant && participant.teamId.equals(teamID)) { // Double-check they were actually on THIS team
+          if (participant && participant.teamId.equals(teamID)) {
+            // Double-check they were actually on THIS team
 
             const soloTeam = new Team({
               name: `${participant.firstName} ${participant.lastName} (Solo)`,
@@ -136,7 +174,6 @@ export const updateOneTeam = async (request, response) => {
 }
 
 export const deleteOneTeam = async (request, response) => {
-
   const teamIdToDelete = request.params.id
 
   if (!teamIdToDelete) {
@@ -148,11 +185,11 @@ export const deleteOneTeam = async (request, response) => {
     {
       $set: {
         active: false,
-      }
+      },
     },
     {
       new: true,
-      runValidators: true
+      runValidators: true,
     }
   )
 

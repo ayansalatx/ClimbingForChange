@@ -1,20 +1,20 @@
-import { useState } from 'react';
-import LocationTable from '../../../components/admin/forms/locationforms/LocationTable';
-import mockData from "../../../mock-data/location-data.json"
-import SearchBar from "../../../components/admin/forms/locationforms/SearchBar";
-import Button from '@mui/material/Button';
+import Button from '@mui/material/Button'
+import React, { useState } from 'react'
 
-import AddLocationModal from '../../../components/admin/modals/LocationModal.jsx';
+import LocationTable from '../../../components/admin/forms/locationforms/LocationTable'
+import SearchBar from '../../../components/admin/forms/locationforms/SearchBar'
+import AddLocationModal from '../../../components/admin/modals/LocationModal.jsx'
+import mockData from '../../../mock-data/location-data.json'
 
 const LocationManager = () => {
-  const [popupOpen, setPopupOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [locations, setLocation] = useState(mockData); 
+  const [popupOpen, setPopupOpen] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [locations, setLocation] = useState(mockData) 
 
   const handleAddLocation = (eventData) => {
-    setLocation([...locations, eventData]); 
-    setPopupOpen(false);
-  };
+    setLocation([...locations, eventData]) 
+    setPopupOpen(false)
+  }
 
   return (
 
@@ -23,10 +23,10 @@ const LocationManager = () => {
         <img src={C4CHorizontalGreenLogo} alt="Climbing for Change Logo" height={150} />
       </a> */}
 
-        {/* to do: make a proper css styling */}
+      {/* to do: make a proper css styling */}
       <h1 style={{ fontFamily: 'Gibson, sans-serif', textTransform: 'uppercase', color: '#CDDC29', letterSpacing: '0.05em' }}>Locations</h1>
      
-     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
         <SearchBar value={searchTerm} onChange={setSearchTerm} />
         <Button
           variant="contained"
@@ -44,7 +44,7 @@ const LocationManager = () => {
       />
 
     </div>
-  );
-};
+  )
+}
 
-export default LocationManager;
+export default LocationManager

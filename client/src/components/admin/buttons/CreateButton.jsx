@@ -1,4 +1,5 @@
-import { Button } from '@mui/material';
+import { Button } from '@mui/material'
+import React from 'react'
 
 export default function CreateButton({ onClick, disabled }) {
   return (
@@ -16,5 +17,5 @@ export default function CreateButton({ onClick, disabled }) {
     >
       Create
     </Button>
-  );
+  )
 }
