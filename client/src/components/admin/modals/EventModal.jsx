@@ -1,5 +1,5 @@
-import { Box, Button,Modal, TextField, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { Modal, Box, Typography, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 const style = {
   position: 'absolute',
@@ -13,31 +13,40 @@ const style = {
   borderRadius: 2,
 }
 
-const AddEventModal = ({ open, onClose, onAdd }) => {
+const AddEventModal = ({ open, onClose, onAdd, onLocation }) => {
   const [eventName, setEventName] = useState('')
   const [location, setLocation] = useState('')
+  const [locations, setLocations] = useState([])  
   const [startDate, setStartDate] = useState('')
   const [startTime, setStartTime] = useState('')
   const [duration, setDuration] = useState('')
   const [lapDistance, setLapDistance] = useState('')
 
+  useEffect(() => {
+      setLocations(onLocation);
+    }, [onLocation])
+
   const handleAdd = (e) => {
     e.preventDefault()
 
+    const selectedLocation = locations.find((loc) => loc.id === location);
+    
+    const start = new Date(`${startDate}T${startTime}`);
+    const end = new Date(start.getTime() + Number(duration) * 60000);
+    
     const eventData = {
-      eventName,
-      location,
-      start: `${startDate} ${startTime}`,
-      end: '', 
-      duration,
-      lap: lapDistance,
+      name: eventName,
+      locationId: selectedLocation,
+      startDateTime: `${startDate} ${startTime}`,
+      endDateTime: end.toISOString(),
+      duration: Number(duration),
+      physicalMountainIds: new Array(Number(lapDistance)).fill('lap'),
       active: true,
-    }
+    };
 
-    onAdd(eventData) 
+    onAdd(eventData, setLocations) 
     onClose() 
 
-  
     setEventName('')
     setLocation('')
     setStartDate('')
@@ -63,15 +72,19 @@ const AddEventModal = ({ open, onClose, onAdd }) => {
             onChange={(e) => setEventName(e.target.value)}
             required
           />
-          <TextField
-            fullWidth
-            label="Location"
-            variant="outlined"
-            margin="normal"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            required
-          />
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Location</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={location}
+              label="Location"
+              onChange={(e) => setLocation(e.target.value)}
+            >
+              {locations.map((location) => <MenuItem value={location.id} key={location.id}> {location.name} </MenuItem> )}
+            </Select>
+          </FormControl>
+
           <TextField
             fullWidth
             label="Start Date"

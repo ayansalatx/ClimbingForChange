@@ -1,37 +1,47 @@
 import { Box, Typography } from '@mui/material'
 import Button from '@mui/material/Button'
-import React, { useState } from 'react'
-
+import React, { useState, useEffect } from 'react'
+ 
 import C4CHorizontalGreenLogo from '../../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import EventsTable from '../../../components/admin/forms/eventforms/EventTable'
 import SearchBar from '../../../components/admin/forms/eventforms/SearchBar'
 import AddEventModal from '../../../components/admin/modals/EventModal.jsx'
 import mockData from '../../../mock-data/event-data.json'
-
-
+import { getAllLocations } from '../../../services/locationService.js';
+import { getAllEvents } from '../../../services/eventService.js';
+ 
 const EventManager = () => {
   const [openPopup, setOpenPopup] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
-  const [events, setEvents] = useState(mockData) 
-
+  const [events, setEvents] = useState(mockData)
+  const [locations, setLocations] = useState([])
   const handleOpenPopup = () => setOpenPopup(true)
   const handleClosePopup = () => setOpenPopup(false)
-
+ 
   const handleAddEvent = (eventData) => {
-    setEvents([...events, eventData]) 
+    setEvents(prevEvents => [...prevEvents, eventData]);
     handleClosePopup()
   }
-
+    useEffect(() => {
+    const fetchLocations = async () => {
+      const locations = await getAllLocations()
+      setLocations(locations)
+    }
+ 
+     const fetchEvents = async () => {
+      const events = await getAllEvents()
+      setEvents(events)
+     }
+      fetchEvents()
+   
+    fetchLocations()
+   }, [])
+ 
+ 
   return (
     <Box sx={{ px: 4, py: 3 }}>
-      <a href="https://www.climbingforchange.ca/" target="_blank" rel="noopener noreferrer">
-        <img src={C4CHorizontalGreenLogo} alt="Climbing for Change Logo" height={100} />
-      </a>
-
-      <Typography variant="h4" mt={2} mb={2}>
-        Events
-      </Typography>
-
+      <Typography variant="h3" mb={2} sx={{ fontFamily: 'Gibson, sans-serif', textTransform: 'uppercase', color: '#CDDC29', letterSpacing: '0.05em' }}>Events</Typography>
+ 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
         <SearchBar setSearchTerm={setSearchTerm} />
         <Button
@@ -41,16 +51,17 @@ const EventManager = () => {
         >Add Event</Button>
       </div>
      
-      <EventsTable searchTerm={searchTerm} events={events} /> 
-
+      <EventsTable searchTerm={searchTerm} events={events} />
+ 
       <AddEventModal
         open={openPopup}
         onClose={handleClosePopup}
-        onAdd={handleAddEvent} 
+        onAdd={handleAddEvent}
+        onLocation={locations}
       />
-
+ 
     </Box>
   )
 }
-
+ 
 export default EventManager

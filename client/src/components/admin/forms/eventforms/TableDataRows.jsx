@@ -1,24 +1,24 @@
 import { Delete, Edit } from '@mui/icons-material'
-import { TableBody, TableCell,TableRow } from '@mui/material'
+import { TableBody, TableCell,TableRow, IconButton, Box } from '@mui/material'
 import Switch from '@mui/material/Switch'
 import React from 'react'
-
-
-const TableDataRows = ({ rows, columns, page, rowsPerPage }) => {
+ 
+ 
+const TableDataRows = ({ rows, columns, page, rowsPerPage, onDelete }) => {
   return (
     <TableBody>
       {rows
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
         .map((row, rowIndex) => {
-          const rowKey = `${row.eventName}-${row.start}-${rowIndex}` 
-
+          const rowKey = `${row.eventName}-${row.start}-${rowIndex}`
+ 
           return (
             <TableRow hover role="checkbox" tabIndex={-1} key={rowKey}>
               {columns.map((column) => {
                 const value = row[column.id]
                 return (
                   <TableCell
-                    key={`${rowKey}-${column.id}`} 
+                    key={`${rowKey}-${column.id}`}
                     align={column.align}
                   >
                     {column.format && typeof value === 'number'
@@ -29,9 +29,32 @@ const TableDataRows = ({ rows, columns, page, rowsPerPage }) => {
                   </TableCell>
                 )
               })}
+              {/* <TableCell key={`${rowKey}-actions`} align="right">
+               
+                 <button>
+                 <Edit />
+              </button>
+              <button onSubmit = {
+                () =>  onDelete(row.id)
+              }
+           
+              >
+                <Delete/>
+              </button>
+              </TableCell> */}
+                            
               <TableCell key={`${rowKey}-actions`} align="right">
-                <Edit />
-                <Delete />
+                <Box display="flex" gap={1} justifyContent="flex-end">
+                  <IconButton size="small">
+                    <Edit />
+                  </IconButton>
+                  <IconButton
+                    size="small"
+                    onClick={() => onDelete(row.id)}  // ✅ onClick instead of onSubmit
+                  >
+                    <Delete />
+                  </IconButton>
+                </Box>
               </TableCell>
             </TableRow>
           )
@@ -39,5 +62,5 @@ const TableDataRows = ({ rows, columns, page, rowsPerPage }) => {
     </TableBody>
   )
 }
-
+ 
 export default TableDataRows

@@ -1,17 +1,16 @@
 import { Button } from '@mui/material'
-import React from 'react'
 
-const CancelButton = ({ onClick, label = 'Cancel' }) => {
+const CancelButton = ({ onClick, label = "Cancel" }) => {
   return (
     <Button
       variant="outlined"
       onClick={onClick}
       sx={{
-        borderColor: '#3DB7C6',
-        color: '#3DB7C6',
+        borderColor: '#D97A7A',
+        color: '#D97A7A',
         '&:hover': {
-          borderColor: '#3DB7C6',
-          backgroundColor: 'rgba(61, 183, 198, 0.08)',
+          borderColor: '#D97A7A',
+          backgroundColor: 'rgba(217, 122, 122, 0.08)',
         },
       }}
     >
@@ -20,4 +19,4 @@ const CancelButton = ({ onClick, label = 'Cancel' }) => {
   )
 }
 
-export default CancelButton
+export default CancelButton;
