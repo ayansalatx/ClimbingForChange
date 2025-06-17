@@ -42,7 +42,7 @@ const EventsTable = ({ searchTerm = '', events = [] }) => {
       const startDate = new Date(startTime)
       const endDate = new Date(endTime)
       const durationTime = (endDate - startDate) / (1000 * 60)
- 
+             
       return  ({
         ...event,
         start: formatDateTime(startTime),

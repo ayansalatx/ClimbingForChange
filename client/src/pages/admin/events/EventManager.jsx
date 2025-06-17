@@ -26,13 +26,10 @@ const EventManager = () => {
     const fetchLocations = async () => {
       const locations = await getAllLocations()
       setLocations(locations)
- 
-      console.log(locations)
     }
  
      const fetchEvents = async () => {
       const events = await getAllEvents()
-      console.log('Fetched events:', events);
       setEvents(events)
      }
       fetchEvents()

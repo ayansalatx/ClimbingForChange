@@ -23,7 +23,6 @@ const AddEventModal = ({ open, onClose, onAdd, onLocation }) => {
   const [lapDistance, setLapDistance] = useState('')
 
   useEffect(() => {
-      console.log("Location in event-modal updated");
       setLocations(onLocation);
     }, [onLocation])
 
@@ -32,30 +31,22 @@ const AddEventModal = ({ open, onClose, onAdd, onLocation }) => {
 
     const selectedLocation = locations.find((loc) => loc.id === location);
     
-    // const eventData = {
-    //   eventName,
-    //   location,
-    //   start: `${startDate} ${startTime}`,
-    //   end: '', 
-    //   duration,
-    //   lap: lapDistance,
-    //   active: true,
-    // }
+    const start = new Date(`${startDate}T${startTime}`);
+    const end = new Date(start.getTime() + Number(duration) * 60000);
+    
     const eventData = {
       name: eventName,
       locationId: selectedLocation,
       startDateTime: `${startDate} ${startTime}`,
-      endDateTime: '', // add logic if needed
+      endDateTime: end.toISOString(),
       duration: Number(duration),
-      physicalMountainIds: new Array(Number(lapDistance)).fill('lap'), // or however laps are stored
+      physicalMountainIds: new Array(Number(lapDistance)).fill('lap'),
       active: true,
     };
-
 
     onAdd(eventData, setLocations) 
     onClose() 
 
-  
     setEventName('')
     setLocation('')
     setStartDate('')
