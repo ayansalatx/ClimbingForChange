@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import config from '../utils/config.js'
 
 const MONGO_URI_BASE = config.MONGO_URI_BASE
-//climb-for-change?retryWrites=true&w=majority&appName=Climb-for-change-cluster
+//climb-for-change?retryWrites=true&w=majority&appName=Climb-for-change-cluster.
 
 // Note: Render sets this as a string 'true', not a boolean.
 const isPreview = process.env.IS_PULL_REQUEST === 'true';
