@@ -10,7 +10,7 @@ mountainRoutes.post('/physical', asyncHandler(saveOnePhysicalMountain))
 
 mountainRoutes.get('/target', asyncHandler(getTargetMountains))
 
-mountainRoutes.get(`/target/:id`, asyncHandler(getTargetMountainById))
+mountainRoutes.get('/target/:id', asyncHandler(getTargetMountainById))
 
 mountainRoutes.post('/target', asyncHandler(saveOneTargetMountain))
 

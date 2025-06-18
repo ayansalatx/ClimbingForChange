@@ -45,13 +45,13 @@ beforeEach(async () => {
 
 test('RFIDTags are returned as json', async () => {
   await api
-    .get('/api/rfidtag')
+    .get('/api/rfidtags')
     .expect(200)
     .expect('Content-Type', /application\/json/)
 })
 
 test('all rfid are returned', async () => {
-  const response = await api.get('/api/rfidtag')
+  const response = await api.get('/api/rfidtags')
 
   assert.strictEqual(response.body.length, initialRFIDTags.length)
 })
@@ -61,9 +61,9 @@ test('a valid rfid can be added', async () => {
     serialNumber: 'RFID003',
   }
 
-  await api.post('/api/rfidtag').send(newLocation).expect(201).expect('Content-Type', /application\/json/)
+  await api.post('/api/rfidtags').send(newLocation).expect(201).expect('Content-Type', /application\/json/)
 
-  const allLocations = await (await api.get('/api/rfidtag')).body
+  const allLocations = await (await api.get('/api/rfidtags')).body
 
   const allLocationsNames = allLocations.map(e => e.serialNumber)
 
