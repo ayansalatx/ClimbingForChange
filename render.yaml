@@ -25,7 +25,8 @@ services:
         secretKey: MONGO_URI_BASE_SECRET
       - key: NODE_ENV
         value: production
-      - fromGroup: shared-vars
+      - fromGroup:
+          name: shared-vars
 
   # ─────────── YOUR FRONTEND SERVICE ───────────
   - type: web
@@ -36,4 +37,5 @@ services:
     buildCommand: 'npm install && npm run build'
     staticPublishPath: dist
     envVars:
-      - fromGroup: shared-vars
+      - fromGroup:
+          name: shared-vars
