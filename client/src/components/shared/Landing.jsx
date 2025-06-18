@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 
 import C4Clogo from '../../assets/C4C-branding/Climbing-For-Change-Logo_Green.png'

@@ -36,10 +36,10 @@ function App() {
       {/* <CssBaseline/> */}
       <Router>
         <Routes>
-          <Route path="/" element={<Landing />} />
+          <Route path='/' element={<Landing />} />
 
           <Route
-            path="/progress"
+            path='/progress'
             element={
               <Suspense fallback={<LoadingSpinner />}>
                 <ProgressBoard />
@@ -47,7 +47,7 @@ function App() {
             }
           />
           <Route
-            path="/progress/fullscreen"
+            path='/progress/fullscreen'
             element={
               <Suspense fallback={<LoadingSpinner />}>
                 <ProgressBoardFullscreen />
@@ -55,12 +55,12 @@ function App() {
             }
           />
 
-          <Route path="/login" element={<AdminLogin />} />
-          <Route path="/admin" element={<AdminDashboard />}>
-            <Route path="events" element={<EventManager />} />
-            <Route path="participants" element={<ParticipantManager />} />
-            <Route path="mountains" element={<MountainManager />} />
-            <Route path="locations" element={<LocationManager />} />
+          <Route path='/admin' element={<Layout />}>
+            <Route index element={<AdminDashboard />} />
+            <Route path='events' element={<EventManager />} />
+            <Route path='participants' element={<ParticipantManager />} />
+            <Route path='mountains' element={<MountainManager />} />
+            <Route path='locations' element={<LocationManager />} />
           </Route>
         </Routes>
       </Router>

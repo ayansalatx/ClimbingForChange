@@ -1,7 +1,6 @@
 import SearchIcon from '@mui/icons-material/Search'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
-import React from 'react'
 
 const SearchBar = ({ setSearchTerm }) => {
   return (

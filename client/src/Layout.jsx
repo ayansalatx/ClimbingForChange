@@ -1,5 +1,5 @@
 import { Box, CircularProgress } from '@mui/material'
-import React, { Suspense,useState } from 'react'
+import { Suspense,useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
 import SideBar from './components/shared/SideBar'
@@ -9,7 +9,7 @@ function Layout() {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const navigate = useNavigate()
 
-  const toggleDrawer = (open) => {
+  const toggleDrawer = (open)  => {
     setDrawerOpen(open)
   }
 
