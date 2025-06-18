@@ -3,7 +3,6 @@ import React from 'react'
 
 import CancelButton from '../buttons/CancelButton'
 import CreateButton from '../buttons/CreateButton'
-import mockData from "../../../mock-data/location-data.json"
 
 const style = {
   position: 'absolute',

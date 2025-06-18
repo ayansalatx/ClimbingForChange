@@ -5,7 +5,7 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import FullscreenToggleButton from './FullscreenToggleButton'
 import TableDataRows from './TableDataRows'
@@ -20,7 +20,7 @@ const ProgressTable = ({ columns, teams = [] }) => {
 
   const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage)
 
-  // Handle page change via pagination controls
+  // Handle page change via pagination
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
   }

@@ -29,7 +29,11 @@ const theme = createTheme({
     gray: {
       main: '#9f9898',
       light: '#dddbdb',
-    }
+    },
+    background: {
+      default: '#f5f5f5',
+      paper: '#ffffff',
+    },
   },
   typography: {
     fontFamily: 'canada-type-gibson, "Roboto", "Helvetica", "Arial", sans-serif',
