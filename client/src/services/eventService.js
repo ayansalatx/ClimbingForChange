@@ -1,19 +1,18 @@
-import axios from 'axios'
 import { api } from './api'
  
 export const getDisplayEvent = async () => {
-  const res = await api.get(`${BASE_URL}/events/display`)
+  const res = await api.get(`/events/display`)
   return res.data
 }
  
 export const getAllEvents = async () => {
-  const res = await api.get(`${BASE_URL}/events`)
+  const res = await api.get(`/events`)
   return res.data
 }
  
 export const editEvent = async (id, data) => {
   try {
-    const response = await api.put(`${BASE_URL}/events/${id}`, data)
+    const response = await api.put(`/events/${id}`, data)
     if (response.status === 200) {
       return response.data
     }
@@ -26,7 +25,7 @@ export const editEvent = async (id, data) => {
  
 export const deleteEvent = async (id) => {
   try {
-    const response = await api.delete(`${BASE_URL}/events/${id}`)
+    const response = await api.delete(`/events/${id}`)
     if (response.status === 204) {
       return true
     }
