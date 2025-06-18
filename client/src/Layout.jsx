@@ -9,7 +9,7 @@ function Layout() {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const navigate = useNavigate()
 
-  const toggleDrawer = (open) => {
+  const toggleDrawer = (open)  => {
     setDrawerOpen(open)
   }
 
