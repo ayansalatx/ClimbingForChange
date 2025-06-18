@@ -13,6 +13,7 @@ const dbName = isPreview
 
 const fullMongoUri = `${MONGO_URI_BASE}${dbName}?retryWrites=true&w=majority`
 
+console.log('connecting to process.env', process.env)
 console.log('connecting to', fullMongoUri)
 mongoose.connect(fullMongoUri)
   .then(() => {
