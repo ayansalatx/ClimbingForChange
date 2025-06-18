@@ -3,7 +3,7 @@ import Table from '@mui/material/Table'
 import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 import React from 'react'
-import {deleteEvent} from '../../../../services/eventService.js'
+import { deleteEvent } from '../../../../services/eventService.js'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
  
@@ -43,6 +43,7 @@ const EventsTable = ({ searchTerm = '', events = [] }) => {
       const durationTime = (endDate - startDate) / (1000 * 60)
              
       return  ({
+        id: event.id,
         ...event,
         start: formatDateTime(startTime),
         end:formatDateTime(endTime),
@@ -69,7 +70,7 @@ const EventsTable = ({ searchTerm = '', events = [] }) => {
   }
  
   const onDelete = async (id) => {
-    await deleteEvent()
+    await deleteEvent(id)
   }
  
   return (
