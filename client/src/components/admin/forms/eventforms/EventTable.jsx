@@ -3,8 +3,8 @@ import Table from '@mui/material/Table'
 import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 import React from 'react'
-import { deleteEvent } from '../../../../services/eventService.js'
 
+import { deleteEvent } from '../../../../services/eventService.js'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
 

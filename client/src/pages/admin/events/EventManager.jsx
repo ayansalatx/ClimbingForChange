@@ -1,12 +1,12 @@
 import { Box, Typography } from '@mui/material'
 import Button from '@mui/material/Button'
+import { useEffect,useState } from 'react'
 
-import { useState, useEffect } from 'react'
 import EventsTable from '../../../components/admin/forms/eventforms/EventTable'
 import SearchBar from '../../../components/admin/forms/eventforms/SearchBar'
 import AddEventModal from '../../../components/admin/modals/EventModal.jsx'
-import { getAllLocations } from '../../../services/locationService.js';
 import { getAllEvents } from '../../../services/eventService.js'
+import { getAllLocations } from '../../../services/locationService.js'
 
  
 const EventManager = () => {
