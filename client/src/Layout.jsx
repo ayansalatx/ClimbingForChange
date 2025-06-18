@@ -4,6 +4,7 @@ import { Outlet, useNavigate } from 'react-router-dom'
 
 import SideBar from './components/shared/SideBar'
 import TopAppBar from './components/shared/TopAppBar'
+import AlertDisplay from './components/AlertDisplay'
 
 function Layout() {
   const [drawerOpen, setDrawerOpen] = useState(false)
@@ -51,6 +52,7 @@ function Layout() {
               </Box>
             }
           >
+            <AlertDisplay />
             <Outlet />
           </Suspense>
         </Box>

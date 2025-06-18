@@ -1,8 +1,8 @@
-import { createContext, useReducer, useContext } from "react";
-import { reducer } from "state/reducer";
+import { createContext, useReducer, useContext } from 'react';
+import { reducer } from './reducer';
 
 const initialState = {
-  notification: null,
+  alert: null,
 };
 
 export const StateContext = createContext([
@@ -20,4 +20,4 @@ export const StateProvider = ({ children }) => {
   );
 };
 
-export const useStateValue = () => useContext(StateContext);
+export const useGlobalState = () => useContext(StateContext);

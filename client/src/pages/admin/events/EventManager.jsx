@@ -8,6 +8,7 @@ import AddEventModal from '../../../components/admin/modals/EventModal.jsx'
 import mockData from '../../../mock-data/event-data.json'
 import { getAllEvents } from '../../../services/eventService.js'
 import { getAllLocations } from '../../../services/locationService.js'
+import { useAlert } from '../../../hooks/useAlert.js'
  
 const EventManager = () => {
   const [openPopup, setOpenPopup] = useState(false)
@@ -16,6 +17,8 @@ const EventManager = () => {
   const [locations, setLocations] = useState([])
   const handleOpenPopup = () => setOpenPopup(true)
   const handleClosePopup = () => setOpenPopup(false)
+
+    const displayAlert = useAlert()
  
   const handleAddEvent = (eventData) => {
     setEvents(prevEvents => [...prevEvents, eventData])
@@ -30,6 +33,7 @@ const EventManager = () => {
     const fetchEvents = async () => {
       const events = await getAllEvents()
       setEvents(events)
+      displayAlert("Fresh backend data", `Loaded ${events.length} events from the backend.`, "success")
     }
     fetchEvents()
    
