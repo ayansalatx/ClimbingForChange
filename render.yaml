@@ -20,9 +20,6 @@ services:
     buildCommand: 'npm install'
     startCommand: 'npm run start'
     envVars:
-      - key: MONGO_URI_BASE
-        fromSecret: true
-        secretKey: MONGO_URI_BASE_SECRET
       - key: NODE_ENV
         value: production
       - fromGroup: shared-vars
