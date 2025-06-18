@@ -1,0 +1,38 @@
+previews:
+  - enabled: true
+    expireAfterDays: 2
+
+# This group defines environment variables that are shared across services
+# and are copied to all preview environments.
+environmentGroups:
+  - name: shared-vars
+    envVars:
+      - key: VITE_API_URL 
+        value: "https://staging-backend.onrender.com"
+
+services:
+  # ─────────── BACKEND SERVICE ───────────
+  - type: web
+    name: staging-backend # A clear name for your staging backend
+    runtime: node
+    branch: skinny-solution
+    rootDir: server
+    buildCommand: 'npm install'
+    startCommand: 'npm run start'
+    envVars:
+      - key: MONGO_URI_BASE
+        fromSecret: true
+        secretKey: MONGO_URI_BASE_SECRET
+      - key: NODE_ENV
+        value: production
+      - fromGroup: shared-vars
+
+  # ─────────── YOUR FRONTEND SERVICE ───────────
+  - type: static
+    name: staging-frontend
+    branch: skinny-solution
+    rootDir: client
+    buildCommand: 'npm install && npm run build'
+    publishDir: dist
+    envVars:
+      - fromGroup: shared-vars
