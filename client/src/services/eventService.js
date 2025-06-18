@@ -29,15 +29,15 @@ export const deleteEvent = async (id) => {
   try {
     const response = await axios.delete(`${BASE_URL}/events`, {
       data: { id },
-    });
+    })
 
     if (response.status === 200 || response.status === 204) {
-      return true;
+      return true
     }
 
-    throw new Error(`Unexpected response status: ${response.status}`);
+    throw new Error(`Unexpected response status: ${response.status}`)
   } catch (error) {
-    console.error('Failed to delete event:', error);
-    throw error;
+    console.error('Failed to delete event:', error)
+    throw error
   }
-};
+}

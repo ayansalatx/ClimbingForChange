@@ -6,7 +6,7 @@ import EventsTable from '../../../components/admin/forms/eventforms/EventTable'
 import SearchBar from '../../../components/admin/forms/eventforms/SearchBar'
 import AddEventModal from '../../../components/admin/modals/EventModal.jsx'
 import { getAllLocations } from '../../../services/locationService.js';
-import { getAllEvents } from '../../../services/eventService.js';
+import { getAllEvents } from '../../../services/eventService.js'
 
  
 const EventManager = () => {
@@ -18,7 +18,7 @@ const EventManager = () => {
   const handleClosePopup = () => setOpenPopup(false)
  
   const handleAddEvent = (eventData) => {
-    setEvents([...events, eventData]);
+    setEvents([...events, eventData])
     handleClosePopup()
   }
   useEffect(() => {
