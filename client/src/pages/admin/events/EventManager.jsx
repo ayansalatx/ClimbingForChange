@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import Button from '@mui/material/Button'
-import React, { useEffect,useState } from 'react'
+
+import { useState, useEffect } from 'react'
 
 import EventsTable from '../../../components/admin/forms/eventforms/EventTable'
 import SearchBar from '../../../components/admin/forms/eventforms/SearchBar'

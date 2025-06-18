@@ -1,8 +1,6 @@
 import { Delete, Edit } from '@mui/icons-material'
 import { Box,IconButton, TableBody, TableCell,TableRow } from '@mui/material'
 import Switch from '@mui/material/Switch'
-import React from 'react'
- 
  
 const TableDataRows = ({ rows, columns, page, rowsPerPage, onDelete }) => {
   return (

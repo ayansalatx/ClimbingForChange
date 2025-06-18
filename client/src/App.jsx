@@ -21,20 +21,19 @@ function App() {
       <CssBaseline />
       <Router>
         <Routes>
-          <Route path="/" element={<Landing />} />
-
+          <Route path='/' element={<Landing />} />
           <Route path="/progress" element={<ProgressBoard />} />
           <Route
             path="/progress/fullscreen"
             element={<ProgressBoardFullscreen />}
           />
 
-          <Route path="/login" element={<AdminLogin />} />
-          <Route path="/admin" element={<AdminDashboard />}>
-            <Route path="events" element={<EventManager />} />
-            <Route path="participants" element={<ParticipantManager />} />
-            <Route path="mountains" element={<MountainManager />} />
-            <Route path="locations" element={<LocationManager />} />
+          <Route path='/admin' element={<Layout />}>
+            <Route index element={<AdminDashboard />} />
+            <Route path='events' element={<EventManager />} />
+            <Route path='participants' element={<ParticipantManager />} />
+            <Route path='mountains' element={<MountainManager />} />
+            <Route path='locations' element={<LocationManager />} />
           </Route>
         </Routes>
       </Router>
