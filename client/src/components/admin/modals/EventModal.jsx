@@ -106,7 +106,7 @@ const AddEventModal = ({ open, onClose, onAdd }) => {
           />
           <TextField
             fullWidth
-            label="Lap Distance (meters)"
+            label="Lap Distance (ft)"
             type="number"
             variant="outlined"
             margin="normal"
