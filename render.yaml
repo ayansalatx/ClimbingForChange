@@ -1,10 +1,10 @@
 previews:
-  - enabled: true
-    expireAfterDays: 2
+  generation: automatic
+  expireAfterDays: 2
 
 # This group defines environment variables that are shared across services
 # and are copied to all preview environments.
-environmentGroups:
+envVarGroups:
   - name: shared-vars
     envVars:
       - key: VITE_API_URL 
@@ -34,6 +34,6 @@ services:
     branch: skinny-solution
     rootDir: client
     buildCommand: 'npm install && npm run build'
-    publishDir: dist
+    staticPublishPath: dist
     envVars:
       - fromGroup: shared-vars
