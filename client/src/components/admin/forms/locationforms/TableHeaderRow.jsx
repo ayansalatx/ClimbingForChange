@@ -1,4 +1,4 @@
-import { TableCell,TableHead, TableRow } from '@mui/material'
+import { TableCell, TableHead, TableRow } from '@mui/material'
 import React from 'react'
 
 const TableHeaderRow = ({ columns }) => {
@@ -9,11 +9,12 @@ const TableHeaderRow = ({ columns }) => {
           <TableCell
             key={column.id}
             align={column.align || 'left'}
-            style={{ minWidth: column.minWidth, fontWeight: 'bold'}}
+            sx={{ minWidth: column.minWidth, fontWeight: 'bold'}}
           >
             {column.label}
           </TableCell>
         ))}
+        <TableCell></TableCell>
       </TableRow>
     </TableHead>
   )

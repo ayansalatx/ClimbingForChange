@@ -8,9 +8,9 @@ const TableDataRows = ({ rows, columns, page, rowsPerPage }) => {
       {/* Slice the rows array to get only the rows for the current page. */}
       {rows
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-        .map((row) => {
+        .map((row, index) => {
           return (
-            <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+            <TableRow hover role="checkbox" tabIndex={-1} key={row.code ?? index}>
               {/* For each column in the column definition, render a matching cell */}
               {columns.map((column) => {
                 const value = row[column.id]
@@ -22,7 +22,7 @@ const TableDataRows = ({ rows, columns, page, rowsPerPage }) => {
                   </TableCell>
                 )
               })}
-              <TableCell key={row} align={'right'}>
+              <TableCell key={row.id} align={'right'}>
                 <Edit/>
                 <Delete/>
               </TableCell>

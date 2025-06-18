@@ -1,5 +1,5 @@
 import { Delete, Edit } from '@mui/icons-material'
-import { TableBody, TableCell,TableRow, IconButton, Box } from '@mui/material'
+import { Box,IconButton, TableBody, TableCell,TableRow } from '@mui/material'
 import Switch from '@mui/material/Switch'
  
 const TableDataRows = ({ rows, columns, page, rowsPerPage, onDelete }) => {

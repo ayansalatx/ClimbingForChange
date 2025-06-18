@@ -4,11 +4,12 @@ const LoadingSpinner = () => {
   return (
     <Box
       sx={{
+        bgcolor: 'primary.main',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        minHeight: '60vh',
+        width: '100vw',
       }}
     >
       <CircularProgress color="secondary"  />

@@ -20,7 +20,6 @@ const CollapsibleRow = ({ team, columns, participants }) => {
         {/* Expand/Collapse toggle */}
         <TableCell>
           <IconButton
-            aria-label="expand team"
             size="small"
             disableRipple
             sx={{
@@ -35,7 +34,7 @@ const CollapsibleRow = ({ team, columns, participants }) => {
           </IconButton>
         </TableCell>
 
-        {/* For each column in the column definition, render a matching cell */}
+        {/* Create a cell for each column in the row */}
         {columns.map((column, index) => {
           const value = team[column.id] ?? '-'
           const columnAlign =
@@ -72,8 +71,8 @@ const CollapsibleRow = ({ team, columns, participants }) => {
                 <TableBody>
                   {participants.map((participant, i) => (
                     <TableRow key={i}>
-                      <TableCell>
-                        <IconButton
+                      <TableCell sx={{ width: '4.2rem' }}>
+                        {/* <IconButton
                           aria-label="expand team"
                           size="small"
                           color="#fff"
@@ -84,22 +83,26 @@ const CollapsibleRow = ({ team, columns, participants }) => {
                           }}
                         >
                           <KeyboardArrowRightIcon />
-                        </IconButton>
+                        </IconButton> */}
                       </TableCell>
                       <TableCell sx={{ padding: '0.4rem', textAlign: 'right' }}>
                         {participant.firstName} {participant.lastName}
                       </TableCell>
 
-                      {/* Remaining cells: placeholder values */}
+                      {/* Remaining cells*/}
                       {columns.slice(1).map((column) => {
                         const value = participant[column.id] ?? '-'
 
                         return (
                           <TableCell
-                            sx={{ padding: '0.4rem' }}
+                            sx={{
+                              padding: '0.4rem',
+                              minWidth: column.minWidth || 100,
+                              maxWidth: column.maxWidth || 'auto',
+                              overflowWrap: 'break-word',
+                              textAlign: 'center',
+                            }}
                             key={column.id}
-                            align={'center'}
-                            width={column.width}
                           >
                             {value}
                           </TableCell>

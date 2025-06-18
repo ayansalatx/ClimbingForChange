@@ -76,43 +76,53 @@ const ProgressBoard = () => {
   }, [searchString, teams])
 
   return (
-    <Container
-      maxWidth={false}
-      disableGutters
+    <Box
       sx={{
-        width: '95vw',
-        height: '90vh',
-        display: 'flex',
+        minHeight: '100vh',
+        width: '100vw',
+        bgcolor: 'primary.main',
         flexDirection: 'column',
-        overflow: 'hidden',
+        alignContent: 'center',
       }}
     >
-      <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: '1rem' }}>
-        <a
-          href="https://www.climbingforchange.ca/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <img
-            src={C4CHorizontalGreenLogo}
-            alt="Climbing for Change Logo"
-            style={{ maxWidth: '15.5rem', width: 'auto' }}
+      <Container
+        maxWidth={false}
+        disableGutters
+        sx={{
+          width: '95vw',
+          height: '95vh',
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+        }}
+      >
+        <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: '1rem' }}>
+          <a
+            href="https://www.climbingforchange.ca/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <img
+              src={C4CHorizontalGreenLogo}
+              alt="Climbing for Change Logo"
+              style={{ maxWidth: '15.5rem', width: 'auto' }}
+            />
+          </a>
+        </Box>
+
+        <Box sx={{ mb: '1rem', maxWidth: '25vw' }}>
+          <ProgressSearch
+            searchString={searchString}
+            onChange={setsearchString}
+            teamNames={[...new Set(teams.map((team) => team.name))]}
           />
-        </a>
-      </Box>
+        </Box>
 
-      <Box sx={{ mb: '1rem', maxWidth: '25vw' }}>
-        <ProgressSearch
-          searchString={searchString}
-          onChange={setsearchString}
-          teamNames={[...new Set(teams.map((team) => team.name))]}
-        />
-      </Box>
-
-      <Box sx={{ flexGrow: 1, width: '100%', overflowX: 'hidden' }}>
-        <ProgressTable columns={fullColumns} teams={filteredTeams} />
-      </Box>
-    </Container>
+        <Box sx={{ flexGrow: 1, width: '100%', overflowX: 'hidden' }}>
+          <ProgressTable columns={fullColumns} teams={filteredTeams} />
+        </Box>
+      </Container>
+    </Box>
   )
 }
 

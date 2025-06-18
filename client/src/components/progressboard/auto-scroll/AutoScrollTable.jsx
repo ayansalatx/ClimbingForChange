@@ -4,6 +4,7 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material'
+
 import { useEffect, useRef,useState } from 'react'
 
 import TableHeaderRow from '../TableHeaderRow'
@@ -19,7 +20,7 @@ const AutoScrollTable = ({ teams, columns }) => {
     setPage(newPage)
   }
 
-  // Smooth scrolling effect
+  // Smooth scrolling effect - placeholder for real animation
   useEffect(() => {
     let animationFrameId
 
@@ -46,7 +47,7 @@ const AutoScrollTable = ({ teams, columns }) => {
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer ref={containerRef} sx={{ height: '74vh' }}>
+      <TableContainer ref={containerRef} sx={{ height: '79vh' }}>
         <Table stickyHeader aria-label="auto scrolling table">
           <TableHeaderRow columns={columns} />
           <ScrollingTableRow columns={columns} teams={teams} />
