@@ -18,19 +18,19 @@ const openapiDoc = YAML.load('./openapi.yaml')
 
 const corsOptions = {
   origin: function (origin, callback) {
-    const allowed = /localhost:\d{4}$/.test(origin) || /\.onrender\.com$/.test(origin);
+    const allowed = /localhost:\d{4}$/.test(origin) || /\.onrender\.com$/.test(origin)
 
     if (allowed || !origin) {
-      callback(null, true);
+      callback(null, true)
     } else {
-      callback(new Error('This origin is not allowed by CORS'));
+      callback(new Error('This origin is not allowed by CORS'))
     }
   },
   credentials: true, 
   optionsSuccessStatus: 200
-};
+}
 
-app.use(cors())
+app.use(cors(corsOptions))
 
 app.use(express.static('public'))
 
