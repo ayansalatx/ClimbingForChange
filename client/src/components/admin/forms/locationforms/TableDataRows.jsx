@@ -7,7 +7,7 @@ const TableDataRows = ({ rows, columns, page, rowsPerPage }) => {
     <TableBody>
       {rows
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-        .map((row) => {
+        .map((row, index) => {
           return (
             <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
               {columns.map((column) => {
@@ -20,7 +20,7 @@ const TableDataRows = ({ rows, columns, page, rowsPerPage }) => {
                   </TableCell>
                 )
               })}
-              <TableCell key={row} align={'right'}>
+              <TableCell key={row.id} align={'right'}>
                 <Edit/>
                 <Delete/>
               </TableCell>

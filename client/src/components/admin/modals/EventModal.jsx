@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Modal, Box, Typography, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Box, Button, FormControl, InputLabel, MenuItem,Modal, Select, TextField, Typography } from '@mui/material'
+import { useEffect, useState } from 'react'
 
 const style = {
   position: 'absolute',
@@ -23,16 +23,16 @@ const AddEventModal = ({ open, onClose, onAdd, onLocation }) => {
   const [lapDistance, setLapDistance] = useState('')
 
   useEffect(() => {
-      setLocations(onLocation);
-    }, [onLocation])
+    setLocations(onLocation)
+  }, [onLocation])
 
   const handleAdd = (e) => {
     e.preventDefault()
 
-    const selectedLocation = locations.find((loc) => loc.id === location);
+    const selectedLocation = locations.find((loc) => loc.id === location)
     
-    const start = new Date(`${startDate}T${startTime}`);
-    const end = new Date(start.getTime() + Number(duration) * 60000);
+    const start = new Date(`${startDate}T${startTime}`)
+    const end = new Date(start.getTime() + Number(duration) * 60000)
     
     const eventData = {
       name: eventName,
@@ -42,7 +42,7 @@ const AddEventModal = ({ open, onClose, onAdd, onLocation }) => {
       duration: Number(duration),
       physicalMountainIds: new Array(Number(lapDistance)).fill('lap'),
       active: true,
-    };
+    }
 
     onAdd(eventData, setLocations) 
     onClose() 
@@ -119,7 +119,7 @@ const AddEventModal = ({ open, onClose, onAdd, onLocation }) => {
           />
           <TextField
             fullWidth
-            label="Lap Distance (meters)"
+            label="Lap Distance (ft)"
             type="number"
             variant="outlined"
             margin="normal"

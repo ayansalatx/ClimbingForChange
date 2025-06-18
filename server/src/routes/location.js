@@ -10,8 +10,8 @@ locationRoutes.get('/:id', asyncHandler(getLocationById))
 
 locationRoutes.post('/', asyncHandler(saveOneLocation))
 
-locationRoutes.put('/', asyncHandler(updateOneLocation))
+locationRoutes.put('/:id', asyncHandler(updateOneLocation))
 
-locationRoutes.delete('/', asyncHandler(deleteOneLocation))
+locationRoutes.delete('/:id', asyncHandler(deleteOneLocation))
 
 export default locationRoutes

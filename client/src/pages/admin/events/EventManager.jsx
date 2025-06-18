@@ -1,12 +1,13 @@
 import { Box, Typography } from '@mui/material'
 import Button from '@mui/material/Button'
-import React, { useState, useEffect } from 'react'
 
+import { useState, useEffect } from 'react'
 import EventsTable from '../../../components/admin/forms/eventforms/EventTable'
 import SearchBar from '../../../components/admin/forms/eventforms/SearchBar'
 import AddEventModal from '../../../components/admin/modals/EventModal.jsx'
 import { getAllLocations } from '../../../services/locationService.js';
 import { getAllEvents } from '../../../services/eventService.js';
+
  
 const EventManager = () => {
   const [openPopup, setOpenPopup] = useState(false)
@@ -20,20 +21,20 @@ const EventManager = () => {
     setEvents([...events, eventData]);
     handleClosePopup()
   }
-    useEffect(() => {
+  useEffect(() => {
     const fetchLocations = async () => {
       const locations = await getAllLocations()
       setLocations(locations)
     }
  
-     const fetchEvents = async () => {
+    const fetchEvents = async () => {
       const events = await getAllEvents()
       setEvents(events)
-     }
-      fetchEvents()
+    }
+    fetchEvents()
    
     fetchLocations()
-   }, [])
+  }, [])
  
  
   return (

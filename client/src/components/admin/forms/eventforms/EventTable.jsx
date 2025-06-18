@@ -4,6 +4,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 import React from 'react'
 import { deleteEvent } from '../../../../services/eventService.js'
+
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
  
@@ -54,7 +55,7 @@ const EventsTable = ({ searchTerm = '', events = [] }) => {
         active: event.active
       })
      
-    })
+  })
   const filteredRows = formattedEvents.filter((row) => {
     const event = row?.eventName || ''
     return event.toLowerCase().includes(searchTerm.toLowerCase())
@@ -79,7 +80,7 @@ const EventsTable = ({ searchTerm = '', events = [] }) => {
         <Table stickyHeader aria-label="sticky table">
           <TableHeaderRow columns={fullColumns} />
           <TableDataRows
-          onDelete={onDelete}
+            onDelete={onDelete}
             rows={filteredRows}
             columns={fullColumns}
             page={page}

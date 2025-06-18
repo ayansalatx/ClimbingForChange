@@ -1,12 +1,11 @@
-/* eslint-disable no-unused-vars */
 import mongoose from 'mongoose'
 import config from '../utils/config.js'
 
-const url = config.MONGODB_URI
+const MONGODB_URI = config.MONGODB_URI
 
-console.log('connecting to', url)
-mongoose.connect(url)
-  .then(result => {
+console.log('connecting to', MONGODB_URI)
+mongoose.connect(MONGODB_URI)
+  .then(() => {
     console.log('connected to MongoDB')
   })
   .catch(error => {

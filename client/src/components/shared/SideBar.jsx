@@ -16,7 +16,6 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material'
-import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import C4CBanner from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
@@ -71,7 +70,7 @@ const SideBar = ({ open, toggleDrawer }) => {
   ]
 
   return (
-    <Drawer anchor='left' open={open} onClose={toggleDrawer(false)}>
+    <Drawer anchor='left' open={open} onClose={() => toggleDrawer(false)}>
       <Box
         sx={{
           width: 250,
@@ -92,7 +91,11 @@ const SideBar = ({ open, toggleDrawer }) => {
         <List>
           {dashboardList.map((item, index) => (
             <ListItem key={index} disablePadding>
-              <ListItemButton onClick={item.onClick}>
+              <ListItemButton onClick={() => 
+              {
+                item.onClick()
+                toggleDrawer(false)
+              }}>
                 <ListItemIcon sx={{ color: 'white' }}>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItemButton>
@@ -110,7 +113,11 @@ const SideBar = ({ open, toggleDrawer }) => {
         <List>
           {manageList.map((item, index) => (
             <ListItem key={index} disablePadding>
-              <ListItemButton onClick={item.onClick}>
+              <ListItemButton onClick={() => 
+              {
+                item.onClick()
+                toggleDrawer(false)
+              }}>
                 <ListItemIcon sx={{ color: 'white' }}>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItemButton>
@@ -126,7 +133,11 @@ const SideBar = ({ open, toggleDrawer }) => {
         <List>
           {quickAccessList.map((item, index) => (
             <ListItem key={index} disablePadding>
-              <ListItemButton onClick={item.onClick}>
+              <ListItemButton onClick={() => 
+              {
+                item.onClick()
+                toggleDrawer(false)
+              }}>
                 <ListItemIcon sx={{ color: 'white' }}>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItemButton>

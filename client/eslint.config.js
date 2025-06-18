@@ -11,7 +11,7 @@ import unusedImports from 'eslint-plugin-unused-imports'
 import globals from 'globals'
 
 export default [
-  { ignores: ['public'] },
+  { ignores: ['public', 'dist'] },
   {
     files: ['**/*.{js,jsx}'],
     languageOptions: {
@@ -53,6 +53,9 @@ export default [
         { allowConstantExport: true },
       ],
 
+      // React not required to import
+      'react/react-in-jsx-scope': 'off',
+
       // Import sorting and cleanup
       'unused-imports/no-unused-imports': 'error',
       'import/no-unresolved': ['error', { caseSensitive: true }],
@@ -67,16 +70,6 @@ export default [
       '@stylistic/linebreak-style': ['error', 'unix'],
 
       'react/prop-types': 'off',
-
-      // Component naming casing enforcement
-      // 'unicorn/filename-case': [
-      //   'error',
-      //   {
-      //     cases: {
-      //       pascalCase: true,
-      //     },
-      //   },
-      // ],
     },
   },
 ]

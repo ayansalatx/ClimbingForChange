@@ -1,5 +1,6 @@
 import MenuIcon from '@mui/icons-material/Menu'
-import { AppBar, Box,Button, IconButton, Toolbar, Container} from '@mui/material'
+import { AppBar, Box,Button, Container,IconButton, Toolbar} from '@mui/material'
+import React from 'react'
 
 import C4CBanner from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 
@@ -8,9 +9,8 @@ const TopAppBar = ({ onMenuClick, onLogout }) => (
     position="fixed"
     elevation={1}
     sx={{
-      bgcolor: '#f5f5f5',   
-      color: '#000',        
-      height: 64
+      bgcolor: 'primary-main',     
+      height: 64,
     }}
   >
     <Container maxWidth="lg" disableGutters>
@@ -33,6 +33,6 @@ const TopAppBar = ({ onMenuClick, onLogout }) => (
       </Toolbar>
     </Container>
   </AppBar>
-);
+)
 
 export default TopAppBar

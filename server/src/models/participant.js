@@ -39,7 +39,7 @@ participantSchema.virtual('laps', {
   localField: '_id',
   foreignField: 'participantId',
   justOne: false
-});
+})
 
 participantSchema.set('toJSON', {
   virtuals: true,

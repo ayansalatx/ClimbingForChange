@@ -78,10 +78,17 @@ export const saveOneParticipant = async (request, response) => {
 }
 
 export const updateOneParticipant = async (request, response) => {
+  const id = request.params.id
   const body = request.body
 
-  if (!body) {
+  if (!id) {
     return response.status(400).json({ error: 'Participant is missing' })
+  }
+
+  const existingParticiapnt = await Participant.findById(id)
+
+  if (!existingParticiapnt) {
+    return response.status(400).json({ error: 'Participant is doesnt exist' })
   }
 
   const participantObjectToUpdate = {
@@ -98,11 +105,7 @@ export const updateOneParticipant = async (request, response) => {
     const participantWithThisRFIDTag = await Participant.findOne({
       rfidTagId: existingRFIDTag.id,
     })
-    console.log(
-      '🚀 ~ updateOneParticipant ~ participantWithThisRFIDTag:',
-      participantWithThisRFIDTag
-    )
-
+    
     if (participantWithThisRFIDTag.id !== participantObjectToUpdate.id) {
       return response
         .status(400)
@@ -141,12 +144,19 @@ export const updateOneParticipant = async (request, response) => {
 }
 
 export const deleteOneParticipant = async (request, response) => {
+  const id = request.params.id
   const participantIdToDelete = request.body.id
 
   if (!participantIdToDelete) {
     return response
       .status(400)
       .json({ error: 'Participant id to delete is missing' })
+  }
+
+  const existingParticiapnt = await Participant.findById(id)
+
+  if (!existingParticiapnt) {
+    return response.status(400).json({ error: 'Participant is doesnt exist' })
   }
 
   const updated = await Participant.findByIdAndUpdate(

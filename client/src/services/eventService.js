@@ -13,16 +13,16 @@ export const getAllEvents = async () => {
 }
  
 export const editEvent = async (id, data) => {
-    try {
-        const response = await axios.put(`${BASE_URL}/events/${id}`, data);
-        if (response.status === 200) {
-            return response.data;
-        }
-        throw new Error(`Unexpected response status: ${response.status}`);
-    } catch (error) {
-        console.error('Failed to edit event:', error);
-        throw error;
+  try {
+    const response = await axios.put(`${BASE_URL}/events/${id}`, data)
+    if (response.status === 200) {
+      return response.data
     }
+    throw new Error(`Unexpected response status: ${response.status}`)
+  } catch (error) {
+    console.error('Failed to edit event:', error)
+    throw error
+  }
 }
  
 export const deleteEvent = async (id) => {
