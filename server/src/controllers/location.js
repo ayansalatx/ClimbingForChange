@@ -41,6 +41,7 @@ export const saveOneLocation = async (request, response) => {
 export const updateOneLocation = async (request, response) => {
 
   const body = request.body
+  const id = request.params.id
 
   if (!body) {
     return response.status(400).json({ error: 'Location missing' })
@@ -48,7 +49,7 @@ export const updateOneLocation = async (request, response) => {
 
   const updated = await Location.updateOne(
     {
-      _id: body.id,
+      _id: id,
       // active: true
     },
     {
@@ -72,14 +73,14 @@ export const updateOneLocation = async (request, response) => {
 
 export const deleteOneLocation = async (request, response) => {
 
-  const locationIdToDelete = request.body.id
+  const id = request.params.id
 
-  if (!locationIdToDelete) {
+  if (!id) {
     return response.status(400).json({ error: 'Location id to delete is missing' })
   }
 
   const updated = await Location.findByIdAndUpdate(
-    locationIdToDelete,
+    id,
     {
       $set: {
         active: false,
