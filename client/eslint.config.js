@@ -53,6 +53,9 @@ export default [
         { allowConstantExport: true },
       ],
 
+      // React not required to import
+      'react/react-in-jsx-scope': 'off',
+
       // Import sorting and cleanup
       'unused-imports/no-unused-imports': 'error',
       'import/no-unresolved': ['error', { caseSensitive: true }],
