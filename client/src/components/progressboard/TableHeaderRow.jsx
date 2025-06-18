@@ -6,7 +6,7 @@ const TableHeaderRow = ({ columns }) => {
   return (
     <TableHead>
       <TableRow>
-        <TableCell sx={{width: '0'}}></TableCell>
+        <TableCell sx={{ width: '0', bgcolor: 'background.paper' }}></TableCell>
         {columns.map((column, index) => (
           <TableCell
             key={column.id}
@@ -18,7 +18,7 @@ const TableHeaderRow = ({ columns }) => {
                   : 'center'
             }
             sx={{
-              minWidth: column.minWidth,
+              bgcolor: 'background.paper',
               fontWeight: 'bold',
               fontSize: '1rem',
               textTransform: 'uppercase',

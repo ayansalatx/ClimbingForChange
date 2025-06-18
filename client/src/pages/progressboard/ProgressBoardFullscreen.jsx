@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
-import AutoScrollTable from '../../components/progressboard/Fullscreen/AutoScrollTable'
+import AutoScrollTable from '../../components/progressboard/auto-scroll/AutoScrollTable'
 import { getTeamsForDisplay } from '../../services/teamService'
 
 // Define columns for full width screen
@@ -63,35 +63,45 @@ const ProgressBoardFullscreen = () => {
   }, [])
 
   return (
-    <Container
-      maxWidth={false}
-      disableGutters
+    <Box
       sx={{
-        width: '95vw',
-        height: '90vh',
-        display: 'flex',
+        minHeight: '100vh',
+        width: '100vw',
+        bgcolor: 'primary.main',
         flexDirection: 'column',
-        overflow: 'hidden',
+        alignContent: 'center',
       }}
     >
-      <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: '1rem' }}>
-        <a
-          href="https://www.climbingforchange.ca/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <img
-            src={C4CHorizontalGreenLogo}
-            alt="Climbing for Change Logo"
-            style={{ maxWidth: '20rem', width: 'auto' }}
-          />
-        </a>
-      </Box>
+      <Container
+        maxWidth={false}
+        disableGutters
+        sx={{
+          width: '95vw',
+          height: '95vh',
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+        }}
+      >
+        <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: '1rem' }}>
+          <a
+            href="https://www.climbingforchange.ca/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <img
+              src={C4CHorizontalGreenLogo}
+              alt="Climbing for Change Logo"
+              style={{ maxWidth: '20rem', width: 'auto' }}
+            />
+          </a>
+        </Box>
 
-      <Box sx={{ flexGrow: 1, width: '100%' }}>
-        <AutoScrollTable columns={fullColumns} teams={teams} />
-      </Box>
-    </Container>
+        <Box sx={{ flexGrow: 1, width: '100%' }}>
+          <AutoScrollTable columns={fullColumns} teams={teams} />
+        </Box>
+      </Container>
+    </Box>
   )
 }
 

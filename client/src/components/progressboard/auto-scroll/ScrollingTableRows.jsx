@@ -4,8 +4,8 @@ import React from 'react'
 const ScrollingTableRow = ({ teams, columns }) => {
   return (
     <TableBody>
-      {teams.map((team, index) => (
-        <TableRow key={team.id || index}>
+      {teams.map((team) => (
+        <TableRow key={team.id}>
           <TableCell></TableCell>
           {columns.map((column, colIndex) => {
             const value = team[column.id] ?? '-'
@@ -13,13 +13,7 @@ const ScrollingTableRow = ({ teams, columns }) => {
             if (colIndex === 0) align = 'left'
             if (colIndex === columns.length - 1) align = 'right'
             return (
-              <TableCell
-                key={column.id}
-                align={align}
-                sx={{
-                  ...(colIndex === columns.length - 1 && { pr: '1.75rem' }),
-                }}
-              >
+              <TableCell key={column.id} align={align}>
                 {value}
               </TableCell>
             )
