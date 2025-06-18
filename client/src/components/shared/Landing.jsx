@@ -1,5 +1,4 @@
 import { Box } from '@mui/material'
-
 import { Link } from 'react-router-dom'
 
 import C4Clogo from '../../assets/C4C-branding/Climbing-For-Change-Logo_Green.png'

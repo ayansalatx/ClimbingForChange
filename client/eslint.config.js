@@ -11,7 +11,7 @@ import unusedImports from 'eslint-plugin-unused-imports'
 import globals from 'globals'
 
 export default [
-  { ignores: ['public'] },
+  { ignores: ['public', 'dist'] },
   {
     files: ['**/*.{js,jsx}'],
     languageOptions: {

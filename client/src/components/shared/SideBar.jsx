@@ -92,10 +92,10 @@ const SideBar = ({ open, toggleDrawer }) => {
           {dashboardList.map((item, index) => (
             <ListItem key={index} disablePadding>
               <ListItemButton onClick={() => 
-                {
-                  item.onClick()
-                  toggleDrawer(false)
-                }}>
+              {
+                item.onClick()
+                toggleDrawer(false)
+              }}>
                 <ListItemIcon sx={{ color: 'white' }}>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItemButton>
@@ -114,10 +114,10 @@ const SideBar = ({ open, toggleDrawer }) => {
           {manageList.map((item, index) => (
             <ListItem key={index} disablePadding>
               <ListItemButton onClick={() => 
-                {
-                  item.onClick()
-                  toggleDrawer(false)
-                }}>
+              {
+                item.onClick()
+                toggleDrawer(false)
+              }}>
                 <ListItemIcon sx={{ color: 'white' }}>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItemButton>
@@ -134,10 +134,10 @@ const SideBar = ({ open, toggleDrawer }) => {
           {quickAccessList.map((item, index) => (
             <ListItem key={index} disablePadding>
               <ListItemButton onClick={() => 
-                {
-                  item.onClick()
-                  toggleDrawer(false)
-                }}>
+              {
+                item.onClick()
+                toggleDrawer(false)
+              }}>
                 <ListItemIcon sx={{ color: 'white' }}>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItemButton>

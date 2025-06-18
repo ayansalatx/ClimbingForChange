@@ -1,12 +1,11 @@
 import './App.css'
 
 import { CssBaseline,ThemeProvider } from '@mui/material'
-import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 import Landing from './components/shared/Landing'
+import Layout from './Layout'
 import AdminDashboard from './pages/admin/AdminDashboard'
-import AdminLogin from './pages/admin/AdminLogin'
 import EventManager from './pages/admin/events/EventManager'
 import LocationManager from './pages/admin/locations/LocationManager'
 import MountainManager from './pages/admin/mountains/MountainManager'
