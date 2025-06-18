@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Outlet,useNavigate } from 'react-router-dom'
 
 import SideBar from '../../components/shared/SideBar'

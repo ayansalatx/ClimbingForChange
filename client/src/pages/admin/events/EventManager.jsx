@@ -1,8 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import Button from '@mui/material/Button'
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
  
-import C4CHorizontalGreenLogo from '../../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import EventsTable from '../../../components/admin/forms/eventforms/EventTable'
 import SearchBar from '../../../components/admin/forms/eventforms/SearchBar'
 import AddEventModal from '../../../components/admin/modals/EventModal.jsx'

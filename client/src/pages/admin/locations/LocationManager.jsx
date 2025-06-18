@@ -1,5 +1,5 @@
 import Button from '@mui/material/Button'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import LocationTable from '../../../components/admin/forms/locationforms/LocationTable'
 import SearchBar from '../../../components/admin/forms/locationforms/SearchBar'
