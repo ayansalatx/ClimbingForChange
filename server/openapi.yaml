@@ -1,0 +1,1749 @@
+openapi: 3.0.0
+info:
+  title: Climbing for Change API
+  version: 1.0.0
+  description: API for managing a charity climbing event, tracking teams, participants, and laps.
+
+servers:
+  - url: /api # Base path for all API endpoints
+
+paths:
+  /locations:
+    get:
+      tags:
+        - Locations
+      summary: Get all locations
+      operationId: getLocations
+      responses:
+        '200':
+          description: A list of locations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Location'
+    post:
+      tags:
+        - Locations
+      summary: Create a new location
+      operationId: createLocation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationRequest'
+      responses:
+        '201':
+          description: Location created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        '400':
+          description: Bad request (e.g., missing body or validation errors if validation is added later)
+          content:
+            application/json:
+              schema:
+                # Assuming simple error for now, add ValidationErrorResponse if validation is applied
+                $ref: '#/components/schemas/ErrorResponse'
+  /locations/{id}: # New path for ID-based operations
+    get:
+      tags:
+        - Locations
+      summary: Get location by ID
+      operationId: getLocationById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: ID of the location to retrieve
+      responses:
+        '200':
+          description: Location found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        '404':
+          description: Location not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put: # Changed from PUT /
+      tags:
+        - Locations
+      summary: Update a location by ID
+      operationId: updateLocation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: ID of the location to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              # Assuming update uses the same structure as creation request body
+              $ref: '#/components/schemas/LocationRequest'
+      responses:
+        '200':
+          description: Location updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        '400':
+          description: Bad request (e.g., validation errors if validation is added, invalid ID)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse' # Or ValidationErrorResponse
+        '404':
+          description: Location not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete: # Changed from DELETE /
+      tags:
+        - Locations
+      summary: Delete a location by ID
+      operationId: deleteLocation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: ID of the location to delete
+      responses:
+        '200':
+          description: Location deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "Location deleted successfully"
+        '404':
+          description: Location not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /mountains/physical:
+    get:
+      tags:
+        - Mountains
+      summary: Get all physical mountains
+      operationId: getPhysicalMountains
+      responses:
+        '200':
+          description: A list of physical mountains
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PhysicalMountain'
+    post:
+      tags:
+        - Mountains
+      summary: Create a new physical mountain
+      operationId: createPhysicalMountain
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PhysicalMountainRequest'
+      responses:
+        '201':
+          description: Physical mountain created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhysicalMountain'
+        '400':
+          description: Bad request (e.g., missing body, validation errors)
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ValidationErrorResponse'
+                  - $ref: '#/components/schemas/ErrorResponse'
+  /mountains/physical/{id}: # New path for ID-based operations
+    get:
+      tags:
+        - Mountains
+      summary: Get physical mountain by ID
+      operationId: getPhysicalMountainById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: ID of the physical mountain to retrieve
+      responses:
+        '200':
+          description: Physical mountain found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhysicalMountain'
+        '404':
+          description: Physical mountain not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put: # New PUT /physical/:id route
+      tags:
+        - Mountains
+      summary: Update a physical mountain by ID
+      operationId: updatePhysicalMountain
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: ID of the physical mountain to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              # Assuming update uses the same structure as creation request body
+              $ref: '#/components/schemas/PhysicalMountainRequest'
+      responses:
+        '200':
+          description: Physical mountain updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhysicalMountain'
+        '400':
+          description: Bad request (e.g., validation errors, invalid ID)
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ValidationErrorResponse'
+                  - $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Physical mountain not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete: # New DELETE /physical/:id route
+      tags:
+        - Mountains
+      summary: Delete a physical mountain by ID
+      operationId: deletePhysicalMountain
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: ID of the physical mountain to delete
+      responses:
+        '200':
+          description: Physical mountain deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "Physical mountain deleted successfully"
+        '404':
+          description: Physical mountain not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+  /mountains/target:
+    get:
+      tags:
+        - Mountains
+      summary: Get all target mountains
+      operationId: getTargetMountains
+      responses:
+        '200':
+          description: A list of target mountains
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TargetMountain'
+    post:
+      tags:
+        - Mountains
+      summary: Create a new target mountain
+      operationId: createTargetMountain
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TargetMountainRequest'
+      responses:
+        '201':
+          description: Target mountain created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TargetMountain'
+        '400':
+          description: Bad request (e.g., missing body, validation errors)
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ValidationErrorResponse'
+                  - $ref: '#/components/schemas/ErrorResponse'
+  /mountains/target/{id}: # Path already existed, adding PUT/DELETE
+    get:
+      tags:
+        - Mountains
+      summary: Get target mountain by ID
+      operationId: getTargetMountainById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: ID of the target mountain to retrieve
+      responses:
+        '200':
+          description: Target mountain found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TargetMountain'
+        '404':
+          description: Target mountain not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put: # New PUT /target/:id route
+      tags:
+        - Mountains
+      summary: Update a target mountain by ID
+      operationId: updateTargetMountain
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: ID of the target mountain to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              # Assuming update uses the same structure as creation request body
+              $ref: '#/components/schemas/TargetMountainRequest'
+      responses:
+        '200':
+          description: Target mountain updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TargetMountain'
+        '400':
+          description: Bad request (e.g., validation errors, invalid ID)
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ValidationErrorResponse'
+                  - $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Target mountain not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete: # New DELETE /target/:id route
+      tags:
+        - Mountains
+      summary: Delete a target mountain by ID
+      operationId: deleteTargetMountain
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: ID of the target mountain to delete
+      responses:
+        '200':
+          description: Target mountain deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "Target mountain deleted successfully"
+        '404':
+          description: Target mountain not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /rfidtag:
+    get:
+      tags:
+        - RFID Tags
+      summary: Get all RFID tags
+      operationId: getRFIDTags
+      responses:
+        '200':
+          description: A list of RFID tags
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RFIDTag'
+    post:
+      tags:
+        - RFID Tags
+      summary: Create a new RFID tag
+      operationId: createRFIDTag
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RFIDTagRequest'
+      responses:
+        '201':
+          description: RFID tag created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFIDTag'
+        '400':
+          description: Bad request (e.g., missing body, validation errors if validation is added later)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse' # Or ValidationErrorResponse
+  /rfidtag/{id}: # New path for ID-based operations (assuming conventional pattern now)
+    get:
+      tags:
+        - RFID Tags
+      summary: Get RFID tag by ID
+      operationId: getRFIDTagById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: ID of the RFID tag to retrieve
+      responses:
+        '200':
+          description: RFID tag found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFIDTag'
+        '404':
+          description: RFID tag not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+        - RFID Tags
+      summary: Update an RFID tag by ID
+      operationId: updateRFIDTag
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: ID of the RFID tag to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              # Assuming update uses the same structure as creation request body
+              $ref: '#/components/schemas/RFIDTagRequest'
+      responses:
+        '200':
+          description: RFID tag updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFIDTag'
+        '400':
+          description: Bad request (e.g., validation errors if validation is added, invalid ID)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse' # Or ValidationErrorResponse
+        '404':
+          description: RFID tag not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - RFID Tags
+      summary: Delete an RFID tag by ID
+      operationId: deleteRFIDTag
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: ID of the RFID tag to delete
+      responses:
+        '200':
+          description: RFID tag deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "RFID tag deleted successfully"
+        '404':
+          description: RFID tag not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /events:
+    get:
+      tags:
+        - Events
+      summary: Get all events with populated location and physical mountains
+      operationId: getEvents
+      responses:
+        '200':
+          description: A list of events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventPopulated'
+    post:
+      tags:
+        - Events
+      summary: Create a new event
+      operationId: createEvent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventRequest'
+      responses:
+        '201':
+          description: Event created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          description: Bad request (e.g., validation errors)
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ValidationErrorResponse'
+                  - $ref: '#/components/schemas/ErrorResponse'
+    # NOTE: PUT /events still expects ID in body based on the *previous* eventRoutes snippet
+    put:
+      tags:
+        - Events
+      summary: Update an existing event
+      operationId: updateEvent
+      description: Expects the event update data including the ID in the request body.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventUpdateRequest' # Schema including ID
+      responses:
+        '200':
+          description: Event updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event' # Or EventPopulated depending on what the controller returns
+        '400':
+          description: Bad request (e.g., validation errors, missing ID)
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ValidationErrorResponse'
+                  - $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    # NOTE: DELETE /events still expects ID in body based on the *previous* eventRoutes snippet
+    delete:
+      tags:
+        - Events
+      summary: Delete an event
+      operationId: deleteEvent
+      description: Expects an object with the event ID in the request body.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdRequest' # Schema for body containing just ID
+      responses:
+        '200':
+          description: Event deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "Event deleted successfully"
+        '400':
+          description: Bad request (e.g., missing ID)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /events/{id}:
+    get:
+      tags:
+        - Events
+      summary: Get event by ID with populated location and physical mountains
+      operationId: getEventById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: ID of the event to retrieve
+      responses:
+        '200':
+          description: Event found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventPopulated' # Assuming GET by ID returns populated version
+        '404':
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+  /teams:
+    get:
+      tags:
+        - Teams
+      summary: Get all teams with populated participants
+      operationId: getTeams
+      responses:
+        '200':
+          description: A list of teams
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TeamPopulated'
+    post:
+      tags:
+        - Teams
+      summary: Create a new team
+      operationId: createTeam
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamRequest'
+      responses:
+        '201':
+          description: Team created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '400':
+          description: Bad request (e.g., validation errors, referenced entities not found)
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ValidationErrorResponse'
+                  - $ref: '#/components/schemas/ErrorResponse'
+  /teams/{id}: # Path already existed, adding PUT/DELETE based on previous routes
+    get:
+      tags:
+        - Teams
+      summary: Get team by ID with populated participants
+      operationId: getTeamById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: ID of the team to retrieve
+      responses:
+        '200':
+          description: Team found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamPopulated' # Assuming GET by ID returns populated version
+        '404':
+          description: Team not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+        - Teams
+      summary: Update a team by ID
+      operationId: updateTeam
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: ID of the team to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              # Based on validateTeam used in PUT /:id, body is like TeamRequest
+              $ref: '#/components/schemas/TeamRequest'
+      responses:
+        '200':
+          description: Team updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team' # Or TeamPopulated
+        '400':
+          description: Bad request (e.g., validation errors, invalid ID)
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ValidationErrorResponse'
+                  - $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Team not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - Teams
+      summary: Delete a team by ID
+      operationId: deleteTeam
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: ID of the team to delete
+      responses:
+        '200':
+          description: Team deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "Team deleted successfully"
+        '404':
+          description: Team not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+  /participants:
+    get:
+      tags:
+        - Participants
+      summary: Get all participants with populated RFID tag and team
+      operationId: getParticipants
+      responses:
+        '200':
+          description: A list of participants
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ParticipantPopulated'
+    post:
+      tags:
+        - Participants
+      summary: Create a new participant
+      operationId: createParticipant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParticipantRequest'
+      responses:
+        '201':
+          description: Participant created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Participant'
+        '400':
+          description: Bad request (e.g., validation errors, content missing, RFIDTag already assigned)
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ValidationErrorResponse'
+                  - $ref: '#/components/schemas/ErrorResponse'
+  /participants/{id}: # New path for ID-based operations
+    get:
+      tags:
+        - Participants
+      summary: Get participant by ID with populated RFID tag and team
+      operationId: getParticipantById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: ID of the participant to retrieve
+      responses:
+        '200':
+          description: Participant found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParticipantPopulated' # Assuming GET by ID returns populated version
+        '404':
+          description: Participant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put: # Changed from PUT /
+      tags:
+        - Participants
+      summary: Update a participant by ID
+      operationId: updateParticipant
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: ID of the participant to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              # Based on validateParticipant, first/last names are validated
+              # Let's define a specific update body schema
+              $ref: '#/components/schemas/ParticipantUpdateBody'
+      responses:
+        '200':
+          description: Participant updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Participant' # Or ParticipantPopulated
+        '400':
+          description: Bad request (e.g., validation errors, invalid ID)
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ValidationErrorResponse'
+                  - $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Participant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete: # Changed from DELETE /
+      tags:
+        - Participants
+      summary: Delete a participant by ID
+      operationId: deleteParticipant
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: ID of the participant to delete
+      responses:
+        '200':
+          description: Participant deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "Participant deleted successfully"
+        '404':
+          description: Participant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+  /laps:
+    get:
+      tags:
+        - Laps
+      summary: Get all laps with populated team, participant, and RFID tag
+      operationId: getLaps
+      responses:
+        '200':
+          description: A list of laps
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LapPopulated'
+    post:
+      tags:
+        - Laps
+      summary: Record a new lap
+      operationId: recordLap
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LapRequest'
+      responses:
+        '201':
+          description: Lap recorded successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lap'
+        '400':
+          description: Bad request (e.g., validation errors, references not found, ownership mismatch)
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ValidationErrorResponse'
+                  - $ref: '#/components/schemas/ErrorResponse'
+  /laps/{id}: # New path for ID-based operations (assuming conventional pattern now)
+    get:
+      tags:
+        - Laps
+      summary: Get lap by ID with populated data
+      operationId: getLapById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: ID of the lap record to retrieve
+      responses:
+        '200':
+          description: Lap found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LapPopulated' # Assuming GET by ID returns populated version
+        '404':
+          description: Lap not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+        - Laps
+      summary: Update a lap record by ID
+      operationId: updateLap
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: ID of the lap record to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              # Assuming update uses the same structure as creation request body
+              $ref: '#/components/schemas/LapRequest'
+      responses:
+        '200':
+          description: Lap updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lap' # Or LapPopulated
+        '400':
+          description: Bad request (e.g., validation errors if validation is added, invalid ID)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse' # Or ValidationErrorResponse
+        '404':
+          description: Lap not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - Laps
+      summary: Delete a lap record by ID
+      operationId: deleteLap
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: ID of the lap record to delete
+      responses:
+        '200':
+          description: Lap record deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "Lap record deleted successfully"
+        '404':
+          description: Lap record not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+components:
+  schemas:
+    # --- Base Entities (as stored/returned when not populated) ---
+    Location:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the location
+        name:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        provState:
+          type: string
+        country:
+          type: string
+      required:
+        - name
+        - address
+        - city
+        - provState
+        - country
+      example:
+        id: "654c..."
+        name: "Rocky Ridge Park"
+        address: "123 Mountain Road"
+        city: "Banff"
+        provState: "Alberta"
+        country: "Canada"
+
+    PhysicalMountain:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the physical mountain
+        name:
+          type: string
+        elevationPerLap:
+          type: number
+          format: float
+      required:
+        - name
+        - elevationPerLap
+      example:
+        id: "654d..."
+        name: "Rabbit Hill"
+        elevationPerLap: 50.0
+
+    TargetMountain:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the target mountain
+        name:
+          type: string
+        totalElevation:
+          type: number
+          format: float
+      required:
+        - name
+        - totalElevation
+      example:
+        id: "654e..."
+        name: "Mount Everest"
+        totalElevation: 8848.0
+
+    RFIDTag:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the RFID tag
+        serialNumber:
+          type: string
+      required:
+        - serialNumber
+      example:
+        id: "654f..."
+        serialNumber: "ABC123456789"
+
+    Event:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the event
+        name:
+          type: string
+        locationId:
+          type: string
+          description: ID of the location where the event is held
+        startDateTime:
+          type: string
+          format: date-time
+        endDateTime:
+          type: string
+          format: date-time
+        physicalMountainIds:
+          type: array
+          items:
+            type: string
+            description: ID of a physical mountain available at this event
+        active:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - name
+        - locationId
+        - startDateTime
+        - endDateTime
+        - physicalMountainIds
+        - active
+      example:
+        id: "6550..."
+        name: "Charity Mountain Hike"
+        locationId: "654c..."
+        startDateTime: "2025-07-12T09:00:00Z"
+        endDateTime: "2025-07-12T12:30:00Z"
+        physicalMountainIds: ["654d...", "654d_b..."]
+        active: true
+        createdAt: "2024-01-01T10:00:00.000Z"
+        updatedAt: "2024-01-01T10:00:00.000Z"
+
+    Team:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the team
+        eventId:
+          type: string
+          description: ID of the event the team participates in
+        physicalMountainId:
+          type: string
+          description: ID of the physical mountain assigned to this team
+        targetMountainId:
+          type: string
+          description: ID of the target mountain chosen by this team
+        name:
+          type: string
+        isSoloTeam:
+          type: boolean
+        lapsRequired:
+          type: number
+        startDateTime:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - eventId
+        - physicalMountainId
+        - targetMountainId
+        - name
+        - isSoloTeam
+        - lapsRequired
+        - startDateTime
+      example:
+        id: "6551..."
+        eventId: "6550..."
+        physicalMountainId: "654d..."
+        targetMountainId: "654e..."
+        name: "The Summit Seekers"
+        isSoloTeam: false
+        lapsRequired: 177
+        startDateTime: "2025-07-12T09:30:00Z"
+        createdAt: "2024-01-01T10:00:00.000Z"
+        updatedAt: "2024-01-01T10:00:00.000Z"
+
+    Participant:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the participant
+        teamId:
+          type: string
+          description: ID of the team the participant belongs to
+        firstName:
+          type: string
+        lastName:
+          type: string
+        rfidTagId:
+          type: string
+          nullable: true # Because it's required: false in schema
+          description: ID of the RFID tag assigned to this participant (optional on creation)
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - teamId
+        - firstName
+        - lastName
+      example:
+        id: "6552..."
+        teamId: "6551..."
+        firstName: "Alice"
+        lastName: "Smith"
+        rfidTagId: "654f..."
+        createdAt: "2024-01-01T10:00:00.000Z"
+        updatedAt: "2024-01-01T10:00:00.000Z"
+
+    Lap:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the lap record
+        teamId:
+          type: string
+          description: ID of the team associated with the lap
+        participantId:
+          type: string
+          description: ID of the participant who completed the lap
+        rfidTagId:
+          type: string
+          description: ID of the RFID tag that recorded the lap
+        startDateTime:
+          type: string
+          format: date-time
+        endDateTime:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - teamId
+        - participantId
+        - rfidTagId
+        - startDateTime
+        - endDateTime
+      example:
+        id: "6553..."
+        teamId: "6551..."
+        participantId: "6552..."
+        rfidTagId: "654f..."
+        startDateTime: "2025-07-12T09:35:00Z"
+        endDateTime: "2025-07-12T09:40:30Z"
+        createdAt: "2024-01-01T10:00:00.000Z"
+        updatedAt: "2024-01-01T10:00:00.000Z"
+
+    # --- Populated Response Schemas ---
+    EventPopulated:
+      allOf:
+        - $ref: '#/components/schemas/Event'
+        - type: object
+          properties:
+            locationId:
+              $ref: '#/components/schemas/Location' # Populated Location object
+            physicalMountainIds:
+              type: array
+              items:
+                $ref: '#/components/schemas/PhysicalMountain' # Populated PhysicalMountain objects
+          required:
+            - locationId
+            - physicalMountainIds # Required to ensure it's populated
+
+    TeamPopulated:
+      allOf:
+        - $ref: '#/components/schemas/Team'
+        - type: object
+          properties:
+            participants:
+              type: array
+              items:
+                $ref: '#/components/schemas/Participant' # Populated Participant objects (base schema)
+          required:
+            - participants # Required to ensure it's populated
+
+    ParticipantPopulated:
+      allOf:
+        - $ref: '#/components/schemas/Participant'
+        - type: object
+          properties:
+            teamId:
+              $ref: '#/components/schemas/Team' # Populated Team object (base schema)
+            rfidTagId:
+              $ref: '#/components/schemas/RFIDTag' # Populated RFIDTag object
+          # rfIdTagId is nullable in the base schema, but often required when populated successfully assigned
+          # We'll mark it required here assuming population means it exists if assigned
+          required:
+            - teamId
+            # - rfidTagId # Depending on logic, if a participant might not have a tag even when retrieved, this might be optional
+
+    LapPopulated:
+      allOf:
+        - $ref: '#/components/schemas/Lap'
+        - type: object
+          properties:
+            teamId:
+              $ref: '#/components/schemas/Team' # Populated Team object
+            participantId:
+              $ref: '#/components/schemas/Participant' # Populated Participant object
+            rfidTagId:
+              $ref: '#/components/schemas/RFIDTag' # Populated RFIDTag object
+          required:
+            - teamId
+            - participantId
+            - rfidTagId
+
+
+    # --- Request Body Schemas (often identical to base entity, but sometimes with helper fields or different types) ---
+    LocationRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        provState:
+          type: string
+        country:
+          type: string
+      required:
+        - name
+        - address
+        - city
+        - provState
+        - country
+      example:
+        name: "New Event Location"
+        address: "123 Test St"
+        city: "Testville"
+        provState: "TS"
+        country: "Canada"
+
+    PhysicalMountainRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        elevationPerLap:
+          type: number
+          format: float
+      required:
+        - name
+        - elevationPerLap
+      # active field is optional in validation, not required in schema
+      properties:
+        active:
+          type: boolean
+          description: Whether the physical mountain is currently active (optional)
+      example:
+        name: "Test Hill"
+        elevationPerLap: 60.0
+        active: true
+
+    TargetMountainRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        totalElevation:
+          type: number
+          format: float
+      required:
+        - name
+        - totalElevation
+      # active field is optional in validation, not required in schema
+      properties:
+        active:
+          type: boolean
+          description: Whether the target mountain is currently active (optional)
+      example:
+        name: "Test Peak"
+        totalElevation: 1000.0
+        active: true
+
+    RFIDTagRequest:
+      type: object
+      properties:
+        serialNumber:
+          type: string
+      required:
+        - serialNumber
+      example:
+        serialNumber: "NEWTAG001"
+
+    EventRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 3
+        locationId:
+          type: string
+          description: MongoDB ObjectId string for the Location
+        startDateTime:
+          type: string
+          format: date-time
+        endDateTime:
+          type: string
+          format: date-time
+        physicalMountainIds:
+          type: array
+          items:
+            type: string
+            description: MongoDB ObjectId string for a Physical Mountain
+          minItems: 1
+        active:
+          type: boolean
+          default: true # Assuming default value if not provided based on original spec
+      required:
+        - name
+        - locationId
+        - startDateTime
+        - endDateTime
+        - physicalMountainIds
+      example:
+        name: "Annual Charity Climb"
+        locationId: "654c..."
+        startDateTime: "2025-10-01T09:00:00Z"
+        endDateTime: "2025-10-01T17:00:00Z"
+        physicalMountainIds: ["654d_c...", "654d_d..."]
+        active: true
+
+    # Still needed for PUT /events (ID in body) based on previously provided eventRoutes
+    EventUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/EventRequest'
+        - type: object
+          properties:
+            id:
+              type: string
+              description: ID of the event to update
+          required:
+            - id
+
+    TeamRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 3
+        isSoloTeam:
+          type: boolean
+          default: false
+        lapsRequired:
+          type: number
+          minimum: 1
+          maximum: 120 # Based on `isInt({ min: 1, max: 120})` from validation
+        eventId:
+          type: string
+          description: MongoDB ObjectId string for the Event
+        physicalMountainId:
+          type: string
+          description: MongoDB ObjectId string for the Physical Mountain assigned to this team
+        targetMountainId:
+          type: string
+          description: MongoDB ObjectId string for the Target Mountain chosen by this team
+        startDateTime:
+          type: string
+          format: date-time
+      required:
+        - name
+        - lapsRequired
+        - eventId
+        - physicalMountainId
+        - targetMountainId
+        - startDateTime
+      example:
+        name: "The Climbers"
+        isSoloTeam: false
+        lapsRequired: 50
+        eventId: "6550..."
+        physicalMountainId: "654d..."
+        targetMountainId: "654e..."
+        startDateTime: "2025-10-01T09:30:00Z"
+
+    ParticipantRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        teamId:
+          type: string
+          description: MongoDB ObjectId string for the Team
+        rfidTagId:
+          type: string
+          description: Serial number of the RFID Tag to assign
+      # NOTE: Validation only checks firstName and lastName, but the original schema required teamId and rfidTagId.
+      # Assuming the schema requirements are correct for *creation*.
+      required:
+        - firstName
+        - lastName
+        - teamId
+        - rfidTagId # RFID tag serial is required during creation according to original example
+      example:
+        firstName: "Jane"
+        lastName: "Doe"
+        teamId: "6551..."
+        rfidTagId: "RFID001" # Example serial number
+
+    # New schema for Participant PUT body based on validation
+    ParticipantUpdateBody:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        teamId:
+          type: string
+          description: MongoDB ObjectId string for the Team (optional on update)
+        rfidTagId:
+          type: string
+          description: Serial number of the RFID Tag to assign or reassign (optional on update)
+          nullable: true # Might allow unassigning/clearing tag
+      # Validation only requires firstName and lastName, so mark them required in the body for PUT
+      required:
+        - firstName
+        - lastName
+      example:
+        firstName: "Jane (Updated)"
+        lastName: "Doe"
+        teamId: "6551_new..." # Optionally change team
+        rfidTagId: "RFID002" # Optionally change tag
+
+
+    LapRequest:
+      type: object
+      properties:
+        teamId:
+          type: string
+          description: MongoDB ObjectId string for the Team
+        participantId:
+          type: string
+          description: MongoDB ObjectId string for the Participant
+        rfidTagId:
+          type: string
+          description: MongoDB ObjectId string for the RFID Tag
+        startDateTime:
+          type: string
+          format: date-time
+        endDateTime:
+          type: string
+          format: date-time
+      required:
+        - teamId
+        - participantId
+        - rfidTagId
+        - startDateTime
+        - endDateTime
+      example:
+        teamId: "6551..."
+        participantId: "6552..."
+        rfidTagId: "654f..."
+        startDateTime: "2025-10-01T09:35:00Z"
+        endDateTime: "2025-10-01T09:40:00Z"
+
+
+    # Still needed for DELETE /events (ID in body) based on previously provided eventRoutes
+    IdRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the resource to delete
+      required:
+        - id
+      example:
+        id: "654c..."
+
+
+    # --- Error Responses ---
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+      example:
+        error: "id missing"
+
+    ValidationErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              value:
+                type: string
+                nullable: true # Value can be missing (e.g. notEmpty validation)
+              msg:
+                type: string
+              path:
+                type: string
+              location:
+                type: string
+            required:
+              - msg
+              - path
+              - location
+      required:
+        - errors
+      example:
+        errors:
+          - type: "field"
+            value: ""
+            msg: "Team name is required"
+            path: "name"
+            location: "body"
+          - type: "field"
+            value: "invalid-date"
+            msg: "startDateTime must be a valid ISO 8601 date"
+            path: "startDateTime"
+            location: "body"

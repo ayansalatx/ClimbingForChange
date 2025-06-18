@@ -1,7 +1,5 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
 
@@ -39,4 +37,15 @@
 
 .read-the-docs {
   color: #888;
+}
+
+@font-face {
+  font-family: 'Gibson';
+  src: url('/fonts/Fontspring-DEMO-gibson-bolditalic.woff') format('woff');
+  font-weight: bold;
+  font-style: italic;
+}
+
+.location-container {
+  font-family: 'Gibson', sans-serif;
 }
