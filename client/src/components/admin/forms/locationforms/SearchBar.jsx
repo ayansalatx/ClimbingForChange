@@ -9,7 +9,7 @@ const SearchBar = ({ value, onChange }) => {
       label="Search"
       variant="outlined"
       value={value}
-      onChange={(e) => onChange(e.target.value)} // controlled input
+      onChange={(e) => onChange(e.target.value)} 
       sx={{
         width: 500,
         input: { color: 'white' },

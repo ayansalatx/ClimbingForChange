@@ -3,8 +3,8 @@ import Table from '@mui/material/Table'
 import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 import React from 'react'
+import { deleteEvent } from '../../../../services/eventService.js'
 
-import {deleteEvent} from '../../../../services/eventService.js'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
  
@@ -36,23 +36,24 @@ const EventsTable = ({ searchTerm = '', events = [] }) => {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
  
-  const formattedEvents = events.map(event => {
-    const startTime = event.startDateTime
-    const endTime = event.endDateTime
-    const startDate = new Date(startTime)
-    const endDate = new Date(endTime)
-    const durationTime = (endDate - startDate) / (1000 * 60)
-
-    return  ({
-      ...event,
-      start: formatDateTime(startTime),
-      end:formatDateTime(endTime),
-      eventName: event.name || '',
-      location: event.locationId?.name || '',
-      duration: durationTime,  
-      lap: event.physicalMountainIds?.length || 0,
-      active: event.active
-    })
+    const formattedEvents = events.map(event => {
+      const startTime = event.startDateTime
+      const endTime = event.endDateTime
+      const startDate = new Date(startTime)
+      const endDate = new Date(endTime)
+      const durationTime = (endDate - startDate) / (1000 * 60)
+             
+      return  ({
+        id: event.id,
+        ...event,
+        start: formatDateTime(startTime),
+        end:formatDateTime(endTime),
+        eventName: event.name || '',
+        location: event.locationId?.name || '',
+        duration: durationTime,  
+        lap: event.physicalMountainIds?.length || 0,
+        active: event.active
+      })
      
   })
   const filteredRows = formattedEvents.filter((row) => {

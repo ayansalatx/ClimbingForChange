@@ -1,24 +1,24 @@
 import { Box, Typography } from '@mui/material'
 import Button from '@mui/material/Button'
-import { useEffect,useState } from 'react'
 
+import { useState, useEffect } from 'react'
 import EventsTable from '../../../components/admin/forms/eventforms/EventTable'
 import SearchBar from '../../../components/admin/forms/eventforms/SearchBar'
 import AddEventModal from '../../../components/admin/modals/EventModal.jsx'
-import mockData from '../../../mock-data/event-data.json'
-import { getAllEvents } from '../../../services/eventService.js'
-import { getAllLocations } from '../../../services/locationService.js'
+import { getAllLocations } from '../../../services/locationService.js';
+import { getAllEvents } from '../../../services/eventService.js';
+
  
 const EventManager = () => {
   const [openPopup, setOpenPopup] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
-  const [events, setEvents] = useState(mockData)
+  const [events, setEvents] = useState([])
   const [locations, setLocations] = useState([])
   const handleOpenPopup = () => setOpenPopup(true)
   const handleClosePopup = () => setOpenPopup(false)
  
   const handleAddEvent = (eventData) => {
-    setEvents(prevEvents => [...prevEvents, eventData])
+    setEvents([...events, eventData]);
     handleClosePopup()
   }
   useEffect(() => {
