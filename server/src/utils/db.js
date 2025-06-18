@@ -1,15 +1,10 @@
 import mongoose from 'mongoose'
 import config from '../utils/config.js'
 
-const MONGO_URI_BASE = config.MONGO_URI_BASE
-//climb-for-change?retryWrites=true&w=majority&appName=Climb-for-change-cluster.
+const MONGODB_URI = config.MONGODB_URI
 
-const dbName = 'climb-for-change'
-
-const fullMongoUri = `${MONGO_URI_BASE}${dbName}?retryWrites=true&w=majority`
-
-console.log('connecting to', fullMongoUri)
-mongoose.connect(fullMongoUri)
+console.log('connecting to', MONGODB_URI)
+mongoose.connect(MONGODB_URI)
   .then(() => {
     console.log('connected to MongoDB')
   })
