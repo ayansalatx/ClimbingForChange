@@ -9,7 +9,7 @@ loadEnv({
 
 const config = {
   PORT: process.env.PORT,
-  MONGODB_URI: process.env.MONGODB_URI,
+  MONGO_URI_BASE: process.env.MONGO_URI_BASE,
 }
 
 export default config

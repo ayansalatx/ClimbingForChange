@@ -13,7 +13,7 @@ const dbName = isPreview
 
 const fullMongoUri = `${MONGO_URI_BASE}${dbName}?retryWrites=true&w=majority`;
 
-console.log('connecting to', url)
+console.log('connecting to', fullMongoUri)
 mongoose.connect(fullMongoUri)
   .then(() => {
     console.log('connected to MongoDB')
