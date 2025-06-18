@@ -28,7 +28,8 @@ services:
       - fromGroup: shared-vars
 
   # ─────────── YOUR FRONTEND SERVICE ───────────
-  - type: static
+  - type: web
+    runtime: static
     name: staging-frontend
     branch: skinny-solution
     rootDir: client
