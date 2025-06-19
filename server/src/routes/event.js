@@ -74,12 +74,12 @@ eventRoutes.post(
 )
 
 eventRoutes.put(
-  '/',
+  '/:id',
   validateEvent,
   checkValidation,
   asyncHandler(updateOneEvent)
 )
 
-eventRoutes.delete('/', asyncHandler(deleteOneEvent))
+eventRoutes.delete('/:id', asyncHandler(deleteOneEvent))
 
 export default eventRoutes
