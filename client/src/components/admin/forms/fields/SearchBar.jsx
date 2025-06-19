@@ -38,13 +38,15 @@ const SearchBar = ({ value, onChange }) => {
           opacity: 1,
         },
       }}
-      InputProps={{
-        endAdornment: (
-          <InputAdornment position="end">
+      slotProps={{
+        input: {
+          endAdornment: (
+            <InputAdornment position="end">
             <SearchIcon sx={{ color: 'white' }} />
-          </InputAdornment>
-        ),
-      }}
+          </InputAdornment>       
+          ),
+        }
+    }}
     />
   )
 }

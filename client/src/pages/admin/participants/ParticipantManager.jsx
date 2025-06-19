@@ -1,4 +1,4 @@
-import SearchBar from "../../../components/admin/forms/locationforms/SearchBar"
+import SearchBar from "../../../components/admin/forms/fields/SearchBar"
 import Button from '@mui/material/Button'
 import { useState } from 'react'
 
