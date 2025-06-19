@@ -21,18 +21,20 @@ const EventManager = () => {
     setEvents([...events, eventData])
     handleClosePopup()
   }
+
+  const fetchLocations = async () => {
+    const locations = await getAllLocations()
+    setLocations(locations)
+  }
+
+  const fetchEvents = async () => {
+    console.log("Fetching events")
+    const events = await getAllEvents()
+    setEvents(events)
+  }
+
   useEffect(() => {
-    const fetchLocations = async () => {
-      const locations = await getAllLocations()
-      setLocations(locations)
-    }
- 
-    const fetchEvents = async () => {
-      const events = await getAllEvents()
-      setEvents(events)
-    }
     fetchEvents()
-   
     fetchLocations()
   }, [])
  
@@ -50,7 +52,7 @@ const EventManager = () => {
         >Add Event</Button>
       </div>
      
-      <EventsTable searchTerm={searchTerm} events={events} />
+      <EventsTable searchTerm={searchTerm} events={events} onEventDelete={fetchEvents} />
  
       <AddEventModal
         open={openPopup}
