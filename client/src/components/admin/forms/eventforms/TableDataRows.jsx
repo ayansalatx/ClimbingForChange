@@ -26,7 +26,7 @@ const TableDataRows = ({ rows, columns, page, rowsPerPage, onDelete }) => {
                         : value}
                   </TableCell>
                 )
-              })}
+              })}                   
               <TableCell key={`${rowKey}-actions`} align="right">
                 <Box display="flex" gap={1} justifyContent="flex-end">
                   <IconButton size="small">

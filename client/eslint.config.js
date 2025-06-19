@@ -70,16 +70,6 @@ export default [
       '@stylistic/linebreak-style': ['error', 'unix'],
 
       'react/prop-types': 'off',
-
-      // Component naming casing enforcement
-      // 'unicorn/filename-case': [
-      //   'error',
-      //   {
-      //     cases: {
-      //       pascalCase: true,
-      //     },
-      //   },
-      // ],
     },
   },
 ]

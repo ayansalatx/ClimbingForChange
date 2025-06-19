@@ -29,6 +29,7 @@ export const deleteEvent = async (id) => {
     if (response.status === 204) {
       return true
     }
+
     throw new Error(`Unexpected response status: ${response.status}`)
   } catch (error) {
     console.error('Failed to delete event:', error)

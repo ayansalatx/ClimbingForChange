@@ -4,23 +4,23 @@ import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 import React from 'react'
 
-import {deleteEvent} from '../../../../services/eventService.js'
+import { deleteEvent } from '../../../../services/eventService.js'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
- 
+
 // Define columns for full width screen
 const formatDateTime = (dateString) => {
   const date = new Date(dateString)
   return date.toLocaleString([], {
     year: 'numeric',
-    month: 'long',  
+    month: 'long',
     day: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
     hour12: true,
   })
 }
- 
+
 const fullColumns = [
   { id: 'eventName', label: 'Event', minWidth: 270 },
   { id: 'location', label: 'Location', minWidth: 85 },
@@ -30,52 +30,52 @@ const fullColumns = [
   { id: 'lap', label: 'Lap', minWidth: 85 },
   { id: 'active', label: 'Active', minWidth: 90 },
 ]
- 
- 
-const EventsTable = ({ searchTerm = '', events = [] }) => {  
+
+const EventsTable = ({ searchTerm = '', events = [] }) => {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
- 
-  const formattedEvents = events.map(event => {
+
+  const formattedEvents = events.map((event) => {
     const startTime = event.startDateTime
     const endTime = event.endDateTime
     const startDate = new Date(startTime)
     const endDate = new Date(endTime)
     const durationTime = (endDate - startDate) / (1000 * 60)
 
-    return  ({
+    return {
+      id: event.id,
       ...event,
       start: formatDateTime(startTime),
-      end:formatDateTime(endTime),
+      end: formatDateTime(endTime),
       eventName: event.name || '',
       location: event.locationId?.name || '',
-      duration: durationTime,  
+      duration: durationTime,
       lap: event.physicalMountainIds?.length || 0,
-      active: event.active
-    })
-     
+      active: event.active,
+    }
   })
+
   const filteredRows = formattedEvents.filter((row) => {
     const event = row?.eventName || ''
     return event.toLowerCase().includes(searchTerm.toLowerCase())
   })
- 
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
   }
- 
+
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value)
     setPage(0)
   }
- 
+
   const onDelete = async (id) => {
     await deleteEvent(id)
   }
- 
+
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ width: 1400}}>
+      <TableContainer sx={{ width: 1400 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHeaderRow columns={fullColumns} />
           <TableDataRows
@@ -99,6 +99,5 @@ const EventsTable = ({ searchTerm = '', events = [] }) => {
     </Paper>
   )
 }
- 
+
 export default EventsTable
- 
