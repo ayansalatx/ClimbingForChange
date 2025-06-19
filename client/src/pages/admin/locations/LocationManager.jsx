@@ -2,43 +2,43 @@ import Button from '@mui/material/Button'
 import { useState } from 'react'
 
 import LocationTable from '../../../components/admin/forms/locationforms/LocationTable'
-import SearchBar from '../../../components/admin/forms/locationforms/SearchBar'
 import AddLocationModal from '../../../components/admin/modals/LocationModal.jsx'
 import mockData from '../../../mock-data/location-data.json'
+import { Box, Container } from '@mui/material'
 
 const LocationManager = () => {
+  const [locations, setLocation] = useState(mockData)
   const [popupOpen, setPopupOpen] = useState(false)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [locations, setLocation] = useState(mockData) 
 
   const handleAddLocation = (eventData) => {
-    setLocation([...locations, eventData]) 
+    setLocation([...locations, eventData])
     setPopupOpen(false)
   }
 
   return (
+    <Container
+      maxWidth={false}
+      disableGutters
+      sx={{
+        width: '80vw',
+        height: '85vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyItems: 'center',
+        paddingTop: '5rem',
+      }}
+    >
 
-    <div>
-      <h1 style={{ fontFamily: 'Gibson, sans-serif', textTransform: 'uppercase', color: '#CDDC29', letterSpacing: '0.05em' }}>Locations</h1>
-     
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-        <SearchBar value={searchTerm} onChange={setSearchTerm} />
-        <Button
-          variant="contained"
-          sx={{ backgroundColor: '#c9d82c', color: 'black', '&:hover': { backgroundColor: '#b3c623'}}}
-          onClick={() => setPopupOpen(true)}
-        >Add Location</Button>
-      </div>
+      <LocationTable location={locations} />
 
-      <LocationTable searchTerm={searchTerm} location={locations}/>
-      
+
       <AddLocationModal
         open={popupOpen}
         onClose={() => setPopupOpen(false)}
         onAdd={handleAddLocation}
       />
-
-    </div>
+    </Container>
   )
 }
 

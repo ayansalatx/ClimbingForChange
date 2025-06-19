@@ -9,40 +9,41 @@ const SearchBar = ({ value, onChange }) => {
       label="Search"
       variant="outlined"
       value={value}
-      onChange={(e) => onChange(e.target.value)} 
+      
+      onChange={(e) => onChange(e.target.value)}
       sx={{
-        width: 500,
-        input: { color: 'white' },
-        label: { color: '#c9d82c' },
-        '& fieldset': { borderColor: '#c9d82c' },
+        width: 510,
+        padding: '0',
+        input: { color: 'background.paper', fontSize: '1rem', padding: '.9rem', },
+        label: { color: 'background.paper' },
+        '& fieldset': { borderColor: 'background.paper' },
         '& .MuiOutlinedInput-root': {
-          color: 'var(--c4c-green)',
+          color: 'background.paper',
           fontSize: '.9rem',
-          '&:hover input': { color: 'var(--c4c-light-blue)' },
-          '&.Mui-focused input': { color: 'var(--c4c-teal)' },
-          '& fieldset': { borderColor: 'var(--c4c-green)' },
-          '&:hover fieldset': { borderColor: 'var(--c4c-light-blue)' },
-          '&.Mui-focused fieldset': { borderColor: 'var(--c4c-teal)' },
+          '& fieldset': { borderColor: 'background.paper', borderWidth: '2px' },
+          '&:hover fieldset': { borderColor: 'info.main' },
+          '&.Mui-focused fieldset': { borderColor: 'info.main' },
         },
         '& .MuiInputLabel-root': {
-          color: 'var(--c4c-green)',
+          color: 'background.paper',
           fontSize: '.9rem',
         },
         '&:hover .MuiInputLabel-root': {
-          color: 'var(--c4c-light-blue)',
+          color: 'info.main',
         },
         '& .MuiInputLabel-root.Mui-focused': {
-          color: 'var(--c4c-teal)',
+          color: 'info.main',
         },
         '& input::placeholder': {
-          color: 'var(--c4c-green)',
+          color: 'background.paper',
+          textAlign: 'center',
           opacity: 1,
         },
       }}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
-            <SearchIcon sx={{ color: 'white' }} />
+            <SearchIcon sx={{ color: 'background.paper' }} />
           </InputAdornment>
         ),
       }}
