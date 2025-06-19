@@ -1,8 +1,6 @@
-import axios from 'axios'
-
-const BASE_URL = import.meta.env.VITE_API_URL
+import { api } from './api'
 
 export const getAllLaps = async () => {
-  const res = await axios.get(`${BASE_URL}/laps`)
+  const res = await api.get(`/laps`)
   return res.data
 }

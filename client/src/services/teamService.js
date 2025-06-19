@@ -1,10 +1,8 @@
-import axios from 'axios'
-
-const BASE_URL = import.meta.env.VITE_API_URL
+import { api } from './api'
 
 // Get all teams
 export const getAllTeams = async () => {
-  const res = await axios.get(`${BASE_URL}/teams`)
+  const res = await api.get(`/teams`)
   return res.data
 }
 
