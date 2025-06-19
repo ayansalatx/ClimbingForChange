@@ -2,7 +2,7 @@ import { api } from './api'
 
 // Get all teams
 export const getAllTeams = async () => {
-  const res = await api.get(`/teams`)
+  const res = await api.get('/teams')
   return res.data
 }
 

@@ -4,8 +4,8 @@ import { useState } from 'react'
 import LocationTable from '../../../components/admin/forms/locationforms/LocationTable'
 import SearchBar from '../../../components/admin/forms/locationforms/SearchBar'
 import AddLocationModal from '../../../components/admin/modals/LocationModal.jsx'
-import mockData from '../../../mock-data/location-data.json'
 import { useAlert } from '../../../hooks/useAlert.js'
+import mockData from '../../../mock-data/location-data.json'
 
 const LocationManager = () => {
   const [popupOpen, setPopupOpen] = useState(false)
@@ -17,7 +17,7 @@ const LocationManager = () => {
   const handleAddLocation = (eventData) => {
     setLocation([...locations, eventData])
     setPopupOpen(false)
-    displayAlert("Saved", `Saved location to the backend.`, "success")
+    displayAlert('Saved', 'Saved location to the backend.', 'success')
   }
 
   return (

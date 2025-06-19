@@ -1,7 +1,7 @@
-import { api } from "./api"
+import { api } from './api'
 
 export const getAllLocations = async () => {
-  const res = await api.get(`/locations`)
+  const res = await api.get('/locations')
   return res.data
 }
 

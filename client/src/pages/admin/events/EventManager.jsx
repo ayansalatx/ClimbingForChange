@@ -5,9 +5,9 @@ import { useEffect, useState } from 'react'
 import EventsTable from '../../../components/admin/forms/eventforms/EventTable'
 import SearchBar from '../../../components/admin/forms/eventforms/SearchBar'
 import AddEventModal from '../../../components/admin/modals/EventModal.jsx'
+import { useAlert } from '../../../hooks/useAlert.js'
 import { getAllEvents } from '../../../services/eventService.js'
 import { getAllLocations } from '../../../services/locationService.js'
-import { useAlert } from '../../../hooks/useAlert.js'
 
 const EventManager = () => {
   const [openPopup, setOpenPopup] = useState(false)
@@ -29,7 +29,7 @@ const EventManager = () => {
         const locations = await getAllLocations()
         setLocations(locations)
       } catch (error) {
-        displayAlert("Locations Error", `${error.message}`, "error")
+        displayAlert('Locations Error', `${error.message}`, 'error')
       }
     }
 
@@ -37,15 +37,15 @@ const EventManager = () => {
       try {
         const events = await getAllEvents()
         setEvents(events)
-        displayAlert("Fresh backend data", `Loaded ${events.length} events from the backend.`, "success")
+        displayAlert('Fresh backend data', `Loaded ${events.length} events from the backend.`, 'success')
       } catch (error) {
-        displayAlert("Events Error", `${error.message}`, "error")
+        displayAlert('Events Error', `${error.message}`, 'error')
       }
     }
 
     fetchEvents()
     fetchLocations()
-  }, [])
+  }, [displayAlert])
 
 
   return (

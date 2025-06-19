@@ -2,9 +2,9 @@ import { Box, CircularProgress } from '@mui/material'
 import { Suspense,useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
+import AlertDisplay from './components/AlertDisplay'
 import SideBar from './components/shared/SideBar'
 import TopAppBar from './components/shared/TopAppBar'
-import AlertDisplay from './components/AlertDisplay'
 
 function Layout() {
   const [drawerOpen, setDrawerOpen] = useState(false)

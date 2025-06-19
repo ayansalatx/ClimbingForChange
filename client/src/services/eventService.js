@@ -1,12 +1,12 @@
 import { api } from './api'
  
 export const getDisplayEvent = async () => {
-  const res = await api.get(`/events/display`)
+  const res = await api.get('/events/display')
   return res.data
 }
  
 export const getAllEvents = async () => {
-  const res = await api.get(`/events`)
+  const res = await api.get('/events')
   return res.data
 }
  

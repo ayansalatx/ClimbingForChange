@@ -12,7 +12,8 @@
     "client": "npm run dev --prefix client",
     "server": "npm run dev   --prefix server",
     "dev": "concurrently \"npm:server\" \"npm:client\"",
-    "test": "npm run test --prefix server"
+    "test": "npm run test --prefix server",
+    "lint:fix": "npm run lint:fix --prefix client && npm run lint:fix --prefix server"
   },
   "devDependencies": {
     "concurrently": "^9.1.2",
