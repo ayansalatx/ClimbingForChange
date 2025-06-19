@@ -1,8 +1,6 @@
-import axios from 'axios'
-
-const BASE_URL = import.meta.env.VITE_API_URL
+import { api } from './api'
 
 export const getAllRFIDTags = async () => {
-  const res = await axios.get(`${BASE_URL}/rfidtags`)
+  const res = await api.get('/rfidtags')
   return res.data
 }
