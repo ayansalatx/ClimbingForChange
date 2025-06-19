@@ -1,4 +1,5 @@
 import { Alert, AlertTitle, Snackbar } from '@mui/material'
+
 import { useGlobalState } from '../state'
 
 const AlertDisplay = () => {
