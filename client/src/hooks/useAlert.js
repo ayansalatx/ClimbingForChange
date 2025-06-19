@@ -1,7 +1,7 @@
 import { useCallback, useRef } from 'react'
 
 import { setAlert } from '../state/reducer'
-import { useGlobalState } from '../state/state'
+import { useGlobalState } from '../state'
 
 export const useAlert = () => {
   const [, dispatch] = useGlobalState()

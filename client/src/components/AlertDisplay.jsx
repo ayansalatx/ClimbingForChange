@@ -1,6 +1,5 @@
 import { Alert, AlertTitle, Snackbar } from '@mui/material'
-
-import { useGlobalState } from '../state/state'
+import { useGlobalState } from '../state'
 
 const AlertDisplay = () => {
   // eslint-disable-next-line no-unused-vars
