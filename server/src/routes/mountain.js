@@ -3,8 +3,8 @@ import asyncHandler from 'express-async-handler'
 import {  getMountains,
           getMountainById,
           saveOneMountain,
-          updateOneHill,
-          deleteOneMountain } from '../controllers/mountains.js'
+          deleteOneMountain, 
+          updateOneMountain} from '../controllers/mountains.js'
 import { checkValidation } from './event.js'
 import { body } from 'express-validator'
 
@@ -30,7 +30,7 @@ mountainRoutes.post('/', validateMountain, checkValidation, asyncHandler(saveOne
 
 mountainRoutes.get('/:id', asyncHandler(getMountainById))
 
-mountainRoutes.put('/:id', validateMountain, checkValidation, asyncHandler(updateOneHill))
+mountainRoutes.put('/:id', validateMountain, checkValidation, asyncHandler(updateOneMountain))
 
 mountainRoutes.delete('/:id', asyncHandler(deleteOneMountain))
 
