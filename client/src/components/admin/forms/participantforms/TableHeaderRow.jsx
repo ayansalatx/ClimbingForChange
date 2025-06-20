@@ -1,5 +1,4 @@
 import { TableCell, TableHead, TableRow } from '@mui/material'
-import React from 'react'
 
 const TableHeaderRow = ({ columns }) => {
   return (

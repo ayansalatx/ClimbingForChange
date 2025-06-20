@@ -36,7 +36,7 @@ const ParticipantTable = ({ searchTerm, participant }) => {
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer sx={{ maxHeight: 500, width: 1200}}>
-        <Table stickyHeader aria-label="sticky table" sx={{}}>
+        <Table stickyHeader aria-label='sticky table' sx={{}}>
           <TableHeaderRow columns={fullColumns} />
           <TableDataRows
             rows={filteredRows}
@@ -48,7 +48,7 @@ const ParticipantTable = ({ searchTerm, participant }) => {
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
-        component="div"
+        component='div'
         count={filteredRows.length}
         rowsPerPage={rowsPerPage}
         page={page}
