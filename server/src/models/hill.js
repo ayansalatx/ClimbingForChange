@@ -1,8 +1,13 @@
 import mongoose from '../utils/db.js'
 
-const {Schema, model} = mongoose
+const { Schema, model } = mongoose
 
 const hillSchema = new Schema({
+  location: {
+    type: Schema.Types.ObjectId,
+    ref: 'Location',
+    required: true
+  },
   name: {
     type: String,
     required: true,
