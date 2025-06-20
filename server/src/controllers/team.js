@@ -1,7 +1,7 @@
 import Event from '../models/event.js'
 import Team from '../models/team.js'
-import PhysicalMountain from '../models/physicalMountain.js'
-import TargetMountain from '../models/targetMountain.js'
+import Hill from '../models/hill.js'
+import Mountain from '../models/mountain.js'
 import Participant from '../models/participant.js'
 
 export const getAllTeams = async (req, response) => {
@@ -10,7 +10,7 @@ export const getAllTeams = async (req, response) => {
       path: 'participants',
       populate: { path: 'laps' },
     })
-    .populate('targetMountainId')
+    .populate('MountainId')
 
   response.json(allTeams)
 }
@@ -31,12 +31,12 @@ export const saveOneTeam = async (request, response) => {
   }
 
   const event = await Event.findById(body.eventId)
-  const physicalMountain = await PhysicalMountain.findById(
-    body.physicalMountainId
+  const Hill = await Hill.findById(
+    body.HillId
   )
-  const targetMountain = await TargetMountain.findById(body.targetMountainId)
+  const Mountain = await Mountain.findById(body.MountainId)
 
-  if (!event || !physicalMountain || !targetMountain) {
+  if (!event || !Hill || !Mountain) {
     return response.status(400).json({
       error:
         'Event, physical or target mountain have been deleted or no longer exist.',
@@ -73,14 +73,14 @@ export const updateOneTeam = async (request, response) => {
     body.isSoloTeam !== undefined ? body.isSoloTeam : existingTeam.isSoloTeam
   existingTeam.eventId =
     body.eventId !== undefined ? body.eventId : existingTeam.eventId
-  existingTeam.physicalMountainId =
-    body.physicalMountainId !== undefined
-      ? body.physicalMountainId
-      : existingTeam.physicalMountainId
-  existingTeam.targetMountainId =
-    body.targetMountainId !== undefined
-      ? body.targetMountainId
-      : existingTeam.targetMountainId
+  existingTeam.HillId =
+    body.HillId !== undefined
+      ? body.HillId
+      : existingTeam.HillId
+  existingTeam.MountainId =
+    body.MountainId !== undefined
+      ? body.MountainId
+      : existingTeam.MountainId
   existingTeam.lapsRequired =
     body.lapsRequired !== undefined
       ? body.lapsRequired
@@ -91,12 +91,12 @@ export const updateOneTeam = async (request, response) => {
       : existingTeam.startDateTime
 
   const event = await Event.findById(body.eventId)
-  const physicalMountain = await PhysicalMountain.findById(
-    body.physicalMountainId
+  const Hill = await Hill.findById(
+    body.HillId
   )
-  const targetMountain = await TargetMountain.findById(body.targetMountainId)
+  const Mountain = await Mountain.findById(body.MountainId)
 
-  if (!event || !physicalMountain || !targetMountain) {
+  if (!event || !Hill || !Mountain) {
     return response.status(400).json({
       error:
         'Event, physical or target mountain have been deleted or no longer exist.',
@@ -152,8 +152,8 @@ export const updateOneTeam = async (request, response) => {
               name: `${participant.firstName} ${participant.lastName} (Solo)`,
               isSoloTeam: true,
               eventId: existingTeam.eventId,
-              physicalMountainId: existingTeam.physicalMountainId,
-              targetMountainId: existingTeam.targetMountainId,
+              HillId: existingTeam.HillId,
+              MountainId: existingTeam.MountainId,
               lapsRequired: existingTeam.lapsRequired,
               startDateTime: participant.startDateTime || new Date(),
             })

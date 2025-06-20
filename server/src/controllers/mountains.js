@@ -1,39 +1,39 @@
-import PhysicalMountain from '../models/physicalMountain.js'
-import TargetMountain from '../models/targetMountain.js'
+import Hill from '../models/hill.js'
+import Mountain from '../models/mountain.js'
 
-export const getPhysicalMountains = async (req, response) => {
+export const getHills = async (req, response) => {
 
-  const mountains = await PhysicalMountain.find({})
-
-  response.json(mountains)
-}
-
-export const getTargetMountains = async (req, response) => {
-
-  const mountains = await TargetMountain.find({})
+  const mountains = await Hill.find({})
 
   response.json(mountains)
 }
 
-export const getTargetMountainById = async (req, response) => {
+export const getMountains = async (req, response) => {
+
+  const mountains = await Mountain.find({})
+
+  response.json(mountains)
+}
+
+export const getMountainById = async (req, response) => {
 
   const { id } = req.params
 
-  const mountain = await TargetMountain.findById(id)
+  const mountain = await Mountain.findById(id)
 
   response.json(mountain)
 }
 
-export const getPhysicalMountainById = async (req, response) => {
+export const getHillById = async (req, response) => {
 
   const { id } = req.params
 
-  const mountain = await PhysicalMountain.findById(id)
+  const mountain = await Hill.findById(id)
 
   response.json(mountain)
 }
 
-export const saveOnePhysicalMountain = async (request, response) => {
+export const saveOneHill = async (request, response) => {
 
   const body = request.body
 
@@ -41,7 +41,7 @@ export const saveOnePhysicalMountain = async (request, response) => {
     return response.status(400).json({ error: 'Mountain missing' })
   }
 
-  const newMountain = new PhysicalMountain({
+  const newMountain = new Hill({
     name: body.name,
     elevationPerLap: body.elevationPerLap,
     active: body.active,
@@ -52,7 +52,7 @@ export const saveOnePhysicalMountain = async (request, response) => {
   response.status(201).json(savedMountain)
 }
 
-export const saveOneTargetMountain = async (request, response) => {
+export const saveOneMountain = async (request, response) => {
 
   const body = request.body
 
@@ -60,7 +60,7 @@ export const saveOneTargetMountain = async (request, response) => {
     return response.status(400).json({ error: 'Mountain missing' })
   }
 
-  const newMountain = new TargetMountain({
+  const newMountain = new Mountain({
     name: body.name,
     totalElevation: body.totalElevation,
     active: body.active,
@@ -71,7 +71,7 @@ export const saveOneTargetMountain = async (request, response) => {
   response.status(201).json(savedMountain)
 }
 
-export const updateOnePhysicalMountain = async (request, response) => {
+export const updateOneHill = async (request, response) => {
 
   const body = request.body
   const id = request.params.id
@@ -80,13 +80,13 @@ export const updateOnePhysicalMountain = async (request, response) => {
     return response.status(400).json({ error: 'Physical mountain body or id missing' })
   }
 
-  const physicalMountainToDelete = PhysicalMountain.findById(id)
+  const HillToDelete = Hill.findById(id)
 
-  if (!physicalMountainToDelete) {
+  if (!HillToDelete) {
     return response.status(400).json({ error: 'Physical mountain doesnt exist' })
   }
 
-  const updated = await PhysicalMountain.updateOne(
+  const updated = await Hill.updateOne(
     {
       _id: id,
       // active: true
@@ -106,7 +106,7 @@ export const updateOnePhysicalMountain = async (request, response) => {
   response.status(201).json(updated)
 }
 
-export const deleteOnePhysicalMountain = async (request, response) => {
+export const deleteOneHill = async (request, response) => {
 
   const id = request.params.id
 
@@ -114,18 +114,18 @@ export const deleteOnePhysicalMountain = async (request, response) => {
     return response.status(400).json({ error: 'Physical mountain id to delete is missing' })
   }
 
-  const physicalMountainToDelete = await PhysicalMountain.findById(id)
+  const HillToDelete = await Hill.findById(id)
 
-  if (!physicalMountainToDelete) {
+  if (!HillToDelete) {
     return response.status(400).json({ error: 'Target mountain doesnt exist' })
   }
 
-  const updated = await PhysicalMountain.findByIdAndDelete(id)
+  const updated = await Hill.findByIdAndDelete(id)
 
   response.status(200).json(updated)
 }
 
-export const updateOneTargetMountain = async (request, response) => {
+export const updateOneMountain = async (request, response) => {
 
   const body = request.body
   const id = request.params.id
@@ -134,13 +134,13 @@ export const updateOneTargetMountain = async (request, response) => {
     return response.status(400).json({ error: 'Target mountain body or id missing' })
   }
 
-  const targetMountainToDelete = await TargetMountain.findById(id)
+  const MountainToDelete = await Mountain.findById(id)
 
-  if (!targetMountainToDelete) {
+  if (!MountainToDelete) {
     return response.status(400).json({ error: 'Target mountain doesnt exist' })
   }
 
-  const updated = await TargetMountain.updateOne(
+  const updated = await Mountain.updateOne(
     {
       _id: id,
       // active: true
@@ -160,7 +160,7 @@ export const updateOneTargetMountain = async (request, response) => {
   response.status(201).json(updated)
 }
 
-export const deleteOneTargetMountain = async (request, response) => {
+export const deleteOneMountain = async (request, response) => {
 
   const id = request.params.id
 
@@ -168,13 +168,13 @@ export const deleteOneTargetMountain = async (request, response) => {
     return response.status(400).json({ error: 'Target mountain id to delete is missing' })
   }
 
-  const targetMountainToDelete = await TargetMountain.findById(id)
+  const MountainToDelete = await Mountain.findById(id)
 
-  if (!targetMountainToDelete) {
+  if (!MountainToDelete) {
     return response.status(400).json({ error: 'Target mountain doesnt exist' })
   }
 
-  const updated = await TargetMountain.findByIdAndDelete(id)
+  const updated = await Mountain.findByIdAndDelete(id)
 
   response.status(200).json(updated)
 }

@@ -12,6 +12,7 @@ import { errorHandler } from './src/error.js'
 import rfidtagRoutes from './src/routes/rfidtag.js'
 import teamsRoutes from './src/routes/team.js'
 import lapRoutes from './src/routes/lap.js'
+import hillRoutes from './src/routes/hill.js'
 
 const app = express()
 const openapiDoc = YAML.load('./openapi.yaml')
@@ -32,6 +33,7 @@ appRouter.use('/participants', participantRoutes)
 appRouter.use('/events', eventRoutes)
 appRouter.use('/locations', locationRoutes)
 appRouter.use('/mountains', mountainRoutes)
+appRouter.use('/hills', hillRoutes)
 appRouter.use('/rfidtags', rfidtagRoutes)
 appRouter.use('/teams', teamsRoutes)
 appRouter.use('/laps', lapRoutes)

@@ -7,6 +7,10 @@ const eventSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Mountain'
   }],
+  hills: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Hill'
+  }],
   location: {
     type: Schema.Types.ObjectId,
     ref: 'Location',

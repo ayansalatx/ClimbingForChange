@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test node --test --test-concurrency=1",
+    "test_one_file": "cross-env NODE_ENV=test node --test src/test/event.test.js",
     "start": "cross-env NODE_ENV=production node server",
     "dev": "cross-env NODE_ENV=development nodemon server",
     "seed": "cross-env NODE_ENV=development node --experimental-modules --es-module-specifier-resolution=node src/seed/seed.js",

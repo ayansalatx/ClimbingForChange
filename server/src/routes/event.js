@@ -11,9 +11,13 @@ import {
 } from '../controllers/event.js'
 
 const validateEvent = [
-  body('locationId').trim().notEmpty().withMessage('location is required'),
+  body('location').trim().notEmpty().withMessage('location is required'),
 
-  body('physicalMountainIds')
+  body('hills')
+    .notEmpty()
+    .withMessage('Physical mountain or hill is required'),
+
+  body('mountains')
     .notEmpty()
     .withMessage('Physical mountain or hill is required'),
 

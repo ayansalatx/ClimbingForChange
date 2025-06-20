@@ -1,23 +1,15 @@
 import express from 'express'
 import asyncHandler from 'express-async-handler'
-import { getPhysicalMountains, getTargetMountains, getTargetMountainById, saveOnePhysicalMountain, saveOneTargetMountain, getPhysicalMountainById, updateOnePhysicalMountain, updateOneTargetMountain, deleteOnePhysicalMountain, deleteOneTargetMountain } from '../controllers/mountains.js'
+import {  getMountains,
+          getMountainById,
+          saveOneMountain,
+          updateOneHill,
+          deleteOneMountain } from '../controllers/mountains.js'
 import { checkValidation } from './event.js'
 import { body } from 'express-validator'
 
-const validatePhysicalMountain = [
-  body('name').trim().notEmpty().withMessage('Physical mountain name is required'),
 
-  body('elevationPerLap')
-    .notEmpty()
-    .withMessage('Elevation per lap is required'),
-
-  body('active')
-    .optional()
-    .isBoolean()
-    .withMessage('active must be true or false'),
-]
-
-const validateTargetMountain = [
+const validateMountain = [
   body('name').trim().notEmpty().withMessage('Physical mountain name is required'),
 
   body('totalElevation')
@@ -32,25 +24,15 @@ const validateTargetMountain = [
 
 const mountainRoutes = express.Router()
 
-mountainRoutes.get('/physical', asyncHandler(getPhysicalMountains))
+mountainRoutes.get('/', asyncHandler(getMountains))
 
-mountainRoutes.post('/physical', validatePhysicalMountain, checkValidation, asyncHandler(saveOnePhysicalMountain))
+mountainRoutes.post('/', validateMountain, checkValidation, asyncHandler(saveOneMountain))
 
-mountainRoutes.get('/physical/:id', asyncHandler(getPhysicalMountainById))
+mountainRoutes.get('/:id', asyncHandler(getMountainById))
 
-mountainRoutes.get('/target', asyncHandler(getTargetMountains))
+mountainRoutes.put('/:id', validateMountain, checkValidation, asyncHandler(updateOneHill))
 
-mountainRoutes.post('/target', validateTargetMountain, checkValidation, asyncHandler(saveOneTargetMountain))
-
-mountainRoutes.get('/target/:id', asyncHandler(getTargetMountainById))
-
-mountainRoutes.put('/physical/:id', validatePhysicalMountain, checkValidation, asyncHandler(updateOnePhysicalMountain))
-
-mountainRoutes.put('/target/:id', validateTargetMountain, checkValidation, asyncHandler(updateOneTargetMountain))
-
-mountainRoutes.delete('/physical/:id', asyncHandler(deleteOnePhysicalMountain))
-
-mountainRoutes.delete('/target/:id', asyncHandler(deleteOneTargetMountain))
+mountainRoutes.delete('/:id', asyncHandler(deleteOneMountain))
 
 
 export default mountainRoutes
