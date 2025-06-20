@@ -8,11 +8,6 @@ const lapSchema = new Schema({
     ref: 'Team',
     required: true
   },
-  participantId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Participant',
-    required: true
-  },
   rfidTagId: {
     type: Schema.Types.ObjectId,
     ref: 'RFIDTag',

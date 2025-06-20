@@ -2,38 +2,37 @@ import mongoose from '../utils/db.js'
 
 const {Schema, model} = mongoose
 
-const eventSchema = new Schema({
-  mountains: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Mountain'
-  }],
-  location: {
-    type: Schema.Types.ObjectId,
-    ref: 'Location',
-    required: true
-  },
+const hillSchema = new Schema({
   name: {
     type: String,
     required: true,
     trim: true
   },
-  startDateTime: {
-    type: Date,
+  lapElevationGain: {
+    type: Number,
     required: true
   },
-  endDateTime: {
-    type: Date,
+  lapDistance: {
+    type: Number,
     required: true
   },
-  active: {
-    type: Boolean,
-    default: true
+  elevationUnit: {
+    type: String,
+    required: true,
+    enum: ['FT', 'M'],
+    default: 'FT'
+  },
+  distanceUnit: {
+    type: String,
+    required: true,
+    enum: ['KM', 'MI'],
+    default: 'KM'
   }
 }, {
   timestamps: true
 })
 
-eventSchema.set('toJSON', {
+hillSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
@@ -41,4 +40,4 @@ eventSchema.set('toJSON', {
   }
 })
 
-export default model('Event', eventSchema)
+export default model('Hill', hillSchema)
