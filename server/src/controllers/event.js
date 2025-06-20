@@ -12,8 +12,8 @@ export const getEventByID = async (request, response) => {
   const id = request.params.id
 
   const event = await Event.findById(id)
-  .populate('location')
-  .populate('mountains')
+    .populate('location')
+    .populate('mountains')
   
   response.json(event)
 }
@@ -90,5 +90,5 @@ export const deleteOneEvent = async (request, response) => {
 
   await Event.findByIdAndDelete( eventIdToDelete)
 
-  response.status(204).send();
+  response.status(204).send()
 }

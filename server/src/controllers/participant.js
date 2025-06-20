@@ -1,6 +1,5 @@
 import Participant from '../models/participant.js'
 import '../models/team.js' // registring the Team model for the populate to work
-import RFIDTag from '../models/rfidTag.js'
 import Team from '../models/team.js'
 
 export const getParticipants = async (req, response) => {
@@ -30,7 +29,7 @@ export const uploadParticipants = async (request, response) => {
     return response.status(400).json({ error: 'PArticipants to upload missing missing' })
   }
   
-  console.log("🚀 ~ uploadParticipants ~ body:", body.length)
+  console.log('🚀 ~ uploadParticipants ~ body:', body.length)
   response.status(200).send()
 }
 
@@ -80,7 +79,7 @@ export const updateOneParticipant = async (request, response) => {
   const participantObjectToUpdate = {
     ...body,
   }
-  
+
   const existingTeam = await Team.findById(participantObjectToUpdate.teamId)
 
   // Attach the team id to this participant to assign them to that team.

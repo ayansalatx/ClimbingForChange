@@ -1,10 +1,10 @@
 import express from 'express'
 import asyncHandler from 'express-async-handler'
 import {  getMountains,
-          getMountainById,
-          saveOneMountain,
-          deleteOneMountain, 
-          updateOneMountain} from '../controllers/mountains.js'
+  getMountainById,
+  saveOneMountain,
+  deleteOneMountain, 
+  updateOneMountain} from '../controllers/mountains.js'
 import { checkValidation, validateMountain } from '../middleware/validations.js'
 
 const mountainRoutes = express.Router()

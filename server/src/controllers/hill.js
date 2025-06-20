@@ -84,7 +84,7 @@ export const deleteOneHill = async (request, response) => {
     return response.status(400).json({ error: 'Target mountain doesnt exist' })
   }
 
-  const updated = await Hill.findByIdAndDelete(id)
+  await Hill.findByIdAndDelete(id)
 
   response.status(204).send()
 }

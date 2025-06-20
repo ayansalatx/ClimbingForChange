@@ -46,24 +46,24 @@ export const validateEvent = [
 ]
 
 export const validateHill = [
-    body('name').trim().notEmpty().withMessage('Physical mountain name is required'),
+  body('name').trim().notEmpty().withMessage('Physical mountain name is required'),
 
-    body('lapElevationGain')
-        .notEmpty()
-        .withMessage('lapElevationGain per lap is required'),
+  body('lapElevationGain')
+    .notEmpty()
+    .withMessage('lapElevationGain per lap is required'),
 
-    body('lapDistance')
-        .notEmpty()
-        .withMessage('lapDistance per lap is required'),
+  body('lapDistance')
+    .notEmpty()
+    .withMessage('lapDistance per lap is required'),
 
-    body('location')
-        .notEmpty()
-        .withMessage('Location per lap is required'),
+  body('location')
+    .notEmpty()
+    .withMessage('Location per lap is required'),
 
-    body('active')
-        .optional()
-        .isBoolean()
-        .withMessage('active must be true or false'),
+  body('active')
+    .optional()
+    .isBoolean()
+    .withMessage('active must be true or false'),
 ]
 
 export const validateLap = [

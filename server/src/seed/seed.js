@@ -1,12 +1,12 @@
 import mongoose from '../utils/db.js'
-import Event from '../models/event.js';
-import Hill from '../models/hill.js';
-import Lap from '../models/lap.js';
-import Location from '../models/location.js';
-import Mountain from '../models/mountain.js';
-import Participant from '../models/participant.js';
-import RFIDTag from '../models/rfidTag.js';
-import Team from '../models/team.js';
+import Event from '../models/event.js'
+import Hill from '../models/hill.js'
+import Lap from '../models/lap.js'
+import Location from '../models/location.js'
+import Mountain from '../models/mountain.js'
+import Participant from '../models/participant.js'
+import RFIDTag from '../models/rfidTag.js'
+import Team from '../models/team.js'
 
 const seedDatabase = async () => {
   try {
@@ -14,8 +14,8 @@ const seedDatabase = async () => {
     await mongoose.connection.asPromise()
     console.log('Connected to MongoDB.')
 
-    console.log('Clearing existing data...');
-     await Promise.all([
+    console.log('Clearing existing data...')
+    await Promise.all([
       Location.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }), // Drop collection, ignore if not found
       Mountain.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }),
       Hill.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }),
@@ -25,12 +25,12 @@ const seedDatabase = async () => {
       Participant.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }),
       Lap.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }),
     ])
-    console.log('All collections cleared.');
+    console.log('All collections cleared.')
 
     // ------------------ SEEDING (ORDER IS CRITICAL) ------------------ //
 
     // 1. Seed documents with NO dependencies first.
-    console.log('Seeding Locations, Mountains, and RFID Tags...');
+    console.log('Seeding Locations, Mountains, and RFID Tags...')
     const locations = await Location.insertMany([
       {
         name: 'Down Town Park',
@@ -39,7 +39,7 @@ const seedDatabase = async () => {
         provState: 'AB',
         country: 'Canada'
       },
-    ]);
+    ])
 
     const mountains = await Mountain.insertMany([
       {
@@ -60,19 +60,19 @@ const seedDatabase = async () => {
         elevationUnit: 'FT',
         imageURL: 'https://plus.unsplash.com/premium_photo-1673264933212-d78737f38e48?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8TW91bnQlMjBSYWluaWVyfGVufDB8fDB8fHww'
       },
-    ]);
+    ])
 
     const rfidTags = await RFIDTag.insertMany([
       { serialNumber: 'A1B2C3D4E5' },
       { serialNumber: 'F6G7H8I9J0' },
       { serialNumber: 'K1L2M3N4O5' },
       { serialNumber: 'P6Q7R8S9T0' },
-    ]);
-    console.log('Seeded base data successfully.');
+    ])
+    console.log('Seeded base data successfully.')
 
 
     // 2. Seed Hills (depends on Location)
-    console.log('Seeding Hills...');
+    console.log('Seeding Hills...')
     const hills = await Hill.insertMany([
       {
         location: locations[0]._id,
@@ -90,11 +90,11 @@ const seedDatabase = async () => {
         elevationUnit: 'FT',
         distanceUnit: 'KM'
       },
-    ]);
-    console.log('Seeded Hills successfully.');
+    ])
+    console.log('Seeded Hills successfully.')
 
     // 3. Seed Events (depends on Location, Mountain, Hill)
-    console.log('Seeding Events...');
+    console.log('Seeding Events...')
     const events = await Event.insertMany([
       {
         location: locations[0]._id,
@@ -105,21 +105,21 @@ const seedDatabase = async () => {
         availableMountains: [mountains[0]._id, mountains[1]._id, mountains[2]._id],
         availableHills: [hills[0]._id, hills[1]._id],
       },
-    ]);
-    console.log('Seeded Events successfully.');
+    ])
+    console.log('Seeded Events successfully.')
 
 
     // 4. Seed Teams (depends on Event, Mountain, Hill, RFIDTag)
-    console.log('Seeding Teams...');
+    console.log('Seeding Teams...')
     // We calculate required laps/distance for realism
-    const everestData = mountains.find(m => m.name === 'Everest');
-    const grinderHillData = hills.find(h => h.name === 'The Grinder');
-    const everestLaps = Math.ceil(everestData.totalElevation / grinderHillData.lapElevationGain); // ~134
-    const everestDistance = everestLaps * grinderHillData.lapDistance; // ~100.5
+    const everestData = mountains.find(m => m.name === 'Everest')
+    const grinderHillData = hills.find(h => h.name === 'The Grinder')
+    const everestLaps = Math.ceil(everestData.totalElevation / grinderHillData.lapElevationGain) // ~134
+    const everestDistance = everestLaps * grinderHillData.lapDistance // ~100.5
 
-    const denaliData = mountains.find(m => m.name === 'Denali');
-    const denaliLaps = Math.ceil(denaliData.totalElevation / grinderHillData.lapElevationGain); // ~94
-    const denaliDistance = denaliLaps * grinderHillData.lapDistance; // ~70.5
+    const denaliData = mountains.find(m => m.name === 'Denali')
+    const denaliLaps = Math.ceil(denaliData.totalElevation / grinderHillData.lapElevationGain) // ~94
+    const denaliDistance = denaliLaps * grinderHillData.lapDistance // ~70.5
     
     const teams = await Team.insertMany([
       {
@@ -155,11 +155,11 @@ const seedDatabase = async () => {
         totalDistanceRequired: 60.5, // 121 * 0.5
         startDateTime: new Date('2024-09-14T08:15:00Z')
       }
-    ]);
-    console.log('Seeded Teams successfully.');
+    ])
+    console.log('Seeded Teams successfully.')
 
     // 5. Seed Participants (depends on Teams)
-    console.log('Seeding Participants...');
+    console.log('Seeding Participants...')
     await Participant.insertMany([
       // Summit Striders members
       { teamId: teams[0]._id, firstName: 'Alice', lastName: 'Johnson' },
@@ -171,11 +171,11 @@ const seedDatabase = async () => {
       { teamId: teams[2]._id, firstName: 'Jane', lastName: 'Doe' },
       // A participant not yet on a team
       { firstName: 'Eve', lastName: 'Davis' },
-    ]);
-    console.log('Seeded Participants successfully.');
+    ])
+    console.log('Seeded Participants successfully.')
 
     // 6. Seed Laps (depends on Teams, RFIDTags)
-    console.log('Seeding Laps to simulate event in progress...');
+    console.log('Seeding Laps to simulate event in progress...')
     await Lap.insertMany([
       // 2 laps for the Summit Striders
       {
@@ -197,21 +197,21 @@ const seedDatabase = async () => {
         startDateTime: new Date('2024-09-14T08:10:01Z'),
         endDateTime: new Date('2024-09-14T08:19:45Z')
       }
-    ]);
-    console.log('Seeded Laps successfully.');
+    ])
+    console.log('Seeded Laps successfully.')
 
 
-    console.log('\n✅ ✅ ✅ Database seeding complete! ✅ ✅ ✅');
+    console.log('\n✅ ✅ ✅ Database seeding complete! ✅ ✅ ✅')
 
   } catch (error) {
-    console.error('❌ Error seeding database:', error);
-    process.exit(1);
+    console.error('❌ Error seeding database:', error)
+    process.exit(1)
   } finally {
     // ------------------ CLOSE CONNECTION ------------------ //
-    await mongoose.connection.close();
-    console.log('MongoDB connection closed.');
+    await mongoose.connection.close()
+    console.log('MongoDB connection closed.')
   }
-};
+}
 
 // Run the seeder
-seedDatabase();
+seedDatabase()

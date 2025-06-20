@@ -10,10 +10,10 @@ import EventManager from './pages/admin/events/EventManager'
 import LocationManager from './pages/admin/locations/LocationManager'
 import MountainManager from './pages/admin/mountains/MountainManager'
 import ParticipantManager from './pages/admin/participants/ParticipantManager'
+import ParticipantUpload from './pages/admin/participants/ParticipantUpload'
 import ProgressBoard from './pages/progressboard/ProgressBoard'
 import ProgressBoardFullscreen from './pages/progressboard/ProgressBoardFullscreen'
 import theme from './styles/theme'
-import ParticipantUpload from './pages/admin/participants/ParticipantUpload'
 
 function App() {
   return (

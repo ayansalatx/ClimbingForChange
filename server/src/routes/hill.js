@@ -1,11 +1,11 @@
 import express from 'express'
 import asyncHandler from 'express-async-handler'
 import {
-    getHills,
-    saveOneHill,
-    getHillById,
-    updateOneHill,
-    deleteOneHill,
+  getHills,
+  saveOneHill,
+  getHillById,
+  updateOneHill,
+  deleteOneHill,
 } from '../controllers/hill.js'
 import { checkValidation, validateHill } from '../middleware/validations.js'
 

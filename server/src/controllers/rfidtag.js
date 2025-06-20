@@ -72,7 +72,7 @@ export const deleteOneRFIDTag = async (request, response) => {
     return response.status(400).json({ error: 'Event id to delete is missing' })
   }
 
-  const deleted = await RFIDTag.findByIdAndDelete(id)
+  await RFIDTag.findByIdAndDelete(id)
 
   response.status(204).send()
 }
