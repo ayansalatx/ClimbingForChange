@@ -93,7 +93,6 @@ describe('RFID Tags API (/api/rfidtags)', () => {
   test('an RFID tag can be deleted', async () => {
     const tagsAtStart = await api.get('/api/rfidtags');
     const tagToDelete = tagsAtStart.body[0];
- console.log("🚀 ~ test ~ tagToDelete:", tagToDelete)
 
     await api
       .delete(`/api/rfidtags/${tagToDelete.id}`)

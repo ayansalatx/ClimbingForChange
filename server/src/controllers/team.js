@@ -6,12 +6,11 @@ import Participant from '../models/participant.js'
 
 export const getAllTeams = async (req, response) => {
   const allTeams = await Team.find({})
-    .populate({
-      path: 'participants',
-      populate: { path: 'laps' },
-    })
-    .populate('MountainId')
-
+    .populate('participants')
+    .populate('laps')
+    .populate('mountain')
+    .populate('hill')
+    
   response.json(allTeams)
 }
 
@@ -30,16 +29,16 @@ export const saveOneTeam = async (request, response) => {
     return response.status(400).json({ error: 'Team missing' })
   }
 
-  const event = await Event.findById(body.eventId)
-  const Hill = await Hill.findById(
-    body.HillId
+  const event = await Event.findById(body.event)
+  const hill = await Hill.findById(
+    body.hill
   )
-  const Mountain = await Mountain.findById(body.MountainId)
+  const mountain = await Mountain.findById(body.mountain)
 
-  if (!event || !Hill || !Mountain) {
+  if (!event || !hill || !mountain) {
     return response.status(400).json({
       error:
-        'Event, physical or target mountain have been deleted or no longer exist.',
+        'Event, hill or mountain have been deleted or no longer exist.',
     })
   }
 
@@ -71,16 +70,16 @@ export const updateOneTeam = async (request, response) => {
   existingTeam.name = body.name !== undefined ? body.name : existingTeam.name
   existingTeam.isSoloTeam =
     body.isSoloTeam !== undefined ? body.isSoloTeam : existingTeam.isSoloTeam
-  existingTeam.eventId =
-    body.eventId !== undefined ? body.eventId : existingTeam.eventId
-  existingTeam.HillId =
+  existingTeam.event =
+    body.event !== undefined ? body.event : existingTeam.event
+  existingTeam.hill =
     body.HillId !== undefined
-      ? body.HillId
-      : existingTeam.HillId
-  existingTeam.MountainId =
+      ? body.hill
+      : existingTeam.hill
+  existingTeam.mountain =
     body.MountainId !== undefined
-      ? body.MountainId
-      : existingTeam.MountainId
+      ? body.mountain
+      : existingTeam.mountain
   existingTeam.lapsRequired =
     body.lapsRequired !== undefined
       ? body.lapsRequired
@@ -90,13 +89,13 @@ export const updateOneTeam = async (request, response) => {
       ? body.startDateTime
       : existingTeam.startDateTime
 
-  const event = await Event.findById(body.eventId)
-  const Hill = await Hill.findById(
-    body.HillId
+  const event = await Event.findById(body.event)
+  const hill = await Hill.findById(
+    body.hill
   )
-  const Mountain = await Mountain.findById(body.MountainId)
+  const mountain = await Mountain.findById(body.mountain)
 
-  if (!event || !Hill || !Mountain) {
+  if (!event || !hill || !mountain) {
     return response.status(400).json({
       error:
         'Event, physical or target mountain have been deleted or no longer exist.',
@@ -151,10 +150,11 @@ export const updateOneTeam = async (request, response) => {
             const soloTeam = new Team({
               name: `${participant.firstName} ${participant.lastName} (Solo)`,
               isSoloTeam: true,
-              eventId: existingTeam.eventId,
-              HillId: existingTeam.HillId,
-              MountainId: existingTeam.MountainId,
+              event: existingTeam.event,
+              hill: existingTeam.hill,
+              mountain: existingTeam.mountain,
               lapsRequired: existingTeam.lapsRequired,
+              totalDistanceRequired: existingTeam.totalDistanceRequired,
               startDateTime: participant.startDateTime || new Date(),
             })
             const savedSoloTeam = await soloTeam.save()
@@ -180,18 +180,7 @@ export const deleteOneTeam = async (request, response) => {
     return response.status(400).json({ error: 'Team id to delete is missing' })
   }
 
-  const updated = await Team.findByIdAndUpdate(
-    teamIdToDelete,
-    {
-      $set: {
-        active: false,
-      },
-    },
-    {
-      new: true,
-      runValidators: true,
-    }
-  )
+  const updated = await Team.findByIdAndDelete(teamIdToDelete)
 
-  response.status(200).json(updated)
+  response.status(204).send()
 }

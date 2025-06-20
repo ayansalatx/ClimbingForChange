@@ -3,7 +3,7 @@ import mongoose from '../utils/db.js'
 const {Schema, model} = mongoose
 
 const teamSchema = new Schema({
-  eventId: {
+  event: {
     type: Schema.Types.ObjectId,
     ref: 'Event',
     required: true
@@ -53,6 +53,13 @@ const teamSchema = new Schema({
 
 teamSchema.virtual('participants', {
   ref: 'Participant',         
+  localField: '_id',          
+  foreignField: 'teamId',     
+  justOne: false
+})
+
+teamSchema.virtual('laps', {
+  ref: 'Lap',         
   localField: '_id',          
   foreignField: 'teamId',     
   justOne: false

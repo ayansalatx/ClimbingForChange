@@ -5,22 +5,7 @@ import {  getMountains,
           saveOneMountain,
           deleteOneMountain, 
           updateOneMountain} from '../controllers/mountains.js'
-import { checkValidation } from './event.js'
-import { body } from 'express-validator'
-
-
-const validateMountain = [
-  body('name').trim().notEmpty().withMessage('Physical mountain name is required'),
-
-  body('totalElevation')
-    .notEmpty()
-    .withMessage('Elevation per lap is required'),
-
-  body('active')
-    .optional()
-    .isBoolean()
-    .withMessage('active must be true or false'),
-]
+import { checkValidation, validateMountain } from '../middleware/validations.js'
 
 const mountainRoutes = express.Router()
 
