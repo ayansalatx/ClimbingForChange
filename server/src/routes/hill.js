@@ -15,15 +15,15 @@ const validateHill = [
 
     body('lapElevationGain')
         .notEmpty()
-        .withMessage('Elevation per lap is required'),
+        .withMessage('lapElevationGain per lap is required'),
 
     body('lapDistance')
         .notEmpty()
-        .withMessage('Elevation per lap is required'),
+        .withMessage('lapDistance per lap is required'),
 
-    body('lapDistance')
+    body('location')
         .notEmpty()
-        .withMessage('Elevation per lap is required'),
+        .withMessage('Location per lap is required'),
 
     body('active')
         .optional()

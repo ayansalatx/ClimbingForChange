@@ -26,7 +26,9 @@ export const saveOneHill = async (request, response) => {
 
   const newMountain = new Hill({
     name: body.name,
-    elevationPerLap: body.elevationPerLap,
+    lapDistance: body.lapDistance,
+    lapElevationGain: body.lapElevationGain,
+    location: body.location,
     active: body.active,
   })
 
@@ -50,15 +52,13 @@ export const updateOneHill = async (request, response) => {
     return response.status(400).json({ error: 'Physical mountain doesnt exist' })
   }
 
-  const updated = await Hill.updateOne(
-    {
-      _id: id,
-      // active: true
-    },
+  const updated = await Hill.findByIdAndUpdate(id,
     {
       $set: {
         name: body.name,
-        elevationPerLap: body.elevationPerLap,
+        lapDistance: body.lapDistance,
+        lapElevationGain: body.lapElevationGain,
+        location: body.location,
         active: body.active,
       }
     },
@@ -67,7 +67,7 @@ export const updateOneHill = async (request, response) => {
     }
   )
 
-  response.status(201).json(updated)
+  response.status(200).json(updated)
 }
 
 export const deleteOneHill = async (request, response) => {
@@ -86,5 +86,5 @@ export const deleteOneHill = async (request, response) => {
 
   const updated = await Hill.findByIdAndDelete(id)
 
-  response.status(200).json(updated)
+  response.status(204).send()
 }
