@@ -1,7 +1,7 @@
 import express from 'express'
 import asyncHandler from 'express-async-handler'
 
-import { deleteOneParticipant, getParticipantById, getParticipants, saveOneParticipant, updateOneParticipant } from '../controllers/participant.js'
+import { deleteOneParticipant, getParticipantById, getParticipants, saveOneParticipant, updateOneParticipant, uploadParticipants } from '../controllers/participant.js'
 import { checkValidation } from './event.js'
 import { body } from 'express-validator'
 
@@ -17,6 +17,8 @@ participantRoutes.get('/', asyncHandler(getParticipants))
 participantRoutes.get('/:id', asyncHandler(getParticipantById))
 
 participantRoutes.post('/', validateParticipant, checkValidation, asyncHandler(saveOneParticipant))
+
+participantRoutes.post('/upload', asyncHandler(uploadParticipants))
 
 participantRoutes.put('/:id', asyncHandler(updateOneParticipant))
 
