@@ -7,26 +7,17 @@ import {
 } from '@mui/material'
 import React, { useState } from 'react'
 
-import SearchBar from '../../tables/SearchBar'
+import SearchBar from './SearchBar'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
 import PlaceIcon from '@mui/icons-material/Place'
 
-const fullColumns = [
-  { id: 'locationName', label: 'Location', minWidth: 270 },
-  { id: 'address', label: 'Address', minWidth: 85 },
-  { id: 'city', label: 'City', minWidth: 85 },
-  { id: 'province', label: 'Province', minWidth: 85 },
-  { id: 'country', label: 'Country', minWidth: 85 },
-  { id: 'lap', label: 'Laps', minWidth: 85 },
-]
-
-const LocationTable = ({ location }) => {
+const LocationTable = ({ tableTitle, tableColumns, tableData, onAddClick }) => {
   const [searchTerm, setSearchTerm] = useState('')
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
-  const filteredRows = location.filter((row) =>
+  const filteredRows = tableData.filter((row) =>
     Object.values(row)
       .join(' ')
       .toLowerCase()
@@ -92,7 +83,7 @@ const LocationTable = ({ location }) => {
                 color: 'white',
               }}
             >
-              Locations
+              {tableTitle}
             </h1>
           </Box>
 
@@ -106,10 +97,10 @@ const LocationTable = ({ location }) => {
           }}
         >
           <Table stickyHeader aria-label="sticky table" sx={{}}>
-            <TableHeaderRow columns={fullColumns} />
+            <TableHeaderRow columns={tableColumns} onAddClick={onAddClick} />
             <TableDataRows
               rows={filteredRows}
-              columns={fullColumns}
+              columns={tableColumns}
               page={page}
               rowsPerPage={rowsPerPage}
             />
