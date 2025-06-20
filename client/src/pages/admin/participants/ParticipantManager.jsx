@@ -2,14 +2,18 @@ import SearchBar from "../../../components/admin/forms/fields/SearchBar"
 import Button from '@mui/material/Button'
 
 import { useEffect, useState } from 'react'
+import { useAlert } from '../../../hooks/useAlert.js'
 import { getAllParticipants } from "../../../services/participantService"
 
 import ParticipantTable from '../../../components/admin/forms/participantforms/ParticipantTable'
+import AddParticipantModal from "../../../components/admin/modals/ParticipantModal"
 
 const ParticipantManager = () => {
   const [participants, setParticipants] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   const [popupOpen, setPopupOpen] = useState(false)
+
+  const displayAlert = useAlert()
 
   useEffect(() => {
     const fetchParticipants = async () => {
@@ -25,9 +29,11 @@ const ParticipantManager = () => {
     fetchParticipants()
   }, [])
 
-  useEffect(() => {
-    console.log(participants)
-  }, [participants])
+  const handleAddParticipant = (eventData) => {
+    setParticipants([...participants, eventData])
+    setPopupOpen(false)
+    displayAlert('Saved', 'Saved participant to the backend.', 'success')
+  }
   
   return (
 
@@ -45,6 +51,12 @@ const ParticipantManager = () => {
       </div>
 
     <ParticipantTable searchTerm={searchTerm} participant={participants} />
+
+    <AddParticipantModal  
+    open={popupOpen} 
+    onClose={() => setPopupOpen(false)}
+    onAdd={handleAddParticipant}
+    />
 
     </div>
 
