@@ -5,7 +5,6 @@ import Team from '../models/team.js'
 
 export const getParticipants = async (req, response) => {
   const participants = await Participant.find({})
-    .populate('rfidTagId')
     .populate('teamId')
 
   response.json(participants)
@@ -19,7 +18,6 @@ export const getParticipantById = async (request, response) => {
   }
 
   const participant = await Participant.findById(id)
-    .populate('rfidTagId')
     .populate('teamId')
 
   response.json(participant)
