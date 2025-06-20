@@ -7,10 +7,6 @@ export const getParticipants = async (req, response) => {
   const participants = await Participant.find({})
     .populate('rfidTagId')
     .populate('teamId')
-    .populate({
-      path: 'participants',
-      populate: { path: 'laps' },
-    })
 
   response.json(participants)
 }
