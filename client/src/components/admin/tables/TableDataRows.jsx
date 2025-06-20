@@ -8,7 +8,15 @@ const TableDataRows = ({ rows, columns, page, rowsPerPage, onAddClick }) => {
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
         .map((row, index) => {
           return (
-            <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+            <TableRow
+              hover
+              role="checkbox"
+              tabIndex={-1}
+              key={index}
+              sx={{
+                backgroundColor: index % 2 === 0 ? 'background.paper' : 'grey.100',
+              }}
+            >
               {columns.map((column, index) => {
                 const value = row[column.id]
                 return (
@@ -24,7 +32,7 @@ const TableDataRows = ({ rows, columns, page, rowsPerPage, onAddClick }) => {
                 )
               })}
               <TableCell key={row.id} align={'center'}>
-                <Edit sx={{ color: 'primary.light' }} fontSize="small" />
+                <Edit sx={{ color: 'var(--lt-purple)' }} fontSize="small" />
                 <Delete color="error" fontSize="small" />
               </TableCell>
             </TableRow>

@@ -2,7 +2,7 @@ import { Fullscreen } from '@mui/icons-material'
 import { IconButton, Tooltip } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 
-const FullscreenToggleButton = ({ sx }) => {
+const FullscreenToggleButton = () => {
   const navigate = useNavigate()
 
   // Navigate to fullscreen page for large onsite display
@@ -12,7 +12,7 @@ const FullscreenToggleButton = ({ sx }) => {
 
   return (
     <Tooltip title='Fullscreen'>
-      <IconButton onClick={handleClick} sx={sx}>
+      <IconButton onClick={handleClick}  sx={{ ml: '.25rem' }} >
         <Fullscreen />
       </IconButton>
     </Tooltip>

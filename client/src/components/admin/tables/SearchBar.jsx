@@ -1,52 +1,58 @@
+import { styled, alpha } from '@mui/material/styles'
+import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
-import InputAdornment from '@mui/material/InputAdornment'
-import TextField from '@mui/material/TextField'
+
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.background.paper, 0.5),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.background.paper, 0.75),
+  },
+  marginRight: '.75rem',
+  marginTop: '.1rem',
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(1),
+    width: '25.4rem',
+  },
+}))
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  color: theme.palette.info.main,
+
+}))
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: theme.palette.main,
+  width: '100%',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+  },
+}))
 
 const SearchBar = ({ value, onChange }) => {
   return (
-    <TextField
-      label="Search"
-      variant="outlined"
-      value={value}
-      
-      onChange={(e) => onChange(e.target.value)}
-      sx={{
-        width: 510,
-        padding: '0',
-        input: { color: 'background.paper', fontSize: '1rem', padding: '.9rem', },
-        label: { color: 'background.paper' },
-        '& fieldset': { borderColor: 'background.paper' },
-        '& .MuiOutlinedInput-root': {
-          color: 'background.paper',
-          fontSize: '.9rem',
-          '& fieldset': { borderColor: 'background.paper', borderWidth: '2px' },
-          '&:hover fieldset': { borderColor: 'info.main' },
-          '&.Mui-focused fieldset': { borderColor: 'info.main' },
-        },
-        '& .MuiInputLabel-root': {
-          color: 'background.paper',
-          fontSize: '.9rem',
-        },
-        '&:hover .MuiInputLabel-root': {
-          color: 'info.main',
-        },
-        '& .MuiInputLabel-root.Mui-focused': {
-          color: 'info.main',
-        },
-        '& input::placeholder': {
-          color: 'background.paper',
-          textAlign: 'center',
-          opacity: 1,
-        },
-      }}
-      InputProps={{
-        endAdornment: (
-          <InputAdornment position="end">
-            <SearchIcon sx={{ color: 'background.paper' }} />
-          </InputAdornment>
-        ),
-      }}
-    />
+    <Search>
+      <SearchIconWrapper>
+        <SearchIcon />
+      </SearchIconWrapper>
+      <StyledInputBase
+        placeholder="Search…"
+        inputProps={{ 'aria-label': 'search' }}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
+    </Search>
   )
 }
 
