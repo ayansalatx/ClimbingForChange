@@ -47,26 +47,7 @@ export const saveOneParticipant = async (request, response) => {
     ...body,
   }
 
-  const existingRFIDTag = await RFIDTag.findOne({
-    serialNumber: body.rfidTagId,
-  })
-
   const existingTeam = await Team.findById(body.teamId)
-
-  if (existingRFIDTag) {
-    const participantWithThisRFIDTag = await Participant.findOne({
-      rfidTagId: existingRFIDTag.id,
-    })
-
-    // This RFIDTag already exists and is assigned to another person
-    if (participantWithThisRFIDTag) {
-      return response
-        .status(400)
-        .json({ error: 'This RFIDTag is already assigned' })
-    } else {
-      newParticipantObject.rfidTagId = existingRFIDTag
-    }
-  }
 
   // Attach the team id to this participant to assign them to that team.
   if (existingTeam) {
@@ -99,28 +80,8 @@ export const updateOneParticipant = async (request, response) => {
   const participantObjectToUpdate = {
     ...body,
   }
-
-  const existingRFIDTag = await RFIDTag.findById(
-    participantObjectToUpdate.rfidTagId
-  )
-
+  
   const existingTeam = await Team.findById(participantObjectToUpdate.teamId)
-
-  if (existingRFIDTag) {
-    const participantWithThisRFIDTag = await Participant.findOne({
-      rfidTagId: existingRFIDTag.id,
-    })
-    
-    if (participantWithThisRFIDTag.id !== participantObjectToUpdate.id) {
-      return response
-        .status(400)
-        .json({
-          error: 'This RFIDTag is already assigned to a different person.',
-        })
-    } else {
-      participantObjectToUpdate.rfidTagId = existingRFIDTag.id
-    }
-  }
 
   // Attach the team id to this participant to assign them to that team.
   if (existingTeam) {
@@ -150,9 +111,8 @@ export const updateOneParticipant = async (request, response) => {
 
 export const deleteOneParticipant = async (request, response) => {
   const id = request.params.id
-  const participantIdToDelete = request.body.id
 
-  if (!participantIdToDelete) {
+  if (!id) {
     return response
       .status(400)
       .json({ error: 'Participant id to delete is missing' })
@@ -164,18 +124,7 @@ export const deleteOneParticipant = async (request, response) => {
     return response.status(400).json({ error: 'Participant is doesnt exist' })
   }
 
-  const updated = await Participant.findByIdAndUpdate(
-    participantIdToDelete,
-    {
-      $set: {
-        active: false,
-      },
-    },
-    {
-      new: true,
-      runValidators: true,
-    }
-  )
+  const updated = await Participant.findByIdAndUpdate(id)
 
   response.status(200).json(updated)
 }

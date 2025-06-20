@@ -43,13 +43,13 @@ export const updateOneHill = async (request, response) => {
   const id = request.params.id
 
   if (!body || !id) {
-    return response.status(400).json({ error: 'Physical mountain body or id missing' })
+    return response.status(400).json({ error: 'Hill body or id missing' })
   }
 
-  const HillToDelete = Hill.findById(id)
+  const hillToUpdate = await Hill.findById(id)
 
-  if (!HillToDelete) {
-    return response.status(400).json({ error: 'Physical mountain doesnt exist' })
+  if (!hillToUpdate) {
+    return response.status(400).json({ error: 'Hill doesnt exist' })
   }
 
   const updated = await Hill.findByIdAndUpdate(id,
@@ -78,9 +78,9 @@ export const deleteOneHill = async (request, response) => {
     return response.status(400).json({ error: 'Physical mountain id to delete is missing' })
   }
 
-  const HillToDelete = await Hill.findById(id)
+  const hillToDelete = await Hill.findById(id)
 
-  if (!HillToDelete) {
+  if (!hillToDelete) {
     return response.status(400).json({ error: 'Target mountain doesnt exist' })
   }
 
