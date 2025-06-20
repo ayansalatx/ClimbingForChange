@@ -68,7 +68,7 @@ export const updateOneLocation = async (request, response) => {
     }
   )
 
-  response.status(201).json(updated)
+  response.status(200).json(updated)
 }
 
 export const deleteOneLocation = async (request, response) => {
@@ -79,18 +79,7 @@ export const deleteOneLocation = async (request, response) => {
     return response.status(400).json({ error: 'Location id to delete is missing' })
   }
 
-  const updated = await Location.findByIdAndUpdate(
-    id,
-    {
-      $set: {
-        active: false,
-      }
-    },
-    {
-      new: true,
-      runValidators: true
-    }
-  )
+  await Location.findByIdAndDelete(id)
 
-  response.status(200).json(updated)
+  response.status(204).send()
 }
