@@ -1,7 +1,7 @@
 import { AddOutlined } from '@mui/icons-material'
 import { Button } from '@mui/material'
 
-const AddButton = ({onAddClick}) => {
+const AddButton = ({ onAddClick }) => {
   return (
     <Button
       variant="contained"
@@ -10,9 +10,9 @@ const AddButton = ({onAddClick}) => {
         px: '.5rem',
         backgroundColor: 'secondary.main',
         color: 'black',
-        '&:hover': { backgroundColor: '#b3c623' },
-          }}
-          onClick={onAddClick}
+        '&:hover': { backgroundColor: 'var(--med-green)' },
+      }}
+      onClick={onAddClick}
     >
       <AddOutlined />
     </Button>

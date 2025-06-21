@@ -1,7 +1,9 @@
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
-import { TableContainer, TablePagination, Box } from '@mui/material'
+import { TableContainer, TablePagination, Box, Typography } from '@mui/material'
+import { alpha } from '@mui/material/styles'
 import React, { useState } from 'react'
+import theme from '../../../styles/theme'
 
 import SearchBar from './SearchBar'
 import TableDataRows from './TableDataRows'
@@ -65,13 +67,15 @@ const LocationTable = ({ tableTitle, tableColumns, tableData, onAddClick }) => {
               filter: 'drop-shadow(2px 0px 1px var(--c4c-teal))',
             }}
           />
-          <h1
-            style={{
+          <Typography
+            variant='h1'
+            sx={{
               textAlign: 'left',
               margin: '0',
               paddingBottom: '.15rem',
               paddingLeft: '.35rem',
               fontSize: '2.45rem',
+              fontWeight: 'bold',
               textTransform: 'uppercase',
               letterSpacing: '0.05em',
               textShadow: '2px 0px 1px var(--c4c-teal)',
@@ -79,7 +83,7 @@ const LocationTable = ({ tableTitle, tableColumns, tableData, onAddClick }) => {
             }}
           >
             {tableTitle}
-          </h1>
+          </Typography>
         </Box>
 
         <SearchBar value={searchTerm} onChange={setSearchTerm} />
@@ -91,7 +95,13 @@ const LocationTable = ({ tableTitle, tableColumns, tableData, onAddClick }) => {
           overflowX: 'hidden',
         }}
       >
-        <Table stickyHeader aria-label="sticky table" sx={{}}>
+        <Table
+          stickyHeader
+          aria-label="sticky table"
+          sx={{
+            '&:hover': { bgcolor: alpha(theme.palette.primary.light, 0.05) },
+          }}
+        >
           <TableHeaderRow columns={tableColumns} onAddClick={onAddClick} />
           <TableDataRows
             rows={filteredRows}

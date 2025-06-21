@@ -6,7 +6,7 @@ const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.background.paper, 0.5),
-  '&:hover': {
+  '&:hover, &:focus-within': {
     backgroundColor: alpha(theme.palette.background.paper, 0.75),
   },
   marginRight: '.75rem',

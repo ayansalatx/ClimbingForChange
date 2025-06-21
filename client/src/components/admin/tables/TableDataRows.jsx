@@ -14,7 +14,8 @@ const TableDataRows = ({ rows, columns, page, rowsPerPage, onAddClick }) => {
               tabIndex={-1}
               key={index}
               sx={{
-                backgroundColor: index % 2 === 0 ? 'background.paper' : 'grey.100',
+                backgroundColor:
+                  index % 2 === 0 ? 'background.paper' : 'background.default',
               }}
             >
               {columns.map((column, index) => {
