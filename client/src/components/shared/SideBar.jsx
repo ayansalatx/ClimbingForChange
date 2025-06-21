@@ -5,7 +5,6 @@ import PeopleIcon from '@mui/icons-material/People'
 import PlaceIcon from '@mui/icons-material/Place'
 import TerrainIcon from '@mui/icons-material/Terrain'
 import UploadIcon from '@mui/icons-material/Upload'
-import ForkRight from '@mui/icons-material/ForkRight'
 import {
   Box,
   Divider,
@@ -17,17 +16,19 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 import C4CBanner from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 
 const SideBar = ({ open, toggleDrawer }) => {
   const navigate = useNavigate()
+  const currentPage = useLocation()
 
   // Navigation List Definitions
   const dashboardList = [
     {
       text: 'Dashboard',
+      path: '/admin',
       icon: <DashboardIcon />,
       onClick: () => navigate('/admin'),
     },
@@ -37,11 +38,13 @@ const SideBar = ({ open, toggleDrawer }) => {
     {
       text: 'Events',
       icon: <EventIcon />,
+      path: '/admin/events',
       onClick: () => navigate('/admin/events'),
     },
     {
       text: 'Mountains',
       icon: <TerrainIcon />,
+      path: '/admin/mountains',
       onClick: () => navigate('/admin/mountains'),
     },
     {
@@ -51,6 +54,7 @@ const SideBar = ({ open, toggleDrawer }) => {
     },
     {
       text: 'Locations',
+      path: '/admin/locations',
       icon: <PlaceIcon />,
       onClick: () => navigate('/admin/locations'),
     },
@@ -59,6 +63,7 @@ const SideBar = ({ open, toggleDrawer }) => {
   const quickAccessList = [
     {
       text: 'Upload Participants',
+      path: '/admin/participants/upload',
       icon: <UploadIcon />,
       onClick: () => navigate('/admin'),
     },
@@ -93,12 +98,21 @@ const SideBar = ({ open, toggleDrawer }) => {
           {dashboardList.map((item, index) => (
             <ListItem key={index} disablePadding>
               <ListItemButton
+                selected={currentPage.pathname === item.path}
                 onClick={() => {
                   item.onClick()
                   toggleDrawer(false)
                 }}
+                sx={{
+                  '&.Mui-selected': {
+                    color: 'secondary.main',
+                  },
+                  '&.Mui-selected:hover, &:hover': {
+                    backgroundColor: 'primary.light',
+                  },
+                }}
               >
-                <ListItemIcon sx={{ color: 'background.paper', pl: 1.5 }}>
+                <ListItemIcon sx={{ color: 'inherit', pl: 1.5 }}>
                   {item.icon}
                 </ListItemIcon>
                 <ListItemText
@@ -132,15 +146,25 @@ const SideBar = ({ open, toggleDrawer }) => {
         </Box>
         <List disablePadding sx={{ pb: 0.5 }}>
           {manageList.map((item, index) => (
-            <ListItem key={index} disablePadding sx={{ pl: 1 }}>
+            <ListItem key={index} disablePadding>
               <ListItemButton
+                selected={currentPage.pathname === item.path}
                 onClick={() => {
                   item.onClick()
                   toggleDrawer(false)
                 }}
-                sx={{ py: 0.5 }}
+                sx={{
+                  pl: 3,
+                  py: 0.5,
+                  '&.Mui-selected': {
+                    color: 'secondary.main',
+                  },
+                  '&.Mui-selected:hover, &:hover': {
+                    backgroundColor: 'primary.light',
+                  },
+                }}
               >
-                <ListItemIcon sx={{ color: 'background.paper', pl: 1.75 }}>
+                <ListItemIcon sx={{ color: 'inherit', pl: 1.75 }}>
                   {item.icon}
                 </ListItemIcon>
                 <ListItemText primary={item.text} />
@@ -163,13 +187,23 @@ const SideBar = ({ open, toggleDrawer }) => {
         </Box>
         <List disablePadding>
           {quickAccessList.map((item, index) => (
-            <ListItem key={index} disablePadding sx={{ pl: 1 }}>
+            <ListItem key={index} disablePadding>
               <ListItemButton
+                selected={currentPage.pathname === item.path}
                 onClick={() => {
                   item.onClick()
                   toggleDrawer(false)
                 }}
-                sx={{ py: 0.5 }}
+                sx={{
+                  pl: 3,
+                  py: 0.5,
+                  '&.Mui-selected': {
+                    color: 'secondary.main',
+                  },
+                  '&.Mui-selected:hover, &:hover': {
+                    backgroundColor: 'primary.light',
+                  },
+                }}
               >
                 <ListItemIcon sx={{ color: 'background.paper', pl: 1.5 }}>
                   {item.icon}
