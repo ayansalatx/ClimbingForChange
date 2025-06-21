@@ -1,17 +1,17 @@
+import { Box } from '@mui/material'
 import { useState } from 'react'
 
-import DataTable from '../../../components/admin/tables/DataTable.jsx'
 import AddLocationModal from '../../../components/admin/modals/LocationModal.jsx'
+import DataTable from '../../../components/admin/tables/DataTable.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
 import mockData from '../../../mock-data/location-data.json'
-import { Container } from '@mui/material'
 
 const fullColumns = [
-  { id: 'locationName', label: 'Location', minWidth: 270, align: 'left' },
-  { id: 'address', label: 'Address', minWidth: 85, align: 'left' },
-  { id: 'city', label: 'City', minWidth: 85, align: 'center' },
-  { id: 'province', label: 'Province', minWidth: 85, align: 'center' },
-  { id: 'country', label: 'Country', minWidth: 85, align: 'center' },
+  { id: 'locationName', label: 'Location', width: '30%', align: 'left' },
+  { id: 'address', label: 'Address', width: '20%', align: 'left' },
+  { id: 'city', label: 'City', width: '15%', align: 'center' },
+  { id: 'province', label: 'Province', width: '15%', align: 'center' },
+  { id: 'country', label: 'Country', width: '13%', align: 'center' },
 ]
 
 const LocationManager = () => {
@@ -26,24 +26,21 @@ const LocationManager = () => {
   }
 
   return (
-    <Container
-      maxWidth={false}
-      disableGutters
+    <Box
       sx={{
         width: '80vw',
-        height: '85vh',
+        height: '80vh',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyItems: 'center',
-        paddingTop: '5rem',
+        justifyContent: 'center',
       }}
     >
       <DataTable
         tableTitle={'Locations'}
         tableColumns={fullColumns}
         tableData={locations}
-        onAddClick={() => setPopupOpen(true)} 
+        onAddClick={() => setPopupOpen(true)}
       />
 
       <AddLocationModal
@@ -51,7 +48,7 @@ const LocationManager = () => {
         onClose={() => setPopupOpen(false)}
         onAdd={handleAddLocation}
       />
-    </Container>
+    </Box>
   )
 }
 

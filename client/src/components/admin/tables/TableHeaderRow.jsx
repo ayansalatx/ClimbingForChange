@@ -1,4 +1,5 @@
 import { TableCell, TableHead, TableRow } from '@mui/material'
+
 import AddButton from '../buttons/AddButton'
 
 const TableHeaderRow = ({ columns, onAddClick }) => {
@@ -10,20 +11,20 @@ const TableHeaderRow = ({ columns, onAddClick }) => {
             key={column.id}
             align={column.align}
             sx={{
-              minWidth: column.minWidth,
+              width: column.width,
               textTransform: 'uppercase',
-              letterSpacing: '0.05em',
+              letterSpacing: '0.075em',
               fontSize: '1.1rem',
               fontWeight: 'bold',
               bgcolor: 'info.main',
-              color: 'white',
+              color: 'background.paper',
             }}
           >
             {column.label}
           </TableCell>
         ))}
         <TableCell
-          sx={{ bgcolor: 'info.main', padding: '0', textAlign: 'center' }}
+          sx={{ bgcolor: 'info.main', padding: 0, px: 2, textAlign: 'center' }}
         >
           <AddButton onAddClick={onAddClick} />
         </TableCell>

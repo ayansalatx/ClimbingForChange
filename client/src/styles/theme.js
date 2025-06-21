@@ -22,6 +22,7 @@ const theme = createTheme({
     info: {
       main: '#3db7c6',
       light: '#8bd4e0',
+      dark: '#1BA2A3',
     },
     success: {
       main: '#8bb73f',

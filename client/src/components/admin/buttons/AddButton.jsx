@@ -9,7 +9,7 @@ const AddButton = ({ onAddClick }) => {
         minWidth: 0,
         px: '.5rem',
         backgroundColor: 'secondary.main',
-        color: 'black',
+        color: 'primary.main',
         '&:hover': { backgroundColor: 'var(--med-green)' },
       }}
       onClick={onAddClick}

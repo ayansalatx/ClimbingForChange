@@ -1,14 +1,14 @@
+import PlaceIcon from '@mui/icons-material/Place'
+import { Box, TableContainer, TablePagination, Typography } from '@mui/material'
 import Paper from '@mui/material/Paper'
-import Table from '@mui/material/Table'
-import { TableContainer, TablePagination, Box, Typography } from '@mui/material'
 import { alpha } from '@mui/material/styles'
+import Table from '@mui/material/Table'
 import React, { useState } from 'react'
-import theme from '../../../styles/theme'
 
+import theme from '../../../styles/theme'
 import SearchBar from './SearchBar'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
-import PlaceIcon from '@mui/icons-material/Place'
 
 const LocationTable = ({ tableTitle, tableColumns, tableData, onAddClick }) => {
   const [searchTerm, setSearchTerm] = useState('')
@@ -37,7 +37,6 @@ const LocationTable = ({ tableTitle, tableColumns, tableData, onAddClick }) => {
       sx={{
         width: '100%',
         height: '100%',
-        overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
       }}
@@ -68,7 +67,7 @@ const LocationTable = ({ tableTitle, tableColumns, tableData, onAddClick }) => {
             }}
           />
           <Typography
-            variant='h1'
+            variant="h1"
             sx={{
               textAlign: 'left',
               margin: '0',
@@ -90,10 +89,14 @@ const LocationTable = ({ tableTitle, tableColumns, tableData, onAddClick }) => {
       </Box>
 
       <TableContainer
-        sx={{
+        sx={(theme) => ({
           flexGrow: 1,
-          overflowX: 'hidden',
-        }}
+          overflowX: 'auto',
+          overflowY: 'auto',
+          position: 'relative',
+          scrollbarWidth: 'thin',
+          scrollbarColor: `${theme.palette.info.light} ${theme.palette.background.default}`,
+        })}
       >
         <Table
           stickyHeader
@@ -121,6 +124,7 @@ const LocationTable = ({ tableTitle, tableColumns, tableData, onAddClick }) => {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
         sx={{
+          minHeight: '3.25rem',
           bgcolor: 'info.light',
           color: 'background.paper',
           '& .MuiSvgIcon-root': {

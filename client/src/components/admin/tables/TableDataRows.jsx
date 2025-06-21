@@ -1,7 +1,7 @@
 import { Delete, Edit } from '@mui/icons-material'
 import { TableBody, TableCell, TableRow } from '@mui/material'
 
-const TableDataRows = ({ rows, columns, page, rowsPerPage, onAddClick }) => {
+const TableDataRows = ({ rows, columns, page, rowsPerPage }) => {
   return (
     <TableBody>
       {rows
@@ -32,8 +32,8 @@ const TableDataRows = ({ rows, columns, page, rowsPerPage, onAddClick }) => {
                   </TableCell>
                 )
               })}
-              <TableCell key={row.id} align={'center'}>
-                <Edit sx={{ color: 'var(--lt-purple)' }} fontSize="small" />
+              <TableCell key={row.id} align={'center'} sx={{minWidth: '5rem'}} >
+                <Edit sx={{ color: 'var(--dark-blue)' }} fontSize="small" />
                 <Delete color="error" fontSize="small" />
               </TableCell>
             </TableRow>
