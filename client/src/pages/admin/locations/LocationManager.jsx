@@ -21,26 +21,29 @@ const LocationManager = () => {
   const displayAlert = useAlert()
 
   useEffect(() => {
-      async function loadData() {
-        try {
-          const locationsList = await getAllLocations()
-          setLocations(locationsList)
-        } catch (e) {
-          console.log('Failed to load location data', e)
-        }
+    async function loadData() {
+      try {
+        const locationsList = await getAllLocations()
+        setLocations(locationsList)
+      } catch (error) {
+        console.log('Failed to load location data', error)
       }
-  
-      loadData()
-    }, [])
+    }
+
+    loadData()
+  }, [])
 
   const handleEditLocation = (currentLocation) => {
-
+    setPopupOpen(true)
   }
-  
-  const handleAddLocation = (locationData) => {
-    setCurrentLocation([...locations, locationData])
+
+  const handleAddLocation = () => {
+    setPopupOpen(true)
+  }
+
+  const handleSaveLocation = (locationData) => {
     setPopupOpen(false)
-    displayAlert('Saved', 'Saved location to the backend.', 'success')
+        displayAlert('Saved', 'Saved location to the backend.', 'success')
   }
 
   return (
@@ -64,7 +67,7 @@ const LocationManager = () => {
       <AddLocationModal
         open={popupOpen}
         onClose={() => setPopupOpen(false)}
-        onAdd={handleAddLocation}
+        onAdd={handleSaveLocation}
       />
     </Box>
   )
