@@ -5,6 +5,7 @@ import PeopleIcon from '@mui/icons-material/People'
 import PlaceIcon from '@mui/icons-material/Place'
 import TerrainIcon from '@mui/icons-material/Terrain'
 import UploadIcon from '@mui/icons-material/Upload'
+import ForkRight from '@mui/icons-material/ForkRight'
 import {
   Box,
   Divider,
@@ -39,6 +40,11 @@ const SideBar = ({ open, toggleDrawer }) => {
       onClick: () => navigate('/admin/events'),
     },
     {
+      text: 'Mountains',
+      icon: <TerrainIcon />,
+      onClick: () => navigate('/admin/mountains'),
+    },
+    {
       text: 'Participants',
       icon: <PeopleIcon />,
       onClick: () => navigate('/admin/participants'),
@@ -48,13 +54,7 @@ const SideBar = ({ open, toggleDrawer }) => {
       icon: <PlaceIcon />,
       onClick: () => navigate('/admin/locations'),
     },
-    {
-      text: 'Mountains',
-      icon: <TerrainIcon />,
-      onClick: () => navigate('/admin/mountains'),
-    },
   ]
-
 
   const quickAccessList = [
     {
@@ -70,75 +70,110 @@ const SideBar = ({ open, toggleDrawer }) => {
   ]
 
   return (
-    <Drawer anchor='left' open={open} onClose={() => toggleDrawer(false)}>
+    <Drawer anchor="left" open={open} onClose={() => toggleDrawer(false)}>
       <Box
         sx={{
-          width: 250,
+          width: 300,
           height: '100%',
-          backgroundColor: '#1B1354',
-          color: '#fff',
+          backgroundColor: 'primary.main',
+          color: 'background.paper',
         }}
       >
-        <Box sx={{ textAlign: 'center', p: 2 }}>
+        <Box sx={{ p: 2, pl: 3, mt: 2 }}>
           <a
-            href='https://www.climbingforchange.ca/'
-            target='_blank' rel="noreferrer"
+            href="https://www.climbingforchange.ca/"
+            target="_blank"
+            rel="noreferrer"
           >
-            <img src={C4CBanner} alt='Climbing for Change Logo' height={70} />
+            <img src={C4CBanner} alt="Climbing for Change Logo" height={80} />
           </a>
         </Box>
 
-        <List>
+        <List disablePadding>
           {dashboardList.map((item, index) => (
             <ListItem key={index} disablePadding>
-              <ListItemButton onClick={() => 
-              {
-                item.onClick()
-                toggleDrawer(false)
-              }}>
-                <ListItemIcon sx={{ color: 'white' }}>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.text} />
+              <ListItemButton
+                onClick={() => {
+                  item.onClick()
+                  toggleDrawer(false)
+                }}
+              >
+                <ListItemIcon sx={{ color: 'background.paper', pl: 1.5 }}>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={item.text}
+                  slotProps={{
+                    primary: {
+                      sx: {
+                        fontSize: '1.35rem',
+                      },
+                    },
+                  }}
+                />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
 
-        <Divider sx={{ backgroundColor: '#fff', opacity: 0.2 }} />
+        <Divider sx={{ backgroundColor: 'background.paper', opacity: 0.2 }} />
 
-        <Box sx={{ pl: 2, pt: 1 }}>
-          <Typography variant='subtitle2' sx={{ color: 'white', fontWeight: 'bold' }}>
+        <Box sx={{ pl: 3.5, pt: 3, pb: 1 }}>
+          <Typography
+            variant="subtitle2"
+            sx={{
+              fontSize: '1.5rem',
+              textTransform: 'uppercase',
+              letterSpacing: '.1rem',
+            }}
+          >
             Manage
           </Typography>
         </Box>
-        <List>
+        <List disablePadding sx={{ pb: 0.5 }}>
           {manageList.map((item, index) => (
-            <ListItem key={index} disablePadding>
-              <ListItemButton onClick={() => 
-              {
-                item.onClick()
-                toggleDrawer(false)
-              }}>
-                <ListItemIcon sx={{ color: 'white' }}>{item.icon}</ListItemIcon>
+            <ListItem key={index} disablePadding sx={{ pl: 1 }}>
+              <ListItemButton
+                onClick={() => {
+                  item.onClick()
+                  toggleDrawer(false)
+                }}
+                sx={{ py: 0.5 }}
+              >
+                <ListItemIcon sx={{ color: 'background.paper', pl: 1.75 }}>
+                  {item.icon}
+                </ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
 
-        <Box sx={{ pl: 2, pt: 2 }}>
-          <Typography variant='subtitle2' sx={{ color: 'white', fontWeight: 'bold' }}>
+        <Box sx={{ pl: 3.5, pt: 1, pb: 1 }}>
+          <Typography
+            variant="subtitle2"
+            sx={{
+              fontSize: '1.5rem',
+              textTransform: 'uppercase',
+              letterSpacing: '.05rem',
+            }}
+          >
             Quick Access
           </Typography>
         </Box>
-        <List>
+        <List disablePadding>
           {quickAccessList.map((item, index) => (
-            <ListItem key={index} disablePadding>
-              <ListItemButton onClick={() => 
-              {
-                item.onClick()
-                toggleDrawer(false)
-              }}>
-                <ListItemIcon sx={{ color: 'white' }}>{item.icon}</ListItemIcon>
+            <ListItem key={index} disablePadding sx={{ pl: 1 }}>
+              <ListItemButton
+                onClick={() => {
+                  item.onClick()
+                  toggleDrawer(false)
+                }}
+                sx={{ py: 0.5 }}
+              >
+                <ListItemIcon sx={{ color: 'background.paper', pl: 1.5 }}>
+                  {item.icon}
+                </ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItemButton>
             </ListItem>

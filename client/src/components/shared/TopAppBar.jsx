@@ -59,6 +59,10 @@ const TopAppBar = ({ onMenuClick, onLogout }) => (
             py: '.25rem',
             letterSpacing: '.075rem',
             borderWidth: '2px',
+            '&:hover': {
+              color: 'info.main',
+              borderColor: 'info.main',
+            },
           }}
         >
           Logout
