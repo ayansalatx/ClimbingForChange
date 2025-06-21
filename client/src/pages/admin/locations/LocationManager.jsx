@@ -1,7 +1,7 @@
 import { Box } from '@mui/material'
 import { useEffect, useState } from 'react'
 
-import AddLocationModal from '../../../components/admin/modals/LocationModal.jsx'
+import LocationModal from '../../../components/admin/modals/LocationModal.jsx'
 import DataTable from '../../../components/admin/tables/DataTable.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
 import { getAllLocations } from '../../../services/locationService.js'
@@ -64,7 +64,7 @@ const LocationManager = () => {
         onAddClick={() => setPopupOpen(true)}
       />
 
-      <AddLocationModal
+      <LocationModal
         open={popupOpen}
         onClose={() => setPopupOpen(false)}
         onAdd={handleSaveLocation}

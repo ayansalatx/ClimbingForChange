@@ -1,4 +1,5 @@
-import { Button } from '@mui/material'
+import { alpha, Button } from '@mui/material'
+import theme from '../../../styles/theme'
 
 const CancelButton = ({ onClick, label = 'Cancel' }) => {
   return (
@@ -6,11 +7,14 @@ const CancelButton = ({ onClick, label = 'Cancel' }) => {
       variant="outlined"
       onClick={onClick}
       sx={{
-        borderColor: '#D97A7A',
-        color: '#D97A7A',
+        width: '6rem',
+        borderWidth: '2px',
+        letterSpacing: '.05rem',
+        borderColor: 'error.main',
+        color: 'error.main',
         '&:hover': {
           borderColor: '#D97A7A',
-          backgroundColor: 'rgba(217, 122, 122, 0.08)',
+          backgroundColor: alpha(theme.palette.error.main, 0.15),
         },
       }}
     >

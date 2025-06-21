@@ -11,6 +11,13 @@ const AddButton = ({ onAddClick }) => {
         backgroundColor: 'secondary.main',
         color: 'primary.main',
         '&:hover': { backgroundColor: 'var(--med-green)' },
+        '&:focus': {
+          outline: 'none',
+        },
+        '&.Mui-focusVisible': {
+          outline: 'none',
+          boxShadow: 'none',
+        },
       }}
       onClick={onAddClick}
     >

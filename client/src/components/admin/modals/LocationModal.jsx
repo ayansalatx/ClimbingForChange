@@ -1,6 +1,13 @@
-import { Box, InputAdornment,Modal, TextField, Typography } from '@mui/material'
+import {
+  Box,
+  InputAdornment,
+  Modal,
+  TextField,
+  Typography,
+} from '@mui/material'
 import React from 'react'
 
+import TextInput from '../forms/fields/TextInput'
 import CancelButton from '../buttons/CancelButton'
 import CreateButton from '../buttons/CreateButton'
 
@@ -16,7 +23,7 @@ const style = {
   borderRadius: 2,
 }
 
-const AddLocationModal = ({ open, onClose, onAdd }) => {
+const LocationModal = ({ open, onClose, onAdd }) => {
   const [locationName, setLocationName] = React.useState('')
   const [address, setAddress] = React.useState('')
   const [city, setCity] = React.useState('')
@@ -49,55 +56,45 @@ const AddLocationModal = ({ open, onClose, onAdd }) => {
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={style}>
-        <Typography variant="h6" mb={2} sx={{ color: 'black' }}>
+        <Typography
+          variant="h5"
+          mb={2}
+          sx={{ textTransform: 'uppercase', color: 'primary.main' }}
+        >
           Add New Location
+          
         </Typography>
 
         <form onSubmit={handleAdd}>
-          <TextField
-            fullWidth
-            label="Location Name"
-            variant="outlined"
-            margin="normal"
+          <TextInput
+            label={'Location Name'}
             value={locationName}
             onChange={(e) => setLocationName(e.target.value)}
-            required
+            required={true}
           />
-          <TextField
-            fullWidth
-            label="Address"
-            variant="outlined"
-            margin="normal"
+          <TextInput
+            label={'Address'}
             value={address}
             onChange={(e) => setAddress(e.target.value)}
-            required
+            required={true}
           />
-          <TextField
-            fullWidth
-            label="City"
-            variant="outlined"
-            margin="normal"
+          <TextInput
+            label={'City'}
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            required
+            required={true}
           />
-          <TextField
-            fullWidth
-            label="Province"
-            variant="outlined"
-            margin="normal"
+          <TextInput
+            label={'Province'}
             value={province}
             onChange={(e) => setProvince(e.target.value)}
-            required
+            required={true}
           />
-          <TextField
-            fullWidth
-            label="Country"
-            variant="outlined"
-            margin="normal"
+          <TextInput
+            label={'Country'}
             value={country}
             onChange={(e) => setCountry(e.target.value)}
-            required
+            required={true}
           />
           <TextField
             fullWidth
@@ -115,6 +112,16 @@ const AddLocationModal = ({ open, onClose, onAdd }) => {
               min: 0,
               step: 1,
             }}
+            sx={{
+              borderWidth: '2px',
+              bgcolor: 'background.default',
+              '& .MuiOutlinedInput-root': {
+                '&:hover fieldset': {
+                  borderColor: 'primary.main',
+                  borderWidth: '2px',
+                },
+              },
+            }}
           />
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
             <CancelButton onClick={onClose} />
@@ -126,4 +133,4 @@ const AddLocationModal = ({ open, onClose, onAdd }) => {
   )
 }
 
-export default AddLocationModal
+export default LocationModal
