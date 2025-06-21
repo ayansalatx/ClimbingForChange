@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import DataTable from '../../../components/admin/tables/DataTable.jsx'
 import AddLocationModal from '../../../components/admin/modals/LocationModal.jsx'
+import { useAlert } from '../../../hooks/useAlert.js'
 import mockData from '../../../mock-data/location-data.json'
 import { Container } from '@mui/material'
 
@@ -16,10 +17,12 @@ const fullColumns = [
 const LocationManager = () => {
   const [locations, setLocation] = useState(mockData)
   const [popupOpen, setPopupOpen] = useState(false)
+  const displayAlert = useAlert()
 
   const handleAddLocation = (eventData) => {
     setLocation([...locations, eventData])
     setPopupOpen(false)
+    displayAlert('Saved', 'Saved location to the backend.', 'success')
   }
 
   return (

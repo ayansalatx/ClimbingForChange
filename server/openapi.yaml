@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.1.0
 info:
   title: Climbing for Change API
   version: 1.0.0
@@ -595,77 +595,6 @@ paths:
                 oneOf:
                   - $ref: '#/components/schemas/ValidationErrorResponse'
                   - $ref: '#/components/schemas/ErrorResponse'
-    # NOTE: PUT /events still expects ID in body based on the *previous* eventRoutes snippet
-    put:
-      tags:
-        - Events
-      summary: Update an existing event
-      operationId: updateEvent
-      description: Expects the event update data including the ID in the request body.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EventUpdateRequest' # Schema including ID
-      responses:
-        '200':
-          description: Event updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Event' # Or EventPopulated depending on what the controller returns
-        '400':
-          description: Bad request (e.g., validation errors, missing ID)
-          content:
-            application/json:
-              schema:
-                oneOf:
-                  - $ref: '#/components/schemas/ValidationErrorResponse'
-                  - $ref: '#/components/schemas/ErrorResponse'
-        '404':
-          description: Event not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-    # NOTE: DELETE /events still expects ID in body based on the *previous* eventRoutes snippet
-    delete:
-      tags:
-        - Events
-      summary: Delete an event
-      operationId: deleteEvent
-      description: Expects an object with the event ID in the request body.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/IdRequest' # Schema for body containing just ID
-      responses:
-        '200':
-          description: Event deleted successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                example:
-                  message: "Event deleted successfully"
-        '400':
-          description: Bad request (e.g., missing ID)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '404':
-          description: Event not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
   /events/{id}:
     get:
       tags:
@@ -692,7 +621,89 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-
+    put:
+      tags:
+        - Events
+      summary: Update an event by ID
+      operationId: updateEvent
+      description: Updates an existing event. The event ID must be provided in the path, and the updated event data in the request body.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: ID of the event to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventRequest'
+      responses:
+        '200':
+          description: Event updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event' # Or EventPopulated depending on what the controller returns
+        '400':
+          description: Bad request (e.g., validation errors, invalid ID)
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ValidationErrorResponse'
+                  - $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - Events
+      summary: Delete an event by ID
+      operationId: deleteEvent
+      description: Deletes an existing event. The event ID must be provided in the path, and the request body must contain the event data to be deleted.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: ID of the event to delete
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventRequest'
+      responses:
+        '200':
+          description: Event deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "Event deleted successfully"
+        '400':
+          description: Bad request (e.g., invalid body)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
   /teams:
     get:
@@ -1409,11 +1420,8 @@ components:
               $ref: '#/components/schemas/Team' # Populated Team object (base schema)
             rfidTagId:
               $ref: '#/components/schemas/RFIDTag' # Populated RFIDTag object
-          # rfIdTagId is nullable in the base schema, but often required when populated successfully assigned
-          # We'll mark it required here assuming population means it exists if assigned
           required:
             - teamId
-            # - rfidTagId # Depending on logic, if a participant might not have a tag even when retrieved, this might be optional
 
     LapPopulated:
       allOf:
@@ -1432,7 +1440,7 @@ components:
             - rfidTagId
 
 
-    # --- Request Body Schemas (often identical to base entity, but sometimes with helper fields or different types) ---
+    # --- Request Body Schemas ---
     LocationRequest:
       type: object
       properties:
@@ -1467,14 +1475,12 @@ components:
         elevationPerLap:
           type: number
           format: float
-      required:
-        - name
-        - elevationPerLap
-      # active field is optional in validation, not required in schema
-      properties:
         active:
           type: boolean
           description: Whether the physical mountain is currently active (optional)
+      required:
+        - name
+        - elevationPerLap
       example:
         name: "Test Hill"
         elevationPerLap: 60.0
@@ -1488,14 +1494,12 @@ components:
         totalElevation:
           type: number
           format: float
-      required:
-        - name
-        - totalElevation
-      # active field is optional in validation, not required in schema
-      properties:
         active:
           type: boolean
           description: Whether the target mountain is currently active (optional)
+      required:
+        - name
+        - totalElevation
       example:
         name: "Test Peak"
         totalElevation: 1000.0
@@ -1534,7 +1538,7 @@ components:
           minItems: 1
         active:
           type: boolean
-          default: true # Assuming default value if not provided based on original spec
+          default: true
       required:
         - name
         - locationId
@@ -1549,18 +1553,6 @@ components:
         physicalMountainIds: ["654d_c...", "654d_d..."]
         active: true
 
-    # Still needed for PUT /events (ID in body) based on previously provided eventRoutes
-    EventUpdateRequest:
-      allOf:
-        - $ref: '#/components/schemas/EventRequest'
-        - type: object
-          properties:
-            id:
-              type: string
-              description: ID of the event to update
-          required:
-            - id
-
     TeamRequest:
       type: object
       properties:
@@ -1573,7 +1565,7 @@ components:
         lapsRequired:
           type: number
           minimum: 1
-          maximum: 120 # Based on `isInt({ min: 1, max: 120})` from validation
+          maximum: 120
         eventId:
           type: string
           description: MongoDB ObjectId string for the Event
@@ -1615,20 +1607,17 @@ components:
         rfidTagId:
           type: string
           description: Serial number of the RFID Tag to assign
-      # NOTE: Validation only checks firstName and lastName, but the original schema required teamId and rfidTagId.
-      # Assuming the schema requirements are correct for *creation*.
       required:
         - firstName
         - lastName
         - teamId
-        - rfidTagId # RFID tag serial is required during creation according to original example
+        - rfidTagId
       example:
         firstName: "Jane"
         lastName: "Doe"
         teamId: "6551..."
-        rfidTagId: "RFID001" # Example serial number
+        rfidTagId: "RFID001"
 
-    # New schema for Participant PUT body based on validation
     ParticipantUpdateBody:
       type: object
       properties:
@@ -1642,16 +1631,15 @@ components:
         rfidTagId:
           type: string
           description: Serial number of the RFID Tag to assign or reassign (optional on update)
-          nullable: true # Might allow unassigning/clearing tag
-      # Validation only requires firstName and lastName, so mark them required in the body for PUT
+          nullable: true
       required:
         - firstName
         - lastName
       example:
         firstName: "Jane (Updated)"
         lastName: "Doe"
-        teamId: "6551_new..." # Optionally change team
-        rfidTagId: "RFID002" # Optionally change tag
+        teamId: "6551_new..."
+        rfidTagId: "RFID002"
 
 
     LapRequest:
@@ -1685,20 +1673,6 @@ components:
         startDateTime: "2025-10-01T09:35:00Z"
         endDateTime: "2025-10-01T09:40:00Z"
 
-
-    # Still needed for DELETE /events (ID in body) based on previously provided eventRoutes
-    IdRequest:
-      type: object
-      properties:
-        id:
-          type: string
-          description: The ID of the resource to delete
-      required:
-        - id
-      example:
-        id: "654c..."
-
-
     # --- Error Responses ---
     ErrorResponse:
       type: object
@@ -1722,7 +1696,7 @@ components:
                 type: string
               value:
                 type: string
-                nullable: true # Value can be missing (e.g. notEmpty validation)
+                nullable: true
               msg:
                 type: string
               path:
