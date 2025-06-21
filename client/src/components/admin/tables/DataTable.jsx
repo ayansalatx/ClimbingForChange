@@ -39,6 +39,7 @@ const LocationTable = ({ tableTitle, tableColumns, tableData, onAddClick }) => {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
+        overflow: 'hidden',
       }}
     >
       <Box
