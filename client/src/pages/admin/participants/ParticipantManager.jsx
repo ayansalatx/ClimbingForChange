@@ -1,5 +1,5 @@
-import SearchBar from '../../../components/admin/forms/fields/SearchBar'
 import Button from '@mui/material/Button'
+import SearchBar from '../../../components/admin/forms/fields/SearchBar'
 
 import { useEffect, useState } from 'react'
 import { useAlert } from '../../../hooks/useAlert.js'
