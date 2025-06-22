@@ -8,7 +8,7 @@ const SearchBar = ({ value, onChange }) => {
       label="Search"
       variant="outlined"
       value={value}
-      onChange={(e) => onChange(e.target.value)} 
+      onChange={(e) => onChange(e.target.value)}
       sx={{
         width: 500,
         input: { color: 'white' },
@@ -42,11 +42,11 @@ const SearchBar = ({ value, onChange }) => {
         input: {
           endAdornment: (
             <InputAdornment position="end">
-            <SearchIcon sx={{ color: 'white' }} />
-          </InputAdornment>       
+              <SearchIcon sx={{ color: 'white' }} />
+            </InputAdornment>
           ),
-        }
-    }}
+        },
+      }}
     />
   )
 }
