@@ -6,7 +6,7 @@ import EventsTable from '../../../components/admin/forms/eventforms/EventTable'
 import SearchBar from '../../../components/admin/forms/eventforms/SearchBar'
 import AddEventModal from '../../../components/admin/modals/EventModal.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
-import { getAllEvents } from '../../../services/eventService.js'
+import { addEvent, getAllEvents } from '../../../services/eventService.js'
 import { getAllLocations } from '../../../services/locationService.js'
 
 const EventManager = () => {
@@ -16,12 +16,20 @@ const EventManager = () => {
   const [locations, setLocations] = useState([])
   const handleOpenPopup = () => setOpenPopup(true)
   const handleClosePopup = () => setOpenPopup(false)
+  const [eventToEdit, setEventToEdit] = useState(null)
+
 
   const displayAlert = useAlert()
 
   const handleAddEvent = (eventData) => {
     setEvents([...events, eventData])
+    addEvent(eventData)
     handleClosePopup()
+  }
+
+  const handleEditEvent = (event) => {
+    setEventToEdit(event)
+    setOpenPopup(true)
   }
 
   const fetchLocations = async () => {
@@ -72,16 +80,26 @@ const EventManager = () => {
           onClick={handleOpenPopup}
         >Add Event</Button>
       </div>
-     
-      <EventsTable searchTerm={searchTerm} events={events} onEventDelete={fetchEvents} />
- 
-      <AddEventModal
-        open={openPopup}
-        onClose={handleClosePopup}
-        onAdd={handleAddEvent}
-        onLocation={locations}
+
+      <EventsTable
+        searchTerm={searchTerm}
+        events={events}
+        onEventDelete={fetchEvents}
+        onEventEdit={handleEditEvent}
       />
 
+
+      <AddEventModal
+        open={openPopup}
+        onClose={() => {
+          handleClosePopup()
+          setEventToEdit(null)
+        }}
+        onAdd={handleAddEvent}
+        onLocation={locations}
+        eventToEdit={eventToEdit}
+
+      />
     </Box>
   )
 }

@@ -31,7 +31,7 @@ const fullColumns = [
   { id: 'active', label: 'Active', minWidth: 90 },
 ]
 
-const EventsTable = ({ searchTerm = '', events = [], onEventDelete }) => {
+const EventsTable = ({ searchTerm = '', events = [], onEventDelete, onEventEdit }) => {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
@@ -70,7 +70,6 @@ const EventsTable = ({ searchTerm = '', events = [], onEventDelete }) => {
   }
 
   const onDelete = async (id) => {
-    onEventDelete();
     var status = await deleteEvent(id);
     if(status == true){
       onEventDelete();
@@ -85,6 +84,7 @@ const EventsTable = ({ searchTerm = '', events = [], onEventDelete }) => {
           <TableHeaderRow columns={fullColumns} />
           <TableDataRows
             onDelete={onDelete}
+             onEdit={onEventEdit}
             rows={filteredRows}
             columns={fullColumns}
             page={page}

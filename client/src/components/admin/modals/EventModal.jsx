@@ -1,5 +1,8 @@
 import { Box, Button, FormControl, InputLabel, MenuItem,Modal, Select, TextField, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
+import { editEvent, addEvent } from '../../../services/eventService.js'
+
+
 
 const style = {
   position: 'absolute',
@@ -13,7 +16,7 @@ const style = {
   borderRadius: 2,
 }
 
-const AddEventModal = ({ open, onClose, onAdd, onLocation }) => {
+const AddEventModal = ({ open, onClose, onAdd, onEditComplete ,onLocation, eventToEdit }) => {
   const [eventName, setEventName] = useState('')
   const [location, setLocation] = useState('')
   const [locations, setLocations] = useState([])  
@@ -26,27 +29,48 @@ const AddEventModal = ({ open, onClose, onAdd, onLocation }) => {
     setLocations(onLocation)
   }, [onLocation])
 
-  const handleAdd = (e) => {
+   
+  useEffect(() => {
+    if (eventToEdit) {
+      setEventName(eventToEdit.name || '')
+      setLocation(eventToEdit.locationId?.id || '')
+      const start = new Date(eventToEdit.startDateTime)
+      setStartDate(start.toISOString().slice(0, 10))
+      setStartTime(start.toTimeString().slice(0, 5))
+      const duration = (new Date(eventToEdit.endDateTime) - start) / 60000
+      setDuration(duration)
+      setLapDistance(eventToEdit.physicalMountainIds?.length || '')
+    }
+  }, [eventToEdit])
+
+  const handleAdd = async (e) => {
     e.preventDefault()
 
     const selectedLocation = locations.find((loc) => loc.id === location)
-    
     const start = new Date(`${startDate}T${startTime}`)
     const end = new Date(start.getTime() + Number(duration) * 60000)
-    
+
     const eventData = {
       name: eventName,
-      locationId: selectedLocation,
-      startDateTime: `${startDate} ${startTime}`,
+      locationId: selectedLocation.id,
+      startDateTime: start.toISOString(),
       endDateTime: end.toISOString(),
-      duration: Number(duration),
-      physicalMountainIds: new Array(Number(lapDistance)).fill('lap'),
+      physicalMountainIds: [], 
       active: true,
     }
 
-    onAdd(eventData, setLocations) 
-    onClose() 
+    try {
+      if (eventToEdit) {
+        await editEvent(eventToEdit.id, eventData)
+        onEditComplete?.()
+      } else {
+        onAdd(eventData)
+      }
+    } catch (error) {
+      console.error('Error saving event:', error)
+    }
 
+    onClose()
     setEventName('')
     setLocation('')
     setStartDate('')
