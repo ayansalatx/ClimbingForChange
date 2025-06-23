@@ -1,12 +1,11 @@
 import Button from '@mui/material/Button'
-import SearchBar from '../../../components/admin/forms/fields/SearchBar'
-
 import { useEffect, useState } from 'react'
-import { useAlert } from '../../../hooks/useAlert.js'
-import { getAllParticipants } from '../../../services/participantService'
 
+import SearchBar from '../../../components/admin/forms/fields/SearchBar'
 import ParticipantTable from '../../../components/admin/forms/participantforms/ParticipantTable'
 import AddParticipantModal from '../../../components/admin/modals/ParticipantModal'
+import { useAlert } from '../../../hooks/useAlert.js'
+import { getAllParticipants } from '../../../services/participantService'
 
 const ParticipantManager = () => {
   const [participants, setParticipants] = useState([])

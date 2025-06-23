@@ -1,10 +1,10 @@
 import Button from '@mui/material/Button'
 import { useState } from 'react'
-import { useAlert } from '../../../hooks/useAlert'
 
 import SearchBar from '../../../components/admin/forms/fields/SearchBar'
 import LocationTable from '../../../components/admin/forms/locationforms/LocationTable'
 import AddLocationModal from '../../../components/admin/modals/LocationModal'
+import { useAlert } from '../../../hooks/useAlert'
 import mockData from '../../../mock-data/location-data.json'
 
 const LocationManager = () => {
