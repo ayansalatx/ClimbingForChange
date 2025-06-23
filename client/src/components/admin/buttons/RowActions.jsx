@@ -1,7 +1,7 @@
 import { Delete, Edit } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
 
-const RowActions = ({ onEditClick, onDeleteClick }) => {
+const RowActions = ({ row, onEditClick, onDeleteClick }) => {
   return (
     <>
       <IconButton

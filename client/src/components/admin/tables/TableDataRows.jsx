@@ -1,4 +1,3 @@
-import { Delete, Edit } from '@mui/icons-material'
 import { TableBody, TableCell, TableRow } from '@mui/material'
 import RowActions from '../buttons/RowActions'
 
@@ -34,7 +33,7 @@ const TableDataRows = ({ rows, columns, page, rowsPerPage, onEditClick, onDelete
                 )
               })}
               <TableCell key={row.id} align={'center'} sx={{ minWidth: '5rem' }} >
-                <RowActions onEditClick={onEditClick} onDeleteClick={onDeleteClick} />
+                <RowActions row={row} onEditClick={onEditClick} onDeleteClick={onDeleteClick} />
               </TableCell>
             </TableRow>
           )

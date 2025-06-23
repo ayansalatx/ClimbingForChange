@@ -1,15 +1,13 @@
 import {
   Box,
-  InputAdornment,
   Modal,
-  TextField,
   Typography,
 } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import TextInput from '../forms/fields/TextInput'
 import CancelButton from '../buttons/CancelButton'
-import CreateButton from '../buttons/CreateButton'
+import SaveButton from '../buttons/SaveButton'
 
 const style = {
   position: 'absolute',
@@ -23,34 +21,39 @@ const style = {
   borderRadius: 2,
 }
 
-const LocationModal = ({ open, onClose, onSave }) => {
-  const [locationName, setLocationName] = React.useState('')
-  const [address, setAddress] = React.useState('')
-  const [city, setCity] = React.useState('')
-  const [province, setProvince] = React.useState('')
-  const [country, setCountry] = React.useState('')
-  const [lap, setLap] = React.useState('')
+const LocationModal = ({ open, onClose, onSave, locationData }) => {
+  const [name, setName] = useState('')
+  const [address, setAddress] = useState('')
+  const [city, setCity] = useState('')
+  const [province, setProvince] = useState('')
+  const [country, setCountry] = useState('')
+
+  useEffect(() => {
+    if (locationData) {
+      setName(locationData.name || '')
+      setAddress(locationData.address || '')
+      setCity(locationData.city || '')
+      setProvince(locationData.provState || '')
+      setCountry(locationData.country || '')
+    } else {
+      setName('')
+      setAddress('')
+      setCity('')
+      setProvince('')
+      setCountry('')
+    }
+  }, [locationData, open])
 
   const handleSave = (e) => {
     e.preventDefault()
-    const locationData = {
-      locationName,
+    const newLocationData = {
+      name,
       address,
       city,
       province,
       country,
-      lap,
     }
-    onSave(locationData)
-    onClose()
-
-    // Clear the form fields
-    setLocationName('')
-    setAddress('')
-    setCity('')
-    setProvince('')
-    setCountry('')
-    setLap('')
+    onSave(newLocationData)
   }
 
   return (
@@ -61,14 +64,13 @@ const LocationModal = ({ open, onClose, onSave }) => {
           mb={2}
           sx={{ textTransform: 'uppercase', color: 'primary.main' }}
         >
-          Add New Location
-          
+          {locationData ? 'Edit Location' : 'Add New Location'}
         </Typography>
 
         <form onSubmit={handleSave}>
           <TextInput
             label={'Location Name'}
-            value={locationName}
+            value={name}
             onChange={(e) => setLocationName(e.target.value)}
             required={true}
           />
@@ -96,36 +98,12 @@ const LocationModal = ({ open, onClose, onSave }) => {
             onChange={(e) => setCountry(e.target.value)}
             required={true}
           />
-          <TextField
-            fullWidth
-            label="Lap Distance"
-            variant="outlined"
-            margin="normal"
-            type="number"
-            value={lap}
-            onChange={(e) => setLap(e.target.value)}
-            required
-            InputProps={{
-              endAdornment: <InputAdornment position="end">ft</InputAdornment>,
-            }}
-            inputProps={{
-              min: 0,
-              step: 1,
-            }}
-            sx={{
-              borderWidth: '2px',
-              bgcolor: 'background.default',
-              '& .MuiOutlinedInput-root': {
-                '&:hover fieldset': {
-                  borderColor: 'primary.main',
-                  borderWidth: '2px',
-                },
-              },
-            }}
-          />
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
             <CancelButton onClick={onClose} />
-            <CreateButton type="submit" label="Create" onClick={handleSave}/>
+            <SaveButton
+              type="submit"
+              label={locationData ? 'Save' : 'Create'}
+            />
           </Box>
         </form>
       </Box>
