@@ -1,7 +1,8 @@
 import { Delete, Edit } from '@mui/icons-material'
 import { TableBody, TableCell, TableRow } from '@mui/material'
+import RowActions from '../buttons/RowActions'
 
-const TableDataRows = ({ rows, columns, page, rowsPerPage }) => {
+const TableDataRows = ({ rows, columns, page, rowsPerPage, onEditClick, onDeleteClick }) => {
   return (
     <TableBody>
       {rows
@@ -24,7 +25,7 @@ const TableDataRows = ({ rows, columns, page, rowsPerPage }) => {
                   <TableCell
                     key={column.id}
                     align={index < 2 ? 'left' : 'center'}
-                    sx={{ fontSize: '1rem' }}
+                    sx={{ fontSize: '1rem', color: 'primary.main' }}
                   >
                     {column.format && typeof value === 'number'
                       ? column.format(value)
@@ -32,9 +33,8 @@ const TableDataRows = ({ rows, columns, page, rowsPerPage }) => {
                   </TableCell>
                 )
               })}
-              <TableCell key={row.id} align={'center'} sx={{minWidth: '5rem'}} >
-                <Edit sx={{ color: 'var(--dark-blue)' }} fontSize="small" />
-                <Delete color="error" fontSize="small" />
+              <TableCell key={row.id} align={'center'} sx={{ minWidth: '5rem' }} >
+                <RowActions onEditClick={onEditClick} onDeleteClick={onDeleteClick} />
               </TableCell>
             </TableRow>
           )

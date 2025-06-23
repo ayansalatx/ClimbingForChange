@@ -10,7 +10,7 @@ import SearchBar from './SearchBar'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
 
-const LocationTable = ({ tableTitle, tableColumns, tableData, onAddClick }) => {
+const LocationTable = ({ tableTitle, tableColumns, tableData, onAddClick, onEditClick, onDeleteClick }) => {
   const [searchTerm, setSearchTerm] = useState('')
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
@@ -112,6 +112,8 @@ const LocationTable = ({ tableTitle, tableColumns, tableData, onAddClick }) => {
             columns={tableColumns}
             page={page}
             rowsPerPage={rowsPerPage}
+            onEditClick={onEditClick}
+            onDeleteClick ={onDeleteClick}
           />
         </Table>
       </TableContainer>

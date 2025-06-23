@@ -23,7 +23,7 @@ const style = {
   borderRadius: 2,
 }
 
-const LocationModal = ({ open, onClose, onAdd }) => {
+const LocationModal = ({ open, onClose, onSave }) => {
   const [locationName, setLocationName] = React.useState('')
   const [address, setAddress] = React.useState('')
   const [city, setCity] = React.useState('')
@@ -31,7 +31,7 @@ const LocationModal = ({ open, onClose, onAdd }) => {
   const [country, setCountry] = React.useState('')
   const [lap, setLap] = React.useState('')
 
-  const handleAdd = (e) => {
+  const handleSave = (e) => {
     e.preventDefault()
     const locationData = {
       locationName,
@@ -41,7 +41,7 @@ const LocationModal = ({ open, onClose, onAdd }) => {
       country,
       lap,
     }
-    onAdd(locationData)
+    onSave(locationData)
     onClose()
 
     // Clear the form fields
@@ -65,7 +65,7 @@ const LocationModal = ({ open, onClose, onAdd }) => {
           
         </Typography>
 
-        <form onSubmit={handleAdd}>
+        <form onSubmit={handleSave}>
           <TextInput
             label={'Location Name'}
             value={locationName}
@@ -125,7 +125,7 @@ const LocationModal = ({ open, onClose, onAdd }) => {
           />
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
             <CancelButton onClick={onClose} />
-            <CreateButton type="submit" label="Create" />
+            <CreateButton type="submit" label="Create" onClick={handleSave}/>
           </Box>
         </form>
       </Box>

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import LocationModal from '../../../components/admin/modals/LocationModal.jsx'
 import DataTable from '../../../components/admin/tables/DataTable.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
-import { getAllLocations } from '../../../services/locationService.js'
+import { editLocation, getAllLocations } from '../../../services/locationService.js'
 
 const fullColumns = [
   { id: 'name', label: 'Location', width: '30%', align: 'left' },
@@ -33,15 +33,22 @@ const LocationManager = () => {
     loadData()
   }, [])
 
-  const handleEditLocation = (currentLocation) => {
+  const onEdit = async (currentLocation) => {
+    setCurrentLocation(currentLocation)
     setPopupOpen(true)
   }
 
-  const handleAddLocation = () => {
+  const onAdd = () => {
+    setCurrentLocation(null)
     setPopupOpen(true)
   }
 
-  const handleSaveLocation = (locationData) => {
+  const handleSave = (locationData) => {
+
+    if (locationData._id) {
+      const updatedLocation = editLocation(locationData._id, locationData)
+    }
+    setLocations([...locations, locationData])
     setPopupOpen(false)
         displayAlert('Saved', 'Saved location to the backend.', 'success')
   }
@@ -61,13 +68,14 @@ const LocationManager = () => {
         tableTitle={'Locations'}
         tableColumns={fullColumns}
         tableData={locations}
-        onAddClick={() => setPopupOpen(true)}
+        onAddClick={onAdd}
+        onEditClick={onEdit}
       />
 
       <LocationModal
         open={popupOpen}
         onClose={() => setPopupOpen(false)}
-        onAdd={handleSaveLocation}
+        onSave={handleSave}
       />
     </Box>
   )
