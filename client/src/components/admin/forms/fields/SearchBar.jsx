@@ -1,7 +1,6 @@
 import SearchIcon from '@mui/icons-material/Search'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
-import React from 'react'
 
 const SearchBar = ({ value, onChange }) => {
   return (
@@ -9,7 +8,7 @@ const SearchBar = ({ value, onChange }) => {
       label="Search"
       variant="outlined"
       value={value}
-      onChange={(e) => onChange(e.target.value)} 
+      onChange={(e) => onChange(e.target.value)}
       sx={{
         width: 500,
         input: { color: 'white' },
@@ -39,12 +38,14 @@ const SearchBar = ({ value, onChange }) => {
           opacity: 1,
         },
       }}
-      InputProps={{
-        endAdornment: (
-          <InputAdornment position="end">
-            <SearchIcon sx={{ color: 'white' }} />
-          </InputAdornment>
-        ),
+      slotProps={{
+        input: {
+          endAdornment: (
+            <InputAdornment position="end">
+              <SearchIcon sx={{ color: 'white' }} />
+            </InputAdornment>
+          ),
+        },
       }}
     />
   )

@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Landing from './components/shared/Landing'
 import Layout from './Layout'
 import AdminDashboard from './pages/admin/AdminDashboard'
+import AdminLogin from './pages/admin/AdminLogin'
 import EventManager from './pages/admin/events/EventManager'
 import LocationManager from './pages/admin/locations/LocationManager'
 import MountainManager from './pages/admin/mountains/MountainManager'
@@ -27,6 +28,12 @@ function App() {
             path="/progress/fullscreen"
             element={<ProgressBoardFullscreen />}
           />
+
+          <Route
+            path="/login"
+            element={<AdminLogin />}
+          >
+          </Route>
 
           <Route path='/admin' element={<Layout />}>
             <Route index element={<AdminDashboard />} />
