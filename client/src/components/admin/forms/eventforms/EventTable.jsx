@@ -26,8 +26,7 @@ const fullColumns = [
   { id: 'start', label: 'Start-Time', minWidth: 85 },
   { id: 'end', label: 'End-Time', minWidth: 85 },
   { id: 'duration', label: 'Duration', minWidth: 85 },
-  { id: 'lap', label: 'Lap', minWidth: 85 },
-  { id: 'active', label: 'Active', minWidth: 90 },
+  { id: 'active', label: 'Active', minWidth: 90 }
 ]
 
 const EventsTable = ({ searchTerm = '', events = [], onEventDelete, onEventEdit }) => {
@@ -47,9 +46,8 @@ const EventsTable = ({ searchTerm = '', events = [], onEventDelete, onEventEdit 
       start: formatDateTime(startTime),
       end: formatDateTime(endTime),
       eventName: event.name || '',
-      location: event.locationId?.name || '',
+      location: event.location?.name || '',
       duration: durationTime,
-      lap: event.physicalMountainIds?.length || 0,
       active: event.active,
     }
   })

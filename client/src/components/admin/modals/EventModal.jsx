@@ -23,7 +23,6 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit ,onLocation, eventToEdit }
   const [startDate, setStartDate] = useState('')
   const [startTime, setStartTime] = useState('')
   const [duration, setDuration] = useState('')
-  const [lapDistance, setLapDistance] = useState('')
 
   const onModalClose = () => {
     onClose()
@@ -32,7 +31,6 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit ,onLocation, eventToEdit }
     setStartDate('')
     setStartTime('')
     setDuration('')
-    setLapDistance('')
   }
 
   useEffect(() => {
@@ -49,12 +47,8 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit ,onLocation, eventToEdit }
       setStartTime(start.toTimeString().slice(0, 5))
       const duration = (new Date(eventToEdit.endDateTime) - start) / 60000
       setDuration(duration)
-      setLapDistance(eventToEdit.physicalMountainIds?.length || '')
     }
   }, [eventToEdit])
-
-console.log("location", location)
-console.log("eventtoedit", eventToEdit)
 
   const handleAdd = async (e) => {
     e.preventDefault()
@@ -81,7 +75,6 @@ console.log("eventtoedit", eventToEdit)
     } catch (error) {
       console.error('Error saving event:', error)
     }
-
     onModalClose()
   }
 
@@ -89,9 +82,8 @@ console.log("eventtoedit", eventToEdit)
     <Modal open={open} onClose={onModalClose}>
       <Box sx={style}>
         <Typography variant="h6" mb={2} sx={{ color: 'black' }}>
-          Add New Event
+          {eventToEdit ? "Edit Event" : "Add New Event"}
         </Typography>
-
         <form onSubmit={handleAdd}>
           <TextField
             fullWidth
@@ -111,8 +103,8 @@ console.log("eventtoedit", eventToEdit)
               value={location}
               label="Location"
               onChange={(e) => setLocation(e.target.value)}
+               required
             >
-
               {locations.map((location) => <MenuItem value={location.id} key={location.id}> {location.name} </MenuItem> )}
             </Select>
           </FormControl>
@@ -151,18 +143,7 @@ console.log("eventtoedit", eventToEdit)
             onChange={(e) => setDuration(e.target.value)}
             required
           />
-          
-          <TextField
-            fullWidth
-            label="Lap Distance (ft)"
-            type="number"
-            variant="outlined"
-            margin="normal"
-            value={lapDistance}
-            onChange={(e) => setLapDistance(e.target.value)}
-            required
-          />
-
+  
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
             <Button variant="outlined" onClick={onModalClose}>
               Cancel
