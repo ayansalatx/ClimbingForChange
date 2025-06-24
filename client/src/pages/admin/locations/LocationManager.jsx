@@ -41,7 +41,11 @@ const LocationManager = () => {
         )
         setLocations(locationsList)
       } catch (error) {
-        displayAlert('Error', `Failed to Load Locations: ${error.message}`, 'error')
+        displayAlert(
+          'Error',
+          `Failed to Load Locations: ${error.message}`,
+          'error'
+        )
       }
     }
 
@@ -67,11 +71,8 @@ const LocationManager = () => {
   const confirmedDelete = async () => {
     try {
       await deleteLocation(deletedLocation.id)
-      setLocations((prev) =>
-        prev.map((item) =>
-          item.id === deletedLocation.id ? { ...item, active: false } : item
-        )
-      )
+      const newLocationList = await getAllLocations()
+      setLocations(newLocationList)
       setDeleteConfirmOpen(false)
       displayAlert(
         'Location Deleted',
@@ -79,7 +80,11 @@ const LocationManager = () => {
         'success'
       )
     } catch (error) {
-      displayAlert('Error', `Failed to delete ${deletedLocation.name}: ${error.message}`, 'error')
+      displayAlert(
+        'Error',
+        `Failed to delete ${deletedLocation.name}: ${error.message}`,
+        'error'
+      )
     }
   }
 
@@ -100,7 +105,11 @@ const LocationManager = () => {
           'success'
         )
       } catch (error) {
-        displayAlert('Error', `Failed to Edit ${locationData.name}: ${error.message}`, 'error')
+        displayAlert(
+          'Error',
+          `Failed to Edit ${locationData.name}: ${error.message}`,
+          'error'
+        )
       }
     } else {
       try {
@@ -113,7 +122,11 @@ const LocationManager = () => {
           'success'
         )
       } catch (error) {
-        displayAlert('Error', `Failed to Create ${locationData.name}: ${error.message}`, 'error')
+        displayAlert(
+          'Error',
+          `Failed to Create ${locationData.name}: ${error.message}`,
+          'error'
+        )
       }
     }
 
