@@ -100,7 +100,7 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit ,onLocation, eventToEdit }
               value={location}
               label="Location"
               onChange={(e) => setLocation(e.target.value)}
-             required
+              required
             >
               {locations.map((location) => <MenuItem value={location.id} key={location.id}> {location.name} </MenuItem> )}
             </Select>

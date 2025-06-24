@@ -13,9 +13,9 @@ export const getAllEvents = async () => {
 export const addEvent = async (data)  => {
   console.log('Adding new event with data:', data)
   try {
-  const response = await api.post('/events', data) 
-     return response
-   } catch (error) {
+    const response = await api.post('/events', data) 
+    return response
+  } catch (error) {
     console.error('Failed to edit event:', error)
     throw error
   }
