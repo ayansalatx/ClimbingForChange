@@ -10,6 +10,7 @@ import EventManager from './pages/admin/events/EventManager'
 import LocationManager from './pages/admin/locations/LocationManager'
 import MountainManager from './pages/admin/mountains/MountainManager'
 import ParticipantManager from './pages/admin/participants/ParticipantManager'
+import ParticipantUpload from './pages/admin/participants/ParticipantUpload'
 import ProgressBoard from './pages/progressboard/ProgressBoard'
 import ProgressBoardFullscreen from './pages/progressboard/ProgressBoardFullscreen'
 import theme from './styles/theme'
@@ -31,6 +32,7 @@ function App() {
             <Route index element={<AdminDashboard />} />
             <Route path='events' element={<EventManager />} />
             <Route path='participants' element={<ParticipantManager />} />
+            <Route path='upload' element={<ParticipantUpload />} />
             <Route path='mountains' element={<MountainManager />} />
             <Route path='locations' element={<LocationManager />} />
           </Route>
