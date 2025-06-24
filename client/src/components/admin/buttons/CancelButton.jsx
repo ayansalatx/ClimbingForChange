@@ -2,7 +2,7 @@ import { alpha, Button } from '@mui/material'
 
 import theme from '../../../styles/theme'
 
-const CancelButton = ({ onClick, label = 'Cancel' }) => {
+const CancelButton = ({ onClick, color }) => {
   return (
     <Button
       variant="outlined"
@@ -11,15 +11,15 @@ const CancelButton = ({ onClick, label = 'Cancel' }) => {
         width: '6rem',
         borderWidth: '2px',
         letterSpacing: '.05rem',
-        borderColor: 'error.main',
-        color: 'error.main',
+        borderColor: color == 'red' ? 'error.main' : 'gray.main',
+        color: color == 'red' ? 'error.main' : 'gray.main',
         '&:hover': {
-          borderColor: '#D97A7A',
-          backgroundColor: alpha(theme.palette.error.main, 0.15),
+          borderColor: color == 'red' ? 'error.main' : 'gray.main',
+          backgroundColor: color == 'red' ? alpha(theme.palette.error.main, 0.15) : alpha(theme.palette.gray.main, 0.20) ,
         },
       }}
     >
-      {label}
+      Cancel
     </Button>
   )
 }

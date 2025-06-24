@@ -10,6 +10,7 @@ import {
   editLocation,
   getAllLocations,
 } from '../../../services/locationService.js'
+import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
 
 const fullColumns = [
   { id: 'name', label: 'Location', width: '30%', align: 'left' },
@@ -24,6 +25,9 @@ const LocationManager = () => {
   const [showInactive, setShowInactive] = useState(false)
   const [currentLocation, setCurrentLocation] = useState(null)
   const [popupOpen, setPopupOpen] = useState(false)
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
+  const [deletedLocation, setDeleteLocation] = useState(null)
+
   const displayAlert = useAlert()
 
   useEffect(() => {
@@ -55,17 +59,33 @@ const LocationManager = () => {
   }
 
   const onDelete = async (location) => {
+    document.activeElement?.blur()
+    setDeleteLocation(location)
+    setDeleteConfirmOpen(true)
+  }
+
+  const confirmedDelete = async () => {
     try {
-      await deleteLocation(location.id)
-      setLocations((prev) => prev.filter((item) => item.id !== location.id))
+      await deleteLocation(deletedLocation.id)
+      setLocations((prev) =>
+        prev.map((item) =>
+          item.id === deletedLocation.id ? { ...item, active: false } : item
+        )
+      )
+      setDeleteConfirmOpen(false)
       displayAlert(
         'Location Deleted',
-        `Deleted ${location.name} location.`,
+        `Deleted ${deletedLocation.name} location.`,
         'success'
       )
     } catch (error) {
-      displayAlert('Error', `Failed to delete ${location.name}`, 'error')
+      displayAlert('Error', `Failed to delete ${deletedLocation.name}`, 'error')
     }
+  }
+
+  const cancelDelete = () => {
+    setDeleteConfirmOpen(false)
+    setDeleteLocation(null)
   }
 
   const handleSave = async (locationData) => {
@@ -123,6 +143,12 @@ const LocationManager = () => {
         }}
         onSave={handleSave}
         locationData={currentLocation}
+      />
+
+      <ConfirmDeleteDialog
+        open={deleteConfirmOpen}
+        onCancel={cancelDelete}
+        onConfirm={confirmedDelete}
       />
     </Box>
   )

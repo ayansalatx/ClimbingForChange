@@ -53,7 +53,6 @@ const LocationModal = ({ open, onClose, onSave, locationData }) => {
       provState,
       country,
     }
-    console.log(newLocationData)
     onSave(newLocationData)
   }
 
@@ -100,7 +99,7 @@ const LocationModal = ({ open, onClose, onSave, locationData }) => {
             required={true}
           />
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
-            <CancelButton onClick={onClose} />
+            <CancelButton onClick={onClose} color={'red'} />
             <SaveButton
               type="submit"
               label={locationData ? 'Save' : 'Create'}
