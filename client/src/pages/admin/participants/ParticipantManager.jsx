@@ -6,11 +6,13 @@ import ParticipantTable from '../../../components/admin/forms/participantforms/P
 import AddParticipantModal from '../../../components/admin/modals/ParticipantModal'
 import { useAlert } from '../../../hooks/useAlert.js'
 import { getAllParticipants } from '../../../services/participantService'
+import { getAllTeams } from '../../../services/teamService.js'
 
 const ParticipantManager = () => {
   const [participants, setParticipants] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   const [popupOpen, setPopupOpen] = useState(false)
+  const [teams, setTeams] = useState([])
 
   const displayAlert = useAlert()
 
@@ -24,14 +26,35 @@ const ParticipantManager = () => {
       }
     }
 
+    const fetchTeams = async () => {
+      try {
+        const data = await getAllTeams()
+        console.log('Fetched teams:', data)
+        setTeams(data)
+      } catch (error) {
+        console.error('Error fetching teams', error)
+      }
+    }
+
     fetchParticipants()
+    fetchTeams()
   }, [])
 
-  const handleAddParticipant = (eventData) => {
-    setParticipants([...participants, eventData])
+  const handleAddParticipant = (participantData) => {
+    const selectedTeam = teams.find((team) => team.id === participantData.teamId)
+    console.log('Assigned team:', selectedTeam)
+
+    const newParticipant = {
+      firstName: participantData.firstName,
+      lastName: participantData.lastName,
+      team: selectedTeam || null,  // full team object stored here
+    }
+
+    setParticipants([...participants, newParticipant])
     setPopupOpen(false)
     displayAlert('Saved', 'Saved participant to the backend.', 'success')
   }
+
 
   return (
     <div>
@@ -74,6 +97,7 @@ const ParticipantManager = () => {
         open={popupOpen}
         onClose={() => setPopupOpen(false)}
         onAdd={handleAddParticipant}
+        teamNames={teams}
       />
     </div>
   )

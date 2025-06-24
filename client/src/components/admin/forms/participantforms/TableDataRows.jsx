@@ -18,7 +18,7 @@ const TableDataRows = ({ rows, columns, page, rowsPerPage }) => {
                   <TableCell key={column.id} align={column.align}>
                     {column.format && typeof value === 'number'
                       ? column.format(value)
-                      : value || (column.id === 'teamId.name' ? 'Solo' : '—')}
+                      : value || (column.id === 'team.name' ? 'Solo' : '—')}
                   </TableCell>
                 )
               })}

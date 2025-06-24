@@ -1,4 +1,4 @@
-import { Box, Modal, TextField, Typography } from '@mui/material'
+import { Box, MenuItem,Modal, TextField, Typography } from '@mui/material'
 import { useState } from 'react'
 
 import CancelButton from '../buttons/CancelButton'
@@ -16,25 +16,29 @@ const style = {
   borderRadius: 2,
 }
 
-const AddParticipantModal = ({ open, onClose, onAdd }) => {
+const AddParticipantModal = ({ open, teamNames = [], onClose, onAdd }) => {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-  const [teamName, setTeamName] = useState('')
+  const [teamId, setTeamId] = useState('')
 
   const handleAdd = (e) => {
     e.preventDefault()
+
+    const selectedTeam = teamNames.find((team) => team.id === teamId)
+    console.log('Selected team:', selectedTeam)
+
     const participantData = {
       firstName,
       lastName,
-      teamName,
+      team: selectedTeam || null
     }
+
     onAdd(participantData)
     onClose()
 
-    // Clear the form fields
     setFirstName('')
     setLastName('')
-    setTeamName('')
+    setTeamId('')
   }
 
   return (
@@ -64,14 +68,27 @@ const AddParticipantModal = ({ open, onClose, onAdd }) => {
             required
           />
           <TextField
+            select
             fullWidth
             label="Team Name"
             variant="outlined"
             margin="normal"
-            value={teamName}
-            onChange={(e) => setTeamName(e.target.value)}
+            value={teamId}
+            onChange={(e) => setTeamId(e.target.value)}
             required
-          />
+          >
+            <MenuItem disabled value="">
+              -- Select a team --
+            </MenuItem>
+            {teamNames
+              .filter((team) => !team.isSoloTeam)
+              .map((team) => (
+                <MenuItem key={team.id} value={team.id}>
+                  {team.name}
+                </MenuItem>
+              ))}
+          </TextField>
+
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
             <CancelButton onClick={onClose} />
             <CreateButton type="submit" label="Create" />
