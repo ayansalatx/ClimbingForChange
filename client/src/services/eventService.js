@@ -23,15 +23,13 @@ try {
 }
  
 export const editEvent = async (id, data) => {
-  console.log('Editing event with ID:', id, 'and data:', data)
   try {
     const response = await api.put(`/events/${id}`, data)
     if (response.status === 200 ) {
       console.log('Event edited successfully:', response.data)
-      return response.data
+      return response
     } else {
       console.error('Failed to edit event:', response.statusText)
-      console.error('Response data:', response.data)
     }
     throw new Error(`Unexpected response status: ${response.status}`)
   } catch (error) {

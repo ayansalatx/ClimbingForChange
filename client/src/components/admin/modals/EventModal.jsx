@@ -16,7 +16,7 @@ const style = {
   borderRadius: 2,
 }
 
-const AddEventModal = ({ open, onClose, onAdd, onEditComplete ,onLocation, eventToEdit }) => {
+const AddEventModal = ({ open, onClose, onAdd, onEdit ,onLocation, eventToEdit }) => {
   const [eventName, setEventName] = useState('')
   const [location, setLocation] = useState('')
   const [locations, setLocations] = useState([])  
@@ -74,8 +74,7 @@ console.log("eventtoedit", eventToEdit)
 
     try {
       if (eventToEdit) {
-        await editEvent(eventToEdit.id, eventData)
-        onEditComplete?.()
+        onEdit(eventToEdit.id, eventData)
       } else {
         onAdd(eventData)
       }

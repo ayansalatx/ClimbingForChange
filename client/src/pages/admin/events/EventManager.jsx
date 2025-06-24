@@ -6,7 +6,7 @@ import EventsTable from '../../../components/admin/forms/eventforms/EventTable'
 import SearchBar from '../../../components/admin/forms/eventforms/SearchBar'
 import AddEventModal from '../../../components/admin/modals/EventModal.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
-import { addEvent, getAllEvents, deleteEvent } from '../../../services/eventService.js'
+import { addEvent, getAllEvents, deleteEvent, editEvent } from '../../../services/eventService.js'
 import { getAllLocations } from '../../../services/locationService.js'
 
 const EventManager = () => {
@@ -64,9 +64,26 @@ const EventManager = () => {
     }
   }
 
-  const handleEditEvent = (event) => {
+  const requestEditEvent = (event) => {
     setEventToEdit(event)
     setOpenPopup(true)
+  }
+
+  const handleEditEvent = async (id, eventData) => {
+    try {
+      // setEvents([...events, eventData])
+      const response = await editEvent(id, eventData)
+      if (response.status === 201 || response.status === 200) {
+        displayAlert('Event has been successfully edited.', 'success')
+        const newAllEvents = await getAllEvents()
+        setEvents(newAllEvents)
+        handleClosePopup()
+      } else {
+        throw new Error('Event was not edited')
+      }
+    } catch (error) {
+      displayAlert('Add Error', `Failed to edit the event: ${error.message}`, 'error')
+    }
   }
 
   const handleDeleteEvent = async (id) => {
@@ -101,7 +118,7 @@ const EventManager = () => {
         searchTerm={searchTerm}
         events={events}
         onEventDelete={handleDeleteEvent}
-        onEventEdit={handleEditEvent}
+        onEventEdit={requestEditEvent}
       />
 
       <AddEventModal
@@ -111,6 +128,7 @@ const EventManager = () => {
           setEventToEdit(null)
         }}
         onAdd={handleAddEvent}
+        onEdit={handleEditEvent}
         onLocation={locations}
         eventToEdit={eventToEdit}
 
