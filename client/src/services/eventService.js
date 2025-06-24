@@ -1,4 +1,3 @@
-import { data } from 'react-router-dom'
 import { api } from './api'
  
 export const getDisplayEvent = async () => {
@@ -13,10 +12,10 @@ export const getAllEvents = async () => {
 
 export const addEvent = async (data)  => {
   console.log('Adding new event with data:', data)
-try {
-  const response = await api.post(`/events`, data) 
-   return response
-  } catch (error) {
+  try {
+  const response = await api.post('/events', data) 
+     return response
+   } catch (error) {
     console.error('Failed to edit event:', error)
     throw error
   }
@@ -38,11 +37,10 @@ export const editEvent = async (id, data) => {
   }
 }
  
-export const deleteEvent = async (id, data) => {
+export const deleteEvent = async (id) => {
   try {
-    const response = await api.delete(`/events/${id}`)
+    await api.delete(`/events/${id}`)
     return true
-
   } catch (error) {
     console.error('Failed to delete event:', error)
     throw error 

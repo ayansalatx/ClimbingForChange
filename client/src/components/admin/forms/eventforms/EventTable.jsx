@@ -75,7 +75,7 @@ const EventsTable = ({ searchTerm = '', events = [], onEventDelete, onEventEdit 
           <TableHeaderRow columns={fullColumns} />
           <TableDataRows
             onDelete={onEventDelete}
-             onEdit={onEventEdit}
+            onEdit={onEventEdit}
             rows={filteredRows}
             columns={fullColumns}
             page={page}

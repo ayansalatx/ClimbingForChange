@@ -79,7 +79,7 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit ,onLocation, eventToEdit }
     <Modal open={open} onClose={onModalClose}>
       <Box sx={style}>
         <Typography variant="h6" mb={2} sx={{ color: 'black' }}>
-          {eventToEdit ? "Edit Event" : "Add New Event"}
+          {eventToEdit ? 'Edit Event' : 'Add New Event'}
         </Typography>
         <form onSubmit={handleAdd}>
           <TextField
@@ -100,7 +100,7 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit ,onLocation, eventToEdit }
               value={location}
               label="Location"
               onChange={(e) => setLocation(e.target.value)}
-               required
+             required
             >
               {locations.map((location) => <MenuItem value={location.id} key={location.id}> {location.name} </MenuItem> )}
             </Select>
