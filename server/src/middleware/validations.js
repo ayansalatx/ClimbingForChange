@@ -46,7 +46,7 @@ export const validateEvent = [
 ]
 
 export const validateHill = [
-  body('name').trim().notEmpty().withMessage('Physical mountain name is required'),
+  body('name').trim().notEmpty().withMessage('Hill name is required'),
 
   body('lapElevationGain')
     .notEmpty()
