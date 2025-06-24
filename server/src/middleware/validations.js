@@ -5,11 +5,11 @@ export const validateEvent = [
 
   // body('hills')
   //   .notEmpty()
-  //   .withMessage('Physical mountain or hill is required'),
+  //   .withMessage('Hill is required'),
 
   // body('mountains')
   //   .notEmpty()
-  //   .withMessage('Physical mountain or hill is required'),
+  //   .withMessage('Mountain is required'),
 
   body('name')
     .trim()

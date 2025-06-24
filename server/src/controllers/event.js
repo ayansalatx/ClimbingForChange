@@ -4,8 +4,8 @@ export const getEvents = async (req, response) => {
   const events = await Event.find({})
     .populate('location')
     .populate('mountains')
-  console.log('backenedEvents', events)
-  response.json(events)
+    
+    response.json(events)
 }
 
 export const getEventByID = async (request, response) => {
