@@ -21,6 +21,7 @@ const fullColumns = [
 
 const LocationManager = () => {
   const [locations, setLocations] = useState([])
+  const [showInactive, setShowInactive] = useState(false)
   const [currentLocation, setCurrentLocation] = useState(null)
   const [popupOpen, setPopupOpen] = useState(false)
   const displayAlert = useAlert()
@@ -57,9 +58,7 @@ const LocationManager = () => {
     if (locationData.id) {
       await editLocation(locationData.id, locationData)
       setLocations((prev) =>
-        prev.map((item) =>
-          item.id === locationData.id ? locationData : item
-        )
+        prev.map((item) => (item.id === locationData.id ? locationData : item))
       )
     } else {
       const newLocation = await addNewLocation(locationData)
@@ -85,6 +84,8 @@ const LocationManager = () => {
         tableTitle={'Locations'}
         tableColumns={fullColumns}
         tableData={locations}
+        showInactive={showInactive}
+        setShowInactive={setShowInactive}
         onAddClick={onAdd}
         onEditClick={onEdit}
         onDeleteClick={onDelete}

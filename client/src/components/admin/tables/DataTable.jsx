@@ -9,18 +9,30 @@ import theme from '../../../styles/theme'
 import SearchBar from './SearchBar'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
+import ActiveToggle from './ActiveToggle'
 
-const LocationTable = ({ tableTitle, tableColumns, tableData=[], onAddClick, onEditClick, onDeleteClick }) => {
+const LocationTable = ({
+  tableTitle,
+  tableColumns,
+  tableData = [],
+  showInactive,
+  setShowInactive,
+  onAddClick,
+  onEditClick,
+  onDeleteClick,
+}) => {
   const [searchTerm, setSearchTerm] = useState('')
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
-  const filteredRows = tableData.filter((row) =>
-    row && Object.values(row)
-      .join(' ')
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase())
-  )
+  const filteredRows = tableData
+    .filter((row) => showInactive || row.active)
+    .filter((row) =>
+      Object.values(row)
+        .join(' ')
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+    )
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -113,30 +125,43 @@ const LocationTable = ({ tableTitle, tableColumns, tableData=[], onAddClick, onE
             page={page}
             rowsPerPage={rowsPerPage}
             onEditClick={onEditClick}
-            onDeleteClick ={onDeleteClick}
+            onDeleteClick={onDeleteClick}
           />
         </Table>
       </TableContainer>
-
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={filteredRows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
+      <Box
         sx={{
-          minHeight: '3.25rem',
-          bgcolor: 'info.light',
-          color: 'background.paper',
-          '& .MuiSvgIcon-root': {
-            fontSize: '1.25rem',
-            color: 'background.paper',
-          },
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          backgroundColor: 'info.light',
         }}
-        labelRowsPerPage=""
-      />
+      >
+        <ActiveToggle
+          checked={showInactive}
+          onChange={() => setShowInactive((prev) => !prev)}
+        />
+
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={filteredRows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          sx={{
+            minHeight: '3.25rem',
+            bgcolor: 'info.light',
+            color: 'background.paper',
+            '& .MuiSvgIcon-root': {
+              fontSize: '1.25rem',
+              color: 'background.paper',
+            },
+          }}
+          labelRowsPerPage=""
+        />
+      </Box>
     </Paper>
   )
 }

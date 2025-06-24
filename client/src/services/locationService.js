@@ -2,7 +2,8 @@ import { api } from './api'
 
 export const getAllLocations = async () => {
   const res = await api.get('/locations')
-  return res.data
+  const data = res.data
+  return [...data].sort((a,b) => a.name.localeCompare(b.name))
 }
 
 export const getLocationById = async (id) => {
@@ -39,7 +40,7 @@ export const editLocation = async (id, data) => {
 export const deleteLocation = async (id) => {
   try {
     const response = await api.delete(`/locations/${id}`)
-    if (response.status === 204) {
+    if (response.status === 200) {
       return true
     }
 
