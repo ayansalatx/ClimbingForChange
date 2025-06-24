@@ -4,7 +4,6 @@ import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 import React from 'react'
 
-import { deleteEvent } from '../../../../services/eventService.js'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
 
@@ -69,13 +68,6 @@ const EventsTable = ({ searchTerm = '', events = [], onEventDelete, onEventEdit 
     setPage(0)
   }
 
-  const onDelete = async (id) => {
-    var status = await deleteEvent(id);
-    if(status == true){
-      onEventDelete();
-    }
-    
-  }
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -83,7 +75,7 @@ const EventsTable = ({ searchTerm = '', events = [], onEventDelete, onEventEdit 
         <Table stickyHeader aria-label="sticky table">
           <TableHeaderRow columns={fullColumns} />
           <TableDataRows
-            onDelete={onDelete}
+            onDelete={onEventDelete}
              onEdit={onEventEdit}
             rows={filteredRows}
             columns={fullColumns}

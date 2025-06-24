@@ -25,6 +25,16 @@ const AddEventModal = ({ open, onClose, onAdd, onEditComplete ,onLocation, event
   const [duration, setDuration] = useState('')
   const [lapDistance, setLapDistance] = useState('')
 
+  const onModalClose = () => {
+    onClose()
+    setEventName('')
+    setLocation('')
+    setStartDate('')
+    setStartTime('')
+    setDuration('')
+    setLapDistance('')
+  }
+
   useEffect(() => {
     setLocations(onLocation)
   }, [onLocation])
@@ -70,17 +80,11 @@ const AddEventModal = ({ open, onClose, onAdd, onEditComplete ,onLocation, event
       console.error('Error saving event:', error)
     }
 
-    onClose()
-    setEventName('')
-    setLocation('')
-    setStartDate('')
-    setStartTime('')
-    setDuration('')
-    setLapDistance('')
+    onModalClose()
   }
 
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open} onClose={onModalClose}>
       <Box sx={style}>
         <Typography variant="h6" mb={2} sx={{ color: 'black' }}>
           Add New Event
@@ -153,7 +157,7 @@ const AddEventModal = ({ open, onClose, onAdd, onEditComplete ,onLocation, event
           />
 
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
-            <Button variant="outlined" onClick={onClose}>
+            <Button variant="outlined" onClick={onModalClose}>
               Cancel
             </Button>
             <Button type="submit" variant="contained">

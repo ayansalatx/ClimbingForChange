@@ -6,7 +6,7 @@ import EventsTable from '../../../components/admin/forms/eventforms/EventTable'
 import SearchBar from '../../../components/admin/forms/eventforms/SearchBar'
 import AddEventModal from '../../../components/admin/modals/EventModal.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
-import { addEvent, getAllEvents } from '../../../services/eventService.js'
+import { addEvent, getAllEvents, deleteEvent } from '../../../services/eventService.js'
 import { getAllLocations } from '../../../services/locationService.js'
 
 const EventManager = () => {
@@ -30,6 +30,21 @@ const EventManager = () => {
   const handleEditEvent = (event) => {
     setEventToEdit(event)
     setOpenPopup(true)
+  }
+
+  const handleDeleteEvent = async (id) => {
+    try {
+      const success = await deleteEvent(id)
+      if (success) {
+        fetchEvents()
+        displayAlert('Event Deleted', 'The event has been successfully deleted.', 'success')
+      } else {
+        displayAlert('Delete Error', 'Failed to delete the event. Please try again.', 'error')
+      }
+    } catch (error) {
+      console.error('Error deleting event:', error)
+      displayAlert('Delete Error', `Failed to delete the event: ${error.message}`, 'error')
+    }
   }
 
   const fetchLocations = async () => {
@@ -84,7 +99,7 @@ const EventManager = () => {
       <EventsTable
         searchTerm={searchTerm}
         events={events}
-        onEventDelete={fetchEvents}
+        onEventDelete={handleDeleteEvent}
         onEventEdit={handleEditEvent}
       />
 
