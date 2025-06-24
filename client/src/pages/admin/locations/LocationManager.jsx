@@ -1,6 +1,7 @@
 import { Box } from '@mui/material'
 import { useEffect, useState } from 'react'
 
+import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
 import LocationModal from '../../../components/admin/modals/LocationModal.jsx'
 import DataTable from '../../../components/admin/tables/DataTable.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
@@ -10,7 +11,6 @@ import {
   editLocation,
   getAllLocations,
 } from '../../../services/locationService.js'
-import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
 
 const fullColumns = [
   { id: 'name', label: 'Location', width: '30%', align: 'left' },
@@ -41,12 +41,12 @@ const LocationManager = () => {
         )
         setLocations(locationsList)
       } catch (error) {
-        console.log('Failed to load location data', error)
+        displayAlert('Error', `Failed to Load Locations: ${error.message}`, 'error')
       }
     }
 
     loadData()
-  }, [])
+  }, [displayAlert])
 
   const onAdd = () => {
     setCurrentLocation(null)
@@ -79,7 +79,7 @@ const LocationManager = () => {
         'success'
       )
     } catch (error) {
-      displayAlert('Error', `Failed to delete ${deletedLocation.name}`, 'error')
+      displayAlert('Error', `Failed to delete ${deletedLocation.name}: ${error.message}`, 'error')
     }
   }
 
@@ -90,23 +90,31 @@ const LocationManager = () => {
 
   const handleSave = async (locationData) => {
     if (locationData.id) {
-      await editLocation(locationData.id, locationData)
-      setLocations((prev) =>
-        prev.map((item) => (item.id === locationData.id ? locationData : item))
-      )
-      displayAlert(
-        'Edited Location',
-        `Edited ${locationData.name} location.`,
-        'success'
-      )
+      try {
+        await editLocation(locationData.id, locationData)
+        setLocations((prev) =>
+          prev.map((item) => (item.id === locationData.id ? locationData : item))
+        )
+        displayAlert(
+          'Edited Location',
+          `Edited ${locationData.name} location.`,
+          'success'
+        )
+      } catch (error) {
+        displayAlert('Error', `Failed to Edit ${locationData.name}: ${error.message}`, 'error')
+      }
     } else {
-      const newLocation = await addNewLocation(locationData)
-      setLocations((prev) => [...prev, newLocation])
-      displayAlert(
-        'New Location Added',
-        `Added ${locationData.name} location.`,
-        'success'
-      )
+      try {
+        const newLocation = await addNewLocation(locationData)
+        setLocations((prev) => [...prev, newLocation])
+        displayAlert(
+          'New Location Added',
+          `Added ${locationData.name} location.`,
+          'success'
+        )
+      } catch (error) {
+        displayAlert('Error', `Failed to Create ${locationData.name}: ${error.message}`, 'error')
+      }
     }
 
     setPopupOpen(false)
