@@ -106,7 +106,7 @@ const LocationManager = () => {
     } else {
       try {
         const newLocation = await addNewLocation(locationData)
-        setLocations((prev) => [...prev, newLocation])
+        setLocations((prev) => [newLocation, ...prev])
         displayAlert(
           'New Location Added',
           `Added ${locationData.name} location.`,
