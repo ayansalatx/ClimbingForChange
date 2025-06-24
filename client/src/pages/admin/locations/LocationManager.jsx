@@ -92,9 +92,8 @@ const LocationManager = () => {
     if (locationData.id) {
       try {
         await editLocation(locationData.id, locationData)
-        setLocations((prev) =>
-          prev.map((item) => (item.id === locationData.id ? locationData : item))
-        )
+        const newLocationList = await getAllLocations()
+        setLocations(newLocationList)
         displayAlert(
           'Edited Location',
           `Edited ${locationData.name} location.`,
@@ -105,8 +104,9 @@ const LocationManager = () => {
       }
     } else {
       try {
-        const newLocation = await addNewLocation(locationData)
-        setLocations((prev) => [newLocation, ...prev])
+        await addNewLocation(locationData)
+        const newLocationList = await getAllLocations()
+        setLocations(newLocationList)
         displayAlert(
           'New Location Added',
           `Added ${locationData.name} location.`,
