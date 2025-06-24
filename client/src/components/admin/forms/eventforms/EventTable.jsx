@@ -47,6 +47,7 @@ const EventsTable = ({ searchTerm = '', events = [], onEventDelete, onEventEdit 
       end: formatDateTime(endTime),
       eventName: event.name || '',
       location: event.location?.name || '',
+      locationId: event.location?.id,
       duration: durationTime,
       active: event.active,
     }

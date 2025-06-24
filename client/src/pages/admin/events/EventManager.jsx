@@ -18,7 +18,6 @@ const EventManager = () => {
   const handleClosePopup = () => setOpenPopup(false)
   const [eventToEdit, setEventToEdit] = useState(null)
 
-
   const displayAlert = useAlert()
 
   useEffect(() => {
@@ -45,11 +44,8 @@ const EventManager = () => {
     fetchLocations()
   }, [displayAlert])
 
-
-
   const handleAddEvent = async (eventData) => {
     try {
-      // setEvents([...events, eventData])
       const response = await addEvent(eventData)
       if (response.status === 201 || response.status === 200) {
         displayAlert('Event Created', 'The event has been successfully created.', 'success')
@@ -71,7 +67,6 @@ const EventManager = () => {
 
   const handleEditEvent = async (id, eventData) => {
     try {
-      // setEvents([...events, eventData])
       const response = await editEvent(id, eventData)
       if (response.status === 201 || response.status === 200) {
         displayAlert('Event has been successfully edited.', 'success')

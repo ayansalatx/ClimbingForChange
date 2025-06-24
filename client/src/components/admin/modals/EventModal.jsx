@@ -1,8 +1,5 @@
 import { Box, Button, FormControl, InputLabel, MenuItem,Modal, Select, TextField, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { editEvent, addEvent } from '../../../services/eventService.js'
-
-
 
 const style = {
   position: 'absolute',
@@ -37,11 +34,11 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit ,onLocation, eventToEdit }
     setLocations(onLocation)
   }, [onLocation])
 
-   
   useEffect(() => {
     if (eventToEdit) {
+      console.log(eventToEdit)
       setEventName(eventToEdit.name || '')
-      setLocation(eventToEdit.location?.id || '')
+      setLocation(eventToEdit.locationId || '')
       const start = new Date(eventToEdit.startDateTime)
       setStartDate(start.toISOString().slice(0, 10))
       setStartTime(start.toTimeString().slice(0, 5))
