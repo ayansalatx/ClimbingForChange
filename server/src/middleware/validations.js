@@ -3,13 +3,13 @@ import { body, validationResult } from 'express-validator'
 export const validateEvent = [
   body('location').trim().notEmpty().withMessage('location is required'),
 
-  body('hills')
-    .notEmpty()
-    .withMessage('Physical mountain or hill is required'),
+  // body('hills')
+  //   .notEmpty()
+  //   .withMessage('Physical mountain or hill is required'),
 
-  body('mountains')
-    .notEmpty()
-    .withMessage('Physical mountain or hill is required'),
+  // body('mountains')
+  //   .notEmpty()
+  //   .withMessage('Physical mountain or hill is required'),
 
   body('name')
     .trim()

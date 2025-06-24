@@ -4,7 +4,7 @@ export const getEvents = async (req, response) => {
   const events = await Event.find({})
     .populate('location')
     .populate('mountains')
-
+console.log('backenedEvents', events)
   response.json(events)
 }
 
@@ -19,13 +19,15 @@ export const getEventByID = async (request, response) => {
 }
 
 export const saveOneEvent = async (request, response) => {
-  const body = request.body
 
+  const body = request.body
+  console.log("body", body)
   if (!body) {
     return response.status(400).json({ error: 'Event missing' })
   }
 
   const newEvent = new Event({
+    
     name: body.name,
     location: body.location,
     mountains: body.mountains,
@@ -34,8 +36,10 @@ export const saveOneEvent = async (request, response) => {
     endDateTime: body.endDateTime,
     active: body.active,
   })
+  console.log("new event", newEvent)
 
   const savedEvent = await newEvent.save()
+  console.log("saved event", savedEvent)
 
   response.status(201).json(savedEvent)
 }

@@ -15,10 +15,7 @@ export const addEvent = async (data)  => {
   console.log('Adding new event with data:', data)
 try {
   const response = await api.post(`/events`, data) 
-    if (response.status === 200 ) {
-      return response.data
-    }
- throw new Error(`Unexpected response status: ${response.status}`)
+   return response
   } catch (error) {
     console.error('Failed to edit event:', error)
     throw error
@@ -46,15 +43,7 @@ export const editEvent = async (id, data) => {
 export const deleteEvent = async (id, data) => {
   try {
     const response = await api.delete(`/events/${id}`)
-    if (response.status === 200) {
-      console.log('Event deleted successfully:', response.data)
-      return true
-    } else {
-      console.error('Failed to delete event:', response.statusText)
-      console.error('Response data:', response.data)
-    }
-
-    throw new Error(`Unexpected response status: ${response.status}`)
+    return true
 
   } catch (error) {
     console.error('Failed to delete event:', error)

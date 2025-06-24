@@ -43,7 +43,7 @@ const AddEventModal = ({ open, onClose, onAdd, onEditComplete ,onLocation, event
   useEffect(() => {
     if (eventToEdit) {
       setEventName(eventToEdit.name || '')
-      setLocation(eventToEdit.locationId?.id || '')
+      setLocation(eventToEdit.location?.id || '')
       const start = new Date(eventToEdit.startDateTime)
       setStartDate(start.toISOString().slice(0, 10))
       setStartTime(start.toTimeString().slice(0, 5))
@@ -52,6 +52,9 @@ const AddEventModal = ({ open, onClose, onAdd, onEditComplete ,onLocation, event
       setLapDistance(eventToEdit.physicalMountainIds?.length || '')
     }
   }, [eventToEdit])
+
+console.log("location", location)
+console.log("eventtoedit", eventToEdit)
 
   const handleAdd = async (e) => {
     e.preventDefault()
@@ -62,10 +65,10 @@ const AddEventModal = ({ open, onClose, onAdd, onEditComplete ,onLocation, event
 
     const eventData = {
       name: eventName,
-      locationId: selectedLocation.id,
+      location: selectedLocation.id, 
       startDateTime: start.toISOString(),
       endDateTime: end.toISOString(),
-      physicalMountainIds: [], 
+      hill: [], 
       active: true,
     }
 

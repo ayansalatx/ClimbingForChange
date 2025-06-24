@@ -9,7 +9,6 @@ const TableDataRows = ({ rows, columns, page, rowsPerPage, onDelete, onEdit }) =
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
         .map((row, rowIndex) => {
           const rowKey = `${row.eventName}-${row.start}-${rowIndex}`
-          console.log(row)
           return (
             <TableRow hover role="checkbox" tabIndex={-1} key={rowKey}>
               {columns.map((column) => {

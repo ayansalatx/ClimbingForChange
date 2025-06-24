@@ -18,44 +18,8 @@ const EventManager = () => {
   const handleClosePopup = () => setOpenPopup(false)
   const [eventToEdit, setEventToEdit] = useState(null)
 
+
   const displayAlert = useAlert()
-
-  const handleAddEvent = (eventData) => {
-    setEvents([...events, eventData])
-    addEvent(eventData)
-    handleClosePopup()
-  }
-
-  const handleEditEvent = (event) => {
-    setEventToEdit(event)
-    setOpenPopup(true)
-  }
-
-  const handleDeleteEvent = async (id) => {
-    try {
-      const success = await deleteEvent(id)
-      if (success) {
-        fetchEvents()
-        displayAlert('Event Deleted', 'The event has been successfully deleted.', 'success')
-      } else {
-        displayAlert('Delete Error', 'Failed to delete the event. Please try again.', 'error')
-      }
-    } catch (error) {
-      console.error('Error deleting event:', error)
-      displayAlert('Delete Error', `Failed to delete the event: ${error.message}`, 'error')
-    }
-  }
-
-  const fetchLocations = async () => {
-    const locations = await getAllLocations()
-    setLocations(locations)
-  }
-
-  const fetchEvents = async () => {
-    console.log("Fetching events")
-    const events = await getAllEvents()
-    setEvents(events)
-  }
 
   useEffect(() => {
     const fetchLocations = async () => {
@@ -67,7 +31,7 @@ const EventManager = () => {
       }
     }
 
-    const fetchEvents = async () => {
+    let fetchEvents = async () => {
       try {
         const events = await getAllEvents()
         setEvents(events)
@@ -80,6 +44,45 @@ const EventManager = () => {
     fetchEvents()
     fetchLocations()
   }, [displayAlert])
+
+
+
+  const handleAddEvent = async (eventData) => {
+    try {
+      // setEvents([...events, eventData])
+      const response = await addEvent(eventData)
+      if (response.status === 201 || response.status === 200) {
+        displayAlert('Event Created', 'The event has been successfully created.', 'success')
+        const newAllEvents = await getAllEvents()
+        setEvents(newAllEvents)
+        handleClosePopup()
+      } else {
+        throw new Error('Event was not created')
+      }
+    } catch (error) {
+      displayAlert('Add Error', `Failed to add the event: ${error.message}`, 'error')
+    }
+  }
+
+  const handleEditEvent = (event) => {
+    setEventToEdit(event)
+    setOpenPopup(true)
+  }
+
+  const handleDeleteEvent = async (id) => {
+    try {
+      const success = await deleteEvent(id)
+      if (success) {
+        displayAlert('Event Deleted', 'The event has been successfully deleted.', 'success')
+        const newAllEvents = await getAllEvents()
+        setEvents(newAllEvents)
+      } else {
+        displayAlert('Delete Error', 'Failed to delete the event. Please try again.', 'error')
+      }
+    } catch (error) {
+      displayAlert('Delete Error', `Failed to delete the event: ${error.message}`, 'error')
+    }
+  }
 
   return (
     <Box sx={{ px: 4, py: 3 }}>
