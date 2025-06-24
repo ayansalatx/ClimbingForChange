@@ -16,7 +16,7 @@ const ActiveToggle = ({ checked, onChange }) => {
           <Typography
             fontSize={'small'}
             textTransform={'uppercase'}
-            sx={{ color: 'background.paper', pr: 1 }}
+            sx={{ color: checked ? 'primary.main' : 'background.paper', pr: 1 }}
           >
             Show Inactive
           </Typography>

@@ -31,7 +31,7 @@ const TableDataRows = ({
                   <TableCell
                     key={column.id}
                     align={index < 2 ? 'left' : 'center'}
-                    sx={{ fontSize: '1rem', color: 'primary.main' }}
+                    sx={{ fontSize: '1rem', color: row.active ? 'primary.main' :'gray.main' }}
                   >
                     {column.format && typeof value === 'number'
                       ? column.format(value)
@@ -48,6 +48,7 @@ const TableDataRows = ({
                   row={row}
                   onEditClick={() => onEditClick(row)}
                   onDeleteClick={() => onDeleteClick(row)}
+                  active={row.active}
                 />
               </TableCell>
             </TableRow>
