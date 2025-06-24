@@ -30,6 +30,11 @@ const LocationManager = () => {
     async function loadData() {
       try {
         const locationsList = await getAllLocations()
+        displayAlert(
+          'Fresh backend data',
+          `Loaded ${locationsList.length} locations from the backend.`,
+          'success'
+        )
         setLocations(locationsList)
       } catch (error) {
         console.log('Failed to load location data', error)
@@ -50,8 +55,17 @@ const LocationManager = () => {
   }
 
   const onDelete = async (location) => {
-    await deleteLocation(location.id)
-    setLocations((prev) => prev.filter((item) => item.id !== location.id))
+    try {
+      await deleteLocation(location.id)
+      setLocations((prev) => prev.filter((item) => item.id !== location.id))
+      displayAlert(
+        'Location Deleted',
+        `Deleted ${location.name} location.`,
+        'success'
+      )
+    } catch (error) {
+      displayAlert('Error', `Failed to delete ${location.name}`, 'error')
+    }
   }
 
   const handleSave = async (locationData) => {
@@ -60,9 +74,19 @@ const LocationManager = () => {
       setLocations((prev) =>
         prev.map((item) => (item.id === locationData.id ? locationData : item))
       )
+      displayAlert(
+        'Edited Location',
+        `Edited ${locationData.name} location.`,
+        'success'
+      )
     } else {
       const newLocation = await addNewLocation(locationData)
       setLocations((prev) => [...prev, newLocation])
+      displayAlert(
+        'New Location Added',
+        `Added ${locationData.name} location.`,
+        'success'
+      )
     }
 
     setPopupOpen(false)
