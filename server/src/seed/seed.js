@@ -123,7 +123,7 @@ const seedDatabase = async () => {
     
     const teams = await Team.insertMany([
       {
-        eventId: events[0]._id,
+        event: events[0]._id,
         mountain: everestData._id,
         hill: grinderHillData._id,
         rfidTagId: rfidTags[0]._id,
@@ -134,7 +134,7 @@ const seedDatabase = async () => {
         startDateTime: new Date('2024-09-14T08:05:00Z')
       },
       {
-        eventId: events[0]._id,
+        event: events[0]._id,
         mountain: denaliData._id,
         hill: grinderHillData._id,
         rfidTagId: rfidTags[1]._id,
@@ -145,7 +145,7 @@ const seedDatabase = async () => {
         startDateTime: new Date('2024-09-14T08:10:00Z')
       },
       {
-        eventId: events[0]._id,
+        event: events[0]._id,
         mountain: mountains.find(m => m.name === 'Rainier')._id,
         hill: hills.find(h => h.name === 'Easy Loop')._id,
         rfidTagId: rfidTags[2]._id,

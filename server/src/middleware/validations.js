@@ -5,11 +5,11 @@ export const validateEvent = [
 
   // body('hills')
   //   .notEmpty()
-  //   .withMessage('Physical mountain or hill is required'),
+  //   .withMessage('Hill is required'),
 
   // body('mountains')
   //   .notEmpty()
-  //   .withMessage('Physical mountain or hill is required'),
+  //   .withMessage('Mountain is required'),
 
   body('name')
     .trim()
@@ -46,7 +46,7 @@ export const validateEvent = [
 ]
 
 export const validateHill = [
-  body('name').trim().notEmpty().withMessage('Physical mountain name is required'),
+  body('name').trim().notEmpty().withMessage('Hill name is required'),
 
   body('lapElevationGain')
     .notEmpty()
