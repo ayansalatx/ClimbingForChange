@@ -2,21 +2,31 @@ import mongoose from '../utils/db.js'
 
 const {Schema, model} = mongoose
 
-const physicalMountainSchema = new Schema({
+const mountainSchema = new Schema({
   name: {
     type: String,
     required: true,
     trim: true
   },
-  elevationPerLap: {
+  totalElevation: {
     type: Number,
-    required: true
-  }
+    required: true,
+  },
+  elevationUnit: {
+    type: String,
+    required: true,
+    enum: ['FT', 'M'],
+    default: 'FT'
+  },
+  imageURL: {
+    type: String,
+    required: false
+  },
 }, {
   timestamps: true
 })
 
-physicalMountainSchema.set('toJSON', {
+mountainSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
@@ -24,4 +34,4 @@ physicalMountainSchema.set('toJSON', {
   }
 })
 
-export default model('PhysicalMountain', physicalMountainSchema)
+export default model('Mountain', mountainSchema)
