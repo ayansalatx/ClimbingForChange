@@ -5,7 +5,7 @@ export const getEvents = async (req, response) => {
     .populate('location')
     .populate('mountains')
     
-    response.json(events)
+  response.json(events)
 }
 
 export const getEventByID = async (request, response) => {
