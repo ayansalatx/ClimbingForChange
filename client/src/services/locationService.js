@@ -11,8 +11,16 @@ export const getLocationById = async (id) => {
 }
 
 export const addNewLocation = async (data) => {
-
-
+  try {
+    const response = await api.post('/locations', data)
+    if (response.status === 201 || response.status === 200) {
+      return response.data
+    }
+    throw new Error(`Unexpected response status: ${response.status}`)
+  } catch (error) {
+    console.error('Failed to add new location:', error)
+    throw error
+  }
 }
 
 export const editLocation = async (id, data) => {

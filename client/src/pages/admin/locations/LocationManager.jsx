@@ -4,7 +4,12 @@ import { useEffect, useState } from 'react'
 import LocationModal from '../../../components/admin/modals/LocationModal.jsx'
 import DataTable from '../../../components/admin/tables/DataTable.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
-import { deleteLocation, editLocation, getAllLocations } from '../../../services/locationService.js'
+import {
+  deleteLocation,
+  addNewLocation,
+  editLocation,
+  getAllLocations,
+} from '../../../services/locationService.js'
 
 const fullColumns = [
   { id: 'name', label: 'Location', width: '30%', align: 'left' },
@@ -16,7 +21,7 @@ const fullColumns = [
 
 const LocationManager = () => {
   const [locations, setLocations] = useState([])
-  const [currentLocation, setCurrentLocation] = useState()
+  const [currentLocation, setCurrentLocation] = useState(null)
   const [popupOpen, setPopupOpen] = useState(false)
   const displayAlert = useAlert()
 
@@ -32,11 +37,11 @@ const LocationManager = () => {
 
     loadData()
   }, [])
-  
-    const onAdd = () => {
-      setCurrentLocation(null)
-      setPopupOpen(true)
-    }
+
+  const onAdd = () => {
+    setCurrentLocation(null)
+    setPopupOpen(true)
+  }
 
   const onEdit = (location) => {
     setCurrentLocation(location)
@@ -44,19 +49,25 @@ const LocationManager = () => {
   }
 
   const onDelete = async (location) => {
-    await deleteLocation(location._id)
-    locations = locations.filter(item._id !== location._id)
-    setLocations()
+    await deleteLocation(location.id)
+    setLocations((prev) => prev.filter((item) => item.id !== location.id))
   }
 
-  const handleSave = (locationData) => {
-
-    if (locationData._id) {
-      const updatedLocation = editLocation(locationData._id, locationData)
+  const handleSave = async (locationData) => {
+    if (locationData.id) {
+      await editLocation(locationData.id, locationData)
+      setLocations((prev) =>
+        prev.map((item) =>
+          item.id === locationData.id ? locationData : item
+        )
+      )
+    } else {
+      const newLocation = await addNewLocation(locationData)
+      setLocations((prev) => [...prev, newLocation])
     }
-    setLocations([...locations, locationData])
+
     setPopupOpen(false)
-        displayAlert('Saved', 'Saved location to the backend.', 'success')
+    displayAlert('Saved', 'Saved location to the backend.', 'success')
   }
 
   return (

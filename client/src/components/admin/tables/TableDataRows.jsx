@@ -1,7 +1,14 @@
 import { TableBody, TableCell, TableRow } from '@mui/material'
 import RowActions from '../buttons/RowActions'
 
-const TableDataRows = ({ rows, columns, page, rowsPerPage, onEditClick, onDeleteClick }) => {
+const TableDataRows = ({
+  rows = [],
+  columns = [],
+  page,
+  rowsPerPage,
+  onEditClick,
+  onDeleteClick,
+}) => {
   return (
     <TableBody>
       {rows
@@ -12,7 +19,7 @@ const TableDataRows = ({ rows, columns, page, rowsPerPage, onEditClick, onDelete
               hover
               role="checkbox"
               tabIndex={-1}
-              key={index}
+              key={row.id || index}
               sx={{
                 backgroundColor:
                   index % 2 === 0 ? 'background.paper' : 'background.default',
@@ -32,8 +39,16 @@ const TableDataRows = ({ rows, columns, page, rowsPerPage, onEditClick, onDelete
                   </TableCell>
                 )
               })}
-              <TableCell key={row.id} align={'center'} sx={{ minWidth: '5rem' }} >
-                <RowActions row={row} onEditClick={onEditClick} onDeleteClick={onDeleteClick} />
+              <TableCell
+                key={row.id}
+                align={'center'}
+                sx={{ minWidth: '5rem' }}
+              >
+                <RowActions
+                  row={row}
+                  onEditClick={() => onEditClick(row)}
+                  onDeleteClick={() => onDeleteClick(row)}
+                />
               </TableCell>
             </TableRow>
           )

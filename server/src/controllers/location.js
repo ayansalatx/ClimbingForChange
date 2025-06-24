@@ -30,7 +30,7 @@ export const saveOneLocation = async (request, response) => {
     provState: body.provState,
     country: body.country,
     lap: body.lap,
-    active: body.active,
+    active: true,
   })
 
   const savedLocation = await newLocation.save()
@@ -68,7 +68,7 @@ export const updateOneLocation = async (request, response) => {
     }
   )
 
-  response.status(201).json(updated)
+  response.status(200).json(updated)
 }
 
 export const deleteOneLocation = async (request, response) => {

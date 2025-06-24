@@ -5,7 +5,7 @@ const RowActions = ({ row, onEditClick, onDeleteClick }) => {
   return (
     <>
       <IconButton
-        onClick={onEditClick}
+        onClick={() => onEditClick(row)}
         sx={{
           p: 0,
           '&:focus': {
@@ -17,11 +17,11 @@ const RowActions = ({ row, onEditClick, onDeleteClick }) => {
           sx={{
             color: 'primary.light',
           }}
-          fontSize="small"
+          fontSize='small'
         />
       </IconButton>
       <IconButton
-        onClick={onDeleteClick}
+        onClick={() => onDeleteClick(row)}
         sx={{
           p: 0,
           '&:focus': {
@@ -29,7 +29,7 @@ const RowActions = ({ row, onEditClick, onDeleteClick }) => {
           },
         }}
       >
-        <Delete color="error" fontSize="small" />
+        <Delete color='error' fontSize='small' />
       </IconButton>
     </>
   )

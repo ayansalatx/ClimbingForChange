@@ -1,8 +1,4 @@
-import {
-  Box,
-  Modal,
-  Typography,
-} from '@mui/material'
+import { Box, Modal, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 
 import TextInput from '../forms/fields/TextInput'
@@ -22,37 +18,42 @@ const style = {
 }
 
 const LocationModal = ({ open, onClose, onSave, locationData }) => {
+  const [id, setId] = useState('')
   const [name, setName] = useState('')
   const [address, setAddress] = useState('')
   const [city, setCity] = useState('')
-  const [province, setProvince] = useState('')
+  const [provState, setProvState] = useState('')
   const [country, setCountry] = useState('')
 
   useEffect(() => {
-    if (locationData) {
+    if (open && locationData) {
+      setId(locationData.id || '')
       setName(locationData.name || '')
       setAddress(locationData.address || '')
       setCity(locationData.city || '')
-      setProvince(locationData.provState || '')
+      setProvState(locationData.provState || '')
       setCountry(locationData.country || '')
-    } else {
+    } else if (!open) {
+      setId('')
       setName('')
       setAddress('')
       setCity('')
-      setProvince('')
+      setProvState('')
       setCountry('')
     }
-  }, [locationData, open])
+  }, [open, locationData])
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault()
     const newLocationData = {
+      id: id || undefined,
       name,
       address,
       city,
-      province,
+      provState,
       country,
     }
+    console.log(newLocationData)
     onSave(newLocationData)
   }
 
@@ -71,7 +72,7 @@ const LocationModal = ({ open, onClose, onSave, locationData }) => {
           <TextInput
             label={'Location Name'}
             value={name}
-            onChange={(e) => setLocationName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
             required={true}
           />
           <TextInput
@@ -87,9 +88,9 @@ const LocationModal = ({ open, onClose, onSave, locationData }) => {
             required={true}
           />
           <TextInput
-            label={'Province'}
-            value={province}
-            onChange={(e) => setProvince(e.target.value)}
+            label={'Province/State'}
+            value={provState}
+            onChange={(e) => setProvState(e.target.value)}
             required={true}
           />
           <TextInput
