@@ -41,9 +41,16 @@ export const saveOneEvent = async (request, response) => {
 
 export const updateOneEvent = async (request, response) => {
   const body = request.body
+  const id = request.params.id
 
-  if (!body) {
+  if (!id) {
     return response.status(400).json({ error: 'Event missing' })
+  }
+
+  const eventToUpdate = await Event.findById(id)
+
+  if (!eventToUpdate) {
+    return response.status(400).json({ error: 'This event no longer exists.' })
   }
 
   const updated = await Event.updateOne(
@@ -71,10 +78,16 @@ export const updateOneEvent = async (request, response) => {
 }
 
 export const deleteOneEvent = async (request, response) => {
-  const eventIdToDelete = request.body.id
+  const eventIdToDelete = request.params.id
 
   if (!eventIdToDelete) {
     return response.status(400).json({ error: 'Event id to delete is missing' })
+  }
+
+  const eventToDelete = await Event.findById(eventIdToDelete)
+
+  if (!eventToDelete) {
+    return response.status(400).json({ error: 'This event no longer exists.' })
   }
 
   const updated = await Event.findByIdAndUpdate(

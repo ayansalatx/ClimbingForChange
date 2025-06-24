@@ -1,27 +1,31 @@
-import { Delete,Edit } from '@mui/icons-material'
-import { TableBody, TableCell,TableRow } from '@mui/material'
+import { Delete, Edit } from '@mui/icons-material'
+import { TableBody, TableCell, TableRow } from '@mui/material'
 
 const TableDataRows = ({ rows, columns, page, rowsPerPage }) => {
   return (
     <TableBody>
       {rows
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-        .map((row) => {
+        .map((row, index) => {
           return (
-            <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-              {columns.map((column) => {
+            <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+              {columns.map((column, index) => {
                 const value = row[column.id]
                 return (
-                  <TableCell key={column.id} align={column.align}>
+                  <TableCell
+                    key={column.id}
+                    align={index < 2 ? 'left' : 'center'}
+                    sx={{ fontSize: '1rem' }}
+                  >
                     {column.format && typeof value === 'number'
                       ? column.format(value)
                       : value}
                   </TableCell>
                 )
               })}
-              <TableCell key={row.id} align={'right'}>
-                <Edit/>
-                <Delete/>
+              <TableCell key={row.id} align={'center'}>
+                <Edit sx={{ color: 'primary.light' }} fontSize='small' />
+                <Delete color="error" fontSize='small' />
               </TableCell>
             </TableRow>
           )
