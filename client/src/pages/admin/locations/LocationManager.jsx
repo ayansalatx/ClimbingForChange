@@ -5,8 +5,8 @@ import LocationModal from '../../../components/admin/modals/LocationModal.jsx'
 import DataTable from '../../../components/admin/tables/DataTable.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
 import {
-  deleteLocation,
   addNewLocation,
+  deleteLocation,
   editLocation,
   getAllLocations,
 } from '../../../services/locationService.js'

@@ -16,7 +16,7 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useLocation,useNavigate } from 'react-router-dom'
 
 import C4CBanner from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 

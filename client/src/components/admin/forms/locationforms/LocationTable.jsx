@@ -1,16 +1,15 @@
+import PlaceIcon from '@mui/icons-material/Place'
+import {
+  Box,
+  TableContainer,
+  TablePagination} from '@mui/material'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
-import {
-  TableContainer,
-  TablePagination,
-  Box
-} from '@mui/material'
 import React, { useState } from 'react'
 
 import SearchBar from '../../tables/SearchBar'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
-import PlaceIcon from '@mui/icons-material/Place'
 
 const fullColumns = [
   { id: 'locationName', label: 'Location', minWidth: 270 },

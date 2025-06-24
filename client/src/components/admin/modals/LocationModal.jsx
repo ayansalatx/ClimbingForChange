@@ -1,9 +1,9 @@
 import { Box, Modal, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 
-import TextInput from '../forms/fields/TextInput'
 import CancelButton from '../buttons/CancelButton'
 import SaveButton from '../buttons/SaveButton'
+import TextInput from '../forms/fields/TextInput'
 
 const style = {
   position: 'absolute',

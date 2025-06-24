@@ -1,4 +1,5 @@
 import { alpha, Button } from '@mui/material'
+
 import theme from '../../../styles/theme'
 
 const CancelButton = ({ onClick, label = 'Cancel' }) => {
