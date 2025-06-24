@@ -18,7 +18,6 @@ const EventManager = () => {
   const handleClosePopup = () => setOpenPopup(false)
   const [eventToEdit, setEventToEdit] = useState(null)
 
-
   const displayAlert = useAlert()
 
   const handleAddEvent = (eventData) => {
@@ -82,7 +81,6 @@ const EventManager = () => {
     fetchLocations()
   }, [displayAlert])
 
-
   return (
     <Box sx={{ px: 4, py: 3 }}>
       <Typography variant="h3" mb={2} sx={{ fontFamily: 'Gibson, sans-serif', textTransform: 'uppercase', color: '#CDDC29', letterSpacing: '0.05em' }}>Events</Typography>
@@ -102,7 +100,6 @@ const EventManager = () => {
         onEventDelete={handleDeleteEvent}
         onEventEdit={handleEditEvent}
       />
-
 
       <AddEventModal
         open={openPopup}

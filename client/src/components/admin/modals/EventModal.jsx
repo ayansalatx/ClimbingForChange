@@ -100,6 +100,7 @@ const AddEventModal = ({ open, onClose, onAdd, onEditComplete ,onLocation, event
             onChange={(e) => setEventName(e.target.value)}
             required
           />
+
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Location</InputLabel>
             <Select
@@ -109,6 +110,7 @@ const AddEventModal = ({ open, onClose, onAdd, onEditComplete ,onLocation, event
               label="Location"
               onChange={(e) => setLocation(e.target.value)}
             >
+
               {locations.map((location) => <MenuItem value={location.id} key={location.id}> {location.name} </MenuItem> )}
             </Select>
           </FormControl>
@@ -124,6 +126,7 @@ const AddEventModal = ({ open, onClose, onAdd, onEditComplete ,onLocation, event
             InputLabelProps={{ shrink: true }}
             required
           />
+
           <TextField
             fullWidth
             label="Start Time"
@@ -135,6 +138,7 @@ const AddEventModal = ({ open, onClose, onAdd, onEditComplete ,onLocation, event
             InputLabelProps={{ shrink: true }}
             required
           />
+
           <TextField
             fullWidth
             label="Duration (minutes)"
@@ -145,6 +149,7 @@ const AddEventModal = ({ open, onClose, onAdd, onEditComplete ,onLocation, event
             onChange={(e) => setDuration(e.target.value)}
             required
           />
+          
           <TextField
             fullWidth
             label="Lap Distance (ft)"

@@ -82,6 +82,7 @@ const EventsTable = ({ searchTerm = '', events = [], onEventDelete, onEventEdit 
             page={page}
             rowsPerPage={rowsPerPage}
           />
+          
         </Table>
       </TableContainer>
       <TablePagination
