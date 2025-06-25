@@ -1,5 +1,5 @@
 import { Box, CircularProgress } from '@mui/material'
-import { Suspense,useState } from 'react'
+import { Suspense, useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
 import AlertDisplay from './components/AlertDisplay'
@@ -10,7 +10,7 @@ function Layout() {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const navigate = useNavigate()
 
-  const toggleDrawer = (open)  => {
+  const toggleDrawer = (open) => {
     setDrawerOpen(open)
   }
 
@@ -32,9 +32,12 @@ function Layout() {
         <Box
           component="section"
           sx={{
-            paddingTop: '4rem',
-            paddingLeft: '1rem',
-            minHeight: '100vh',
+            width: '100vw',
+            height: '100vh',
+            paddingTop: '5rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
           <Suspense
@@ -45,7 +48,6 @@ function Layout() {
                   justifyContent: 'center',
                   alignItems: 'center',
                   height: '100%',
-                  minHeight: '60vh',
                 }}
               >
                 <CircularProgress />
@@ -53,7 +55,7 @@ function Layout() {
             }
           >
             <AlertDisplay />
-            <Outlet />
+            <Outlet sx={{ padding: 0, margin: 0 }} />
           </Suspense>
         </Box>
       </main>

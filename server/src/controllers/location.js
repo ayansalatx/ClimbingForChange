@@ -30,7 +30,7 @@ export const saveOneLocation = async (request, response) => {
     provState: body.provState,
     country: body.country,
     lap: body.lap,
-    active: body.active,
+    active: true,
   })
 
   const savedLocation = await newLocation.save()

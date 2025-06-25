@@ -66,7 +66,7 @@ const ProgressTable = ({ columns, teams = [] }) => {
           justifyContent: 'space-between',
         }}
       >
-        <FullscreenToggleButton sx={{ ml: '.25rem' }} />
+        <FullscreenToggleButton />
 
         <TablePagination
           rowsPerPageOptions={[15, 25, 100]}
