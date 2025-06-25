@@ -6,7 +6,7 @@ import EventsTable from '../../../components/admin/forms/eventforms/EventTable'
 import SearchBar from '../../../components/admin/forms/eventforms/SearchBar'
 import AddEventModal from '../../../components/admin/modals/EventModal.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
-import { getAllEvents } from '../../../services/eventService.js'
+import { addEvent, deleteEvent, editEvent,getAllEvents } from '../../../services/eventService.js'
 import { getAllLocations } from '../../../services/locationService.js'
 
 const EventManager = () => {
@@ -16,13 +16,10 @@ const EventManager = () => {
   const [locations, setLocations] = useState([])
   const handleOpenPopup = () => setOpenPopup(true)
   const handleClosePopup = () => setOpenPopup(false)
+  const [eventToEdit, setEventToEdit] = useState(null)
 
   const displayAlert = useAlert()
 
-  const handleAddEvent = (eventData) => {
-    setEvents([...events, eventData])
-    handleClosePopup()
-  }
   useEffect(() => {
     const fetchLocations = async () => {
       try {
@@ -33,7 +30,7 @@ const EventManager = () => {
       }
     }
 
-    const fetchEvents = async () => {
+    let fetchEvents = async () => {
       try {
         const events = await getAllEvents()
         setEvents(events)
@@ -47,6 +44,57 @@ const EventManager = () => {
     fetchLocations()
   }, [displayAlert])
 
+  const handleAddEvent = async (eventData) => {
+    try {
+      const response = await addEvent(eventData)
+      if (response.status === 201 || response.status === 200) {
+        displayAlert('Event Created', 'The event has been successfully created.', 'success')
+        const newAllEvents = await getAllEvents()
+        setEvents(newAllEvents)
+        handleClosePopup()
+      } else {
+        throw new Error('Event was not created')
+      }
+    } catch (error) {
+      displayAlert('Add Error', `Failed to add the event: ${error.message}`, 'error')
+    }
+  }
+
+  const requestEditEvent = (event) => {
+    setEventToEdit(event)
+    setOpenPopup(true)
+  }
+
+  const handleEditEvent = async (id, eventData) => {
+    try {
+      const response = await editEvent(id, eventData)
+      if (response.status === 201 || response.status === 200) {
+        displayAlert('Event has been successfully edited.', 'success')
+        const newAllEvents = await getAllEvents()
+        setEvents(newAllEvents)
+        handleClosePopup()
+      } else {
+        throw new Error('Event was not edited')
+      }
+    } catch (error) {
+      displayAlert('Add Error', `Failed to edit the event: ${error.message}`, 'error')
+    }
+  }
+
+  const handleDeleteEvent = async (id) => {
+    try {
+      const success = await deleteEvent(id)
+      if (success) {
+        displayAlert('Event Deleted', 'The event has been successfully deleted.', 'success')
+        const newAllEvents = await getAllEvents()
+        setEvents(newAllEvents)
+      } else {
+        displayAlert('Delete Error', 'Failed to delete the event. Please try again.', 'error')
+      }
+    } catch (error) {
+      displayAlert('Delete Error', `Failed to delete the event: ${error.message}`, 'error')
+    }
+  }
 
   return (
     <Box sx={{ px: 4, py: 3 }}>
@@ -61,15 +109,25 @@ const EventManager = () => {
         >Add Event</Button>
       </div>
 
-      <EventsTable searchTerm={searchTerm} events={events} />
+      <EventsTable
+        searchTerm={searchTerm}
+        events={events}
+        onEventDelete={handleDeleteEvent}
+        onEventEdit={requestEditEvent}
+      />
 
       <AddEventModal
         open={openPopup}
-        onClose={handleClosePopup}
+        onClose={() => {
+          handleClosePopup()
+          setEventToEdit(null)
+        }}
         onAdd={handleAddEvent}
+        onEdit={handleEditEvent}
         onLocation={locations}
-      />
+        eventToEdit={eventToEdit}
 
+      />
     </Box>
   )
 }
