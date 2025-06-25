@@ -43,7 +43,7 @@ const TableDataRows = ({
               <TableCell
                 key={row.id}
                 align={'center'}
-                sx={{ minWidth: '5rem' }}
+                sx={{ py: 0, minWidth: '5rem' }}
               >
                 <RowActions
                   row={row}

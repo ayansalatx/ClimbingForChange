@@ -137,12 +137,14 @@ const LocationManager = () => {
   return (
     <Box
       sx={{
-        width: '80vw',
-        height: '80vh',
+        width: '100%',
+        height: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
+        py: '4rem',
+        px: '1.5rem',
       }}
     >
       <DataTable

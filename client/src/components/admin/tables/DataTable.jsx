@@ -6,7 +6,7 @@ import Table from '@mui/material/Table'
 import React, { useState } from 'react'
 
 import theme from '../../../styles/theme'
-import ActiveToggle from './ActiveToggle'
+import ActiveToggle from './ShowActiveToggle'
 import SearchBar from './SearchBar'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
@@ -24,6 +24,7 @@ const LocationTable = ({
   const [searchTerm, setSearchTerm] = useState('')
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
+  const activeToggleOption = tableTitle == 'Events' ? 'visible' : 'hidden'
 
   const filteredRows = tableData
     .filter((row) => showInactive || row.active)
@@ -59,7 +60,7 @@ const LocationTable = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          bgcolor: 'info.light',
+          bgcolor: 'primary.main',
           padding: '.5rem',
         }}
       >
@@ -75,8 +76,7 @@ const LocationTable = ({
           <PlaceIcon
             fontSize="large"
             sx={{
-              color: 'background.paper',
-              filter: 'drop-shadow(2px 0px 1px var(--c4c-teal))',
+              color: 'secondary.main',
             }}
           />
           <Typography
@@ -90,7 +90,6 @@ const LocationTable = ({
               fontWeight: 'bold',
               textTransform: 'uppercase',
               letterSpacing: '0.05em',
-              textShadow: '2px 0px 1px var(--c4c-teal)',
               color: 'white',
             }}
           >
@@ -108,7 +107,7 @@ const LocationTable = ({
           overflowY: 'auto',
           position: 'relative',
           scrollbarWidth: 'thin',
-          scrollbarColor: `${theme.palette.info.light} ${theme.palette.background.default}`,
+          scrollbarColor: `${theme.palette.primary.light} ${theme.palette.background.default}`,
         })}
       >
         <Table
@@ -134,12 +133,13 @@ const LocationTable = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          backgroundColor: 'info.light',
+          backgroundColor: 'primary.main',
         }}
       >
         <ActiveToggle
           checked={showInactive}
           onChange={() => setShowInactive((prev) => !prev)}
+          hidden={activeToggleOption}
         />
 
         <TablePagination
@@ -152,7 +152,7 @@ const LocationTable = ({
           onRowsPerPageChange={handleChangeRowsPerPage}
           sx={{
             minHeight: '3.25rem',
-            bgcolor: 'info.light',
+            bgcolor: 'primary.main',
             color: 'background.paper',
             '& .MuiSvgIcon-root': {
               fontSize: '1.25rem',
