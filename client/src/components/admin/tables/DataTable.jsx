@@ -6,8 +6,8 @@ import Table from '@mui/material/Table'
 import React, { useState } from 'react'
 
 import theme from '../../../styles/theme'
-import ActiveToggle from './ShowActiveToggle'
 import SearchBar from './SearchBar'
+import ActiveToggle from './ShowActiveToggle'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
 
