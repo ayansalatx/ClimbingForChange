@@ -65,7 +65,7 @@ const SideBar = ({ open, toggleDrawer }) => {
       text: 'Upload Participants',
       path: '/admin/participants/upload',
       icon: <UploadIcon />,
-      onClick: () => navigate('/admin'),
+      onClick: () => navigate('/admin/upload'),
     },
     {
       text: 'Add Event',

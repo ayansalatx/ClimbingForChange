@@ -4,7 +4,6 @@ import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 import React from 'react'
 
-import { deleteEvent } from '../../../../services/eventService.js'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
 
@@ -27,11 +26,10 @@ const fullColumns = [
   { id: 'start', label: 'Start-Time', minWidth: 85 },
   { id: 'end', label: 'End-Time', minWidth: 85 },
   { id: 'duration', label: 'Duration', minWidth: 85 },
-  { id: 'lap', label: 'Lap', minWidth: 85 },
-  { id: 'active', label: 'Active', minWidth: 90 },
+  { id: 'active', label: 'Active', minWidth: 90 }
 ]
 
-const EventsTable = ({ searchTerm = '', events = [] }) => {
+const EventsTable = ({ searchTerm = '', events = [], onEventDelete, onEventEdit }) => {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
@@ -48,9 +46,9 @@ const EventsTable = ({ searchTerm = '', events = [] }) => {
       start: formatDateTime(startTime),
       end: formatDateTime(endTime),
       eventName: event.name || '',
-      location: event.locationId?.name || '',
+      location: event.location?.name || '',
+      locationId: event.location?.id,
       duration: durationTime,
-      lap: event.physicalMountainIds?.length || 0,
       active: event.active,
     }
   })
@@ -69,9 +67,6 @@ const EventsTable = ({ searchTerm = '', events = [] }) => {
     setPage(0)
   }
 
-  const onDelete = async (id) => {
-    await deleteEvent(id)
-  }
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -79,12 +74,14 @@ const EventsTable = ({ searchTerm = '', events = [] }) => {
         <Table stickyHeader aria-label="sticky table">
           <TableHeaderRow columns={fullColumns} />
           <TableDataRows
-            onDelete={onDelete}
+            onDelete={onEventDelete}
+            onEdit={onEventEdit}
             rows={filteredRows}
             columns={fullColumns}
             page={page}
             rowsPerPage={rowsPerPage}
           />
+          
         </Table>
       </TableContainer>
       <TablePagination

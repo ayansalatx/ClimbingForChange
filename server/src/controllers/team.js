@@ -1,16 +1,14 @@
 import Event from '../models/event.js'
 import Team from '../models/team.js'
-import PhysicalMountain from '../models/physicalMountain.js'
-import TargetMountain from '../models/targetMountain.js'
-import Participant from '../models/participant.js'
+import Hill from '../models/hill.js'
+import Mountain from '../models/mountain.js'
+import RFIDTag from '../models/rfidTag.js'
 
 export const getAllTeams = async (req, response) => {
   const allTeams = await Team.find({})
-    .populate({
-      path: 'participants',
-      populate: { path: 'laps' },
-    })
-    .populate('targetMountainId')
+    .populate('participants')
+    .populate('mountain')
+    .populate('hill')
 
   response.json(allTeams)
 }
@@ -26,29 +24,44 @@ export const getTeamById = async (request, response) => {
 export const saveOneTeam = async (request, response) => {
   const body = request.body
 
-  if (!body) {
-    return response.status(400).json({ error: 'Team missing' })
-  }
+  // First, validate all dependencies exist.
+  const [event, hill, mountain, rfidTag] = await Promise.all([
+    Event.findById(body.event),
+    Hill.findById(body.hill),
+    Mountain.findById(body.mountain),
+    body.rfidTagId ? RFIDTag.findById(body.rfidTagId) : null 
+  ])
 
-  const event = await Event.findById(body.eventId)
-  const physicalMountain = await PhysicalMountain.findById(
-    body.physicalMountainId
-  )
-  const targetMountain = await TargetMountain.findById(body.targetMountainId)
-
-  if (!event || !physicalMountain || !targetMountain) {
-    return response.status(400).json({
-      error:
-        'Event, physical or target mountain have been deleted or no longer exist.',
+  if (!event || !hill || !mountain) {
+    return response.status(404).json({
+      error: 'The specified Event, Hill, or Mountain does not exist.',
     })
   }
+  
+  if (body.rfidTagId) {
+    if (!rfidTag) {
+      return response.status(404).json({ error: 'The specified RFID Tag does not exist.' })
+    }
+    const teamWithThisTag = await Team.findOne({ rfidTagId: rfidTag._id })
+    if (teamWithThisTag) {
+      return response.status(400).json({ error: 'This RFID Tag is already assigned to another team.' })
+    }
+  }
 
+  // All checks passed, create and save the new team.
   const newTeam = new Team({
-    ...body,
+    name: body.name,
+    event: body.event,
+    mountain: body.mountain,
+    hill: body.hill,
+    rfidTagId: body.rfidTagId,
+    isSoloTeam: body.isSoloTeam,
+    lapsRequired: body.lapsRequired,
+    startDateTime: body.startDateTime,
+    totalDistanceRequired: body.totalDistanceRequired,
   })
 
   const savedTeam = await newTeam.save()
-
   response.status(201).json(savedTeam)
 }
 
@@ -56,121 +69,31 @@ export const updateOneTeam = async (request, response) => {
   const teamID = request.params.id
   const body = request.body
 
-  if (!body) {
-    return response.status(400).json({ error: 'Team body missing' })
+  const teamToUpdate = await Team.findById(teamID)
+  if (!teamToUpdate) {
+    return response.status(404).json({ error: 'Team not found.' })
   }
 
-  const existingTeam = await Team.findById(teamID).populate('participants')
-
-  if (!existingTeam) {
-    return response.status(400).json({
-      error: 'Team id missing or the team you want to update no longer exists',
-    })
-  }
-
-  existingTeam.name = body.name !== undefined ? body.name : existingTeam.name
-  existingTeam.isSoloTeam =
-    body.isSoloTeam !== undefined ? body.isSoloTeam : existingTeam.isSoloTeam
-  existingTeam.eventId =
-    body.eventId !== undefined ? body.eventId : existingTeam.eventId
-  existingTeam.physicalMountainId =
-    body.physicalMountainId !== undefined
-      ? body.physicalMountainId
-      : existingTeam.physicalMountainId
-  existingTeam.targetMountainId =
-    body.targetMountainId !== undefined
-      ? body.targetMountainId
-      : existingTeam.targetMountainId
-  existingTeam.lapsRequired =
-    body.lapsRequired !== undefined
-      ? body.lapsRequired
-      : existingTeam.lapsRequired
-  existingTeam.startDateTime =
-    body.startDateTime !== undefined
-      ? body.startDateTime
-      : existingTeam.startDateTime
-
-  const event = await Event.findById(body.eventId)
-  const physicalMountain = await PhysicalMountain.findById(
-    body.physicalMountainId
-  )
-  const targetMountain = await TargetMountain.findById(body.targetMountainId)
-
-  if (!event || !physicalMountain || !targetMountain) {
-    return response.status(400).json({
-      error:
-        'Event, physical or target mountain have been deleted or no longer exist.',
-    })
-  }
-
-  const newParticipantsIds = body.participantsIds
-  const currentParticipantsIds = existingTeam.participants.map((p) =>
-    p.id.toString()
-  )
-
-  if (Array.isArray(newParticipantsIds)) {
-    const participantsToAdd = newParticipantsIds.filter(
-      (pid) => !currentParticipantsIds.includes(pid)
-    )
-    const participantsToRemove = currentParticipantsIds.filter(
-      (pid) => !newParticipantsIds.includes(pid)
-    )
-
-    if (participantsToAdd.length > 0) {
-      const existingParticipantsToAdd = await Participant.find({
-        _id: { $in: participantsToAdd },
-      })
-      const validParticipantIdsToAdd = existingParticipantsToAdd.map(
-        (p) => p._id
-      )
-
-      if (validParticipantIdsToAdd.length !== participantsToAdd.length) {
-        // Handle case where some participant IDs sent by frontend don't exist
-        console.warn('Some participant IDs to add were not found.')
-        // Might choose to throw an error or log and continue
-      }
-
-      await Participant.updateMany(
-        { _id: { $in: validParticipantIdsToAdd }, teamId: { $ne: teamID } }, // Only update if not already on this team
-        { $set: { teamId: existingTeam._id } }
-      )
-    }
-
-    if (participantsToRemove.length > 0) {
-      // b. Remove participants from this team (reassign them)
-      // CRITICAL: Your Participant schema has teamId: required.
-      // This means participants must ALWAYS belong to a team.
-      // You CANNOT set teamId to null.
-      // Assign them to a specific "unassigned" or "solo" team.
-      if (participantsToRemove.length > 0) {
-        for (const participantId of participantsToRemove) {
-          const participant = await Participant.findById(participantId)
-          if (participant && participant.teamId.equals(teamID)) {
-            // Double-check they were actually on THIS team
-
-            const soloTeam = new Team({
-              name: `${participant.firstName} ${participant.lastName} (Solo)`,
-              isSoloTeam: true,
-              eventId: existingTeam.eventId,
-              physicalMountainId: existingTeam.physicalMountainId,
-              targetMountainId: existingTeam.targetMountainId,
-              lapsRequired: existingTeam.lapsRequired,
-              startDateTime: participant.startDateTime || new Date(),
-            })
-            const savedSoloTeam = await soloTeam.save()
-
-            // Update the participant's teamId to their new solo team
-            participant.teamId = savedSoloTeam._id
-            await participant.save()
-          }
-        }
-      }
+  // 1. If an RFID tag is being updated, validate it
+  if (body.rfidTagId) {
+    const teamWithThisTag = await Team.findOne({ rfidTagId: body.rfidTagId })
+    // Check if a tag exists and is assigned to a different team
+    if (teamWithThisTag && teamWithThisTag._id.toString() !== teamID) {
+      return response.status(400).json({ error: 'This RFID Tag is already assigned to another team.' })
     }
   }
 
-  const savedTeam = await existingTeam.save()
+  // 2. Prepare the update object with only the fields to be changed
+  const updateData = {
+    ...body
+  }
 
-  response.status(200).json(savedTeam)
+  // 3. Perform the update
+  const updatedTeam = await Team.findByIdAndUpdate(teamID, updateData, {
+    new: true,
+    runValidators: true,
+  }).populate('participants')
+  response.status(200).json(updatedTeam)
 }
 
 export const deleteOneTeam = async (request, response) => {
@@ -180,18 +103,7 @@ export const deleteOneTeam = async (request, response) => {
     return response.status(400).json({ error: 'Team id to delete is missing' })
   }
 
-  const updated = await Team.findByIdAndUpdate(
-    teamIdToDelete,
-    {
-      $set: {
-        active: false,
-      },
-    },
-    {
-      new: true,
-      runValidators: true,
-    }
-  )
+  await Team.findByIdAndDelete(teamIdToDelete)
 
-  response.status(200).json(updated)
+  response.status(204).send()
 }

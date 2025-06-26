@@ -6,30 +6,24 @@ const TableDataRows = ({ rows, columns, page, rowsPerPage }) => {
     <TableBody>
       {rows
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-        .map((row, index) => {
-          return (
-            <TableRow hover role="checkbox" tabIndex={-1} key={index}>
-              {columns.map((column, index) => {
-                const value = row[column.id]
-                return (
-                  <TableCell
-                    key={column.id}
-                    align={index < 2 ? 'left' : 'center'}
-                    sx={{ fontSize: '1rem' }}
-                  >
-                    {column.format && typeof value === 'number'
-                      ? column.format(value)
-                      : value}
-                  </TableCell>
-                )
-              })}
-              <TableCell key={row.id} align={'center'}>
-                <Edit sx={{ color: 'primary.light' }} fontSize='small' />
-                <Delete color="error" fontSize='small' />
-              </TableCell>
-            </TableRow>
-          )
-        })}
+        .map((row) => (
+          <TableRow hover role="checkbox" tabIndex={-1} key={row.id || row.code}>
+            {columns.map((column) => {
+              const value = row[column.id]
+              return (
+                <TableCell key={column.id} align={column.align}>
+                  {column.format && typeof value === 'number'
+                    ? column.format(value)
+                    : value}
+                </TableCell>
+              )
+            })}
+            <TableCell align="right">
+              <Edit />
+              <Delete />
+            </TableCell>
+          </TableRow>
+        ))}
     </TableBody>
   )
 }

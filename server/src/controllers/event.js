@@ -2,39 +2,44 @@ import Event from '../models/event.js'
 
 export const getEvents = async (req, response) => {
   const events = await Event.find({})
-    .populate('locationId')
-    .populate('physicalMountainIds')
-
+    .populate('location')
+    .populate('mountains')
+    
   response.json(events)
 }
 
 export const getEventByID = async (request, response) => {
   const id = request.params.id
 
-  const events = await Event.findById(id)
-    .populate('locationId')
-    .populate('physicalMountainIds')
-
-  response.json(events)
+  const event = await Event.findById(id)
+    .populate('location')
+    .populate('mountains')
+  
+  response.json(event)
 }
 
 export const saveOneEvent = async (request, response) => {
-  const body = request.body
 
+  const body = request.body
+  console.log('body', body)
   if (!body) {
     return response.status(400).json({ error: 'Event missing' })
   }
 
   const newEvent = new Event({
+    
     name: body.name,
-    locationId: body.locationId,
-    physicalMountainIds: body.physicalMountainIds,
+    location: body.location,
+    mountains: body.mountains,
+    hills: body.hills,
     startDateTime: body.startDateTime,
     endDateTime: body.endDateTime,
     active: body.active,
   })
+  console.log('new event', newEvent)
 
   const savedEvent = await newEvent.save()
+  console.log('saved event', savedEvent)
 
   response.status(201).json(savedEvent)
 }
@@ -53,16 +58,13 @@ export const updateOneEvent = async (request, response) => {
     return response.status(400).json({ error: 'This event no longer exists.' })
   }
 
-  const updated = await Event.updateOne(
-    {
-      _id: body.id,
-      active: true,
-    },
+  const updated = await Event.findByIdAndUpdate(id,
     {
       $set: {
         name: body.name,
-        locationId: body.locationId,
-        physicalMountainIds: body.physicalMountainIds,
+        location: body.location,
+        hills: body.hills,
+        mountains: body.mountains,
         startDateTime: body.startDateTime,
         endDateTime: body.endDateTime,
         active: body.active,
@@ -74,7 +76,7 @@ export const updateOneEvent = async (request, response) => {
     }
   )
 
-  response.status(201).json(updated)
+  response.status(200).json(updated)
 }
 
 export const deleteOneEvent = async (request, response) => {
@@ -90,18 +92,7 @@ export const deleteOneEvent = async (request, response) => {
     return response.status(400).json({ error: 'This event no longer exists.' })
   }
 
-  const updated = await Event.findByIdAndUpdate(
-    eventIdToDelete,
-    {
-      $set: {
-        active: false,
-      },
-    },
-    {
-      new: true,
-      runValidators: true,
-    }
-  )
+  await Event.findByIdAndDelete( eventIdToDelete)
 
-  response.status(200).json(updated)
+  response.status(204).send()
 }
