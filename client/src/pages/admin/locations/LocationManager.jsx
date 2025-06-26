@@ -11,7 +11,7 @@ import {
   deleteLocation,
   editLocation,
   getAllLocations,
-} from '../../../services/locationService.js' 
+} from '../../../services/locationService.js'
 
 const fullColumns = [
   { id: 'name', label: 'Location', width: '30%', align: 'left' },
@@ -28,6 +28,8 @@ const LocationManager = () => {
   const [popupOpen, setPopupOpen] = useState(false)
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
   const [deletedLocation, setDeleteLocation] = useState(null)
+  const [events, setEvents] = useState([])
+  const [event, setEvent] = useState()
 
   const displayAlert = useAlert()
 
@@ -136,7 +138,6 @@ const LocationManager = () => {
   }
 
   return (
-    
     <Box
       sx={{
         width: '100%',
@@ -156,6 +157,9 @@ const LocationManager = () => {
         tableData={locations}
         showInactive={showInactive}
         setShowInactive={setShowInactive}
+        eventsForDropdown={''}
+        selectedEvent={''}
+        setSelectedEvent={''}
         onAddClick={onAdd}
         onEditClick={onEdit}
         onDeleteClick={onDelete}

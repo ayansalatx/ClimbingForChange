@@ -9,6 +9,8 @@ import SearchBar from './SearchBar'
 import ActiveToggle from '../buttons/ShowInactiveToggle'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
+import EventSelector from './EventSelector'
+import { Tablet } from '@mui/icons-material'
 
 const DataTable = ({
   tableTitle,
@@ -17,6 +19,9 @@ const DataTable = ({
   tableData = [],
   showInactive,
   setShowInactive,
+  eventsForDropdown,
+  selectedEvent,
+  setSelectedEvent,
   onAddClick,
   onEditClick,
   onDeleteClick,
@@ -24,17 +29,34 @@ const DataTable = ({
   const [searchTerm, setSearchTerm] = useState('')
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
-  const activeToggleOption = tableTitle == 'Events' ? 'visible' : 'hidden'
-  const selectEventOption = tableTitle == 'Teams' || 'Participants' ? 'visible' : 'hidden'
 
-  const filteredRows = tableData
-    .filter((row) => showInactive || row.active)
-    .filter((row) =>
-      Object.values(row)
-        .join(' ')
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase())
-    )
+  const activeToggleOption = tableTitle == 'Events' ? 'visible' : 'hidden'
+
+  let filteredRows = []
+
+  if (tableTitle === 'Teams' || tableTitle === 'Participants') {
+    filteredRows = tableData
+      .filter((row) => showInactive || row.active)
+      .filter((row) =>
+        Object.values(row)
+          .join(' ')
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+      )
+      .filter((row) => {
+        if (!selectedEvent) return true
+        return row.eventId === selectedEvent
+      })
+  } else {
+    filteredRows = tableData
+      .filter((row) => showInactive || row.active)
+      .filter((row) =>
+        Object.values(row)
+          .join(' ')
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+      )
+  }
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -100,6 +122,42 @@ const DataTable = ({
 
         <SearchBar value={searchTerm} onChange={setSearchTerm} />
       </Box>
+      {['Teams', 'Participants'].includes(tableTitle) && (
+        <Box
+          sx={{
+            px: 1,
+            pt: 1,
+            bgcolor: 'info.main',
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              px: 1,
+              bgcolor: 'info.light',
+              borderRadius: '3px',
+            }}
+          >
+            <Typography
+              variant="body1"
+              component="span"
+              color="primary.light"
+              textTransform={'uppercase'}
+              fontWeight={'bold'}
+              letterSpacing={'.05rem'}
+              paddingRight={1}
+            >
+              Event:
+            </Typography>
+            <EventSelector
+              events={eventsForDropdown}
+              selectedEvent={selectedEvent}
+              setSelectedEvent={setSelectedEvent}
+            />
+          </Box>
+        </Box>
+      )}
 
       <TableContainer
         sx={(theme) => ({
