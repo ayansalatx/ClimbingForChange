@@ -1,24 +1,40 @@
-import Paper from '@mui/material/Paper'
-import Table from '@mui/material/Table'
-import TableContainer from '@mui/material/TableContainer'
-import TablePagination from '@mui/material/TablePagination'
-import React from 'react'
+import GroupsIcon from '@mui/icons-material/Groups'
+import {
+  Box,
+  Paper,
+  Table,
+  TableContainer,
+  TablePagination,
+  Typography,
+} from '@mui/material'
+import { useState } from 'react'
+import { alpha } from '@mui/material/styles'
 
-import TableDataRows from './TableDataRows'
+import theme from '../../../../styles/theme'
+import SearchBar from './SearchBar'
 import TableHeaderRow from './TableHeaderRow'
+import TableDataRows from './TableDataRows'
 
-const fullColumns = [
-  { id: 'firstName', label: 'First Name', minWidth: 85 },
-  { id: 'lastName', label: 'Last Name', minWidth: 85 },
-  { id: 'teamId.name', label: 'Team Name', minWidth: 85 },
+const defaultColumns = [
+  { id: 'firstName', label: 'First Name', align: 'left', width: '30%' },
+  { id: 'lastName', label: 'Last Name', align: 'left', width: '30%' },
+  { id: 'teamId.name', label: 'Team Name', align: 'center', width: '40%' },
 ]
 
-const ParticipantTable = ({ searchTerm, participant }) => {
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(10)
+const ParticipantTable = ({
+  tableTitle = 'Participants',
+  tableColumns = defaultColumns,
+  tableData = [],
+  onAddClick,
+  onEditClick,
+  onDeleteClick,
+}) => {
+  const [searchTerm, setSearchTerm] = useState('')
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(10)
 
-  const filteredRows = participant.filter((row) =>
-    Object.values(row)
+  const filteredRows = tableData.filter((row) =>
+    Object.values(row || {})
       .join(' ')
       .toLowerCase()
       .includes(searchTerm.toLowerCase())
@@ -34,27 +50,104 @@ const ParticipantTable = ({ searchTerm, participant }) => {
   }
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 500, width: 1200}}>
-        <Table stickyHeader aria-label='sticky table' sx={{}}>
-          <TableHeaderRow columns={fullColumns} />
+    <Paper
+      elevation={3}
+      sx={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Header */}
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          bgcolor: 'primary.main',
+          padding: '.5rem',
+        }}
+      >
+        <Box sx={{ display: 'flex', alignItems: 'center', py: '.5rem' }}>
+          <GroupsIcon fontSize="large" sx={{ color: 'secondary.main' }} />
+          <Typography
+            variant="h1"
+            sx={{
+              paddingLeft: '.35rem',
+              fontSize: '2.45rem',
+              fontWeight: 'bold',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              color: 'white',
+            }}
+          >
+            {tableTitle}
+          </Typography>
+        </Box>
+        <SearchBar value={searchTerm} onChange={setSearchTerm} />
+      </Box>
+
+      <TableContainer
+        sx={{
+          flexGrow: 1,
+          overflowX: 'auto',
+          overflowY: 'auto',
+          position: 'relative',
+          scrollbarWidth: 'thin',
+          scrollbarColor: `${theme.palette.primary.light} ${theme.palette.background.default}`,
+        }}
+      >
+        <Table
+          stickyHeader
+          aria-label="sticky table"
+          sx={{
+            '&:hover': {
+              bgcolor: alpha(theme.palette.primary.light, 0.05),
+            },
+          }}
+        >
+          <TableHeaderRow columns={tableColumns} onAddClick={onAddClick} />
           <TableDataRows
             rows={filteredRows}
-            columns={fullColumns}
+            columns={tableColumns}
             page={page}
             rowsPerPage={rowsPerPage}
+            onEditClick={onEditClick}
+            onDeleteClick={onDeleteClick}
           />
         </Table>
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component='div'
-        count={filteredRows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          bgcolor: 'primary.main',
+        }}
+      >
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={filteredRows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          sx={{
+            minHeight: '3.25rem',
+            bgcolor: 'primary.main',
+            color: 'background.paper',
+            '& .MuiSvgIcon-root': {
+              fontSize: '1.25rem',
+              color: 'background.paper',
+            },
+          }}
+          labelRowsPerPage=""
+        />
+      </Box>
     </Paper>
   )
 }

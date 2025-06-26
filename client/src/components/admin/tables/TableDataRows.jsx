@@ -32,7 +32,15 @@ const TableDataRows = ({
                   <TableCell
                     key={column.id}
                      align={column.align || 'left'}
-                    sx={{ fontSize: '1rem', color: row.active ? 'primary.main' :'gray.main' }}
+                      sx={{
+                          fontSize: '1rem',
+                          color:
+                            row.hasOwnProperty('active')
+                              ? row.active
+                                ? 'primary.main'
+                                : 'gray.main'
+                              : 'text.primary',
+                        }}
                   >
                     {column.format && typeof value === 'number'
                       ? column.format(value)

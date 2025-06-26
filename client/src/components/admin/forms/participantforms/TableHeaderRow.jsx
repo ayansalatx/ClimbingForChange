@@ -1,19 +1,32 @@
 import { TableCell, TableHead, TableRow } from '@mui/material'
+import AddButton from '../../buttons/AddButton'
 
-const TableHeaderRow = ({ columns }) => {
+const TableHeaderRow = ({ columns, onAddClick }) => {
   return (
     <TableHead>
       <TableRow>
         {columns.map((column) => (
           <TableCell
             key={column.id}
-            align={column.align || 'left'}
-            sx={{ minWidth: column.minWidth, fontWeight: 'bold'}}
+            align={column.align}
+            sx={{
+              width: column.width,
+              textTransform: 'uppercase',
+              letterSpacing: '0.075em',
+              fontSize: '1.1rem',
+              fontWeight: 'bold',
+              bgcolor: 'info.main',
+              color: 'background.paper',
+            }}
           >
             {column.label}
           </TableCell>
         ))}
-        <TableCell></TableCell>
+        <TableCell
+          sx={{ bgcolor: 'info.main', padding: 0, px: 2, textAlign: 'center' }}
+        >
+          <AddButton onAddClick={onAddClick} />
+        </TableCell>
       </TableRow>
     </TableHead>
   )

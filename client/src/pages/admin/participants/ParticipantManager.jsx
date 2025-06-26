@@ -1,105 +1,176 @@
-import Button from '@mui/material/Button'
+import { Box } from '@mui/material'
 import { useEffect, useState } from 'react'
-
-import SearchBar from '../../../components/admin/forms/fields/SearchBar'
-import ParticipantTable from '../../../components/admin/forms/participantforms/ParticipantTable'
+import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
+import ParticipantTable from '../../../components/admin/forms/participantforms/ParticipantTable.jsx'
 import AddParticipantModal from '../../../components/admin/modals/ParticipantModal'
 import { useAlert } from '../../../hooks/useAlert.js'
-import { getAllParticipants } from '../../../services/participantService'
+import { 
+  getAllParticipants,
+  editParticipant,
+  deleteParticipant,
+  addNewParticipant,
+} from '../../../services/participantService'
 import { getAllTeams } from '../../../services/teamService.js'
+
+const fullColumns = [
+  { id: 'firstName', label: 'First Name', align: 'left', width: '30%' },
+  { id: 'lastName', label: 'Last Name', align: 'left', width: '30%' },
+  { id: 'teamId.name', label: 'Team Name', align: 'center', width: '40%' },
+]
 
 const ParticipantManager = () => {
   const [participants, setParticipants] = useState([])
-  const [searchTerm, setSearchTerm] = useState('')
   const [popupOpen, setPopupOpen] = useState(false)
   const [teams, setTeams] = useState([])
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
+  const [selectedParticipant, setSelectedParticipant] = useState(null)
+  const [deletedParticipant, setDeletedParticipant] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   const displayAlert = useAlert()
 
   useEffect(() => {
-    const fetchParticipants = async () => {
+    async function loadData() {
+      setLoading(true)
       try {
-        const data = await getAllParticipants()
-        setParticipants(data)
+        const participantList = await getAllParticipants()
+        setParticipants(participantList)
+        const teamsList = await getAllTeams() 
+        setTeams(teamsList)
+        displayAlert(
+          'Participants Loaded',
+          `Loaded ${participantList.length} participants from the backend.`,
+          'success'
+        )
       } catch (error) {
-        console.error('Error fetching participants:', error)
+        displayAlert(
+          'Error',
+          `Failed to Load Participants: ${error.message}`,
+          'error'
+        )
+      } finally {
+        setLoading(false)
       }
     }
+    loadData()
+  }, [displayAlert])
 
-    const fetchTeams = async () => {
-      try {
-        const data = await getAllTeams()
-        console.log('Fetched teams:', data)
-        setTeams(data)
-      } catch (error) {
-        console.error('Error fetching teams', error)
-      }
-    }
-
-    fetchParticipants()
-    fetchTeams()
-  }, [])
-
-  const handleAddParticipant = (participantData) => {
-    const selectedTeam = teams.find((team) => team.id === participantData.teamId)
-    console.log('Assigned team:', selectedTeam)
-
-    const newParticipant = {
-      firstName: participantData.firstName,
-      lastName: participantData.lastName,
-      team: selectedTeam || null,  // full team object stored here
-    }
-
-    setParticipants([...participants, newParticipant])
-    setPopupOpen(false)
-    displayAlert('Saved', 'Saved participant to the backend.', 'success')
+  const onAdd = () => {
+    if (loading) return
+    setSelectedParticipant(null)
+    setPopupOpen(true)
   }
 
+  const onEdit = (participant) => {
+    if (loading) return
+    setSelectedParticipant(participant)
+    setPopupOpen(true)
+  }
+
+  const onDelete = (participant) => {
+    if (loading) return
+    document.activeElement?.blur()
+    setDeletedParticipant(participant)
+    setDeleteConfirmOpen(true)
+  }
+
+  const cancelDelete = () => {
+    setDeleteConfirmOpen(false)
+    setDeletedParticipant(null)
+  }
+
+  const confirmedDelete = async () => {
+    if (!deletedParticipant) return
+    setLoading(true)
+    try {
+      await deleteParticipant(deletedParticipant.id)
+
+      const newParticipantList = await getAllParticipants()
+      setParticipants(newParticipantList)
+      setDeleteConfirmOpen(false)
+      displayAlert(
+        'Participant Deleted',
+        `Deleted ${deletedParticipant.firstName} ${deletedParticipant.lastName}.`,
+        'success'
+      )
+    } catch (error) {
+      displayAlert(
+        'Error',
+        `Failed to delete ${deletedParticipant.firstName} ${deletedParticipant.lastName}: ${error.message}`,
+        'error'
+      )
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleSave = async (participantData) => {
+    if (!participantData) return
+    setLoading(true)
+    try {
+      if (participantData.id) {
+        await editParticipant(participantData.id, participantData)
+        displayAlert(
+          'Edited Participant',
+          `Edited ${participantData.firstName} ${participantData.lastName}.`,
+          'success'
+        )
+      } else {
+        await addNewParticipant(participantData)
+        displayAlert(
+          'New Participant Added',
+          `Added ${participantData.firstName} ${participantData.lastName}.`,
+          'success'
+        )
+      }
+      const newParticipantList = await getAllParticipants()
+      setParticipants(newParticipantList)
+    } catch (error) {
+      displayAlert(
+        'Error',
+        `Failed to save participant: ${error.message}`,
+        'error'
+      )
+    } finally {
+      setLoading(false)
+    }
+    setPopupOpen(false)
+  }
 
   return (
-    <div>
-      <h1
-        style={{
-          fontFamily: 'Gibson, sans-serif',
-          textTransform: 'uppercase',
-          color: '#CDDC29',
-          letterSpacing: '0.05em'
-        }}
-      >
-        Participants
-      </h1>
-
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '16px'
-        }}
-      >
-        <SearchBar value={searchTerm} onChange={setSearchTerm} />
-        <Button
-          variant="contained"
-          sx={{
-            backgroundColor: '#c9d82c',
-            color: 'black',
-            '&:hover': { backgroundColor: '#b3c623' }
-          }}
-          onClick={() => setPopupOpen(true)}
-        >
-          Add Participant
-        </Button>
-      </div>
-
-      <ParticipantTable searchTerm={searchTerm} participant={participants} />
-
+    <Box
+      sx={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        py: '4rem',
+        px: '1.5rem',
+      }}
+    >
+      <ParticipantTable
+        tableTitle={'Participants'}
+        tableColumns={fullColumns}
+        tableData={participants}
+        onAddClick={onAdd}
+        onEditClick={onEdit}
+        onDeleteClick={onDelete}
+      />
       <AddParticipantModal
         open={popupOpen}
         onClose={() => setPopupOpen(false)}
-        onAdd={handleAddParticipant}
+        onAdd={handleSave}
+        participantData={selectedParticipant}
         teamNames={teams}
       />
-    </div>
+      <ConfirmDeleteDialog
+        open={deleteConfirmOpen}
+        onCancel={cancelDelete}
+        onConfirm={confirmedDelete}
+      />
+    </Box>
   )
 }
 
