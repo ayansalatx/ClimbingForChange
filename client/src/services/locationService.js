@@ -50,3 +50,18 @@ export const deleteLocation = async (id) => {
     throw error
   }
 }
+
+// export const createLocation = async (data) => {
+//   const res = await api.post('/locations', data)
+//   return res.data
+// }
+
+// export const editLocation = async (id, data) => {
+//   const res = await api.put(`/locations/${id}`, data)
+//   return res.data
+// }
+
+// export const deleteLocation = async (id) => {
+//   const res = await api.delete(`/locations/${id}`)
+//   return res.data
+// }

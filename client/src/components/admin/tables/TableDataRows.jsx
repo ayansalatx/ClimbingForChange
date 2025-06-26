@@ -31,7 +31,7 @@ const TableDataRows = ({
                 return (
                   <TableCell
                     key={column.id}
-                    align={index < 2 ? 'left' : 'center'}
+                     align={column.align || 'left'}
                     sx={{ fontSize: '1rem', color: row.active ? 'primary.main' :'gray.main' }}
                   >
                     {column.format && typeof value === 'number'
