@@ -6,7 +6,7 @@ import React, { useState } from 'react'
 
 import theme from '../../../styles/theme'
 import SearchBar from './SearchBar'
-import ActiveToggle from '../buttons/ShowActiveToggle'
+import ActiveToggle from '../buttons/ShowInactiveToggle'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
 
@@ -25,6 +25,7 @@ const LocationTable = ({
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const activeToggleOption = tableTitle == 'Events' ? 'visible' : 'hidden'
+  const selectEventOption = tableTitle == 'Teams' || 'Participants' ? 'visible' : 'hidden'
 
   const filteredRows = tableData
     .filter((row) => showInactive || row.active)
