@@ -1,3 +1,4 @@
+import PlaceIcon from '@mui/icons-material/Place'
 import { Box } from '@mui/material'
 import { useEffect, useState } from 'react'
 
@@ -27,7 +28,7 @@ const LocationManager = () => {
   const [popupOpen, setPopupOpen] = useState(false)
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
   const [deletedLocation, setDeleteLocation] = useState(null)
-
+ 
   const displayAlert = useAlert()
 
   useEffect(() => {
@@ -135,7 +136,6 @@ const LocationManager = () => {
   }
 
   return (
-    
     <Box
       sx={{
         width: '100%',
@@ -150,10 +150,14 @@ const LocationManager = () => {
     >
       <DataTable
         tableTitle={'Locations'}
+        tableIcon={PlaceIcon}
         tableColumns={fullColumns}
         tableData={locations}
         showInactive={showInactive}
         setShowInactive={setShowInactive}
+        eventsForDropdown={''}
+        selectedEvent={''}
+        setSelectedEvent={''}
         onAddClick={onAdd}
         onEditClick={onEdit}
         onDeleteClick={onDelete}

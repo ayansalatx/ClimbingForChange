@@ -16,7 +16,7 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material'
-import { useLocation,useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import C4CBanner from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 
@@ -42,15 +42,15 @@ const SideBar = ({ open, toggleDrawer }) => {
       onClick: () => navigate('/admin/events'),
     },
     {
+      text: 'Participants',
+      icon: <PeopleIcon />,
+      onClick: () => navigate('/admin/participants'),
+    },
+    {
       text: 'Mountains',
       icon: <TerrainIcon />,
       path: '/admin/mountains',
       onClick: () => navigate('/admin/mountains'),
-    },
-    {
-      text: 'Participants',
-      icon: <PeopleIcon />,
-      onClick: () => navigate('/admin/participants'),
     },
     {
       text: 'Locations',
