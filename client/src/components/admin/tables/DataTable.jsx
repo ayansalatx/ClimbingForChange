@@ -1,4 +1,3 @@
-import PlaceIcon from '@mui/icons-material/Place'
 import { Box, TableContainer, TablePagination, Typography } from '@mui/material'
 import Paper from '@mui/material/Paper'
 import { alpha } from '@mui/material/styles'
@@ -7,12 +6,13 @@ import React, { useState } from 'react'
 
 import theme from '../../../styles/theme'
 import SearchBar from './SearchBar'
-import ActiveToggle from './ShowActiveToggle'
+import ActiveToggle from '../buttons/ShowActiveToggle'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
 
 const LocationTable = ({
   tableTitle,
+  tableIcon: TableIcon,
   tableColumns,
   tableData = [],
   showInactive,
@@ -73,7 +73,7 @@ const LocationTable = ({
             py: '.5rem',
           }}
         >
-          <PlaceIcon
+          <TableIcon
             fontSize="large"
             sx={{
               color: 'secondary.main',

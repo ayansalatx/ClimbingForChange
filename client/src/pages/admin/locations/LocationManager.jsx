@@ -1,5 +1,6 @@
 import { Box } from '@mui/material'
 import { useEffect, useState } from 'react'
+import PlaceIcon from '@mui/icons-material/Place'
 
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
 import LocationModal from '../../../components/admin/modals/LocationModal.jsx'
@@ -10,7 +11,7 @@ import {
   deleteLocation,
   editLocation,
   getAllLocations,
-} from '../../../services/locationService.js'
+} from '../../../services/locationService.js' 
 
 const fullColumns = [
   { id: 'name', label: 'Location', width: '30%', align: 'left' },
@@ -150,6 +151,7 @@ const LocationManager = () => {
     >
       <DataTable
         tableTitle={'Locations'}
+        tableIcon={PlaceIcon}
         tableColumns={fullColumns}
         tableData={locations}
         showInactive={showInactive}
