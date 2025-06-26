@@ -10,7 +10,7 @@ import ActiveToggle from '../buttons/ShowInactiveToggle'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
 
-const LocationTable = ({
+const DataTable = ({
   tableTitle,
   tableIcon: TableIcon,
   tableColumns,
@@ -167,4 +167,4 @@ const LocationTable = ({
   )
 }
 
-export default LocationTable
+export default DataTable
