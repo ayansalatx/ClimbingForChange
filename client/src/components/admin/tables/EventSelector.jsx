@@ -1,7 +1,7 @@
 import {
   FormControl,
-  Select,
   MenuItem,
+  Select,
 } from '@mui/material'
 
 const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {

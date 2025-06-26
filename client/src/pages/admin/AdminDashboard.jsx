@@ -1,21 +1,16 @@
-import {
-  Box,
-  Typography,
-  Paper,
-  Table,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TableCell,
-  Button,
-} from '@mui/material'
-import NavigationCard from '../../components/admin/NavigationCard'
 import EventIcon from '@mui/icons-material/Event'
+import Hiking from '@mui/icons-material/Hiking'
 import PeopleIcon from '@mui/icons-material/People'
 import PlaceIcon from '@mui/icons-material/Place'
 import TerrainIcon from '@mui/icons-material/Terrain'
-import Hiking from '@mui/icons-material/Hiking'
+import {
+  Box,
+  Button,
+  Typography,
+} from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+
+import NavigationCard from '../../components/admin/NavigationCard'
 
 const AdminDashboard = () => {
   const navigate = useNavigate()

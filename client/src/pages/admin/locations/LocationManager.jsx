@@ -1,6 +1,6 @@
+import PlaceIcon from '@mui/icons-material/Place'
 import { Box } from '@mui/material'
 import { useEffect, useState } from 'react'
-import PlaceIcon from '@mui/icons-material/Place'
 
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
 import LocationModal from '../../../components/admin/modals/LocationModal.jsx'
@@ -28,9 +28,7 @@ const LocationManager = () => {
   const [popupOpen, setPopupOpen] = useState(false)
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
   const [deletedLocation, setDeleteLocation] = useState(null)
-  const [events, setEvents] = useState([])
-  const [event, setEvent] = useState()
-
+ 
   const displayAlert = useAlert()
 
   useEffect(() => {

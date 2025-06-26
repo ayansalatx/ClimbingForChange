@@ -5,12 +5,11 @@ import Table from '@mui/material/Table'
 import React, { useState } from 'react'
 
 import theme from '../../../styles/theme'
-import SearchBar from './SearchBar'
 import ActiveToggle from '../buttons/ShowInactiveToggle'
+import EventSelector from './EventSelector'
+import SearchBar from './SearchBar'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
-import EventSelector from './EventSelector'
-import { Tablet } from '@mui/icons-material'
 
 const DataTable = ({
   tableTitle,
