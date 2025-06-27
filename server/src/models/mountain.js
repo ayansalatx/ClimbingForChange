@@ -17,11 +17,7 @@ const mountainSchema = new Schema({
     required: true,
     enum: ['FT', 'M'],
     default: 'FT'
-  },
-  imageURL: {
-    type: String,
-    required: false
-  },
+  }
 }, {
   timestamps: true
 })

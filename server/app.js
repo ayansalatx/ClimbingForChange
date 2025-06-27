@@ -13,6 +13,7 @@ import rfidtagRoutes from './src/routes/rfidtag.js'
 import teamsRoutes from './src/routes/team.js'
 import lapRoutes from './src/routes/lap.js'
 import hillRoutes from './src/routes/hill.js'
+import authRoutes from './src/routes/auth.js'
 
 const app = express()
 const openapiDoc = YAML.load('./openapi.yaml')
@@ -28,6 +29,8 @@ app.use(requestLogger)
 const appRouter = express.Router()
 
 app.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(openapiDoc))
+
+appRouter.use('/login', authRoutes)
 
 appRouter.use('/participants', participantRoutes)
 appRouter.use('/events', eventRoutes)
