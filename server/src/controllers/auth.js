@@ -12,7 +12,7 @@ export const createJWTToken = (user) => {
 
     const { sign } = jwt;    
 
-    // token expires in 60*60 seconds, that is, in one hour
+    // token expires in 24 hours
     const token = sign(userForToken, config.JWT_SECRET, {
         expiresIn: 24 * 60 * 60
     });
@@ -20,7 +20,7 @@ export const createJWTToken = (user) => {
     return token;
 };
 
-export const authenticateUser = async (req, res) => {
+export const loginUser = async (req, res) => {
     const body = req.body;
 
     const user = await User.findOne({

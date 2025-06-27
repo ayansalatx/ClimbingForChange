@@ -1,9 +1,9 @@
 import express from "express";
 import asyncHandler from "express-async-handler";
-import { authenticateUser } from "../controllers/auth.js";
+import { loginUser } from "../controllers/auth.js";
 
 const authRouter = express.Router();
 
-authRouter.post("/", asyncHandler(authenticateUser));
+authRouter.post("/", asyncHandler(loginUser));
 
 export default authRouter;

@@ -30,7 +30,7 @@ const appRouter = express.Router()
 
 app.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(openapiDoc))
 
-appRouter.use('/login', authRoutes)
+appRouter.use('/auth', authRoutes)
 
 appRouter.use('/participants', participantRoutes)
 appRouter.use('/events', eventRoutes)
