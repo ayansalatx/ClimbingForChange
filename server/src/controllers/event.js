@@ -4,6 +4,7 @@ export const getEvents = async (req, response) => {
   const events = await Event.find({})
     .populate('location')
     .populate('mountains')
+    .populate({ path: 'teams' })
     
   response.json(events)
 }
