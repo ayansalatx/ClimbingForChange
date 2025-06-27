@@ -1,7 +1,12 @@
-import { Box, TableContainer, TablePagination, Typography } from '@mui/material'
-import Paper from '@mui/material/Paper'
+import {
+  Box,
+  Paper,
+  Table,
+  TableContainer,
+  TablePagination,
+  Typography,
+} from '@mui/material'
 import { alpha } from '@mui/material/styles'
-import Table from '@mui/material/Table'
 import React, { useState } from 'react'
 
 import theme from '../../../styles/theme'
