@@ -14,9 +14,10 @@ function Layout() {
     setDrawerOpen(open)
   }
 
-  const logout = () => {
+  const logout = async (e) => {
     // TODO: Implement full logout
-    navigate('/')
+    e.preventDefault()
+    navigate('/login')
   }
 
   return (
