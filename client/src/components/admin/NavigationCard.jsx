@@ -23,9 +23,11 @@ const NavigationCard = ({
       sx={{
         position: 'relative',
         width: '18rem',
-        height: '100%',
+        height: '12rem',
         bgcolor: bgColor,
         borderRadius: '.5rem',
+        mx: '2.5rem',
+        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)',
       }}
     >
       <CardActionArea onClick={() => navigate(link)} sx={{ height: '100%' }}>
