@@ -1,6 +1,5 @@
 import MenuIcon from '@mui/icons-material/Menu'
 import { AppBar, Box,Button, Container,IconButton, Toolbar} from '@mui/material'
-import React from 'react'
 
 import C4CBanner from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 
