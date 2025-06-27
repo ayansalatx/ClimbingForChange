@@ -2,7 +2,7 @@ import express, { json } from 'express'
 import cors from 'cors'
 
 import participantRoutes from './src/routes/participants.js'
-import { requestLogger } from './src/utils/middleware.js'
+import { requestLogger, tokenExtractor } from './src/utils/middleware.js'
 import eventRoutes from './src/routes/event.js'
 import locationRoutes from './src/routes/location.js'
 import mountainRoutes from './src/routes/mountain.js'
@@ -26,22 +26,24 @@ app.use(json())
 
 app.use(requestLogger)
 
-const appRouter = express.Router()
-
 app.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(openapiDoc))
 
-appRouter.use('/auth', authRoutes)
+app.use('/api/auth', authRoutes)
 
-appRouter.use('/participants', participantRoutes)
-appRouter.use('/events', eventRoutes)
-appRouter.use('/locations', locationRoutes)
-appRouter.use('/mountains', mountainRoutes)
-appRouter.use('/hills', hillRoutes)
-appRouter.use('/rfidtags', rfidtagRoutes)
-appRouter.use('/teams', teamsRoutes)
-appRouter.use('/laps', lapRoutes)
+const authenticatedApiRouter = express.Router();
 
-app.use('/api', appRouter)
+authenticatedApiRouter.use(tokenExtractor);
+
+authenticatedApiRouter.use('/participants', participantRoutes)
+authenticatedApiRouter.use('/events', eventRoutes)
+authenticatedApiRouter.use('/locations', locationRoutes)
+authenticatedApiRouter.use('/mountains', mountainRoutes)
+authenticatedApiRouter.use('/hills', hillRoutes)
+authenticatedApiRouter.use('/rfidtags', rfidtagRoutes)
+authenticatedApiRouter.use('/teams', teamsRoutes)
+authenticatedApiRouter.use('/laps', lapRoutes)
+
+app.use('/api', authenticatedApiRouter)
 
 app.use(errorHandler)
 

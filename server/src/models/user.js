@@ -1,4 +1,4 @@
-import mongoose from '../utils/db.js'
+import mongoose from "mongoose"
 
 const { Schema, model } = mongoose
 
@@ -6,6 +6,15 @@ const userSchema = new Schema({
   username: {
     type: String,
     required: true,
+    trim: true
+  },
+  firstName: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  lastName: {
+    type: String,
     trim: true
   },
   password_hash: {

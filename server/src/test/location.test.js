@@ -1,30 +1,10 @@
-import { test, after, beforeEach } from 'node:test'
-import mongoose from 'mongoose'
+import { test, after, beforeEach, before, describe } from 'node:test'
 import supertest from 'supertest'
 import app from '../../app.js'
 import assert from 'node:assert'
 
 import Location from '../models/location.js'
-import Hill from '../models/hill.js'
-import Mountain from '../models/mountain.js'
-import RFIDTag from '../models/rfidTag.js'
-import Event from '../models/event.js'
-import Team from '../models/team.js'
-import Participant from '../models/participant.js'
-import Lap from '../models/lap.js'
-
-export const emptyTestDB = async () => {
-  await Promise.all([
-    Location.deleteMany({}),
-    Hill.deleteMany({}),
-    Mountain.deleteMany({}),
-    RFIDTag.deleteMany({}),
-    Event.deleteMany({}),
-    Team.deleteMany({}),
-    Participant.deleteMany({}),
-    Lap.deleteMany({}),
-  ])
-}
+import { authToken, closeDBConnection, emptyTestDB } from './testHelper.js'
 
 const api = supertest(app)
 
@@ -51,15 +31,17 @@ beforeEach(async () => {
 })
 
 
-test('locations are returned as json', async () => {
+describe('Locations API (/api/locations)', () => {
+  test('locations are returned as json', async () => {
   await api
     .get('/api/locations')
+    .set('Authorization', `bearer ${authToken}`)
     .expect(200)
     .expect('Content-Type', /application\/json/)
 })
 
 test('all locations are returned', async () => {
-  const response = await api.get('/api/locations')
+  const response = await api.get('/api/locations').set('Authorization', `bearer ${authauthToken}`)
   assert.strictEqual(response.body.length, initialLocations.length)
 })
 
@@ -74,11 +56,12 @@ test('a valid location can be added', async () => {
 
   await api
     .post('/api/locations')
+    .set('Authorization', `bearer ${authToken}`)
     .send(newLocation)
     .expect(201)
     .expect('Content-Type', /application\/json/)
 
-  const response = await api.get('/api/locations')
+  const response = await api.get('/api/locations').set('Authorization', `bearer ${authToken}`)
   const allLocationNames = response.body.map(l => l.name)
 
   assert.strictEqual(response.body.length, initialLocations.length + 1)
@@ -86,7 +69,7 @@ test('a valid location can be added', async () => {
 })
 
 test('an existing location can be updated', async () => {
-  const allLocationsAtStart = await api.get('/api/locations')
+  const allLocationsAtStart = await api.get('/api/locations').set('Authorization', `bearer ${authToken}`)
   const locationToUpdate = allLocationsAtStart.body[0]
 
   const updatePayload = {
@@ -96,10 +79,11 @@ test('an existing location can be updated', async () => {
 
   await api
     .put(`/api/locations/${locationToUpdate.id}`)
+    .set('Authorization', `bearer ${authToken}`)
     .send(updatePayload)
     .expect(200)
 
-  const response = await api.get(`/api/locations/${locationToUpdate.id}`)
+  const response = await api.get(`/api/locations/${locationToUpdate.id}`).set('Authorization', `bearer ${authToken}`)
   const updatedLocation = response.body
 
   assert.strictEqual(updatedLocation.address, '123 NEW Mountain Road')
@@ -110,22 +94,23 @@ test('an existing location can be updated', async () => {
 
 
 test('a location can be deleted', async () => {
-  const allLocationsAtStart = await api.get('/api/locations')
+  const allLocationsAtStart = await api.get('/api/locations').set('Authorization', `bearer ${authToken}`)
   const locationToDelete = allLocationsAtStart.body[0]
   const initialCount = allLocationsAtStart.body.length
 
   await api
-    .delete(`/api/locations/${locationToDelete.id}`)
+    .delete(`/api/locations/${locationToDelete.id}`).set('Authorization', `bearer ${authToken}`)
     .expect(204) // 204 No Content
 
-  const allLocationsAtEnd = await api.get('/api/locations')
+  const allLocationsAtEnd = await api.get('/api/locations').set('Authorization', `bearer ${authToken}`)
   assert.strictEqual(allLocationsAtEnd.body.length, initialCount - 1)
 
   const locationIds = allLocationsAtEnd.body.map(l => l.id)
   assert(!locationIds.includes(locationToDelete.id), 'Deleted location ID should not exist')
 })
+})
 
 
 after(async () => {
-  await mongoose.connection.close()
+  await closeDBConnection()
 })

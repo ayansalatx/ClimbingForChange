@@ -1,5 +1,4 @@
-import { test, describe, after, beforeEach } from 'node:test'
-import mongoose from 'mongoose'
+import { test, describe, after, beforeEach, before } from 'node:test'
 import supertest from 'supertest'
 import app from '../../app.js'
 import assert from 'node:assert'
@@ -11,15 +10,7 @@ import RFIDTag from '../models/rfidTag.js'
 import Event from '../models/event.js'
 import Team from '../models/team.js'
 import Participant from '../models/participant.js'
-import Lap from '../models/lap.js'
-
-export const emptyTestDB = async () => {
-  await Promise.all([
-    Location.deleteMany({}), Hill.deleteMany({}), Mountain.deleteMany({}),
-    RFIDTag.deleteMany({}), Event.deleteMany({}), Team.deleteMany({}),
-    Participant.deleteMany({}), Lap.deleteMany({}),
-  ])
-}
+import { authToken, closeDBConnection, emptyTestDB,  } from './testHelper.js'
 
 const api = supertest(app)
 
@@ -69,17 +60,21 @@ beforeEach(async () => {
 describe('Teams API (/api/teams)', () => {
 
   test('teams are returned as json', async () => {
-    await api.get('/api/teams').expect(200).expect('Content-Type', /application\/json/)
+    await api
+      .get('/api/teams')
+      .set('Authorization', `bearer ${authToken}`)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
   })
 
   test('all teams are returned', async () => {
-    const response = await api.get('/api/teams')
+    const response = await api.get('/api/teams').set('Authorization', `bearer ${authToken}`)
     assert.strictEqual(response.body.length, 1)
   })
 
   test('a single team can be fetched and includes participants', async () => {
     const response = await api
-      .get(`/api/teams/${initialTeamId}`)
+      .get(`/api/teams/${initialTeamId}`).set('Authorization', `bearer ${authToken}`)
       .expect(200)
 
     const team = response.body
@@ -106,11 +101,12 @@ describe('Teams API (/api/teams)', () => {
 
     await api
       .post('/api/teams')
+      .set('Authorization', `bearer ${authToken}`)
       .send(newTeamPayload)
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
-    const response = await api.get('/api/teams')
+    const response = await api.get('/api/teams').set('Authorization', `bearer ${authToken}`)
     const teamNames = response.body.map(t => t.name)
 
     assert.strictEqual(response.body.length, 2)
@@ -120,6 +116,7 @@ describe('Teams API (/api/teams)', () => {
   test('a team can be updated', async () => {
     const response = await api
       .get(`/api/teams/${initialTeamId}`)
+      .set('Authorization', `bearer ${authToken}`)
 
     const teamToUpdate = response.body
 
@@ -131,10 +128,11 @@ describe('Teams API (/api/teams)', () => {
 
     await api
       .put(`/api/teams/${initialTeamId}`)
+      .set('Authorization', `bearer ${authToken}`)
       .send(updatePayload)
       .expect(200)
 
-    const res = await api.get(`/api/teams/${initialTeamId}`)
+    const res = await api.get(`/api/teams/${initialTeamId}`).set('Authorization', `bearer ${authToken}`)
     assert.strictEqual(res.body.name, 'The First Climbers - Updated Name')
     assert.strictEqual(res.body.isSoloTeam, true)
   })
@@ -142,9 +140,10 @@ describe('Teams API (/api/teams)', () => {
   test('a team can be deleted', async () => {
     await api
       .delete(`/api/teams/${initialTeamId}`)
+      .set('Authorization', `bearer ${authToken}`)
       .expect(204)
 
-    const response = await api.get('/api/teams')
+    const response = await api.get('/api/teams').set('Authorization', `bearer ${authToken}`)
     assert.strictEqual(response.body.length, 0)
   })
 
@@ -152,5 +151,5 @@ describe('Teams API (/api/teams)', () => {
 
 
 after(async () => {
-  await mongoose.connection.close()
+  await closeDBConnection()
 })

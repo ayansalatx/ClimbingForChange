@@ -1,31 +1,13 @@
-import { test, after, beforeEach } from 'node:test'
-import mongoose from 'mongoose'
+import { test, after, beforeEach, before, describe } from 'node:test'
 import supertest from 'supertest'
 import assert from 'node:assert'
-import app from '../../app.js' 
+import app from '../../app.js'
 
 import Location from '../models/location.js'
 import Hill from '../models/hill.js'
 import Mountain from '../models/mountain.js'
 import Event from '../models/event.js'
-import Team from '../models/team.js'
-import Participant from '../models/participant.js'
-import Lap from '../models/lap.js'
-import RFIDTag from '../models/rfidTag.js'
-
-// Helper to clear the database before each test run
-export const emptyTestDB = async () => {
-  await Promise.all([
-    Location.deleteMany({}),
-    Hill.deleteMany({}),
-    Mountain.deleteMany({}),
-    RFIDTag.deleteMany({}),
-    Event.deleteMany({}),
-    Team.deleteMany({}),
-    Participant.deleteMany({}),
-    Lap.deleteMany({}),
-  ])
-}
+import { authToken, closeDBConnection, emptyTestDB } from './testHelper.js'
 
 const api = supertest(app)
 
@@ -47,19 +29,19 @@ const initialLocations = [
 ]
 
 const initialHills = [
-  { 
+  {
     locationName: 'Rocky Ridge Park',
     name: 'Rabbit Hill',
     lapElevationGain: 50.0,
     lapDistance: 1.2
   },
-  { 
-    locationName: 'Rocky Ridge Park', 
+  {
+    locationName: 'Rocky Ridge Park',
     name: 'Summer Hill',
     lapElevationGain: 45.6,
     lapDistance: 1.0
   },
-  { 
+  {
     locationName: 'City Skyline Trail',
     name: 'Groove Climb',
     lapElevationGain: 51.2,
@@ -103,7 +85,7 @@ beforeEach(async () => {
   // 1. Create all dependent entities first
   const createdLocations = await Location.insertMany(initialLocations)
   const createdMountains = await Mountain.insertMany(initialMountains)
-  
+
   const hillsToCreate = initialHills.map(hill => {
     const location = createdLocations.find(l => l.name === hill.locationName)
     return { ...hill, location: location._id }
@@ -125,7 +107,7 @@ beforeEach(async () => {
       availableMountains: mountains.map(m => m._id),
       active: eventData.active,
     })
-    
+
     return newEvent.save()
   })
 
@@ -138,89 +120,96 @@ beforeEach(async () => {
 })
 
 
-test('events are returned as json', async () => {
-  await api
-    .get('/api/events')
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
-})
+describe('Events', () => {
+  test('events are returned as json', async () => {
+    console.log("event auth: ", authToken)
+    await api
+      .get('/api/events')
+      .set('Authorization', `bearer ${authToken}`)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+  })
 
-test('all events are returned', async () => {
-  const response = await api.get('/api/events')
-  assert.strictEqual(response.body.length, initialEvents.length)
-})
+  test('all events are returned', async () => {
+    const response = await api.get('/api/events').set('Authorization', `bearer ${authToken}`)
+    assert.strictEqual(response.body.length, initialEvents.length)
+  })
 
-test('a valid event can be added', async () => {
-  const newEvent = {
-    name: 'New Test Event',
-    location: aLocationId,
-    startDateTime: new Date('2025-09-01T06:30:00Z'),
-    endDateTime: new Date('2025-09-01T11:00:00Z'),
-    hills: someHillIds,
-    mountains: [someMountainIds[0]],
-    active: true
-  }
+  test('a valid event can be added', async () => {
+    const newEvent = {
+      name: 'New Test Event',
+      location: aLocationId,
+      startDateTime: new Date('2025-09-01T06:30:00Z'),
+      endDateTime: new Date('2025-09-01T11:00:00Z'),
+      hills: someHillIds,
+      mountains: [someMountainIds[0]],
+      active: true
+    }
 
-  await api
-    .post('/api/events')
-    .send(newEvent)
-    .expect(201)
-    .expect('Content-Type', /application\/json/)
+    await api
+      .post('/api/events')
+      .set('Authorization', `bearer ${authToken}`)
+      .send(newEvent)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
 
-  const response = await api.get('/api/events')
-  const allEventNames = response.body.map(e => e.name)
+    const response = await api.get('/api/events').set('Authorization', `bearer ${authToken}`)
+    const allEventNames = response.body.map(e => e.name)
 
-  assert.strictEqual(response.body.length, initialEvents.length + 1)
-  assert(allEventNames.includes('New Test Event'), 'The new event name should be in the list')
-})
+    assert.strictEqual(response.body.length, initialEvents.length + 1)
+    assert(allEventNames.includes('New Test Event'), 'The new event name should be in the list')
+  })
 
-test('an existing event can be updated', async () => {
-  const allEventsAtStart = await api.get('/api/events')
-  const eventToUpdate = allEventsAtStart.body[0]
+  test('an existing event can be updated', async () => {
+    const allEventsAtStart = await api.get('/api/events').set('Authorization', `bearer ${authToken}`)
+    const eventToUpdate = allEventsAtStart.body[0]
 
-  const updatePayload = {
-    name: 'Updated Event Name!',
-    location: eventToUpdate.location.id,
-    startDateTime: eventToUpdate.startDateTime,
-    endDateTime: eventToUpdate.endDateTime,
-    active: false,
-    mountains: someMountainIds,
-    hills: someHillIds,
-  }
+    const updatePayload = {
+      name: 'Updated Event Name!',
+      location: eventToUpdate.location.id,
+      startDateTime: eventToUpdate.startDateTime,
+      endDateTime: eventToUpdate.endDateTime,
+      active: false,
+      mountains: someMountainIds,
+      hills: someHillIds,
+    }
 
-  await api
-    .put(`/api/events/${eventToUpdate.id}`)
-    .send(updatePayload)
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
+    await api
+      .put(`/api/events/${eventToUpdate.id}`)
+      .set('Authorization', `bearer ${authToken}`)
+      .send(updatePayload)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
 
-  const response = await api.get(`/api/events/${eventToUpdate.id}`)
-  const updatedEventFromDB = response.body
+    const response = await api.get(`/api/events/${eventToUpdate.id}`).set('Authorization', `bearer ${authToken}`)
+    const updatedEventFromDB = response.body
 
-  assert.strictEqual(updatedEventFromDB.name, 'Updated Event Name!')
-  assert.strictEqual(updatedEventFromDB.active, false)
-  assert.strictEqual(updatedEventFromDB.mountains.length, someMountainIds.length)
-})
-  
+    assert.strictEqual(updatedEventFromDB.name, 'Updated Event Name!')
+    assert.strictEqual(updatedEventFromDB.active, false)
+    assert.strictEqual(updatedEventFromDB.mountains.length, someMountainIds.length)
+  })
 
-test('an event can be deleted', async () => {
-  const allEventsAtStart = await api.get('/api/events')
-  const eventToDelete = allEventsAtStart.body[0]
-  const initialCount = allEventsAtStart.body.length
 
-  await api
-    .delete(`/api/events/${eventToDelete.id}`)
-    .expect(204)
+  test('an event can be deleted', async () => {
+    const allEventsAtStart = await api.get('/api/events').set('Authorization', `bearer ${authToken}`)
+    const eventToDelete = allEventsAtStart.body[0]
+    const initialCount = allEventsAtStart.body.length
 
-  const allEventsAtEnd = await api.get('/api/events')
-  assert.strictEqual(allEventsAtEnd.body.length, initialCount - 1)
+    await api
+      .delete(`/api/events/${eventToDelete.id}`)
+      .set('Authorization', `bearer ${authToken}`)
+      .expect(204)
 
-  // Verify that the specific event is no longer in the list
-  const eventIdsAtEnd = allEventsAtEnd.body.map(e => e.id)
-  assert(!eventIdsAtEnd.includes(eventToDelete.id), 'The deleted event ID should not be found')
+    const allEventsAtEnd = await api.get('/api/events').set('Authorization', `bearer ${authToken}`)
+    assert.strictEqual(allEventsAtEnd.body.length, initialCount - 1)
+
+    // Verify that the specific event is no longer in the list
+    const eventIdsAtEnd = allEventsAtEnd.body.map(e => e.id)
+    assert(!eventIdsAtEnd.includes(eventToDelete.id), 'The deleted event ID should not be found')
+  })
 })
 
 
 after(async () => {
-  await mongoose.connection.close()
+  await closeDBConnection()
 })

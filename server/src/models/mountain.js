@@ -1,4 +1,4 @@
-import mongoose from '../utils/db.js'
+import mongoose from "mongoose"
 
 const {Schema, model} = mongoose
 

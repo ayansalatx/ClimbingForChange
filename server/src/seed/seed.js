@@ -42,10 +42,20 @@ const seedDatabase = async () => {
       },
     ])
 
-    await User.insertOne({
+    await User.insertMany([
+      {
         username: 'admin',
+        firstName: 'John',
+        firstName: 'Doe',
         password_hash: "$2a$12$7lCxHOSbd8XIJr/D6ZMsyO90FjYxqyQWzxx/IP6fznanAS6PjqcEK",
-      })
+      },
+      {
+        username: 'admin',
+        firstName: 'Jane',
+        firstName: 'Mary',
+        password_hash: "$2a$12$7lCxHOSbd8XIJr/D6ZMsyO90FjYxqyQWzxx/IP6fznanAS6PjqcEK",
+      }
+    ])
 
     const mountains = await Mountain.insertMany([
       {

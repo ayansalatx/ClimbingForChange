@@ -10,10 +10,8 @@ export const createJWTToken = (user) => {
         id: user.id
     };
 
-    const { sign } = jwt;    
-
     // token expires in 24 hours
-    const token = sign(userForToken, config.JWT_SECRET, {
+    const token = jwt.sign(userForToken, config.JWT_SECRET, {
         expiresIn: 24 * 60 * 60
     });
 
