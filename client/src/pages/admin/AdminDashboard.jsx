@@ -17,7 +17,7 @@ import { useAlert } from '../../hooks/useAlert'
 import { getUpcomingEventsSummary } from '../../services/eventService'
 import ProgressBoardButton from '../../components/admin/buttons/ProgressBoardButton'
 
-const CustomLeftArrow = ({ onClick }) => (
+const CarouselLeftArrow = ({ onClick }) => (
   <IconButton
     onClick={(e) => {
       e.currentTarget.blur()
@@ -43,7 +43,7 @@ const CustomLeftArrow = ({ onClick }) => (
   </IconButton>
 )
 
-const CustomRightArrow = ({ onClick }) => (
+const CarouselRightArrow = ({ onClick }) => (
   <IconButton
     onClick={(e) => {
       e.currentTarget.blur()
@@ -184,7 +184,6 @@ const AdminDashboard = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'space-between',
         bgColor: 'background.main',
         py: 3,
       }}
@@ -199,6 +198,14 @@ const AdminDashboard = () => {
         Leaderboard Management
       </Typography>
 
+      <Box sx={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'space-evenly'
+      }}>
       <Box
         sx={{
           width: '100%',
@@ -225,8 +232,8 @@ const AdminDashboard = () => {
         <Carousel
           responsive={responsive}
           infinite
-          customLeftArrow={<CustomLeftArrow />}
-          customRightArrow={<CustomRightArrow />}
+          customLeftArrow={<CarouselLeftArrow />}
+          customRightArrow={<CarouselRightArrow />}
           autoPlay
         >
           {navCardData.map((card, index) => (
@@ -244,6 +251,8 @@ const AdminDashboard = () => {
             </Box>
           ))}
         </Carousel>
+      </Box>
+
       </Box>
     </Box>
   )

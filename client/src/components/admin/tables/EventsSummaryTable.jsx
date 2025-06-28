@@ -14,7 +14,7 @@ const headerColumns = [
   { label: 'Start Date', align: 'center' },
   { label: 'Start Time', align: 'center' },
   { label: 'Teams', align: 'center' },
-  { label: 'Participants', align: 'center' },
+  { label: 'Climbers', align: 'center' },
   { label: 'Live', align: 'center' },
 ]
 

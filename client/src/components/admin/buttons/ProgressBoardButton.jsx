@@ -10,6 +10,7 @@ const ProgressBoardButton = ({ liveEventExists }) => {
       onClick={() => navigate('/progress')}
       variant="contained"
       sx={{
+        maxHeight: '14rem',
         my: '1rem',
         bgcolor: 'primary.main',
         display: 'flex',

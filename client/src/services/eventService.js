@@ -17,7 +17,7 @@ export const getUpcomingEventsSummary = async () => {
         0,
         Math.ceil((start - now) / (1000 * 60 * 60 * 24))
       )
-      return event.active === true && end >= now && daysToGo <= 366 
+      return event.active === true && end >= now && daysToGo <= 366
     })
     .sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime))
     .slice(0, 5)
@@ -41,12 +41,27 @@ export const getUpcomingEventsSummary = async () => {
     const eventsCount = eventsList.length
 
     // Get number of participants
-    const participantCount = eventsList.flatMap(team => team.participants || []).length
+    const participantCount = eventsList.flatMap(
+      (team) => team.participants || []
+    ).length
+
+    const startDate = start.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+
+    // Format time: 3:20 PM
+    const startTime = start.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    })
 
     return {
       name: event.name,
-      startDate: start.toLocaleDateString(),
-      startTime: start.toLocaleTimeString(),
+      startDate: startDate,
+      startTime: startTime,
       daysToGo,
       eventsCount,
       participantCount,
