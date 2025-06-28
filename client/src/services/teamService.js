@@ -9,6 +9,7 @@ export const getAllTeams = async () => {
 // Get all teams for the current event
 export const getTeamsForDisplay = async () => {
   const teamList = await getAllTeams()
+
   // Create array for display
   const teamsForDisplay = teamList.map((team) => {
     // Get laps for each participant
@@ -22,10 +23,10 @@ export const getTeamsForDisplay = async () => {
 
     return {
       ...team,
-      mountainName: team.targetMountainId?.name,
-      elevation: team.targetMountainId?.totalElevation,
-      currentElevation: laps.length ? laps.length * 217 : 0,
-      lapsCompleted: laps.length ? laps.length : 0,
+      mountainName: team.mountain?.name,
+      elevation: team.mountain?.totalElevation,
+      currentElevation: laps.length ? laps.length * team.hill?.lapElevationGain : '-',
+      lapsCompleted: laps.length ? laps.length : '-',
       lapsToGo: Math.max((team.lapsRequired || 0) - laps.length, 0),
       bestLap: laps.length ? formatTime(teamBestLap) : null,
       timeElapsed: laps.length ? formatTime(teamTimeElapsed) : '00:00:00',
@@ -37,12 +38,12 @@ export const getTeamsForDisplay = async () => {
 
         return {
           ...participant,
-          currentElevation: participantLaps.length * 217,
+          currentElevation: participantLaps.length * team.hill?.lapElevationGain,
           lapsCompleted: participantLaps.length,
           lapsRequired: team.lapsRequired,
           lapsToGo: Math.max(
-            (team.lapsRequired || 0) - participantLaps.length,
-            0
+            (team.lapsRequired || '-') - participantLaps.length,
+            '-'
           ),
           bestLap: participantBestLap ? formatTime(participantBestLap) : null,
           timeElapsed: participantTimeElapsed
