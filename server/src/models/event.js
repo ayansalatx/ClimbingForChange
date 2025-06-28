@@ -37,12 +37,22 @@ const eventSchema = new Schema({
   timestamps: true
 })
 
+eventSchema.virtual('teams', {
+  ref: 'Team',         
+  localField: '_id',          
+  foreignField: 'event',
+  justOne: false
+})
+
 eventSchema.set('toJSON', {
+  virtuals: true,
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
     delete returnedObject.__v
   }
 })
+
+eventSchema.set('toObject', { virtuals: true })
 
 export default model('Event', eventSchema)
