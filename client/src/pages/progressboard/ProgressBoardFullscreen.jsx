@@ -65,13 +65,32 @@ const ProgressBoardFullscreen = () => {
   return (
     <Box
       sx={{
+        position: 'relative',
         minHeight: '100vh',
         width: '100vw',
         bgcolor: 'primary.main',
         flexDirection: 'column',
         alignContent: 'center',
+        overflow: 'hidden',
       }}
     >
+      {/* https://pixabay.com/videos/search/terrain%20blue%20gray%20mountain/ */}
+      <video
+        src="/assets/mountain-with-way-points.mp4"
+        autoPlay
+        loop
+        muted
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          zIndex: 0,
+        }}
+      />
+
       <Container
         maxWidth={false}
         disableGutters
