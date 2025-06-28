@@ -7,7 +7,7 @@ import Hiking from '@mui/icons-material/Hiking'
 import PeopleIcon from '@mui/icons-material/People'
 import PlaceIcon from '@mui/icons-material/Place'
 import TerrainIcon from '@mui/icons-material/Terrain'
-import { Box, IconButton,Typography } from '@mui/material'
+import { Box, IconButton, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import Carousel from 'react-multi-carousel'
 
@@ -113,6 +113,69 @@ const AdminDashboard = () => {
 
   const liveEventExists = events?.some((event) => event.isLive)
 
+  const navCardData = [
+    {
+      title: 'Event Management',
+      icon: EventIcon,
+      link: '/admin/events',
+      bgColor: 'info.main',
+      iconSize: '12rem',
+      iconColor: 'secondary.light',
+      iconY: '2%',
+      iconX: '38%',
+    },
+    {
+      title: 'Team Management',
+      icon: PeopleIcon,
+      link: '/admin/teams',
+      bgColor: 'info.light',
+      iconSize: '16rem',
+      iconColor: 'info.main',
+      iconY: '-15%',
+      iconX: '5%',
+    },
+    {
+      title: 'Participant Management',
+      icon: Hiking,
+      link: '/admin/participants',
+      bgColor: 'info.main',
+      iconSize: '12rem',
+      iconColor: 'secondary.light',
+      iconY: '',
+      iconX: '42%',
+    },
+    {
+      title: 'Mountain Management',
+      icon: TerrainIcon,
+      link: '/admin/mountains',
+      bgColor: 'info.light',
+      iconSize: '18rem',
+      iconColor: 'info.main',
+      iconY: '-25%',
+      iconX: '',
+    },
+    {
+      title: 'Location Management',
+      icon: PlaceIcon,
+      link: '/admin/locations',
+      bgColor: 'secondary.main',
+      iconSize: '12rem',
+      iconColor: 'secondary.dark',
+      iconY: '',
+      iconX: '43%',
+    },
+    {
+      title: 'Hill Management',
+      icon: DownhillSkiingIcon,
+      link: '/admin/hills',
+      bgColor: 'secondary.main',
+      iconSize: '12rem',
+      iconColor: 'secondary.dark',
+      iconY: '',
+      iconX: '35%',
+    },
+  ]
+
   return (
     <Box
       sx={{
@@ -148,7 +211,7 @@ const AdminDashboard = () => {
           <EventSummaryTable events={events} />
         </Box>
 
-        <ProgressBoardButton liveEventExists={liveEventExists}/>
+        <ProgressBoardButton liveEventExists={liveEventExists} />
       </Box>
 
       <Box
@@ -166,78 +229,20 @@ const AdminDashboard = () => {
           customRightArrow={<CustomRightArrow />}
           autoPlay
         >
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <NavigationCard
-              cardTitle={'Event Management'}
-              cardIcon={EventIcon}
-              link={'/admin/events'}
-              bgColor={'info.main'}
-              iconSize={'12rem'}
-              iconColor={'secondary.light'}
-              iconYPosition={'2%'}
-              iconXPosition={'38%'}
-            />
-          </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <NavigationCard
-              cardTitle={'Team Management'}
-              cardIcon={PeopleIcon}
-              link={'/admin/teams'}
-              bgColor={'info.light'}
-              iconSize={'16rem'}
-              iconColor={'info.main'}
-              iconYPosition={'-15%'}
-              iconXPosition={'5%'}
-            />
-          </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <NavigationCard
-              cardTitle={'Participant Management'}
-              cardIcon={Hiking}
-              link={'/admin/participants'}
-              bgColor={'info.main'}
-              iconSize={'12rem'}
-              iconColor={'secondary.light'}
-              iconYPosition={''}
-              iconXPosition={'42%'}
-            />
-          </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <NavigationCard
-              cardTitle={'Mountain Management'}
-              cardIcon={TerrainIcon}
-              link={'/admin/mountains'}
-              bgColor={'info.light'}
-              iconSize={'18rem'}
-              iconColor={'info.main'}
-              iconYPosition={'-25%'}
-              iconXPosition={''}
-            />
-          </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <NavigationCard
-              cardTitle={'Location Management'}
-              cardIcon={PlaceIcon}
-              link={'/admin/locations'}
-              bgColor={'secondary.main'}
-              iconSize={'12rem'}
-              iconColor={'secondary.dark'}
-              iconYPosition={''}
-              iconXPosition={'43%'}
-            />
-          </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <NavigationCard
-              cardTitle={'Hill Management'}
-              cardIcon={DownhillSkiingIcon}
-              link={'/admin/hills'}
-              bgColor={'secondary.main'}
-              iconSize={'12rem'}
-              iconColor={'secondary.dark'}
-              iconYPosition={''}
-              iconXPosition={'35%'}
-            />
-          </Box>
+          {navCardData.map((card, index) => (
+            <Box key={index} sx={{ display: 'flex', justifyContent: 'center' }}>
+              <NavigationCard
+                cardTitle={card.title}
+                cardIcon={card.icon}
+                link={card.link}
+                bgColor={card.bgColor}
+                iconSize={card.iconSize}
+                iconColor={card.iconColor}
+                iconYPosition={card.iconY}
+                iconXPosition={card.iconX}
+              />
+            </Box>
+          ))}
         </Carousel>
       </Box>
     </Box>
