@@ -3,7 +3,7 @@ import theme from '../../../styles/theme'
 const ScrollingTableRow = ({ teams, columns }) => {
   return (
     <TableBody>
-      {teams.map((team) => (
+      {teams.map((team, index) => (
         <>
           <TableRow>
             <TableCell
@@ -27,12 +27,17 @@ const ScrollingTableRow = ({ teams, columns }) => {
               let align = 'center'
               if (colIndex === 0) align = 'left'
               if (colIndex === columns.length - 1) align = 'right'
+              const isEven = index % 2 === 0
               return (
                 <TableCell
                   key={column.id}
                   align={align}
                   sx={{
                     border: 'none',
+                    fontSize: '1.25rem',
+                    textTransform: 'uppercase',
+                    letterSpacing: '.05rem',
+                    color: isEven ? 'secondary.main' : 'info.main'
                   }}
                 >
                   {value}
