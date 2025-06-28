@@ -37,7 +37,7 @@ const ProgressBoardButton = ({ liveEventExists }) => {
         <Typography
           visibility={liveEventExists ? 'visible': 'hidden'}
           variant="h6"
-          fontSize={liveEventExists ? "1.75rem" : '0'}
+          fontSize={liveEventExists ? '1.75rem' : '0'}
           color={liveEventExists ? 'secondary.main' : 'background.paper'}
           textTransform="uppercase"
           fontWeight="bold"

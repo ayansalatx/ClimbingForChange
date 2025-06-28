@@ -1,4 +1,5 @@
-import { TableCell, TableHead, TableRow, alpha } from '@mui/material'
+import { alpha,TableCell, TableHead, TableRow } from '@mui/material'
+
 import theme from '../../../styles/theme'
 // Renders the header row of the table using provided column definitions
 const TableHeaderRow = ({ columns }) => {

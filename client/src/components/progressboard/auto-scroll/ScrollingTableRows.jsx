@@ -1,6 +1,7 @@
-import { Box, TableBody, TableCell, TableRow, alpha } from '@mui/material'
-import theme from '../../../styles/theme'
+import { alpha, TableBody, TableCell, TableRow } from '@mui/material'
 import { Fragment } from 'react'
+
+import theme from '../../../styles/theme'
 
 const ScrollingTableRow = ({ teams, columns }) => {
   return (
