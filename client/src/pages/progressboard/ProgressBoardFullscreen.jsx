@@ -1,4 +1,4 @@
-import { alpha,Box } from '@mui/material'
+import { alpha, Box } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -46,7 +46,7 @@ const ProgressBoardFullscreen = () => {
         setTeams(teamList)
       } catch (e) {
         console.log('Failed to load progress data', e)
-      }finally {
+      } finally {
         setLoading(false)
       }
     }
@@ -120,8 +120,19 @@ const ProgressBoardFullscreen = () => {
             </a>
           </Box>
 
-          <Box sx={{ flexGrow: 1, width: '100%',  minHeight: 0 }}>
-            <AutoScrollTable columns={columns} teams={teams} loading={loading} />
+          <Box
+            sx={{
+              flexGrow: 1,
+              width: '100%',
+              minHeight: 0,
+              overflowY: 'hidden',
+            }}
+          >
+            <AutoScrollTable
+              columns={columns}
+              teams={teams}
+              loading={loading}
+            />
           </Box>
         </Box>
       </Box>
