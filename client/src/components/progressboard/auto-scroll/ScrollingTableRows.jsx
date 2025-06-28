@@ -1,10 +1,12 @@
 import { Box, TableBody, TableCell, TableRow, alpha } from '@mui/material'
 import theme from '../../../styles/theme'
+import { Fragment } from 'react'
+
 const ScrollingTableRow = ({ teams, columns }) => {
   return (
-    <TableBody>
+    <TableBody >
       {teams.map((team, index) => (
-        <>
+        <Fragment key={team.id}>
           <TableRow>
             <TableCell
               colSpan={columns.length}
@@ -45,7 +47,7 @@ const ScrollingTableRow = ({ teams, columns }) => {
               )
             })}
           </TableRow>
-        </>
+        </Fragment>
       ))}
     </TableBody>
   )
