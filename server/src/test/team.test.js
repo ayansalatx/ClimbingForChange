@@ -10,7 +10,7 @@ import RFIDTag from '../models/rfidTag.js'
 import Event from '../models/event.js'
 import Team from '../models/team.js'
 import Participant from '../models/participant.js'
-import { authToken, closeDBConnection, emptyTestDB,  } from './testHelper.js'
+import { closeDBConnection, emptyTestDB, loginAndGetToken } from './testHelper.js'
 
 const api = supertest(app)
 
@@ -19,6 +19,12 @@ let aMountainId = ''
 let aHillId = ''
 let anRfidTagId = ''
 let initialTeamId = ''
+
+let token = ''
+
+before(async() => {
+  token = await loginAndGetToken()
+})
 
 beforeEach(async () => {
   await emptyTestDB()
@@ -62,19 +68,19 @@ describe('Teams API (/api/teams)', () => {
   test('teams are returned as json', async () => {
     await api
       .get('/api/teams')
-      .set('Authorization', `bearer ${authToken}`)
+      .set('Authorization', `bearer ${token}`)
       .expect(200)
       .expect('Content-Type', /application\/json/)
   })
 
   test('all teams are returned', async () => {
-    const response = await api.get('/api/teams').set('Authorization', `bearer ${authToken}`)
+    const response = await api.get('/api/teams').set('Authorization', `bearer ${token}`)
     assert.strictEqual(response.body.length, 1)
   })
 
   test('a single team can be fetched and includes participants', async () => {
     const response = await api
-      .get(`/api/teams/${initialTeamId}`).set('Authorization', `bearer ${authToken}`)
+      .get(`/api/teams/${initialTeamId}`).set('Authorization', `bearer ${token}`)
       .expect(200)
 
     const team = response.body
@@ -101,12 +107,12 @@ describe('Teams API (/api/teams)', () => {
 
     await api
       .post('/api/teams')
-      .set('Authorization', `bearer ${authToken}`)
+      .set('Authorization', `bearer ${token}`)
       .send(newTeamPayload)
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
-    const response = await api.get('/api/teams').set('Authorization', `bearer ${authToken}`)
+    const response = await api.get('/api/teams').set('Authorization', `bearer ${token}`)
     const teamNames = response.body.map(t => t.name)
 
     assert.strictEqual(response.body.length, 2)
@@ -116,7 +122,7 @@ describe('Teams API (/api/teams)', () => {
   test('a team can be updated', async () => {
     const response = await api
       .get(`/api/teams/${initialTeamId}`)
-      .set('Authorization', `bearer ${authToken}`)
+      .set('Authorization', `bearer ${token}`)
 
     const teamToUpdate = response.body
 
@@ -128,11 +134,11 @@ describe('Teams API (/api/teams)', () => {
 
     await api
       .put(`/api/teams/${initialTeamId}`)
-      .set('Authorization', `bearer ${authToken}`)
+      .set('Authorization', `bearer ${token}`)
       .send(updatePayload)
       .expect(200)
 
-    const res = await api.get(`/api/teams/${initialTeamId}`).set('Authorization', `bearer ${authToken}`)
+    const res = await api.get(`/api/teams/${initialTeamId}`).set('Authorization', `bearer ${token}`)
     assert.strictEqual(res.body.name, 'The First Climbers - Updated Name')
     assert.strictEqual(res.body.isSoloTeam, true)
   })
@@ -140,10 +146,10 @@ describe('Teams API (/api/teams)', () => {
   test('a team can be deleted', async () => {
     await api
       .delete(`/api/teams/${initialTeamId}`)
-      .set('Authorization', `bearer ${authToken}`)
+      .set('Authorization', `bearer ${token}`)
       .expect(204)
 
-    const response = await api.get('/api/teams').set('Authorization', `bearer ${authToken}`)
+    const response = await api.get('/api/teams').set('Authorization', `bearer ${token}`)
     assert.strictEqual(response.body.length, 0)
   })
 

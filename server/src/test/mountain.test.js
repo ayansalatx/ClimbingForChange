@@ -1,11 +1,10 @@
-import { test, describe, after, beforeEach, before } from 'node:test'
+import { test, describe, after, beforeEach } from 'node:test'
 import supertest from 'supertest'
 import app from '../../app.js'
 import assert from 'node:assert'
 
-import Location from '../models/location.js'
 import Mountain from '../models/mountain.js'
-import { authToken, closeDBConnection, emptyTestDB } from './testHelper.js'
+import { loginAndGetToken, closeDBConnection } from './testHelper.js'
 
 const api = supertest(app)
 
@@ -14,15 +13,14 @@ const initialMountainsData = [
   { name: 'K2', totalElevation: 28251, elevationUnit: 'FT' },
 ]
 
-let aLocationId = ''
+let authToken = ''
 
 beforeEach(async () => {
-  await emptyTestDB()
+  await Promise.all([
+      Mountain.deleteMany({}),
+    ])
 
-  const location = await new Location({
-    name: 'Test Park', address: '1 Test St', city: 'Testville', provState: 'TS', country: 'Testland'
-  }).save()
-  aLocationId = location._id
+  authToken = await loginAndGetToken()
   await Mountain.insertMany(initialMountainsData)
 })
 
@@ -81,7 +79,6 @@ describe('Mountains API (/api/mountains)', () => {
     assert.strictEqual(finalMountains.body.length, initialMountainsData.length - 1)
   })
 })
-
 
 after(async () => {
   await closeDBConnection()

@@ -5,7 +5,7 @@ import assert from 'node:assert'
 
 import Location from '../models/location.js'
 import Hill from '../models/hill.js'
-import { authToken, closeDBConnection, emptyTestDB } from './testHelper.js'
+import { closeDBConnection, loginAndGetToken } from './testHelper.js'
 
 const api = supertest(app)
 
@@ -16,8 +16,17 @@ const initialHillsData = [
 
 let aLocationId = ''
 
+let token = ''
+
+before(async() => {
+  token = await loginAndGetToken()
+})
+
 beforeEach(async () => {
-  await emptyTestDB()
+  await Promise.all([
+      Location.deleteMany({}),
+      Hill.deleteMany({}), 
+    ])
 
   const location = await new Location({
     name: 'Test Park', address: '1 Test St', city: 'Testville', provState: 'TS', country: 'Testland'
@@ -32,13 +41,13 @@ describe('Hills API (/api/hills)', () => {
   test('hills are returned as json', async () => {
     await api
       .get('/api/hills')
-      .set('Authorization', `bearer ${authToken}`)
+      .set('Authorization', `bearer ${token}`)
       .expect(200)
       .expect('Content-Type', /application\/json/)
   })
 
   test('all hills are returned', async () => {
-    const response = await api.get('/api/hills').set('Authorization', `bearer ${authToken}`)
+    const response = await api.get('/api/hills').set('Authorization', `bearer ${token}`)
     assert.strictEqual(response.body.length, initialHillsData.length)
   })
 
@@ -52,12 +61,12 @@ describe('Hills API (/api/hills)', () => {
 
     await api
       .post('/api/hills')
-      .set('Authorization', `bearer ${authToken}`)
+      .set('Authorization', `bearer ${token}`)
       .send(newHill)
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
-    const response = await api.get('/api/hills').set('Authorization', `bearer ${authToken}`)
+    const response = await api.get('/api/hills').set('Authorization', `bearer ${token}`)
     const hillNames = response.body.map(h => h.name)
 
     assert.strictEqual(response.body.length, initialHillsData.length + 1)
@@ -65,23 +74,23 @@ describe('Hills API (/api/hills)', () => {
   })
 
   test('a hill can be updated', async () => {
-    const hills = await api.get('/api/hills').set('Authorization', `bearer ${authToken}`)
+    const hills = await api.get('/api/hills').set('Authorization', `bearer ${token}`)
     const hillToUpdate = hills.body[0]
     const payload = { ...hillToUpdate, lapDistance: 99.9 }
 
-    await api.put(`/api/hills/${hillToUpdate.id}`).set('Authorization', `bearer ${authToken}`).send(payload).expect(200)
+    await api.put(`/api/hills/${hillToUpdate.id}`).set('Authorization', `bearer ${token}`).send(payload).expect(200)
 
-    const res = await api.get(`/api/hills/${hillToUpdate.id}`).set('Authorization', `bearer ${authToken}`)
+    const res = await api.get(`/api/hills/${hillToUpdate.id}`).set('Authorization', `bearer ${token}`)
     assert.strictEqual(res.body.lapDistance, 99.9)
   })
 
   test('a hill can be deleted', async () => {
-    const hills = await api.get('/api/hills').set('Authorization', `bearer ${authToken}`)
+    const hills = await api.get('/api/hills').set('Authorization', `bearer ${token}`)
     const hillToDelete = hills.body[0]
 
-    await api.delete(`/api/hills/${hillToDelete.id}`).set('Authorization', `bearer ${authToken}`).expect(204)
+    await api.delete(`/api/hills/${hillToDelete.id}`).set('Authorization', `bearer ${token}`).expect(204)
     
-    const finalHills = await api.get('/api/hills').set('Authorization', `bearer ${authToken}`)
+    const finalHills = await api.get('/api/hills').set('Authorization', `bearer ${token}`)
     assert.strictEqual(finalHills.body.length, initialHillsData.length - 1)
   })
 })

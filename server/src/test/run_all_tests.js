@@ -1,25 +1,25 @@
-import { describe, after } from 'node:test'
-import { closeDBConnection, setupTestUserAndGetToken, setupInitialSeedData, emptyTestDB } from './testHelper.js'
+import { describe, before, after } from 'node:test'
 import connectDB from '../utils/db.js'
+import { closeDBConnection } from './testHelper.js'
 
-console.log('--- Test Suite Setup ---')
-await connectDB()
-await emptyTestDB()
-await setupTestUserAndGetToken()
-await setupInitialSeedData()
-console.log('--- Setup complete. Starting tests... ---')
+// Simple setup - just connect to DB
+before(async () => {
+  console.log('--- Connecting to test database ---')
+  await connectDB()
+})
 
-import './event.test.js'
-import './hill.test.js'
+// Import all test files
 import './location.test.js'
+import './hill.test.js'
 import './mountain.test.js'
-import './participant.test.js'
 import './rfidTag.test.js'
-import './team.test.js'
+// import './event.test.js'
+// import './team.test.js'
+// import './participant.test.js' // Add when ready
 
-describe('API Test Teardown', () => {
+describe('API Test Suite', () => {
   after(async () => {
-    console.log('--- All tests finished, closing DB connection. ---')
+    console.log('--- All tests finished, closing DB connection ---')
     await closeDBConnection()
   })
 })

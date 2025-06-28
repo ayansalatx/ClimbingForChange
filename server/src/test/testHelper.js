@@ -6,43 +6,37 @@ import Location from '../models/location.js'
 import Hill from '../models/hill.js'
 import Mountain from '../models/mountain.js'
 import User from '../models/user.js'
-
 import RFIDTag from '../models/rfidTag.js'
 import Event from '../models/event.js'
 import Team from '../models/team.js'
 import Participant from '../models/participant.js'
 import Lap from '../models/lap.js'
 
-
 export const api = supertest(app)
 
-const testUser = {
-  username: 'admin',
-  password: '12345678'
-}
+// Clear all test data
 export const emptyTestDB = async () => {
-
-    await Promise.all([
+  await Promise.all([
     Location.deleteMany({}),
-        Hill.deleteMany({}), 
-        Mountain.deleteMany({}),
-        RFIDTag.deleteMany({}),
-        Event.deleteMany({}),
-        Team.deleteMany({}),
-        Participant.deleteMany({}),
-        Lap.deleteMany({}),
-        User.deleteMany({}),
+    Hill.deleteMany({}), 
+    Mountain.deleteMany({}),
+    RFIDTag.deleteMany({}),
+    Event.deleteMany({}),
+    Team.deleteMany({}),
+    Participant.deleteMany({}),
+    Lap.deleteMany({}),
+    User.deleteMany({}),
   ])
 }
 
-export let authToken = ''
+// Create test user and get auth token - call this in each test file
+export const loginAndGetToken = async () => {
+  const testUser = {
+    username: 'admin',
+    password: '12345678'
+  }
 
-// --- EXPORT VARIABLES TO HOLD SHARED IDs ---
-export let aLocationId = ''
-export let aTeamId = ''
-
-export const setupTestUserAndGetToken  = async () => {
-  await User.deleteMany({})
+  // Create test user
   await User.create({
     username: testUser.username,
     password_hash: '$2a$12$7lCxHOSbd8XIJr/D6ZMsyO90FjYxqyQWzxx/IP6fznanAS6PjqcEK',
@@ -50,6 +44,7 @@ export const setupTestUserAndGetToken  = async () => {
     lastName: 'Admin'
   })
 
+  // Get auth token
   const response = await api
     .post('/api/auth')
     .send({
@@ -57,23 +52,7 @@ export const setupTestUserAndGetToken  = async () => {
       password: testUser.password
     })
 
-  authToken = response.body.token 
-}
-
-export const setupInitialSeedData = async () => {
-  console.log('--- Setting up initial seed data (Locations, Teams, etc.) ---')
-
-  const location = await new Location({
-    name: 'Shared Test Park', address: '123 Global Ave', /* etc */
-  }).save()
-  aLocationId = location._id
-
-  const team = await new Team({
-    name: 'The A-Team'
-  }).save()
-  aTeamId = team._id
-
-  // Add any other shared data creation here...
+  return response.body.token
 }
 
 export const closeDBConnection = async () => {

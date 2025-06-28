@@ -7,7 +7,7 @@ import Location from '../models/location.js'
 import Hill from '../models/hill.js'
 import Mountain from '../models/mountain.js'
 import Event from '../models/event.js'
-import { authToken, closeDBConnection, emptyTestDB } from './testHelper.js'
+import { closeDBConnection, emptyTestDB, loginAndGetToken } from './testHelper.js'
 
 const api = supertest(app)
 
@@ -79,9 +79,23 @@ let aLocationId = ''
 let someHillIds = []
 let someMountainIds = []
 
-beforeEach(async () => {
-  await emptyTestDB()
+let token = ''
 
+before(async () => {
+  token = await loginAndGetToken()
+})
+
+beforeEach(async () => {
+  await Promise.all([
+          Location.deleteMany({}),
+          Hill.deleteMany({}), 
+          Mountain.deleteMany({}),
+          RFIDTag.deleteMany({}),
+          Event.deleteMany({}),
+          Team.deleteMany({}),
+          Participant.deleteMany({}),
+          Lap.deleteMany({}),
+    ])
   // 1. Create all dependent entities first
   const createdLocations = await Location.insertMany(initialLocations)
   const createdMountains = await Mountain.insertMany(initialMountains)
@@ -120,18 +134,17 @@ beforeEach(async () => {
 })
 
 
-describe('Events', () => {
+describe('Event API', () => {
   test('events are returned as json', async () => {
-    console.log("event auth: ", authToken)
     await api
       .get('/api/events')
-      .set('Authorization', `bearer ${authToken}`)
+      .set('Authorization', `bearer ${token}`)
       .expect(200)
       .expect('Content-Type', /application\/json/)
   })
 
   test('all events are returned', async () => {
-    const response = await api.get('/api/events').set('Authorization', `bearer ${authToken}`)
+    const response = await api.get('/api/events').set('Authorization', `bearer ${token}`)
     assert.strictEqual(response.body.length, initialEvents.length)
   })
 
@@ -148,12 +161,12 @@ describe('Events', () => {
 
     await api
       .post('/api/events')
-      .set('Authorization', `bearer ${authToken}`)
+      .set('Authorization', `bearer ${token}`)
       .send(newEvent)
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
-    const response = await api.get('/api/events').set('Authorization', `bearer ${authToken}`)
+    const response = await api.get('/api/events').set('Authorization', `bearer ${token}`)
     const allEventNames = response.body.map(e => e.name)
 
     assert.strictEqual(response.body.length, initialEvents.length + 1)
@@ -161,7 +174,7 @@ describe('Events', () => {
   })
 
   test('an existing event can be updated', async () => {
-    const allEventsAtStart = await api.get('/api/events').set('Authorization', `bearer ${authToken}`)
+    const allEventsAtStart = await api.get('/api/events').set('Authorization', `bearer ${token}`)
     const eventToUpdate = allEventsAtStart.body[0]
 
     const updatePayload = {
@@ -176,12 +189,12 @@ describe('Events', () => {
 
     await api
       .put(`/api/events/${eventToUpdate.id}`)
-      .set('Authorization', `bearer ${authToken}`)
+      .set('Authorization', `bearer ${token}`)
       .send(updatePayload)
       .expect(200)
       .expect('Content-Type', /application\/json/)
 
-    const response = await api.get(`/api/events/${eventToUpdate.id}`).set('Authorization', `bearer ${authToken}`)
+    const response = await api.get(`/api/events/${eventToUpdate.id}`).set('Authorization', `bearer ${token}`)
     const updatedEventFromDB = response.body
 
     assert.strictEqual(updatedEventFromDB.name, 'Updated Event Name!')
@@ -191,16 +204,16 @@ describe('Events', () => {
 
 
   test('an event can be deleted', async () => {
-    const allEventsAtStart = await api.get('/api/events').set('Authorization', `bearer ${authToken}`)
+    const allEventsAtStart = await api.get('/api/events').set('Authorization', `bearer ${token}`)
     const eventToDelete = allEventsAtStart.body[0]
     const initialCount = allEventsAtStart.body.length
 
     await api
       .delete(`/api/events/${eventToDelete.id}`)
-      .set('Authorization', `bearer ${authToken}`)
+      .set('Authorization', `bearer ${token}`)
       .expect(204)
 
-    const allEventsAtEnd = await api.get('/api/events').set('Authorization', `bearer ${authToken}`)
+    const allEventsAtEnd = await api.get('/api/events').set('Authorization', `bearer ${token}`)
     assert.strictEqual(allEventsAtEnd.body.length, initialCount - 1)
 
     // Verify that the specific event is no longer in the list
