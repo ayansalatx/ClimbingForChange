@@ -198,61 +198,69 @@ const AdminDashboard = () => {
         Leaderboard Management
       </Typography>
 
-      <Box sx={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'space-evenly'
-      }}>
       <Box
         sx={{
           width: '100%',
-          my: '2rem',
+          height: '100%',
           display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
           justifyContent: 'space-evenly',
         }}
       >
-        <Box width={'65%'}>
-          <EventSummaryTable events={events} />
+        <Box
+          sx={{
+            width: '100%',
+            maxWidth: '1800px',
+            my: '2rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-evenly',
+          }}
+        >
+          <Box maxWidth={'70%'} padding={1}>
+            <EventSummaryTable events={events} />
+          </Box>
+
+          <Box pr={1}>
+            <ProgressBoardButton liveEventExists={liveEventExists} />
+          </Box>
         </Box>
 
-        <ProgressBoardButton liveEventExists={liveEventExists} />
-      </Box>
-
-      <Box
-        sx={{
-          width: '100%',
-          backgroundColor: 'primary.light',
-          padding: '1rem',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)',
-        }}
-      >
-        <Carousel
-          responsive={responsive}
-          infinite
-          customLeftArrow={<CarouselLeftArrow />}
-          customRightArrow={<CarouselRightArrow />}
-          autoPlay
+        <Box
+          sx={{
+            width: '100%',
+            backgroundColor: 'primary.light',
+            padding: '1rem',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)',
+          }}
         >
-          {navCardData.map((card, index) => (
-            <Box key={index} sx={{ display: 'flex', justifyContent: 'center' }}>
-              <NavigationCard
-                cardTitle={card.title}
-                cardIcon={card.icon}
-                link={card.link}
-                bgColor={card.bgColor}
-                iconSize={card.iconSize}
-                iconColor={card.iconColor}
-                iconYPosition={card.iconY}
-                iconXPosition={card.iconX}
-              />
-            </Box>
-          ))}
-        </Carousel>
-      </Box>
-
+          <Carousel
+            responsive={responsive}
+            infinite
+            customLeftArrow={<CarouselLeftArrow />}
+            customRightArrow={<CarouselRightArrow />}
+            autoPlay
+          >
+            {navCardData.map((card, index) => (
+              <Box
+                key={index}
+                sx={{ display: 'flex', justifyContent: 'center' }}
+              >
+                <NavigationCard
+                  cardTitle={card.title}
+                  cardIcon={card.icon}
+                  link={card.link}
+                  bgColor={card.bgColor}
+                  iconSize={card.iconSize}
+                  iconColor={card.iconColor}
+                  iconYPosition={card.iconY}
+                  iconXPosition={card.iconX}
+                />
+              </Box>
+            ))}
+          </Carousel>
+        </Box>
       </Box>
     </Box>
   )
