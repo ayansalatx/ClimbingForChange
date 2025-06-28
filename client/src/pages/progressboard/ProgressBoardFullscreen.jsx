@@ -20,18 +20,6 @@ const columns = [
   { id: 'timeElapsed', label: 'Time Elapsed', width: '8%' },
 ]
 
-// const medColumns = [
-//   { id: 'team-name', label: 'Team', minWidth: 200 },
-//   { id: 'mountain', label: 'Mountain', minWidth: 115 },
-//   { id: 'elevation', label: 'Elevation', minWidth: 60 },
-//   { id: 'current-elevation', label: 'Current Elevation', minWidth: 60 },
-//   { id: 'total-laps', label: 'Total Laps', minWidth: 40 },
-//   { id: 'laps-completed', label: 'Laps Completed', minWidth: 70 },
-//   { id: 'laps-to-go', label: 'Laps To Go', minWidth: 40 },
-//   { id: 'best-lap', label: 'Best Lap', minWidth: 40 },
-//   { id: 'time-elapsed', label: 'Time Elapsed', minWidth: 60 },
-// ]
-
 const ProgressBoardFullscreen = () => {
   // State for teams
   const [teams, setTeams] = useState([])
@@ -130,7 +118,7 @@ const ProgressBoardFullscreen = () => {
             </a>
           </Box>
 
-          <Box sx={{ flexGrow: 1, width: '100%' }}>
+          <Box sx={{ flexGrow: 1, width: '100%',  minHeight: 0 }}>
             <AutoScrollTable columns={columns} teams={teams} />
           </Box>
         </Box>

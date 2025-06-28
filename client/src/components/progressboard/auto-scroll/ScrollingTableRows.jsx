@@ -5,7 +5,7 @@ import theme from '../../../styles/theme'
 
 const ScrollingTableRow = ({ teams, columns }) => {
   return (
-    <TableBody >
+    <TableBody className="marquee__content" sx={{}}>
       {teams.map((team, index) => (
         <Fragment key={team.id}>
           <TableRow>
@@ -40,7 +40,7 @@ const ScrollingTableRow = ({ teams, columns }) => {
                     fontSize: '1.25rem',
                     textTransform: 'uppercase',
                     letterSpacing: '.05rem',
-                    color: isEven ? 'secondary.main' : 'info.main'
+                    color: isEven ? 'secondary.main' : 'info.main',
                   }}
                 >
                   {value}
