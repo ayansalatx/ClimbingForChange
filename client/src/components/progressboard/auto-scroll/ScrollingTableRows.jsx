@@ -1,23 +1,46 @@
-import { TableBody, TableCell, TableRow } from '@mui/material'
-
+import { Box, TableBody, TableCell, TableRow, alpha } from '@mui/material'
+import theme from '../../../styles/theme'
 const ScrollingTableRow = ({ teams, columns }) => {
   return (
     <TableBody>
       {teams.map((team) => (
-        <TableRow key={team.id}>
-          <TableCell></TableCell>
-          {columns.map((column, colIndex) => {
-            const value = team[column.id] ?? '-'
-            let align = 'center'
-            if (colIndex === 0) align = 'left'
-            if (colIndex === columns.length - 1) align = 'right'
-            return (
-              <TableCell key={column.id} align={align}>
-                {value}
-              </TableCell>
-            )
-          })}
-        </TableRow>
+        <>
+          <TableRow>
+            <TableCell
+              colSpan={columns.length}
+              sx={{
+                p: 0,
+                border: 'none',
+                height: '3px',
+                background: 'transparent',
+              }}
+            />
+          </TableRow>
+          <TableRow
+            key={team.id}
+            sx={{
+              background: `linear-gradient(to right, ${alpha(theme.palette.primary.main, 0.8)}, ${alpha(theme.palette.primary.main, 0.3)}, ${alpha(theme.palette.primary.main, 0.8)})`,
+            }}
+          >
+            {columns.map((column, colIndex) => {
+              const value = team[column.id] ?? '-'
+              let align = 'center'
+              if (colIndex === 0) align = 'left'
+              if (colIndex === columns.length - 1) align = 'right'
+              return (
+                <TableCell
+                  key={column.id}
+                  align={align}
+                  sx={{
+                    border: 'none',
+                  }}
+                >
+                  {value}
+                </TableCell>
+              )
+            })}
+          </TableRow>
+        </>
       ))}
     </TableBody>
   )

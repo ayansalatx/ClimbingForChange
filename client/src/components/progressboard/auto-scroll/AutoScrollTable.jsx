@@ -3,11 +3,13 @@ import {
   Table,
   TableContainer,
   TablePagination,
+  alpha
 } from '@mui/material'
 import { useEffect, useRef,useState } from 'react'
 
-import TableHeaderRow from '../TableHeaderRow'
+import TableHeaderRow from './TableHeaderRow'
 import ScrollingTableRow from './ScrollingTableRows'
+
 
 const AutoScrollTable = ({ teams, columns }) => {
   const containerRef = useRef(null)
@@ -45,9 +47,9 @@ const AutoScrollTable = ({ teams, columns }) => {
   }, [])
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer ref={containerRef} sx={{ height: '79vh' }}>
-        <Table stickyHeader aria-label="auto scrolling table">
+    <Paper sx={{ width: '100%', height: '100%', overflow: 'hidden', background: 'transparent' }}>
+      <TableContainer ref={containerRef} sx={{width: '100%', height: '100%' }}>
+        <Table stickyHeader aria-label="auto scrolling table" size='small'>
           <TableHeaderRow columns={columns} />
           <ScrollingTableRow columns={columns} teams={teams} />
         </Table>

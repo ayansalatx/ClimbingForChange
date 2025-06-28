@@ -1,22 +1,23 @@
-import { Box, Container } from '@mui/material'
+import { Box, Container, alpha } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import AutoScrollTable from '../../components/progressboard/auto-scroll/AutoScrollTable'
 import { getTeamsForDisplay } from '../../services/teamService'
+import theme from '../../styles/theme'
 
 // Define columns for full width screen
-const fullColumns = [
-  { id: 'name', label: 'Team', minWidth: 200 },
-  { id: 'mountainName', label: 'Mountain', minWidth: 115 },
-  { id: 'elevation', label: 'Elevation', minWidth: 60 },
-  { id: 'currentElevation', label: 'Current Elevation', minWidth: 60 },
-  { id: 'lapsRequired', label: 'Total Laps', minWidth: 40 },
-  { id: 'lapsCompleted', label: 'Laps Completed', minWidth: 70 },
-  { id: 'lapsToGo', label: 'Laps To Go', minWidth: 40 },
-  { id: 'bestLap', label: 'Best Lap', minWidth: 40 },
-  { id: 'timeElapsed', label: 'Time Elapsed', minWidth: 60 },
+const columns = [
+  { id: 'name', label: 'Team', width: '30%' },
+  { id: 'mountainName', label: 'Mountain', width: '10%' },
+  { id: 'elevation', label: 'Elevation', width: '8%' },
+  { id: 'currentElevation', label: 'Current Elevation', width: '10%' },
+  { id: 'lapsRequired', label: 'Total Laps', width: '8%' },
+  { id: 'lapsCompleted', label: 'Laps Completed', width: '10%' },
+  { id: 'lapsToGo', label: 'Laps To Go', width: '8%' },
+  { id: 'bestLap', label: 'Best Lap', width: '8%' },
+  { id: 'timeElapsed', label: 'Time Elapsed', width: '8%' },
 ]
 
 // const medColumns = [
@@ -66,11 +67,8 @@ const ProgressBoardFullscreen = () => {
     <Box
       sx={{
         position: 'relative',
-        minHeight: '100vh',
         width: '100vw',
-        bgcolor: 'primary.main',
-        flexDirection: 'column',
-        alignContent: 'center',
+        height: '100vh',
         overflow: 'hidden',
       }}
     >
@@ -91,35 +89,52 @@ const ProgressBoardFullscreen = () => {
         }}
       />
 
-      <Container
-        maxWidth={false}
-        disableGutters
+      <Box
         sx={{
-          width: '95vw',
-          height: '95vh',
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: alpha(theme.palette.primary.main, 0.7),
         }}
       >
-        <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: '1rem' }}>
-          <a
-            href="https://www.climbingforchange.ca/"
-            target="_blank"
-            rel="noreferrer"
+        <Box
+          sx={{
+            position: 'relative',
+            zIndex: 2,
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            p: 3,
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              mb: '1rem',
+            }}
           >
-            <img
-              src={C4CHorizontalGreenLogo}
-              alt="Climbing for Change Logo"
-              style={{ maxWidth: '20rem', width: 'auto' }}
-            />
-          </a>
-        </Box>
+            <a
+              href="https://www.climbingforchange.ca/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img
+                src={C4CHorizontalGreenLogo}
+                alt="Climbing for Change Logo"
+                style={{ maxWidth: '20rem', width: 'auto' }}
+              />
+            </a>
+          </Box>
 
-        <Box sx={{ flexGrow: 1, width: '100%' }}>
-          <AutoScrollTable columns={fullColumns} teams={teams} />
+          <Box sx={{ flexGrow: 1, width: '100%' }}>
+            <AutoScrollTable columns={columns} teams={teams} />
+          </Box>
         </Box>
-      </Container>
+      </Box>
     </Box>
   )
 }
