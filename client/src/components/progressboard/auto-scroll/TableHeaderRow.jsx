@@ -4,7 +4,10 @@ import theme from '../../../styles/theme'
 // Renders the header row of the table using provided column definitions
 const TableHeaderRow = ({ columns }) => {
   return (
-    <Table size="small" sx={{mb: '3px'}}>
+    <Table
+      size="small"
+      sx={{ mb: '3px',  }}
+    >
       <TableHead>
         <TableRow
           sx={{
@@ -18,6 +21,7 @@ const TableHeaderRow = ({ columns }) => {
               align={index === 0 ? 'left' : 'center'}
               sx={{
                 position: 'sticky',
+                width: column.width,
                 background: 'transparent',
                 color: 'background.default',
                 fontWeight: 'bold',

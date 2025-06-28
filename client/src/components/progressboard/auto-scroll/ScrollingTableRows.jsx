@@ -37,6 +37,7 @@ const ScrollingTableRow = ({ teams, columns }) => {
                   align={align}
                   sx={{
                     border: 'none',
+                    width: column.width,
                     fontSize: '1.25rem',
                     textTransform: 'uppercase',
                     letterSpacing: '.05rem',

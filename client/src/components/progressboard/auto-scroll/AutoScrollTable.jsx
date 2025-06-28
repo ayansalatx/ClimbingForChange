@@ -37,7 +37,7 @@ const AutoScrollTable = ({ teams, columns }) => {
           background: 'transparent',
         }}
       >
-        <Table aria-label="auto scrolling table" size="small">
+        <Table aria-label="auto scrolling table" size="small" >
           <ScrollingTableRow columns={columns} teams={teams} />
         </Table>
       </TableContainer>
