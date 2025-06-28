@@ -1,95 +1,143 @@
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
-import EditIcon   from '@mui/icons-material/Edit'
+import EditIcon from '@mui/icons-material/Edit'
 import SearchIcon from '@mui/icons-material/Search'
-import {Box,Button,Dialog,DialogActions,DialogContent,DialogTitle,IconButton,InputAdornment,InputBase,Paper,Table,TableBody,TableCell,
-  TableContainer,TableHead,TableRow, TextField,Typography} from '@mui/material'
-import React, { useState } from 'react'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, InputAdornment, InputBase, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, MenuItem, Select, FormControl, InputLabel } from '@mui/material'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 
-const initialData = [
-  { id: 1,  name: 'Rainier',  height: 20310 },
-  { id: 2,  name: 'Everest',  height: 29029 },
-  { id: 3,  name: 'Rainier',  height: 20310 },
-  { id: 4,  name: 'Denali',   height: 14410 },
-  { id: 5,  name: 'Rainier',  height: 20310 },
-  { id: 6,  name: 'Everest',  height: 29029 },
-  { id: 7,  name: 'Rainier',  height: 20310 },
-  { id: 8,  name: 'Denali',   height: 14410 },
-  { id: 9,  name: 'Rainier',  height: 20310 },
-  { id: 10, name: 'Rainier',  height: 20310 },
-  { id: 11, name: 'Denali',   height: 14410 },
-  { id: 12, name: 'Denali',   height: 14410 },
-  { id: 13, name: 'Everest',  height: 29029 },
-  { id: 14, name: 'Rainier',  height: 20310 },
-  { id: 15, name: 'Everest',  height: 29029 },
-]
+const API_URL = 'http://localhost:8080/api/mountains'
 
 export default function MountainManager() {
-  const [mountains, setMountains] = useState(initialData)
+  const [mountains, setMountains] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   const [editOpen, setEditOpen] = useState(false)
-  const [current, setCurrent] = useState({ id: null, name: '', height: '' })
+  const [current, setCurrent] = useState({ id: null, name: '', totalElevation: '', elevationUnit: 'FT', imageURL: '' })
 
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [toDeleteId, setToDeleteId] = useState(null)
 
   const [addOpen, setAddOpen] = useState(false)
-  const [newMountain, setNewMountain] = useState({ name: '', height: '' })
+  const [newMountain, setNewMountain] = useState({ name: '', totalElevation: '', elevationUnit: 'FT', imageURL: '' })
+
+  useEffect(() => {
+    const fetchMountains = async () => {
+      try {
+        const response = await axios.get(API_URL)
+        setMountains(response.data)
+        setError(null)
+      } catch (err) {
+        console.error('Error fetching mountains:', err)
+        setError('Failed to load mountains. Please try again later.')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchMountains()
+  }, [])
 
   const filtered = mountains.filter(m =>
     m.name.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   const openAdd = () => {
-    setNewMountain({ name: '', height: '' })
+    setNewMountain({ name: '', totalElevation: '', elevationUnit: 'FT', imageURL: '' })
     setAddOpen(true)
   }
   const closeAdd = () => setAddOpen(false)
-  const saveAdd = () => {
-    const { name, height } = newMountain
-    if (!name.trim()) return
-    const nextId = Math.max(...mountains.map(m => m.id)) + 1
-    setMountains([
-      ...mountains,
-      { id: nextId, name: name.trim(), height: parseInt(height, 10) || 0 }
-    ])
-    setAddOpen(false)
+  const saveAdd = async () => {
+    try {
+      const { name, totalElevation, elevationUnit, imageURL } = newMountain
+      if (!name.trim()) return
+      
+      const response = await axios.post(API_URL, {
+        name: name.trim(),
+        totalElevation: parseFloat(totalElevation) || 0,
+        elevationUnit,
+        imageURL: imageURL || undefined,
+        active: true
+      })
+      
+      setMountains([...mountains, response.data])
+      setAddOpen(false)
+    } catch (err) {
+      console.error('Error adding mountain:', err)
+      setError('Failed to add mountain. Please try again.')
+    }
   }
 
   const handleDeleteClick = id => {
     setToDeleteId(id)
     setDeleteOpen(true)
   }
+  
   const handleDeleteCancel = () => {
     setDeleteOpen(false)
     setToDeleteId(null)
   }
-  const handleDeleteConfirm = () => {
-    setMountains(mountains.filter(m => m.id !== toDeleteId))
-    setDeleteOpen(false)
-    setToDeleteId(null)
+  
+  const handleDeleteConfirm = async () => {
+    try {
+      await axios.delete(`${API_URL}/${toDeleteId}`)
+      setMountains(mountains.filter(m => m.id !== toDeleteId))
+      setDeleteOpen(false)
+      setToDeleteId(null)
+    } catch (err) {
+      console.error('Error deleting mountain:', err)
+      setError('Failed to delete mountain. Please try again.')
+    }
   }
 
   const openEdit = mountain => {
-    setCurrent({ ...mountain })
+    setCurrent({
+      id: mountain.id,
+      name: mountain.name,
+      totalElevation: mountain.totalElevation,
+      elevationUnit: mountain.elevationUnit,
+      imageURL: mountain.imageURL || ''
+    })
     setEditOpen(true)
   }
+  
   const closeEdit = () => setEditOpen(false)
-  const saveEdit = () => {
-    setMountains(mountains.map(m =>
-      m.id === current.id
-        ? { ...m, name: current.name.trim(), height: parseInt(current.height, 10) || m.height }
-        : m
-    ))
-    setEditOpen(false)
+  
+  const saveEdit = async () => {
+    try {
+      const { id, ...updateData } = current
+      const response = await axios.put(`${API_URL}/${id}`, {
+        ...updateData,
+        totalElevation: parseFloat(updateData.totalElevation) || 0
+      })
+      
+      setMountains(mountains.map(m => 
+        m.id === id ? response.data : m
+      ))
+      setEditOpen(false)
+    } catch (err) {
+      console.error('Error updating mountain:', err)
+      setError('Failed to update mountain. Please try again.')
+    }
   }
 
   return (
-    <Box sx={{ pt: 10, pb: 2, width: '90vw', maxWidth: 1200, mx: 'auto', px: 3 }}>
+    <Box sx={{ pt: 16, pb: 2, width: '90vw', maxWidth: 1200, mx: 'auto', px: 3 }}>
       <Typography variant='h4' align='center' gutterBottom>
         Mountains
       </Typography>
+      
+      {error && (
+        <Typography color="error" sx={{ mb: 2, textAlign: 'center' }}>
+          {error}
+        </Typography>
+      )}
+      
+      {loading && (
+        <Typography sx={{ textAlign: 'center', my: 3 }}>Loading mountains...</Typography>
+      )}
 
       {/* Search + Add Mountain */}
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
@@ -133,7 +181,7 @@ export default function MountainManager() {
             {filtered.map(m => (
               <TableRow key={m.id}>
                 <TableCell>{m.name}</TableCell>
-                <TableCell>{m.height}</TableCell>
+                <TableCell>{m.totalElevation} {m.elevationUnit}</TableCell>
                 <TableCell align='center'>
                   <IconButton size='small' onClick={() => openEdit(m)}>
                     <EditIcon fontSize='small' />
@@ -161,10 +209,28 @@ export default function MountainManager() {
           />
           <TextField
             fullWidth
-            label='Elevation (m)'
+            label='Elevation'
             type='number'
-            value={current.height}
-            onChange={e => setCurrent({ ...current, height: e.target.value })}
+            value={current.totalElevation}
+            onChange={e => setCurrent({ ...current, totalElevation: e.target.value })}
+            margin='dense'
+          />
+          <FormControl fullWidth margin='dense'>
+            <InputLabel>Unit</InputLabel>
+            <Select
+              value={current.elevationUnit}
+              label='Unit'
+              onChange={e => setCurrent({ ...current, elevationUnit: e.target.value })}
+            >
+              <MenuItem value='FT'>Feet</MenuItem>
+              <MenuItem value='M'>Meters</MenuItem>
+            </Select>
+          </FormControl>
+          <TextField
+            fullWidth
+            label='Image URL'
+            value={current.imageURL}
+            onChange={e => setCurrent({ ...current, imageURL: e.target.value })}
             margin='dense'
           />
         </DialogContent>
@@ -201,10 +267,28 @@ export default function MountainManager() {
           />
           <TextField
             fullWidth
-            label='Elevation (m)'
+            label='Elevation'
             type='number'
-            value={newMountain.height}
-            onChange={e => setNewMountain({ ...newMountain, height: e.target.value })}
+            value={newMountain.totalElevation}
+            onChange={e => setNewMountain({ ...newMountain, totalElevation: e.target.value })}
+            margin='dense'
+          />
+          <FormControl fullWidth margin='dense'>
+            <InputLabel>Unit</InputLabel>
+            <Select
+              value={newMountain.elevationUnit}
+              label='Unit'
+              onChange={e => setNewMountain({ ...newMountain, elevationUnit: e.target.value })}
+            >
+              <MenuItem value='FT'>Feet</MenuItem>
+              <MenuItem value='M'>Meters</MenuItem>
+            </Select>
+          </FormControl>
+          <TextField
+            fullWidth
+            label='Image URL'
+            value={newMountain.imageURL}
+            onChange={e => setNewMountain({ ...newMountain, imageURL: e.target.value })}
             margin='dense'
           />
         </DialogContent>
