@@ -9,13 +9,13 @@ import {
 } from '@mui/material'
 
 const headerColumns = [
-  { label: 'Name', align: 'left' },
-  { label: 'Days To Go', align: 'center' },
-  { label: 'Start Date', align: 'center' },
-  { label: 'Start Time', align: 'center' },
-  { label: 'Teams', align: 'center' },
-  { label: 'Climbers', align: 'center' },
-  { label: 'Live', align: 'center' },
+  { id: 'name', label: 'Name', align: 'left' },
+  { id: 'daysToGo', label: 'Days To Go', align: 'center' },
+  { id: 'startDate', label: 'Start Date', align: 'center' },
+  { id: 'startTime', label: 'Start Time', align: 'center' },
+  { id: 'teamsCount', label: 'Teams', align: 'center' },
+  { id: 'participantsCount', label: 'Climbers', align: 'center' },
+  { id: 'isLive', label: 'Live', align: 'center' },
 ]
 
 const EventSummaryTable = ({ events = [] }) => {
@@ -108,7 +108,7 @@ const EventSummaryTable = ({ events = [] }) => {
                     borderColor: 'primary.dark',
                   }}
                 >
-                  {event?.eventsCount ?? '-'}
+                  {event?.teamsCount ?? '-'}
                 </TableCell>
                 <TableCell
                   align="center"
@@ -118,7 +118,7 @@ const EventSummaryTable = ({ events = [] }) => {
                     borderColor: 'primary.dark',
                   }}
                 >
-                  {event?.participantCount ?? '-'}
+                  {event?.participantsCount ?? '-'}
                 </TableCell>
                 <TableCell
                   align="center"
@@ -129,7 +129,7 @@ const EventSummaryTable = ({ events = [] }) => {
                     borderColor: 'primary.dark',
                   }}
                 >
-                  {event ? (event.isLive ? 'Live' : '') : '-'}
+                  {event ? (event.isLive ? 'Live' : '-') : '-'}
                 </TableCell>
               </TableRow>
             )

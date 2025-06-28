@@ -37,13 +37,14 @@ export const getUpcomingEventsSummary = async () => {
     const isLive = now >= start && now <= end
 
     //Get number of events
-    const eventsList = event.teams || []
-    const eventsCount = eventsList.length
+    const teamsList = event.teams || []
+    const teamsCount = teamsList?.length
 
     // Get number of participants
-    const participantCount = eventsList.flatMap(
+    const participantCount = teamsList.flatMap(
       (team) => team.participants || []
     ).length
+    console.log(participantCount)
 
     const startDate = start.toLocaleDateString('en-US', {
       year: 'numeric',
@@ -62,10 +63,10 @@ export const getUpcomingEventsSummary = async () => {
       name: event.name,
       startDate: startDate,
       startTime: startTime,
-      daysToGo,
-      eventsCount,
-      participantCount,
-      isLive,
+      daysToGo: daysToGo,
+      teamsCount: teamsCount,
+      participantsCount: participantCount,
+      isLive: isLive,
     }
   })
 
