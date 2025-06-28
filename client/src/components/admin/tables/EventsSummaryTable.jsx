@@ -8,100 +8,37 @@ import {
   TableRow,
 } from '@mui/material'
 
+const headerColumns = [
+  { label: 'Name', align: 'left' },
+  { label: 'Days To Go', align: 'center' },
+  { label: 'Start Date', align: 'center' },
+  { label: 'Start Time', align: 'center' },
+  { label: 'Teams', align: 'center' },
+  { label: 'Participants', align: 'center' },
+  { label: 'Live', align: 'center' },
+]
+
 const EventSummaryTable = ({ events = [] }) => {
   return (
-    <TableContainer component={Paper} sx={{ ml: 2, bgcolor: 'primary.dark' }}>
+    <TableContainer component={Paper} sx={{ bgcolor: 'primary.dark' }}>
       <Table size="small" aria-label="current and upcoming events summary">
-        <TableHead
-          sx={{
-            backgroundColor: 'primary.main',
-          }}
-        >
+        <TableHead sx={{ backgroundColor: 'primary.main' }}>
           <TableRow>
-            <TableCell
-              align="left"
-              sx={{
-                color: 'background.paper',
-                textTransform: 'uppercase',
-                fontWeight: 'bold',
-                letterSpacing: '.05rem',
-                fontSize: '1rem',
-              }}
-            >
-              Name
-            </TableCell>
-            <TableCell
-              align="center"
-              sx={{
-                color: 'background.paper',
-                textTransform: 'uppercase',
-                fontWeight: 'bold',
-                letterSpacing: '.05rem',
-                fontSize: '1rem',
-              }}
-            >
-              Days To Go
-            </TableCell>
-            <TableCell
-              align="center"
-              sx={{
-                color: 'background.paper',
-                textTransform: 'uppercase',
-                fontWeight: 'bold',
-                letterSpacing: '.05rem',
-                fontSize: '1rem',
-              }}
-            >
-              Start Date
-            </TableCell>
-            <TableCell
-              align="center"
-              sx={{
-                color: 'background.paper',
-                textTransform: 'uppercase',
-                fontWeight: 'bold',
-                letterSpacing: '.05rem',
-                fontSize: '1rem',
-              }}
-            >
-              Start Time
-            </TableCell>
-            <TableCell
-              align="center"
-              sx={{
-                color: 'background.paper',
-                textTransform: 'uppercase',
-                fontWeight: 'bold',
-                letterSpacing: '.05rem',
-                fontSize: '1rem',
-              }}
-            >
-              Teams
-            </TableCell>
-            <TableCell
-              align="center"
-              sx={{
-                color: 'background.paper',
-                textTransform: 'uppercase',
-                fontWeight: 'bold',
-                letterSpacing: '.05rem',
-                fontSize: '1rem',
-              }}
-            >
-              Participants
-            </TableCell>
-            <TableCell
-              align="center"
-              sx={{
-                color: 'background.paper',
-                textTransform: 'uppercase',
-                fontWeight: 'bold',
-                letterSpacing: '.05rem',
-                fontSize: '1rem',
-              }}
-            >
-              Live
-            </TableCell>
+            {headerColumns.map(({ label, align }) => (
+              <TableCell
+                key={label}
+                align={align}
+                sx={{
+                  color: 'background.paper',
+                  textTransform: 'uppercase',
+                  fontWeight: 'bold',
+                  letterSpacing: '.05rem',
+                  fontSize: '1rem',
+                }}
+              >
+                {label}
+              </TableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>

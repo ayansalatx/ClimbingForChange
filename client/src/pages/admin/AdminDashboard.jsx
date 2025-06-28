@@ -15,6 +15,7 @@ import NavigationCard from '../../components/admin/NavigationCard'
 import EventSummaryTable from '../../components/admin/tables/EventsSummaryTable'
 import { useAlert } from '../../hooks/useAlert'
 import { getUpcomingEventsSummary } from '../../services/eventService'
+import ProgressBoardButton from '../../components/admin/buttons/ProgressBoardButton'
 
 const CustomLeftArrow = ({ onClick }) => (
   <IconButton
@@ -110,6 +111,8 @@ const AdminDashboard = () => {
     loadData()
   }, [displayAlert])
 
+  const liveEventExists = events?.some((event) => event.isLive)
+
   return (
     <Box
       sx={{
@@ -129,7 +132,6 @@ const AdminDashboard = () => {
         fontWeight={'bold'}
         textTransform={'uppercase'}
         sx={{ fontSize: '3.5rem' }}
-        paddingBottom={5}
       >
         Leaderboard Management
       </Typography>
@@ -137,13 +139,16 @@ const AdminDashboard = () => {
       <Box
         sx={{
           width: '100%',
-          height: '12rem',
           my: '2rem',
           display: 'flex',
           justifyContent: 'space-evenly',
         }}
       >
-        <EventSummaryTable events={events}/>
+        <Box width={'65%'}>
+          <EventSummaryTable events={events} />
+        </Box>
+
+        <ProgressBoardButton liveEventExists={liveEventExists}/>
       </Box>
 
       <Box
