@@ -1,4 +1,7 @@
 import {
+  alpha,
+  Box,
+  CircularProgress,
   Paper,
   Table,
   TableContainer,
@@ -6,10 +9,11 @@ import {
 } from '@mui/material'
 import { useState } from 'react'
 
+import theme from '../../../styles/theme'
 import ScrollingTableRow from './ScrollingTableRows'
 import TableHeaderRow from './TableHeaderRow'
 
-const AutoScrollTable = ({ teams, columns }) => {
+const AutoScrollTable = ({ teams, columns, loading }) => {
   const [page, setPage] = useState(0)
   const rowsPerPage = 10
 
@@ -21,11 +25,8 @@ const AutoScrollTable = ({ teams, columns }) => {
     <Paper
       sx={{
         width: '100%',
-        height: '100%',
-        overflow: 'hidden',
-        background: 'transparent',
-        display: 'flex',
-        flexDirection: 'column',
+        tableLayout: 'fixed',
+        backgroundColor: 'transparent',
       }}
     >
       <TableHeaderRow columns={columns} />
@@ -37,9 +38,25 @@ const AutoScrollTable = ({ teams, columns }) => {
           background: 'transparent',
         }}
       >
-        <Table aria-label="auto scrolling table" size="small" >
-          <ScrollingTableRow columns={columns} teams={teams} />
-        </Table>
+        {loading ? (
+          <Box
+            sx={{
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: `linear-gradient(to right, ${alpha(theme.palette.primary.main, 0.8)}, ${alpha(theme.palette.primary.main, 0.3)}, ${alpha(theme.palette.primary.main, 0.8)})`,
+              color: 'white',
+              fontSize: '2rem',
+            }}
+          >
+            <CircularProgress color="secondary" />
+          </Box>
+        ) : (
+          <Table aria-label="auto scrolling table" size="small">
+            <ScrollingTableRow columns={columns} teams={teams} />
+          </Table>
+        )}
       </TableContainer>
       <TablePagination
         component="div"

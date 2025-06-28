@@ -4,6 +4,7 @@ import { Fragment } from 'react'
 import theme from '../../../styles/theme'
 
 const ScrollingTableRow = ({ teams, columns }) => {
+  const gradientBackground = `linear-gradient(to right, ${alpha(theme.palette.primary.main, 0.8)}, ${alpha(theme.palette.primary.main, 0.3)}, ${alpha(theme.palette.primary.main, 0.8)})`
   return (
     <TableBody className="marquee__content" sx={{}}>
       {teams.map((team, index) => (
@@ -19,17 +20,11 @@ const ScrollingTableRow = ({ teams, columns }) => {
               }}
             />
           </TableRow>
-          <TableRow
-            key={team.id}
-            sx={{
-              background: `linear-gradient(to right, ${alpha(theme.palette.primary.main, 0.8)}, ${alpha(theme.palette.primary.main, 0.3)}, ${alpha(theme.palette.primary.main, 0.8)})`,
-            }}
-          >
+          <TableRow key={team.id} sx={{ background: gradientBackground }}>
             {columns.map((column, colIndex) => {
               const value = team[column.id] ?? '-'
               let align = 'center'
               if (colIndex === 0) align = 'left'
-              if (colIndex === columns.length - 1) align = 'right'
               const isEven = index % 2 === 0
               return (
                 <TableCell

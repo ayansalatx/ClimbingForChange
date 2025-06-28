@@ -9,20 +9,21 @@ import theme from '../../styles/theme'
 
 // Define columns for full width screen
 const columns = [
-  { id: 'name', label: 'Team', width: '30%' },
-  { id: 'mountainName', label: 'Mountain', width: '10%' },
-  { id: 'elevation', label: 'Elevation', width: '8%' },
-  { id: 'currentElevation', label: 'Current Elevation', width: '10%' },
-  { id: 'lapsRequired', label: 'Total Laps', width: '8%' },
-  { id: 'lapsCompleted', label: 'Laps Completed', width: '10%' },
+  { id: 'name', label: 'Team', width: '25%' },
+  { id: 'mountainName', label: 'Mountain', width: '12%' },
+  { id: 'elevation', label: 'Total Elevation', width: '12%' },
+  { id: 'currentElevation', label: 'Elevation', width: '12%' },
+  { id: 'lapsRequired', label: 'Total Laps', width: '7%' },
+  { id: 'lapsCompleted', label: 'Laps', width: '7%' },
   { id: 'lapsToGo', label: 'Laps To Go', width: '8%' },
-  { id: 'bestLap', label: 'Best Lap', width: '8%' },
-  { id: 'timeElapsed', label: 'Time Elapsed', width: '8%' },
+  { id: 'bestLap', label: 'Best Lap', width: '7%' },
+  { id: 'timeElapsed', label: 'Time Elapsed', width: '10%' },
 ]
 
 const ProgressBoardFullscreen = () => {
   // State for teams
   const [teams, setTeams] = useState([])
+  const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -45,9 +46,10 @@ const ProgressBoardFullscreen = () => {
         setTeams(teamList)
       } catch (e) {
         console.log('Failed to load progress data', e)
+      }finally {
+        setLoading(false)
       }
     }
-
     loadData()
   }, [])
 
@@ -119,7 +121,7 @@ const ProgressBoardFullscreen = () => {
           </Box>
 
           <Box sx={{ flexGrow: 1, width: '100%',  minHeight: 0 }}>
-            <AutoScrollTable columns={columns} teams={teams} />
+            <AutoScrollTable columns={columns} teams={teams} loading={loading} />
           </Box>
         </Box>
       </Box>
