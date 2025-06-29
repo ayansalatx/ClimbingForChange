@@ -1,11 +1,5 @@
-// External dependencies
-import { useCallback, useEffect, useState } from 'react'
-
-// Material-UI Icons
 import AddIcon from '@mui/icons-material/Add'
 import SearchIcon from '@mui/icons-material/Search'
-
-// Material-UI Components
 import {
   Box,
   Button,
@@ -22,17 +16,10 @@ import {
   TextField,
   Typography
 } from '@mui/material'
+import { useCallback, useEffect, useState } from 'react'
 
-// Components
 import MountainsTable from '../../../components/admin/mountains/MountainsTable'
-
-// Services
-import {
-  createMountain,
-  deleteMountain,
-  getMountains,
-  updateMountain,
-} from '../../../services/mountainService'
+import { createMountain, deleteMountain, getMountains, updateMountain } from '../../../services/mountainService'
 
 export default function MountainManager() {
   const [mountains, setMountains] = useState([])
