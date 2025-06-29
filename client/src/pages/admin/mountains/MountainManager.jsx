@@ -154,6 +154,11 @@ export default function MountainManager() {
     setToDeleteId(id)
     setDeleteOpen(true)
   }
+
+  const handleDeleteCancel = () => {
+    setDeleteOpen(false)
+    setToDeleteId(null)
+  }
   
   const handleDeleteConfirm = useCallback(async () => {
     if (!toDeleteId) return
