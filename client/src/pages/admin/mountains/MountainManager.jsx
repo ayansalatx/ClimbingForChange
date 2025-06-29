@@ -26,10 +26,17 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-
-const API_URL = 'http://localhost:8080/api/mountains'
+import React, { useEffect, useState } from 'react';
+import { 
+  getPhysicalMountains, 
+  createPhysicalMountain, 
+  updatePhysicalMountain, 
+  deletePhysicalMountain,
+  getTargetMountains,
+  createTargetMountain,
+  updateTargetMountain,
+  deleteTargetMountain
+} from '../../../services/mountainService';
 
 export default function MountainManager() {
   const [mountains, setMountains] = useState([])
@@ -49,16 +56,30 @@ export default function MountainManager() {
   useEffect(() => {
     const fetchMountains = async () => {
       try {
-        const response = await axios.get(API_URL)
-        setMountains(response.data)
-        setError(null)
+        setLoading(true);
+        let mountainsData;
+        
+        if (tabValue === 'physical') {
+          mountainsData = await getPhysicalMountains();
+        } else {
+          mountainsData = await getTargetMountains();
+        }
+        
+        const mountainsWithIds = mountainsData.map(mountain => ({
+          ...mountain,
+          id: mountain._id || mountain.id // Ensure we have an id field
+        }));
+        
+        setMountains(mountainsWithIds);
+        setError(null);
       } catch (err) {
-        console.error('Error fetching mountains:', err)
-        setError('Failed to load mountains. Please try again later.')
+        console.error('Error fetching mountains:', err);
+        setError('Failed to load mountains. Please try again later.');
+        setSnackbar({ open: true, message: 'Error loading mountains', severity: 'error' });
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
     fetchMountains()
   }, [])
@@ -77,15 +98,13 @@ export default function MountainManager() {
       const { name, totalElevation, elevationUnit, imageURL } = newMountain
       if (!name.trim()) return
       
-      const response = await axios.post(API_URL, {
-        name: name.trim(),
-        totalElevation: parseFloat(totalElevation) || 0,
-        elevationUnit,
-        imageURL: imageURL || undefined,
-        active: true
-      })
+      if (tabValue === 'physical') {
+        await createPhysicalMountain({ name: name.trim(), totalElevation: parseFloat(totalElevation) || 0, elevationUnit, imageURL: imageURL || undefined, active: true });
+      } else {
+        await createTargetMountain({ name: name.trim(), totalElevation: parseFloat(totalElevation) || 0, elevationUnit, imageURL: imageURL || undefined, active: true });
+      }
       
-      setMountains([...mountains, response.data])
+      fetchMountains();
       setAddOpen(false)
     } catch (err) {
       console.error('Error adding mountain:', err)
@@ -98,20 +117,31 @@ export default function MountainManager() {
     setDeleteOpen(true)
   }
   
-  const handleDeleteCancel = () => {
-    setDeleteOpen(false)
-    setToDeleteId(null)
-  }
-  
   const handleDeleteConfirm = async () => {
     try {
-      await axios.delete(`${API_URL}/${toDeleteId}`)
-      setMountains(mountains.filter(m => m.id !== toDeleteId))
-      setDeleteOpen(false)
-      setToDeleteId(null)
+      setLoading(true);
+      
+      if (tabValue === 'physical') {
+        await deletePhysicalMountain(toDeleteId);
+      } else {
+        await deleteTargetMountain(toDeleteId);
+      }
+      
+      fetchMountains();
+      setSnackbar({ 
+        open: true, 
+        message: 'Mountain deleted successfully', 
+        severity: 'success' 
+      });
     } catch (err) {
-      console.error('Error deleting mountain:', err)
-      setError('Failed to delete mountain. Please try again.')
+      console.error('Error deleting mountain:', err);
+      setSnackbar({ 
+        open: true, 
+        message: err.message || 'Error deleting mountain', 
+        severity: 'error' 
+      });
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -131,14 +161,13 @@ export default function MountainManager() {
   const saveEdit = async () => {
     try {
       const { id, ...updateData } = current
-      const response = await axios.put(`${API_URL}/${id}`, {
-        ...updateData,
-        totalElevation: parseFloat(updateData.totalElevation) || 0
-      })
+      if (tabValue === 'physical') {
+        await updatePhysicalMountain(id, updateData);
+      } else {
+        await updateTargetMountain(id, updateData);
+      }
       
-      setMountains(mountains.map(m => 
-        m.id === id ? response.data : m
-      ))
+      fetchMountains();
       setEditOpen(false)
     } catch (err) {
       console.error('Error updating mountain:', err)
