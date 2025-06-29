@@ -1,8 +1,8 @@
-import { alpha, Box } from '@mui/material'
+import { alpha, Box, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
+import C4CFavicon from '../../assets/C4C-branding/Favicon.png'
 import AutoScrollTable from '../../components/progressboard/auto-scroll/AutoScrollTable'
 import { getTeamsForDisplay } from '../../services/teamService'
 import theme from '../../styles/theme'
@@ -103,21 +103,33 @@ const ProgressBoardFullscreen = () => {
           <Box
             sx={{
               display: 'flex',
-              justifyContent: 'flex-start',
+              justifyContent: 'space-between',
               mb: '1rem',
             }}
           >
-            <a
-              href="https://www.climbingforchange.ca/"
-              target="_blank"
-              rel="noreferrer"
+            <img
+              src={C4CFavicon}
+              alt="Climbing for Change Logo"
+              style={{ maxWidth: '7rem', width: 'auto' }}
+            />
+            <Box
+              sx={{
+                display: 'flex',
+                flexGrow: 1,
+                justifyContent: 'center',
+                alignContent: 'center',
+              }}
             >
-              <img
-                src={C4CHorizontalGreenLogo}
-                alt="Climbing for Change Logo"
-                style={{ maxWidth: '20rem', width: 'auto' }}
-              />
-            </a>
+              <Typography
+                variant="h1"
+                color="secondary.main"
+                fontWeight={'bold'}
+                textTransform={'uppercase'}
+                sx={{ fontSize: '5rem' }}
+              >
+                Climbing For Change 2025
+              </Typography>
+            </Box>
           </Box>
 
           <Box
