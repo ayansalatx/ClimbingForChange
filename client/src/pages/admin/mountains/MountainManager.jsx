@@ -1,9 +1,12 @@
 // External dependencies
+import { useCallback, useEffect, useState } from 'react'
+
 // Material-UI Icons
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import SearchIcon from '@mui/icons-material/Search'
+
 // Material-UI Components
 import {
   Box,
@@ -29,7 +32,9 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import { useCallback, useEffect, useState } from 'react'
+
+// Components
+import MountainsTable from '../../../components/admin/mountains/MountainsTable'
 
 // Services
 import {
@@ -287,45 +292,15 @@ export default function MountainManager() {
         </Button>
       </Box>
 
-      {/* Table */}
-      <TableContainer
-        component={Paper}
-        elevation={0}
-        sx={{ backgroundColor: '#f0f0f0' }}
-      >
-        <Table sx={{ minWidth: 650 }}>
-          <TableHead>
-            <TableRow>
-              <TableCell sx={{ fontWeight: 'bold' }}>Mountain Name</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Elevation</TableCell>
-              <TableCell align="center" sx={{ fontWeight: 'bold' }}>
-                Actions
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {filtered.map((m) => (
-              <TableRow key={m.id}>
-                <TableCell>{m.name}</TableCell>
-                <TableCell>
-                  {m.totalElevation} {m.elevationUnit}
-                </TableCell>
-                <TableCell align="center">
-                  <IconButton size="small" onClick={() => openEdit(m)}>
-                    <EditIcon fontSize="small" />
-                  </IconButton>
-                  <IconButton
-                    size="small"
-                    onClick={() => handleDeleteClick(m.id)}
-                  >
-                    <DeleteIcon fontSize="small" />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {/* Mountains Table */}
+      <MountainsTable 
+        mountains={filtered}
+        searchTerm={searchTerm}
+        onEdit={openEdit}
+        onDelete={handleDeleteClick}
+        loading={loading}
+        error={error}
+      />
 
       <Dialog open={editOpen} onClose={closeEdit}>
         <DialogTitle>Edit Mountain</DialogTitle>
