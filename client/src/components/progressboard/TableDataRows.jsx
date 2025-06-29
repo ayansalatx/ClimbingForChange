@@ -16,7 +16,7 @@ const CollapsibleRow = ({ team, columns, participants }) => {
 
   return (
     <React.Fragment>
-      <TableRow hover role="checkbox" tabIndex={-1} key={team._id}>
+      <TableRow hover role="checkbox" tabIndex={-1} >
         {/* Expand/Collapse toggle */}
         <TableCell>
           <IconButton
@@ -69,8 +69,8 @@ const CollapsibleRow = ({ team, columns, participants }) => {
             <Box sx={{ margin: 1 }}>
               <Table>
                 <TableBody>
-                  {(participants || []).map((participant) => (
-                    <TableRow key={participant.id}>
+                  {(participants || []).map((participant, index) => (
+                    <TableRow key={participant.id || index}>
                       <TableCell sx={{ width: '4.2rem' }}>
                         {/* <IconButton
                           aria-label="expand team"
@@ -125,7 +125,7 @@ const TableDataRows = ({ teams, columns, page, rowsPerPage }) => {
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
         .map((team, teamIndex) => (
           <CollapsibleRow
-            key={team._id || teamIndex}
+            key={team.id || teamIndex}
             team={team}
             columns={columns}
             participants={team.participants}

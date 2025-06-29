@@ -17,7 +17,7 @@ export const getDisplayEvent = async (id) => {
     const teamBestLap = getBestLapTime(laps)
     // Get time elapsed
     const teamTimeElapsed = getTimeElapsed(laps)
-
+ 
     return {
       ...team,
       mountainName: team.mountain?.name,
