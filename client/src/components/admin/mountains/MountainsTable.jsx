@@ -1,4 +1,3 @@
-import React from 'react'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import {
@@ -12,6 +11,7 @@ import {
   TableRow,
   Typography
 } from '@mui/material'
+import React from 'react'
 
 const MountainsTable = ({ 
   mountains, 

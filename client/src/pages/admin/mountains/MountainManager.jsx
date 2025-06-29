@@ -1,4 +1,3 @@
-import { useCallback, useEffect, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
@@ -27,6 +26,7 @@ import {
   TextField,
   Typography
 } from '@mui/material'
+import { useCallback, useEffect, useState } from 'react'
 import { 
   getMountains,
   createMountain,
@@ -39,8 +39,8 @@ export default function MountainManager() {
   const [searchTerm, setSearchTerm] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'info' })
-  const [tabValue, setTabValue] = useState('physical') // Add tab state
+  const [, setSnackbar] = useState({ open: false, message: '', severity: 'info' })
+  const [tabValue] = useState('physical') // Add tab state
   const [editOpen, setEditOpen] = useState(false)
   const [current, setCurrent] = useState({ 
     id: null, 
