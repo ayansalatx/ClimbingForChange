@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react'
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import ProgressSearch from '../../components/progressboard/ProgressSearch'
 import ProgressTable from '../../components/progressboard/ProgressTable'
-import EventSelector from '../../components/admin/tables/EventSelector'
-import { getTeamsForDisplay } from '../../services/teamService'
+import EventSelector from '../../components/progressboard/EventSelector'
 import { getAllEvents, getDisplayEvent } from '../../services/eventService'
 
 // Define columns for full width screen
