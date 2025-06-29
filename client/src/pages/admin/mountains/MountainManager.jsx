@@ -79,7 +79,6 @@ export default function MountainManager() {
         setLoading(false);
       }
     };
-
     fetchMountains()
   }, [])
 
