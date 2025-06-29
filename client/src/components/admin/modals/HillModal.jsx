@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, TextField, Typography } from '@mui/material'
+import { Box, FormControl, InputLabel, MenuItem, Modal, Select, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 
 import CancelButton from '../buttons/CancelButton'
@@ -26,8 +26,8 @@ const HillModal = ({ open, onClose, onSave, hillData, onLocation }) => {
   const [locations, setLocations] = useState([]) 
 
   useEffect(() => {
-      setLocations(onLocation)
-    }, [onLocation])
+    setLocations(onLocation)
+  }, [onLocation])
 
   useEffect(() => {
     if (open && hillData) {
