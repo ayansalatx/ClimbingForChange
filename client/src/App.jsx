@@ -8,6 +8,7 @@ import Layout from './Layout'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminLogin from './pages/admin/AdminLogin'
 import EventManager from './pages/admin/events/EventManager'
+import HillManager from './pages/admin/hills/HillManager'
 import LocationManager from './pages/admin/locations/LocationManager'
 import MountainManager from './pages/admin/mountains/MountainManager'
 import ParticipantManager from './pages/admin/participants/ParticipantManager'
@@ -42,6 +43,7 @@ function App() {
             <Route path='upload' element={<ParticipantUpload />} />
             <Route path='mountains' element={<MountainManager />} />
             <Route path='locations' element={<LocationManager />} />
+            <Route path='hills' element={<HillManager />} />
           </Route>
         </Routes>
       </Router>
