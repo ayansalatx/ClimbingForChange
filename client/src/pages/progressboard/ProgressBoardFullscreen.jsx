@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 import C4CFavicon from '../../assets/C4C-branding/Favicon.png'
 import AutoScrollTable from '../../components/progressboard/auto-scroll/AutoScrollTable'
-import { getTeamsForDisplay } from '../../services/teamService'
+import { getDisplayEventTeams, getOneEvent } from '../../services/eventService'
 import theme from '../../styles/theme'
 
 // Define columns for full width screen
@@ -24,6 +24,7 @@ const ProgressBoardFullscreen = () => {
   const { eventId } = useParams()
   // State for teams
   const [teams, setTeams] = useState([])
+  const [eventName, setEventName] = useState([])
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
 
@@ -42,9 +43,12 @@ const ProgressBoardFullscreen = () => {
   useEffect(() => {
     async function loadData() {
       try {
-        const teamList = await getTeamsForDisplay(eventId)
+        const teamsList = await getDisplayEventTeams(eventId)
+        const event = await getOneEvent(eventId)
+        const eventName = event.name
 
-        setTeams(teamList)
+        setTeams(teamsList)
+        setEventName(eventName)
       } catch (e) {
         console.log('Failed to load progress data', e)
       } finally {
@@ -128,7 +132,7 @@ const ProgressBoardFullscreen = () => {
                 textTransform={'uppercase'}
                 sx={{ fontSize: '5rem', fontStyle: 'italic' }}
               >
-                Climbing For Change 2025
+                {eventName}
               </Typography>
             </Box>
           </Box>

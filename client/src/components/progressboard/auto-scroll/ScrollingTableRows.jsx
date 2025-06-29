@@ -6,9 +6,9 @@ import theme from '../../../styles/theme'
 const ScrollingTableRow = ({ teams, columns }) => {
   const gradientBackground = `linear-gradient(to right, ${alpha(theme.palette.primary.main, 0.8)}, ${alpha(theme.palette.primary.main, 0.3)}, ${alpha(theme.palette.primary.main, 0.8)})`
   return (
-    <TableBody className="marquee__content" sx={{}}>
+    <TableBody className="marquee__content" >
       {teams.map((team, index) => (
-        <Fragment key={team.id}>
+        <Fragment key={team.id || index}>
           <TableRow>
             <TableCell
               colSpan={columns.length}
@@ -20,7 +20,7 @@ const ScrollingTableRow = ({ teams, columns }) => {
               }}
             />
           </TableRow>
-          <TableRow key={team.id} sx={{ background: gradientBackground }}>
+          <TableRow key={team.id || index} sx={{ background: gradientBackground }}>
             {columns.map((column, colIndex) => {
               const value = team[column.id] ?? '-'
               let align = 'center'

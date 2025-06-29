@@ -5,7 +5,7 @@ import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Chang
 import EventSelector from '../../components/progressboard/EventSelector'
 import ProgressSearch from '../../components/progressboard/ProgressSearch'
 import ProgressTable from '../../components/progressboard/ProgressTable'
-import { getAllEvents, getDisplayEvent } from '../../services/eventService'
+import { getAllEvents, getDisplayEventTeams } from '../../services/eventService'
 
 // Define columns for full width screen
 const fullColumns = [
@@ -86,7 +86,7 @@ const ProgressBoard = () => {
     const loadTeamsForEvent = async () => {
       if (!selectedEvent) return
       try {
-        const teamsForEvent = await getDisplayEvent(selectedEvent)
+        const teamsForEvent = await getDisplayEventTeams(selectedEvent)
         setTeams(teamsForEvent)
       } catch (e) {
         console.log('Failed to load event teams', e)

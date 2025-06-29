@@ -5,7 +5,7 @@ export const getAllEvents = async () => {
   return res.data
 }
 
-export const getDisplayEvent = async (id) => {
+export const getDisplayEventTeams = async (id) => {
   const res = await api.get(`/events/${id}`)
 
   const teamList = res.data.teams || []
@@ -105,6 +105,11 @@ export const getUpcomingEventsSummary = async () => {
   })
 
   return eventsForDisplay
+}
+
+export const getOneEvent = async (id) => {
+  const res = await api.get(`/events/${id}`)
+  return res.data
 }
 
 export const addEvent = async (data) => {
