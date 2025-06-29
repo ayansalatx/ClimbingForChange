@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
@@ -17,6 +18,7 @@ import {
   MenuItem,
   Paper,
   Select,
+  Snackbar,
   Table,
   TableBody,
   TableCell,
@@ -24,61 +26,72 @@ import {
   TableHead,
   TableRow,
   TextField,
-  Typography,
+  Typography
 } from '@mui/material'
-import React, { useEffect, useState } from 'react';
 import { 
   getPhysicalMountains, 
   createPhysicalMountain, 
   updatePhysicalMountain, 
+  deletePhysicalMountain,
   getTargetMountains,
   createTargetMountain,
   updateTargetMountain,
-  deleteMountain
-} from '../../../services/mountainService';
+  deleteTargetMountain
+} from '../../../services/mountainService'
 
 export default function MountainManager() {
   const [mountains, setMountains] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-
+  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'info' })
+  const [tabValue, setTabValue] = useState('physical') // Add tab state
   const [editOpen, setEditOpen] = useState(false)
-  const [current, setCurrent] = useState({ id: null, name: '', totalElevation: '', elevationUnit: 'FT', imageURL: '' })
-
+  const [current, setCurrent] = useState({ 
+    id: null, 
+    name: '', 
+    totalElevation: '', 
+    elevationUnit: 'FT', 
+    imageURL: '' 
+  })
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [toDeleteId, setToDeleteId] = useState(null)
-
   const [addOpen, setAddOpen] = useState(false)
-  const [newMountain, setNewMountain] = useState({ name: '', totalElevation: '', elevationUnit: 'FT', imageURL: '' })
+  const [newMountain, setNewMountain] = useState({ 
+    name: '', 
+    totalElevation: '', 
+    elevationUnit: 'FT', 
+    imageURL: '' 
+  })
+
+  const fetchMountains = useCallback(async () => {
+    try {
+      setLoading(true)
+      const mountainsData = tabValue === 'physical' 
+        ? await getPhysicalMountains()
+        : await getTargetMountains()
+      
+      const mountainsWithIds = mountainsData.map(mountain => ({
+        ...mountain,
+        id: mountain._id || mountain.id
+      }))
+      
+      setMountains(mountainsWithIds)
+      setError(null)
+    } catch (err) {
+      console.error('Error fetching mountains:', err)
+      setError('Failed to load mountains. Please try again later.')
+      setSnackbar({ 
+        open: true, 
+        message: 'Error loading mountains', 
+        severity: 'error' 
+      })
+    } finally {
+      setLoading(false)
+    }
+  }, [tabValue])
 
   useEffect(() => {
-    const fetchMountains = async () => {
-      try {
-        setLoading(true);
-        let mountainsData;
-        
-        if (tabValue === 'physical') {
-          mountainsData = await getPhysicalMountains();
-        } else {
-          mountainsData = await getTargetMountains();
-        }
-        
-        const mountainsWithIds = mountainsData.map(mountain => ({
-          ...mountain,
-          id: mountain._id || mountain.id // Ensure we have an id field
-        }));
-        
-        setMountains(mountainsWithIds);
-        setError(null);
-      } catch (err) {
-        console.error('Error fetching mountains:', err);
-        setError('Failed to load mountains. Please try again later.');
-        setSnackbar({ open: true, message: 'Error loading mountains', severity: 'error' });
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchMountains()
   }, [])
 
@@ -90,60 +103,91 @@ export default function MountainManager() {
     setNewMountain({ name: '', totalElevation: '', elevationUnit: 'FT', imageURL: '' })
     setAddOpen(true)
   }
+
   const closeAdd = () => setAddOpen(false)
-  const saveAdd = async () => {
+
+  const closeSnackbar = useCallback(() => {
+    setSnackbar(prev => ({
+      ...prev,
+      open: false
+    }))
+  }, [])
+
+  const saveAdd = useCallback(async () => {
     try {
       const { name, totalElevation, elevationUnit, imageURL } = newMountain
       if (!name.trim()) return
       
-      if (tabValue === 'physical') {
-        await createPhysicalMountain({ name: name.trim(), totalElevation: parseFloat(totalElevation) || 0, elevationUnit, imageURL: imageURL || undefined, active: true });
-      } else {
-        await createTargetMountain({ name: name.trim(), totalElevation: parseFloat(totalElevation) || 0, elevationUnit, imageURL: imageURL || undefined, active: true });
+      const mountainData = {
+        name: name.trim(),
+        totalElevation: parseFloat(totalElevation) || 0,
+        elevationUnit,
+        imageURL: imageURL || undefined,
+        active: true
       }
       
-      fetchMountains();
+      if (tabValue === 'physical') {
+        await createPhysicalMountain(mountainData)
+      } else {
+        await createTargetMountain(mountainData)
+      }
+      
+      await fetchMountains()
       setAddOpen(false)
+      setSnackbar({
+        open: true,
+        message: 'Mountain added successfully',
+        severity: 'success'
+      })
     } catch (err) {
       console.error('Error adding mountain:', err)
       setError('Failed to add mountain. Please try again.')
+      setSnackbar({
+        open: true,
+        message: 'Error adding mountain',
+        severity: 'error'
+      })
     }
-  }
+  }, [newMountain, tabValue, fetchMountains])
 
-  const handleDeleteClick = id => {
+  const handleDeleteClick = (id) => {
     setToDeleteId(id)
     setDeleteOpen(true)
   }
   
-  const handleDeleteConfirm = async () => {
+  const handleDeleteConfirm = useCallback(async () => {
+    if (!toDeleteId) return
+    
     try {
-      setLoading(true);
+      setLoading(true)
       
       if (tabValue === 'physical') {
-        await deletePhysicalMountain(toDeleteId);
+        await deletePhysicalMountain(toDeleteId)
       } else {
-        await deleteTargetMountain(toDeleteId);
+        await deleteTargetMountain(toDeleteId)
       }
       
-      fetchMountains();
-      setSnackbar({ 
-        open: true, 
-        message: 'Mountain deleted successfully', 
-        severity: 'success' 
-      });
+      await fetchMountains()
+      setDeleteOpen(false)
+      setToDeleteId(null)
+      setSnackbar({
+        open: true,
+        message: 'Mountain deleted successfully',
+        severity: 'success'
+      })
     } catch (err) {
-      console.error('Error deleting mountain:', err);
-      setSnackbar({ 
-        open: true, 
-        message: err.message || 'Error deleting mountain', 
-        severity: 'error' 
-      });
+      console.error('Error deleting mountain:', err)
+      setSnackbar({
+        open: true,
+        message: 'Error deleting mountain',
+        severity: 'error'
+      })
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  }
+  }, [toDeleteId, tabValue, fetchMountains])
 
-  const openEdit = mountain => {
+  const openEdit = (mountain) => {
     setCurrent({
       id: mountain.id,
       name: mountain.name,
