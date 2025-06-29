@@ -29,8 +29,8 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
           },
         }}
       >
-        <MenuItem value=''>
-          Select Event
+        <MenuItem value='' disabled>
+          Select an Event
         </MenuItem>
         {events.map((event) => (
           <MenuItem value={event.id} key={event.id}>

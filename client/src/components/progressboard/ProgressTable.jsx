@@ -11,7 +11,7 @@ import FullscreenToggleButton from './FullscreenToggleButton'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
 
-const ProgressTable = ({ columns, teams = [] }) => {
+const ProgressTable = ({ columns, teams = [], eventId }) => {
   // State for current page number
   const [page, setPage] = useState(0)
   // State for number of rows per page
@@ -66,7 +66,7 @@ const ProgressTable = ({ columns, teams = [] }) => {
           justifyContent: 'space-between',
         }}
       >
-        <FullscreenToggleButton />
+        <FullscreenToggleButton eventId={eventId}/>
 
         <TablePagination
           rowsPerPageOptions={[15, 25, 100]}

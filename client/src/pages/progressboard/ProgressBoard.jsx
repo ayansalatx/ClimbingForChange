@@ -59,7 +59,7 @@ const ProgressBoard = () => {
   }, [])
 
   useEffect(() => {
-    if (events.length > 0 && !event) {
+    if (events.length > 0 && !selectedEvent) {
       const now = new Date()
 
       const sorted = [...events].sort(
@@ -77,7 +77,7 @@ const ProgressBoard = () => {
       }
     }
   }, [events, selectedEvent])
-
+  console.log(selectedEvent)
   useEffect(() => {
 }, [selectedEvent])
 
@@ -87,7 +87,6 @@ const ProgressBoard = () => {
       if (!selectedEvent) return
       try {
         const teamsForEvent = await getDisplayEvent(selectedEvent)
-
         setTeams(teamsForEvent)
       } catch (e) {
         console.log('Failed to load event teams', e)
@@ -168,7 +167,7 @@ const ProgressBoard = () => {
         </Box>
 
         <Box sx={{ flexGrow: 1, width: '100%', overflowX: 'hidden' }}>
-          <ProgressTable columns={fullColumns} teams={filteredTeams} />
+          <ProgressTable columns={fullColumns} teams={filteredTeams} eventId={selectedEvent} />
         </Box>
       </Container>
     </Box>

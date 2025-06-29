@@ -2,12 +2,12 @@ import { Fullscreen } from '@mui/icons-material'
 import { IconButton, Tooltip } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 
-const FullscreenToggleButton = () => {
+const FullscreenToggleButton = ({eventId}) => {
   const navigate = useNavigate()
 
   // Navigate to fullscreen page for large onsite display
   const handleClick = () => {
-    navigate('/progress/fullscreen')
+    navigate(`/progress/fullscreen/${eventId}`)
   }
 
   return (

@@ -1,6 +1,6 @@
 import { alpha, Box, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import C4CFavicon from '../../assets/C4C-branding/Favicon.png'
 import AutoScrollTable from '../../components/progressboard/auto-scroll/AutoScrollTable'
@@ -21,6 +21,7 @@ const columns = [
 ]
 
 const ProgressBoardFullscreen = () => {
+  const { eventId } = useParams()
   // State for teams
   const [teams, setTeams] = useState([])
   const [loading, setLoading] = useState(true)
@@ -37,11 +38,11 @@ const ProgressBoardFullscreen = () => {
     return () => window.removeEventListener('keydown', handleEsc)
   }, [navigate])
 
-  // Load Participant data from server
+  // Load Team data from server
   useEffect(() => {
     async function loadData() {
       try {
-        const teamList = await getTeamsForDisplay()
+        const teamList = await getTeamsForDisplay(eventId)
 
         setTeams(teamList)
       } catch (e) {
@@ -124,7 +125,6 @@ const ProgressBoardFullscreen = () => {
                 variant="h1"
                 color="secondary.main"
                 fontWeight={'bold'}
-                
                 textTransform={'uppercase'}
                 sx={{ fontSize: '5rem', fontStyle: 'italic' }}
               >
