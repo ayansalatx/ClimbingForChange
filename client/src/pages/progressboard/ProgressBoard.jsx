@@ -2,9 +2,9 @@ import { Box, Container } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
+import EventSelector from '../../components/progressboard/EventSelector'
 import ProgressSearch from '../../components/progressboard/ProgressSearch'
 import ProgressTable from '../../components/progressboard/ProgressTable'
-import EventSelector from '../../components/progressboard/EventSelector'
 import { getAllEvents, getDisplayEvent } from '../../services/eventService'
 
 // Define columns for full width screen
@@ -77,9 +77,9 @@ const ProgressBoard = () => {
       }
     }
   }, [events, selectedEvent])
-  console.log(selectedEvent)
+
   useEffect(() => {
-}, [selectedEvent])
+  }, [selectedEvent])
 
 
   useEffect(() => {
