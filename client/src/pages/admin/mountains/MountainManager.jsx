@@ -10,15 +10,10 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
   IconButton,
   InputAdornment,
   InputBase,
-  InputLabel,
-  MenuItem,
   Paper,
-  Select,
-  Snackbar,
   Table,
   TableBody,
   TableCell,
@@ -41,7 +36,7 @@ export default function MountainManager() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'info' })
-  const [tabValue, setTabValue] = useState('physical') // Add tab state
+  const [tabValue] = useState('physical') // Add tab state
   const [editOpen, setEditOpen] = useState(false)
   const [current, setCurrent] = useState({ 
     id: null, 
@@ -93,7 +88,7 @@ export default function MountainManager() {
 
   useEffect(() => {
     fetchMountains()
-  }, [])
+  }, [fetchMountains])
 
   const filtered = mountains.filter(m =>
     m.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -106,12 +101,7 @@ export default function MountainManager() {
 
   const closeAdd = () => setAddOpen(false)
 
-  const closeSnackbar = useCallback(() => {
-    setSnackbar(prev => ({
-      ...prev,
-      open: false
-    }))
-  }, [])
+  // Removed unused closeSnackbar function
 
   const saveAdd = useCallback(async () => {
     try {

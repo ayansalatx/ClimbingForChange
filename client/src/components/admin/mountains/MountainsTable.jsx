@@ -1,17 +1,17 @@
-import React from 'react';
+import React from 'react'
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
 import {
+  IconButton,
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
-  IconButton,
   Typography
-} from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+} from '@mui/material'
 
 const MountainsTable = ({ 
   mountains, 
@@ -23,10 +23,10 @@ const MountainsTable = ({
 }) => {
   const filteredMountains = mountains.filter(m =>
     m.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  )
 
   if (loading) {
-    return <Typography sx={{ textAlign: 'center', my: 3 }}>Loading mountains...</Typography>;
+    return <Typography sx={{ textAlign: 'center', my: 3 }}>Loading mountains...</Typography>
   }
 
   if (error) {
@@ -34,11 +34,11 @@ const MountainsTable = ({
       <Typography color="error" sx={{ mb: 2, textAlign: 'center' }}>
         {error}
       </Typography>
-    );
+    )
   }
 
   if (filteredMountains.length === 0) {
-    return <Typography sx={{ textAlign: 'center', my: 3 }}>No mountains found</Typography>;
+    return <Typography sx={{ textAlign: 'center', my: 3 }}>No mountains found</Typography>
   }
 
   return (
@@ -69,7 +69,7 @@ const MountainsTable = ({
         </TableBody>
       </Table>
     </TableContainer>
-  );
-};
+  )
+}
 
-export default MountainsTable;
+export default MountainsTable
