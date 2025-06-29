@@ -18,6 +18,11 @@ export const getEventByID = async (request, response) => {
   const event = await Event.findById(id)
     .populate('location')
     .populate('mountains')
+    .populate({
+      path: 'teams',
+      populate: { path: 'participants' },
+      populate: { path: 'laps' },
+    })
 
   response.json(event)
 }
