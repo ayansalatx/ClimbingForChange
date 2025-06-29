@@ -25,7 +25,9 @@ export const getTeamsForDisplay = async () => {
       ...team,
       mountainName: team.mountain?.name,
       elevation: team.mountain?.totalElevation,
-      currentElevation: laps.length ? laps.length * team.hill?.lapElevationGain : '-',
+      currentElevation: laps.length
+        ? laps.length * team.hill?.lapElevationGain
+        : '-',
       lapsCompleted: laps.length ? laps.length : '-',
       lapsToGo: Math.max((team.lapsRequired || 0) - laps.length, 0),
       bestLap: laps.length ? formatTime(teamBestLap) : null,
@@ -38,7 +40,8 @@ export const getTeamsForDisplay = async () => {
 
         return {
           ...participant,
-          currentElevation: participantLaps.length * team.hill?.lapElevationGain,
+          currentElevation:
+            participantLaps.length * team.hill?.lapElevationGain,
           lapsCompleted: participantLaps.length,
           lapsRequired: team.lapsRequired,
           lapsToGo: Math.max(
