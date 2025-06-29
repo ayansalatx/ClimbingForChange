@@ -4,7 +4,9 @@ import { useEffect, useState } from 'react'
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import ProgressSearch from '../../components/progressboard/ProgressSearch'
 import ProgressTable from '../../components/progressboard/ProgressTable'
+import EventSelector from '../../components/admin/tables/EventSelector'
 import { getTeamsForDisplay } from '../../services/teamService'
+import { getAllEvents, getDisplayEvent } from '../../services/eventService'
 
 // Define columns for full width screen
 const fullColumns = [
@@ -34,8 +36,12 @@ const fullColumns = [
 const ProgressBoard = () => {
   // State for teams
   const [teams, setTeams] = useState([])
+  // State for events
+  const [events, setEvents] = useState([])
+  const [selectedEvent, setSelectedEvent] = useState(null)
+
   // State to store current search input string
-  const [searchString, setsearchString] = useState('')
+  const [searchString, setSearchString] = useState('')
   // State for teams filtered by the search input
   const [filteredTeams, setFilteredTeams] = useState([])
 
@@ -43,8 +49,8 @@ const ProgressBoard = () => {
   useEffect(() => {
     async function loadData() {
       try {
-        const teamsList = await getTeamsForDisplay()
-        setTeams(teamsList)
+        const eventList = await getAllEvents()
+        setEvents(eventList)
       } catch (e) {
         console.log('Failed to load progress data', e)
       }
@@ -52,6 +58,45 @@ const ProgressBoard = () => {
 
     loadData()
   }, [])
+
+  useEffect(() => {
+    if (events.length > 0 && !event) {
+      const now = new Date()
+
+      const sorted = [...events].sort(
+        (a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)
+      )
+
+      const currentOrUpcoming = sorted.find((ev) => {
+        const start = new Date(ev.startDateTime)
+        const end = new Date(ev.endDateTime)
+        return (now >= start && now <= end) || now < start
+      })
+
+      if (currentOrUpcoming) {
+        setSelectedEvent(currentOrUpcoming.id)
+      }
+    }
+  }, [events, selectedEvent])
+
+  useEffect(() => {
+}, [selectedEvent])
+
+
+  useEffect(() => {
+    const loadTeamsForEvent = async () => {
+      if (!selectedEvent) return
+      try {
+        const teamsForEvent = await getDisplayEvent(selectedEvent)
+
+        setTeams(teamsForEvent)
+      } catch (e) {
+        console.log('Failed to load event teams', e)
+      }
+    }
+
+    loadTeamsForEvent()
+  }, [selectedEvent])
 
   useEffect(() => {
     if (!searchString) {
@@ -113,8 +158,13 @@ const ProgressBoard = () => {
         <Box sx={{ mb: '1rem', maxWidth: '25vw' }}>
           <ProgressSearch
             searchString={searchString}
-            onChange={setsearchString}
+            onChange={setSearchString}
             teamNames={[...new Set(teams.map((team) => team.name))]}
+          />
+          <EventSelector
+            events={events}
+            selectedEvent={selectedEvent}
+            setSelectedEvent={setSelectedEvent}
           />
         </Box>
 

@@ -20,8 +20,7 @@ export const getEventByID = async (request, response) => {
     .populate('mountains')
     .populate({
       path: 'teams',
-      populate: { path: 'participants' },
-      populate: { path: 'laps' },
+      populate: [{ path: 'participants' }, { path: 'laps' }],
     })
 
   response.json(event)

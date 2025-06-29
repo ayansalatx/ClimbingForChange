@@ -69,8 +69,8 @@ const CollapsibleRow = ({ team, columns, participants }) => {
             <Box sx={{ margin: 1 }}>
               <Table>
                 <TableBody>
-                  {participants.map((participant, i) => (
-                    <TableRow key={i}>
+                  {(participants || []).map((participant) => (
+                    <TableRow key={participant.id}>
                       <TableCell sx={{ width: '4.2rem' }}>
                         {/* <IconButton
                           aria-label="expand team"
@@ -91,8 +91,6 @@ const CollapsibleRow = ({ team, columns, participants }) => {
 
                       {/* Remaining cells*/}
                       {columns.slice(1).map((column) => {
-                        const value = participant[column.id] ?? '-'
-
                         return (
                           <TableCell
                             sx={{
@@ -104,7 +102,6 @@ const CollapsibleRow = ({ team, columns, participants }) => {
                             }}
                             key={column.id}
                           >
-                            {value}
                           </TableCell>
                         )
                       })}
