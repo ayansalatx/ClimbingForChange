@@ -10,10 +10,14 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
   IconButton,
   InputAdornment,
   InputBase,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -36,7 +40,7 @@ export default function MountainManager() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'info' })
-  const [tabValue] = useState('physical') // Add tab state
+  const [tabValue, setTabValue] = useState('physical') // Add tab state
   const [editOpen, setEditOpen] = useState(false)
   const [current, setCurrent] = useState({ 
     id: null, 
