@@ -3,8 +3,6 @@ import { useCallback, useEffect, useState } from 'react'
 
 // Material-UI Icons
 import AddIcon from '@mui/icons-material/Add'
-import DeleteIcon from '@mui/icons-material/Delete'
-import EditIcon from '@mui/icons-material/Edit'
 import SearchIcon from '@mui/icons-material/Search'
 
 // Material-UI Components
@@ -16,21 +14,13 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
-  IconButton,
   InputAdornment,
   InputBase,
   InputLabel,
   MenuItem,
-  Paper,
   Select,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   TextField,
-  Typography,
+  Typography
 } from '@mui/material'
 
 // Components
