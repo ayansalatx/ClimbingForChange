@@ -1,3 +1,5 @@
+import { useCallback, useEffect, useState } from 'react'
+
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
@@ -26,12 +28,12 @@ import {
   TextField,
   Typography
 } from '@mui/material'
-import { useCallback, useEffect, useState } from 'react'
+
 import { 
-  getMountains,
   createMountain,
-  updateMountain,
-  deleteMountain
+  deleteMountain,
+  getMountains,
+  updateMountain
 } from '../../../services/mountainService'
 
 export default function MountainManager() {
