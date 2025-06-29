@@ -31,11 +31,10 @@ import {
   getPhysicalMountains, 
   createPhysicalMountain, 
   updatePhysicalMountain, 
-  deletePhysicalMountain,
   getTargetMountains,
   createTargetMountain,
   updateTargetMountain,
-  deleteTargetMountain
+  deleteMountain
 } from '../../../services/mountainService';
 
 export default function MountainManager() {
