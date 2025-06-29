@@ -124,8 +124,9 @@ const ProgressBoardFullscreen = () => {
                 variant="h1"
                 color="secondary.main"
                 fontWeight={'bold'}
+                
                 textTransform={'uppercase'}
-                sx={{ fontSize: '5rem' }}
+                sx={{ fontSize: '5rem', fontStyle: 'italic' }}
               >
                 Climbing For Change 2025
               </Typography>

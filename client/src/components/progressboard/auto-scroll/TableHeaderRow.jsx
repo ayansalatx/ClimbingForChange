@@ -22,6 +22,7 @@ const TableHeaderRow = ({ columns }) => {
                 background: 'transparent',
                 color: 'background.default',
                 fontWeight: 'bold',
+                // fontStyle: 'italic',
                 fontSize: '1.5rem',
                 textTransform: 'uppercase',
                 letterSpacing: '.1rem',
