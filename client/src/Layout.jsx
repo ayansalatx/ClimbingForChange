@@ -5,6 +5,7 @@ import { Outlet, useNavigate } from 'react-router-dom'
 import AlertDisplay from './components/AlertDisplay'
 import SideBar from './components/shared/SideBar'
 import TopAppBar from './components/shared/TopAppBar'
+import Footer from './components/shared/Footer'
 
 function Layout() {
   const [drawerOpen, setDrawerOpen] = useState(false)
@@ -22,7 +23,6 @@ function Layout() {
   return (
     <>
       <header>
-        {/* Pass a function to onMenuClick so it triggers on event */}
         <TopAppBar onMenuClick={() => toggleDrawer(true)} onLogout={logout} />
       </header>
       <nav>
@@ -58,6 +58,7 @@ function Layout() {
             <Outlet sx={{ padding: 0, margin: 0 }} />
           </Suspense>
         </Box>
+        <Footer />
       </main>
     </>
   )
