@@ -1,17 +1,35 @@
 import { api } from './api'
 
-// Physical Mountains (Hills)
-export const getPhysicalMountains = async () => {
-  const res = await api.get('/mountains/physical')
+// Mountain CRUD operations
+export const getMountains = async () => {
+  const res = await api.get('/mountains')
   return res.data
 }
 
-export const createPhysicalMountain = async (mountainData) => {
-  const res = await api.post('/mountains/physical', mountainData)
+export const getMountainById = async (id) => {
+  if (!id) {
+    throw new Error('Mountain ID is required')
+  }
+  const res = await api.get(`/mountains/${id}`)
   return res.data
 }
 
-export const updatePhysicalMountain = async (id, mountainData) => {
+export const createMountain = async (mountainData) => {
+  if (!mountainData) {
+    throw new Error('Mountain data is required')
+  }
+  
+  const dataToSend = {
+    ...mountainData,
+    totalElevation: parseFloat(mountainData.totalElevation) || 0,
+    active: mountainData.active !== undefined ? mountainData.active : true
+  }
+  
+  const res = await api.post('/mountains', dataToSend)
+  return res.data
+}
+
+export const updateMountain = async (id, mountainData) => {
   if (!id) {
     throw new Error('Mountain ID is required')
   }
@@ -20,83 +38,43 @@ export const updatePhysicalMountain = async (id, mountainData) => {
   }
   
   try {
-    // Ensure numeric fields are properly formatted
     const dataToSend = {
       ...mountainData,
       totalElevation: parseFloat(mountainData.totalElevation) || 0,
       active: mountainData.active !== undefined ? mountainData.active : true
     }
     
-    const res = await api.put(`/mountains/physical/${id}`, dataToSend)
+    const res = await api.put(`/mountains/${id}`, dataToSend)
     return res.data
   } catch (error) {
-    console.error('Error updating physical mountain:', error)
+    console.error('Error updating mountain:', error)
     throw error
   }
 }
 
-export const deletePhysicalMountain = async (id) => {
+export const deleteMountain = async (id) => {
   if (!id) {
     throw new Error('Mountain ID is required')
   }
   try {
-    const res = await api.delete(`/mountains/physical/${id}`)
+    const res = await api.delete(`/mountains/${id}`)
     return res.data
   } catch (error) {
-    console.error('Error deleting physical mountain:', error)
+    console.error('Error deleting mountain:', error)
     throw error
   }
 }
+
+// For backward compatibility - these will be removed in future versions
+// Physical Mountains (Hills)
+export const getPhysicalMountains = getMountains
+export const createPhysicalMountain = createMountain
+export const updatePhysicalMountain = updateMountain
+export const deletePhysicalMountain = deleteMountain
 
 // Target Mountains
-export const getTargetMountains = async () => {
-  const res = await api.get('/mountains/target')
-  return res.data
-}
-
-export const getTargetMountainById = async (id) => {
-  const res = await api.get(`/mountains/target/${id}`)
-  return res.data
-}
-
-export const createTargetMountain = async (mountainData) => {
-  const res = await api.post('/mountains/target', mountainData)
-  return res.data
-}
-
-export const updateTargetMountain = async (id, mountainData) => {
-  if (!id) {
-    throw new Error('Mountain ID is required')
-  }
-  if (!mountainData) {
-    throw new Error('Mountain data is required')
-  }
-  
-  try {
-    // Ensure numeric fields are properly formatted
-    const dataToSend = {
-      ...mountainData,
-      totalElevation: parseFloat(mountainData.totalElevation) || 0,
-      active: mountainData.active !== undefined ? mountainData.active : true
-    }
-    
-    const res = await api.put(`/mountains/target/${id}`, dataToSend)
-    return res.data
-  } catch (error) {
-    console.error('Error updating target mountain:', error)
-    throw error
-  }
-}
-
-export const deleteTargetMountain = async (id) => {
-  if (!id) {
-    throw new Error('Mountain ID is required')
-  }
-  try {
-    const res = await api.delete(`/mountains/target/${id}`)
-    return res.data
-  } catch (error) {
-    console.error('Error deleting target mountain:', error)
-    throw error
-  }
-}
+export const getTargetMountains = getMountains
+export const getTargetMountainById = getMountainById
+export const createTargetMountain = createMountain
+export const updateTargetMountain = updateMountain
+export const deleteTargetMountain = deleteMountain

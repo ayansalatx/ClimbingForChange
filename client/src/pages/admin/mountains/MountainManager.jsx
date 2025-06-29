@@ -29,14 +29,10 @@ import {
   Typography
 } from '@mui/material'
 import { 
-  getPhysicalMountains, 
-  createPhysicalMountain, 
-  updatePhysicalMountain, 
-  deletePhysicalMountain,
-  getTargetMountains,
-  createTargetMountain,
-  updateTargetMountain,
-  deleteTargetMountain
+  getMountains,
+  createMountain,
+  updateMountain,
+  deleteMountain
 } from '../../../services/mountainService'
 
 export default function MountainManager() {
@@ -67,11 +63,15 @@ export default function MountainManager() {
   const fetchMountains = useCallback(async () => {
     try {
       setLoading(true)
-      const mountainsData = tabValue === 'physical' 
-        ? await getPhysicalMountains()
-        : await getTargetMountains()
+      // Get all mountains and filter them on the client side
+      const allMountains = await getMountains()
       
-      const mountainsWithIds = mountainsData.map(mountain => ({
+      // Filter based on the current tab
+      const filteredMountains = tabValue === 'physical' 
+        ? allMountains.filter(m => !m.isTargetMountain)
+        : allMountains.filter(m => m.isTargetMountain)
+      
+      const mountainsWithIds = filteredMountains.map(mountain => ({
         ...mountain,
         id: mountain._id || mountain.id
       }))
@@ -123,14 +123,11 @@ export default function MountainManager() {
         totalElevation: parseFloat(totalElevation) || 0,
         elevationUnit,
         imageURL: imageURL || undefined,
-        active: true
+        active: true,
+        isTargetMountain: tabValue !== 'physical'
       }
       
-      if (tabValue === 'physical') {
-        await createPhysicalMountain(mountainData)
-      } else {
-        await createTargetMountain(mountainData)
-      }
+      await createMountain(mountainData)
       
       await fetchMountains()
       setAddOpen(false)
@@ -165,12 +162,7 @@ export default function MountainManager() {
     
     try {
       setLoading(true)
-      
-      if (tabValue === 'physical') {
-        await deletePhysicalMountain(toDeleteId)
-      } else {
-        await deleteTargetMountain(toDeleteId)
-      }
+      await deleteMountain(toDeleteId)
       
       await fetchMountains()
       setDeleteOpen(false)
@@ -190,7 +182,7 @@ export default function MountainManager() {
     } finally {
       setLoading(false)
     }
-  }, [toDeleteId, tabValue, fetchMountains])
+  }, [toDeleteId, fetchMountains])
 
   const openEdit = (mountain) => {
     setCurrent({
@@ -205,22 +197,31 @@ export default function MountainManager() {
   
   const closeEdit = () => setEditOpen(false)
   
-  const saveEdit = async () => {
+  const saveEdit = useCallback(async () => {
     try {
       const { id, ...updateData } = current
-      if (tabValue === 'physical') {
-        await updatePhysicalMountain(id, updateData);
-      } else {
-        await updateTargetMountain(id, updateData);
-      }
       
-      fetchMountains();
+      await updateMountain(id, {
+        ...updateData,
+        isTargetMountain: tabValue !== 'physical'
+      })
+      
+      await fetchMountains()
       setEditOpen(false)
+      setSnackbar({
+        open: true,
+        message: 'Mountain updated successfully',
+        severity: 'success'
+      })
     } catch (err) {
       console.error('Error updating mountain:', err)
-      setError('Failed to update mountain. Please try again.')
+      setSnackbar({
+        open: true,
+        message: 'Error updating mountain',
+        severity: 'error'
+      })
     }
-  }
+  }, [current, tabValue, fetchMountains])
 
   return (
     <Box sx={{ pt: 16, pb: 2, width: '90vw', maxWidth: 1200, mx: 'auto', px: 3 }}>
