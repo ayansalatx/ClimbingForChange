@@ -9,6 +9,7 @@ export const getAllTeams = async () => {
 // Get all teams for the current event
 export const getTeamsForDisplay = async () => {
   const teamList = await getAllTeams()
+
   // Create array for display
   const teamsForDisplay = teamList.map((team) => {
     // Get laps for each participant
