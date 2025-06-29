@@ -4,8 +4,11 @@ export const getEvents = async (req, response) => {
   const events = await Event.find({})
     .populate('location')
     .populate('mountains')
-    .populate({ path: 'teams' })
-    
+    .populate({
+      path: 'teams',
+      populate: { path: 'participants' },
+    })
+
   response.json(events)
 }
 
@@ -15,12 +18,11 @@ export const getEventByID = async (request, response) => {
   const event = await Event.findById(id)
     .populate('location')
     .populate('mountains')
-  
+
   response.json(event)
 }
 
 export const saveOneEvent = async (request, response) => {
-
   const body = request.body
   console.log('body', body)
   if (!body) {
@@ -28,7 +30,6 @@ export const saveOneEvent = async (request, response) => {
   }
 
   const newEvent = new Event({
-    
     name: body.name,
     location: body.location,
     mountains: body.mountains,
@@ -59,7 +60,8 @@ export const updateOneEvent = async (request, response) => {
     return response.status(400).json({ error: 'This event no longer exists.' })
   }
 
-  const updated = await Event.findByIdAndUpdate(id,
+  const updated = await Event.findByIdAndUpdate(
+    id,
     {
       $set: {
         name: body.name,
@@ -93,7 +95,7 @@ export const deleteOneEvent = async (request, response) => {
     return response.status(400).json({ error: 'This event no longer exists.' })
   }
 
-  await Event.findByIdAndDelete( eventIdToDelete)
+  await Event.findByIdAndDelete(eventIdToDelete)
 
   response.status(204).send()
 }
