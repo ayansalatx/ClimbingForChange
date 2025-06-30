@@ -24,14 +24,14 @@ function App() {
       <Router>
         <Routes>
           <Route path='/' element={<Landing />} />
-          <Route path="/progress" element={<ProgressBoard />} />
+          <Route path='/progress' element={<ProgressBoard />} />
           <Route
-            path="/progress/fullscreen"
+            path='/progress/fullscreen/:eventId'
             element={<ProgressBoardFullscreen />}
           />
 
           <Route
-            path="/login"
+            path='/login'
             element={<AdminLogin />}
           >
           </Route>
