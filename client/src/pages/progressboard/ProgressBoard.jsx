@@ -1,4 +1,4 @@
-import { alpha,Box } from '@mui/material'
+import { alpha, Box, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
@@ -163,23 +163,44 @@ const ProgressBoard = () => {
           }}
         >
           <Box
-            sx={{ display: 'flex', justifyContent: 'flex-start', mb: '1rem' }}
+            sx={{
+              display: 'flex',
+              alignContent: 'center',
+              justifyContent: 'space-bertween',
+              mb: 1.5,
+            }}
           >
-            <a
-              href="https://www.climbingforchange.ca/"
-              target="_blank"
-              rel="noreferrer"
+            <Box sx={{mb: .75}}>
+              <a
+                href="https://www.climbingforchange.ca/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img
+                  src={C4CHorizontalGreenLogo}
+                  alt="Climbing for Change Logo"
+                  style={{ maxWidth: '15.5rem', width: 'auto' }}
+                />
+              </a>
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                flexGrow: 1,
+                justifyContent: 'center',
+                alignItems: 'flex-end',
+              }}
             >
-              <img
-                src={C4CHorizontalGreenLogo}
-                alt="Climbing for Change Logo"
-                style={{ maxWidth: '15.5rem', width: 'auto' }}
-              />
-            </a>
-          </Box>
-
-          <Box sx={{ mb: '1rem', maxWidth: '25vw' }}>
-
+              <Typography
+                variant="h1"
+                color="secondary.main"
+                fontWeight={'bold'}
+                textTransform={'uppercase'}
+                sx={{ mr: 18, fontSize: '4.5rem', fontStyle: 'italic' }}
+              >
+                Climb Progress
+              </Typography>
+            </Box>
           </Box>
 
           <Box sx={{ flexGrow: 1, width: '100%', overflowX: 'hidden' }}>
