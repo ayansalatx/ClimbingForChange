@@ -1,11 +1,26 @@
 import AddIcon from '@mui/icons-material/Add'
 import SearchIcon from '@mui/icons-material/Search'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, InputAdornment, InputBase, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  InputAdornment,
+  InputBase,
+  Typography,
+} from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
 
-import MountainsTable from '../../../components/admin/mountains/MountainsTable'
 import MountainModal from '../../../components/admin/modals/MountainModal'
-import { createMountain, deleteMountain, getMountains, updateMountain } from '../../../services/mountainService'
+import MountainsTable from '../../../components/admin/mountains/MountainsTable'
+import {
+  createMountain,
+  deleteMountain,
+  getMountains,
+  updateMountain,
+} from '../../../services/mountainService'
 
 export default function MountainManager() {
   const [mountains, setMountains] = useState([])
@@ -21,7 +36,6 @@ export default function MountainManager() {
   const [currentMountain, setCurrentMountain] = useState(null)
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [toDeleteId, setToDeleteId] = useState(null)
-
 
   const fetchMountains = useCallback(async () => {
     try {
@@ -102,43 +116,42 @@ export default function MountainManager() {
     setEditOpen(true)
   }
 
-  const closeEdit = () => {
-    setEditOpen(false)
-    setCurrentMountain(null)
-  }
 
-  const handleSaveMountain = useCallback(async (mountainData) => {
-    try {
-      if (currentMountain) {
-        // Update existing mountain
-        await updateMountain(currentMountain.id, mountainData)
+  const handleSaveMountain = useCallback(
+    async (mountainData) => {
+      try {
+        if (currentMountain) {
+          // Update existing mountain
+          await updateMountain(currentMountain.id, mountainData)
+          setSnackbar({
+            open: true,
+            message: 'Mountain updated successfully',
+            severity: 'success',
+          })
+        } else {
+          // Create new mountain
+          await createMountain(mountainData)
+          setSnackbar({
+            open: true,
+            message: 'Mountain added successfully',
+            severity: 'success',
+          })
+        }
+
+        await fetchMountains()
+        setEditOpen(false)
+        setCurrentMountain(null)
+      } catch (err) {
+        console.error('Error saving mountain:', err)
         setSnackbar({
           open: true,
-          message: 'Mountain updated successfully',
-          severity: 'success',
-        })
-      } else {
-        // Create new mountain
-        await createMountain(mountainData)
-        setSnackbar({
-          open: true,
-          message: 'Mountain added successfully',
-          severity: 'success',
+          message: `Error ${currentMountain ? 'updating' : 'adding'} mountain`,
+          severity: 'error',
         })
       }
-      
-      await fetchMountains()
-      setEditOpen(false)
-      setCurrentMountain(null)
-    } catch (err) {
-      console.error('Error saving mountain:', err)
-      setSnackbar({
-        open: true,
-        message: `Error ${currentMountain ? 'updating' : 'adding'} mountain`,
-        severity: 'error',
-      })
-    }
-  }, [currentMountain, fetchMountains])
+    },
+    [currentMountain, fetchMountains]
+  )
 
   return (
     <Box
@@ -194,7 +207,7 @@ export default function MountainManager() {
         </Button>
       </Box>
 
-      <MountainsTable 
+      <MountainsTable
         mountains={filtered}
         searchTerm={searchTerm}
         onEdit={openEdit}
@@ -222,7 +235,11 @@ export default function MountainManager() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleDeleteCancel}>Cancel</Button>
-          <Button color="error" variant="contained" onClick={handleDeleteConfirm}>
+          <Button
+            color="error"
+            variant="contained"
+            onClick={handleDeleteConfirm}
+          >
             Delete
           </Button>
         </DialogActions>
