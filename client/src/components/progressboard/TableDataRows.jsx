@@ -8,22 +8,35 @@ import {
   TableBody,
   TableCell,
   TableRow,
+  alpha,
 } from '@mui/material'
 import React, { useState } from 'react'
+import theme from '../../styles/theme'
 
-const CollapsibleRow = ({ team, columns, participants }) => {
+const CollapsibleRow = ({ team, index, columns, participants }) => {
   const [open, setOpen] = useState(false)
+  const isEven = index % 2 === 0
 
   return (
     <React.Fragment>
-      <TableRow hover role="checkbox" tabIndex={-1} >
+      <TableRow
+        hover
+        role="checkbox"
+        tabIndex={-1}
+        sx={{
+          backgroundColor: isEven
+            ? alpha(theme.palette.background.paper, 0.6)
+            : alpha(theme.palette.background.paper, 0.5),
+        }}
+      >
         {/* Expand/Collapse toggle */}
-        <TableCell>
+        <TableCell sx={{ border: 'none' }}>
           <IconButton
             size="small"
             disableRipple
             sx={{
               padding: 0,
+              color: 'primary.main',
               '&:focus': {
                 outline: 'none',
               },
@@ -37,17 +50,14 @@ const CollapsibleRow = ({ team, columns, participants }) => {
         {/* Create a cell for each column in the row */}
         {columns.map((column, index) => {
           const value = team[column.id] ?? '-'
-          const columnAlign =
-            index === 0
-              ? 'left'
-              : index === columns.length - 1
-                ? 'right'
-                : 'center'
+          const columnAlign = index === 0 ? 'left' : 'center'
           return (
             <TableCell
               sx={{
+                border: 'none',
                 padding: '0.4rem',
-                ...(index === columns.length - 1 && { pr: '1.75rem' }),
+                fontSize: '1.1rem',
+                color: 'primary.main',
               }}
               key={column.id}
               align={columnAlign}
@@ -71,20 +81,7 @@ const CollapsibleRow = ({ team, columns, participants }) => {
                 <TableBody>
                   {(participants || []).map((participant, index) => (
                     <TableRow key={participant.id || index}>
-                      <TableCell sx={{ width: '4.2rem' }}>
-                        {/* <IconButton
-                          aria-label="expand team"
-                          size="small"
-                          color="#fff"
-                          disableRipple
-                          sx={{
-                            padding: 0,
-                            visibility: 'hidden',
-                          }}
-                        >
-                          <KeyboardArrowRightIcon />
-                        </IconButton> */}
-                      </TableCell>
+                      <TableCell sx={{ width: '4.2rem' }}></TableCell>
                       <TableCell sx={{ padding: '0.4rem', textAlign: 'right' }}>
                         {participant.firstName} {participant.lastName}
                       </TableCell>
@@ -101,8 +98,7 @@ const CollapsibleRow = ({ team, columns, participants }) => {
                               textAlign: 'center',
                             }}
                             key={column.id}
-                          >
-                          </TableCell>
+                          ></TableCell>
                         )
                       })}
                     </TableRow>
@@ -123,14 +119,18 @@ const TableDataRows = ({ teams, columns, page, rowsPerPage }) => {
       {/* Slice the teams array to get only the teams for the current page. */}
       {teams
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-        .map((team, teamIndex) => (
-          <CollapsibleRow
-            key={team.id || teamIndex}
-            team={team}
-            columns={columns}
-            participants={team.participants}
-          />
-        ))}
+        .map((team, teamIndex) => {
+          const index = page * rowsPerPage + teamIndex
+          return (
+            <CollapsibleRow
+              key={team.id || index}
+              team={team}
+              index={index}
+              columns={columns}
+              participants={team.participants}
+            />
+          )
+        })}
     </TableBody>
   )
 }

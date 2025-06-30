@@ -8,15 +8,15 @@ import theme from '../../styles/theme'
 
 // Define columns for full width screen
 const fullColumns = [
-  { id: 'name', label: 'Team', minWidth: 200 },
-  { id: 'mountainName', label: 'Mountain', minWidth: 115 },
-  { id: 'elevation', label: 'Elevation', minWidth: 60 },
-  { id: 'currentElevation', label: 'Current Elevation', minWidth: 60 },
-  { id: 'lapsRequired', label: 'Total Laps', minWidth: 40 },
-  { id: 'lapsCompleted', label: 'Laps Completed', minWidth: 70 },
-  { id: 'lapsToGo', label: 'Laps To Go', minWidth: 40 },
-  { id: 'bestLap', label: 'Best Lap', minWidth: 40 },
-  { id: 'timeElapsed', label: 'Time Elapsed', minWidth: 60 },
+  { id: 'name', label: 'Team', width: '25%' },
+  { id: 'mountainName', label: 'Mountain', width: '12%' },
+  { id: 'elevation', label: 'Total Elevation', width: '12%' },
+  { id: 'currentElevation', label: 'Current Elevation', width: '12%' },
+  { id: 'lapsRequired', label: 'Total Laps', width: '7%' },
+  { id: 'lapsCompleted', label: 'Laps', width: '7%' },
+  { id: 'lapsToGo', label: 'Laps To Go', width: '8%' },
+  { id: 'bestLap', label: 'Best Lap', width: '7%' },
+  { id: 'timeElapsed', label: 'Time Elapsed', width: '10%' },
 ]
 
 // const medColumns = [

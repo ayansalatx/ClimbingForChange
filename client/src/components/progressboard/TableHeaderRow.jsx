@@ -1,30 +1,46 @@
-import { TableCell, TableHead, TableRow, alpha } from '@mui/material'
-import theme from '../../styles/theme'
+import {
+  TableCell,
+  TableHead,
+  TableRow,
+  alpha,
+  IconButton,
+} from '@mui/material'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+
 // Renders the header row of the table using provided column definitions
 const TableHeaderRow = ({ columns }) => {
   return (
     <TableHead sx={{ background: 'transparent' }}>
-      <TableRow sx={{background: alpha(theme.palette.info.main, 0.7)}}>
+      <TableRow>
         <TableCell
           sx={{
             width: '0',
-            background: 'transparent',
+            backgroundColor: 'info.main',
             border: 'none',
           }}
-        ></TableCell>
+        >
+          <IconButton
+            size="small"
+            disableRipple
+            sx={{
+              visibility: 'hidden',
+              padding: 0,
+              color: 'primary.main',
+              '&:focus': {
+                outline: 'none',
+              },
+            }}
+          >
+            <KeyboardArrowDownIcon />
+          </IconButton>
+        </TableCell>
         {columns.map((column, index) => (
           <TableCell
             key={column.id}
-            align={
-              index === 0
-                ? 'left'
-                : index === columns.length - 1
-                  ? 'right'
-                  : 'center'
-            }
+            align={index === 0 ? 'left' : 'center'}
             sx={{
               width: column.width,
-              background: 'transparent',
+              backgroundColor: 'info.main',
               border: 'none',
               textTransform: 'uppercase',
               letterSpacing: '0.075em',
