@@ -10,7 +10,8 @@ import RFIDTag from '../models/rfidTag.js'
 import Event from '../models/event.js'
 import Team from '../models/team.js'
 import Participant from '../models/participant.js'
-import { closeDBConnection, emptyTestDB, loginAndGetToken } from './testHelper.js'
+import Lap from '../models/lap.js'
+import { closeDBConnection, connectToTestDB, emptyTestDB, loginAndGetToken } from './testHelper.js'
 
 const api = supertest(app)
 
@@ -20,14 +21,24 @@ let aHillId = ''
 let anRfidTagId = ''
 let initialTeamId = ''
 
-let token = ''
+let authToken = ''
 
-before(async() => {
-  token = await loginAndGetToken()
+before(async () => {
+  await connectToTestDB()
+  authToken = await loginAndGetToken()
 })
 
 beforeEach(async () => {
-  await emptyTestDB()
+  await Promise.all([
+    Location.deleteMany({}),
+    Hill.deleteMany({}),
+    Mountain.deleteMany({}),
+    RFIDTag.deleteMany({}),
+    Event.deleteMany({}),
+    Team.deleteMany({}),
+    Participant.deleteMany({}),
+    Lap.deleteMany({}),
+  ])
 
   // 1. Create all independent/prerequisite documents first
   const location = await new Location({ name: 'Test Park', address: '1 Test St', city: 'Testville', provState: 'TS', country: 'Testland' }).save()
@@ -68,19 +79,19 @@ describe('Teams API (/api/teams)', () => {
   test('teams are returned as json', async () => {
     await api
       .get('/api/teams')
-      .set('Authorization', `bearer ${token}`)
+      .set('Authorization', `bearer ${authToken}`)
       .expect(200)
       .expect('Content-Type', /application\/json/)
   })
 
   test('all teams are returned', async () => {
-    const response = await api.get('/api/teams').set('Authorization', `bearer ${token}`)
+    const response = await api.get('/api/teams').set('Authorization', `bearer ${authToken}`)
     assert.strictEqual(response.body.length, 1)
   })
 
   test('a single team can be fetched and includes participants', async () => {
     const response = await api
-      .get(`/api/teams/${initialTeamId}`).set('Authorization', `bearer ${token}`)
+      .get(`/api/teams/${initialTeamId}`).set('Authorization', `bearer ${authToken}`)
       .expect(200)
 
     const team = response.body
@@ -107,12 +118,12 @@ describe('Teams API (/api/teams)', () => {
 
     await api
       .post('/api/teams')
-      .set('Authorization', `bearer ${token}`)
+      .set('Authorization', `bearer ${authToken}`)
       .send(newTeamPayload)
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
-    const response = await api.get('/api/teams').set('Authorization', `bearer ${token}`)
+    const response = await api.get('/api/teams').set('Authorization', `bearer ${authToken}`)
     const teamNames = response.body.map(t => t.name)
 
     assert.strictEqual(response.body.length, 2)
@@ -122,7 +133,7 @@ describe('Teams API (/api/teams)', () => {
   test('a team can be updated', async () => {
     const response = await api
       .get(`/api/teams/${initialTeamId}`)
-      .set('Authorization', `bearer ${token}`)
+      .set('Authorization', `bearer ${authToken}`)
 
     const teamToUpdate = response.body
 
@@ -134,11 +145,11 @@ describe('Teams API (/api/teams)', () => {
 
     await api
       .put(`/api/teams/${initialTeamId}`)
-      .set('Authorization', `bearer ${token}`)
+      .set('Authorization', `bearer ${authToken}`)
       .send(updatePayload)
       .expect(200)
 
-    const res = await api.get(`/api/teams/${initialTeamId}`).set('Authorization', `bearer ${token}`)
+    const res = await api.get(`/api/teams/${initialTeamId}`).set('Authorization', `bearer ${authToken}`)
     assert.strictEqual(res.body.name, 'The First Climbers - Updated Name')
     assert.strictEqual(res.body.isSoloTeam, true)
   })
@@ -146,10 +157,10 @@ describe('Teams API (/api/teams)', () => {
   test('a team can be deleted', async () => {
     await api
       .delete(`/api/teams/${initialTeamId}`)
-      .set('Authorization', `bearer ${token}`)
+      .set('Authorization', `bearer ${authToken}`)
       .expect(204)
 
-    const response = await api.get('/api/teams').set('Authorization', `bearer ${token}`)
+    const response = await api.get('/api/teams').set('Authorization', `bearer ${authToken}`)
     assert.strictEqual(response.body.length, 0)
   })
 

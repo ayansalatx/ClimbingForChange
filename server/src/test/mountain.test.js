@@ -1,10 +1,17 @@
-import { test, describe, after, beforeEach } from 'node:test'
+import { test, describe, after, beforeEach, before } from 'node:test'
 import supertest from 'supertest'
 import app from '../../app.js'
 import assert from 'node:assert'
 
+import Location from '../models/location.js'
+import Hill from '../models/hill.js'
 import Mountain from '../models/mountain.js'
-import { loginAndGetToken, closeDBConnection } from './testHelper.js'
+import RFIDTag from '../models/rfidTag.js'
+import Event from '../models/event.js'
+import Team from '../models/team.js'
+import Participant from '../models/participant.js'
+import Lap from '../models/lap.js'
+import { loginAndGetToken, closeDBConnection, connectToTestDB } from './testHelper.js'
 
 const api = supertest(app)
 
@@ -15,12 +22,23 @@ const initialMountainsData = [
 
 let authToken = ''
 
+before(async () => {
+  await connectToTestDB()
+  authToken = await loginAndGetToken()
+})
+
 beforeEach(async () => {
   await Promise.all([
-      Mountain.deleteMany({}),
-    ])
+    Location.deleteMany({}),
+    Hill.deleteMany({}),
+    Mountain.deleteMany({}),
+    RFIDTag.deleteMany({}),
+    Event.deleteMany({}),
+    Team.deleteMany({}),
+    Participant.deleteMany({}),
+    Lap.deleteMany({}),
+  ])
 
-  authToken = await loginAndGetToken()
   await Mountain.insertMany(initialMountainsData)
 })
 
@@ -74,7 +92,7 @@ describe('Mountains API (/api/mountains)', () => {
     const mountainToDelete = mountains.body[0]
 
     await api.delete(`/api/mountains/${mountainToDelete.id}`).set('Authorization', `bearer ${authToken}`).expect(204)
-    
+
     const finalMountains = await api.get('/api/mountains').set('Authorization', `bearer ${authToken}`)
     assert.strictEqual(finalMountains.body.length, initialMountainsData.length - 1)
   })

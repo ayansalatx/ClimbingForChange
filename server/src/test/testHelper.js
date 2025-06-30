@@ -11,10 +11,10 @@ import Event from '../models/event.js'
 import Team from '../models/team.js'
 import Participant from '../models/participant.js'
 import Lap from '../models/lap.js'
+import config from '../utils/config.js'
 
 export const api = supertest(app)
 
-// Clear all test data
 export const emptyTestDB = async () => {
   await Promise.all([
     Location.deleteMany({}),
@@ -28,6 +28,8 @@ export const emptyTestDB = async () => {
     User.deleteMany({}),
   ])
 }
+
+let connection = null
 
 // Create test user and get auth token - call this in each test file
 export const loginAndGetToken = async () => {
@@ -55,6 +57,25 @@ export const loginAndGetToken = async () => {
   return response.body.token
 }
 
+export const connectToTestDB = async () => {
+  if (connection) {
+    return
+  }
+
+  try {
+    console.log('--- Establishing new test DB connection... ---')
+    connection = await mongoose.connect(config.MONGODB_URI)
+    console.log('--- Test DB connection established. ---')
+  } catch (err) {
+    console.error('Failed to connect to test DB', err)
+    process.exit(1)
+  }
+}
+
 export const closeDBConnection = async () => {
-  await mongoose.connection.close()
+  if (connection) {
+    await mongoose.connection.close()
+    connection = null
+    console.log('--- Test DB connection closed. ---')
+  }
 }

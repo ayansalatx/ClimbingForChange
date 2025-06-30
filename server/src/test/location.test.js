@@ -1,10 +1,18 @@
-import { test, after, beforeEach, describe } from 'node:test'
+import { test, after, beforeEach, describe, before } from 'node:test'
 import supertest from 'supertest'
 import app from '../../app.js'
 import assert from 'node:assert'
 
 import Location from '../models/location.js'
-import { loginAndGetToken, closeDBConnection } from './testHelper.js'
+import Hill from '../models/hill.js'
+import Mountain from '../models/mountain.js'
+import RFIDTag from '../models/rfidTag.js'
+import Event from '../models/event.js'
+import Team from '../models/team.js'
+import Participant from '../models/participant.js'
+import Lap from '../models/lap.js'
+
+import { loginAndGetToken, closeDBConnection, connectToTestDB } from './testHelper.js'
 
 const api = supertest(app)
 
@@ -27,12 +35,23 @@ const initialLocations = [
 
 let authToken = ''
 
+before(async () => {
+  await connectToTestDB()
+  authToken = await loginAndGetToken()
+})
+
 beforeEach(async () => {
   await Promise.all([
     Location.deleteMany({}),
+    Hill.deleteMany({}),
+    Mountain.deleteMany({}),
+    RFIDTag.deleteMany({}),
+    Event.deleteMany({}),
+    Team.deleteMany({}),
+    Participant.deleteMany({}),
+    Lap.deleteMany({}),
   ])
 
-  authToken = await loginAndGetToken()
   await Location.insertMany(initialLocations)
 })
 
