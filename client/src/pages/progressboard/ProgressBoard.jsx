@@ -1,11 +1,10 @@
-import { Box, Container } from '@mui/material'
+import { Box, alpha } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
-import EventSelector from '../../components/progressboard/EventSelector'
-import ProgressSearch from '../../components/progressboard/ProgressSearch'
 import ProgressTable from '../../components/progressboard/ProgressTable'
 import { getAllEvents, getDisplayEventTeams } from '../../services/eventService'
+import theme from '../../styles/theme'
 
 // Define columns for full width screen
 const fullColumns = [
@@ -78,9 +77,7 @@ const ProgressBoard = () => {
     }
   }, [events, selectedEvent])
 
-  useEffect(() => {
-  }, [selectedEvent])
-
+  useEffect(() => {}, [selectedEvent])
 
   useEffect(() => {
     const loadTeamsForEvent = async () => {
@@ -121,55 +118,83 @@ const ProgressBoard = () => {
   return (
     <Box
       sx={{
-        minHeight: '100vh',
+        position: 'relative',
         width: '100vw',
-        bgcolor: 'primary.main',
-        flexDirection: 'column',
-        alignContent: 'center',
+        height: '100vh',
+        overflow: 'hidden',
       }}
     >
-      <Container
-        maxWidth={false}
-        disableGutters
+      {/* https://pixabay.com/videos/search/terrain%20blue%20gray%20mountain/ */}
+      <video
+        src="/assets/mountain-with-way-points.mp4"
+        autoPlay
+        loop
+        muted
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          zIndex: 0,
+        }}
+      />
+
+      <Box
         sx={{
-          width: '95vw',
-          height: '95vh',
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: alpha(theme.palette.primary.main, 0.6),
         }}
       >
-        <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: '1rem' }}>
-          <a
-            href="https://www.climbingforchange.ca/"
-            target="_blank"
-            rel="noreferrer"
+        <Box
+          sx={{
+            position: 'relative',
+            zIndex: 2,
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            p: 3,
+          }}
+        >
+          <Box
+            sx={{ display: 'flex', justifyContent: 'flex-start', mb: '1rem' }}
           >
-            <img
-              src={C4CHorizontalGreenLogo}
-              alt="Climbing for Change Logo"
-              style={{ maxWidth: '15.5rem', width: 'auto' }}
+            <a
+              href="https://www.climbingforchange.ca/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img
+                src={C4CHorizontalGreenLogo}
+                alt="Climbing for Change Logo"
+                style={{ maxWidth: '15.5rem', width: 'auto' }}
+              />
+            </a>
+          </Box>
+
+          <Box sx={{ mb: '1rem', maxWidth: '25vw' }}>
+
+          </Box>
+
+          <Box sx={{ flexGrow: 1, width: '100%', overflowX: 'hidden' }}>
+            <ProgressTable
+              columns={fullColumns}
+              teams={filteredTeams}
+              events={events}
+              selectedEvent={selectedEvent}
+              setSelectedEvent={setSelectedEvent}
+              searchString={searchString}
+              setSearchString={setSearchString}
             />
-          </a>
+          </Box>
         </Box>
-
-        <Box sx={{ mb: '1rem', maxWidth: '25vw' }}>
-          <ProgressSearch
-            searchString={searchString}
-            onChange={setSearchString}
-            teamNames={[...new Set(teams.map((team) => team.name))]}
-          />
-          <EventSelector
-            events={events}
-            selectedEvent={selectedEvent}
-            setSelectedEvent={setSelectedEvent}
-          />
-        </Box>
-
-        <Box sx={{ flexGrow: 1, width: '100%', overflowX: 'hidden' }}>
-          <ProgressTable columns={fullColumns} teams={filteredTeams} eventId={selectedEvent} />
-        </Box>
-      </Container>
+      </Box>
     </Box>
   )
 }

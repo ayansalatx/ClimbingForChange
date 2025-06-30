@@ -8,10 +8,20 @@ import {
 import { useState } from 'react'
 
 import FullscreenToggleButton from './FullscreenToggleButton'
+import EventSelector from './EventSelector'
+import ProgressSearch from './ProgressSearch'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
 
-const ProgressTable = ({ columns, teams = [], eventId }) => {
+const ProgressTable = ({
+  columns,
+  teams = [],
+  events,
+  selectedEvent,
+  setSelectedEvent,
+  searchString,
+  setSearchString,
+}) => {
   // State for current page number
   const [page, setPage] = useState(0)
   // State for number of rows per page
@@ -31,18 +41,37 @@ const ProgressTable = ({ columns, teams = [], eventId }) => {
     setPage(0) // reset to first page
   }
 
-
   return (
     <Paper
       elevation={3}
       sx={{
         width: '100%',
         height: '100%',
-        overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
+        overflow: 'hidden',
       }}
     >
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          bgcolor: 'primary.main',
+          padding: '.5rem',
+        }}
+      >
+        <ProgressSearch
+          searchString={searchString}
+          onChange={setSearchString}
+          teamNames={[...new Set(teams.map((team) => team.name))]}
+        />
+        <EventSelector
+          events={events}
+          selectedEvent={selectedEvent}
+          setSelectedEvent={setSelectedEvent}
+        />
+      </Box>
       <TableContainer
         sx={{
           flexGrow: 1,
@@ -66,7 +95,7 @@ const ProgressTable = ({ columns, teams = [], eventId }) => {
           justifyContent: 'space-between',
         }}
       >
-        <FullscreenToggleButton eventId={eventId}/>
+        <FullscreenToggleButton eventId={selectedEvent} />
 
         <TablePagination
           rowsPerPageOptions={[15, 25, 100]}
