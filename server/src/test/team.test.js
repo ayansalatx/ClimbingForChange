@@ -11,7 +11,7 @@ import Event from '../models/event.js'
 import Team from '../models/team.js'
 import Participant from '../models/participant.js'
 import Lap from '../models/lap.js'
-import { closeDBConnection, connectToTestDB, emptyTestDB, loginAndGetToken } from './testHelper.js'
+import { closeDBConnection, connectToTestDB, loginAndGetToken } from './testHelper.js'
 
 const api = supertest(app)
 

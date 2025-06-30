@@ -1,6 +1,6 @@
 import logger from './logger.js'
-import jwt from "jsonwebtoken";
-import config from "../utils/config.js";
+import jwt from 'jsonwebtoken'
+import config from '../utils/config.js'
 
 
 export const requestLogger = (request, _response, next) => {
@@ -12,19 +12,19 @@ export const requestLogger = (request, _response, next) => {
 }
 
 export const tokenExtractor = (req, res, next) => {
-  const authorization = req.headers.authorization;
-  if (authorization?.toLowerCase().startsWith("bearer ")) {
-    const providedToken = authorization.substring(7);
+  const authorization = req.headers.authorization
+  if (authorization?.toLowerCase().startsWith('bearer ')) {
+    const providedToken = authorization.substring(7)
     
-    const decodedToken = jwt.verify(providedToken ?? "", config.JWT_SECRET)
+    const decodedToken = jwt.verify(providedToken ?? '', config.JWT_SECRET)
 
     if (!decodedToken.id) {
-      return res.status(401).json({ error: "token missing or invalid" })
+      return res.status(401).json({ error: 'token missing or invalid' })
     }
 
     req.token = providedToken
-    next();
+    next()
   } else {
-    res.status(401).json({ error: "token missing or invalid" })
+    res.status(401).json({ error: 'token missing or invalid' })
   }
-};
+}

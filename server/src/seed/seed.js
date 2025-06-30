@@ -46,14 +46,14 @@ const seedDatabase = async () => {
       {
         username: 'admin',
         firstName: 'John',
-        firstName: 'Doe',
-        password_hash: "$2a$12$7lCxHOSbd8XIJr/D6ZMsyO90FjYxqyQWzxx/IP6fznanAS6PjqcEK",
+        lastName: 'Doe',
+        password_hash: '$2a$12$7lCxHOSbd8XIJr/D6ZMsyO90FjYxqyQWzxx/IP6fznanAS6PjqcEK',
       },
       {
         username: 'admin',
         firstName: 'Jane',
-        firstName: 'Mary',
-        password_hash: "$2a$12$7lCxHOSbd8XIJr/D6ZMsyO90FjYxqyQWzxx/IP6fznanAS6PjqcEK",
+        lasttName: 'Mary',
+        password_hash: '$2a$12$7lCxHOSbd8XIJr/D6ZMsyO90FjYxqyQWzxx/IP6fznanAS6PjqcEK',
       }
     ])
 

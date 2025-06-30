@@ -30,9 +30,9 @@ app.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(openapiDoc))
 
 app.use('/api/auth', authRoutes)
 
-const authenticatedApiRouter = express.Router();
+const authenticatedApiRouter = express.Router()
 
-authenticatedApiRouter.use(tokenExtractor);
+authenticatedApiRouter.use(tokenExtractor)
 
 authenticatedApiRouter.use('/participants', participantRoutes)
 authenticatedApiRouter.use('/events', eventRoutes)
