@@ -27,10 +27,23 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
           backgroundColor: isEven
             ? alpha(theme.palette.background.paper, 0.6)
             : alpha(theme.palette.background.paper, 0.5),
+          '&:focus': {
+            backgroundColor: isEven
+              ? alpha(theme.palette.background.paper, 0.6)
+              : alpha(theme.palette.background.paper, 0.5),
+          },
+          '&:hover > *': {
+            backgroundColor: alpha(theme.palette.secondary.light, 0.9),
+          },
         }}
       >
         {/* Expand/Collapse toggle */}
-        <TableCell sx={{ border: 'none' }}>
+        <TableCell
+          sx={{
+            border: 'none',
+            backgroundColor: 'inherit',
+          }}
+        >
           <IconButton
             size="small"
             disableRipple
@@ -56,8 +69,9 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
               sx={{
                 border: 'none',
                 padding: '0.4rem',
-                fontSize: '1.1rem',
+                fontSize: '1.2rem',
                 color: 'primary.main',
+                backgroundColor: 'inherit',
               }}
               key={column.id}
               align={columnAlign}
@@ -70,37 +84,29 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
         })}
       </TableRow>
 
-      <TableRow>
-        <TableCell
-          sx={{ paddingBottom: 0, paddingTop: 0 }}
-          colSpan={columns.length + 1}
-        >
+      <TableRow
+        sx={{ backgroundColor: alpha(theme.palette.background.paper, 0.6) }}
+      >
+        <TableCell sx={{ p: 0 }} colSpan={columns.length + 1}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
+            <Box sx={{ py: '.5rem' }}>
               <Table>
-                <TableBody>
+                <TableBody sx={{px: 0,}}>
                   {(participants || []).map((participant, index) => (
                     <TableRow key={participant.id || index}>
-                      <TableCell sx={{ width: '4.2rem' }}></TableCell>
-                      <TableCell sx={{ padding: '0.4rem', textAlign: 'right' }}>
+                      <TableCell sx={{ width: '4.5rem', p: 0, border: 'none' }}></TableCell>
+                      <TableCell
+                        sx={{
+                          py: '.5rem',
+                          px: 0,
+                          border: 'none',
+                          textAlign: 'left',
+                          fontSize: '1.1rem',
+                          color: 'primary.main'
+                        }}
+                      >
                         {participant.firstName} {participant.lastName}
                       </TableCell>
-
-                      {/* Remaining cells*/}
-                      {columns.slice(1).map((column) => {
-                        return (
-                          <TableCell
-                            sx={{
-                              padding: '0.4rem',
-                              minWidth: column.minWidth || 100,
-                              maxWidth: column.maxWidth || 'auto',
-                              overflowWrap: 'break-word',
-                              textAlign: 'center',
-                            }}
-                            key={column.id}
-                          ></TableCell>
-                        )
-                      })}
                     </TableRow>
                   ))}
                 </TableBody>
