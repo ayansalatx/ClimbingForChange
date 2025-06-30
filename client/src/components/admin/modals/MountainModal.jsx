@@ -17,42 +17,49 @@ const style = {
   '& .MuiTextField-root': { mb: 2 },
 }
 
-const MountainModal = ({ open, onClose, onSave, mountainData }) => {
+const MountainModal = ({ open, onClose, onSave, mountain }) => {
   const [name, setName] = useState('')
   const [totalElevation, setTotalElevation] = useState('')
   const [elevationUnit, setElevationUnit] = useState('FT')
   const [imageURL, setImageURL] = useState('')
 
   useEffect(() => {
-    if (open && mountainData) {
-      setName(mountainData.name || '')
-      setTotalElevation(mountainData.totalElevation || '')
-      setElevationUnit(mountainData.elevationUnit || 'FT')
-      setImageURL(mountainData.imageURL || '')
+    if (open && mountain) {
+      console.log('Setting form values from mountain:', mountain);
+      setName(mountain.name || '')
+      setTotalElevation(mountain.totalElevation?.toString() || '0')
+      setElevationUnit(mountain.elevationUnit || 'FT')
+      setImageURL(mountain.imageURL || '')
     } else if (!open) {
+      // Reset form when closing
       setName('')
-      setTotalElevation('')
+      setTotalElevation('0')
       setElevationUnit('FT')
       setImageURL('')
     }
-  }, [open, mountainData])
+  }, [open, mountain])
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    onSave({
+    e.preventDefault();
+    
+    // Prepare the mountain data
+    const mountainData = {
       name: name.trim(),
       totalElevation: parseFloat(totalElevation) || 0,
       elevationUnit,
-      imageURL: imageURL || undefined,
+      imageURL: imageURL || '',
       active: true
-    })
+    };
+    
+    console.log('Submitting mountain data:', mountainData);
+    onSave(mountainData);
   }
 
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={style}>
         <Typography variant="h5" mb={2} sx={{ textTransform: 'uppercase', color: 'primary.main' }}>
-          {mountainData ? 'Edit Mountain' : 'Add New Mountain'}
+          {mountain?.id ? 'Edit Mountain' : 'Add New Mountain'}
         </Typography>
 
         <form onSubmit={handleSubmit}>
@@ -98,7 +105,7 @@ const MountainModal = ({ open, onClose, onSave, mountainData }) => {
           
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, gap: 1 }}>
             <CancelButton onClick={onClose} />
-            <SaveButton type="submit" />
+            <SaveButton type="submit" label={mountain?.id ? 'Update' : 'Add'} />
           </Box>
         </form>
       </Box>

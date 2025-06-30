@@ -1,20 +1,11 @@
-import AddIcon from '@mui/icons-material/Add'
-import SearchIcon from '@mui/icons-material/Search'
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  InputAdornment,
-  InputBase,
-  Typography,
-} from '@mui/material'
-import { useCallback, useEffect, useState } from 'react'
+import TerrainIcon from '@mui/icons-material/Terrain'
+import { Box } from '@mui/material'
+import { useEffect, useState } from 'react'
 
+import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog'
 import MountainModal from '../../../components/admin/modals/MountainModal'
-import MountainsTable from '../../../components/admin/mountains/MountainsTable'
+import DataTable from '../../../components/admin/tables/DataTable'
+import { useAlert } from '../../../hooks/useAlert'
 import {
   createMountain,
   deleteMountain,
@@ -22,228 +13,265 @@ import {
   updateMountain,
 } from '../../../services/mountainService'
 
-export default function MountainManager() {
+const fullColumns = [
+  { 
+    id: 'name', 
+    label: 'Mountain Name', 
+    width: '40%', 
+    align: 'left',
+    format: (value) => value || 'Unnamed Mountain'
+  },
+  { 
+    id: 'totalElevation', 
+    label: 'Elevation', 
+    width: '30%', 
+    align: 'center',
+    format: (value) => value ? value.toString() : '0'
+  },
+  { 
+    id: 'elevationUnit', 
+    label: 'Unit', 
+    width: '30%', 
+    align: 'center',
+    format: (value) => value || 'FT'
+  },
+]
+
+const MountainManager = () => {
   const [mountains, setMountains] = useState([])
-  const [searchTerm, setSearchTerm] = useState('')
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-  const [, setSnackbar] = useState({
-    open: false,
-    message: '',
-    severity: 'info',
-  })
-  const [editOpen, setEditOpen] = useState(false)
-  const [currentMountain, setCurrentMountain] = useState(null)
-  const [deleteOpen, setDeleteOpen] = useState(false)
-  const [toDeleteId, setToDeleteId] = useState(null)
-
-  const fetchMountains = useCallback(async () => {
+  const [showInactive, setShowInactive] = useState(false)
+  const [popupOpen, setPopupOpen] = useState(false)
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
+  const [mountainToDelete, setMountainToDelete] = useState(null)
+  const [editedMountain, setEditedMountain] = useState(null)
+  
+  const displayAlert = useAlert()
+  async function loadData() {
     try {
-      setLoading(true)
-      const allMountains = await getMountains()
-
-      const mountainsWithIds = allMountains.map((mountain) => ({
-        ...mountain,
-        id: mountain._id || mountain.id,
-      }))
-
-      setMountains(mountainsWithIds)
-      setError(null)
-    } catch (err) {
-      console.error('Error fetching mountains:', err)
-      setError('Failed to load mountains. Please try again later.')
-      setSnackbar({
-        open: true,
-        message: 'Error loading mountains',
-        severity: 'error',
-      })
-    } finally {
-      setLoading(false)
-    }
-  }, [])
-
-  useEffect(() => {
-    fetchMountains()
-  }, [fetchMountains])
-
-  const filtered = mountains.filter((m) =>
-    m.name.toLowerCase().includes(searchTerm.toLowerCase())
-  )
-
-  const openAdd = () => {
-    setCurrentMountain(null)
-    setEditOpen(true)
-  }
-  const handleDeleteClick = (id) => {
-    setToDeleteId(id)
-    setDeleteOpen(true)
-  }
-
-  const handleDeleteCancel = () => {
-    setDeleteOpen(false)
-    setToDeleteId(null)
-  }
-
-  const handleDeleteConfirm = useCallback(async () => {
-    if (!toDeleteId) return
-
-    try {
-      setLoading(true)
-      await deleteMountain(toDeleteId)
-
-      await fetchMountains()
-      setDeleteOpen(false)
-      setToDeleteId(null)
-      setSnackbar({
-        open: true,
-        message: 'Mountain deleted successfully',
-        severity: 'success',
-      })
-    } catch (err) {
-      console.error('Error deleting mountain:', err)
-      setSnackbar({
-        open: true,
-        message: 'Error deleting mountain',
-        severity: 'error',
-      })
-    } finally {
-      setLoading(false)
-    }
-  }, [toDeleteId, fetchMountains])
-
-  const openEdit = (mountain) => {
-    setCurrentMountain(mountain)
-    setEditOpen(true)
-  }
-
-
-  const handleSaveMountain = useCallback(
-    async (mountainData) => {
-      try {
-        if (currentMountain) {
-          // Update existing mountain
-          await updateMountain(currentMountain.id, mountainData)
-          setSnackbar({
-            open: true,
-            message: 'Mountain updated successfully',
-            severity: 'success',
-          })
-        } else {
-          // Create new mountain
-          await createMountain(mountainData)
-          setSnackbar({
-            open: true,
-            message: 'Mountain added successfully',
-            severity: 'success',
-          })
+      const mountainsList = await getMountains()
+      
+      const mountainsWithIds = mountainsList.map(mountain => {
+        // Ensure all required fields have default values
+        const processedMountain = {
+          id: mountain._id || mountain.id,
+          name: mountain.name || 'Unnamed Mountain',
+          totalElevation: mountain.totalElevation?.toString() || '0',
+          elevationUnit: mountain.elevationUnit || 'FT',
+          imageURL: mountain.imageURL || '',
+          active: mountain.active !== undefined ? mountain.active : true,
+          ...mountain // Spread the rest of the properties
         }
-
-        await fetchMountains()
-        setEditOpen(false)
-        setCurrentMountain(null)
-      } catch (err) {
-        console.error('Error saving mountain:', err)
-        setSnackbar({
-          open: true,
-          message: `Error ${currentMountain ? 'updating' : 'adding'} mountain`,
-          severity: 'error',
+        
+        return processedMountain
+      })
+      setMountains(mountainsWithIds)
+    } catch (error) {
+      displayAlert(
+        'Error',
+        `Failed to Load Mountains: ${error.message}`,
+        'error'
+      )
+    }
+  }
+  useEffect(() => {
+    async function loadMountains() {
+      try {
+        const mountainsList = await getMountains()
+        
+        const mountainsWithIds = mountainsList.map(mountain => {
+          // Ensure all required fields have default values
+          const processedMountain = {
+            id: mountain._id || mountain.id,
+            name: mountain.name || 'Unnamed Mountain',
+            totalElevation: mountain.totalElevation?.toString() || '0',
+            elevationUnit: mountain.elevationUnit || 'FT',
+            imageURL: mountain.imageURL || '',
+            active: mountain.active !== undefined ? mountain.active : true,
+            ...mountain // Spread the rest of the properties
+          }
+          
+          return processedMountain
         })
+        setMountains(mountainsWithIds)
+        displayAlert(
+          'Success',
+          `Loaded ${mountainsWithIds.length} mountains from the backend.`,
+          'success'
+        )
+      } catch (error) {
+        displayAlert(
+          'Error',
+          `Failed to Load Mountains: ${error.message}`,
+          'error'
+        )
       }
-    },
-    [currentMountain, fetchMountains]
-  )
+    }
+    loadMountains()
+  }, [displayAlert])
 
+  const onAdd = () => {
+    setEditedMountain({
+      name: '',
+      totalElevation: '0',
+      elevationUnit: 'FT',
+      imageURL: '',
+      active: true
+    })
+    setPopupOpen(true)
+  }
+
+  const onEdit = (mountain) => {
+    setEditedMountain({
+      ...mountain,
+      name: mountain.name || '',
+      totalElevation: mountain.totalElevation?.toString() || '0',
+      elevationUnit: mountain.elevationUnit || 'FT',
+      imageURL: mountain.imageURL || '',
+      active: mountain.active !== undefined ? mountain.active : true,
+    })
+    setPopupOpen(true)
+  
+  }
+
+  const onDelete = (mountain) => {
+    setMountainToDelete(mountain)
+    setDeleteConfirmOpen(true)
+  }
+
+  const confirmedDelete = async () => {
+    if (!mountainToDelete) {
+      return
+    }
+    
+    try {
+      await deleteMountain(mountainToDelete.id)
+      
+      // Update the UI by removing the deleted mountain
+      setMountains(prev => prev.filter(m => m.id !== mountainToDelete.id))
+      
+      displayAlert(
+        'Success',
+        `Mountain "${mountainToDelete.name}" has been deleted.`,
+        'success'
+      )
+    } catch (error) {
+      displayAlert(
+        'Error',
+        error.response?.data?.message || `Failed to delete mountain: ${error.message}`,
+        'error'
+      )
+    } finally {
+      setDeleteConfirmOpen(false)
+      setMountainToDelete(null)
+    }
+  }
+
+  const cancelDelete = () => {
+    setDeleteConfirmOpen(false)
+    setMountainToDelete(null)
+  }
+
+  const handleSave = async (mountainData) => {
+    try {
+      let savedMountain
+      
+      // Check if we're updating an existing mountain
+      if (editedMountain && editedMountain.id) {
+        // Update existing mountain
+        savedMountain = await updateMountain(editedMountain.id, mountainData)
+        
+        
+        setMountains(prev => 
+          prev.map(mountain => 
+            mountain.id === editedMountain.id 
+              ? { ...savedMountain, id: savedMountain._id || savedMountain.id }
+              : mountain
+          )
+        )
+        
+        displayAlert(
+          'Success',
+          `Mountain "${editedMountain.name}" has been updated.`,
+          'success'
+        )
+        loadData()
+      } else {
+        const { ...newMountainData } = mountainData
+        savedMountain = await createMountain(newMountainData)
+        
+        setMountains(prev => [
+          ...prev,
+          {
+            ...savedMountain,
+            id: savedMountain._id || savedMountain.id,
+          },
+        ])
+        
+        displayAlert(
+          'Success',
+          `Mountain "${savedMountain.name}" has been created.`,
+          'success'
+        )
+        loadData()
+      }
+      
+      setPopupOpen(false)
+      setEditedMountain(null)
+    } catch (error) {
+      displayAlert(
+        'Error',
+        error.response?.data?.message || 'Failed to save mountain',
+        'error'
+      )
+    }
+  }
+
+  
   return (
     <Box
-      sx={{ pt: 16, pb: 2, width: '90vw', maxWidth: 1200, mx: 'auto', px: 3 }}
+      sx={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        py: '4rem',
+        px: '1.5rem',
+      }}
     >
-      <Typography variant="h4" align="center" gutterBottom>
-        Mountains
-      </Typography>
-
-      {error && (
-        <Typography color="error" sx={{ mb: 2, textAlign: 'center' }}>
-          {error}
-        </Typography>
-      )}
-
-      {loading && (
-        <Typography sx={{ textAlign: 'center', my: 3 }}>
-          Loading mountains...
-        </Typography>
-      )}
-
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          mb: 2,
-        }}
-      >
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography sx={{ mr: 1, fontWeight: 500 }}>Search</Typography>
-          <InputBase
-            placeholder="Search for a mountain…"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            startAdornment={
-              <InputAdornment position="start">
-                <SearchIcon fontSize="small" />
-              </InputAdornment>
-            }
-            sx={{
-              backgroundColor: '#f0f0f0',
-              borderRadius: 1,
-              px: 1,
-              height: 32,
-              width: 300,
-            }}
-          />
-        </Box>
-
-        <Button variant="contained" startIcon={<AddIcon />} onClick={openAdd}>
-          Add Mountain
-        </Button>
-      </Box>
-
-      <MountainsTable
-        mountains={filtered}
-        searchTerm={searchTerm}
-        onEdit={openEdit}
-        onDelete={handleDeleteClick}
-        loading={loading}
-        error={error}
+      <DataTable
+        tableTitle={'Mountains'}
+        tableIcon={TerrainIcon}
+        tableColumns={fullColumns}
+        tableData={mountains}
+        showInactive={showInactive}
+        setShowInactive={setShowInactive}
+        eventsForDropdown={''}
+        selectedEvent={''}
+        setSelectedEvent={''}
+        onAddClick={onAdd}
+        onEditClick={onEdit}
+        onDeleteClick={onDelete}
       />
 
       <MountainModal
-        open={editOpen}
+        open={popupOpen}
         onClose={() => {
-          setEditOpen(false)
-          setCurrentMountain(null)
+          setPopupOpen(false)
+          setEditedMountain(null)
         }}
-        onSave={handleSaveMountain}
-        mountainData={currentMountain}
+        onSave={handleSave}
+        mountain={editedMountain}
       />
 
-      <Dialog open={deleteOpen} onClose={handleDeleteCancel}>
-        <DialogTitle>Delete Mountain?</DialogTitle>
-        <DialogContent dividers>
-          <Typography>
-            Are you sure you want to delete this mountain?
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDeleteCancel}>Cancel</Button>
-          <Button
-            color="error"
-            variant="contained"
-            onClick={handleDeleteConfirm}
-          >
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <ConfirmDeleteDialog
+        open={deleteConfirmOpen}
+        onCancel={cancelDelete}
+        onConfirm={confirmedDelete}
+      />
     </Box>
   )
 }
+
+export default MountainManager
