@@ -38,45 +38,45 @@ const DataTable = ({
 
   let filteredRows = []
 
-  console.log('Original tableData:', tableData);
-  console.log('showInactive:', showInactive);
-  console.log('searchTerm:', searchTerm);
+  console.log('Original tableData:', tableData)
+  console.log('showInactive:', showInactive)
+  console.log('searchTerm:', searchTerm)
 
   if (tableTitle === 'Teams' || tableTitle === 'Participants') {
     filteredRows = tableData
       .filter((row) => {
-        const show = showInactive || row.active;
-        console.log(`Row ${row.id} - active: ${row.active}, show: ${show}`);
-        return show;
+        const show = showInactive || row.active
+        console.log(`Row ${row.id} - active: ${row.active}, show: ${show}`)
+        return show
       })
       .filter((row) => {
-        const searchableText = Object.values(row).join(' ').toLowerCase();
-        const matchesSearch = searchableText.includes(searchTerm.toLowerCase());
-        console.log(`Row ${row.id} - search matches: ${matchesSearch}`);
-        return matchesSearch;
+        const searchableText = Object.values(row).join(' ').toLowerCase()
+        const matchesSearch = searchableText.includes(searchTerm.toLowerCase())
+        console.log(`Row ${row.id} - search matches: ${matchesSearch}`)
+        return matchesSearch
       })
       .filter((row) => {
-        if (!selectedEvent) return true;
-        const matchesEvent = row.eventId === selectedEvent;
-        console.log(`Row ${row.id} - event matches: ${matchesEvent}`);
-        return matchesEvent;
-      });
+        if (!selectedEvent) return true
+        const matchesEvent = row.eventId === selectedEvent
+        console.log(`Row ${row.id} - event matches: ${matchesEvent}`)
+        return matchesEvent
+      })
   } else {
     filteredRows = tableData
       .filter((row) => {
-        const show = showInactive || row.active;
-        console.log(`Row ${row.id} - active: ${row.active}, show: ${show}`);
-        return show;
+        const show = showInactive || row.active
+        console.log(`Row ${row.id} - active: ${row.active}, show: ${show}`)
+        return show
       })
       .filter((row) => {
-        const searchableText = Object.values(row).join(' ').toLowerCase();
-        const matchesSearch = searchableText.includes(searchTerm.toLowerCase());
-        console.log(`Row ${row.id} - search matches: ${matchesSearch}`);
-        return matchesSearch;
-      });
+        const searchableText = Object.values(row).join(' ').toLowerCase()
+        const matchesSearch = searchableText.includes(searchTerm.toLowerCase())
+        console.log(`Row ${row.id} - search matches: ${matchesSearch}`)
+        return matchesSearch
+      })
   }
   
-  console.log('Filtered rows:', filteredRows);
+  console.log('Filtered rows:', filteredRows)
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
