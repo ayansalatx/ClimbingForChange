@@ -31,7 +31,7 @@ export default function MountainManager() {
     message: '',
     severity: 'info',
   })
-  const [tabValue] = useState('physical') // Add tab state
+  // Removed tab state as we've unified mountain types
   const [editOpen, setEditOpen] = useState(false)
   const [current, setCurrent] = useState({
     id: null,
@@ -53,16 +53,11 @@ export default function MountainManager() {
   const fetchMountains = useCallback(async () => {
     try {
       setLoading(true)
-      // Get all mountains and filter them on the client side
+      // Get all mountains
       const allMountains = await getMountains()
 
-      // Filter based on the current tab
-      const filteredMountains =
-        tabValue === 'physical'
-          ? allMountains.filter((m) => !m.isTargetMountain)
-          : allMountains.filter((m) => m.isTargetMountain)
-
-      const mountainsWithIds = filteredMountains.map((mountain) => ({
+      // Add id field to each mountain for consistent access
+      const mountainsWithIds = allMountains.map((mountain) => ({
         ...mountain,
         id: mountain._id || mountain.id,
       }))
@@ -80,7 +75,7 @@ export default function MountainManager() {
     } finally {
       setLoading(false)
     }
-  }, [tabValue])
+  }, [])
 
   useEffect(() => {
     fetchMountains()
@@ -114,8 +109,7 @@ export default function MountainManager() {
         totalElevation: parseFloat(totalElevation) || 0,
         elevationUnit,
         imageURL: imageURL || undefined,
-        active: true,
-        isTargetMountain: tabValue !== 'physical',
+        active: true
       }
 
       await createMountain(mountainData)
@@ -136,7 +130,7 @@ export default function MountainManager() {
         severity: 'error',
       })
     }
-  }, [newMountain, tabValue, fetchMountains])
+  }, [newMountain, fetchMountains])
 
   const handleDeleteClick = (id) => {
     setToDeleteId(id)
@@ -192,10 +186,7 @@ export default function MountainManager() {
     try {
       const { id, ...updateData } = current
 
-      await updateMountain(id, {
-        ...updateData,
-        isTargetMountain: tabValue !== 'physical',
-      })
+      await updateMountain(id, updateData)
 
       await fetchMountains()
       setEditOpen(false)
@@ -212,7 +203,7 @@ export default function MountainManager() {
         severity: 'error',
       })
     }
-  }, [current, tabValue, fetchMountains])
+  }, [current, fetchMountains])
 
   return (
     <Box
