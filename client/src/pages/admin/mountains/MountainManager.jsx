@@ -31,7 +31,6 @@ export default function MountainManager() {
     message: '',
     severity: 'info',
   })
-  // Removed tab state as we've unified mountain types
   const [editOpen, setEditOpen] = useState(false)
   const [current, setCurrent] = useState({
     id: null,
@@ -53,10 +52,8 @@ export default function MountainManager() {
   const fetchMountains = useCallback(async () => {
     try {
       setLoading(true)
-      // Get all mountains
       const allMountains = await getMountains()
 
-      // Add id field to each mountain for consistent access
       const mountainsWithIds = allMountains.map((mountain) => ({
         ...mountain,
         id: mountain._id || mountain.id,
@@ -97,7 +94,6 @@ export default function MountainManager() {
 
   const closeAdd = () => setAddOpen(false)
 
-  // Removed unused closeSnackbar function
 
   const saveAdd = useCallback(async () => {
     try {

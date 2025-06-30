@@ -65,16 +65,4 @@ export const deleteMountain = async (id) => {
   }
 }
 
-// For backward compatibility - these will be removed in future versions
-// Physical Mountains (Hills)
-export const getPhysicalMountains = getMountains
-export const createPhysicalMountain = createMountain
-export const updatePhysicalMountain = updateMountain
-export const deletePhysicalMountain = deleteMountain
-
-// Target Mountains
-export const getTargetMountains = getMountains
-export const getTargetMountainById = getMountainById
-export const createTargetMountain = createMountain
-export const updateTargetMountain = updateMountain
-export const deleteTargetMountain = deleteMountain
+// All mountain types are now handled by the unified functions above
