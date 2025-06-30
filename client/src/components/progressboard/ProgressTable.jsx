@@ -1,16 +1,16 @@
 import {
+  alpha,
   Box,
   Paper,
   Table,
   TableContainer,
   TablePagination,
-  alpha,
 } from '@mui/material'
 import { useState } from 'react'
 
 import theme from '../../styles/theme'
-import FullscreenToggleButton from './FullscreenToggleButton'
 import EventSelector from './EventSelector'
+import FullscreenToggleButton from './FullscreenToggleButton'
 import ProgressSearch from './ProgressSearch'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
@@ -79,6 +79,8 @@ const ProgressTable = ({
         sx={{
           flexGrow: 1,
           overflowX: 'hidden',
+          scrollbarWidth: 'thin',
+          scrollbarColor: `${alpha(theme.palette.background.paper, 0.7)} ${alpha(theme.palette.primary.main, 0.3)}`,
         }}
       >
         <Table stickyHeader aria-label="team/participant progress table">

@@ -1,6 +1,7 @@
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import {
+  alpha,
   Box,
   Collapse,
   IconButton,
@@ -8,9 +9,9 @@ import {
   TableBody,
   TableCell,
   TableRow,
-  alpha,
 } from '@mui/material'
 import React, { useState } from 'react'
+
 import theme from '../../styles/theme'
 
 const CollapsibleRow = ({ team, index, columns, participants }) => {

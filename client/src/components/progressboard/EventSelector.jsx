@@ -1,10 +1,10 @@
-import { FormControl, MenuItem, Select, alpha } from '@mui/material'
+import { alpha,FormControl, MenuItem, Select } from '@mui/material'
 
 import theme from '../../styles/theme'
 
 const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
   return (
-    <FormControl sx={{ width: '42%'}}>
+    <FormControl sx={{ width: '42%', borderRadius: '3px' }}>
       <Select
         variant="filled"
         id="event-select"
@@ -12,11 +12,11 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
         onChange={(e) => setSelectedEvent(e.target.value)}
         displayEmpty
         required
+        inputProps={{ sx: { borderRadius: '3px !important' } }}
         sx={{
           textAlign: 'left',
           background: alpha(theme.palette.background.paper, 0.25),
           color: 'primary.main',
-          borderRadius: '3px',
           '&:before, &:after': {
             borderBottom: 'none !important',
           },
@@ -24,7 +24,6 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
             background: alpha(theme.palette.background.paper, 0.1),
           },
           '& .MuiSelect-select': {
-            borderRadius: '3px',
             py: '4px',
             px: '8px',
             background: alpha(theme.palette.background.paper, 0.25),
@@ -35,7 +34,7 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
           },
         }}
       >
-        <MenuItem value="" disabled sx={{ py: 0, color: 'primary.light'}}>
+        <MenuItem value="" disabled sx={{ py: 0, color: 'primary.light' }}>
           Select an Event
         </MenuItem>
         {events.map((event) => (
@@ -43,12 +42,13 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
             value={event.id}
             key={event.id}
             sx={{
-              py: .5,
+              py: 0.5,
+              borderRadius: '3px',
               color: 'primary.main',
               '&:hover': {
+                borderRadius: '3px',
                 backgroundColor: alpha(theme.palette.primary.main, 0.2),
               },
-
             }}
           >
             {event.name}

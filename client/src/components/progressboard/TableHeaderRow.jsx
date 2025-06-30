@@ -1,11 +1,10 @@
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import {
+  IconButton,
   TableCell,
   TableHead,
   TableRow,
-  alpha,
-  IconButton,
 } from '@mui/material'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 
 // Renders the header row of the table using provided column definitions
 const TableHeaderRow = ({ columns }) => {
@@ -40,11 +39,12 @@ const TableHeaderRow = ({ columns }) => {
             align={index === 0 ? 'left' : 'center'}
             sx={{
               width: column.width,
+              p: '.75rem',
               backgroundColor: 'info.main',
               border: 'none',
               textTransform: 'uppercase',
               letterSpacing: '0.075em',
-              fontSize: '1.1rem',
+              fontSize: '1.35rem',
               fontWeight: 'bold',
               color: 'background.paper',
             }}

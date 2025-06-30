@@ -1,4 +1,4 @@
-import { Autocomplete, Box, TextField, alpha } from '@mui/material'
+import { alpha,Autocomplete, Box, TextField } from '@mui/material'
 
 import theme from '../../styles/theme'
 
@@ -12,7 +12,7 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
         color: 'primary.main',
         borderRadius: '3px',
         '&:hover': {
-          background: alpha(theme.palette.background.paper, 0.15),
+          background: alpha(theme.palette.background.paper, 0.25),
         },
       }}
     >
@@ -28,6 +28,26 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
         onInputChange={(event, newInputValue) => {
           onChange(newInputValue)
         }}
+        slotProps={{
+          paper: {
+            sx: {
+              borderRadius: '3px',
+              backgroundColor:'background.paper',
+              mt: 1,
+              color: 'primary.main',
+              '& .MuiAutocomplete-option': {
+                py: 0.5,
+                borderRadius: '3px',
+                color: 'primary.main',
+                transition: 'background-color 0.2s ease',
+                '&:hover': {
+                  borderRadius: '3px',
+                  backgroundColor: alpha(theme.palette.primary.main, 0.2),
+                },
+              },
+            },
+          },
+        }}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -35,7 +55,6 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
             slotProps={{
               input: {
                 ...params.InputProps,
-                disableUnderline: true,
                 type: 'search',
               },
             }}
