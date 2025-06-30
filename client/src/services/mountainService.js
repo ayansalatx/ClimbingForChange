@@ -1,6 +1,6 @@
 import { api } from './api'
 
-// Mountain CRUD operations
+
 export const getMountains = async () => {
   const res = await api.get('/mountains')
   return res.data
@@ -64,5 +64,3 @@ export const deleteMountain = async (id) => {
     throw error
   }
 }
-
-// All mountain types are now handled by the unified functions above

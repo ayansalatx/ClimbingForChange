@@ -1,24 +1,10 @@
 import AddIcon from '@mui/icons-material/Add'
 import SearchIcon from '@mui/icons-material/Search'
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  FormControl,
-  InputAdornment,
-  InputBase,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-  Typography
-} from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, InputAdornment, InputBase, Typography } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
 
 import MountainsTable from '../../../components/admin/mountains/MountainsTable'
+import MountainModal from '../../../components/admin/modals/MountainModal'
 import { createMountain, deleteMountain, getMountains, updateMountain } from '../../../services/mountainService'
 
 export default function MountainManager() {
@@ -32,22 +18,10 @@ export default function MountainManager() {
     severity: 'info',
   })
   const [editOpen, setEditOpen] = useState(false)
-  const [current, setCurrent] = useState({
-    id: null,
-    name: '',
-    totalElevation: '',
-    elevationUnit: 'FT',
-    imageURL: '',
-  })
+  const [currentMountain, setCurrentMountain] = useState(null)
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [toDeleteId, setToDeleteId] = useState(null)
-  const [addOpen, setAddOpen] = useState(false)
-  const [newMountain, setNewMountain] = useState({
-    name: '',
-    totalElevation: '',
-    elevationUnit: 'FT',
-    imageURL: '',
-  })
+
 
   const fetchMountains = useCallback(async () => {
     try {
@@ -83,51 +57,9 @@ export default function MountainManager() {
   )
 
   const openAdd = () => {
-    setNewMountain({
-      name: '',
-      totalElevation: '',
-      elevationUnit: 'FT',
-      imageURL: '',
-    })
-    setAddOpen(true)
+    setCurrentMountain(null)
+    setEditOpen(true)
   }
-
-  const closeAdd = () => setAddOpen(false)
-
-
-  const saveAdd = useCallback(async () => {
-    try {
-      const { name, totalElevation, elevationUnit, imageURL } = newMountain
-      if (!name.trim()) return
-
-      const mountainData = {
-        name: name.trim(),
-        totalElevation: parseFloat(totalElevation) || 0,
-        elevationUnit,
-        imageURL: imageURL || undefined,
-        active: true
-      }
-
-      await createMountain(mountainData)
-
-      await fetchMountains()
-      setAddOpen(false)
-      setSnackbar({
-        open: true,
-        message: 'Mountain added successfully',
-        severity: 'success',
-      })
-    } catch (err) {
-      console.error('Error adding mountain:', err)
-      setError('Failed to add mountain. Please try again.')
-      setSnackbar({
-        open: true,
-        message: 'Error adding mountain',
-        severity: 'error',
-      })
-    }
-  }, [newMountain, fetchMountains])
-
   const handleDeleteClick = (id) => {
     setToDeleteId(id)
     setDeleteOpen(true)
@@ -166,40 +98,47 @@ export default function MountainManager() {
   }, [toDeleteId, fetchMountains])
 
   const openEdit = (mountain) => {
-    setCurrent({
-      id: mountain.id,
-      name: mountain.name,
-      totalElevation: mountain.totalElevation,
-      elevationUnit: mountain.elevationUnit,
-      imageURL: mountain.imageURL || '',
-    })
+    setCurrentMountain(mountain)
     setEditOpen(true)
   }
 
-  const closeEdit = () => setEditOpen(false)
+  const closeEdit = () => {
+    setEditOpen(false)
+    setCurrentMountain(null)
+  }
 
-  const saveEdit = useCallback(async () => {
+  const handleSaveMountain = useCallback(async (mountainData) => {
     try {
-      const { id, ...updateData } = current
-
-      await updateMountain(id, updateData)
-
+      if (currentMountain) {
+        // Update existing mountain
+        await updateMountain(currentMountain.id, mountainData)
+        setSnackbar({
+          open: true,
+          message: 'Mountain updated successfully',
+          severity: 'success',
+        })
+      } else {
+        // Create new mountain
+        await createMountain(mountainData)
+        setSnackbar({
+          open: true,
+          message: 'Mountain added successfully',
+          severity: 'success',
+        })
+      }
+      
       await fetchMountains()
       setEditOpen(false)
-      setSnackbar({
-        open: true,
-        message: 'Mountain updated successfully',
-        severity: 'success',
-      })
+      setCurrentMountain(null)
     } catch (err) {
-      console.error('Error updating mountain:', err)
+      console.error('Error saving mountain:', err)
       setSnackbar({
         open: true,
-        message: 'Error updating mountain',
+        message: `Error ${currentMountain ? 'updating' : 'adding'} mountain`,
         severity: 'error',
       })
     }
-  }, [current, fetchMountains])
+  }, [currentMountain, fetchMountains])
 
   return (
     <Box
@@ -221,7 +160,6 @@ export default function MountainManager() {
         </Typography>
       )}
 
-      {/* Search + Add Mountain */}
       <Box
         sx={{
           display: 'flex',
@@ -256,7 +194,6 @@ export default function MountainManager() {
         </Button>
       </Box>
 
-      {/* Mountains Table */}
       <MountainsTable 
         mountains={filtered}
         searchTerm={searchTerm}
@@ -266,56 +203,15 @@ export default function MountainManager() {
         error={error}
       />
 
-      <Dialog open={editOpen} onClose={closeEdit}>
-        <DialogTitle>Edit Mountain</DialogTitle>
-        <DialogContent dividers>
-          <TextField
-            fullWidth
-            label="Mountain Name"
-            value={current.name}
-            onChange={(e) => setCurrent({ ...current, name: e.target.value })}
-            margin="dense"
-          />
-          <TextField
-            fullWidth
-            label="Elevation"
-            type="number"
-            value={current.totalElevation}
-            onChange={(e) =>
-              setCurrent({ ...current, totalElevation: e.target.value })
-            }
-            margin="dense"
-          />
-          <FormControl fullWidth margin="dense">
-            <InputLabel>Unit</InputLabel>
-            <Select
-              value={current.elevationUnit}
-              label="Unit"
-              onChange={(e) =>
-                setCurrent({ ...current, elevationUnit: e.target.value })
-              }
-            >
-              <MenuItem value="FT">Feet</MenuItem>
-              <MenuItem value="M">Meters</MenuItem>
-            </Select>
-          </FormControl>
-          <TextField
-            fullWidth
-            label="Image URL"
-            value={current.imageURL}
-            onChange={(e) =>
-              setCurrent({ ...current, imageURL: e.target.value })
-            }
-            margin="dense"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeEdit}>Cancel</Button>
-          <Button variant="contained" onClick={saveEdit}>
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <MountainModal
+        open={editOpen}
+        onClose={() => {
+          setEditOpen(false)
+          setCurrentMountain(null)
+        }}
+        onSave={handleSaveMountain}
+        mountainData={currentMountain}
+      />
 
       <Dialog open={deleteOpen} onClose={handleDeleteCancel}>
         <DialogTitle>Delete Mountain?</DialogTitle>
@@ -326,68 +222,8 @@ export default function MountainManager() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleDeleteCancel}>Cancel</Button>
-          <Button
-            color="error"
-            variant="contained"
-            onClick={handleDeleteConfirm}
-          >
+          <Button color="error" variant="contained" onClick={handleDeleteConfirm}>
             Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog open={addOpen} onClose={closeAdd}>
-        <DialogTitle>Add Mountain</DialogTitle>
-        <DialogContent dividers>
-          <TextField
-            fullWidth
-            label="Mountain Name"
-            value={newMountain.name}
-            onChange={(e) =>
-              setNewMountain({ ...newMountain, name: e.target.value })
-            }
-            margin="dense"
-          />
-          <TextField
-            fullWidth
-            label="Elevation"
-            type="number"
-            value={newMountain.totalElevation}
-            onChange={(e) =>
-              setNewMountain({ ...newMountain, totalElevation: e.target.value })
-            }
-            margin="dense"
-          />
-          <FormControl fullWidth margin="dense">
-            <InputLabel>Unit</InputLabel>
-            <Select
-              value={newMountain.elevationUnit}
-              label="Unit"
-              onChange={(e) =>
-                setNewMountain({
-                  ...newMountain,
-                  elevationUnit: e.target.value,
-                })
-              }
-            >
-              <MenuItem value="FT">Feet</MenuItem>
-              <MenuItem value="M">Meters</MenuItem>
-            </Select>
-          </FormControl>
-          <TextField
-            fullWidth
-            label="Image URL"
-            value={newMountain.imageURL}
-            onChange={(e) =>
-              setNewMountain({ ...newMountain, imageURL: e.target.value })
-            }
-            margin="dense"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeAdd}>Cancel</Button>
-          <Button variant="contained" onClick={saveAdd}>
-            Save
           </Button>
         </DialogActions>
       </Dialog>
