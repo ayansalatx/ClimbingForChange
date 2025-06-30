@@ -1,71 +1,69 @@
-import { Autocomplete, TextField } from '@mui/material'
+import { Autocomplete, Box, TextField, alpha } from '@mui/material'
 
-// temporary mock data
+import theme from '../../styles/theme'
 
 const ProgressSearch = ({ searchString, onChange, teamNames }) => {
   return (
-    // Use MUI Autocomplete to display search suggestions for teams
-    <Autocomplete
-      size='small'
-      freeSolo // Allow any input - not limited to the options
-      id='progress-search'
-      disableClearable
-      options={teamNames} // List of team names as suggestions
-      inputValue={searchString}
-
-      // Notify Progress Board of input change
-      onInputChange={(event, newInputValue) => {
-        onChange(newInputValue)
+    <Box
+      sx={{
+        width: '28%',
+        textAlign: 'left',
+        background: alpha(theme.palette.background.paper, 0.4),
+        color: 'primary.main',
+        borderRadius: '3px',
+        '&:hover': {
+          background: alpha(theme.palette.background.paper, 0.15),
+        },
       }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label='Search'
-          slotProps={{
-            input: {
-              ...params.InputProps,
-              type: 'search',
-            },
-          }}
-          sx={{
-            '& .MuiOutlinedInput-root': {
-              color: 'var(--c4c-green)',
-              fontSize: '.9rem',
-
-              '&:hover input': {
-                color: 'var(--c4c-light-blue)',
+    >
+      {/* Use MUI Autocomplete to display search suggestions for teams */}
+      <Autocomplete
+        size="small"
+        freeSolo // Allow any input - not limited to the options
+        id="progress-search"
+        disableClearable
+        options={teamNames} // List of team names as suggestions
+        inputValue={searchString}
+        // Notify Progress Board of input change
+        onInputChange={(event, newInputValue) => {
+          onChange(newInputValue)
+        }}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            placeholder="Search..."
+            slotProps={{
+              input: {
+                ...params.InputProps,
+                disableUnderline: true,
+                type: 'search',
               },
-              '&.Mui-focused input': {
-                color: 'var(--c4c-teal)',
+            }}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                border: 'none',
+                outline: 'none',
+                boxShadow: 'none',
+                background: 'transparent',
+                padding: 0,
               },
-              '& fieldset': {
-                borderColor: 'var(--c4c-green)',
+              '& .MuiOutlinedInput-notchedOutline': {
+                border: 'none',
               },
-              '&:hover fieldset': {
-                borderColor: 'var(--c4c-light-blue)',
+              '& .MuiInputBase-root': {
+                outline: 'none',
+                border: 'none',
+                color: 'primary.main',
+                pt: '2px !important',
+                pr: '0 !important',
+                pl: '0 !important',
+                pb: '2px !important',
               },
-              '&.Mui-focused fieldset': {
-                borderColor: 'var(--c4c-teal)',
-              },
-            },
-            '& .MuiInputLabel-root': {
-              color: 'var(--c4c-green)',
-              fontSize: '.9rem',
-            },
-            '&:hover .MuiInputLabel-root': {
-              color: 'var(--c4c-light-blue)',
-            },
-            '& .MuiInputLabel-root.Mui-focused': {
-              color: 'var(--c4c-teal)',
-            },
-            '& input::placeholder': {
-              color: 'var(--c4c-green)',
-              opacity: 1,
-            },
-          }}
-        />
-      )}
-    />
+            }}
+          />
+        )}
+      />
+    </Box>
   )
 }
 

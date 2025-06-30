@@ -4,9 +4,11 @@ import {
   Table,
   TableContainer,
   TablePagination,
+  alpha,
 } from '@mui/material'
 import { useState } from 'react'
 
+import theme from '../../styles/theme'
 import FullscreenToggleButton from './FullscreenToggleButton'
 import EventSelector from './EventSelector'
 import ProgressSearch from './ProgressSearch'
@@ -26,7 +28,7 @@ const ProgressTable = ({
   const [page, setPage] = useState(0)
   // State for number of rows per page
   const defaultRowsPerPage =
-    teams.length > 100 ? 100 : teams.length > 25 ? 25 : 15
+    teams.length > 100 ? 100 : teams.length > 25 ? 25 : 10
 
   const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage)
 
@@ -50,6 +52,7 @@ const ProgressTable = ({
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
+        background: 'transparent',
       }}
     >
       <Box
@@ -57,19 +60,19 @@ const ProgressTable = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          bgcolor: 'primary.main',
-          padding: '.5rem',
+          background: `linear-gradient(to right, ${alpha(theme.palette.primary.main, 0.8)}, ${alpha(theme.palette.primary.main, 0.3)}, ${alpha(theme.palette.primary.main, 0.8)})`,
+          padding: 2,
         }}
       >
-        <ProgressSearch
-          searchString={searchString}
-          onChange={setSearchString}
-          teamNames={[...new Set(teams.map((team) => team.name))]}
-        />
         <EventSelector
           events={events}
           selectedEvent={selectedEvent}
           setSelectedEvent={setSelectedEvent}
+        />
+        <ProgressSearch
+          searchString={searchString}
+          onChange={setSearchString}
+          teamNames={[...new Set(teams.map((team) => team.name))]}
         />
       </Box>
       <TableContainer
@@ -93,18 +96,28 @@ const ProgressTable = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
+          background: `linear-gradient(to right, ${alpha(theme.palette.primary.main, 0.8)}, ${alpha(theme.palette.primary.main, 0.3)}, ${alpha(theme.palette.primary.main, 0.8)})`,
         }}
       >
         <FullscreenToggleButton eventId={selectedEvent} />
 
         <TablePagination
-          rowsPerPageOptions={[15, 25, 100]}
+          rowsPerPageOptions={[10, 25, 100]}
           component="div"
           count={teams.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          sx={{
+            minHeight: '3.25rem',
+            background: 'transparent',
+            color: 'background.paper',
+            '& .MuiSvgIcon-root': {
+              fontSize: '1.25rem',
+              color: 'background.paper',
+            },
+          }}
         />
       </Box>
     </Paper>
