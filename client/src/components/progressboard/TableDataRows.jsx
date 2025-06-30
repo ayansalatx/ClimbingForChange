@@ -103,6 +103,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
                           border: 'none',
                           textAlign: 'left',
                           fontSize: '1.1rem',
+                          textTransform: 'uppercase',
                           color: 'primary.main'
                         }}
                       >
