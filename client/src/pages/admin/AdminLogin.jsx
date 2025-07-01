@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import { useAlert } from '../../hooks/useAlert'
+import { login } from '../../services/loginService'
 
 const AdminLogin = () => {
   const [username, setUsername] = useState('')
@@ -13,6 +14,14 @@ const AdminLogin = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault()
+
+    try {
+      const result = await login({ username, password })
+      localStorage.setItem('token', result.data.token)
+    } catch (err) {
+      console.error('Login failed:', err)
+    }
+
     displayAlert('Saved', 'Sucessfully logged in', 'success')
     navigate('/admin')
   }

@@ -3,6 +3,7 @@ import './App.css'
 import { CssBaseline,ThemeProvider } from '@mui/material'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
+import PrivateRoute from './components/admin/PrivateRoute'
 import Landing from './components/shared/Landing'
 import Layout from './Layout'
 import AdminDashboard from './pages/admin/AdminDashboard'
@@ -34,9 +35,9 @@ function App() {
           <Route
             path="/admin"
             element={
-              // <PrivateRoute>
-              <Layout />
-              // </PrivateRoute>
+              <PrivateRoute>
+                <Layout />
+              </PrivateRoute>
             }
           >
             <Route index element={<AdminDashboard />} />
