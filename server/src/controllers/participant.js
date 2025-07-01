@@ -26,7 +26,7 @@ export const uploadParticipants = async (request, response) => {
   const body = request.body
 
   if (!body) {
-    return response.status(400).json({ error: 'PArticipants to upload missing missing' })
+    return response.status(400).json({ error: 'Participants to upload missing missing' })
   }
   
   console.log('🚀 ~ uploadParticipants ~ body:', body.length)

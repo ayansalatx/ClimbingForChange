@@ -1,28 +1,32 @@
 import mongoose from 'mongoose'
 
-const {Schema, model} = mongoose
+const { Schema, model } = mongoose
 
-const mountainSchema = new Schema({
-  name: {
+const userSchema = new Schema({
+  username: {
     type: String,
     required: true,
     trim: true
   },
-  totalElevation: {
-    type: Number,
-    required: true,
-  },
-  elevationUnit: {
+  firstName: {
     type: String,
     required: true,
-    enum: ['FT', 'M'],
-    default: 'FT'
+    trim: true
+  },
+  lastName: {
+    type: String,
+    trim: true
+  },
+  password_hash: {
+    type: String,
+    required: true,
+    trim: true
   }
 }, {
   timestamps: true
 })
 
-mountainSchema.set('toJSON', {
+userSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
@@ -30,4 +34,4 @@ mountainSchema.set('toJSON', {
   }
 })
 
-export default model('Mountain', mountainSchema)
+export default model('User', userSchema)

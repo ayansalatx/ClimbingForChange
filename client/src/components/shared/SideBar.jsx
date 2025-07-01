@@ -16,17 +16,19 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import C4CBanner from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 
 const SideBar = ({ open, toggleDrawer }) => {
   const navigate = useNavigate()
+  const currentPage = useLocation()
 
   // Navigation List Definitions
   const dashboardList = [
     {
       text: 'Dashboard',
+      path: '/admin',
       icon: <DashboardIcon />,
       onClick: () => navigate('/admin'),
     },
@@ -36,6 +38,7 @@ const SideBar = ({ open, toggleDrawer }) => {
     {
       text: 'Events',
       icon: <EventIcon />,
+      path: '/admin/events',
       onClick: () => navigate('/admin/events'),
     },
     {
@@ -44,21 +47,23 @@ const SideBar = ({ open, toggleDrawer }) => {
       onClick: () => navigate('/admin/participants'),
     },
     {
+      text: 'Mountains',
+      icon: <TerrainIcon />,
+      path: '/admin/mountains',
+      onClick: () => navigate('/admin/mountains'),
+    },
+    {
       text: 'Locations',
+      path: '/admin/locations',
       icon: <PlaceIcon />,
       onClick: () => navigate('/admin/locations'),
     },
-    {
-      text: 'Mountains',
-      icon: <TerrainIcon />,
-      onClick: () => navigate('/admin/mountains'),
-    },
   ]
-
 
   const quickAccessList = [
     {
       text: 'Upload Participants',
+      path: '/admin/participants/upload',
       icon: <UploadIcon />,
       onClick: () => navigate('/admin/upload'),
     },
@@ -70,75 +75,139 @@ const SideBar = ({ open, toggleDrawer }) => {
   ]
 
   return (
-    <Drawer anchor='left' open={open} onClose={() => toggleDrawer(false)}>
+    <Drawer anchor="left" open={open} onClose={() => toggleDrawer(false)}>
       <Box
         sx={{
-          width: 250,
+          width: 300,
           height: '100%',
-          backgroundColor: '#1B1354',
-          color: '#fff',
+          backgroundColor: 'primary.main',
+          color: 'background.paper',
         }}
       >
-        <Box sx={{ textAlign: 'center', p: 2 }}>
+        <Box sx={{ p: 2, pl: 3, mt: 2 }}>
           <a
-            href='https://www.climbingforchange.ca/'
-            target='_blank' rel="noreferrer"
+            href="https://www.climbingforchange.ca/"
+            target="_blank"
+            rel="noreferrer"
           >
-            <img src={C4CBanner} alt='Climbing for Change Logo' height={70} />
+            <img src={C4CBanner} alt="Climbing for Change Logo" height={80} />
           </a>
         </Box>
 
-        <List>
+        <List disablePadding>
           {dashboardList.map((item, index) => (
             <ListItem key={index} disablePadding>
-              <ListItemButton onClick={() => 
-              {
-                item.onClick()
-                toggleDrawer(false)
-              }}>
-                <ListItemIcon sx={{ color: 'white' }}>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.text} />
+              <ListItemButton
+                selected={currentPage.pathname === item.path}
+                onClick={() => {
+                  item.onClick()
+                  toggleDrawer(false)
+                }}
+                sx={{
+                  '&.Mui-selected': {
+                    color: 'secondary.main',
+                  },
+                  '&.Mui-selected:hover, &:hover': {
+                    backgroundColor: 'primary.light',
+                  },
+                }}
+              >
+                <ListItemIcon sx={{ color: 'inherit', pl: 1.5 }}>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={item.text}
+                  slotProps={{
+                    primary: {
+                      sx: {
+                        fontSize: '1.35rem',
+                      },
+                    },
+                  }}
+                />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
 
-        <Divider sx={{ backgroundColor: '#fff', opacity: 0.2 }} />
+        <Divider sx={{ backgroundColor: 'background.paper', opacity: 0.2 }} />
 
-        <Box sx={{ pl: 2, pt: 1 }}>
-          <Typography variant='subtitle2' sx={{ color: 'white', fontWeight: 'bold' }}>
+        <Box sx={{ pl: 3.5, pt: 3, pb: 1 }}>
+          <Typography
+            variant="subtitle2"
+            sx={{
+              fontSize: '1.5rem',
+              textTransform: 'uppercase',
+              letterSpacing: '.1rem',
+            }}
+          >
             Manage
           </Typography>
         </Box>
-        <List>
+        <List disablePadding sx={{ pb: 0.5 }}>
           {manageList.map((item, index) => (
             <ListItem key={index} disablePadding>
-              <ListItemButton onClick={() => 
-              {
-                item.onClick()
-                toggleDrawer(false)
-              }}>
-                <ListItemIcon sx={{ color: 'white' }}>{item.icon}</ListItemIcon>
+              <ListItemButton
+                selected={currentPage.pathname === item.path}
+                onClick={() => {
+                  item.onClick()
+                  toggleDrawer(false)
+                }}
+                sx={{
+                  pl: 3,
+                  py: 0.5,
+                  '&.Mui-selected': {
+                    color: 'secondary.main',
+                  },
+                  '&.Mui-selected:hover, &:hover': {
+                    backgroundColor: 'primary.light',
+                  },
+                }}
+              >
+                <ListItemIcon sx={{ color: 'inherit', pl: 1.75 }}>
+                  {item.icon}
+                </ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
 
-        <Box sx={{ pl: 2, pt: 2 }}>
-          <Typography variant='subtitle2' sx={{ color: 'white', fontWeight: 'bold' }}>
+        <Box sx={{ pl: 3.5, pt: 1, pb: 1 }}>
+          <Typography
+            variant="subtitle2"
+            sx={{
+              fontSize: '1.5rem',
+              textTransform: 'uppercase',
+              letterSpacing: '.05rem',
+            }}
+          >
             Quick Access
           </Typography>
         </Box>
-        <List>
+        <List disablePadding>
           {quickAccessList.map((item, index) => (
             <ListItem key={index} disablePadding>
-              <ListItemButton onClick={() => 
-              {
-                item.onClick()
-                toggleDrawer(false)
-              }}>
-                <ListItemIcon sx={{ color: 'white' }}>{item.icon}</ListItemIcon>
+              <ListItemButton
+                selected={currentPage.pathname === item.path}
+                onClick={() => {
+                  item.onClick()
+                  toggleDrawer(false)
+                }}
+                sx={{
+                  pl: 3,
+                  py: 0.5,
+                  '&.Mui-selected': {
+                    color: 'secondary.main',
+                  },
+                  '&.Mui-selected:hover, &:hover': {
+                    backgroundColor: 'primary.light',
+                  },
+                }}
+              >
+                <ListItemIcon sx={{ color: 'background.paper', pl: 1.5 }}>
+                  {item.icon}
+                </ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItemButton>
             </ListItem>

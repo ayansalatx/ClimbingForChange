@@ -1,17 +1,21 @@
 import { Button } from '@mui/material'
 
-const SaveButton = ({ onClick, label = 'Save' }) => {
+const SaveButton = ({ type, label, onClick, disabled }) => {
   return (
     <Button
-      variant="contained"
-      onClick={onClick}
+      type={type}
+      variant='contained'
       sx={{
-        backgroundColor: '#191447',
-        color: '#ffffff',
+        width: '6rem',
+        borderWidth: '2px',
+        letterSpacing: '.06rem',
+        backgroundColor: 'primary.main',
         '&:hover': {
-          backgroundColor: '#14103a',
+          backgroundColor: 'primary.light',
         },
       }}
+      onClick={onClick}
+      disabled={disabled}
     >
       {label}
     </Button>

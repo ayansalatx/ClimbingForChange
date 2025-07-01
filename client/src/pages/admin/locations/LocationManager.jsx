@@ -1,48 +1,184 @@
-import Button from '@mui/material/Button'
-import { useState } from 'react'
+import PlaceIcon from '@mui/icons-material/Place'
+import { Box } from '@mui/material'
+import { useEffect, useState } from 'react'
 
-import SearchBar from '../../../components/admin/forms/fields/SearchBar'
-import LocationTable from '../../../components/admin/forms/locationforms/LocationTable'
-import AddLocationModal from '../../../components/admin/modals/LocationModal'
-import { useAlert } from '../../../hooks/useAlert'
-import mockData from '../../../mock-data/location-data.json'
+import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
+import LocationModal from '../../../components/admin/modals/LocationModal.jsx'
+import DataTable from '../../../components/admin/tables/DataTable.jsx'
+import { useAlert } from '../../../hooks/useAlert.js'
+import {
+  addNewLocation,
+  deleteLocation,
+  editLocation,
+  getAllLocations,
+} from '../../../services/locationService.js'
+
+const fullColumns = [
+  { id: 'name', label: 'Location', width: '30%', align: 'left' },
+  { id: 'address', label: 'Address', width: '20%', align: 'left' },
+  { id: 'city', label: 'City', width: '15%', align: 'center' },
+  { id: 'provState', label: 'Province', width: '15%', align: 'center' },
+  { id: 'country', label: 'Country', width: '13%', align: 'center' },
+]
 
 const LocationManager = () => {
+  const [locations, setLocations] = useState([])
+  const [showInactive, setShowInactive] = useState(false)
+  const [currentLocation, setCurrentLocation] = useState(null)
   const [popupOpen, setPopupOpen] = useState(false)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [locations, setLocation] = useState(mockData)
-
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
+  const [deletedLocation, setDeleteLocation] = useState(null)
+ 
   const displayAlert = useAlert()
 
-  const handleAddLocation = (eventData) => {
-    setLocation([...locations, eventData])
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const locationsList = await getAllLocations()
+        displayAlert(
+          'Fresh backend data',
+          `Loaded ${locationsList.length} locations from the backend.`,
+          'success'
+        )
+        setLocations(locationsList)
+      } catch (error) {
+        displayAlert(
+          'Error',
+          `Failed to Load Locations: ${error.message}`,
+          'error'
+        )
+      }
+    }
+
+    loadData()
+  }, [displayAlert])
+
+  const onAdd = () => {
+    setCurrentLocation(null)
+    setPopupOpen(true)
+  }
+
+  const onEdit = (location) => {
+    setCurrentLocation(location)
+    setPopupOpen(true)
+  }
+
+  const onDelete = async (location) => {
+    document.activeElement?.blur()
+    setDeleteLocation(location)
+    setDeleteConfirmOpen(true)
+  }
+
+  const confirmedDelete = async () => {
+    try {
+      await deleteLocation(deletedLocation.id)
+      const newLocationList = await getAllLocations()
+      setLocations(newLocationList)
+      setDeleteConfirmOpen(false)
+      displayAlert(
+        'Location Deleted',
+        `Deleted ${deletedLocation.name} location.`,
+        'success'
+      )
+    } catch (error) {
+      displayAlert(
+        'Error',
+        `Failed to delete ${deletedLocation.name}: ${error.message}`,
+        'error'
+      )
+    }
+  }
+
+  const cancelDelete = () => {
+    setDeleteConfirmOpen(false)
+    setDeleteLocation(null)
+  }
+
+  const handleSave = async (locationData) => {
+    if (locationData.id) {
+      try {
+        await editLocation(locationData.id, locationData)
+        const newLocationList = await getAllLocations()
+        setLocations(newLocationList)
+        displayAlert(
+          'Edited Location',
+          `Edited ${locationData.name} location.`,
+          'success'
+        )
+      } catch (error) {
+        displayAlert(
+          'Error',
+          `Failed to Edit ${locationData.name}: ${error.message}`,
+          'error'
+        )
+      }
+    } else {
+      try {
+        await addNewLocation(locationData)
+        const newLocationList = await getAllLocations()
+        setLocations(newLocationList)
+        displayAlert(
+          'New Location Added',
+          `Added ${locationData.name} location.`,
+          'success'
+        )
+      } catch (error) {
+        displayAlert(
+          'Error',
+          `Failed to Create ${locationData.name}: ${error.message}`,
+          'error'
+        )
+      }
+    }
+
     setPopupOpen(false)
     displayAlert('Saved', 'Saved location to the backend.', 'success')
   }
 
   return (
-
-    <div>
-      <h1 style={{ fontFamily: 'Gibson, sans-serif', textTransform: 'uppercase', color: '#CDDC29', letterSpacing: '0.05em' }}>Locations</h1>
-
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-        <SearchBar value={searchTerm} onChange={setSearchTerm} />
-        <Button
-          variant="contained"
-          sx={{ backgroundColor: '#c9d82c', color: 'black', '&:hover': { backgroundColor: '#b3c623' } }}
-          onClick={() => setPopupOpen(true)}
-        >Add Location</Button>
-      </div>
-
-      <LocationTable searchTerm={searchTerm} location={locations} />
-
-      <AddLocationModal
-        open={popupOpen}
-        onClose={() => setPopupOpen(false)}
-        onAdd={handleAddLocation}
+    <Box
+      sx={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        py: '4rem',
+        px: '1.5rem',
+      }}
+    >
+      <DataTable
+        tableTitle={'Locations'}
+        tableIcon={PlaceIcon}
+        tableColumns={fullColumns}
+        tableData={locations}
+        showInactive={showInactive}
+        setShowInactive={setShowInactive}
+        eventsForDropdown={''}
+        selectedEvent={''}
+        setSelectedEvent={''}
+        onAddClick={onAdd}
+        onEditClick={onEdit}
+        onDeleteClick={onDelete}
       />
 
-    </div>
+      <LocationModal
+        open={popupOpen}
+        onClose={() => {
+          setPopupOpen(false)
+          setCurrentLocation(null)
+        }}
+        onSave={handleSave}
+        locationData={currentLocation}
+      />
+
+      <ConfirmDeleteDialog
+        open={deleteConfirmOpen}
+        onCancel={cancelDelete}
+        onConfirm={confirmedDelete}
+      />
+    </Box>
   )
 }
 

@@ -6,11 +6,13 @@ export default function CreateButton({  onClick, disabled, type = 'button'}) {
       type={type}
       variant="contained"
       sx={{
-        backgroundColor: '#191447',
+        width: '6rem',
+        borderWidth: '2px',
+        letterSpacing: '.06rem',
+        backgroundColor: 'primary.main',
         '&:hover': {
-          backgroundColor: '#121234',
+          backgroundColor: 'primary.light',
         },
-        color: '#fff',
       }}
       onClick={onClick}
       disabled={disabled}
