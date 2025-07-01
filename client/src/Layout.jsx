@@ -15,8 +15,8 @@ function Layout() {
   }
 
   const logout = async (e) => {
-    // TODO: Implement full logout
     e.preventDefault()
+    localStorage.removeItem("token")
     navigate('/login')
   }
 
