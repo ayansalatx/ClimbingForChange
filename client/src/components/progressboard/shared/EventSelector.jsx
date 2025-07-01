@@ -7,6 +7,7 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
     <FormControl
       sx={{
         width: {
+          xxs: '100%',
           xs: '100%',
           sm: '100%',
           md: '50%',
@@ -26,16 +27,18 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
         inputProps={{ sx: { borderRadius: '3px !important' } }}
         sx={{
           textAlign: 'left',
-          background: alpha(theme.palette.background.paper, 0.25),
+          background: alpha(theme.palette.background.paper, 0.4),
+          borderRadius: '3px',
           color: 'primary.main',
           '&:before, &:after': {
             borderBottom: 'none !important',
           },
-          '&:hover': {
-            background: alpha(theme.palette.background.paper, 0.1),
+          '&.Mui-focused': {
+            background: alpha(theme.palette.background.paper, 0.4),
           },
           '& .MuiSelect-select': {
             py: {
+              xxs: '2px',
               xs: '2px',
               sm: '3px',
               md: '4px',
@@ -43,15 +46,16 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
               xl: '4px',
             },
             px: {
-              xs: '6px',
+              xxs: '8px',
+              xs: '8px',
               sm: '6px',
               md: '8px',
               lg: '8px',
               sxl: '8px',
             },
-            background: alpha(theme.palette.background.paper, 0.25),
             opacity: '100%',
             fontSize: {
+              xxs: '.85rem',
               xs: '.85rem',
               sm: '0.85rem',
               md: '0.9rem',
@@ -60,7 +64,10 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
             },
           },
           '& .MuiSelect-select:hover': {
-            background: alpha(theme.palette.background.paper, 0.1),
+            background: alpha(theme.palette.info.main, 0.5),
+          },
+          '& .MuiSelect-select:focus': {
+            background: alpha(theme.palette.background.paper, 0.4),
           },
         }}
       >
@@ -69,9 +76,12 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
           disabled
           sx={{
             fontSize: {
-              xs: '0.8rem',
-              sm: '0.9rem',
-              md: '1rem',
+              xxs: '.85rem',
+              xs: '.85rem',
+              sm: '0.85rem',
+              md: '0.9rem',
+              lg: '1rem',
+              xl: '1.05rem',
             },
             py: 0,
             color: 'primary.light',
@@ -84,17 +94,18 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
             value={event.id}
             key={event.id}
             sx={{
-              py: { xs: 0.35, sm: 0.35, md: 0.4, lg: 0.45, xl: 0.5 },
+              py: { xxs: 0.35, xs: 0.35, sm: 0.35, md: 0.4, lg: 0.45, xl: 0.5 },
               borderRadius: '3px',
               color: 'primary.main',
               fontSize: {
+                xxs: '0.8rem',
                 xs: '0.8rem',
                 sm: '0.9rem',
                 md: '1rem',
               },
               '&:hover': {
                 borderRadius: '3px',
-                backgroundColor: alpha(theme.palette.primary.main, 0.2),
+                background: alpha(theme.palette.secondary.main, 0.7),
               },
             }}
           >

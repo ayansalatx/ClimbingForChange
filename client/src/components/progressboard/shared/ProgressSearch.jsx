@@ -7,6 +7,7 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
     <Box
       sx={{
         width: {
+          xxs: '100%',
           sx: '100%',
           sm: '100%',
           md: '40%',
@@ -18,7 +19,7 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
         color: 'primary.main',
         borderRadius: '3px',
         '&:hover': {
-          background: alpha(theme.palette.background.paper, 0.25),
+          background: alpha(theme.palette.info.main, 0.5),
         },
       }}
     >
@@ -48,7 +49,13 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
                 transition: 'background-color 0.2s ease',
                 '&:hover': {
                   borderRadius: '3px',
-                  backgroundColor: alpha(theme.palette.primary.main, 0.2),
+                  backgroundColor: {
+                    backgroundColor: alpha(theme.palette.secondary.main, 0.7),
+                  },
+                  '&:focus': {
+                    borderRadius: '3px',
+                    backgroundColor: alpha(theme.palette.secondary.main, 0.7),
+                  },
                 },
               },
             },
@@ -57,7 +64,7 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
         renderInput={(params) => (
           <TextField
             {...params}
-            placeholder="Search..."
+            placeholder={"Search..."}
             slotProps={{
               input: {
                 ...params.InputProps,
@@ -65,13 +72,16 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
               },
             }}
             sx={{
+              '& input::placeholder': {
+                opacity: .65,
+              },
               '& .MuiOutlinedInput-root': {
                 border: 'none',
                 outline: 'none',
                 boxShadow: 'none',
-                background: 'transparent',
                 padding: 0,
                 fontSize: {
+                  xxs: '.85rem',
                   xs: '.85rem',
                   sm: '0.85rem',
                   md: '0.9rem',
@@ -89,7 +99,14 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
                 pt: '2px !important',
                 pr: '0 !important',
                 pl: '0 !important',
-                pb: '2px !important',
+                pb: {
+                  xxs: '1px !important',
+                  xs: '1px !important',
+                  sm: '2px !important',
+                  md: '2px !important',
+                  lg: '2px !important',
+                  xl: '2px !important',
+                },
               },
             }}
           />

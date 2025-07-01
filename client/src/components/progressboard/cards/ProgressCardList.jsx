@@ -18,7 +18,7 @@ const ProgressList = ({
         flexDirection: 'column',
         height: '100vh',
         pt: 1,
-        overflow: 'hidden',
+              overflow: 'hidden',
       }}
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, pb: 1 }}>
