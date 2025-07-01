@@ -1,4 +1,4 @@
-import { alpha, Box, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { alpha, Box, Typography, useMediaQuery } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'

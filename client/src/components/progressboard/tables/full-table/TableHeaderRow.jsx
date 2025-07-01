@@ -8,7 +8,6 @@ const TableHeaderRow = ({ columns }) => {
       <TableRow>
         <TableCell
           sx={{
-            width: '0',
             backgroundColor: 'info.main',
             border: 'none',
             width: {
