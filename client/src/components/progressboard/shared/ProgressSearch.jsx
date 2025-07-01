@@ -64,7 +64,7 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
         renderInput={(params) => (
           <TextField
             {...params}
-            placeholder={"Search..."}
+            placeholder={'Search...'}
             slotProps={{
               input: {
                 ...params.InputProps,

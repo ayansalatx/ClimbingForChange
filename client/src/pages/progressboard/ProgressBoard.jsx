@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import C4CFavicon from '../../assets/C4C-branding/Favicon.png'
+import ProgressList from '../../components/progressboard/cards/ProgressCardList'
 import ProgressTable from '../../components/progressboard/tables/full-table/ProgressTable'
 import { getAllEvents, getDisplayEventTeams } from '../../services/eventService'
 import theme from '../../styles/theme'
-import ProgressList from '../../components/progressboard/cards/ProgressCardList'
 
 // Define columns for full width screen
 const lgColumns = [

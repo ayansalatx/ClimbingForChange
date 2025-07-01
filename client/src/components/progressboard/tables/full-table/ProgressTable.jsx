@@ -25,10 +25,8 @@ const ProgressTable = ({
   searchString,
   setSearchString,
 }) => {
+  
   // Get media queries to render appropriate content
-  const isXLarge = useMediaQuery(theme.breakpoints.up('xl'))
-  const isLarge = useMediaQuery(theme.breakpoints.up('lg'))
-  const isMedium = useMediaQuery(theme.breakpoints.up('md'))
   const isSmall = useMediaQuery(theme.breakpoints.down('md'))
 
   // State for current page number

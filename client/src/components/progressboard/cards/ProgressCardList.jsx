@@ -1,7 +1,8 @@
 import { Box } from '@mui/material'
-import ProgressCard from './ProgressCard'
-import ProgressSearch from '../shared/ProgressSearch'
+
 import EventSelector from '../shared/EventSelector'
+import ProgressSearch from '../shared/ProgressSearch'
+import ProgressCard from './ProgressCard'
 
 const ProgressList = ({
   teams,
@@ -18,7 +19,7 @@ const ProgressList = ({
         flexDirection: 'column',
         height: '100vh',
         pt: 1,
-              overflow: 'hidden',
+        overflow: 'hidden',
       }}
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, pb: 1 }}>
