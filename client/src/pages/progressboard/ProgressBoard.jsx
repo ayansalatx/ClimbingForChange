@@ -154,21 +154,23 @@ const ProgressBoard = () => {
       }}
     >
       {/* https://pixabay.com/videos/search/terrain%20blue%20gray%20mountain/ */}
-      <video
-        src="/assets/mountain-with-way-points.mp4"
-        autoPlay
-        loop
-        muted
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          zIndex: 0,
-        }}
-      />
+      {!isXSmall && (
+        <video
+          src="/assets/mountain-with-way-points.mp4"
+          autoPlay
+          loop
+          muted
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            zIndex: 0,
+          }}
+        />
+      )}
 
       <Box
         sx={{
@@ -177,7 +179,9 @@ const ProgressBoard = () => {
           left: 0,
           width: '100%',
           height: '100%',
-          backgroundColor: alpha(theme.palette.primary.main, 0.6),
+          backgroundColor: isXSmall
+            ? 'primary.main'
+            : alpha(theme.palette.primary.main, 0.6),
         }}
       >
         <Box

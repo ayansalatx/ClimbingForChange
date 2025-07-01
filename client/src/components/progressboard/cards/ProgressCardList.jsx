@@ -3,10 +3,25 @@ import ProgressCard from './ProgressCard'
 import ProgressSearch from '../shared/ProgressSearch'
 import EventSelector from '../shared/EventSelector'
 
-const ProgressList = ({ teams, events, selectedEvent, setSelectedEvent, searchString, setSearchString }) => {
+const ProgressList = ({
+  teams,
+  events,
+  selectedEvent,
+  setSelectedEvent,
+  searchString,
+  setSearchString,
+}) => {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-      <Box>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100vh',
+        px: 2,
+        pb: 4,
+      }}
+    >
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         <EventSelector
           events={events}
           selectedEvent={selectedEvent}
@@ -18,9 +33,24 @@ const ProgressList = ({ teams, events, selectedEvent, setSelectedEvent, searchSt
           teamNames={[...new Set(teams.map((team) => team.name))]}
         />
       </Box>
-      {teams.map((team, index) => {
-        return <ProgressCard key={index} team={team} />
-      })}
+      <Box
+        sx={{
+          flexGrow: 1,
+          overflowY: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 2,
+          pb: 4,
+        }}
+      >
+        {teams.map((team, index) => {
+          return (
+            <Box key={index} sx={{ flex: '1 1 300px' }}>
+              <ProgressCard team={team} />
+            </Box>
+          )
+        })}
+      </Box>
     </Box>
   )
 }
