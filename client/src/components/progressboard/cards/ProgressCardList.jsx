@@ -17,11 +17,11 @@ const ProgressList = ({
         display: 'flex',
         flexDirection: 'column',
         height: '100vh',
-        px: 2,
-        pb: 4,
+        pt: 1,
+        overflow: 'hidden',
       }}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, pb: 1 }}>
         <EventSelector
           events={events}
           selectedEvent={selectedEvent}
@@ -39,8 +39,7 @@ const ProgressList = ({
           overflowY: 'auto',
           display: 'flex',
           flexDirection: 'column',
-          gap: 2,
-          pb: 4,
+          gap: 1,
         }}
       >
         {teams.map((team, index) => {

@@ -47,7 +47,7 @@ const ProgressBoard = () => {
   const isLarge = useMediaQuery(theme.breakpoints.up('lg'))
   const isMedium = useMediaQuery(theme.breakpoints.up('md'))
   const isSmall = useMediaQuery(theme.breakpoints.up('sm'))
-  const isXSmall = useMediaQuery(theme.breakpoints.only('xs'))
+  const isXSmall = useMediaQuery(theme.breakpoints.down('sm'))
 
   // Calc size to determine columns
   let columns
@@ -192,7 +192,7 @@ const ProgressBoard = () => {
             height: '100%',
             display: 'flex',
             flexDirection: 'column',
-            p: 3,
+            p: { xxs: 1, xs: 1, sm: 2, md: 2, lg: 3, xl: 3 },
           }}
         >
           <Box
@@ -208,14 +208,15 @@ const ProgressBoard = () => {
             }}
           >
             {/* Logo */}
-            <Box sx={{ mb: { sm: 0.75 } }}>
+            <Box sx={{ mb: { sm: 0.5 } }}>
               <Box
                 component="img"
                 src={isXSmall ? C4CFavicon : C4CHorizontalGreenLogo}
                 alt="Climbing for Change Logo"
                 sx={{
                   maxWidth: {
-                    xs: '1.67rem',
+                    xxs: '1.6rem',
+                    xs: '1.8rem',
                     sm: '10rem',
                     md: '12rem',
                     lg: '14rem',
@@ -223,8 +224,8 @@ const ProgressBoard = () => {
                   },
                   height: 'auto',
                   display: 'block',
-                  pb: { xs: 0.5 },
-                  ml: { xs: 1 },
+                  pb: { xxs: 0.5, xs: 0.5 },
+                  ml: { xxs: 0.5, xs: 1 },
                 }}
               />
             </Box>
@@ -237,7 +238,9 @@ const ProgressBoard = () => {
                 justifyContent: 'center',
                 alignItems: 'flex-end',
                 mt: {
-                  sm: 0.5,
+                  xxs: 0,
+                  xs: 0,
+                  sm: 0,
                   md: 0,
                 },
               }}
@@ -250,6 +253,7 @@ const ProgressBoard = () => {
                 sx={{
                   fontStyle: 'italic',
                   mr: {
+                    xxs: 0,
                     xs: 0,
                     sm: 0,
                     md: 10,
@@ -257,7 +261,8 @@ const ProgressBoard = () => {
                     xl: 18,
                   },
                   fontSize: {
-                    xs: '2rem',
+                    xxs: '1.8rem',
+                    xs: '2.2rem',
                     sm: '2.7rem',
                     md: '3.5rem',
                     lg: '4rem',
