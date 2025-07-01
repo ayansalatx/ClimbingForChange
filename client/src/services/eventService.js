@@ -21,7 +21,7 @@ export const getDisplayEventTeams = async (id) => {
     return {
       ...team,
       mountainName: team.mountain?.name,
-      elevation: team.mountain?.totalElevation,
+      totalElevation: team.mountain?.totalElevation,
       currentElevation: laps.length
         ? laps.length * (team.hill?.lapElevationGain ?? 0)
         : '-',

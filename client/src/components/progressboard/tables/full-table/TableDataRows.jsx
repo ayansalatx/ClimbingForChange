@@ -63,8 +63,21 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
 
         {/* Create a cell for each column in the row */}
         {columns.map((column, index) => {
-          const value = team[column.id] ?? '-'
           const columnAlign = index === 0 ? 'left' : 'center'
+
+          // Small screen columns
+          let value
+          switch (column.id) {
+            case 'elevation':
+              value = `${team.currentElevation} / ${team.totalElevation}`
+              break
+            case 'laps':
+              value = `${team.lapsCompleted} / ${team.lapsRequired}`
+              break
+            default:
+              value = team[column.id] ?? '-'
+          }
+
           return (
             <TableCell
               sx={{
@@ -92,10 +105,12 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ py: '.5rem' }}>
               <Table>
-                <TableBody sx={{px: 0,}}>
+                <TableBody sx={{ px: 0 }}>
                   {(participants || []).map((participant, index) => (
                     <TableRow key={participant.id || index}>
-                      <TableCell sx={{ width: '4.5rem', p: 0, border: 'none' }}></TableCell>
+                      <TableCell
+                        sx={{ width: '4.5rem', p: 0, border: 'none' }}
+                      ></TableCell>
                       <TableCell
                         sx={{
                           py: '.5rem',
@@ -104,7 +119,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
                           textAlign: 'left',
                           fontSize: '1.1rem',
                           textTransform: 'uppercase',
-                          color: 'primary.main'
+                          color: 'primary.main',
                         }}
                       >
                         {participant.firstName} {participant.lastName}

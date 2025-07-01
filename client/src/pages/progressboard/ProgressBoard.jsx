@@ -10,7 +10,7 @@ import theme from '../../styles/theme'
 const lgColumns = [
   { id: 'name', label: 'Team', width: '25%' },
   { id: 'mountainName', label: 'Mountain', width: '12%' },
-  { id: 'elevation', label: 'Total Elevation', width: '12%' },
+  { id: 'totalElevation', label: 'Total Elevation', width: '12%' },
   { id: 'currentElevation', label: 'Current Elevation', width: '12%' },
   { id: 'lapsRequired', label: 'Total Laps', width: '7%' },
   { id: 'lapsCompleted', label: 'Laps', width: '7%' },
