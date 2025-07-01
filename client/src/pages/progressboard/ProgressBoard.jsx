@@ -6,6 +6,7 @@ import C4CFavicon from '../../assets/C4C-branding/Favicon.png'
 import ProgressTable from '../../components/progressboard/tables/full-table/ProgressTable'
 import { getAllEvents, getDisplayEventTeams } from '../../services/eventService'
 import theme from '../../styles/theme'
+import ProgressList from '../../components/progressboard/cards/ProgressCardList'
 
 // Define columns for full width screen
 const lgColumns = [
@@ -218,7 +219,7 @@ const ProgressBoard = () => {
                   },
                   height: 'auto',
                   display: 'block',
-                  pb: { xs: .5 },
+                  pb: { xs: 0.5 },
                   ml: { xs: 1 },
                 }}
               />
@@ -267,9 +268,8 @@ const ProgressBoard = () => {
             </Box>
           </Box>
 
-          <Box sx={{ flexGrow: 1, width: '100%', overflowX: 'hidden' }}>
-            <ProgressTable
-              columns={columns}
+          {isXSmall ? (
+            <ProgressList
               teams={filteredTeams}
               events={events}
               selectedEvent={selectedEvent}
@@ -277,7 +277,19 @@ const ProgressBoard = () => {
               searchString={searchString}
               setSearchString={setSearchString}
             />
-          </Box>
+          ) : (
+            <Box sx={{ flexGrow: 1, width: '100%', overflowX: 'hidden' }}>
+              <ProgressTable
+                columns={columns}
+                teams={filteredTeams}
+                events={events}
+                selectedEvent={selectedEvent}
+                setSelectedEvent={setSelectedEvent}
+                searchString={searchString}
+                setSearchString={setSearchString}
+              />
+            </Box>
+          )}
         </Box>
       </Box>
     </Box>
