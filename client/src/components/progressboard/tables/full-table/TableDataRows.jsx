@@ -25,6 +25,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
         role="checkbox"
         tabIndex={-1}
         sx={{
+          height: { sm: '3.5rem' } ,
           backgroundColor: isEven
             ? alpha(theme.palette.background.paper, 0.6)
             : alpha(theme.palette.background.paper, 0.5),
@@ -43,16 +44,31 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
           sx={{
             border: 'none',
             backgroundColor: 'inherit',
+            width: {
+              sm: '2rem',
+              md: '3rem',
+              lg: '3.5rem',
+              xl: '4rem',
+            },
+            py: { sm: 1, md: 1.5, lg: 1.75, xl: 2 },
+            px: { sm: 0.5, md: 1.5, lg: 1.75, xl: 2 },
           }}
         >
           <IconButton
-            size="small"
             disableRipple
             sx={{
               padding: 0,
               color: 'primary.main',
               '&:focus': {
                 outline: 'none',
+              },
+              '& svg': {
+                fontSize: {
+                  sm: '1rem',
+                  md: '1.5rem',
+                  lg: '1.6rem',
+                  xl: '1.75rem',
+                },
               },
             }}
             onClick={() => setOpen(!open)}
@@ -83,7 +99,12 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
               sx={{
                 border: 'none',
                 padding: '0.4rem',
-                fontSize: '1.2rem',
+                fontSize: {
+                  sm: '.9rem',
+                  md: '1rem',
+                  lg: '1.1rem',
+                  xl: '1.2rem',
+                },
                 color: 'primary.main',
                 backgroundColor: 'inherit',
               }}
@@ -103,21 +124,64 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
       >
         <TableCell sx={{ p: 0 }} colSpan={columns.length + 1}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ py: '.5rem' }}>
+            <Box sx={{ py: '.25rem' }}>
               <Table>
                 <TableBody sx={{ px: 0 }}>
                   {(participants || []).map((participant, index) => (
                     <TableRow key={participant.id || index}>
                       <TableCell
-                        sx={{ width: '4.5rem', p: 0, border: 'none' }}
-                      ></TableCell>
+                        sx={{
+                          border: 'none',
+                          width: {
+                            sm: '2.3rem',
+                            md: '3rem',
+                            lg: '3.5rem',
+                            xl: '4rem',
+                          },
+                          px: { sm: 2.2, md: 3, lg: 3.25, xl: 3.5 },
+                          py: 0,
+                        }}
+                      >
+                        <IconButton
+                          size="small"
+                          disableRipple
+                          sx={{
+                            visibility: 'hidden',
+                            padding: 0,
+                            color: 'primary.main',
+                            '&:focus': {
+                              outline: 'none',
+                            },
+                            '& svg': {
+                              fontSize: {
+                                sm: '.8rem',
+                                md: '1rem',
+                                lg: '1.1rem',
+                                xl: '1.25rem',
+                              },
+                            },
+                          }}
+                        >
+                          <KeyboardArrowDownIcon />
+                        </IconButton>
+                      </TableCell>
                       <TableCell
                         sx={{
-                          py: '.5rem',
+                          py: {
+                            sm: '.18rem',
+                            m: '.20rem',
+                            lg: '.23rem',
+                            xl: '.25rem',
+                          },
                           px: 0,
                           border: 'none',
                           textAlign: 'left',
-                          fontSize: '1.1rem',
+                          fontSize: {
+                            sm: '.8rem',
+                            md: '.9rem',
+                            lg: '1rem',
+                            xl: '1.1rem',
+                          },
                           textTransform: 'uppercase',
                           color: 'primary.main',
                         }}

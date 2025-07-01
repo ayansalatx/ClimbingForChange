@@ -1,10 +1,5 @@
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-import {
-  IconButton,
-  TableCell,
-  TableHead,
-  TableRow,
-} from '@mui/material'
+import { IconButton, TableCell, TableHead, TableRow } from '@mui/material'
 
 // Renders the header row of the table using provided column definitions
 const TableHeaderRow = ({ columns }) => {
@@ -16,6 +11,14 @@ const TableHeaderRow = ({ columns }) => {
             width: '0',
             backgroundColor: 'info.main',
             border: 'none',
+            width: {
+              sm: '2rem',
+              md: '3rem',
+              lg: '3.5rem',
+              xl: '4rem',
+            },
+            p: { sm: .8, md: 1.5, lg: 1.75, xl: 2 },
+            px: { sm: .5, md: 1.5, lg: 1.75, xl: 2 },
           }}
         >
           <IconButton
@@ -24,9 +27,17 @@ const TableHeaderRow = ({ columns }) => {
             sx={{
               visibility: 'hidden',
               padding: 0,
-              color: 'primary.main',
+              color: 'background.paper',
               '&:focus': {
                 outline: 'none',
+              },
+              '& svg': {
+                fontSize: {
+                  sm: '1rem',
+                  md: '1.5rem',
+                  lg: '1.6rem',
+                  xl: '1.75rem',
+                },
               },
             }}
           >
@@ -39,12 +50,37 @@ const TableHeaderRow = ({ columns }) => {
             align={index === 0 ? 'left' : 'center'}
             sx={{
               width: column.width,
-              p: '.75rem',
+              px: {
+                xs: 0.5,
+                sm: 0.75,
+                md: 1,
+                lg: 1.25,
+                xl: 1.5,
+              },
+              py: {
+                xs: 0.4,
+                sm: 0.5,
+                md: 0.6,
+                lg: 0.7,
+                xl: 0.75,
+              },
               backgroundColor: 'info.main',
               border: 'none',
+              lineHeight: {
+                sm: 1,
+                md: 1.1,
+                lg: 1.2,
+                xl: 1.3,
+              },
               textTransform: 'uppercase',
               letterSpacing: '0.075em',
-              fontSize: '1.35rem',
+              fontSize: {
+                xs: '0.9rem',
+                sm: '1rem',
+                md: '1.15rem',
+                lg: '1.25rem',
+                xl: '1.35rem',
+              },
               fontWeight: 'bold',
               color: 'background.paper',
             }}
