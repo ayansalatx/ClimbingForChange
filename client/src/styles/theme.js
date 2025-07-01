@@ -40,6 +40,15 @@ const theme = createTheme({
   typography: {
     fontFamily: 'canada-type-gibson, "Roboto", "Helvetica", "Arial", sans-serif',
   },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1300,
+      xl: 1536,
+    },
+  },
 })
 
 export default theme

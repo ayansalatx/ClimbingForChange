@@ -1,4 +1,4 @@
-import { alpha, Box, Typography } from '@mui/material'
+import { alpha, Box, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
@@ -7,7 +7,7 @@ import { getAllEvents, getDisplayEventTeams } from '../../services/eventService'
 import theme from '../../styles/theme'
 
 // Define columns for full width screen
-const fullColumns = [
+const lgColumns = [
   { id: 'name', label: 'Team', width: '25%' },
   { id: 'mountainName', label: 'Mountain', width: '12%' },
   { id: 'elevation', label: 'Total Elevation', width: '12%' },
@@ -19,19 +19,45 @@ const fullColumns = [
   { id: 'timeElapsed', label: 'Time Elapsed', width: '10%' },
 ]
 
-// const medColumns = [
-//   { id: 'teamName', label: 'Team', width: 35% },
-//   { id: 'mountain', label: 'Mountain', minWidth: 115 },
-//   { id: 'elevation', label: 'Elevation', minWidth: 60 },
-//   { id: 'current-elevation', label: 'Current Elevation', minWidth: 60 },
-//   { id: 'total-laps', label: 'Total Laps', minWidth: 40 },
-//   { id: 'laps-completed', label: 'Laps Completed', minWidth: 70 },
-//   { id: 'laps-to-go', label: 'Laps To Go', minWidth: 40 },
-//   { id: 'best-lap', label: 'Best Lap', minWidth: 40 },
-//   { id: 'time-elapsed', label: 'Time Elapsed', minWidth: 60 },
-// ]
+const mdColumns = [
+  { id: 'name', label: 'Team', width: '30%' },
+  { id: 'mountainName', label: 'Mountain', width: '15%' },
+  { id: 'elevation', label: 'Elevation', width: '20%' },
+  { id: 'laps', label: 'Laps', width: '20%' },
+  { id: 'lapsToGo', label: 'Laps To Go', width: '7%' },
+  { id: 'bestLap', label: 'Best Lap', width: '8%' },
+  { id: 'timeElapsed', label: 'Time Elapsed', width: '10%' },
+]
+
+const smColumns = [
+  { id: 'name', label: 'Team', width: '30%' },
+  { id: 'mountainName', label: 'Mountain', width: '15%' },
+  { id: 'elevation', label: 'Elevation', width: '20%' },
+  { id: 'laps', label: 'Laps', width: '20%' },
+  { id: 'lapsToGo', label: 'To Go', width: '7%' },
+  { id: 'bestLap', label: 'Best Lap', width: '8%' },
+  { id: 'timeElapsed', label: 'Time', width: '10%' },
+]
 
 const ProgressBoard = () => {
+  // Get media queries to render appropriate content
+  const isXLarge = useMediaQuery(theme.breakpoints.up('xl'))
+  const isLarge = useMediaQuery(theme.breakpoints.up('lg'))
+  const isMedium = useMediaQuery(theme.breakpoints.up('md'))
+  const isSmall = useMediaQuery(theme.breakpoints.up('sm'))
+
+  // Calc size to determine columns
+  let columns
+  if (isLarge || isXLarge) {
+    columns = lgColumns
+  } else if (isMedium) {
+    columns = mdColumns
+  } else if (isSmall) {
+    columns = smColumns
+  } else {
+    columns = [] // placeholder until mobile layout is complete
+  }
+
   // State for teams
   const [teams, setTeams] = useState([])
   // State for events
@@ -205,7 +231,7 @@ const ProgressBoard = () => {
 
           <Box sx={{ flexGrow: 1, width: '100%', overflowX: 'hidden' }}>
             <ProgressTable
-              columns={fullColumns}
+              columns={columns}
               teams={filteredTeams}
               events={events}
               selectedEvent={selectedEvent}
