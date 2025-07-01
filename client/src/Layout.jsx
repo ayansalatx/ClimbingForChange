@@ -14,8 +14,7 @@ function Layout() {
     setDrawerOpen(open)
   }
 
-  const logout = async (e) => {
-    e.preventDefault()
+  const logout = async () => {
     localStorage.removeItem("token")
     navigate('/login')
   }
