@@ -4,13 +4,13 @@ const ProgressCard = ({ team }) => {
   return (
     <Card
       sx={{
-        p: 1.25,
+        p: { xxs: 1, xs: 1.25 },
         boxShadow: 3,
         backgroundColor: 'background.default',
         color: 'primary.main',
         display: 'flex',
         flexDirection: 'column',
-        gap: 0.5,
+        gap: {xxs: 0.2, xs: 0.5},
       }}
     >
       <Box
@@ -19,7 +19,7 @@ const ProgressCard = ({ team }) => {
         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
           <Typography
             variant="body1"
-            fontSize={'1.15rem'}
+            fontSize={{ xxs: '1.05rem', xs: '1.15rem' }}
             fontWeight="bold"
             textTransform={'uppercase'}
             letterSpacing={'.04rem'}
@@ -28,7 +28,7 @@ const ProgressCard = ({ team }) => {
           >
             Team
           </Typography>
-          <Typography variant="body1" fontSize={'1.05rem'} noWrap>
+          <Typography variant="body1" fontSize={{ xxs: '0.95rem', xs: '1.05rem' }} noWrap>
             {team.name}
           </Typography>
         </Box>
@@ -42,7 +42,7 @@ const ProgressCard = ({ team }) => {
         >
           <Typography
             variant="body1"
-            fontSize={'1.15rem'}
+            fontSize={{ xxs: '1.05rem', xs: '1.15rem' }}
             fontWeight="bold"
             textTransform={'uppercase'}
             letterSpacing={'.04rem'}
@@ -51,7 +51,7 @@ const ProgressCard = ({ team }) => {
           >
             Laps
           </Typography>
-          <Typography variant="body1" noWrap>
+          <Typography variant="body1" fontSize={{ xxs: '0.9rem', xs: '1rem' }} noWrap>
             {team.lapsCompleted} / {team.lapsRequired}
           </Typography>
         </Box>
@@ -63,7 +63,7 @@ const ProgressCard = ({ team }) => {
         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
           <Typography
             variant="body1"
-            fontSize={'1.05rem'}
+            fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
             fontWeight="bold"
             textTransform={'uppercase'}
             letterSpacing={'.04rem'}
@@ -85,7 +85,7 @@ const ProgressCard = ({ team }) => {
         >
           <Typography
             variant="body1"
-            fontSize={'1.05rem'}
+            fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
             fontWeight="bold"
             textTransform={'uppercase'}
             letterSpacing={'.04rem'}
@@ -93,7 +93,7 @@ const ProgressCard = ({ team }) => {
           >
             Elev.
           </Typography>
-          <Typography variant="body1" noWrap>
+          <Typography variant="body1" fontSize={{ xxs: '0.9rem', xs: '1rem' }} noWrap>
             {team.currentElevation} / {team.totalElevation}
           </Typography>
         </Box>
@@ -104,7 +104,7 @@ const ProgressCard = ({ team }) => {
         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
           <Typography
             variant="body1"
-            fontSize={'1.05rem'}
+            fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
             fontWeight="bold"
             textTransform={'uppercase'}
             letterSpacing={'.05rem'}
@@ -113,7 +113,7 @@ const ProgressCard = ({ team }) => {
           >
             Best Lap
           </Typography>
-          <Typography variant="body1" noWrap>
+          <Typography variant="body1" fontSize={{ xxs: '0.9rem', xs: '1rem' }} noWrap>
             {team.bestLap}
           </Typography>
         </Box>
@@ -127,7 +127,7 @@ const ProgressCard = ({ team }) => {
         >
           <Typography
             variant="body1"
-            fontSize={'1.05rem'}
+            fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
             fontWeight="bold"
             textTransform={'uppercase'}
             letterSpacing={'.05rem'}
@@ -136,7 +136,7 @@ const ProgressCard = ({ team }) => {
           >
             Time
           </Typography>
-          <Typography variant="body1" noWrap>
+          <Typography variant="body1" fontSize={{ xxs: '0.9rem', xs: '1rem' }} noWrap>
             {team.timeElapsed}
           </Typography>
         </Box>
