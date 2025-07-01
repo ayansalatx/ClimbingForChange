@@ -2,7 +2,7 @@ import { alpha, Box, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
-import ProgressTable from '../../components/progressboard/ProgressTable'
+import ProgressTable from '../../components/progressboard/tables/full-table/ProgressTable'
 import { getAllEvents, getDisplayEventTeams } from '../../services/eventService'
 import theme from '../../styles/theme'
 
@@ -20,7 +20,7 @@ const fullColumns = [
 ]
 
 // const medColumns = [
-//   { id: 'teamName', label: 'Team', minWidth: 200 },
+//   { id: 'teamName', label: 'Team', width: 35% },
 //   { id: 'mountain', label: 'Mountain', minWidth: 115 },
 //   { id: 'elevation', label: 'Elevation', minWidth: 60 },
 //   { id: 'current-elevation', label: 'Current Elevation', minWidth: 60 },
@@ -170,7 +170,7 @@ const ProgressBoard = () => {
               mb: 1.5,
             }}
           >
-            <Box sx={{mb: .75}}>
+            <Box sx={{ mb: 0.75 }}>
               <a
                 href="https://www.climbingforchange.ca/"
                 target="_blank"

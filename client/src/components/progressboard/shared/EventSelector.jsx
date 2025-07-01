@@ -1,6 +1,6 @@
-import { alpha,FormControl, MenuItem, Select } from '@mui/material'
+import { alpha, FormControl, MenuItem, Select } from '@mui/material'
 
-import theme from '../../styles/theme'
+import theme from '../../../styles/theme'
 
 const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
   return (

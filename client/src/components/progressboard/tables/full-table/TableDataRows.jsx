@@ -12,7 +12,7 @@ import {
 } from '@mui/material'
 import React, { useState } from 'react'
 
-import theme from '../../styles/theme'
+import theme from '../../../../styles/theme'
 
 const CollapsibleRow = ({ team, index, columns, participants }) => {
   const [open, setOpen] = useState(false)

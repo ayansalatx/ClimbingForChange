@@ -1,6 +1,6 @@
-import { alpha,Autocomplete, Box, TextField } from '@mui/material'
+import { alpha, Autocomplete, Box, TextField } from '@mui/material'
 
-import theme from '../../styles/theme'
+import theme from '../../../styles/theme'
 
 const ProgressSearch = ({ searchString, onChange, teamNames }) => {
   return (
@@ -32,7 +32,7 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
           paper: {
             sx: {
               borderRadius: '3px',
-              backgroundColor:'background.paper',
+              backgroundColor: 'background.paper',
               mt: 1,
               color: 'primary.main',
               '& .MuiAutocomplete-option': {

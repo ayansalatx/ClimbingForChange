@@ -9,7 +9,7 @@ import {
 } from '@mui/material'
 import { useState } from 'react'
 
-import theme from '../../../styles/theme'
+import theme from '../../../../../styles/theme'
 import ScrollingTableRow from './ScrollingTableRows'
 import TableHeaderRow from './TableHeaderRow'
 

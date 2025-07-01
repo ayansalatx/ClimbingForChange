@@ -8,10 +8,10 @@ import {
 } from '@mui/material'
 import { useState } from 'react'
 
-import theme from '../../styles/theme'
-import EventSelector from './EventSelector'
-import FullscreenToggleButton from './FullscreenToggleButton'
-import ProgressSearch from './ProgressSearch'
+import theme from '../../../../styles/theme'
+import EventSelector from '../../shared/EventSelector'
+import FullscreenToggleButton from '../../shared/FullscreenToggleButton'
+import ProgressSearch from '../../shared/ProgressSearch'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
 
