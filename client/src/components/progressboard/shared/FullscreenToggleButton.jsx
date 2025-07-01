@@ -18,8 +18,19 @@ const FullscreenToggleButton = ({ eventId }) => {
           sx: {
             bgcolor: 'info.main',
             color: 'primary.main',
-            fontSize: '0.75rem',
-            borderRadius: .5,
+            fontSize: {
+              sm: '0.65rem',
+              md: '0.65rem',
+              lg: '0.75rem',
+              xl: '.75rem',
+            },
+            px: {
+              sm: 1,
+            },
+            py: {
+              sm: 0.5,
+            },
+            borderRadius: 0.5,
             boxShadow: 3,
           },
         },
@@ -27,9 +38,26 @@ const FullscreenToggleButton = ({ eventId }) => {
     >
       <IconButton
         onClick={handleClick}
-        sx={{ ml: '.25rem', color: 'background.paper' }}
+        sx={{
+          visibility: {xs: 'hidden', sm: 'visible', md: 'visible', lg: 'visible', xl: 'visible'},
+          ml: '.25rem',
+          color: 'background.paper',
+          p: {
+            sm: '0.45rem',
+            md: '0.5rem',
+          },
+        }}
       >
-        <Fullscreen fontSize="large" />
+        <Fullscreen
+          sx={{
+            fontSize: {
+              sm: '1.5rem',
+              md: '1.75rem',
+              lg: '2rem',
+              xl: '2.25rem',
+            },
+          }}
+        />
       </IconButton>
     </Tooltip>
   )

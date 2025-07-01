@@ -2,6 +2,7 @@ import { alpha, Box, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
+import C4CFavicon from '../../assets/C4C-branding/Favicon.png'
 import ProgressTable from '../../components/progressboard/tables/full-table/ProgressTable'
 import { getAllEvents, getDisplayEventTeams } from '../../services/eventService'
 import theme from '../../styles/theme'
@@ -45,6 +46,7 @@ const ProgressBoard = () => {
   const isLarge = useMediaQuery(theme.breakpoints.up('lg'))
   const isMedium = useMediaQuery(theme.breakpoints.up('md'))
   const isSmall = useMediaQuery(theme.breakpoints.up('sm'))
+  const isXSmall = useMediaQuery(theme.breakpoints.only('xs'))
 
   // Calc size to determine columns
   let columns
@@ -191,38 +193,74 @@ const ProgressBoard = () => {
           <Box
             sx={{
               display: 'flex',
-              alignContent: 'center',
-              justifyContent: 'space-bertween',
-              mb: 1.5,
+              alignItems: 'flex-end',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              mb: {
+                sm: 1.25,
+                md: 1.5,
+              },
             }}
           >
-            <Box sx={{ mb: 0.75 }}>
-              <a
-                href="https://www.climbingforchange.ca/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img
-                  src={C4CHorizontalGreenLogo}
-                  alt="Climbing for Change Logo"
-                  style={{ maxWidth: '15.5rem', width: 'auto' }}
-                />
-              </a>
+            {/* Logo */}
+            <Box sx={{ mb: { sm: 0.75 } }}>
+              <Box
+                component="img"
+                src={isXSmall ? C4CFavicon : C4CHorizontalGreenLogo}
+                alt="Climbing for Change Logo"
+                sx={{
+                  maxWidth: {
+                    xs: '1.67rem',
+                    sm: '10rem',
+                    md: '12rem',
+                    lg: '14rem',
+                    xl: '15.5rem', // your original
+                  },
+                  height: 'auto',
+                  display: 'block',
+                  pb: { xs: .5 },
+                  ml: { xs: 1 },
+                }}
+              />
             </Box>
+
+            {/* Title */}
             <Box
               sx={{
                 display: 'flex',
                 flexGrow: 1,
                 justifyContent: 'center',
                 alignItems: 'flex-end',
+                mt: {
+                  sm: 0.5,
+                  md: 0,
+                },
               }}
             >
               <Typography
                 variant="h1"
                 color="secondary.main"
-                fontWeight={'bold'}
-                textTransform={'uppercase'}
-                sx={{ mr: 18, fontSize: '4.5rem', fontStyle: 'italic' }}
+                fontWeight="bold"
+                textTransform="uppercase"
+                sx={{
+                  fontStyle: 'italic',
+                  mr: {
+                    xs: 0,
+                    sm: 0,
+                    md: 10,
+                    lg: 14,
+                    xl: 18,
+                  },
+                  fontSize: {
+                    xs: '2rem',
+                    sm: '2.7rem',
+                    md: '3.5rem',
+                    lg: '4rem',
+                    xl: '4.5rem',
+                  },
+                  lineHeight: 1.1,
+                  textAlign: 'center',
+                }}
               >
                 Climb Progress
               </Typography>

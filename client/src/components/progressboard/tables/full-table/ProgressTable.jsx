@@ -74,7 +74,9 @@ const ProgressTable = ({
       <Box
         sx={{
           display: 'flex',
+          flexWrap: 'wrap',
           alignItems: 'center',
+          rowGap: 2,
           justifyContent: 'space-between',
           background: `linear-gradient(to right, ${alpha(theme.palette.primary.main, 0.8)}, ${alpha(theme.palette.primary.main, 0.3)}, ${alpha(theme.palette.primary.main, 0.8)})`,
           padding: 2,

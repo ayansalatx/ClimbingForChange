@@ -6,7 +6,13 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
   return (
     <Box
       sx={{
-        width: '28%',
+        width: {
+          sx: '100%',
+          sm: '100%',
+          md: '40%',
+          lg: '28%',
+          xl: '28%',
+        },
         textAlign: 'left',
         background: alpha(theme.palette.background.paper, 0.4),
         color: 'primary.main',
@@ -65,6 +71,13 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
                 boxShadow: 'none',
                 background: 'transparent',
                 padding: 0,
+                fontSize: {
+                  xs: '.85rem',
+                  sm: '0.85rem',
+                  md: '0.9rem',
+                  lg: '1rem',
+                  xl: '1.05rem',
+                },
               },
               '& .MuiOutlinedInput-notchedOutline': {
                 border: 'none',
