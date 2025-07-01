@@ -58,7 +58,7 @@ const ProgressBoard = () => {
   } else if (isSmall) {
     columns = smColumns
   } else {
-    columns = [] // placeholder until mobile layout is complete
+    columns = [] // no columns for mobile
   }
 
   // State for teams
@@ -220,7 +220,7 @@ const ProgressBoard = () => {
                     sm: '10rem',
                     md: '12rem',
                     lg: '14rem',
-                    xl: '15.5rem', // your original
+                    xl: '15.5rem',
                   },
                   height: 'auto',
                   display: 'block',
