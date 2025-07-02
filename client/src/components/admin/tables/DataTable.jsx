@@ -142,7 +142,7 @@ const DataTable = ({
 
         <SearchBar value={searchTerm} onChange={setSearchTerm} />
       </Box>
-      {['Teams', 'Participants'].includes(tableTitle) && (
+      {['Teams'].includes(tableTitle) && (
         <Box
           sx={{
             px: 1,
