@@ -1,16 +1,18 @@
+import { useEffect, useState } from 'react'
+
 import PersonIcon from '@mui/icons-material/Person'
 import { Box } from '@mui/material'
-import { useEffect, useState } from 'react'
 
 import AddParticipantModal from '../../../components/admin/modals/ParticipantModal'
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
 import DataTable from '../../../components/admin/tables/DataTable.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
+
 import {
-  getAllParticipants,
-  editParticipant,
-  deleteParticipant,
   addNewParticipant,
+  deleteParticipant,
+  editParticipant,
+  getAllParticipants,
 } from '../../../services/participantService'
 import { getAllTeams } from '../../../services/teamService.js'
 
