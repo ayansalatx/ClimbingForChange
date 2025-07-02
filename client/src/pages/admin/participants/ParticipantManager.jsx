@@ -1,7 +1,8 @@
+import PersonIcon from '@mui/icons-material/Person'
 import { Box } from '@mui/material'
 import { useEffect, useState } from 'react'
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
-import LocationTable from '../../../components/admin/tables/DataTable.jsx'
+import DataTable from '../../../components/admin/tables/DataTable.jsx'
 import AddParticipantModal from '../../../components/admin/modals/ParticipantModal'
 import { useAlert } from '../../../hooks/useAlert.js'
 import {
@@ -93,7 +94,11 @@ const ParticipantManager = () => {
       await deleteParticipant(deletedParticipant.id)
 
       const newParticipantList = await getAllParticipants()
-      setParticipants(newParticipantList)
+      const formattedList = newParticipantList.map((p) => ({
+        ...p,
+        teamName: p.teamId?.name || '—',
+      }))
+      setParticipants(formattedList)
       setDeleteConfirmOpen(false)
       displayAlert(
         'Participant Deleted',
@@ -131,7 +136,11 @@ const ParticipantManager = () => {
         )
       }
       const newParticipantList = await getAllParticipants()
-      setParticipants(newParticipantList)
+      const formattedList = newParticipantList.map((p) => ({
+        ...p,
+        teamName: p.teamId?.name || '—',
+      }))
+      setParticipants(formattedList)
     } catch (error) {
       displayAlert(
         'Error',
@@ -157,16 +166,16 @@ const ParticipantManager = () => {
         px: '1.5rem',
       }}
     >
-      <LocationTable
-        tableTitle="Participants"
-        tableColumns={fullColumns}
-        tableData={participants}
-        showInactive={showInactive}
-        setShowInactive={setShowInactive}
-        onAddClick={onAdd}
-        onEditClick={onEdit}
-        onDeleteClick={onDelete}
-      />
+    <DataTable
+      tableTitle="Participants"
+      tableIcon={PersonIcon}
+      tableColumns={fullColumns}
+      tableData={participants}
+      loading={loading}            
+      onAddClick={onAdd}
+      onEditClick={onEdit}
+      onDeleteClick={onDelete}
+    />
       <AddParticipantModal
         open={popupOpen}
         onClose={() => setPopupOpen(false)}
