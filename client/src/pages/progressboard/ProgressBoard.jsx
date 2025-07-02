@@ -126,7 +126,7 @@ const ProgressBoard = () => {
     >
       {/* https://pixabay.com/videos/search/terrain%20blue%20gray%20mountain/ */}
       <video
-        src="/assets/mountain-with-way-points.mp4"
+        src='/assets/mountain-with-way-points.mp4'
         autoPlay
         loop
         muted
@@ -172,13 +172,13 @@ const ProgressBoard = () => {
           >
             <Box sx={{mb: .75}}>
               <a
-                href="https://www.climbingforchange.ca/"
-                target="_blank"
-                rel="noreferrer"
+                href='https://www.climbingforchange.ca/'
+                target='_blank'
+                rel='noreferrer'
               >
                 <img
                   src={C4CHorizontalGreenLogo}
-                  alt="Climbing for Change Logo"
+                  alt='Climbing for Change Logo'
                   style={{ maxWidth: '15.5rem', width: 'auto' }}
                 />
               </a>
@@ -192,8 +192,8 @@ const ProgressBoard = () => {
               }}
             >
               <Typography
-                variant="h1"
-                color="secondary.main"
+                variant='h1'
+                color='secondary.main'
                 fontWeight={'bold'}
                 textTransform={'uppercase'}
                 sx={{ mr: 18, fontSize: '4.5rem', fontStyle: 'italic' }}
