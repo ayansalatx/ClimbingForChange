@@ -127,7 +127,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
               Cancel
             </Button>
             <Button type="submit" variant="contained">
-              {teamToEdit ? 'Save' : 'Add'}
+              {teamToEdit ? 'Save' : 'Create'}
             </Button>
           </Box>
         </form>
