@@ -146,7 +146,7 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit ,onLocation, eventToEdit }
               Cancel
             </Button>
             <Button type="submit" variant="contained">
-              Add
+              {eventToEdit ? 'Save' : 'Create'}              
             </Button>
           </Box>
         </form>
