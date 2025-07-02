@@ -1,160 +1,150 @@
-import React, { useState, useEffect } from 'react';
 import {
+  Add as AddIcon,
+  Delete as DeleteIcon,
+  Edit as EditIcon,
+  Refresh as RefreshIcon,
+} from '@mui/icons-material'
+import {
+  Alert,
   Box,
   Button,
   Card,
   CardContent,
+  CircularProgress,
   Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Grid,
-  Typography,
-  TextField,
   IconButton,
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
-  CircularProgress,
-  Snackbar,
-  Alert,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  DialogContentText,
-} from '@mui/material';
+  TextField,
+  Typography,
+} from '@mui/material'
+import React, { useEffect,useState } from 'react'
+
+import { useAlert } from '../../../hooks/useAlert'
 import {
-  Add as AddIcon,
-  Edit as EditIcon,
-  Delete as DeleteIcon,
-  Refresh as RefreshIcon,
-} from '@mui/icons-material';
-import { useTheme } from '@mui/material/styles';
-import { useAlert } from '../../../hooks/useAlert';
-import {
-  getRfidTags,
   createRfidTag,
-  updateRfidTag,
   deleteRfidTag,
-} from '../../../services/rfidService';
+  getRfidTags,
+  updateRfidTag,
+} from '../../../services/rfidService'
 
 const RFIDManager = () => {
-  const theme = useTheme();
-  const [rfidData, setRfidData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [openDialog, setOpenDialog] = useState(false);
-  const [editingRfid, setEditingRfid] = useState(null);
+  const [rfidData, setRfidData] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [openDialog, setOpenDialog] = useState(false)
+  const [editingRfid, setEditingRfid] = useState(null)
   const [formData, setFormData] = useState({
-    tagId: '',
-    status: 'Active',
-  });
-  const displayAlert = useAlert();
+    serialNumber: '',
+  })
+  const displayAlert = useAlert()
 
   // Fetch RFID data
   const loadData = async () => {
     try {
-      setLoading(true);
-      const tags = await getRfidTags();
+      setLoading(true)
+      setError(null)
+      const tags = await getRfidTags()
       const processedTags = tags.map(tag => ({
         id: tag._id || tag.id,
-        tagId: tag.serialNumber,
-        status: tag.status || 'Active',
-        lastScanned: tag.lastScanned || null,
-      }));
-      setRfidData(processedTags);
-    } catch (error) {
-      displayAlert(
-        'Error',
-        `Failed to load RFID tags: ${error.message}`,
-        'error'
-      );
+        serialNumber: tag.serialNumber,
+        createdAt: new Date(tag.createdAt).toLocaleString(),
+        updatedAt: new Date(tag.updatedAt).toLocaleString(),
+      }))
+      setRfidData(processedTags)
+    } catch (err) {
+      const errorMessage = err.response?.data?.message || err.message || 'Failed to load RFID tags'
+      setError(errorMessage)
+      displayAlert('Error', errorMessage, 'error')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
-    loadData();
-  }, []);
+    loadData()
+  }, [])
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setFormData(prev => ({
       ...prev,
       [name]: value
-    }));
-  };
+    }))
+  }
 
   const handleSave = async (tagData) => {
     try {
-      if (editingRfid && editingRfid.id) {
-        await updateRfidTag(editingRfid.id, tagData);
-        displayAlert('Success', 'RFID tag updated successfully', 'success');
+      const tagPayload = {
+        serialNumber: tagData.serialNumber.trim(),
+      }
+
+      if (editingRfid) {
+        await updateRfidTag(editingRfid.id, tagPayload)
+        displayAlert('Success', 'RFID tag updated successfully', 'success')
       } else {
-        await createRfidTag(tagData);
-        displayAlert('Success', 'RFID tag added successfully', 'success');
+        await createRfidTag(tagPayload)
+        displayAlert('Success', 'RFID tag created successfully', 'success')
       }
       
-      setOpenDialog(false);
-      loadData();
+      handleCloseDialog()
+      loadData()
     } catch (error) {
-      displayAlert(
-        'Error',
-        error.response?.data?.message || 'Failed to save RFID tag',
-        'error'
-      );
+      const errorMessage = error.response?.data?.message || 'Failed to save RFID tag'
+      displayAlert('Error', errorMessage, 'error')
     }
-  };
+  }
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    handleSave(formData);
-  };
+    e.preventDefault()
+    handleSave(formData)
+  }
 
   const handleEdit = (rfid) => {
-    setEditingRfid(rfid);
+    setEditingRfid(rfid)
     setFormData({
-      tagId: rfid.tagId,
-      status: rfid.status,
-    });
-    setOpenDialog(true);
-  };
+      serialNumber: rfid.serialNumber,
+    })
+    setOpenDialog(true)
+  }
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this RFID tag?')) {
       try {
-        await deleteRfidTag(id);
-        displayAlert('Success', 'RFID tag deleted successfully', 'success');
-        loadData();
+        await deleteRfidTag(id)
+        displayAlert('Success', 'RFID tag deleted successfully', 'success')
+        loadData()
       } catch (error) {
         displayAlert(
           'Error',
           error.response?.data?.message || 'Failed to delete RFID tag',
           'error'
-        );
+        )
       }
     }
-  };
+  }
 
   const handleRefresh = () => {
-    loadData();
-  };
+    loadData()
+  }
 
   const handleCloseDialog = () => {
-    setOpenDialog(false);
-    setEditingRfid(null);
-    setFormData({ tagId: '', status: 'Active' });
-  };
+    setOpenDialog(false)
+    setEditingRfid(null)
+    setFormData({ serialNumber: '' })
+  }
 
-
-
-  // Format date for display
-  const formatDate = (dateString) => {
-    if (!dateString) return 'Never';
-    return new Date(dateString).toLocaleString();
-  };
 
   return (
     <Container maxWidth="xl">
@@ -202,45 +192,24 @@ const RFIDManager = () => {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>Tag ID</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell>Last Scanned</TableCell>
-                    <TableCell align="right">Actions</TableCell>
+                    <TableCell><strong>Serial Number</strong></TableCell>
+                    <TableCell><strong>Created At</strong></TableCell>
+                    <TableCell><strong>Last Updated</strong></TableCell>
+                    <TableCell align="right"><strong>Actions</strong></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {rfidData.map((rfid) => (
                     <TableRow key={rfid.id}>
-                      <TableCell>{rfid.tagId}</TableCell>
-                      <TableCell>
-                        <Box
-                          component="span"
-                          sx={{
-                            display: 'inline-block',
-                            width: 10,
-                            height: 10,
-                            borderRadius: '50%',
-                            bgcolor: rfid.status === 'Active' ? 'success.main' : 'error.main',
-                            mr: 1,
-                          }}
-                        />
-                        {rfid.status}
-                      </TableCell>
-                      <TableCell>{formatDate(rfid.lastScanned)}</TableCell>
+                      <TableCell>{rfid.serialNumber}</TableCell>
+                      <TableCell>{rfid.createdAt}</TableCell>
+                      <TableCell>{rfid.updatedAt}</TableCell>
                       <TableCell align="right">
-                        <IconButton
-                          size="small"
-                          color="primary"
-                          onClick={() => handleEdit(rfid)}
-                        >
-                          <EditIcon fontSize="small" />
+                        <IconButton onClick={() => handleEdit(rfid)} size="small">
+                          <EditIcon />
                         </IconButton>
-                        <IconButton
-                          size="small"
-                          color="error"
-                          onClick={() => handleDelete(rfid.id)}
-                        >
-                          <DeleteIcon fontSize="small" />
+                        <IconButton onClick={() => handleDelete(rfid.id)} size="small" color="error">
+                          <DeleteIcon />
                         </IconButton>
                       </TableCell>
                     </TableRow>
@@ -268,36 +237,18 @@ const RFIDManager = () => {
             <TextField
               autoFocus
               margin="dense"
-              id="tagId"
-              name="tagId"
-              label="RFID Tag ID"
+              id="serialNumber"
+              name="serialNumber"
+              label="RFID Serial Number"
               type="text"
               fullWidth
               variant="outlined"
-              value={formData.tagId}
+              value={formData.serialNumber}
               onChange={handleInputChange}
               required
               sx={{ mb: 2 }}
+              helperText="Enter the unique serial number of the RFID tag"
             />
-            
-            <TextField
-              select
-              margin="dense"
-              id="status"
-              name="status"
-              label="Status"
-              fullWidth
-              variant="outlined"
-              value={formData.status}
-              onChange={handleInputChange}
-              SelectProps={{ native: true }}
-              required
-            >
-              <option value="Active">Active</option>
-              <option value="Inactive">Inactive</option>
-              <option value="Lost">Lost</option>
-              <option value="Damaged">Damaged</option>
-            </TextField>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseDialog} color="inherit">
@@ -312,7 +263,7 @@ const RFIDManager = () => {
 
 
     </Container>
-  );
-};
+  )
+}
 
-export default RFIDManager;
+export default RFIDManager

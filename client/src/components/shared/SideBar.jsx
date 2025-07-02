@@ -7,6 +7,7 @@ import PeopleIcon from '@mui/icons-material/People'
 import PlaceIcon from '@mui/icons-material/Place'
 import TerrainIcon from '@mui/icons-material/Terrain'
 import UploadIcon from '@mui/icons-material/Upload'
+import RfidIcon from '@mui/icons-material/Nfc'
 import {
   Box,
   Divider,
@@ -71,6 +72,12 @@ const SideBar = ({ open, toggleDrawer }) => {
       icon: <DownhillSkiingIcon />,
       // or FollowTheSigns or ForkRight/ForkLeft
       onClick: () => navigate('/admin/hills'),
+    },
+    {
+      text: 'RFID Management',
+      path: '/admin/rfid',
+      icon: <RfidIcon />,
+      onClick: () => navigate('/admin/rfid'),
     },
   ]
 
