@@ -32,48 +32,51 @@ import {
   Refresh as RefreshIcon,
 } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
-
-// Mock data - Replace with actual API calls
-const mockRFIDData = [
-  { id: 1, tagId: 'E2:4F:3A:7B', status: 'Active', lastScanned: '2025-07-02T10:30:00Z' },
-  { id: 2, tagId: 'A1:B2:C3:D4', status: 'Inactive', lastScanned: '2025-07-01T15:45:00Z' },
-];
+import { useAlert } from '../../../hooks/useAlert';
+import {
+  getRfidTags,
+  createRfidTag,
+  updateRfidTag,
+  deleteRfidTag,
+} from '../../../services/rfidService';
 
 const RFIDManager = () => {
   const theme = useTheme();
   const [rfidData, setRfidData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [editingRfid, setEditingRfid] = useState(null);
   const [formData, setFormData] = useState({
     tagId: '',
     status: 'Active',
   });
-  const [snackbar, setSnackbar] = useState({
-    open: false,
-    message: '',
-    severity: 'success',
-  });
+  const displayAlert = useAlert();
 
   // Fetch RFID data
-  const fetchRFIDData = async () => {
+  const loadData = async () => {
     try {
       setLoading(true);
-      // TODO: Replace with actual API call
-      // const response = await fetch('/api/rfid');
-      // const data = await response.json();
-      setRfidData(mockRFIDData);
-    } catch (err) {
-      setError('Failed to fetch RFID data');
-      console.error('Error fetching RFID data:', err);
+      const tags = await getRfidTags();
+      const processedTags = tags.map(tag => ({
+        id: tag._id || tag.id,
+        tagId: tag.serialNumber,
+        status: tag.status || 'Active',
+        lastScanned: tag.lastScanned || null,
+      }));
+      setRfidData(processedTags);
+    } catch (error) {
+      displayAlert(
+        'Error',
+        `Failed to load RFID tags: ${error.message}`,
+        'error'
+      );
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchRFIDData();
+    loadData();
   }, []);
 
   const handleInputChange = (e) => {
@@ -84,37 +87,30 @@ const RFIDManager = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSave = async (tagData) => {
     try {
-      // TODO: Replace with actual API call
-      // const method = editingRfid ? 'PUT' : 'POST';
-      // const url = editingRfid ? `/api/rfid/${editingRfid.id}` : '/api/rfid';
-      
-      // const response = await fetch(url, {
-      //   method,
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(formData),
-      // });
-      
-      // const data = await response.json();
-      
-      setSnackbar({
-        open: true,
-        message: editingRfid ? 'RFID tag updated successfully' : 'RFID tag added successfully',
-        severity: 'success',
-      });
+      if (editingRfid && editingRfid.id) {
+        await updateRfidTag(editingRfid.id, tagData);
+        displayAlert('Success', 'RFID tag updated successfully', 'success');
+      } else {
+        await createRfidTag(tagData);
+        displayAlert('Success', 'RFID tag added successfully', 'success');
+      }
       
       setOpenDialog(false);
-      fetchRFIDData();
-    } catch (err) {
-      setSnackbar({
-        open: true,
-        message: 'Error saving RFID tag',
-        severity: 'error',
-      });
-      console.error('Error saving RFID tag:', err);
+      loadData();
+    } catch (error) {
+      displayAlert(
+        'Error',
+        error.response?.data?.message || 'Failed to save RFID tag',
+        'error'
+      );
     }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleSave(formData);
   };
 
   const handleEdit = (rfid) => {
@@ -129,27 +125,22 @@ const RFIDManager = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this RFID tag?')) {
       try {
-        // TODO: Replace with actual API call
-        // await fetch(`/api/rfid/${id}`, { method: 'DELETE' });
-        setSnackbar({
-          open: true,
-          message: 'RFID tag deleted successfully',
-          severity: 'success',
-        });
-        fetchRFIDData();
-      } catch (err) {
-        setSnackbar({
-          open: true,
-          message: 'Error deleting RFID tag',
-          severity: 'error',
-        });
-        console.error('Error deleting RFID tag:', err);
+        await deleteRfidTag(id);
+        displayAlert('Success', 'RFID tag deleted successfully', 'success');
+        loadData();
+      } catch (error) {
+        displayAlert(
+          'Error',
+          error.response?.data?.message || 'Failed to delete RFID tag',
+          'error'
+        );
       }
     }
   };
 
   const handleRefresh = () => {
-    fetchRFIDData();  };
+    loadData();
+  };
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
@@ -157,9 +148,7 @@ const RFIDManager = () => {
     setFormData({ tagId: '', status: 'Active' });
   };
 
-  const handleCloseSnackbar = () => {
-    setSnackbar(prev => ({ ...prev, open: false }));
-  };
+
 
   // Format date for display
   const formatDate = (dateString) => {
@@ -321,21 +310,7 @@ const RFIDManager = () => {
         </form>
       </Dialog>
 
-      {/* Snackbar for notifications */}
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      >
-        <Alert
-          onClose={handleCloseSnackbar}
-          severity={snackbar.severity}
-          sx={{ width: '100%' }}
-        >
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
+
     </Container>
   );
 };
