@@ -1,9 +1,10 @@
 import PersonIcon from '@mui/icons-material/Person'
 import { Box } from '@mui/material'
 import { useEffect, useState } from 'react'
+
+import AddParticipantModal from '../../../components/admin/modals/ParticipantModal'
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
 import DataTable from '../../../components/admin/tables/DataTable.jsx'
-import AddParticipantModal from '../../../components/admin/modals/ParticipantModal'
 import { useAlert } from '../../../hooks/useAlert.js'
 import {
   getAllParticipants,
@@ -27,7 +28,6 @@ const ParticipantManager = () => {
   const [selectedParticipant, setSelectedParticipant] = useState(null)
   const [deletedParticipant, setDeletedParticipant] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [showInactive, setShowInactive] = useState(false)
 
   const displayAlert = useAlert()
 
@@ -166,16 +166,16 @@ const ParticipantManager = () => {
         px: '1.5rem',
       }}
     >
-    <DataTable
-      tableTitle="Participants"
-      tableIcon={PersonIcon}
-      tableColumns={fullColumns}
-      tableData={participants}
-      loading={loading}            
-      onAddClick={onAdd}
-      onEditClick={onEdit}
-      onDeleteClick={onDelete}
-    />
+      <DataTable
+        tableTitle="Participants"
+        tableIcon={PersonIcon}
+        tableColumns={fullColumns}
+        tableData={participants}
+        loading={loading}
+        onAddClick={onAdd}
+        onEditClick={onEdit}
+        onDeleteClick={onDelete}
+      />
       <AddParticipantModal
         open={popupOpen}
         onClose={() => setPopupOpen(false)}

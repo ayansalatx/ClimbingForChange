@@ -1,10 +1,4 @@
-import {
-  Box,
-  Typography,
-  Modal,
-  TextField,
-  MenuItem,
-} from '@mui/material'
+import { Box, MenuItem, Modal, TextField, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import CancelButton from '../buttons/CancelButton'

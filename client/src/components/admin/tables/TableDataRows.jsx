@@ -1,4 +1,4 @@
-import { alpha,TableBody, TableCell, TableRow } from '@mui/material'
+import { alpha, TableBody, TableCell, TableRow } from '@mui/material'
 
 import theme from '../../../styles/theme'
 import RowActions from '../buttons/RowActions'
@@ -35,16 +35,15 @@ const TableDataRows = ({
                 return (
                   <TableCell
                     key={column.id}
-                     align={column.align || 'left'}
-                      sx={{
-                          fontSize: '1rem',
-                          color:
-                            row.hasOwnProperty('active')
-                              ? row.active
-                                ? 'primary.main'
-                                : 'gray.main'
-                              : 'text.primary',
-                        }}
+                    align={column.align || 'left'}
+                    sx={{
+                      fontSize: '1rem',
+                      color: row.hasOwnProperty('active')
+                        ? row.active
+                          ? 'primary.main'
+                          : 'gray.main'
+                        : 'text.primary',
+                    }}
                   >
                     {column.format && typeof value === 'number'
                       ? column.format(value)
@@ -54,7 +53,7 @@ const TableDataRows = ({
               })}
               <TableCell
                 key={row.id}
-                align={'center'}
+                align="center"
                 sx={{ py: 0, minWidth: '5rem' }}
               >
                 <RowActions
