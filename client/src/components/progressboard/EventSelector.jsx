@@ -6,8 +6,8 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
   return (
     <FormControl sx={{ width: '42%', borderRadius: '3px' }}>
       <Select
-        variant="filled"
-        id="event-select"
+        variant='filled'
+        id='event-select'
         value={selectedEvent ?? ''}
         onChange={(e) => setSelectedEvent(e.target.value)}
         displayEmpty
@@ -34,7 +34,7 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
           },
         }}
       >
-        <MenuItem value="" disabled sx={{ py: 0, color: 'primary.light' }}>
+        <MenuItem value='' disabled sx={{ py: 0, color: 'primary.light' }}>
           Select an Event
         </MenuItem>
         {events.map((event) => (
