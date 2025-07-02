@@ -8,13 +8,13 @@ import Layout from './Layout'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminLogin from './pages/admin/AdminLogin'
 import EventManager from './pages/admin/events/EventManager'
+import HillManager from './pages/admin/hills/HillManager'
 import LocationManager from './pages/admin/locations/LocationManager'
 import MountainManager from './pages/admin/mountains/MountainManager'
 import ParticipantManager from './pages/admin/participants/ParticipantManager'
 import ParticipantUpload from './pages/admin/participants/ParticipantUpload'
 import ProgressBoard from './pages/progressboard/ProgressBoard'
 import ProgressBoardFullscreen from './pages/progressboard/ProgressBoardFullscreen'
-import HillManager from './pages/admin/hills/HillManager'
 import theme from './styles/theme'
 
 function App() {
@@ -24,14 +24,14 @@ function App() {
       <Router>
         <Routes>
           <Route path='/' element={<Landing />} />
-          <Route path="/progress" element={<ProgressBoard />} />
+          <Route path='/progress' element={<ProgressBoard />} />
           <Route
-            path="/progress/fullscreen"
+            path='/progress/fullscreen/:eventId'
             element={<ProgressBoardFullscreen />}
           />
 
           <Route
-            path="/login"
+            path='/login'
             element={<AdminLogin />}
           >
           </Route>

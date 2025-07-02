@@ -1,5 +1,6 @@
 import { Box } from '@mui/material'
 import { useEffect, useState } from 'react'
+
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
 import HillModal from '../../../components/admin/modals/HillModal.jsx'
 import HillsTable from '../../../components/admin/tables/HillsTable.jsx'
@@ -148,14 +149,14 @@ const HillManager = () => {
         px: '1.5rem',
       }}
     >
-    <HillsTable
-    tableTitle={'Hills'}
-    tableColumns={fullColumns}
-    tableData={hills}
-    onAddClick={onAdd}
-    onEditClick={onEdit}
-    onDeleteClick={onDelete}
-    />
+      <HillsTable
+        tableTitle={'Hills'}
+        tableColumns={fullColumns}
+        tableData={hills}
+        onAddClick={onAdd}
+        onEditClick={onEdit}
+        onDeleteClick={onDelete}
+      />
       <HillModal
         open={popupOpen}
         onClose={() => {

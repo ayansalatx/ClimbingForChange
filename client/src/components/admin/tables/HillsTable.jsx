@@ -1,4 +1,4 @@
-import HikingIcon from '@mui/icons-material/Hiking';
+import HikingIcon from '@mui/icons-material/Hiking'
 import {
   Box,
   TableContainer,
@@ -6,6 +6,7 @@ import {
   Typography,
 } from '@mui/material'
 import Paper from '@mui/material/Paper'
+import { alpha } from '@mui/material/styles'
 import Table from '@mui/material/Table'
 import { useState } from 'react'
 import { alpha } from '@mui/material/styles'

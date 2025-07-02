@@ -1,22 +1,31 @@
-import PlaceIcon from '@mui/icons-material/Place'
-import { Box, TableContainer, TablePagination, Typography } from '@mui/material'
-import Paper from '@mui/material/Paper'
+import {
+  Box,
+  Paper,
+  Table,
+  TableContainer,
+  TablePagination,
+  Typography,
+} from '@mui/material'
 import { alpha } from '@mui/material/styles'
-import Table from '@mui/material/Table'
 import React, { useState } from 'react'
 
 import theme from '../../../styles/theme'
+import ActiveToggle from '../buttons/ShowInactiveToggle'
+import EventSelector from './EventSelector'
 import SearchBar from './SearchBar'
-import ActiveToggle from './ShowActiveToggle'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
 
-const LocationTable = ({
+const DataTable = ({
   tableTitle,
+  tableIcon: TableIcon,
   tableColumns,
   tableData = [],
   showInactive,
   setShowInactive,
+  eventsForDropdown,
+  selectedEvent,
+  setSelectedEvent,
   onAddClick,
   onEditClick,
   onDeleteClick,
@@ -24,16 +33,50 @@ const LocationTable = ({
   const [searchTerm, setSearchTerm] = useState('')
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
+
   const activeToggleOption = tableTitle == 'Events' ? 'visible' : 'hidden'
 
-  const filteredRows = tableData
-    .filter((row) => showInactive || row.active)
-    .filter((row) =>
-      Object.values(row)
-        .join(' ')
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase())
-    )
+  let filteredRows = []
+
+  console.log('Original tableData:', tableData)
+  console.log('showInactive:', showInactive)
+  console.log('searchTerm:', searchTerm)
+
+  if (tableTitle === 'Teams' || tableTitle === 'Participants') {
+    filteredRows = tableData
+      .filter((row) => {
+        const show = showInactive || row.active
+        console.log(`Row ${row.id} - active: ${row.active}, show: ${show}`)
+        return show
+      })
+      .filter((row) => {
+        const searchableText = Object.values(row).join(' ').toLowerCase()
+        const matchesSearch = searchableText.includes(searchTerm.toLowerCase())
+        console.log(`Row ${row.id} - search matches: ${matchesSearch}`)
+        return matchesSearch
+      })
+      .filter((row) => {
+        if (!selectedEvent) return true
+        const matchesEvent = row.eventId === selectedEvent
+        console.log(`Row ${row.id} - event matches: ${matchesEvent}`)
+        return matchesEvent
+      })
+  } else {
+    filteredRows = tableData
+      .filter((row) => {
+        const show = showInactive || row.active
+        console.log(`Row ${row.id} - active: ${row.active}, show: ${show}`)
+        return show
+      })
+      .filter((row) => {
+        const searchableText = Object.values(row).join(' ').toLowerCase()
+        const matchesSearch = searchableText.includes(searchTerm.toLowerCase())
+        console.log(`Row ${row.id} - search matches: ${matchesSearch}`)
+        return matchesSearch
+      })
+  }
+  
+  console.log('Filtered rows:', filteredRows)
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -73,7 +116,7 @@ const LocationTable = ({
             py: '.5rem',
           }}
         >
-          <PlaceIcon
+          <TableIcon
             fontSize="large"
             sx={{
               color: 'secondary.main',
@@ -99,6 +142,42 @@ const LocationTable = ({
 
         <SearchBar value={searchTerm} onChange={setSearchTerm} />
       </Box>
+      {['Teams', 'Participants'].includes(tableTitle) && (
+        <Box
+          sx={{
+            px: 1,
+            pt: 1,
+            bgcolor: 'info.main',
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              px: 1,
+              bgcolor: 'info.light',
+              borderRadius: '3px',
+            }}
+          >
+            <Typography
+              variant="body1"
+              component="span"
+              color="primary.light"
+              textTransform={'uppercase'}
+              fontWeight={'bold'}
+              letterSpacing={'.05rem'}
+              paddingRight={1}
+            >
+              Event:
+            </Typography>
+            <EventSelector
+              events={eventsForDropdown}
+              selectedEvent={selectedEvent}
+              setSelectedEvent={setSelectedEvent}
+            />
+          </Box>
+        </Box>
+      )}
 
       <TableContainer
         sx={(theme) => ({
@@ -166,4 +245,4 @@ const LocationTable = ({
   )
 }
 
-export default LocationTable
+export default DataTable
