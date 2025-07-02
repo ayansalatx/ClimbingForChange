@@ -42,7 +42,7 @@ function App() {
             <Route path='participants' element={<ParticipantManager />} />
             <Route path='upload' element={<ParticipantUpload />} />
             <Route path='mountains' element={<MountainManager />} />
-            <Route path='locations' element={<LocationManager />} />
+            <Route path='locations' element={<LocationManager />} />  
             <Route path='hills' element={<HillManager />} />
           </Route>
         </Routes>

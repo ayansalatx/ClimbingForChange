@@ -42,7 +42,7 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit ,onLocation, eventToEdit }
       const start = new Date(eventToEdit.startDateTime)
       setStartDate(start.toISOString().slice(0, 10))
       setStartTime(start.toTimeString().slice(0, 5))
-      const duration = (new Date(eventToEdit.endDateTime) - start) / 60000
+      const duration = (new Date(eventToEdit.endDateTime) - start) / 3600000
       setDuration(duration)
     }
   }, [eventToEdit])
@@ -52,7 +52,7 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit ,onLocation, eventToEdit }
 
     const selectedLocation = locations.find((loc) => loc.id === location)
     const start = new Date(`${startDate}T${startTime}`)
-    const end = new Date(start.getTime() + Number(duration) * 60000)
+    const end = new Date(start.getTime() + Number(duration) * 3600000)
 
     const eventData = {
       name: eventName,
@@ -132,7 +132,7 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit ,onLocation, eventToEdit }
 
           <TextField
             fullWidth
-            label="Duration (minutes)"
+            label="Duration (hours)"
             type="number"
             variant="outlined"
             margin="normal"
