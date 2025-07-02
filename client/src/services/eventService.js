@@ -22,13 +22,12 @@ export const getDisplayEventTeams = async (id) => {
       ...team,
       mountainName: team.mountain?.name,
       totalElevation: team.mountain?.totalElevation,
-      currentElevation: laps.length
-        ? laps.length * (team.hill?.lapElevationGain ?? 0)
-        : '-',
-      lapsCompleted: laps.length || '-',
+      currentElevation: laps.length * (team.hill?.lapElevationGain ?? 0),
+
+      lapsCompleted: laps.length,
       lapsToGo: Math.max((team.lapsRequired || 0) - laps.length, 0),
-      bestLap: laps.length ? formatTime(teamBestLap) : null,
-      timeElapsed: laps.length ? formatTime(teamTimeElapsed) : '00:00:00',
+      bestLap: laps.length ? formatBestTime(teamBestLap) : null,
+      timeElapsed: laps.length ? formatTimeElapsed(teamTimeElapsed) : '00:00:00',
       participants: team.participants?.map((participant) => ({
         id: participant.id,
         firstName: participant.firstName,
@@ -172,7 +171,7 @@ export function getTimeElapsed(laps) {
 }
 
 // Format time to display
-function formatTime(durationMs) {
+function formatTimeElapsed(durationMs) {
   const totalSeconds = Math.floor(durationMs / 1000)
   const seconds = totalSeconds % 60
   const totalMinutes = Math.floor(totalSeconds / 60)
@@ -180,4 +179,12 @@ function formatTime(durationMs) {
   const hours = Math.floor(totalMinutes / 60)
 
   return `${String(hours).padStart(2, '00')}:${String(minutes).padStart(2, '00')}:${String(seconds).padStart(2, '00')}`
+}
+
+function formatBestTime(durationMs) {
+  const totalSeconds = Math.floor(durationMs / 1000)
+  const seconds = totalSeconds % 60
+  const totalMinutes = Math.floor(totalSeconds / 60)
+
+  return `${String(totalMinutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
 }

@@ -34,7 +34,7 @@ const mdColumns = [
 const smColumns = [
   { id: 'name', label: 'Team', width: '30%' },
   { id: 'mountainName', label: 'Mount.', width: '15%' },
-  { id: 'elevation', label: 'Ft', width: '20%' },
+  { id: 'elevation', label: 'Elev.', width: '20%' },
   { id: 'laps', label: 'Laps', width: '20%' },
   { id: 'lapsToGo', label: 'To Go', width: '7%' },
   { id: 'bestLap', label: 'Best Lap', width: '8%' },

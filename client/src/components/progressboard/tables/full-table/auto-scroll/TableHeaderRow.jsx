@@ -4,10 +4,11 @@ import theme from '../../../../../styles/theme'
 // Renders the header row of the table using provided column definitions
 const TableHeaderRow = ({ columns }) => {
   return (
-    <Table size="small" sx={{ mb: '3px', tableLayout: 'fixed' }}>
+    <Table size="small" sx={{ tableLayout: 'fixed' }}>
       <TableHead>
         <TableRow
           sx={{
+            mb: '3px',
             background: `linear-gradient(to right, ${alpha(theme.palette.primary.main, 0.8)}, ${alpha(theme.palette.primary.main, 0.3)}, ${alpha(theme.palette.primary.main, 0.8)})`,
           }}
         >
@@ -19,11 +20,26 @@ const TableHeaderRow = ({ columns }) => {
               sx={{
                 position: 'sticky',
                 width: column.width,
+                px: {xxs: .5, md: 2},
                 background: 'transparent',
                 color: 'background.default',
                 fontWeight: 'bold',
                 // fontStyle: 'italic',
-                fontSize: '1.5rem',
+                fontSize: {
+                  xxs: '.5rem',
+                  xs: '.6rem',
+                  sm: '.75rem',
+                  md: '1.2rem',
+                  lg: '1.3rem',
+                  xl: '1.5rem',
+                },
+                lineHeight: {
+                  xxs: '.5rem',
+                  xs: '.6rem',
+                  sm: '.85rem',
+                  md: '1.25rem',
+                  lg: '1.35rem',
+                },
                 textTransform: 'uppercase',
                 letterSpacing: '.1rem',
                 border: 'none',

@@ -34,7 +34,7 @@ const AutoScrollTable = ({ teams, columns, loading }) => {
         sx={{
           width: '100%',
           height: '100%',
-          overflowY: 'hidden',
+          overflowY: 'auto',
           background: 'transparent',
         }}
       >
@@ -43,6 +43,7 @@ const AutoScrollTable = ({ teams, columns, loading }) => {
             sx={{
               height: '100%',
               display: 'flex',
+              flexGrow: 1,
               alignItems: 'center',
               justifyContent: 'center',
               background: `linear-gradient(to right, ${alpha(theme.palette.primary.main, 0.8)}, ${alpha(theme.palette.primary.main, 0.3)}, ${alpha(theme.palette.primary.main, 0.8)})`,
