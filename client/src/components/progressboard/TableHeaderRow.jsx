@@ -19,7 +19,7 @@ const TableHeaderRow = ({ columns }) => {
           }}
         >
           <IconButton
-            size="small"
+            size='small'
             disableRipple
             sx={{
               visibility: 'hidden',
