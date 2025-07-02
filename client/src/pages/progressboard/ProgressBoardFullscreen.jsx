@@ -1,26 +1,86 @@
-import { alpha, Box, Typography } from '@mui/material'
+import { alpha, Box, Typography, useMediaQuery } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import C4CFavicon from '../../assets/C4C-branding/Favicon.png'
-import AutoScrollTable from '../../components/progressboard/auto-scroll/AutoScrollTable'
+import AutoScrollTable from '../../components/progressboard/tables/full-table/auto-scroll/AutoScrollTable'
 import { getDisplayEventTeams, getOneEvent } from '../../services/eventService'
 import theme from '../../styles/theme'
 
 // Define columns for full width screen
-const columns = [
+const xlColumns = [
   { id: 'name', label: 'Team', width: '25%' },
   { id: 'mountainName', label: 'Mountain', width: '12%' },
-  { id: 'elevation', label: 'Total Elevation', width: '12%' },
-  { id: 'currentElevation', label: 'Elevation', width: '12%' },
-  { id: 'lapsRequired', label: 'Total Laps', width: '7%' },
+  { id: 'totalElevation', label: 'Total Elevation', width: '12%' },
+  { id: 'currentElevation', label: 'Current Elevation', width: '12%' },
+  { id: 'lapsRequired', label: 'Total Laps', width: '8%' },
   { id: 'lapsCompleted', label: 'Laps', width: '7%' },
-  { id: 'lapsToGo', label: 'Laps To Go', width: '8%' },
+  { id: 'lapsToGo', label: 'Laps To Go', width: '7%' },
   { id: 'bestLap', label: 'Best Lap', width: '7%' },
   { id: 'timeElapsed', label: 'Time Elapsed', width: '10%' },
 ]
 
+const lgColumns = [
+  { id: 'name', label: 'Team', width: '25%' },
+  { id: 'mountainName', label: 'Mountain', width: '12%' },
+  { id: 'totalElevation', label: 'Total Elev.', width: '12%' },
+  { id: 'currentElevation', label: 'Elev.', width: '9%' },
+  { id: 'lapsRequired', label: 'Total Laps', width: '9%' },
+  { id: 'lapsCompleted', label: 'Laps', width: '7%' },
+  { id: 'lapsToGo', label: 'To Go', width: '5%' },
+  { id: 'bestLap', label: 'Best Lap', width: '10%' },
+  { id: 'timeElapsed', label: 'Time', width: '10%' },
+]
+
+const mdColumns = [
+  { id: 'name', label: 'Team', width: '29%' },
+  { id: 'mountainName', label: 'Mount.', width: '12%' },
+  { id: 'elevation', label: 'Elev.', width: '18%' },
+  { id: 'laps', label: 'Laps', width: '12%' },
+  { id: 'lapsToGo', label: 'To Go', width: '7%' },
+  { id: 'bestLap', label: 'Best Lap', width: '10%' },
+  { id: 'timeElapsed', label: 'Time', width: '12%' },
+]
+
+const smColumns = [
+  { id: 'name', label: 'Team', width: '33%' },
+  { id: 'mountainName', label: 'Mount.', width: '14%' },
+  { id: 'elevation', label: 'Elevation', width: '20%' },
+  { id: 'laps', label: 'Laps', width: '13%' },
+  { id: 'lapsToGo', label: 'To Go', width: '10%' },
+  { id: 'timeElapsed', label: 'Time', width: '10%' },
+]
+
+const xsmColumns = [
+  { id: 'name', label: 'Team', width: '33%' },
+  { id: 'mountainName', label: 'Mount.', width: '14%' },
+  { id: 'elevation', label: 'Elev.', width: '20%' },
+  { id: 'laps', label: 'Laps', width: '13%' },
+  { id: 'lapsToGo', label: 'To Go', width: '10%' },
+  { id: 'timeElapsed', label: 'Time', width: '10%' },
+]
+
 const ProgressBoardFullscreen = () => {
+  // Get media queries to render appropriate content
+  const isXLarge = useMediaQuery(theme.breakpoints.up('xl'))
+  const isLarge = useMediaQuery(theme.breakpoints.up('lg'))
+  const isMedium = useMediaQuery(theme.breakpoints.up('md'))
+  const isSmall = useMediaQuery(theme.breakpoints.up('sm'))
+
+  // Calc size to determine columns
+  let columns
+  if (isXLarge) {
+    columns = xlColumns
+  } else if (isLarge) {
+    columns = lgColumns
+  } else if (isMedium) {
+    columns = mdColumns
+  } else if (isSmall) {
+    columns = smColumns
+  } else {
+    columns = xsmColumns
+  }
+
   const { eventId } = useParams()
   // State for teams
   const [teams, setTeams] = useState([])
@@ -109,13 +169,34 @@ const ProgressBoardFullscreen = () => {
             sx={{
               display: 'flex',
               justifyContent: 'space-between',
-              mb: '1rem',
+              alignItems: 'flex-end',
+              mb: {xxs: 1, xs: 1, sm: 2, md: 2.5, lg: 3, xl: 3 },
             }}
           >
-            <img
+            <Box
+              component="img"
               src={C4CFavicon}
               alt="Climbing for Change Logo"
-              style={{ maxWidth: '7rem', width: 'auto' }}
+              sx={{
+                width: 'auto',
+                maxHeight: {
+                  xxs: '1rem',
+                  xs: '1.75rem',
+                  sm: '2.2rem',
+                  md: '3.8rem',
+                  lg: '5rem',
+                  xl: '5rem',
+                },
+                maxWidth: {
+                  xxs: '3rem',
+                  xs: '4rem',
+                  sm: '5rem',
+                  md: '6rem',
+                  lg: '7rem',
+                  xl: '8rem',
+                },
+                ml: { xxs: 0.25, xs: 0.25, sm: 0.5, lg: 1 },
+              }}
             />
             <Box
               sx={{
@@ -130,7 +211,25 @@ const ProgressBoardFullscreen = () => {
                 color="secondary.main"
                 fontWeight={'bold'}
                 textTransform={'uppercase'}
-                sx={{ fontSize: '5rem', fontStyle: 'italic' }}
+                sx={{
+                  fontSize: {
+                    xxs: '1.3rem',
+                    xs: '1.45rem',
+                    sm: '2.1rem',
+                    md: '3.4rem',
+                    lg: '5rem',
+                    xl: '5rem',
+                  },
+                  lineHeight: {
+                    xxs: '1.3rem',
+                    xs: '1.5rem',
+                    sm: '2.25rem',
+                    md: '3.4rem',
+                    lg: '5rem',
+                    xl: '5rem',
+                  },
+                  fontStyle: 'italic',
+                }}
               >
                 {eventName}
               </Typography>
