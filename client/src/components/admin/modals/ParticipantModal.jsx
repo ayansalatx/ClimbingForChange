@@ -39,7 +39,7 @@ const AddParticipantModal = ({
       setId(participantData.id || '')
       setFirstName(participantData.firstName || '')
       setLastName(participantData.lastName || '')
-      setTeamId(participantData.team?.id || '')
+      setTeamId(participantData.teamId?.id || participantData.teamId || '')
     } else if (!open) {
       setId('')
       setFirstName('')
@@ -51,16 +51,15 @@ const AddParticipantModal = ({
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    const selectedTeam = teamNames.find((team) => team.id === teamId)
-
     const newParticipant = {
       id: id || undefined,
       firstName: firstName.trim(),
       lastName: lastName.trim(),
-      team: selectedTeam || null,
+      teamId: teamId || null,
     }
 
     onAdd(newParticipant)
+    onClose()
   }
 
   return (

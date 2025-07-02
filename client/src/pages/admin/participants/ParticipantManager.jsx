@@ -1,10 +1,10 @@
 import { Box } from '@mui/material'
 import { useEffect, useState } from 'react'
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
-import ParticipantTable from '../../../components/admin/forms/participantforms/ParticipantTable.jsx'
+import LocationTable from '../../../components/admin/tables/DataTable.jsx'
 import AddParticipantModal from '../../../components/admin/modals/ParticipantModal'
 import { useAlert } from '../../../hooks/useAlert.js'
-import { 
+import {
   getAllParticipants,
   editParticipant,
   deleteParticipant,
@@ -15,7 +15,7 @@ import { getAllTeams } from '../../../services/teamService.js'
 const fullColumns = [
   { id: 'firstName', label: 'First Name', align: 'left', width: '30%' },
   { id: 'lastName', label: 'Last Name', align: 'left', width: '30%' },
-  { id: 'teamId.name', label: 'Team Name', align: 'center', width: '40%' },
+  { id: 'teamName', label: 'Team Name', align: 'center', width: '40%' },
 ]
 
 const ParticipantManager = () => {
@@ -26,6 +26,7 @@ const ParticipantManager = () => {
   const [selectedParticipant, setSelectedParticipant] = useState(null)
   const [deletedParticipant, setDeletedParticipant] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [showInactive, setShowInactive] = useState(false)
 
   const displayAlert = useAlert()
 
@@ -33,10 +34,16 @@ const ParticipantManager = () => {
     async function loadData() {
       setLoading(true)
       try {
-        const participantList = await getAllParticipants()
+        const participantListRaw = await getAllParticipants()
+        const participantList = participantListRaw.map((p) => ({
+          ...p,
+          teamName: p.teamId?.name || '—',
+        }))
         setParticipants(participantList)
-        const teamsList = await getAllTeams() 
+
+        const teamsList = await getAllTeams()
         setTeams(teamsList)
+
         displayAlert(
           'Participants Loaded',
           `Loaded ${participantList.length} participants from the backend.`,
@@ -150,10 +157,12 @@ const ParticipantManager = () => {
         px: '1.5rem',
       }}
     >
-      <ParticipantTable
-        tableTitle={'Participants'}
+      <LocationTable
+        tableTitle="Participants"
         tableColumns={fullColumns}
         tableData={participants}
+        showInactive={showInactive}
+        setShowInactive={setShowInactive}
         onAddClick={onAdd}
         onEditClick={onEdit}
         onDeleteClick={onDelete}

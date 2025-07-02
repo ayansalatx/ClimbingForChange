@@ -2,7 +2,11 @@ import { api } from './api'
 
 export const getAllParticipants = async () => {
   const res = await api.get('/participants')
-  return res.data
+  const participants = res.data.map(p => ({
+    ...p,
+    teamName: p.teamId ? p.teamId.name : '—',
+  }))
+  return participants
 }
 
 export const uploadParticipants = async (participantsFromCSV) => {

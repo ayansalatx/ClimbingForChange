@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { alpha } from '@mui/material/styles'
 
 import theme from '../../../styles/theme'
