@@ -1,9 +1,17 @@
-import { alpha, TableBody, TableCell, TableRow } from '@mui/material'
+import {
+  alpha,
+  TableBody,
+  TableCell,
+  TableRow,
+  useMediaQuery,
+} from '@mui/material'
 import { Fragment } from 'react'
 
-import theme from '../../../styles/theme'
+import theme from '../../../../../styles/theme'
 
 const ScrollingTableRow = ({ teams, columns }) => {
+  const isLarge = useMediaQuery(theme.breakpoints.up('lg'))
+
   const gradientBackground = `linear-gradient(to right, ${alpha(theme.palette.primary.main, 0.8)}, ${alpha(theme.palette.primary.main, 0.3)}, ${alpha(theme.palette.primary.main, 0.8)})`
   return (
     <TableBody className="marquee__content" >
@@ -20,9 +28,33 @@ const ScrollingTableRow = ({ teams, columns }) => {
               }}
             />
           </TableRow>
-          <TableRow key={team.id || index} sx={{ background: gradientBackground }}>
+          <TableRow
+            key={team.id || index}
+            sx={{ background: gradientBackground }}
+          >
             {columns.map((column, colIndex) => {
-              const value = team[column.id] ?? '-'
+              let value = team[column.id] ?? 0
+
+              if (
+                (team[column.id] === 0 &&
+                  column.id === 'currentElevation' &&
+                  isLarge) ||
+                (team[column.id] === 0 &&
+                  column.id === 'lapsCompleted' &&
+                  isLarge) ||
+                (team[column.id] === null && column.id === 'bestLap' && isLarge)
+              ) {
+                value = '-'
+              }
+
+              if (column.id === 'elevation') {
+                value = `${team.currentElevation} / ${team.totalElevation}`
+              } else if (column.id === 'laps') {
+                value = `${team.lapsCompleted} / ${team.lapsRequired}`
+              } else {
+                value = team[column.id] ?? '-'
+              }
+
               let align = 'center'
               if (colIndex === 0) align = 'left'
               const isEven = index % 2 === 0
@@ -33,7 +65,8 @@ const ScrollingTableRow = ({ teams, columns }) => {
                   sx={{
                     border: 'none',
                     width: column.width,
-                    fontSize: '1.25rem',
+                    px: {xxs: .5, md: 2},
+                    fontSize: { xxs: '.65rem', md: '.85rem',lg: '1rem', xl: '1.25rem' },
                     textTransform: 'uppercase',
                     letterSpacing: '.05rem',
                     color: isEven ? 'secondary.main' : 'info.main',

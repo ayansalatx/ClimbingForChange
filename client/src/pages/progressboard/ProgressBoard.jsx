@@ -1,38 +1,66 @@
-import { Box, Container } from '@mui/material'
+import { alpha, Box, Typography, useMediaQuery } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
-import EventSelector from '../../components/progressboard/EventSelector'
-import ProgressSearch from '../../components/progressboard/ProgressSearch'
-import ProgressTable from '../../components/progressboard/ProgressTable'
+import C4CFavicon from '../../assets/C4C-branding/Favicon.png'
+import ProgressList from '../../components/progressboard/cards/ProgressCardList'
+import ProgressTable from '../../components/progressboard/tables/full-table/ProgressTable'
 import { getAllEvents, getDisplayEventTeams } from '../../services/eventService'
+import theme from '../../styles/theme'
 
 // Define columns for full width screen
-const fullColumns = [
-  { id: 'name', label: 'Team', minWidth: 200 },
-  { id: 'mountainName', label: 'Mountain', minWidth: 115 },
-  { id: 'elevation', label: 'Elevation', minWidth: 60 },
-  { id: 'currentElevation', label: 'Current Elevation', minWidth: 60 },
-  { id: 'lapsRequired', label: 'Total Laps', minWidth: 40 },
-  { id: 'lapsCompleted', label: 'Laps Completed', minWidth: 70 },
-  { id: 'lapsToGo', label: 'Laps To Go', minWidth: 40 },
-  { id: 'bestLap', label: 'Best Lap', minWidth: 40 },
-  { id: 'timeElapsed', label: 'Time Elapsed', minWidth: 60 },
+const lgColumns = [
+  { id: 'name', label: 'Team', width: '25%' },
+  { id: 'mountainName', label: 'Mountain', width: '12%' },
+  { id: 'totalElevation', label: 'Total Elevation', width: '12%' },
+  { id: 'currentElevation', label: 'Current Elevation', width: '12%' },
+  { id: 'lapsRequired', label: 'Total Laps', width: '7%' },
+  { id: 'lapsCompleted', label: 'Laps', width: '7%' },
+  { id: 'lapsToGo', label: 'Laps To Go', width: '8%' },
+  { id: 'bestLap', label: 'Best Lap', width: '7%' },
+  { id: 'timeElapsed', label: 'Time Elapsed', width: '10%' },
 ]
 
-// const medColumns = [
-//   { id: 'teamName', label: 'Team', minWidth: 200 },
-//   { id: 'mountain', label: 'Mountain', minWidth: 115 },
-//   { id: 'elevation', label: 'Elevation', minWidth: 60 },
-//   { id: 'current-elevation', label: 'Current Elevation', minWidth: 60 },
-//   { id: 'total-laps', label: 'Total Laps', minWidth: 40 },
-//   { id: 'laps-completed', label: 'Laps Completed', minWidth: 70 },
-//   { id: 'laps-to-go', label: 'Laps To Go', minWidth: 40 },
-//   { id: 'best-lap', label: 'Best Lap', minWidth: 40 },
-//   { id: 'time-elapsed', label: 'Time Elapsed', minWidth: 60 },
-// ]
+const mdColumns = [
+  { id: 'name', label: 'Team', width: '30%' },
+  { id: 'mountainName', label: 'Mountain', width: '15%' },
+  { id: 'elevation', label: 'Elevation', width: '20%' },
+  { id: 'laps', label: 'Laps', width: '20%' },
+  { id: 'lapsToGo', label: 'Laps To Go', width: '7%' },
+  { id: 'bestLap', label: 'Best Lap', width: '8%' },
+  { id: 'timeElapsed', label: 'Time Elapsed', width: '10%' },
+]
+
+const smColumns = [
+  { id: 'name', label: 'Team', width: '30%' },
+  { id: 'mountainName', label: 'Mount.', width: '15%' },
+  { id: 'elevation', label: 'Elev.', width: '20%' },
+  { id: 'laps', label: 'Laps', width: '20%' },
+  { id: 'lapsToGo', label: 'To Go', width: '7%' },
+  { id: 'bestLap', label: 'Best Lap', width: '8%' },
+  { id: 'timeElapsed', label: 'Time', width: '10%' },
+]
 
 const ProgressBoard = () => {
+  // Get media queries to render appropriate content
+  const isXLarge = useMediaQuery(theme.breakpoints.up('xl'))
+  const isLarge = useMediaQuery(theme.breakpoints.up('lg'))
+  const isMedium = useMediaQuery(theme.breakpoints.up('md'))
+  const isSmall = useMediaQuery(theme.breakpoints.up('sm'))
+  const isXSmall = useMediaQuery(theme.breakpoints.down('sm'))
+
+  // Calc size to determine columns
+  let columns
+  if (isLarge || isXLarge) {
+    columns = lgColumns
+  } else if (isMedium) {
+    columns = mdColumns
+  } else if (isSmall) {
+    columns = smColumns
+  } else {
+    columns = [] // no columns for mobile
+  }
+
   // State for teams
   const [teams, setTeams] = useState([])
   // State for events
@@ -78,9 +106,7 @@ const ProgressBoard = () => {
     }
   }, [events, selectedEvent])
 
-  useEffect(() => {
-  }, [selectedEvent])
-
+  useEffect(() => {}, [selectedEvent])
 
   useEffect(() => {
     const loadTeamsForEvent = async () => {
@@ -121,55 +147,160 @@ const ProgressBoard = () => {
   return (
     <Box
       sx={{
-        minHeight: '100vh',
+        position: 'relative',
         width: '100vw',
-        bgcolor: 'primary.main',
-        flexDirection: 'column',
-        alignContent: 'center',
+        height: '100vh',
+        overflow: 'hidden',
       }}
     >
-      <Container
-        maxWidth={false}
-        disableGutters
+      {/* https://pixabay.com/videos/search/terrain%20blue%20gray%20mountain/ */}
+      {!isXSmall && (
+        <video
+          src="/assets/mountain-with-way-points.mp4"
+          autoPlay
+          loop
+          muted
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            zIndex: 0,
+          }}
+        />
+      )}
+
+      <Box
         sx={{
-          width: '95vw',
-          height: '95vh',
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: isXSmall
+            ? 'primary.main'
+            : alpha(theme.palette.primary.main, 0.6),
         }}
       >
-        <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: '1rem' }}>
-          <a
-            href="https://www.climbingforchange.ca/"
-            target="_blank"
-            rel="noreferrer"
+        <Box
+          sx={{
+            position: 'relative',
+            zIndex: 2,
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            p: { xxs: 2, xs: 2, sm: 2, md: 2, lg: 3, xl: 3 },
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'flex-end',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              mb: {
+                sm: 1.25,
+                md: 1.5,
+              },
+            }}
           >
-            <img
-              src={C4CHorizontalGreenLogo}
-              alt="Climbing for Change Logo"
-              style={{ maxWidth: '15.5rem', width: 'auto' }}
+            {/* Logo */}
+            <Box sx={{ mb: { sm: 0.5 } }}>
+              <Box
+                component="img"
+                src={isXSmall ? C4CFavicon : C4CHorizontalGreenLogo}
+                alt="Climbing for Change Logo"
+                sx={{
+                  maxWidth: {
+                    xxs: '1.6rem',
+                    xs: '1.8rem',
+                    sm: '10rem',
+                    md: '12rem',
+                    lg: '14rem',
+                    xl: '15.5rem',
+                  },
+                  height: 'auto',
+                  display: 'block',
+                  pb: { xxs: 0.5, xs: 0.5 },
+                  ml: { xxs: 0.5, xs: 1 },
+                }}
+              />
+            </Box>
+
+            {/* Title */}
+            <Box
+              sx={{
+                display: 'flex',
+                flexGrow: 1,
+                justifyContent: 'center',
+                alignItems: 'flex-end',
+                mt: {
+                  xxs: 0,
+                  xs: 0,
+                  sm: 0,
+                  md: 0,
+                },
+              }}
+            >
+              <Typography
+                variant="h1"
+                color="secondary.main"
+                fontWeight="bold"
+                textTransform="uppercase"
+                sx={{
+                  fontStyle: 'italic',
+                  mr: {
+                    xxs: 0,
+                    xs: 0,
+                    sm: 0,
+                    md: 10,
+                    lg: 14,
+                    xl: 18,
+                  },
+                  fontSize: {
+                    xxs: '1.8rem',
+                    xs: '2.2rem',
+                    sm: '2.7rem',
+                    md: '3.5rem',
+                    lg: '4rem',
+                    xl: '4.5rem',
+                  },
+                  lineHeight: 1.1,
+                  textAlign: 'center',
+                }}
+              >
+                Climb Progress
+              </Typography>
+            </Box>
+          </Box>
+
+          {isXSmall ? (
+            <ProgressList
+              teams={filteredTeams}
+              events={events}
+              selectedEvent={selectedEvent}
+              setSelectedEvent={setSelectedEvent}
+              searchString={searchString}
+              setSearchString={setSearchString}
             />
-          </a>
+          ) : (
+            <Box sx={{ flexGrow: 1, width: '100%', overflowX: 'hidden' }}>
+              <ProgressTable
+                columns={columns}
+                teams={filteredTeams}
+                events={events}
+                selectedEvent={selectedEvent}
+                setSelectedEvent={setSelectedEvent}
+                searchString={searchString}
+                setSearchString={setSearchString}
+              />
+            </Box>
+          )}
         </Box>
-
-        <Box sx={{ mb: '1rem', maxWidth: '25vw' }}>
-          <ProgressSearch
-            searchString={searchString}
-            onChange={setSearchString}
-            teamNames={[...new Set(teams.map((team) => team.name))]}
-          />
-          <EventSelector
-            events={events}
-            selectedEvent={selectedEvent}
-            setSelectedEvent={setSelectedEvent}
-          />
-        </Box>
-
-        <Box sx={{ flexGrow: 1, width: '100%', overflowX: 'hidden' }}>
-          <ProgressTable columns={fullColumns} teams={filteredTeams} eventId={selectedEvent} />
-        </Box>
-      </Container>
+      </Box>
     </Box>
   )
 }
