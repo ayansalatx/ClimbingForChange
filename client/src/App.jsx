@@ -15,6 +15,7 @@ import ParticipantManager from './pages/admin/participants/ParticipantManager'
 import ParticipantUpload from './pages/admin/participants/ParticipantUpload'
 import ProgressBoard from './pages/progressboard/ProgressBoard'
 import ProgressBoardFullscreen from './pages/progressboard/ProgressBoardFullscreen'
+import TeamsManager from './pages/admin/teams/TeamsManager' 
 import theme from './styles/theme'
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
             <Route path='upload' element={<ParticipantUpload />} />
             <Route path='mountains' element={<MountainManager />} />
             <Route path='locations' element={<LocationManager />} />  
+           <Route path='teams' element={<TeamsManager />} />              
             <Route path='hills' element={<HillManager />} />
           </Route>
         </Routes>
