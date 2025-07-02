@@ -12,7 +12,7 @@ const FullscreenToggleButton = ({ eventId }) => {
 
   return (
     <Tooltip
-      title="Fullscreen"
+      title='Fullscreen'
       componentsProps={{
         tooltip: {
           sx: {
@@ -29,7 +29,7 @@ const FullscreenToggleButton = ({ eventId }) => {
         onClick={handleClick}
         sx={{ ml: '.25rem', color: 'background.paper' }}
       >
-        <Fullscreen fontSize="large" />
+        <Fullscreen fontSize='large' />
       </IconButton>
     </Tooltip>
   )
