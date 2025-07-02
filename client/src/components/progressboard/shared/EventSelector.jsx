@@ -46,17 +46,15 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
               xl: '4px',
             },
             px: {
-              xxs: '8px',
-              xs: '8px',
-              sm: '6px',
+              xxs: '6px',
               md: '8px',
               lg: '8px',
               sxl: '8px',
             },
             opacity: '100%',
             fontSize: {
-              xxs: '.85rem',
-              xs: '.85rem',
+              xxs: '0.85rem',
+              xs: '0.85rem',
               sm: '0.85rem',
               md: '0.9rem',
               lg: '1rem',
@@ -75,13 +73,10 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
           value=""
           disabled
           sx={{
+            minHeight: { xxs: 'unset' },
             fontSize: {
-              xxs: '.85rem',
-              xs: '.85rem',
-              sm: '0.85rem',
-              md: '0.9rem',
-              lg: '1rem',
-              xl: '1.05rem',
+              xxs: '0.9rem',
+              md: '1rem',
             },
             py: 0,
             color: 'primary.light',
@@ -94,12 +89,12 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
             value={event.id}
             key={event.id}
             sx={{
-              py: { xxs: 0.35, xs: 0.35, sm: 0.35, md: 0.4, lg: 0.45, xl: 0.5 },
               borderRadius: '3px',
+              minHeight: { xxs: 'unset' },
               color: 'primary.main',
               fontSize: {
-                xxs: '0.8rem',
-                xs: '0.8rem',
+                xxs: '0.9rem',
+                xs: '0.9rem',
                 sm: '0.9rem',
                 md: '1rem',
               },

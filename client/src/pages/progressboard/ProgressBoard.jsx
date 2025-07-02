@@ -192,7 +192,7 @@ const ProgressBoard = () => {
             height: '100%',
             display: 'flex',
             flexDirection: 'column',
-            p: { xxs: 1, xs: 1, sm: 2, md: 2, lg: 3, xl: 3 },
+            p: { xxs: 2, xs: 2, sm: 2, md: 2, lg: 3, xl: 3 },
           }}
         >
           <Box

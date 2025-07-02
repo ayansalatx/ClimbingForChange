@@ -40,9 +40,10 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
             sx: {
               borderRadius: '3px',
               backgroundColor: 'background.paper',
-              mt: 1,
               color: 'primary.main',
+              fontSize: { xxs: '.9rem', md: '1rem' },
               '& .MuiAutocomplete-option': {
+                minHeight: { xxs: 'unset' },
                 py: 0.5,
                 borderRadius: '3px',
                 color: 'primary.main',
@@ -73,7 +74,7 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
             }}
             sx={{
               '& input::placeholder': {
-                opacity: .65,
+                opacity: 0.65,
               },
               '& .MuiOutlinedInput-root': {
                 border: 'none',
