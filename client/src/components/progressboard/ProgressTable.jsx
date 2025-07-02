@@ -83,7 +83,7 @@ const ProgressTable = ({
           scrollbarColor: `${alpha(theme.palette.background.paper, 0.7)} ${alpha(theme.palette.primary.main, 0.3)}`,
         }}
       >
-        <Table stickyHeader aria-label="team/participant progress table">
+        <Table stickyHeader aria-label='team/participant progress table'>
           <TableHeaderRow columns={columns} />
           <TableDataRows
             columns={columns}
@@ -105,7 +105,7 @@ const ProgressTable = ({
 
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
-          component="div"
+          component='div'
           count={teams.length}
           rowsPerPage={rowsPerPage}
           page={page}
