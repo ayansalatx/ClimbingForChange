@@ -26,6 +26,7 @@ const AutoScrollTable = ({ teams, columns, loading }) => {
   return (
     <Paper
       sx={{
+        height: '100%',
         width: '100%',
         tableLayout: 'fixed',
         backgroundColor: 'transparent',
@@ -44,6 +45,8 @@ const AutoScrollTable = ({ teams, columns, loading }) => {
           <Box
             sx={{
               height: '100%',
+              width: '100%',
+              pb: '3rem',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',

@@ -1,4 +1,4 @@
-import { alpha, Box, Typography } from '@mui/material'
+import { alpha, Box, LinearProgress, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
@@ -125,15 +125,21 @@ const ProgressBoardFullscreen = () => {
                 alignContent: 'center',
               }}
             >
-              <Typography
-                variant="h1"
-                color="secondary.main"
-                fontWeight={'bold'}
-                textTransform={'uppercase'}
-                sx={{ fontSize: '5rem', fontStyle: 'italic' }}
-              >
-                {eventName}
-              </Typography>
+              {loading ? (
+                <Box sx={{ width: '50%', alignSelf: 'center' }}>
+                  <LinearProgress color="secondary" />
+                </Box>
+              ) : (
+                <Typography
+                  variant="h1"
+                  color="secondary.main"
+                  fontWeight={'bold'}
+                  textTransform={'uppercase'}
+                  sx={{ fontSize: '5rem', fontStyle: 'italic' }}
+                >
+                  {eventName}
+                </Typography>
+              )}
             </Box>
           </Box>
 
