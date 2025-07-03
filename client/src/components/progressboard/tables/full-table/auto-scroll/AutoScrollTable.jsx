@@ -26,7 +26,6 @@ const AutoScrollTable = ({ teams, columns, loading }) => {
   return (
     <Paper
       sx={{
-        height: '100%',
         width: '100%',
         tableLayout: 'fixed',
         backgroundColor: 'transparent',
@@ -46,13 +45,11 @@ const AutoScrollTable = ({ teams, columns, loading }) => {
             sx={{
               height: '100%',
               width: '100%',
-              pb: '3rem',
               display: 'flex',
               flexGrow: 1,
               alignItems: 'center',
               justifyContent: 'center',
               background: `linear-gradient(to right, ${alpha(theme.palette.primary.main, 0.8)}, ${alpha(theme.palette.primary.main, 0.3)}, ${alpha(theme.palette.primary.main, 0.8)})`,
-              color: 'white',
               fontSize: '2rem',
             }}
           >
