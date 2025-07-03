@@ -95,6 +95,7 @@ const EventManager = () => {
   useEffect(() => {
     fetchEvents()
     fetchLocations()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [displayAlert])
 
   const handleAddEvent = async (eventData) => {

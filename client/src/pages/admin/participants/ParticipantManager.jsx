@@ -6,7 +6,6 @@ import ParticipantTable from '../../../components/admin/forms/participantforms/P
 import AddParticipantModal from '../../../components/admin/modals/ParticipantModal'
 import { useAlert } from '../../../hooks/useAlert.js'
 import { getAllParticipants } from '../../../services/participantService'
-//import { getAllTeams } from '../../../services/teamService.js'
 
 const ParticipantManager = () => {
   const [participants, setParticipants] = useState([])
