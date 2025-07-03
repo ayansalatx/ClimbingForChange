@@ -89,14 +89,14 @@ const ProgressBoardFullscreen = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const handleEsc = (event) => {
-      if (event.key === 'Escape') {
+    const handleSpace = (event) => {
+      if (event.code === 'Space') {
         navigate('/progress')
       }
     }
 
-    window.addEventListener('keydown', handleEsc)
-    return () => window.removeEventListener('keydown', handleEsc)
+    window.addEventListener('keydown', handleSpace)
+    return () => window.removeEventListener('keydown', handleSpace)
   }, [navigate])
 
   // Load Team data from server
@@ -231,7 +231,7 @@ const ProgressBoardFullscreen = () => {
                   fontStyle: 'italic',
                 }}
               >
-                {eventName}
+                Climb Progress
               </Typography>
             </Box>
           </Box>

@@ -154,6 +154,7 @@ const ProgressBoard = () => {
       }}
     >
       {/* https://pixabay.com/videos/search/terrain%20blue%20gray%20mountain/ */}
+
       {!isXSmall && (
         <video
           src="/assets/mountain-with-way-points.mp4"
@@ -207,6 +208,7 @@ const ProgressBoard = () => {
               },
             }}
           >
+
             {/* Logo */}
             <Box sx={{ mb: { sm: 0.5 } }}>
               <Box

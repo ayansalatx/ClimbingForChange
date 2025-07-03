@@ -22,7 +22,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
     <React.Fragment>
       <TableRow
         hover
-        role="checkbox"
+        role='checkbox'
         tabIndex={-1}
         sx={{
           height: { sm: '3.5rem' } ,

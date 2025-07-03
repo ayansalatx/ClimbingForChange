@@ -17,6 +17,8 @@ const AutoScrollTable = ({ teams, columns, loading }) => {
   const [page, setPage] = useState(0)
   const rowsPerPage = 10
 
+  const dblTeams = [...teams, ...teams]
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
   }
@@ -24,6 +26,7 @@ const AutoScrollTable = ({ teams, columns, loading }) => {
   return (
     <Paper
       sx={{
+        height: '100%',
         width: '100%',
         tableLayout: 'fixed',
         backgroundColor: 'transparent',
@@ -42,6 +45,8 @@ const AutoScrollTable = ({ teams, columns, loading }) => {
           <Box
             sx={{
               height: '100%',
+              width: '100%',
+              pb: '3rem',
               display: 'flex',
               flexGrow: 1,
               alignItems: 'center',
@@ -55,7 +60,7 @@ const AutoScrollTable = ({ teams, columns, loading }) => {
           </Box>
         ) : (
           <Table aria-label="auto scrolling table" size="small">
-            <ScrollingTableRow columns={columns} teams={teams} />
+            <ScrollingTableRow columns={columns} teams={dblTeams} />
           </Table>
         )}
       </TableContainer>

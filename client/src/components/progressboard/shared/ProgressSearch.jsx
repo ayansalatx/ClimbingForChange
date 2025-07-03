@@ -25,9 +25,9 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
     >
       {/* Use MUI Autocomplete to display search suggestions for teams */}
       <Autocomplete
-        size="small"
+        size='small'
         freeSolo // Allow any input - not limited to the options
-        id="progress-search"
+        id='progress-search'
         disableClearable
         options={teamNames} // List of team names as suggestions
         inputValue={searchString}
