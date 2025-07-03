@@ -13,6 +13,7 @@ import {
   getAllParticipants,
 } from '../../../services/participantService'
 import { getAllTeams } from '../../../services/teamService.js'
+import { getAllEvents } from '../../../services/eventService.js'
 
 const fullColumns = [
   { id: 'firstName', label: 'First Name', align: 'left', width: '30%' },
@@ -28,6 +29,8 @@ const ParticipantManager = () => {
   const [selectedParticipant, setSelectedParticipant] = useState(null)
   const [deletedParticipant, setDeletedParticipant] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [events, setEvents] = useState([])
+  const [selectedEvent, setSelectedEvent] = useState(null)
 
   const displayAlert = useAlert()
 
@@ -44,6 +47,9 @@ const ParticipantManager = () => {
 
         const teamsList = await getAllTeams()
         setTeams(teamsList)
+
+        const eventsList = await getAllEvents()
+        setEvents(eventsList)
 
         displayAlert(
           'Participants Loaded',
@@ -152,7 +158,11 @@ const ParticipantManager = () => {
     }
     setPopupOpen(false)
   }
-
+  console.log('selectedEvent:', selectedEvent)
+  
+  const filteredParticipants = selectedEvent
+    ? participants.filter((p) => p.eventId === selectedEvent.id)
+    : participants
   return (
     <Box
       sx={{
@@ -170,8 +180,11 @@ const ParticipantManager = () => {
         tableTitle="Participants"
         tableIcon={PersonIcon}
         tableColumns={fullColumns}
-        tableData={participants}
+        tableData={filteredParticipants}
         loading={loading}
+        selectedEvent={selectedEvent}
+        eventsForDropdown={events}
+        setSelectedEvent={setSelectedEvent}
         onAddClick={onAdd}
         onEditClick={onEdit}
         onDeleteClick={onDelete}

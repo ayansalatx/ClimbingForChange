@@ -9,6 +9,7 @@ export const getAllParticipants = async () => {
   return participants
 }
 
+
 export const uploadParticipants = async (participantsFromCSV) => {
   const res = await api.post('/participants/upload', participantsFromCSV)
   return res.data
