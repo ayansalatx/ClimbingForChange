@@ -48,14 +48,17 @@ const ParticipantUpload = () => {
           })
 
           setRows(rowsWithRenamedHeaders)
+          event.target.value = ''
         },
         error: (err) => {
           console.error(err)
           displayAlert('Loading Error', `Error while loading file ${err.message}.`, 'error')
+          event.target.value = ''
         }
       })
     } else {
       displayAlert('Loading Error', 'Not a csv file.', 'error')
+      event.target.value = ''
       return
     }
   }
