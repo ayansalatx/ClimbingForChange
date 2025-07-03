@@ -154,7 +154,7 @@ const HillManager = () => {
         tableTitle="Hills"
         tableIcon={HikingIcon} 
         tableColumns={fullColumns}
-        tableData={hills}
+        tableData={hills.map(hill => ({ ...hill, active: true }))}
         showInactive={true}
         setShowInactive={() => {}} 
         eventsForDropdown={[]}
