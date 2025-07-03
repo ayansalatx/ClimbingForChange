@@ -13,6 +13,7 @@ import rfidtagRoutes from './src/routes/rfidtag.js'
 import teamsRoutes from './src/routes/team.js'
 import lapRoutes from './src/routes/lap.js'
 import hillRoutes from './src/routes/hill.js'
+import uploadCSVRoutes from './src/routes/uploadCSV.js'
 
 const app = express()
 const openapiDoc = YAML.load('./openapi.yaml')
@@ -37,6 +38,7 @@ appRouter.use('/hills', hillRoutes)
 appRouter.use('/rfidtags', rfidtagRoutes)
 appRouter.use('/teams', teamsRoutes)
 appRouter.use('/laps', lapRoutes)
+appRouter.use('/uploadcsv', uploadCSVRoutes)
 
 app.use('/api', appRouter)
 

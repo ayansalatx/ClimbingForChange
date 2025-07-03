@@ -11,7 +11,7 @@ import Papa from 'papaparse'
 import { useState } from 'react'
 
 import { useAlert } from '../../../hooks/useAlert'
-import { uploadParticipants } from '../../../services/participantService'
+import { uploadCSV } from '../../../services/uploadcsv'
 
 const ParticipantUpload = () => {
   const theme = useTheme()
@@ -62,7 +62,7 @@ const ParticipantUpload = () => {
 
   const handleUpload = async() => {
     try {
-      await uploadParticipants(rows)
+      await uploadCSV(rows)
       displayAlert('Uploaded', `Successfully uploaded ${rows.length}.`, 'success')
       setRows([])
     } catch (error) {
