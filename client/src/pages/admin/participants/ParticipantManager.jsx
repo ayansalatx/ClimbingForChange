@@ -63,7 +63,7 @@ const ParticipantManager = () => {
           fontFamily: 'Gibson, sans-serif',
           textTransform: 'uppercase',
           color: '#CDDC29',
-          letterSpacing: '0.05em'
+          letterSpacing: '0.05em',
         }}
       >
         Participants
@@ -74,7 +74,7 @@ const ParticipantManager = () => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          marginBottom: '16px'
+          marginBottom: '16px',
         }}
       >
         <SearchBar value={searchTerm} onChange={setSearchTerm} />
@@ -83,7 +83,7 @@ const ParticipantManager = () => {
           sx={{
             backgroundColor: '#c9d82c',
             color: 'black',
-            '&:hover': { backgroundColor: '#b3c623' }
+            '&:hover': { backgroundColor: '#b3c623' },
           }}
           onClick={() => setPopupOpen(true)}
         >

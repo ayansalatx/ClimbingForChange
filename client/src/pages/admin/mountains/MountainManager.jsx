@@ -19,21 +19,21 @@ const fullColumns = [
     label: 'Mountain Name', 
     width: '40%', 
     align: 'left',
-    format: (value) => value || 'Unnamed Mountain'
+    format: (value) => value || 'Unnamed Mountain',
   },
   { 
     id: 'totalElevation', 
     label: 'Elevation', 
     width: '30%', 
     align: 'center',
-    format: (value) => value ? value.toString() : '0'
+    format: (value) => value ? value.toString() : '0',
   },
   { 
     id: 'elevationUnit', 
     label: 'Unit', 
     width: '30%', 
     align: 'center',
-    format: (value) => value || 'FT'
+    format: (value) => value || 'FT',
   },
 ]
 
@@ -50,7 +50,7 @@ const MountainManager = () => {
     try {
       const mountainsList = await getMountains()
       
-      const mountainsWithIds = mountainsList.map(mountain => {
+      const mountainsWithIds = mountainsList.map((mountain) => {
         // Ensure all required fields have default values
         const processedMountain = {
           id: mountain._id || mountain.id,
@@ -59,7 +59,7 @@ const MountainManager = () => {
           elevationUnit: mountain.elevationUnit || 'FT',
           imageURL: mountain.imageURL || '',
           active: mountain.active !== undefined ? mountain.active : true,
-          ...mountain // Spread the rest of the properties
+          ...mountain, // Spread the rest of the properties
         }
         
         return processedMountain
@@ -78,7 +78,7 @@ const MountainManager = () => {
       try {
         const mountainsList = await getMountains()
         
-        const mountainsWithIds = mountainsList.map(mountain => {
+        const mountainsWithIds = mountainsList.map((mountain) => {
           // Ensure all required fields have default values
           const processedMountain = {
             id: mountain._id || mountain.id,
@@ -87,7 +87,7 @@ const MountainManager = () => {
             elevationUnit: mountain.elevationUnit || 'FT',
             imageURL: mountain.imageURL || '',
             active: mountain.active !== undefined ? mountain.active : true,
-            ...mountain // Spread the rest of the properties
+            ...mountain, // Spread the rest of the properties
           }
           
           return processedMountain
@@ -115,7 +115,7 @@ const MountainManager = () => {
       totalElevation: '0',
       elevationUnit: 'FT',
       imageURL: '',
-      active: true
+      active: true,
     })
     setPopupOpen(true)
   }
@@ -147,7 +147,7 @@ const MountainManager = () => {
       await deleteMountain(mountainToDelete.id)
       
       // Update the UI by removing the deleted mountain
-      setMountains(prev => prev.filter(m => m.id !== mountainToDelete.id))
+      setMountains((prev) => prev.filter((m) => m.id !== mountainToDelete.id))
       
       displayAlert(
         'Success',
@@ -181,8 +181,8 @@ const MountainManager = () => {
         savedMountain = await updateMountain(editedMountain.id, mountainData)
         
         
-        setMountains(prev => 
-          prev.map(mountain => 
+        setMountains((prev) => 
+          prev.map((mountain) => 
             mountain.id === editedMountain.id 
               ? { ...savedMountain, id: savedMountain._id || savedMountain.id }
               : mountain
@@ -199,7 +199,7 @@ const MountainManager = () => {
         const { ...newMountainData } = mountainData
         savedMountain = await createMountain(newMountainData)
         
-        setMountains(prev => [
+        setMountains((prev) => [
           ...prev,
           {
             ...savedMountain,

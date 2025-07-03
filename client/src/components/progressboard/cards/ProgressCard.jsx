@@ -10,7 +10,7 @@ const ProgressCard = ({ team }) => {
         color: 'primary.main',
         display: 'flex',
         flexDirection: 'column',
-        gap: {xxs: 0.2, xs: 0.5},
+        gap: { xxs: 0.2, xs: 0.5 },
       }}
     >
       <Box

@@ -35,7 +35,7 @@ const ParticipantTable = ({ searchTerm, participant }) => {
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 500, width: 1200}}>
+      <TableContainer sx={{ maxHeight: 500, width: 1200 }}>
         <Table stickyHeader aria-label='sticky table' sx={{}}>
           <TableHeaderRow columns={fullColumns} />
           <TableDataRows

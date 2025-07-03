@@ -39,7 +39,7 @@ const FullscreenToggleButton = ({ eventId }) => {
       <IconButton
         onClick={handleClick}
         sx={{
-          visibility: {xs: 'hidden', sm: 'visible', md: 'visible', lg: 'visible', xl: 'visible'},
+          visibility: { xs: 'hidden', sm: 'visible', md: 'visible', lg: 'visible', xl: 'visible' },
           ml: '.25rem',
           color: 'background.paper',
           p: {

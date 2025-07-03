@@ -30,7 +30,7 @@ const AddParticipantModal = ({ open, teamNames = [], onClose, onAdd }) => {
     const participantData = {
       firstName,
       lastName,
-      team: selectedTeam || null
+      team: selectedTeam || null,
     }
 
     onAdd(participantData)

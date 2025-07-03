@@ -170,7 +170,7 @@ const ProgressBoardFullscreen = () => {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'flex-end',
-              mb: {xxs: 1, xs: 1, sm: 2, md: 2.5, lg: 3, xl: 3 },
+              mb: { xxs: 1, xs: 1, sm: 2, md: 2.5, lg: 3, xl: 3 },
             }}
           >
             <Box

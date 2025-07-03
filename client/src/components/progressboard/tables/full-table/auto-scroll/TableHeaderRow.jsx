@@ -20,7 +20,7 @@ const TableHeaderRow = ({ columns }) => {
               sx={{
                 position: 'sticky',
                 width: column.width,
-                px: {xxs: .5, md: 2},
+                px: { xxs: .5, md: 2 },
                 background: 'transparent',
                 color: 'background.default',
                 fontWeight: 'bold',

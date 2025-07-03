@@ -8,7 +8,7 @@ const TableHeaderRow = ({ columns }) => {
           <TableCell
             key={column.id}
             align={column.align || 'left'}
-            sx={{ minWidth: column.minWidth, fontWeight: 'bold'}}
+            sx={{ minWidth: column.minWidth, fontWeight: 'bold' }}
           >
             {column.label}
           </TableCell>

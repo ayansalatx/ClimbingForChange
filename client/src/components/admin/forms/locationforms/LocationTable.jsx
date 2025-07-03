@@ -2,7 +2,7 @@ import PlaceIcon from '@mui/icons-material/Place'
 import {
   Box,
   TableContainer,
-  TablePagination} from '@mui/material'
+  TablePagination } from '@mui/material'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import React, { useState } from 'react'
