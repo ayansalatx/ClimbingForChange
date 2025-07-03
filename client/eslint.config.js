@@ -68,7 +68,7 @@ export default [
       '@stylistic/quotes': ['error', 'single'],
       '@stylistic/semi': ['error', 'never'],
       '@stylistic/linebreak-style': ['error', 'unix'],
-
+      '@stylistic/linebreak-style': 'off',
       'react/prop-types': 'off',
     },
   },

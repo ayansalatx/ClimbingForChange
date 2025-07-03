@@ -1,9 +1,10 @@
+import HikingIcon from '@mui/icons-material/Hiking'
 import { Box } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
 import HillModal from '../../../components/admin/modals/HillModal.jsx'
-import HillsTable from '../../../components/admin/tables/HillsTable.jsx'
+import DataTable from '../../../components/admin/tables/DataTable.jsx'  
 import { useAlert } from '../../../hooks/useAlert.js'
 import {
   addNewHill,
@@ -37,7 +38,6 @@ const HillManager = () => {
         const hillList = await getAllHills()
         setHills(hillList)
         const locationList = await getAllLocations() 
-        
         setLocations(locationList)
         displayAlert(
           'Hills Loaded',
@@ -150,14 +150,21 @@ const HillManager = () => {
         px: '1.5rem',
       }}
     >
-      <HillsTable
-        tableTitle={'Hills'}
+      <DataTable
+        tableTitle="Hills"
+        tableIcon={HikingIcon} 
         tableColumns={fullColumns}
         tableData={hills}
+        showInactive={true}
+        setShowInactive={() => {}} 
+        eventsForDropdown={[]}
+        selectedEvent={null}
+        setSelectedEvent={() => {}}
         onAddClick={onAdd}
         onEditClick={onEdit}
         onDeleteClick={onDelete}
       />
+
       <HillModal
         open={popupOpen}
         onClose={() => {
