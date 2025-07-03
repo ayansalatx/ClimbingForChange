@@ -27,7 +27,6 @@ const DataTable = ({
   eventsForDropdown,
   selectedEvent,
   setSelectedEvent,
-  activeOnChange,
   onAddClick,
   onEditClick,
   onDeleteClick,
