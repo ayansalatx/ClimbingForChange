@@ -109,7 +109,7 @@ const HillModal = ({ open, onClose, onSave, hillData, onLocation }) => {
               required
             >
               <MenuItem value="KM">Kilometers</MenuItem>
-              <MenuItem value="ML">Miles</MenuItem>
+              <MenuItem value="MI">Miles</MenuItem>
             </Select>
           </FormControl>
 

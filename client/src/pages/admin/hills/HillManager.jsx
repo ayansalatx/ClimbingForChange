@@ -106,26 +106,26 @@ const HillManager = () => {
     setDeletedHill(null)
   }
 
-const handleSave = async (hillData) => {
-  if (!hillData) return
-  setLoading(true)
-  try {
-    if (hillData.id) {
-      await editHill(hillData.id, hillData)
-      displayAlert('Edited Hill', `Edited ${hillData.name} hill.`, 'success')
-    } else {
-      await addNewHill(hillData)
-      displayAlert('New Hill Added', `Added ${hillData.name} hill.`, 'success')
+  const handleSave = async (hillData) => {
+    if (!hillData) return
+    setLoading(true)
+    try {
+      if (hillData.id) {
+        await editHill(hillData.id, hillData)
+        displayAlert('Edited Hill', `Edited ${hillData.name} hill.`, 'success')
+      } else {
+        await addNewHill(hillData)
+        displayAlert('New Hill Added', `Added ${hillData.name} hill.`, 'success')
+      }
+      const newHillList = await getAllHills()
+      setHills(newHillList)
+      setPopupOpen(false)
+    } catch (error) {
+      displayAlert('Error', `Failed to save hill: ${error.message}`, 'error')
+    } finally {
+      setLoading(false)
     }
-    const newHillList = await getAllHills()
-    setHills(newHillList)
-    setPopupOpen(false)
-  } catch (error) {
-    displayAlert('Error', `Failed to save hill: ${error.message}`, 'error')
-  } finally {
-    setLoading(false)
   }
-}
 
   return (
     <Box
