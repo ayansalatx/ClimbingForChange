@@ -1,13 +1,11 @@
+import PersonIcon from '@mui/icons-material/Person'
+import { Box } from '@mui/material'
 import { useEffect, useState } from 'react'
 
-import { Box } from '@mui/material'
-import PersonIcon from '@mui/icons-material/Person'
-
-import AddParticipantModal from '../../../components/admin/modals/ParticipantModal'
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
+import AddParticipantModal from '../../../components/admin/modals/ParticipantModal'
 import DataTable from '../../../components/admin/tables/DataTable.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
-
 import {
   addNewParticipant,
   deleteParticipant,
