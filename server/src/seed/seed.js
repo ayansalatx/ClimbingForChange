@@ -16,14 +16,30 @@ const seedDatabase = async () => {
 
     console.log('Clearing existing data...')
     await Promise.all([
-      Location.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }), // Drop collection, ignore if not found
-      Mountain.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }),
-      Hill.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }),
-      RFIDTag.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }),
-      Event.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }),
-      Team.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }),
-      Participant.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }),
-      Lap.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }),
+      Location.collection.drop().catch((e) => {
+        if (e.codeName !== 'NamespaceNotFound') throw e
+      }), // Drop collection, ignore if not found
+      Mountain.collection.drop().catch((e) => {
+        if (e.codeName !== 'NamespaceNotFound') throw e
+      }),
+      Hill.collection.drop().catch((e) => {
+        if (e.codeName !== 'NamespaceNotFound') throw e
+      }),
+      RFIDTag.collection.drop().catch((e) => {
+        if (e.codeName !== 'NamespaceNotFound') throw e
+      }),
+      Event.collection.drop().catch((e) => {
+        if (e.codeName !== 'NamespaceNotFound') throw e
+      }),
+      Team.collection.drop().catch((e) => {
+        if (e.codeName !== 'NamespaceNotFound') throw e
+      }),
+      Participant.collection.drop().catch((e) => {
+        if (e.codeName !== 'NamespaceNotFound') throw e
+      }),
+      Lap.collection.drop().catch((e) => {
+        if (e.codeName !== 'NamespaceNotFound') throw e
+      }),
     ])
     console.log('All collections cleared.')
 
@@ -33,11 +49,84 @@ const seedDatabase = async () => {
     console.log('Seeding Locations, Mountains, and RFID Tags...')
     const locations = await Location.insertMany([
       {
-        name: 'Down Town Park',
-        address: '123 Park Ave',
+        name: 'Rabbit Hill Snow Resort',
+        address: '20715 57 Ave SW',
         city: 'Edmonton',
         provState: 'AB',
-        country: 'Canada'
+        country: 'Canada',
+        active: true,
+      },
+      {
+        name: 'Sunshine Village',
+        address: '1 Sunshine Access Rd',
+        city: 'Banff',
+        provState: 'AB',
+        country: 'Canada',
+        active: true,
+      },
+      {
+        name: 'Lake Louise Ski Resort',
+        address: '1 Whitehorn Rd',
+        city: 'Lake Louise',
+        provState: 'AB',
+        country: 'Canada',
+        active: true,
+      },
+      {
+        name: 'Marmot Basin',
+        address: '1 Marmot Rd',
+        city: 'Jasper',
+        provState: 'AB',
+        country: 'Canada',
+        active: true,
+      },
+      {
+        name: 'Nakiska Ski Area',
+        address: '2 Mt Allan Dr',
+        city: 'Kananaskis',
+        provState: 'AB',
+        country: 'Canada',
+        active: true,
+      },
+      {
+        name: 'Revelstoke Mountain Resort',
+        address: '2950 Camozzi Rd',
+        city: 'Revelstoke',
+        provState: 'BC',
+        country: 'Canada',
+        active: true,
+      },
+      {
+        name: 'Whistler Blackcomb',
+        address: '4545 Blackcomb Way',
+        city: 'Whistler',
+        provState: 'BC',
+        country: 'Canada',
+        active: true,
+      },
+      {
+        name: 'Big White Ski Resort',
+        address: '5315 Big White Rd',
+        city: 'Kelowna',
+        provState: 'BC',
+        country: 'Canada',
+        active: true,
+      },
+      {
+        name: 'SilverStar Mountain Resort',
+        address: '123 Shortt St',
+        city: 'Vernon',
+        provState: 'BC',
+        country: 'Canada',
+        active: true,
+      },
+      {
+        name: 'Fernie Alpine Resort',
+        address: '5339 Fernie Ski Hill Rd',
+        city: 'Fernie',
+        provState: 'BC',
+        country: 'Canada',
+        active: true,
       },
     ])
 
@@ -46,19 +135,22 @@ const seedDatabase = async () => {
         name: 'Everest',
         totalElevation: 29029,
         elevationUnit: 'FT',
-        imageURL: 'https://images.unsplash.com/photo-1486911278844-a81c5267e227?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+        imageURL:
+          'https://images.unsplash.com/photo-1486911278844-a81c5267e227?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       },
       {
         name: 'Denali',
         totalElevation: 20310,
         elevationUnit: 'FT',
-        imageURL: 'https://plus.unsplash.com/premium_photo-1674500519353-c816e0c06ad6?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+        imageURL:
+          'https://plus.unsplash.com/premium_photo-1674500519353-c816e0c06ad6?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       },
       {
         name: 'Rainier',
         totalElevation: 14410,
         elevationUnit: 'FT',
-        imageURL: 'https://plus.unsplash.com/premium_photo-1673264933212-d78737f38e48?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8TW91bnQlMjBSYWluaWVyfGVufDB8fDB8fHww'
+        imageURL:
+          'https://plus.unsplash.com/premium_photo-1673264933212-d78737f38e48?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8TW91bnQlMjBSYWluaWVyfGVufDB8fDB8fHww',
       },
     ])
 
@@ -70,17 +162,16 @@ const seedDatabase = async () => {
     ])
     console.log('Seeded base data successfully.')
 
-
     // 2. Seed Hills (depends on Location)
     console.log('Seeding Hills...')
     const hills = await Hill.insertMany([
       {
         location: locations[0]._id,
-        name: 'The Grinder',
+        name: 'Rabbit Hill Loop A',
         lapElevationGain: 217,
         lapDistance: 0.75,
         elevationUnit: 'FT',
-        distanceUnit: 'KM'
+        distanceUnit: 'KM',
       },
       {
         location: locations[0]._id,
@@ -88,7 +179,7 @@ const seedDatabase = async () => {
         lapElevationGain: 120,
         lapDistance: 0.5,
         elevationUnit: 'FT',
-        distanceUnit: 'KM'
+        distanceUnit: 'KM',
       },
     ])
     console.log('Seeded Hills successfully.')
@@ -102,59 +193,103 @@ const seedDatabase = async () => {
         startDateTime: new Date('2024-09-14T08:00:00Z'),
         endDateTime: new Date('2024-09-14T18:00:00Z'),
         // Define which mountains and hills are available for this event
-        availableMountains: [mountains[0]._id, mountains[1]._id, mountains[2]._id],
-        availableHills: [hills[0]._id, hills[1]._id],
+        mountains: [mountains[0]._id, mountains[1]._id, mountains[2]._id],
+        hills: [hills[0]._id, hills[1]._id],
+        active: false,
+      },
+      {
+        location: locations[0]._id,
+        name: 'Climb for Change 2025',
+        startDateTime: new Date('2025-09-27T15:00:00Z'),
+        endDateTime: new Date('2025-09-28T15:00:00Z'),
+        mountains: [mountains[0]._id, mountains[1]._id, mountains[2]._id],
+        hills: [hills[0]._id],
+      },
+      {
+        location: locations[0]._id,
+        name: 'Climb for Change 2026',
+        startDateTime: new Date('2026-09-26T15:00:00Z'),
+        endDateTime: new Date('2026-09-27T15:00:00Z'),
+        mountains: [mountains[0]._id, mountains[1]._id, mountains[2]._id],
+        hills: [hills[0]._id],
+      },
+      {
+        location: locations[0]._id,
+        name: 'Climb for Change 2027',
+        startDateTime: new Date('2027-09-25T15:00:00Z'),
+        endDateTime: new Date('2027-09-26T15:00:00Z'),
+        mountains: [mountains[0]._id, mountains[1]._id, mountains[2]._id],
+        hills: [hills[0]._id],
+      },
+      {
+        location: locations[0]._id,
+        name: 'Climb for Change 2028',
+        startDateTime: new Date('2028-09-23T15:00:00Z'),
+        endDateTime: new Date('2028-09-24T15:00:00Z'),
+        mountains: [mountains[0]._id, mountains[1]._id, mountains[2]._id],
+        hills: [hills[0]._id],
+      },
+      {
+        location: locations[0]._id,
+        name: 'Climb for Change 2029',
+        startDateTime: new Date('2029-09-22T15:00:00Z'),
+        endDateTime: new Date('2029-09-23T15:00:00Z'),
+        mountains: [mountains[0]._id, mountains[1]._id, mountains[2]._id],
+        hills: [hills[0]._id],
       },
     ])
     console.log('Seeded Events successfully.')
 
-
     // 4. Seed Teams (depends on Event, Mountain, Hill, RFIDTag)
     console.log('Seeding Teams...')
     // We calculate required laps/distance for realism
-    const everestData = mountains.find(m => m.name === 'Everest')
-    const grinderHillData = hills.find(h => h.name === 'The Grinder')
-    const everestLaps = Math.ceil(everestData.totalElevation / grinderHillData.lapElevationGain) // ~134
+    const everestData = mountains.find((m) => m.name === 'Everest')
+    const hillAData = hills.find((h) => h.name === 'Rabbit Hill Loop A')
+    const everestLaps = Math.ceil(
+      everestData.totalElevation / grinderHillData.lapElevationGain
+    ) // ~134
     const everestDistance = everestLaps * grinderHillData.lapDistance // ~100.5
 
-    const denaliData = mountains.find(m => m.name === 'Denali')
-    const denaliLaps = Math.ceil(denaliData.totalElevation / grinderHillData.lapElevationGain) // ~94
+    const denaliData = mountains.find((m) => m.name === 'Denali')
+    const denaliLaps = Math.ceil(
+      denaliData.totalElevation / grinderHillData.lapElevationGain
+    ) // ~94
     const denaliDistance = denaliLaps * grinderHillData.lapDistance // ~70.5
-    
+
     const teams = await Team.insertMany([
       {
         event: events[0]._id,
         mountain: everestData._id,
-        hill: grinderHillData._id,
+        hill: hillAData._id,
         rfidTagId: rfidTags[0]._id,
         name: 'Summit Striders',
         isSoloTeam: false,
         lapsRequired: everestLaps,
         totalDistanceRequired: everestDistance,
-        startDateTime: new Date('2024-09-14T08:05:00Z')
+        startDateTime: new Date('2024-09-14T08:05:00Z'),
       },
       {
         event: events[0]._id,
         mountain: denaliData._id,
-        hill: grinderHillData._id,
+        hill: hillAData._id,
         rfidTagId: rfidTags[1]._id,
         name: 'Peak Performers',
         isSoloTeam: false,
         lapsRequired: denaliLaps,
         totalDistanceRequired: denaliDistance,
-        startDateTime: new Date('2024-09-14T08:10:00Z')
+        startDateTime: new Date('2024-09-14T08:10:00Z'),
       },
       {
         event: events[0]._id,
-        mountain: mountains.find(m => m.name === 'Rainier')._id,
-        hill: hills.find(h => h.name === 'Easy Loop')._id,
+        mountain: mountains.find((m) => m.name === 'Rainier')._id,
+        hill: hills.find((h) => h.name === 'Easy Loop')._id,
         rfidTagId: rfidTags[2]._id,
         name: 'Jane Doe',
         isSoloTeam: true,
         lapsRequired: 121, // 14410 / 120
         totalDistanceRequired: 60.5, // 121 * 0.5
-        startDateTime: new Date('2024-09-14T08:15:00Z')
-      }
+        startDateTime: new Date('2024-09-14T08:15:00Z'),
+      },
     ])
     console.log('Seeded Teams successfully.')
 
@@ -182,27 +317,25 @@ const seedDatabase = async () => {
         teamId: teams[0]._id,
         rfidTagId: teams[0].rfidTagId,
         startDateTime: new Date('2024-09-14T08:05:01Z'),
-        endDateTime: new Date('2024-09-14T08:12:31Z')
+        endDateTime: new Date('2024-09-14T08:12:31Z'),
       },
       {
         teamId: teams[0]._id,
         rfidTagId: teams[0].rfidTagId,
         startDateTime: new Date('2024-09-14T08:12:32Z'),
-        endDateTime: new Date('2024-09-14T08:20:05Z')
+        endDateTime: new Date('2024-09-14T08:20:05Z'),
       },
       // 1 lap for Peak Performers
       {
         teamId: teams[1]._id,
         rfidTagId: teams[1].rfidTagId,
         startDateTime: new Date('2024-09-14T08:10:01Z'),
-        endDateTime: new Date('2024-09-14T08:19:45Z')
-      }
+        endDateTime: new Date('2024-09-14T08:19:45Z'),
+      },
     ])
     console.log('Seeded Laps successfully.')
 
-
     console.log('\n✅ ✅ ✅ Database seeding complete! ✅ ✅ ✅')
-
   } catch (error) {
     console.error('❌ Error seeding database:', error)
     process.exit(1)
