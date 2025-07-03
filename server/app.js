@@ -38,7 +38,7 @@ appRouter.use('/hills', hillRoutes)
 appRouter.use('/rfidtags', rfidtagRoutes)
 appRouter.use('/teams', teamsRoutes)
 appRouter.use('/laps', lapRoutes)
-appRouter.use('/uploadcsv', uploadCSVRoutes)
+appRouter.use('/upload-csv', uploadCSVRoutes)
 
 app.use('/api', appRouter)
 

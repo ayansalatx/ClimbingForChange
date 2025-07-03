@@ -23,8 +23,10 @@
     "express": "^5.1.0",
     "express-async-handler": "^1.2.0",
     "express-validator": "^7.2.1",
+    "fast-csv": "^5.0.2",
     "mongodb": "^6.17.0",
     "mongoose": "^8.15.1",
+    "multer": "^2.0.1",
     "swagger-ui-express": "^5.0.1",
     "yamljs": "^0.3.0"
   },
