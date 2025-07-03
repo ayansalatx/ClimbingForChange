@@ -6,6 +6,7 @@ import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteD
 import AddParticipantModal from '../../../components/admin/modals/ParticipantModal'
 import DataTable from '../../../components/admin/tables/DataTable.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
+import { getAllEvents } from '../../../services/eventService.js'
 import {
   addNewParticipant,
   deleteParticipant,
@@ -13,7 +14,6 @@ import {
   getAllParticipants,
 } from '../../../services/participantService'
 import { getAllTeams } from '../../../services/teamService.js'
-import { getAllEvents } from '../../../services/eventService.js'
 
 const fullColumns = [
   { id: 'firstName', label: 'First Name', align: 'left', width: '30%' },
@@ -42,6 +42,7 @@ const ParticipantManager = () => {
         const participantList = participantListRaw.map((p) => ({
           ...p,
           teamName: p.teamId?.name || '—',
+          eventId: p.teamId?.event || null, 
         }))
         setParticipants(participantList)
 
@@ -50,6 +51,8 @@ const ParticipantManager = () => {
 
         const eventsList = await getAllEvents()
         setEvents(eventsList)
+        console.log('Selected Event:', selectedEvent)
+
 
         displayAlert(
           'Participants Loaded',
@@ -67,7 +70,7 @@ const ParticipantManager = () => {
       }
     }
     loadData()
-  }, [displayAlert])
+  }, [displayAlert, selectedEvent])
 
   const onAdd = () => {
     if (loading) return
@@ -158,11 +161,11 @@ const ParticipantManager = () => {
     }
     setPopupOpen(false)
   }
-  console.log('selectedEvent:', selectedEvent)
-  
+
   const filteredParticipants = selectedEvent
-    ? participants.filter((p) => p.eventId === selectedEvent.id)
-    : participants
+    ? participants.filter(p => String(p.eventId) === String(selectedEvent))
+    : []
+
   return (
     <Box
       sx={{

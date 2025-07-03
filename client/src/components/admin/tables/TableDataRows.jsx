@@ -1,6 +1,7 @@
 import { alpha, TableBody, TableCell, TableRow } from '@mui/material'
 
 import theme from '../../../styles/theme'
+import DeactivateToggle from '../buttons/DeactivateToggle'
 import RowActions from '../buttons/RowActions'
 
 const TableDataRows = ({
@@ -8,6 +9,7 @@ const TableDataRows = ({
   columns = [],
   page,
   rowsPerPage,
+  activeOnChange,
   onEditClick,
   onDeleteClick,
 }) => {
@@ -19,7 +21,7 @@ const TableDataRows = ({
           return (
             <TableRow
               hover
-              role="checkbox"
+              role='checkbox'
               tabIndex={-1}
               key={row.id || index}
               sx={{
@@ -31,18 +33,26 @@ const TableDataRows = ({
               }}
             >
               {columns.map((column) => {
-                const value = row[column.id]
+                const value = row[column.id] ?? ''
+
+                if (column.id === 'activeToggle') {
+                  return (
+                    <TableCell key={column.id} align={column.align || 'left'}>
+                      <DeactivateToggle
+                        checked={row.active}
+                        onChange={activeOnChange}
+                      />
+                    </TableCell>
+                  )
+                }
+
                 return (
                   <TableCell
                     key={column.id}
                     align={column.align || 'left'}
                     sx={{
                       fontSize: '1rem',
-                      color: row.hasOwnProperty('active')
-                        ? row.active
-                          ? 'primary.main'
-                          : 'gray.main'
-                        : 'text.primary',
+                      color: row.active ? 'primary.main' : 'gray.main',
                     }}
                   >
                     {column.format && typeof value === 'number'
@@ -51,9 +61,10 @@ const TableDataRows = ({
                   </TableCell>
                 )
               })}
+
               <TableCell
                 key={row.id}
-                align="center"
+                align={'center'}
                 sx={{ py: 0, minWidth: '5rem' }}
               >
                 <RowActions

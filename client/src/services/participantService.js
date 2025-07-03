@@ -5,10 +5,10 @@ export const getAllParticipants = async () => {
   const participants = res.data.map(p => ({
     ...p,
     teamName: p.teamId ? p.teamId.name : '—',
+    eventId: p.teamId ? p.teamId.event : null,
   }))
   return participants
 }
-
 
 export const uploadParticipants = async (participantsFromCSV) => {
   const res = await api.post('/participants/upload', participantsFromCSV)
