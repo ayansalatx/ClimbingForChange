@@ -25,14 +25,18 @@ export const loginUser = async (req, res) => {
     username: body.username,
   })
 
+  if (!user) {
+    throw new Error('Invalid username')
+  }
+
   const passwordCorrect =
         // Condition: Check if user exists AND password_hash is truthy (exists and not empty)
         user.password_hash
           ? await bcrypt.compare(body.password, user.password_hash)
           : false
 
-  if (!(user && passwordCorrect)) {
-    throw new Error('Invalid username or password')
+  if (!passwordCorrect) {
+    throw new Error('Invalid password')
   }
 
   const token = createJWTToken(user)
