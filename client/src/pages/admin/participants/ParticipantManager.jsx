@@ -197,7 +197,7 @@ const ParticipantManager = () => {
         onClose={() => setPopupOpen(false)}
         onAdd={handleSave}
         participantData={selectedParticipant}
-        teamNames={teams}
+        teamNames={teams.filter(team => String(team.event) === String(selectedEvent))}
       />
       <ConfirmDeleteDialog
         open={deleteConfirmOpen}
