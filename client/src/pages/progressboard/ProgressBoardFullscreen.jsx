@@ -112,11 +112,13 @@ const ProgressBoardFullscreen = () => {
               mb: '1rem',
             }}
           >
-            <img
-              src={C4CFavicon}
-              alt="Climbing for Change Logo"
-              style={{ maxWidth: '7rem', width: 'auto' }}
-            />
+            <Box sx={{ mb: 0.75 }}>
+              <img
+                src={C4CFavicon}
+                alt="Climbing for Change Logo"
+                style={{ maxWidth: '7rem', width: 'auto' }}
+              />
+            </Box>
             <Box
               sx={{
                 display: 'flex',
@@ -125,21 +127,15 @@ const ProgressBoardFullscreen = () => {
                 alignContent: 'center',
               }}
             >
-              {loading ? (
-                <Box sx={{ width: '50%', alignSelf: 'center' }}>
-                  <LinearProgress color="secondary" />
-                </Box>
-              ) : (
-                <Typography
-                  variant="h1"
-                  color="secondary.main"
-                  fontWeight={'bold'}
-                  textTransform={'uppercase'}
-                  sx={{ fontSize: '5rem', fontStyle: 'italic' }}
-                >
-                  {eventName}
-                </Typography>
-              )}
+              <Typography
+                variant="h1"
+                color="secondary.main"
+                fontWeight={'bold'}
+                textTransform={'uppercase'}
+                sx={{ fontSize: '5rem', fontStyle: 'italic' }}
+              >
+                Climb Progress
+              </Typography>
             </Box>
           </Box>
 

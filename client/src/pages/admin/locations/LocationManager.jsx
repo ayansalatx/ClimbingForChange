@@ -22,13 +22,14 @@ const fullColumns = [
 ]
 
 const LocationManager = () => {
+  const [loading, setLoading] = useState(true)
   const [locations, setLocations] = useState([])
   const [showInactive, setShowInactive] = useState(false)
   const [currentLocation, setCurrentLocation] = useState(null)
   const [popupOpen, setPopupOpen] = useState(false)
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
   const [deletedLocation, setDeleteLocation] = useState(null)
- 
+
   const displayAlert = useAlert()
 
   useEffect(() => {
@@ -47,6 +48,8 @@ const LocationManager = () => {
           `Failed to Load Locations: ${error.message}`,
           'error'
         )
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -86,6 +89,8 @@ const LocationManager = () => {
         `Failed to delete ${deletedLocation.name}: ${error.message}`,
         'error'
       )
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -161,6 +166,7 @@ const LocationManager = () => {
         onAddClick={onAdd}
         onEditClick={onEdit}
         onDeleteClick={onDelete}
+        loading={loading}
       />
 
       <LocationModal
