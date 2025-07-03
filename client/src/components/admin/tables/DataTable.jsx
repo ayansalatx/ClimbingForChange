@@ -26,6 +26,7 @@ const DataTable = ({
   eventsForDropdown,
   selectedEvent,
   setSelectedEvent,
+  activeOnChange,
   onAddClick,
   onEditClick,
   onDeleteClick,
@@ -202,6 +203,7 @@ const DataTable = ({
             columns={tableColumns}
             page={page}
             rowsPerPage={rowsPerPage}
+            activeOnChange={activeOnChange}
             onEditClick={onEditClick}
             onDeleteClick={onDeleteClick}
           />

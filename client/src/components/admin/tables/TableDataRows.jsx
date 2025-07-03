@@ -1,4 +1,4 @@
-import { alpha,TableBody, TableCell, TableRow } from '@mui/material'
+import { alpha, TableBody, TableCell, TableRow } from '@mui/material'
 
 import theme from '../../../styles/theme'
 import RowActions from '../buttons/RowActions'
@@ -8,6 +8,7 @@ const TableDataRows = ({
   columns = [],
   page,
   rowsPerPage,
+  activeOnChange,
   onEditClick,
   onDeleteClick,
 }) => {
@@ -31,7 +32,19 @@ const TableDataRows = ({
               }}
             >
               {columns.map((column) => {
-                const value = row[column.id]
+                const value = row[column.id] ?? ''
+
+                if (column.id === 'activeToggle' && useActiveToggle) {
+                  return (
+                    <TableCell key={column.id} align={column.align || 'left'}>
+                      <DeactivateToggle
+                        checked={row.active}
+                        onChange={activeOnChange}
+                      />
+                    </TableCell>
+                  )
+                }
+
                 return (
                   <TableCell
                     key={column.id}
@@ -47,6 +60,7 @@ const TableDataRows = ({
                   </TableCell>
                 )
               })}
+
               <TableCell
                 key={row.id}
                 align={'center'}
