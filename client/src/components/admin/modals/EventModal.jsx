@@ -1,6 +1,8 @@
 import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, TextField, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 
+import TextInput from '../forms/fields/TextInput'
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -13,10 +15,10 @@ const style = {
   borderRadius: 2,
 }
 
-const AddEventModal = ({ open, onClose, onAdd, onEdit ,onLocation, eventToEdit }) => {
+const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, eventToEdit }) => {
   const [eventName, setEventName] = useState('')
   const [location, setLocation] = useState('')
-  const [locations, setLocations] = useState([])  
+  const [locations, setLocations] = useState([])
   const [startDate, setStartDate] = useState('')
   const [startTime, setStartTime] = useState('')
   const [duration, setDuration] = useState('')
@@ -56,10 +58,10 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit ,onLocation, eventToEdit }
 
     const eventData = {
       name: eventName,
-      location: selectedLocation.id, 
+      location: selectedLocation.id,
       startDateTime: start.toISOString(),
       endDateTime: end.toISOString(),
-      hill: [], 
+      hill: [],
       active: true,
     }
 
@@ -82,27 +84,30 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit ,onLocation, eventToEdit }
           {eventToEdit ? 'Edit Event' : 'Add New Event'}
         </Typography>
         <form onSubmit={handleAdd}>
-          <TextField
+          <TextInput
             fullWidth
             label="Event Name"
-            variant="outlined"
             margin="normal"
             value={eventName}
             onChange={(e) => setEventName(e.target.value)}
             required
           />
 
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Location</InputLabel>
+          <FormControl fullWidth margin="normal">
+            <InputLabel id="location-select-label">Location</InputLabel>
             <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
+              labelId="location-select-label"
+              id="location-select"
               value={location}
               label="Location"
               onChange={(e) => setLocation(e.target.value)}
               required
             >
-              {locations.map((location) => <MenuItem value={location.id} key={location.id}> {location.name} </MenuItem> )}
+              {locations.map((loc) => (
+                <MenuItem value={loc.id} key={loc.id}>
+                  {loc.name}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
 
@@ -130,23 +135,22 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit ,onLocation, eventToEdit }
             required
           />
 
-          <TextField
+          <TextInput
             fullWidth
             label="Duration (hours)"
             type="number"
-            variant="outlined"
             margin="normal"
             value={duration}
             onChange={(e) => setDuration(e.target.value)}
             required
           />
-  
+
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
             <Button variant="outlined" onClick={onModalClose}>
               Cancel
             </Button>
             <Button type="submit" variant="contained">
-              {eventToEdit ? 'Save' : 'Create'}              
+              {eventToEdit ? 'Save' : 'Create'}
             </Button>
           </Box>
         </form>

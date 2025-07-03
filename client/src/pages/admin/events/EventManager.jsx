@@ -1,12 +1,17 @@
-import { Box, Typography } from '@mui/material'
-import Button from '@mui/material/Button'
-import { useEffect, useState } from 'react'
 import { Event } from '@mui/icons-material'
-import DataTable from '../../../components/admin/tables/DataTable.jsx'
+import { Box } from '@mui/material'
+import { useEffect, useState } from 'react'
+
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
 import AddEventModal from '../../../components/admin/modals/EventModal.jsx'
+import DataTable from '../../../components/admin/tables/DataTable.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
-import { addEvent, deleteEvent, editEvent,getAllEvents } from '../../../services/eventService.js'
+import {
+  addEvent,
+  deleteEvent,
+  editEvent,
+  getAllEvents,
+} from '../../../services/eventService.js'
 import { getAllLocations } from '../../../services/locationService.js'
 
 const fullColumns = [
@@ -15,7 +20,7 @@ const fullColumns = [
   { id: 'start', label: 'Start-Time', width: '15%', align: 'left' },
   { id: 'end', label: 'End-Time', width: '15%', align: 'left' },
   { id: 'duration', label: 'Duration', width: '12%', align: 'left' },
-  { id: 'active', label: 'Active', width: '12%', align: 'left' }
+  { id: 'active', label: 'Active', width: '12%', align: 'left' },
 ]
 
 const formatDateTime = (dateString) => {
@@ -32,16 +37,15 @@ const formatDateTime = (dateString) => {
 
 const EventManager = () => {
   const [openPopup, setOpenPopup] = useState(false)
-  // const [searchTerm, setSearchTerm] = useState('')
   const [events, setEvents] = useState([])
-  // const [currentEvent, setCurrentEvent] = useState(null)
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
   const [eventToDelete, setEventToDelete] = useState(null)
   const [showInactive, setShowInactive] = useState(false)
   const [locations, setLocations] = useState([])
+  const [eventToEdit, setEventToEdit] = useState(null)
+
   const handleOpenPopup = () => setOpenPopup(true)
   const handleClosePopup = () => setOpenPopup(false)
-  const [eventToEdit, setEventToEdit] = useState(null)
 
   const displayAlert = useAlert()
 
@@ -63,7 +67,7 @@ const EventManager = () => {
         const startDate = new Date(startTime)
         const endDate = new Date(endTime)
         const durationTime = (endDate - startDate) / (1000 * 60)
-    
+
         return {
           id: event.id,
           ...event,
@@ -76,14 +80,18 @@ const EventManager = () => {
           active: `${event.active}`,
         }
       })
+
       setEvents(formattedEvents)
-      displayAlert('Fresh backend data', `Loaded ${events.length} events from the backend.`, 'success')
-      console.log('Fetched events:', events)
+      displayAlert(
+        'Fresh backend data',
+        `Loaded ${events.length} events from the backend.`,
+        'success'
+      )
     } catch (error) {
       displayAlert('Events Error', `${error.message}`, 'error')
     }
   }
-
+   
   useEffect(() => {
     fetchEvents()
     fetchLocations()
@@ -144,7 +152,7 @@ const EventManager = () => {
     handleOpenPopup()
   }
 
-  const onDelete = async (event) => {
+  const onDelete = (event) => {
     document.activeElement?.blur()
     setEventToDelete(event)
     setDeleteConfirmOpen(true)
@@ -156,19 +164,20 @@ const EventManager = () => {
   }
 
   return (
-    <Box sx={{
-      width: '100%',
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      py: '4rem',
-      px: '1.5rem',
-    }}>
-
+    <Box
+      sx={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        py: '4rem',
+        px: '1.5rem',
+      }}
+    >
       <DataTable
-        tableTitle="Events"
+        tableTitle='Events'
         tableIcon={Event}
         tableColumns={fullColumns}
         tableData={events}
@@ -190,7 +199,6 @@ const EventManager = () => {
         onEdit={handleEditEvent}
         onLocation={locations}
         eventToEdit={eventToEdit}
-
       />
 
       <ConfirmDeleteDialog
