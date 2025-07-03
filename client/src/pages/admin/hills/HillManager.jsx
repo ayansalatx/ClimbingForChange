@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
 import HillModal from '../../../components/admin/modals/HillModal.jsx'
-import DataTable from '../../../components/admin/tables/DataTable.jsx'  
+import DataTable from '../../../components/admin/tables/DataTable.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
 import {
   addNewHill,
@@ -15,9 +15,11 @@ import {
 import { getAllLocations } from '../../../services/locationService.js'
 
 const fullColumns = [
-  { id: 'name', label: 'Hill Name', width: '40%', align: 'left' },
-  { id: 'lapDistance', label: 'Lap Distance', width: '30%', align: 'center' },
-  { id: 'lapElevationGain', label: 'Elevation Gain', width: '30%', align: 'center' },
+  { id: 'name', label: 'Hill Name', width: '30%', align: 'left' },
+  { id: 'lapDistance', label: 'Lap Distance', width: '15%', align: 'center' },
+  { id: 'distanceUnit', label: 'Distance Unit', width: '10%', align: 'center' },
+  { id: 'lapElevationGain', label: 'Elevation Gain', width: '15%', align: 'center' },
+  { id: 'elevationUnit', label: 'Elevation Unit', width: '10%', align: 'center' },
 ]
 
 const HillManager = () => {
@@ -37,7 +39,7 @@ const HillManager = () => {
       try {
         const hillList = await getAllHills()
         setHills(hillList)
-        const locationList = await getAllLocations() 
+        const locationList = await getAllLocations()
         setLocations(locationList)
         displayAlert(
           'Hills Loaded',
@@ -104,38 +106,26 @@ const HillManager = () => {
     setDeletedHill(null)
   }
 
-  const handleSave = async (hillData) => {
-    if (!hillData) return
-    setLoading(true)
-    try {
-      if (hillData.id) {
-        await editHill(hillData.id, hillData)
-        displayAlert(
-          'Edited Hill',
-          `Edited ${hillData.name} hill.`,
-          'success'
-        )
-      } else {
-        await addNewHill(hillData)
-        displayAlert(
-          'New Hill Added',
-          `Added ${hillData.name} hill.`,
-          'success'
-        )
-      }
-      const newHillList = await getAllHills()
-      setHills(newHillList)
-    } catch (error) {
-      displayAlert(
-        'Error',
-        `Failed to save hill: ${error.message}`,
-        'error'
-      )
-    } finally {
-      setLoading(false)
+const handleSave = async (hillData) => {
+  if (!hillData) return
+  setLoading(true)
+  try {
+    if (hillData.id) {
+      await editHill(hillData.id, hillData)
+      displayAlert('Edited Hill', `Edited ${hillData.name} hill.`, 'success')
+    } else {
+      await addNewHill(hillData)
+      displayAlert('New Hill Added', `Added ${hillData.name} hill.`, 'success')
     }
+    const newHillList = await getAllHills()
+    setHills(newHillList)
     setPopupOpen(false)
+  } catch (error) {
+    displayAlert('Error', `Failed to save hill: ${error.message}`, 'error')
+  } finally {
+    setLoading(false)
   }
+}
 
   return (
     <Box
@@ -152,11 +142,14 @@ const HillManager = () => {
     >
       <DataTable
         tableTitle="Hills"
-        tableIcon={HikingIcon} 
+        tableIcon={HikingIcon}
         tableColumns={fullColumns}
-        tableData={hills.map(hill => ({ ...hill, active: true }))}
+        tableData={hills.map(hill => ({
+          ...hill,
+          active: true,
+        }))}
         showInactive={true}
-        setShowInactive={() => {}} 
+        setShowInactive={() => {}}
         eventsForDropdown={[]}
         selectedEvent={null}
         setSelectedEvent={() => {}}
