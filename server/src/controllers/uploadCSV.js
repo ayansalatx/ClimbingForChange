@@ -1,32 +1,74 @@
-import csv from 'fast-csv'
+import csv from 'csvtojson'
 import fs from 'fs'
+
+import Mountain from '../models/mountain.js'
+import Team from '../models/team.js'
+import Participant from '../models/participant.js'
 
 export const uploadCSV = async (request, response) => {
 
     const { eventid, overwrite } = request.query
-    console.log("🚀 ~ uploadCSV ~ eventid:", eventid)
-    console.log("🚀 ~ uploadCSV ~ overwrite:", overwrite)
-    
+
     if (!request.file) {
-        return response.status(400).json({ error: 'Participants to upload missing missing' })
+        return response.status(400).json({ error: 'File to upload missing missing' })
     }
 
     const filePath = request.file.path
-    const fileRows = [];
+    let rows;
 
-    csv.parseFile(filePath, { headers: true })
-        .on('data', (row) => {
-            fileRows.push(row);
-        })
-        .on('end', () => {
-            fs.unlinkSync(filePath); // Clean up temp file
-            console.log('Parsed CSV 19:', fileRows.length);
-            //   res.json({ success: true, data: fileRows });
-        })
-        .on('error', (error) => {
-            console.error('CSV parse error:', error);
-            //   res.status(500).json({ success: false, error: error.message });
-        });
+    if (overwrite === 'true') {
+        console.log('overwriting')
+        await Promise.all([
+            Mountain.deleteMany({}),
+            Team.deleteMany({}),
+            Participant.deleteMany({}),
+        ])
 
-    response.status(200).send()
+        try {
+            rows = await csv().fromFile(filePath)
+            try {
+                fs.unlinkSync(filePath)
+            } catch (unlinkError) {
+                console.warn('⚠️ Failed to delete CSV file:', unlinkError.message)
+            }
+        } catch (err) {
+            return response.status(400).json({ error: 'Invalid CSV format' })
+        }
+
+        for (const row of rows) {
+            const firstName = row['First Name']
+            const lastName = row['Last Name']
+            const mountainName = row['Sub-event']
+            const teamName = row['Team Name']
+
+            const existingMountain = await Mountain.findOne({ name: mountainName })
+
+            // If mountain have already been created 
+            const mountain = existingMountain ? existingMountain : await Mountain.create({ name: mountainName, totalElevation: 0 })
+
+            // If team have already been created by previous row
+            const existingTeam = await Team.findOne({ name: teamName })
+            const team = existingTeam ? existingTeam : await Team.create({
+                event: eventid,
+                mountain: mountain._id,
+                name: teamName ? teamName : `${firstName} ${lastName}`,
+                isSoloTeam: teamName ? false : true,
+                isIncomplete: true
+            })
+            await Participant.create({
+                team: team._id,
+                firstName: firstName,
+                lastName: lastName
+            })
+        }
+    } else {
+        console.log('NOT overwriting')
+    }
+
+    const allTeams = await Team.find({})
+        .populate('participants')
+        .populate('mountain')
+        .populate('hill')
+
+    response.json({ success: true, data: allTeams });
 }

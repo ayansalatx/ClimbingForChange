@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, InputLabel, MenuItem, Select, Typography, useTheme } from '@mui/material'
 import Paper from '@mui/material/Paper'
@@ -8,11 +10,11 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Papa from 'papaparse'
-import { useEffect, useState } from 'react'
 
 import { useAlert } from '../../../hooks/useAlert'
 import { uploadCSV } from '../../../services/uploadcsv'
 import { getAllEvents } from '../../../services/eventService'
+import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog';
 
 const ParticipantUpload = () => {
   const theme = useTheme()
@@ -22,8 +24,12 @@ const ParticipantUpload = () => {
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [overwrite, setOverwrite] = useState(false)
   const [eventError, setEventError] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [deleteConfirmOpen, setOverwriteConfirmOpen] = useState(false)
 
   const displayAlert = useAlert()
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadEvents = async () => {
@@ -81,24 +87,26 @@ const ParticipantUpload = () => {
   }
 
   const handleUpload = async () => {
-    if (!selectedEvent) {
-      setEventError(true)
-    } else {
-      setEventError(false)
+    setOverwriteConfirmOpen(false)
+    try {
+      const formData = new FormData()
+      formData.append('file', selectedFile)
 
-      try {
-        const formData = new FormData()
-        formData.append('file', selectedFile)
-
-        await uploadCSV(formData, selectedEvent.id, overwrite)
-        displayAlert('Uploaded', `Successfully uploaded ${rows.length}.`, 'success')
-        setRows([])
-        setSelectedFile(selectedFile)
-      } catch (error) {
-        displayAlert('Error', `Upload fail ${error.message}.`, 'error')
-      }
+      setIsLoading(true)
+      await uploadCSV(formData, selectedEvent.id, overwrite)
+      setIsLoading(false)
+      displayAlert('Uploaded', `Successfully uploaded ${selectedFile.name}.`, 'success')
+      setRows([])
+      setSelectedFile(selectedFile)
+      navigate('/admin/participants')
+    } catch (error) {
+      displayAlert('Error', `Upload fail ${error.message}.`, 'error')
     }
+  }
 
+  const cancelDelete = () => {
+    setOverwriteConfirmOpen(false)
+    setOverwrite(false)
   }
 
   return (
@@ -108,7 +116,6 @@ const ParticipantUpload = () => {
       height: '90vh',
       display: 'flex',
       justifyContent: 'center',
-      border: '1px solid red'
     }}>
       <Box sx={{
         border: `2px solid ${theme.palette.primary['main']}`,
@@ -144,7 +151,20 @@ const ParticipantUpload = () => {
               variant='outlined'
               sx={{ display: 'flex', gap: '0.25rem' }}
               disabled={rows.length === 0 ? true : false}
-              onClick={handleUpload}
+              loading={isLoading}
+              onClick={() => {
+                if (!selectedEvent) {
+                  setEventError(true)
+                } else {
+                  setEventError(false)
+
+                  if (overwrite) {
+                    setOverwriteConfirmOpen(true)
+                  } else {
+                    handleUpload()
+                  }
+                }
+              }}
             >
               <CloudUploadIcon /> Upload
             </Button>
@@ -215,6 +235,11 @@ const ParticipantUpload = () => {
 
         </Box>
       </Box>
+      <ConfirmDeleteDialog
+        open={deleteConfirmOpen}
+        onCancel={cancelDelete}
+        onConfirm={handleUpload}
+      />
     </div>
   )
 }

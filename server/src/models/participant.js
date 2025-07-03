@@ -3,7 +3,7 @@ import mongoose from '../utils/db.js'
 const { Schema, model } = mongoose
 
 const participantSchema = new Schema({
-  teamId: {
+  team: {
     type: Schema.Types.ObjectId,
     ref: 'Team',
     required: false, // participant can be created without a team
