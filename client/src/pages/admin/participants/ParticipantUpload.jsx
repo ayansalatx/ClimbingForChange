@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, InputLabel, MenuItem, Select, Typography, useTheme } from '@mui/material'
 import Paper from '@mui/material/Paper'
@@ -10,11 +8,13 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Papa from 'papaparse'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
+import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog'
 import { useAlert } from '../../../hooks/useAlert'
-import { uploadCSV } from '../../../services/uploadcsv'
 import { getAllEvents } from '../../../services/eventService'
-import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog';
+import { uploadCSV } from '../../../services/uploadcsv'
 
 const ParticipantUpload = () => {
   const theme = useTheme()
@@ -29,7 +29,7 @@ const ParticipantUpload = () => {
 
   const displayAlert = useAlert()
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   useEffect(() => {
     const loadEvents = async () => {

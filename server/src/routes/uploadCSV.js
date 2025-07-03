@@ -4,7 +4,7 @@ import { uploadCSV } from '../controllers/uploadCSV.js'
 import multer from 'multer'
 
 const uploadCSVRoutes = express.Router()
-const upload = multer({ dest: 'temp/csv/' });
+const upload = multer({ dest: 'temp/csv/' })
 
 uploadCSVRoutes.post('/', upload.single('file'), asyncHandler(uploadCSV))
 
