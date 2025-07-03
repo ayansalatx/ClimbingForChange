@@ -25,6 +25,7 @@ export default [
     },
     plugins: {
       '@stylistic': stylistic,
+      '@stylistic/linebreak-style': ['error', 'unix'],
       react: reactPlugin,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
