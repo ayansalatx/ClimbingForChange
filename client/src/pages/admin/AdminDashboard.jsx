@@ -1,19 +1,181 @@
+import 'react-multi-carousel/lib/styles.css'
+
+import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material'
+import DownhillSkiingIcon from '@mui/icons-material/DownhillSkiing'
 import EventIcon from '@mui/icons-material/Event'
 import Hiking from '@mui/icons-material/Hiking'
 import PeopleIcon from '@mui/icons-material/People'
 import PlaceIcon from '@mui/icons-material/Place'
 import TerrainIcon from '@mui/icons-material/Terrain'
-import {
-  Box,
-  Button,
-  Typography,
-} from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { Box, IconButton, Typography } from '@mui/material'
+import { useEffect, useState } from 'react'
+import Carousel from 'react-multi-carousel'
 
+import ProgressBoardButton from '../../components/admin/buttons/ProgressBoardButton'
 import NavigationCard from '../../components/admin/NavigationCard'
+import EventSummaryTable from '../../components/admin/tables/EventsSummaryTable'
+import { useAlert } from '../../hooks/useAlert'
+import { getUpcomingEventsSummary } from '../../services/eventService'
+
+const CarouselLeftArrow = ({ onClick }) => (
+  <IconButton
+    onClick={(e) => {
+      e.currentTarget.blur()
+      onClick()
+    }}
+    sx={{
+      position: 'absolute',
+      left: 0,
+      top: '40%',
+      zIndex: 10,
+      p: 0.25,
+      color: 'background.paper',
+      '&:hover': {
+        color: 'secondary.main',
+      },
+      '&:focus': {
+        outline: 'none',
+        color: 'secondary.main',
+      },
+    }}
+  >
+    <ArrowBackIos fontSize="large" />
+  </IconButton>
+)
+
+const CarouselRightArrow = ({ onClick }) => (
+  <IconButton
+    onClick={(e) => {
+      e.currentTarget.blur()
+      onClick()
+    }}
+    sx={{
+      position: 'absolute',
+      right: 0,
+      top: '40%',
+      zIndex: 10,
+      p: 0.25,
+      color: 'background.paper',
+      '&:hover': {
+        color: 'secondary.main',
+      },
+      '&:focus': {
+        outline: 'none',
+        color: 'secondary.main',
+      },
+    }}
+  >
+    <ArrowForwardIos fontSize="large" />
+  </IconButton>
+)
+
+const responsive = {
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 4,
+  },
+  tablet: {
+    breakpoint: { max: 1400, min: 640 },
+    items: 3,
+  },
+  mobile: {
+    breakpoint: { max: 640, min: 0 },
+    items: 1,
+  },
+}
 
 const AdminDashboard = () => {
-  const navigate = useNavigate()
+  const [events, setEvents] = useState()
+
+  const displayAlert = useAlert()
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const eventList = await getUpcomingEventsSummary()
+        displayAlert(
+          'Fresh backend data',
+          `Loaded ${eventList.length} events from the backend.`,
+          'success'
+        )
+        setEvents(eventList)
+      } catch (error) {
+        displayAlert(
+          'Error',
+          `Failed to Load Locations: ${error.message}`,
+          'error'
+        )
+      }
+    }
+
+    loadData()
+  }, [displayAlert])
+
+  const liveEventExists = events?.some((event) => event.isLive)
+
+  const navCardData = [
+    {
+      title: 'Event Management',
+      icon: EventIcon,
+      link: '/admin/events',
+      bgColor: 'info.main',
+      iconSize: '12rem',
+      iconColor: 'secondary.light',
+      iconY: '2%',
+      iconX: '38%',
+    },
+    {
+      title: 'Team Management',
+      icon: PeopleIcon,
+      link: '/admin/teams',
+      bgColor: 'info.light',
+      iconSize: '16rem',
+      iconColor: 'info.main',
+      iconY: '-15%',
+      iconX: '5%',
+    },
+    {
+      title: 'Participant Management',
+      icon: Hiking,
+      link: '/admin/participants',
+      bgColor: 'info.main',
+      iconSize: '12rem',
+      iconColor: 'secondary.light',
+      iconY: '',
+      iconX: '42%',
+    },
+    {
+      title: 'Mountain Management',
+      icon: TerrainIcon,
+      link: '/admin/mountains',
+      bgColor: 'info.light',
+      iconSize: '18rem',
+      iconColor: 'info.main',
+      iconY: '-25%',
+      iconX: '',
+    },
+    {
+      title: 'Location Management',
+      icon: PlaceIcon,
+      link: '/admin/locations',
+      bgColor: 'secondary.main',
+      iconSize: '12rem',
+      iconColor: 'secondary.dark',
+      iconY: '',
+      iconX: '43%',
+    },
+    {
+      title: 'Hill Management',
+      icon: DownhillSkiingIcon,
+      link: '/admin/hills',
+      bgColor: 'secondary.main',
+      iconSize: '12rem',
+      iconColor: 'secondary.dark',
+      iconY: '',
+      iconX: '35%',
+    },
+  ]
+
   return (
     <Box
       sx={{
@@ -22,8 +184,8 @@ const AdminDashboard = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        // justifyContent: 'center',
-        px: '1.5rem',
+        bgColor: 'background.main',
+        py: 3,
       }}
     >
       <Typography
@@ -31,115 +193,74 @@ const AdminDashboard = () => {
         color="primary.main"
         fontWeight={'bold'}
         textTransform={'uppercase'}
-        marginBottom={'2rem'}
-        sx={{ fontSize: '4rem' }}
+        sx={{ fontSize: '3.5rem' }}
       >
-        Climbing for Change Dashboard
+        Leaderboard Management
       </Typography>
 
       <Box
         sx={{
           width: '100%',
-          height: '12rem',
-          my: '2rem',
+          height: '100%',
           display: 'flex',
-          justifyContent: 'space-evenly',
-        }}
-      >
-        {/* <Paper>
-          <Box>
-            <TableContainer>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Event</TableCell>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Days to Go</TableCell>
-                    <TableCell>Teams</TableCell>
-                    <TableCell>Participants</TableCell>
-                  </TableRow>
-                </TableHead>
-              </Table>
-            </TableContainer>
-          </Box>
-        </Paper> */}
-        <Button
-          onClick={() => navigate('/progress')}
-          variant="contained"
-          sx={{
-            height: '3rem',
-            bgcolor: 'primary.main',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-evenly',
-            gap: 1.5,
-            px: 2,
-          }}
-        >
-          <Typography
-            variant="h6"
-            fontSize="large"
-            color="background.paper"
-            textTransform="uppercase"
-            fontWeight="bold"
-            letterSpacing="0.1rem"
-          >
-            Progress Board
-          </Typography>
-          <Hiking sx={{ color: 'secondary.main', fontSize: '2rem' }} />
-        </Button>
-      </Box>
-
-      <Box
-        sx={{
-          width: '100%',
-          height: '12rem',
-          display: 'flex',
-          flexDirection: 'row',
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'space-evenly',
         }}
       >
-        <NavigationCard
-          cardTitle={'Event Management'}
-          cardIcon={EventIcon}
-          link={'/admin/events'}
-          bgColor={'info.main'}
-          iconSize={'12rem'}
-          iconColor={'info.light'}
-          iconYPosition={'2%'}
-          iconXPosition={'38%'}
-        />
-        <NavigationCard
-          cardTitle={'Participant Management'}
-          cardIcon={PeopleIcon}
-          link={'/admin/participants'}
-          bgColor={'secondary.main'}
-          iconSize={'16rem'}
-          iconColor={'secondary.dark'}
-          iconYPosition={'-15%'}
-          iconXPosition={'5%'}
-        />
-        <NavigationCard
-          cardTitle={'Mountain Management'}
-          cardIcon={TerrainIcon}
-          link={'/admin/mountains'}
-          bgColor={'info.light'}
-          iconSize={'18rem'}
-          iconColor={'info.main'}
-          iconYPosition={'-25%'}
-          iconXPosition={''}
-        />
-        <NavigationCard
-          cardTitle={'Location Management'}
-          cardIcon={PlaceIcon}
-          link={'/admin/locations'}
-          bgColor={'secondary.main'}
-          iconSize={'12rem'}
-          iconColor={'secondary.dark'}
-          iconYPosition={''}
-          iconXPosition={'43%'}
-        />
+        <Box
+          sx={{
+            width: '100%',
+            maxWidth: '1800px',
+            my: '2rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-evenly',
+          }}
+        >
+          <Box maxWidth={'70%'} padding={1}>
+            <EventSummaryTable events={events} />
+          </Box>
+
+          <Box pr={1}>
+            <ProgressBoardButton liveEventExists={liveEventExists} />
+          </Box>
+        </Box>
+
+        <Box
+          sx={{
+            width: '100%',
+            backgroundColor: 'primary.light',
+            padding: '1rem',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)',
+          }}
+        >
+          <Carousel
+            responsive={responsive}
+            infinite
+            customLeftArrow={<CarouselLeftArrow />}
+            customRightArrow={<CarouselRightArrow />}
+            autoPlay
+          >
+            {navCardData.map((card, index) => (
+              <Box
+                key={index}
+                sx={{ display: 'flex', justifyContent: 'center' }}
+              >
+                <NavigationCard
+                  cardTitle={card.title}
+                  cardIcon={card.icon}
+                  link={card.link}
+                  bgColor={card.bgColor}
+                  iconSize={card.iconSize}
+                  iconColor={card.iconColor}
+                  iconYPosition={card.iconY}
+                  iconXPosition={card.iconX}
+                />
+              </Box>
+            ))}
+          </Carousel>
+        </Box>
       </Box>
     </Box>
   )
