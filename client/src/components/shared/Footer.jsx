@@ -1,6 +1,7 @@
-import React from 'react';
-import { Box, Container, Typography } from '@mui/material';
-import C4CGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Horizontal_Green.png';
+import { Box, Container, Typography } from '@mui/material'
+import React from 'react'
+
+import C4CGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Horizontal_Green.png'
 
 const Footer = () => {
   return (
@@ -10,7 +11,7 @@ const Footer = () => {
         mt: 'auto',
         backgroundColor: '#191447',
         borderTop: '1px solid #ddd',
-        overflow: "hidden",
+        overflow: 'hidden',
         width: '100%',
       }}
     >
@@ -46,7 +47,7 @@ const Footer = () => {
         </Typography>
       </Container>
     </Box>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer
