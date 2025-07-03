@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 
 import CancelButton from '../buttons/CancelButton'
 import SaveButton from '../buttons/SaveButton'
+import TextInput from '../forms/fields/TextInput'
 
 const style = {
   position: 'absolute',
@@ -68,19 +69,17 @@ const AddParticipantModal = ({
         </Typography>
 
         <form onSubmit={handleSubmit}>
-          <TextField
+          <TextInput
             fullWidth
             label="First Name"
-            variant="outlined"
             margin="normal"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
           />
-          <TextField
+          <TextInput
             fullWidth
             label="Last Name"
-            variant="outlined"
             margin="normal"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
