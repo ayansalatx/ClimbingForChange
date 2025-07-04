@@ -36,7 +36,7 @@ function Layout() {
             height: '100vh',
             paddingTop: '5rem',
             display: 'flex',
-            flexDirection: "column",
+            flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
           }}
