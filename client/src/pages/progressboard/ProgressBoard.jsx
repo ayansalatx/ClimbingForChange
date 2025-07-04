@@ -72,6 +72,8 @@ const ProgressBoard = () => {
   // State for teams filtered by the search input
   const [filteredTeams, setFilteredTeams] = useState([])
 
+  const [loading, setLoading] = useState(true)
+
   // Load Participant data from server
   useEffect(() => {
     async function loadData() {
@@ -116,6 +118,8 @@ const ProgressBoard = () => {
         setTeams(teamsForEvent)
       } catch (e) {
         console.log('Failed to load event teams', e)
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -208,7 +212,6 @@ const ProgressBoard = () => {
               },
             }}
           >
-
             {/* Logo */}
             <Box sx={{ mb: { sm: 0.5 } }}>
               <Box
@@ -287,6 +290,7 @@ const ProgressBoard = () => {
               setSelectedEvent={setSelectedEvent}
               searchString={searchString}
               setSearchString={setSearchString}
+              loading={loading}
             />
           ) : (
             <Box sx={{ flexGrow: 1, width: '100%', overflowX: 'hidden' }}>
@@ -298,6 +302,7 @@ const ProgressBoard = () => {
                 setSelectedEvent={setSelectedEvent}
                 searchString={searchString}
                 setSearchString={setSearchString}
+                loading={loading}
               />
             </Box>
           )}
