@@ -36,6 +36,7 @@ function Layout() {
             height: '100vh',
             paddingTop: '5rem',
             display: 'flex',
+            flexDirection: "column",
             alignItems: 'center',
             justifyContent: 'center',
           }}
@@ -57,8 +58,8 @@ function Layout() {
             <AlertDisplay />
             <Outlet sx={{ padding: 0, margin: 0 }} />
           </Suspense>
+          <Footer />
         </Box>
-        <Footer />
       </main>
     </>
   )
