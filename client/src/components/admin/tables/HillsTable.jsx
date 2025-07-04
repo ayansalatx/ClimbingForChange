@@ -1,82 +1,38 @@
+import HikingIcon from '@mui/icons-material/Hiking'
 import {
   Box,
-  Paper,
-  Table,
   TableContainer,
   TablePagination,
   Typography,
 } from '@mui/material'
+import Paper from '@mui/material/Paper'
 import { alpha } from '@mui/material/styles'
+import Table from '@mui/material/Table'
 import React, { useState } from 'react'
 
 import theme from '../../../styles/theme'
-import ActiveToggle from '../buttons/ShowInactiveToggle'
-import EventSelector from './EventSelector'
 import SearchBar from './SearchBar'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
 
-const DataTable = ({
-  tableTitle,
-  tableIcon: TableIcon,
-  tableColumns,
+const HillTable = ({
+  tableTitle = 'Hills',
+  tableColumns = [],
   tableData = [],
-  showInactive,
-  setShowInactive,
-  eventsForDropdown,
-  selectedEvent,
-  setSelectedEvent,
   onAddClick,
   onEditClick,
   onDeleteClick,
 }) => {
   const [searchTerm, setSearchTerm] = useState('')
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(10)
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(10)
 
-  const activeToggleOption = tableTitle == 'Events' ? 'visible' : 'hidden'
-
-  let filteredRows = []
-
-  console.log('Original tableData:', tableData)
-  console.log('showInactive:', showInactive)
-  console.log('searchTerm:', searchTerm)
-
-  if (tableTitle === 'Teams' || tableTitle === 'Participants') {
-    filteredRows = tableData
-      .filter((row) => {
-        const show = showInactive || row.active
-        console.log(`Row ${row.id} - active: ${row.active}, show: ${show}`)
-        return show
-      })
-      .filter((row) => {
-        const searchableText = Object.values(row).join(' ').toLowerCase()
-        const matchesSearch = searchableText.includes(searchTerm.toLowerCase())
-        console.log(`Row ${row.id} - search matches: ${matchesSearch}`)
-        return matchesSearch
-      })
-      .filter((row) => {
-        if (!selectedEvent) return true
-        const matchesEvent = row.eventId === selectedEvent
-        console.log(`Row ${row.id} - event matches: ${matchesEvent}`)
-        return matchesEvent
-      })
-  } else {
-    filteredRows = tableData
-      .filter((row) => {
-        const show = showInactive || row.active
-        console.log(`Row ${row.id} - active: ${row.active}, show: ${show}`)
-        return show
-      })
-      .filter((row) => {
-        const searchableText = Object.values(row).join(' ').toLowerCase()
-        const matchesSearch = searchableText.includes(searchTerm.toLowerCase())
-        console.log(`Row ${row.id} - search matches: ${matchesSearch}`)
-        return matchesSearch
-      })
-  }
-  
-  console.log('Filtered rows:', filteredRows)
+  const filteredRows = tableData.filter((row) =>
+    Object.values(row || {})
+      .join(' ')
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
+  )
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -116,7 +72,7 @@ const DataTable = ({
             py: '.5rem',
           }}
         >
-          <TableIcon
+          <HikingIcon
             fontSize="large"
             sx={{
               color: 'secondary.main',
@@ -126,7 +82,7 @@ const DataTable = ({
             variant="h1"
             sx={{
               textAlign: 'left',
-              margin: '0',
+              margin: 0,
               paddingBottom: '.15rem',
               paddingLeft: '.35rem',
               fontSize: '2.45rem',
@@ -142,42 +98,6 @@ const DataTable = ({
 
         <SearchBar value={searchTerm} onChange={setSearchTerm} />
       </Box>
-      {['Teams', 'Participants'].includes(tableTitle) && (
-        <Box
-          sx={{
-            px: 1,
-            pt: 1,
-            bgcolor: 'info.main',
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              px: 1,
-              bgcolor: 'info.light',
-              borderRadius: '3px',
-            }}
-          >
-            <Typography
-              variant="body1"
-              component="span"
-              color="primary.light"
-              textTransform={'uppercase'}
-              fontWeight={'bold'}
-              letterSpacing={'.05rem'}
-              paddingRight={1}
-            >
-              Event:
-            </Typography>
-            <EventSelector
-              events={eventsForDropdown}
-              selectedEvent={selectedEvent}
-              setSelectedEvent={setSelectedEvent}
-            />
-          </Box>
-        </Box>
-      )}
 
       <TableContainer
         sx={(theme) => ({
@@ -207,20 +127,16 @@ const DataTable = ({
           />
         </Table>
       </TableContainer>
+
       <Box
         sx={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          backgroundColor: 'primary.main',
+          bgcolor: 'primary.main',
         }}
       >
-        <ActiveToggle
-          checked={showInactive}
-          onChange={() => setShowInactive((prev) => !prev)}
-          hidden={activeToggleOption}
-        />
-
+        {/* You can add ActiveToggle here if needed */}
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
@@ -245,4 +161,4 @@ const DataTable = ({
   )
 }
 
-export default DataTable
+export default HillTable

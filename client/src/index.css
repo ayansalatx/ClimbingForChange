@@ -86,3 +86,16 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+@keyframes scroll-vertical {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+.marquee__content {
+  animation: scroll-vertical 30s linear infinite;
+}
