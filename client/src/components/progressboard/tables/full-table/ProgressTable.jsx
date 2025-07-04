@@ -1,13 +1,17 @@
 import {
   alpha,
   Box,
+  CircularProgress,
   Paper,
   Table,
+  TableBody,
+  TableCell,
   TableContainer,
   TablePagination,
+  TableRow,
   useMediaQuery,
 } from '@mui/material'
-import { useEffect,useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import theme from '../../../../styles/theme'
 import EventSelector from '../../shared/EventSelector'
@@ -24,8 +28,8 @@ const ProgressTable = ({
   setSelectedEvent,
   searchString,
   setSearchString,
+  loading,
 }) => {
-  
   // Get media queries to render appropriate content
   const isSmall = useMediaQuery(theme.breakpoints.down('md'))
 
@@ -93,21 +97,46 @@ const ProgressTable = ({
       </Box>
       <TableContainer
         sx={{
-          flexGrow: 1,
+          display: 'flex',
+          alignItems: 'flex-start',
+          justifyContent: 'center',
+          height: '100%',
           overflowX: 'hidden',
           scrollbarWidth: 'thin',
           scrollbarColor: `${alpha(theme.palette.background.paper, 0.7)} ${alpha(theme.palette.primary.main, 0.3)}`,
         }}
       >
-        <Table stickyHeader aria-label='team/participant progress table'>
-          <TableHeaderRow columns={columns} />
-          <TableDataRows
-            columns={columns}
-            teams={teams}
-            page={page}
-            rowsPerPage={displayedRowsPerPage}
-          />
-        </Table>
+        {loading ? (
+          <Table stickyHeader sx={{ height: '100%' }}>
+            <TableHeaderRow columns={columns} />
+            <TableBody
+              sx={{
+                height: '100%',
+                background: `linear-gradient(to right, ${alpha(theme.palette.background.paper, 0.6)}, ${alpha(theme.palette.background.paper, 0.2)}, ${alpha(theme.palette.background.paper, 0.6)})`,
+              }}
+            >
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length + 1}
+                  align='center'
+                  sx={{ border: 'none' }}
+                >
+                  <CircularProgress color='primary' />
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        ) : (
+          <Table stickyHeader aria-label='team/participant progress table'>
+            <TableHeaderRow columns={columns} />
+            <TableDataRows
+              columns={columns}
+              teams={teams}
+              page={page}
+              rowsPerPage={displayedRowsPerPage}
+            />
+          </Table>
+        )}
       </TableContainer>
       <Box
         sx={{
@@ -123,7 +152,7 @@ const ProgressTable = ({
         {!isSmall && (
           <TablePagination
             rowsPerPageOptions={rowsPerPageOptions}
-            component="div"
+            component='div'
             count={teams.length}
             rowsPerPage={rowsPerPage}
             page={page}

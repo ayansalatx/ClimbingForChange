@@ -161,7 +161,7 @@ const ProgressBoard = () => {
 
       {!isXSmall && (
         <video
-          src="/assets/mountain-with-way-points.mp4"
+          src='/assets/mountain-with-way-points.mp4'
           autoPlay
           loop
           muted
@@ -215,9 +215,9 @@ const ProgressBoard = () => {
             {/* Logo */}
             <Box sx={{ mb: { sm: 0.5 } }}>
               <Box
-                component="img"
+                component='img'
                 src={isXSmall ? C4CFavicon : C4CHorizontalGreenLogo}
-                alt="Climbing for Change Logo"
+                alt='Climbing for Change Logo'
                 sx={{
                   maxWidth: {
                     xxs: '1.6rem',
@@ -251,10 +251,10 @@ const ProgressBoard = () => {
               }}
             >
               <Typography
-                variant="h1"
-                color="secondary.main"
-                fontWeight="bold"
-                textTransform="uppercase"
+                variant='h1'
+                color='secondary.main'
+                fontWeight='bold'
+                textTransform='uppercase'
                 sx={{
                   fontStyle: 'italic',
                   mr: {
