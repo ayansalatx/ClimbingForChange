@@ -90,7 +90,7 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
             key={event.id}
             sx={{
               borderRadius: '3px',
-              minHeight: { xxs: 'unset' },
+              minHeight: { xxs: 'unset', xs: 'unset', sm: 0 },
               color: 'primary.main',
               fontSize: {
                 xxs: '0.9rem',

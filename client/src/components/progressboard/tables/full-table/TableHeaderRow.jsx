@@ -10,14 +10,8 @@ const TableHeaderRow = ({ columns }) => {
           sx={{
             backgroundColor: 'info.main',
             border: 'none',
-            width: {
-              sm: '2rem',
-              md: '3rem',
-              lg: '3.5rem',
-              xl: '4rem',
-            },
-            p: { sm: .8, md: 1.5, lg: 1.75, xl: 2 },
-            px: { sm: .5, md: 1.5, lg: 1.75, xl: 2 },
+            p: { sm: .5, md: 1, lg: 1.25, xl: 1.5 },
+            pr: 0,
           }}
         >
           <IconButton

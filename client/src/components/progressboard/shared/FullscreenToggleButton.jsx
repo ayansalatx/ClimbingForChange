@@ -13,7 +13,7 @@ const FullscreenToggleButton = ({ eventId }) => {
   return (
     <Tooltip
       title="Fullscreen"
-      componentsProps={{
+      slotProps={{
         tooltip: {
           sx: {
             bgcolor: 'info.main',
@@ -22,7 +22,7 @@ const FullscreenToggleButton = ({ eventId }) => {
               sm: '0.65rem',
               md: '0.65rem',
               lg: '0.75rem',
-              xl: '.75rem',
+              xl: '0.9rem',
             },
             px: {
               sm: 1,
@@ -39,7 +39,13 @@ const FullscreenToggleButton = ({ eventId }) => {
       <IconButton
         onClick={handleClick}
         sx={{
-          visibility: { xs: 'hidden', sm: 'visible', md: 'visible', lg: 'visible', xl: 'visible' },
+          visibility: {
+            xs: 'hidden',
+            sm: 'visible',
+            md: 'visible',
+            lg: 'visible',
+            xl: 'visible',
+          },
           ml: '.25rem',
           color: 'background.paper',
           p: {

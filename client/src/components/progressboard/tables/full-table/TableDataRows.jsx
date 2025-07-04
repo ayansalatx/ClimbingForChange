@@ -22,10 +22,11 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
     <React.Fragment>
       <TableRow
         hover
-        role='checkbox'
+        role="checkbox"
         tabIndex={-1}
         sx={{
-          height: { sm: '3.5rem' } ,
+          height: { sm: '3.5rem' },
+          p: 0,
           backgroundColor: isEven
             ? alpha(theme.palette.background.paper, 0.6)
             : alpha(theme.palette.background.paper, 0.5),
@@ -44,14 +45,8 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
           sx={{
             border: 'none',
             backgroundColor: 'inherit',
-            width: {
-              sm: '2rem',
-              md: '3rem',
-              lg: '3.5rem',
-              xl: '4rem',
-            },
-            py: { sm: 1, md: 1.5, lg: 1.75, xl: 2 },
-            px: { sm: 0.5, md: 1.5, lg: 1.75, xl: 2 },
+            p: { sm: 0.5, md: 1, lg: 1.25, xl: 1.5 },
+            pr: 0,
           }}
         >
           <IconButton
@@ -81,14 +76,19 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
         {columns.map((column, index) => {
           const columnAlign = index === 0 ? 'left' : 'center'
 
+          const currentElevation = team.currentElevation ?? 0
+          const totalElevation = team.totalElevation ?? 0
+          const lapsCompleted = team.lapsCompleted ?? 0
+          const lapsRequired = team.lapsRequired ?? 0
+
           // Small screen columns
           let value
           switch (column.id) {
             case 'elevation':
-              value = `${team.currentElevation} / ${team.totalElevation}`
+              value = `${currentElevation} / ${totalElevation}`
               break
             case 'laps':
-              value = `${team.lapsCompleted} / ${team.lapsRequired}`
+              value = `${lapsCompleted} / ${lapsRequired}`
               break
             default:
               value = team[column.id] ?? '-'
@@ -98,7 +98,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
             <TableCell
               sx={{
                 border: 'none',
-                padding: '0.4rem',
+                padding: '0',
                 fontSize: {
                   sm: '.9rem',
                   md: '1rem',

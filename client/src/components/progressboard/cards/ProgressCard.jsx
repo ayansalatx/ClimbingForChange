@@ -1,4 +1,4 @@
-import { Box, Card, Typography } from '@mui/material'
+import { Box, Card, Tooltip, Typography } from '@mui/material'
 
 const ProgressCard = ({ team }) => {
   return (
@@ -16,7 +16,14 @@ const ProgressCard = ({ team }) => {
       <Box
         sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}
       >
-        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 1,
+            maxWidth: '70%',
+            alignItems: 'center',
+          }}
+        >
           <Typography
             variant="body1"
             fontSize={{ xxs: '1.05rem', xs: '1.15rem' }}
@@ -28,9 +35,40 @@ const ProgressCard = ({ team }) => {
           >
             Team
           </Typography>
-          <Typography variant="body1" fontSize={{ xxs: '0.95rem', xs: '1.05rem' }} noWrap>
-            {team.name}
-          </Typography>
+
+          <Tooltip
+            title={team.name ?? ''}
+            placement='top'
+            slotProps={{
+              tooltip: {
+                sx: {
+                  bgcolor: 'info.main',
+                  color: 'primary.main',
+                  fontSize: {
+                    xxs: '0.75rem',
+                    xs: '0.85rem',
+                  },
+                  px: {
+                    sm: 1,
+                  },
+                  py: {
+                    sm: 0.5,
+                  },
+                  borderRadius: 0.5,
+                  boxShadow: 3,
+                },
+              },
+            }}
+          >
+            <Typography
+              variant="body1"
+              fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
+              noWrap
+              sx={{ textOverflow: 'ellipsis' }}
+            >
+              {team.name ?? ''}
+            </Typography>
+          </Tooltip>
         </Box>
         <Box
           sx={{
@@ -51,8 +89,13 @@ const ProgressCard = ({ team }) => {
           >
             Laps
           </Typography>
-          <Typography variant="body1" fontSize={{ xxs: '0.9rem', xs: '1rem' }} noWrap>
-            {team.lapsCompleted} / {team.lapsRequired}
+
+          <Typography
+            variant="body1"
+            fontSize={{ xxs: '0.9rem', xs: '1rem' }}
+            noWrap
+          >
+            {team.lapsCompleted ?? 0} / {team.lapsRequired ?? 0}
           </Typography>
         </Box>
       </Box>
@@ -71,8 +114,9 @@ const ProgressCard = ({ team }) => {
           >
             Mount.
           </Typography>
+
           <Typography variant="body1" noWrap>
-            {team.mountainName}
+            {team.mountainName ?? ''}
           </Typography>
         </Box>
         <Box
@@ -93,15 +137,27 @@ const ProgressCard = ({ team }) => {
           >
             Elev.
           </Typography>
-          <Typography variant="body1" fontSize={{ xxs: '0.9rem', xs: '1rem' }} noWrap>
-            {team.currentElevation} / {team.totalElevation}
+
+          <Typography
+            variant="body1"
+            fontSize={{ xxs: '0.9rem', xs: '1rem' }}
+            noWrap
+          >
+            {team.currentElevation ?? 0} / {team.totalElevation ?? 0}
           </Typography>
         </Box>
       </Box>
       <Box
         sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}
       >
-        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 1,
+            alignItems: 'center',
+            minWidth: '10rem',
+          }}
+        >
           <Typography
             variant="body1"
             fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
@@ -113,8 +169,13 @@ const ProgressCard = ({ team }) => {
           >
             Best Lap
           </Typography>
-          <Typography variant="body1" fontSize={{ xxs: '0.9rem', xs: '1rem' }} noWrap>
-            {team.bestLap}
+
+          <Typography
+            variant="body1"
+            fontSize={{ xxs: '0.9rem', xs: '1rem' }}
+            noWrap
+          >
+            {team.bestLap ?? '00:00'}
           </Typography>
         </Box>
         <Box
@@ -136,8 +197,12 @@ const ProgressCard = ({ team }) => {
           >
             Time
           </Typography>
-          <Typography variant="body1" fontSize={{ xxs: '0.9rem', xs: '1rem' }} noWrap>
-            {team.timeElapsed}
+          <Typography
+            variant="body1"
+            fontSize={{ xxs: '0.9rem', xs: '1rem' }}
+            noWrap
+          >
+            {team.timeElapsed ?? '00:00:00'}
           </Typography>
         </Box>
       </Box>

@@ -38,6 +38,7 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
         slotProps={{
           paper: {
             sx: {
+              minHeight: { xxs: 'unset', xs: 'unset', sm: 0 },
               borderRadius: '3px',
               backgroundColor: 'background.paper',
               color: 'primary.main',
