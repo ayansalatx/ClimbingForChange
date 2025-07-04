@@ -3,8 +3,11 @@ import {
   CircularProgress,
   Paper,
   Table,
+  TableBody,
+  TableCell,
   TableContainer,
   TablePagination,
+  TableRow,
   Typography,
 } from '@mui/material'
 import { alpha } from '@mui/material/styles'
@@ -41,45 +44,34 @@ const DataTable = ({
 
   let filteredRows = []
 
-  console.log('Original tableData:', tableData)
-  console.log('showInactive:', showInactive)
-  console.log('searchTerm:', searchTerm)
-
   if (tableTitle === 'Teams' || tableTitle === 'Participants') {
     filteredRows = tableData
       .filter((row) => {
         const show = showInactive || row.active
-        console.log(`Row ${row.id} - active: ${row.active}, show: ${show}`)
         return show
       })
       .filter((row) => {
         const searchableText = Object.values(row).join(' ').toLowerCase()
         const matchesSearch = searchableText.includes(searchTerm.toLowerCase())
-        console.log(`Row ${row.id} - search matches: ${matchesSearch}`)
         return matchesSearch
       })
       .filter((row) => {
         if (!selectedEvent) return true
         const matchesEvent = row.eventId === selectedEvent
-        console.log(`Row ${row.id} - event matches: ${matchesEvent}`)
         return matchesEvent
       })
   } else {
     filteredRows = tableData
       .filter((row) => {
         const show = showInactive || row.active
-        console.log(`Row ${row.id} - active: ${row.active}, show: ${show}`)
         return show
       })
       .filter((row) => {
         const searchableText = Object.values(row).join(' ').toLowerCase()
         const matchesSearch = searchableText.includes(searchTerm.toLowerCase())
-        console.log(`Row ${row.id} - search matches: ${matchesSearch}`)
         return matchesSearch
       })
   }
-
-  console.log('Filtered rows:', filteredRows)
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -120,13 +112,13 @@ const DataTable = ({
           }}
         >
           <TableIcon
-            fontSize="large"
+            fontSize='large'
             sx={{
               color: 'secondary.main',
             }}
           />
           <Typography
-            variant="h1"
+            variant='h1'
             sx={{
               textAlign: 'left',
               margin: '0',
@@ -163,9 +155,9 @@ const DataTable = ({
             }}
           >
             <Typography
-              variant="body1"
-              component="span"
-              color="primary.light"
+              variant='body1'
+              component='span'
+              color='primary.light'
               textTransform={'uppercase'}
               fontWeight={'bold'}
               letterSpacing={'.05rem'}
@@ -195,25 +187,29 @@ const DataTable = ({
         })}
       >
         {loading ? (
-          <Box
-            sx={{
-              height: '100%',
-              width: '100%',
-              pb: '3rem',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'background.paper',
-              color: 'white',
-              fontSize: '2rem',
-            }}
-          >
-            <CircularProgress color="secondary" />
-          </Box>
+          <Table stickyHeader sx={{ height: '100%' }}>
+            <TableHeaderRow columns={tableColumns} />
+            <TableBody
+              sx={{
+                height: '100%',
+                backgroundColor: 'background.paper',
+              }}
+            >
+              <TableRow>
+                <TableCell
+                  colSpan={tableColumns.length + 1}
+                  align='center'
+                  sx={{ border: 'none' }}
+                >
+                  <CircularProgress color='info' />
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
         ) : (
           <Table
             stickyHeader
-            aria-label="sticky table"
+            aria-label='sticky table'
             sx={{
               width: '100%',
               '&:hover': { bgcolor: alpha(theme.palette.primary.light, 0.05) },
@@ -248,7 +244,7 @@ const DataTable = ({
 
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
-          component="div"
+          component='div'
           count={filteredRows.length}
           rowsPerPage={rowsPerPage}
           page={page}
@@ -263,7 +259,7 @@ const DataTable = ({
               color: 'background.paper',
             },
           }}
-          labelRowsPerPage=""
+          labelRowsPerPage=''
         />
       </Box>
     </Paper>
