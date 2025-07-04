@@ -5,17 +5,20 @@ import { Outlet, useNavigate } from 'react-router-dom'
 import AlertDisplay from './components/AlertDisplay'
 import SideBar from './components/shared/SideBar'
 import TopAppBar from './components/shared/TopAppBar'
+import { useAlert } from './hooks/useAlert'
 
-function Layout() {
+const Layout = () => {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const navigate = useNavigate()
+  const displayAlert = useAlert()
 
   const toggleDrawer = (open) => {
     setDrawerOpen(open)
   }
 
   const logout = async () => {
-    localStorage.removeItem("token")
+    displayAlert('Success', 'You have been logged out', 'success')
+    localStorage.removeItem('token')
     navigate('/login')
   }
 
@@ -30,7 +33,7 @@ function Layout() {
       </nav>
       <main>
         <Box
-          component="section"
+          component='section'
           sx={{
             width: '100vw',
             height: '100vh',
