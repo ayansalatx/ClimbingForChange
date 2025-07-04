@@ -216,7 +216,6 @@ const DataTable = ({
             aria-label="sticky table"
             sx={{
               width: '100%',
-              height: '100%',
               '&:hover': { bgcolor: alpha(theme.palette.primary.light, 0.05) },
             }}
           >
