@@ -1,9 +1,9 @@
 import { Box, Button, Paper, TextField, Typography } from '@mui/material'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import AlertDisplay from '../../components/AlertDisplay'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
+import AlertDisplay from '../../components/AlertDisplay'
 import { useAlert } from '../../hooks/useAlert'
 import { login } from '../../services/loginService'
 
