@@ -5,23 +5,14 @@ import {
   Paper,
   Table,
   TableContainer,
-  TablePagination,
 } from '@mui/material'
-import { useState } from 'react'
 
 import theme from '../../../../../styles/theme'
 import ScrollingTableRow from './ScrollingTableRows'
 import TableHeaderRow from './TableHeaderRow'
 
 const AutoScrollTable = ({ teams, columns, loading }) => {
-  const [page, setPage] = useState(0)
-  const rowsPerPage = 10
-
   const dblTeams = [...teams, ...teams]
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage)
-  }
 
   return (
     <Paper
@@ -61,14 +52,6 @@ const AutoScrollTable = ({ teams, columns, loading }) => {
           </Table>
         )}
       </TableContainer>
-      <TablePagination
-        component="div"
-        count={teams.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        sx={{ display: 'none' }}
-      />
     </Paper>
   )
 }

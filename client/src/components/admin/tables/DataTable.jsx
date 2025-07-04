@@ -78,7 +78,7 @@ const DataTable = ({
         return matchesSearch
       })
   }
-  
+
   console.log('Filtered rows:', filteredRows)
 
   const handleChangePage = (event, newPage) => {
@@ -227,6 +227,7 @@ const DataTable = ({
               rowsPerPage={rowsPerPage}
               onEditClick={onEditClick}
               onDeleteClick={onDeleteClick}
+              activeOnChange={activeOnChange}
             />
           </Table>
         )}
