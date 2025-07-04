@@ -20,6 +20,7 @@ const AutoScrollTable = ({ teams, columns, loading }) => {
         width: '100%',
         tableLayout: 'fixed',
         backgroundColor: 'transparent',
+        boxShadow: 'none'
       }}
     >
       <TableHeaderRow columns={columns} />
