@@ -1,130 +1,103 @@
-import { test, after, beforeEach } from 'node:test'
-import mongoose from 'mongoose'
+import { test, describe, after, beforeEach, before } from 'node:test'
 import supertest from 'supertest'
 import app from '../../app.js'
 import assert from 'node:assert'
 
 import Location from '../models/location.js'
-import PhysicalMountain from '../models/physicalMountain.js'
-import TargetMountain from '../models/targetMountain.js'
+import Hill from '../models/hill.js'
+import Mountain from '../models/mountain.js'
 import RFIDTag from '../models/rfidTag.js'
 import Event from '../models/event.js'
 import Team from '../models/team.js'
 import Participant from '../models/participant.js'
 import Lap from '../models/lap.js'
+import { loginAndGetToken, closeDBConnection, connectToTestDB } from './testHelper.js'
 
-export const emptyTestDB = async () => {
+const api = supertest(app)
+
+const initialMountainsData = [
+  { name: 'Mount Everest', totalElevation: 29029, elevationUnit: 'FT' },
+  { name: 'K2', totalElevation: 28251, elevationUnit: 'FT' },
+]
+
+let authToken = ''
+
+before(async () => {
+  await connectToTestDB()
+  authToken = await loginAndGetToken()
+})
+
+beforeEach(async () => {
   await Promise.all([
     Location.deleteMany({}),
-    PhysicalMountain.deleteMany({}),
-    TargetMountain.deleteMany({}),
+    Hill.deleteMany({}),
+    Mountain.deleteMany({}),
     RFIDTag.deleteMany({}),
     Event.deleteMany({}),
     Team.deleteMany({}),
     Participant.deleteMany({}),
     Lap.deleteMany({}),
   ])
-}
 
-const api = supertest(app)
-
-const initialPhysicalMountains = [
-  {
-    name: 'Rabbit Hill',
-    elevationPerLap: 50.0,
-  },
-  {
-    name: 'Summer Hill',
-    elevationPerLap: 45.6,
-  },
-]
-
-const initialTargetMountains = [
-  {
-    name: 'Mount Everest',
-    totalElevation: 8848,
-  },
-  {
-    name: 'K2',
-    totalElevation: 8611,
-  },
-]
-
-beforeEach(async () => {
-  await emptyTestDB()
-
-  await Promise.all(initialPhysicalMountains.map(async (pm) => {
-    const physicalMountainToSave = new PhysicalMountain(pm)
-    return await physicalMountainToSave.save()
-  }))
-
-  await Promise.all(initialTargetMountains.map(async (tm) => {
-    const tmSave = new TargetMountain(tm)
-    return await tmSave.save()
-  }))
+  await Mountain.insertMany(initialMountainsData)
 })
 
+describe('Mountains API (/api/mountains)', () => {
+  test('mountains are returned as json', async () => {
+    await api
+      .get('/api/mountains')
+      .set('Authorization', `bearer ${authToken}`)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+  })
 
-test('Physical mountains are returned as json', async () => {
-  await api
-    .get('/api/mountains/physical')
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
-})
+  test('all mountains are returned', async () => {
+    const response = await api.get('/api/mountains').set('Authorization', `bearer ${authToken}`)
+    assert.strictEqual(response.body.length, initialMountainsData.length)
+  })
 
-test('Target mountains are returned as json', async () => {
-  await api
-    .get('/api/mountains/target')
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
-})
+  test('a valid mountain can be added', async () => {
+    const newMountain = {
+      name: 'Denali',
+      totalElevation: 20310,
+      elevationUnit: 'FT'
+    }
 
-test('all physical mountains are returned', async () => {
-  const response = await api.get('/api/mountains/physical')
+    await api
+      .post('/api/mountains').set('Authorization', `bearer ${authToken}`)
+      .send(newMountain)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
 
-  assert.strictEqual(response.body.length, initialPhysicalMountains.length)
-})
+    const response = await api.get('/api/mountains').set('Authorization', `bearer ${authToken}`)
+    const mountainNames = response.body.map(m => m.name)
 
-test('all target mountains are returned', async () => {
-  const response = await api.get('/api/mountains/target')
+    assert.strictEqual(response.body.length, initialMountainsData.length + 1)
+    assert(mountainNames.includes('Denali'))
+  })
 
-  assert.strictEqual(response.body.length, initialTargetMountains.length)
-})
+  test('a mountain can be updated', async () => {
+    const mountains = await api.get('/api/mountains').set('Authorization', `bearer ${authToken}`)
+    const mountainToUpdate = mountains.body[0]
+    const payload = { ...mountainToUpdate, name: 'UPDATED Everest' }
 
-test('a valid physical mountains can be added', async () => {
-  const newPM = {
-    name: 'Small Kilimanjaro',
-    elevationPerLap: 55.0,
-  }
+    await api.put(`/api/mountains/${mountainToUpdate.id}`).set('Authorization', `bearer ${authToken}`).send(payload).expect(200)
 
-  await api.post('/api/mountains/physical').send(newPM).expect(201).expect('Content-Type', /application\/json/)
+    const res = await api.get(`/api/mountains/${mountainToUpdate.id}`).set('Authorization', `bearer ${authToken}`)
+    assert.strictEqual(res.body.name, 'UPDATED Everest')
+  })
 
-  const allMountains = await (await api.get('/api/mountains/physical')).body
+  test('a mountain can be deleted', async () => {
+    const mountains = await api.get('/api/mountains').set('Authorization', `bearer ${authToken}`)
+    const mountainToDelete = mountains.body[0]
 
-  const allMountainsNames = allMountains.map(e => e.name)
+    await api.delete(`/api/mountains/${mountainToDelete.id}`).set('Authorization', `bearer ${authToken}`).expect(204)
 
-  assert.strictEqual(allMountainsNames.length, initialPhysicalMountains.length + 1)
-  assert(allMountainsNames.includes('Small Kilimanjaro'))
-
-})
-
-test('a valid target mountains can be added', async () => {
-  const newPM = {
-    name: 'Denali',
-    totalElevation: 6190,
-  }
-
-  await api.post('/api/mountains/target').send(newPM).expect(201).expect('Content-Type', /application\/json/)
-
-  const allMountains = await (await api.get('/api/mountains/target')).body
-
-  const allMountainsNames = allMountains.map(e => e.name)
-
-  assert.strictEqual(allMountainsNames.length, initialPhysicalMountains.length + 1)
-  assert(allMountainsNames.includes('Denali'))
-
+    const finalMountains = await api.get('/api/mountains').set('Authorization', `bearer ${authToken}`)
+    assert.strictEqual(finalMountains.body.length, initialMountainsData.length - 1)
+  })
 })
 
 after(async () => {
-  await mongoose.connection.close()
+  await closeDBConnection()
 })

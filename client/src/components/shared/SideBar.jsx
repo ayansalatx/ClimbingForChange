@@ -1,6 +1,8 @@
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import DashboardIcon from '@mui/icons-material/Dashboard'
+import DownhillSkiingIcon from '@mui/icons-material/DownhillSkiing'
 import EventIcon from '@mui/icons-material/Event'
+import Hiking from '@mui/icons-material/Hiking'
 import PeopleIcon from '@mui/icons-material/People'
 import PlaceIcon from '@mui/icons-material/Place'
 import TerrainIcon from '@mui/icons-material/Terrain'
@@ -16,7 +18,7 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material'
-import { useLocation,useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import C4CBanner from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 
@@ -42,21 +44,33 @@ const SideBar = ({ open, toggleDrawer }) => {
       onClick: () => navigate('/admin/events'),
     },
     {
+      text: 'Teams',
+      icon: <PeopleIcon />,
+      onClick: () => navigate('/admin/teams'),
+    },
+    {
+      text: 'Participants',
+      icon: <Hiking />,
+      onClick: () => navigate('/admin/participants'),
+    },
+    {
       text: 'Mountains',
       icon: <TerrainIcon />,
       path: '/admin/mountains',
       onClick: () => navigate('/admin/mountains'),
     },
     {
-      text: 'Participants',
-      icon: <PeopleIcon />,
-      onClick: () => navigate('/admin/participants'),
-    },
-    {
       text: 'Locations',
       path: '/admin/locations',
       icon: <PlaceIcon />,
       onClick: () => navigate('/admin/locations'),
+    },
+    {
+      text: 'Hills',
+      path: '/admin/hills',
+      icon: <DownhillSkiingIcon />,
+      // or FollowTheSigns or ForkRight/ForkLeft
+      onClick: () => navigate('/admin/hills'),
     },
   ]
 
@@ -65,7 +79,7 @@ const SideBar = ({ open, toggleDrawer }) => {
       text: 'Upload Participants',
       path: '/admin/participants/upload',
       icon: <UploadIcon />,
-      onClick: () => navigate('/admin'),
+      onClick: () => navigate('/admin/upload'),
     },
     {
       text: 'Add Event',
@@ -84,7 +98,7 @@ const SideBar = ({ open, toggleDrawer }) => {
           color: 'background.paper',
         }}
       >
-        <Box sx={{ p: 2, pl: 3, mt: 2 }}>
+        <Box sx={{ p: 1, pl: 3, mt: 2.5 }}>
           <a
             href="https://www.climbingforchange.ca/"
             target="_blank"
@@ -132,11 +146,11 @@ const SideBar = ({ open, toggleDrawer }) => {
 
         <Divider sx={{ backgroundColor: 'background.paper', opacity: 0.2 }} />
 
-        <Box sx={{ pl: 3.5, pt: 3, pb: 1 }}>
+        <Box sx={{ pl: 3.5, pt: 2, pb: .5 }}>
           <Typography
             variant="subtitle2"
             sx={{
-              fontSize: '1.5rem',
+              fontSize: '1.35rem',
               textTransform: 'uppercase',
               letterSpacing: '.1rem',
             }}
@@ -173,11 +187,11 @@ const SideBar = ({ open, toggleDrawer }) => {
           ))}
         </List>
 
-        <Box sx={{ pl: 3.5, pt: 1, pb: 1 }}>
+        <Box sx={{ pl: 3.5, pt: 1, pb: .5 }}>
           <Typography
             variant="subtitle2"
             sx={{
-              fontSize: '1.5rem',
+              fontSize: '1.35rem',
               textTransform: 'uppercase',
               letterSpacing: '.05rem',
             }}

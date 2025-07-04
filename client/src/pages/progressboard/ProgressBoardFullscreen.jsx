@@ -1,39 +1,91 @@
-import { Box, Container } from '@mui/material'
+import { alpha, Box, Typography, useMediaQuery } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
-import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
-import AutoScrollTable from '../../components/progressboard/auto-scroll/AutoScrollTable'
-import { getTeamsForDisplay } from '../../services/teamService'
+import C4CFavicon from '../../assets/C4C-branding/Favicon.png'
+import AutoScrollTable from '../../components/progressboard/tables/full-table/auto-scroll/AutoScrollTable'
+import { getDisplayEventTeams, getOneEvent } from '../../services/eventService'
+import theme from '../../styles/theme'
 
 // Define columns for full width screen
-const fullColumns = [
-  { id: 'name', label: 'Team', minWidth: 200 },
-  { id: 'mountainName', label: 'Mountain', minWidth: 115 },
-  { id: 'elevation', label: 'Elevation', minWidth: 60 },
-  { id: 'currentElevation', label: 'Current Elevation', minWidth: 60 },
-  { id: 'lapsRequired', label: 'Total Laps', minWidth: 40 },
-  { id: 'lapsCompleted', label: 'Laps Completed', minWidth: 70 },
-  { id: 'lapsToGo', label: 'Laps To Go', minWidth: 40 },
-  { id: 'bestLap', label: 'Best Lap', minWidth: 40 },
-  { id: 'timeElapsed', label: 'Time Elapsed', minWidth: 60 },
+const xlColumns = [
+  { id: 'name', label: 'Team', width: '25%' },
+  { id: 'mountainName', label: 'Mountain', width: '12%' },
+  { id: 'totalElevation', label: 'Total Elevation', width: '12%' },
+  { id: 'currentElevation', label: 'Current Elevation', width: '12%' },
+  { id: 'lapsRequired', label: 'Total Laps', width: '8%' },
+  { id: 'lapsCompleted', label: 'Laps', width: '7%' },
+  { id: 'lapsToGo', label: 'Laps To Go', width: '7%' },
+  { id: 'bestLap', label: 'Best Lap', width: '7%' },
+  { id: 'timeElapsed', label: 'Time Elapsed', width: '10%' },
 ]
 
-// const medColumns = [
-//   { id: 'team-name', label: 'Team', minWidth: 200 },
-//   { id: 'mountain', label: 'Mountain', minWidth: 115 },
-//   { id: 'elevation', label: 'Elevation', minWidth: 60 },
-//   { id: 'current-elevation', label: 'Current Elevation', minWidth: 60 },
-//   { id: 'total-laps', label: 'Total Laps', minWidth: 40 },
-//   { id: 'laps-completed', label: 'Laps Completed', minWidth: 70 },
-//   { id: 'laps-to-go', label: 'Laps To Go', minWidth: 40 },
-//   { id: 'best-lap', label: 'Best Lap', minWidth: 40 },
-//   { id: 'time-elapsed', label: 'Time Elapsed', minWidth: 60 },
-// ]
+const lgColumns = [
+  { id: 'name', label: 'Team', width: '25%' },
+  { id: 'mountainName', label: 'Mountain', width: '12%' },
+  { id: 'totalElevation', label: 'Total Elev.', width: '12%' },
+  { id: 'currentElevation', label: 'Elev.', width: '9%' },
+  { id: 'lapsRequired', label: 'Total Laps', width: '9%' },
+  { id: 'lapsCompleted', label: 'Laps', width: '7%' },
+  { id: 'lapsToGo', label: 'To Go', width: '5%' },
+  { id: 'bestLap', label: 'Best Lap', width: '10%' },
+  { id: 'timeElapsed', label: 'Time', width: '10%' },
+]
+
+const mdColumns = [
+  { id: 'name', label: 'Team', width: '29%' },
+  { id: 'mountainName', label: 'Mount.', width: '12%' },
+  { id: 'elevation', label: 'Elev.', width: '18%' },
+  { id: 'laps', label: 'Laps', width: '12%' },
+  { id: 'lapsToGo', label: 'To Go', width: '7%' },
+  { id: 'bestLap', label: 'Best Lap', width: '10%' },
+  { id: 'timeElapsed', label: 'Time', width: '12%' },
+]
+
+const smColumns = [
+  { id: 'name', label: 'Team', width: '33%' },
+  { id: 'mountainName', label: 'Mount.', width: '14%' },
+  { id: 'elevation', label: 'Elevation', width: '20%' },
+  { id: 'laps', label: 'Laps', width: '13%' },
+  { id: 'lapsToGo', label: 'To Go', width: '10%' },
+  { id: 'timeElapsed', label: 'Time', width: '10%' },
+]
+
+const xsmColumns = [
+  { id: 'name', label: 'Team', width: '33%' },
+  { id: 'mountainName', label: 'Mount.', width: '14%' },
+  { id: 'elevation', label: 'Elev.', width: '20%' },
+  { id: 'laps', label: 'Laps', width: '13%' },
+  { id: 'lapsToGo', label: 'To Go', width: '10%' },
+  { id: 'timeElapsed', label: 'Time', width: '10%' },
+]
 
 const ProgressBoardFullscreen = () => {
+  // Get media queries to render appropriate content
+  const isXLarge = useMediaQuery(theme.breakpoints.up('xl'))
+  const isLarge = useMediaQuery(theme.breakpoints.up('lg'))
+  const isMedium = useMediaQuery(theme.breakpoints.up('md'))
+  const isSmall = useMediaQuery(theme.breakpoints.up('sm'))
+
+  // Calc size to determine columns
+  let columns
+  if (isXLarge) {
+    columns = xlColumns
+  } else if (isLarge) {
+    columns = lgColumns
+  } else if (isMedium) {
+    columns = mdColumns
+  } else if (isSmall) {
+    columns = smColumns
+  } else {
+    columns = xsmColumns
+  }
+
+  const { eventId } = useParams()
   // State for teams
   const [teams, setTeams] = useState([])
+  const [eventName, setEventName] = useState([])
+  const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -47,60 +99,159 @@ const ProgressBoardFullscreen = () => {
     return () => window.removeEventListener('keydown', handleEsc)
   }, [navigate])
 
-  // Load Participant data from server
+  // Load Team data from server
   useEffect(() => {
     async function loadData() {
       try {
-        const teamList = await getTeamsForDisplay()
+        const teamsList = await getDisplayEventTeams(eventId)
+        const event = await getOneEvent(eventId)
+        const eventName = event.name
 
-        setTeams(teamList)
+        setTeams(teamsList)
+        setEventName(eventName)
       } catch (e) {
         console.log('Failed to load progress data', e)
+      } finally {
+        setLoading(false)
       }
     }
-
     loadData()
-  }, [])
+  }, [eventId])
 
   return (
     <Box
       sx={{
-        minHeight: '100vh',
+        position: 'relative',
         width: '100vw',
-        bgcolor: 'primary.main',
-        flexDirection: 'column',
-        alignContent: 'center',
+        height: '100vh',
+        overflow: 'hidden',
       }}
     >
-      <Container
-        maxWidth={false}
-        disableGutters
+      {/* https://pixabay.com/videos/search/terrain%20blue%20gray%20mountain/ */}
+      <video
+        src="/assets/mountain-with-way-points.mp4"
+        autoPlay
+        loop
+        muted
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          zIndex: 0,
+        }}
+      />
+
+      <Box
         sx={{
-          width: '95vw',
-          height: '95vh',
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: alpha(theme.palette.primary.main, 0.7),
         }}
       >
-        <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: '1rem' }}>
-          <a
-            href="https://www.climbingforchange.ca/"
-            target="_blank"
-            rel="noreferrer"
+        <Box
+          sx={{
+            position: 'relative',
+            zIndex: 2,
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            p: 3,
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'flex-end',
+              mb: {xxs: 1, xs: 1, sm: 2, md: 2.5, lg: 3, xl: 3 },
+            }}
           >
-            <img
-              src={C4CHorizontalGreenLogo}
+            <Box
+              component="img"
+              src={C4CFavicon}
               alt="Climbing for Change Logo"
-              style={{ maxWidth: '20rem', width: 'auto' }}
+              sx={{
+                width: 'auto',
+                maxHeight: {
+                  xxs: '1rem',
+                  xs: '1.75rem',
+                  sm: '2.2rem',
+                  md: '3.8rem',
+                  lg: '5rem',
+                  xl: '5rem',
+                },
+                maxWidth: {
+                  xxs: '3rem',
+                  xs: '4rem',
+                  sm: '5rem',
+                  md: '6rem',
+                  lg: '7rem',
+                  xl: '8rem',
+                },
+                ml: { xxs: 0.25, xs: 0.25, sm: 0.5, lg: 1 },
+              }}
             />
-          </a>
-        </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                flexGrow: 1,
+                justifyContent: 'center',
+                alignContent: 'center',
+              }}
+            >
+              <Typography
+                variant="h1"
+                color="secondary.main"
+                fontWeight={'bold'}
+                textTransform={'uppercase'}
+                sx={{
+                  fontSize: {
+                    xxs: '1.3rem',
+                    xs: '1.45rem',
+                    sm: '2.1rem',
+                    md: '3.4rem',
+                    lg: '5rem',
+                    xl: '5rem',
+                  },
+                  lineHeight: {
+                    xxs: '1.3rem',
+                    xs: '1.5rem',
+                    sm: '2.25rem',
+                    md: '3.4rem',
+                    lg: '5rem',
+                    xl: '5rem',
+                  },
+                  fontStyle: 'italic',
+                }}
+              >
+                {eventName}
+              </Typography>
+            </Box>
+          </Box>
 
-        <Box sx={{ flexGrow: 1, width: '100%' }}>
-          <AutoScrollTable columns={fullColumns} teams={teams} />
+          <Box
+            sx={{
+              flexGrow: 1,
+              width: '100%',
+              minHeight: 0,
+              overflowY: 'hidden',
+            }}
+          >
+            <AutoScrollTable
+              columns={columns}
+              teams={teams}
+              loading={loading}
+            />
+          </Box>
         </Box>
-      </Container>
+      </Box>
     </Box>
   )
 }

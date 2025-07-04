@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, InputLabel, MenuItem,Modal, Select, TextField, Typography } from '@mui/material'
+import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, TextField, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 const style = {
@@ -13,55 +13,74 @@ const style = {
   borderRadius: 2,
 }
 
-const AddEventModal = ({ open, onClose, onAdd, onLocation }) => {
+const AddEventModal = ({ open, onClose, onAdd, onEdit ,onLocation, eventToEdit }) => {
   const [eventName, setEventName] = useState('')
   const [location, setLocation] = useState('')
   const [locations, setLocations] = useState([])  
   const [startDate, setStartDate] = useState('')
   const [startTime, setStartTime] = useState('')
   const [duration, setDuration] = useState('')
-  const [lapDistance, setLapDistance] = useState('')
 
-  useEffect(() => {
-    setLocations(onLocation)
-  }, [onLocation])
-
-  const handleAdd = (e) => {
-    e.preventDefault()
-
-    const selectedLocation = locations.find((loc) => loc.id === location)
-    
-    const start = new Date(`${startDate}T${startTime}`)
-    const end = new Date(start.getTime() + Number(duration) * 60000)
-    
-    const eventData = {
-      name: eventName,
-      locationId: selectedLocation,
-      startDateTime: `${startDate} ${startTime}`,
-      endDateTime: end.toISOString(),
-      duration: Number(duration),
-      physicalMountainIds: new Array(Number(lapDistance)).fill('lap'),
-      active: true,
-    }
-
-    onAdd(eventData, setLocations) 
-    onClose() 
-
+  const onModalClose = () => {
+    onClose()
     setEventName('')
     setLocation('')
     setStartDate('')
     setStartTime('')
     setDuration('')
-    setLapDistance('')
+  }
+
+  useEffect(() => {
+    setLocations(onLocation)
+  }, [onLocation])
+
+  useEffect(() => {
+    if (eventToEdit) {
+      console.log(eventToEdit)
+      setEventName(eventToEdit.name || '')
+      setLocation(eventToEdit.locationId || '')
+      const start = new Date(eventToEdit.startDateTime)
+      setStartDate(start.toISOString().slice(0, 10))
+      setStartTime(start.toTimeString().slice(0, 5))
+      const duration = (new Date(eventToEdit.endDateTime) - start) / 60000
+      setDuration(duration)
+    }
+  }, [eventToEdit])
+
+  const handleAdd = async (e) => {
+    e.preventDefault()
+
+    const selectedLocation = locations.find((loc) => loc.id === location)
+    const start = new Date(`${startDate}T${startTime}`)
+    const end = new Date(start.getTime() + Number(duration) * 60000)
+
+    const eventData = {
+      name: eventName,
+      location: selectedLocation.id, 
+      startDateTime: start.toISOString(),
+      endDateTime: end.toISOString(),
+      hill: [], 
+      active: true,
+    }
+
+    try {
+      if (eventToEdit) {
+        onEdit(eventToEdit.id, eventData)
+      } else {
+        onAdd(eventData)
+      }
+    } catch (error) {
+      console.error('Error saving event:', error)
+    }
+    onModalClose()
   }
 
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open} onClose={onModalClose}>
       <Box sx={style}>
         <Typography variant="h6" mb={2} sx={{ color: 'black' }}>
-          Add New Event
+          {eventToEdit ? 'Edit Event' : 'Add New Event'}
         </Typography>
-
         <form onSubmit={handleAdd}>
           <TextField
             fullWidth
@@ -72,6 +91,7 @@ const AddEventModal = ({ open, onClose, onAdd, onLocation }) => {
             onChange={(e) => setEventName(e.target.value)}
             required
           />
+
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Location</InputLabel>
             <Select
@@ -80,6 +100,7 @@ const AddEventModal = ({ open, onClose, onAdd, onLocation }) => {
               value={location}
               label="Location"
               onChange={(e) => setLocation(e.target.value)}
+              required
             >
               {locations.map((location) => <MenuItem value={location.id} key={location.id}> {location.name} </MenuItem> )}
             </Select>
@@ -96,6 +117,7 @@ const AddEventModal = ({ open, onClose, onAdd, onLocation }) => {
             InputLabelProps={{ shrink: true }}
             required
           />
+
           <TextField
             fullWidth
             label="Start Time"
@@ -107,6 +129,7 @@ const AddEventModal = ({ open, onClose, onAdd, onLocation }) => {
             InputLabelProps={{ shrink: true }}
             required
           />
+
           <TextField
             fullWidth
             label="Duration (minutes)"
@@ -117,19 +140,9 @@ const AddEventModal = ({ open, onClose, onAdd, onLocation }) => {
             onChange={(e) => setDuration(e.target.value)}
             required
           />
-          <TextField
-            fullWidth
-            label="Lap Distance (ft)"
-            type="number"
-            variant="outlined"
-            margin="normal"
-            value={lapDistance}
-            onChange={(e) => setLapDistance(e.target.value)}
-            required
-          />
-
+  
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
-            <Button variant="outlined" onClick={onClose}>
+            <Button variant="outlined" onClick={onModalClose}>
               Cancel
             </Button>
             <Button type="submit" variant="contained">

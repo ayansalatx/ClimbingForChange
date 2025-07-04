@@ -1,4 +1,4 @@
-import mongoose from '../utils/db.js'
+import mongoose from 'mongoose'
 
 const { Schema, model } = mongoose
 
@@ -6,11 +6,6 @@ const lapSchema = new Schema({
   teamId: {
     type: Schema.Types.ObjectId,
     ref: 'Team',
-    required: true
-  },
-  participantId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Participant',
     required: true
   },
   rfidTagId: {

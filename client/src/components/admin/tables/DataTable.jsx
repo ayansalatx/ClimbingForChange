@@ -1,22 +1,31 @@
-import PlaceIcon from '@mui/icons-material/Place'
-import { Box, TableContainer, TablePagination, Typography } from '@mui/material'
-import Paper from '@mui/material/Paper'
+import {
+  Box,
+  Paper,
+  Table,
+  TableContainer,
+  TablePagination,
+  Typography,
+} from '@mui/material'
 import { alpha } from '@mui/material/styles'
-import Table from '@mui/material/Table'
 import React, { useState } from 'react'
 
 import theme from '../../../styles/theme'
-import ActiveToggle from './ActiveToggle'
+import ActiveToggle from '../buttons/ShowInactiveToggle'
+import EventSelector from './EventSelector'
 import SearchBar from './SearchBar'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
 
-const LocationTable = ({
+const DataTable = ({
   tableTitle,
+  tableIcon: TableIcon,
   tableColumns,
   tableData = [],
   showInactive,
   setShowInactive,
+  eventsForDropdown,
+  selectedEvent,
+  setSelectedEvent,
   onAddClick,
   onEditClick,
   onDeleteClick,
@@ -25,14 +34,49 @@ const LocationTable = ({
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
-  const filteredRows = tableData
-    .filter((row) => showInactive || row.active)
-    .filter((row) =>
-      Object.values(row)
-        .join(' ')
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase())
-    )
+  const activeToggleOption = tableTitle == 'Events' ? 'visible' : 'hidden'
+
+  let filteredRows = []
+
+  console.log('Original tableData:', tableData)
+  console.log('showInactive:', showInactive)
+  console.log('searchTerm:', searchTerm)
+
+  if (tableTitle === 'Teams' || tableTitle === 'Participants') {
+    filteredRows = tableData
+      .filter((row) => {
+        const show = showInactive || row.active
+        console.log(`Row ${row.id} - active: ${row.active}, show: ${show}`)
+        return show
+      })
+      .filter((row) => {
+        const searchableText = Object.values(row).join(' ').toLowerCase()
+        const matchesSearch = searchableText.includes(searchTerm.toLowerCase())
+        console.log(`Row ${row.id} - search matches: ${matchesSearch}`)
+        return matchesSearch
+      })
+      .filter((row) => {
+        if (!selectedEvent) return true
+        const matchesEvent = row.eventId === selectedEvent
+        console.log(`Row ${row.id} - event matches: ${matchesEvent}`)
+        return matchesEvent
+      })
+  } else {
+    filteredRows = tableData
+      .filter((row) => {
+        const show = showInactive || row.active
+        console.log(`Row ${row.id} - active: ${row.active}, show: ${show}`)
+        return show
+      })
+      .filter((row) => {
+        const searchableText = Object.values(row).join(' ').toLowerCase()
+        const matchesSearch = searchableText.includes(searchTerm.toLowerCase())
+        console.log(`Row ${row.id} - search matches: ${matchesSearch}`)
+        return matchesSearch
+      })
+  }
+  
+  console.log('Filtered rows:', filteredRows)
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -59,7 +103,7 @@ const LocationTable = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          bgcolor: 'info.light',
+          bgcolor: 'primary.main',
           padding: '.5rem',
         }}
       >
@@ -72,11 +116,10 @@ const LocationTable = ({
             py: '.5rem',
           }}
         >
-          <PlaceIcon
+          <TableIcon
             fontSize="large"
             sx={{
-              color: 'background.paper',
-              filter: 'drop-shadow(2px 0px 1px var(--c4c-teal))',
+              color: 'secondary.main',
             }}
           />
           <Typography
@@ -90,7 +133,6 @@ const LocationTable = ({
               fontWeight: 'bold',
               textTransform: 'uppercase',
               letterSpacing: '0.05em',
-              textShadow: '2px 0px 1px var(--c4c-teal)',
               color: 'white',
             }}
           >
@@ -100,6 +142,42 @@ const LocationTable = ({
 
         <SearchBar value={searchTerm} onChange={setSearchTerm} />
       </Box>
+      {['Teams', 'Participants'].includes(tableTitle) && (
+        <Box
+          sx={{
+            px: 1,
+            pt: 1,
+            bgcolor: 'info.main',
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              px: 1,
+              bgcolor: 'info.light',
+              borderRadius: '3px',
+            }}
+          >
+            <Typography
+              variant="body1"
+              component="span"
+              color="primary.light"
+              textTransform={'uppercase'}
+              fontWeight={'bold'}
+              letterSpacing={'.05rem'}
+              paddingRight={1}
+            >
+              Event:
+            </Typography>
+            <EventSelector
+              events={eventsForDropdown}
+              selectedEvent={selectedEvent}
+              setSelectedEvent={setSelectedEvent}
+            />
+          </Box>
+        </Box>
+      )}
 
       <TableContainer
         sx={(theme) => ({
@@ -108,7 +186,7 @@ const LocationTable = ({
           overflowY: 'auto',
           position: 'relative',
           scrollbarWidth: 'thin',
-          scrollbarColor: `${theme.palette.info.light} ${theme.palette.background.default}`,
+          scrollbarColor: `${theme.palette.primary.light} ${theme.palette.background.default}`,
         })}
       >
         <Table
@@ -134,12 +212,13 @@ const LocationTable = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          backgroundColor: 'info.light',
+          backgroundColor: 'primary.main',
         }}
       >
         <ActiveToggle
           checked={showInactive}
           onChange={() => setShowInactive((prev) => !prev)}
+          hidden={activeToggleOption}
         />
 
         <TablePagination
@@ -152,7 +231,7 @@ const LocationTable = ({
           onRowsPerPageChange={handleChangeRowsPerPage}
           sx={{
             minHeight: '3.25rem',
-            bgcolor: 'info.light',
+            bgcolor: 'primary.main',
             color: 'background.paper',
             '& .MuiSvgIcon-root': {
               fontSize: '1.25rem',
@@ -166,4 +245,4 @@ const LocationTable = ({
   )
 }
 
-export default LocationTable
+export default DataTable

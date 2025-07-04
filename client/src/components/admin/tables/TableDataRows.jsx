@@ -1,5 +1,6 @@
-import { TableBody, TableCell, TableRow } from '@mui/material'
+import { alpha,TableBody, TableCell, TableRow } from '@mui/material'
 
+import theme from '../../../styles/theme'
 import RowActions from '../buttons/RowActions'
 
 const TableDataRows = ({
@@ -24,15 +25,21 @@ const TableDataRows = ({
               sx={{
                 backgroundColor:
                   index % 2 === 0 ? 'background.paper' : 'background.default',
+                '&:hover > *': {
+                  backgroundColor: alpha(theme.palette.secondary.light, 0.9),
+                },
               }}
             >
-              {columns.map((column, index) => {
+              {columns.map((column) => {
                 const value = row[column.id]
                 return (
                   <TableCell
                     key={column.id}
-                    align={index < 2 ? 'left' : 'center'}
-                    sx={{ fontSize: '1rem', color: row.active ? 'primary.main' :'gray.main' }}
+                    align={column.align || 'left'}
+                    sx={{
+                      fontSize: '1rem',
+                      color: row.active ? 'primary.main' : 'gray.main',
+                    }}
                   >
                     {column.format && typeof value === 'number'
                       ? column.format(value)
@@ -43,7 +50,7 @@ const TableDataRows = ({
               <TableCell
                 key={row.id}
                 align={'center'}
-                sx={{ minWidth: '5rem' }}
+                sx={{ py: 0, minWidth: '5rem' }}
               >
                 <RowActions
                   row={row}

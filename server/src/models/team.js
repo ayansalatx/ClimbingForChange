@@ -1,22 +1,28 @@
-import mongoose from '../utils/db.js'
+import mongoose from 'mongoose'
 
 const {Schema, model} = mongoose
 
 const teamSchema = new Schema({
-  eventId: {
+  event: {
     type: Schema.Types.ObjectId,
     ref: 'Event',
     required: true
   },
-  physicalMountainId: {
+  mountain: {
     type: Schema.Types.ObjectId,
-    ref: 'PhysicalMountain',
+    ref: 'Mountain',
     required: true
   },
-  targetMountainId: {
+  hill: {
     type: Schema.Types.ObjectId,
-    ref: 'TargetMountain',
+    ref: 'Hill',
     required: true
+  },
+  rfidTagId: {
+    type: Schema.Types.ObjectId,
+    ref: 'RFIDTag',
+    unique: true,
+    required: false
   },
   name: {
     type: String,
@@ -36,17 +42,24 @@ const teamSchema = new Schema({
     type: Date,
     required: true
   },
-  // rfidTagId: { // Uncomment and set 'required: true' if RFID is assigned per Team
-  //   type: Schema.Types.ObjectId,
-  //   ref: 'RFIDTag',
-  //   required: false // Set to true if it must be assigned
-  // }
+  totalDistanceRequired: {
+    type: Number,
+    required: true,
+    min: 0
+  }
 }, {
-  timestamps: true // Adds createdAt and updatedAt fields automatically
+  timestamps: true
 })
 
 teamSchema.virtual('participants', {
   ref: 'Participant',         
+  localField: '_id',          
+  foreignField: 'teamId',     
+  justOne: false
+})
+
+teamSchema.virtual('laps', {
+  ref: 'Lap',         
   localField: '_id',          
   foreignField: 'teamId',     
   justOne: false
