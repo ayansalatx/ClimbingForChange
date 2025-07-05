@@ -7,28 +7,30 @@ import {
   TableContainer,
 } from '@mui/material'
 
-import theme from '../../../../../styles/theme'
+import theme from '../../../../styles/theme'
 import ScrollingTableRow from './ScrollingTableRows'
 import TableHeaderRow from './TableHeaderRow'
 
 const AutoScrollTable = ({ teams, columns, loading }) => {
-  const dblTeams = [...teams, ...teams]
 
   return (
     <Paper
       sx={{
         width: '100%',
+        height: '100%',
         tableLayout: 'fixed',
+        display: 'flex',
+        flexDirection: 'column',
         backgroundColor: 'transparent',
-        boxShadow: 'none'
+        boxShadow: 'none',
       }}
     >
       <TableHeaderRow columns={columns} />
       <TableContainer
         sx={{
           width: '100%',
-          height: '100%',
-          overflowY: 'auto',
+          maxHeight: '100%',
+          overflowY: 'hidden',
           background: 'transparent',
         }}
       >
@@ -49,7 +51,10 @@ const AutoScrollTable = ({ teams, columns, loading }) => {
           </Box>
         ) : (
           <Table aria-label="auto scrolling table" size="small">
-            <ScrollingTableRow columns={columns} teams={dblTeams} />
+            <ScrollingTableRow
+              columns={columns}
+              teams={teams}
+            />
           </Table>
         )}
       </TableContainer>

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import C4CFavicon from '../../assets/C4C-branding/Favicon.png'
 import ProgressList from '../../components/progressboard/cards/ProgressCardList'
-import ProgressTable from '../../components/progressboard/tables/full-table/ProgressTable'
+import ProgressTable from '../../components/progressboard/tables/regular/ProgressTable'
 import { getAllEvents, getDisplayEventTeams } from '../../services/eventService'
 import theme from '../../styles/theme'
 
@@ -89,6 +89,7 @@ const ProgressBoard = () => {
     loadData()
   }, [])
 
+  // Set default event as the event that is ongoing or upcoming
   useEffect(() => {
     if (events.length > 0 && !selectedEvent) {
       const now = new Date()

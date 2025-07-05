@@ -7,14 +7,14 @@ import {
 } from '@mui/material'
 import { Fragment } from 'react'
 
-import theme from '../../../../../styles/theme'
+import theme from '../../../../styles/theme'
 
 const ScrollingTableRow = ({ teams, columns }) => {
   const isLarge = useMediaQuery(theme.breakpoints.up('lg'))
 
   const gradientBackground = `linear-gradient(to right, ${alpha(theme.palette.primary.main, 0.8)}, ${alpha(theme.palette.primary.main, 0.3)}, ${alpha(theme.palette.primary.main, 0.8)})`
   return (
-    <TableBody className="marquee__content" >
+    <TableBody className="marquee__content">
       {teams.map((team, index) => (
         <Fragment key={team.id || index}>
           <TableRow>
@@ -65,8 +65,13 @@ const ScrollingTableRow = ({ teams, columns }) => {
                   sx={{
                     border: 'none',
                     width: column.width,
-                    px: { xxs: .5, md: 2 },
-                    fontSize: { xxs: '.65rem', md: '.85rem',lg: '1rem', xl: '1.25rem' },
+                    px: { xxs: 0.5, md: 2 },
+                    fontSize: {
+                      xxs: '.65rem',
+                      md: '.85rem',
+                      lg: '1rem',
+                      xl: '1.25rem',
+                    },
                     textTransform: 'uppercase',
                     letterSpacing: '.05rem',
                     color: isEven ? 'secondary.main' : 'info.main',

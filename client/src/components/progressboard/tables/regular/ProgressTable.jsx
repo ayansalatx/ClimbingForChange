@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react'
 
 import theme from '../../../../styles/theme'
 import EventSelector from '../../shared/EventSelector'
-import FullscreenToggleButton from '../../shared/FullscreenToggleButton'
+import FullscreenToggleButton from './FullscreenToggleButton'
 import ProgressSearch from '../../shared/ProgressSearch'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'

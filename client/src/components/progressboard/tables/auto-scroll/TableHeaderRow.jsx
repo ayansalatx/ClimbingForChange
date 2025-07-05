@@ -1,6 +1,6 @@
 import { alpha, Table, TableCell, TableHead, TableRow } from '@mui/material'
 
-import theme from '../../../../../styles/theme'
+import theme from '../../../../styles/theme'
 // Renders the header row of the table using provided column definitions
 const TableHeaderRow = ({ columns }) => {
   return (
@@ -20,7 +20,7 @@ const TableHeaderRow = ({ columns }) => {
               sx={{
                 position: 'sticky',
                 width: column.width,
-                px: { xxs: .5, md: 2 },
+                px: { xxs: 0.5, md: 2 },
                 background: 'transparent',
                 color: 'background.default',
                 fontWeight: 'bold',

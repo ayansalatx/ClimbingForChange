@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import C4CFavicon from '../../assets/C4C-branding/Favicon.png'
-import AutoScrollTable from '../../components/progressboard/tables/full-table/auto-scroll/AutoScrollTable'
+import AutoScrollTable from '../../components/progressboard/tables/auto-scroll/AutoScrollTable'
 import { getDisplayEventTeams } from '../../services/eventService'
 import theme from '../../styles/theme'
 
