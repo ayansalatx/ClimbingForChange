@@ -8,7 +8,7 @@ import DataTable from '../../../components/admin/tables/DataTable.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
 import {
   addNewLocation,
-  deleteLocation,
+  removeLocation,
   editLocation,
   getAllLocations,
 } from '../../../services/locationService.js'
@@ -74,7 +74,7 @@ const LocationManager = () => {
 
   const confirmedDelete = async () => {
     try {
-      await deleteLocation(deletedLocation.id)
+      await removeLocation(deletedLocation.id)
       const newLocationList = await getAllLocations()
       setLocations(newLocationList)
       setDeleteConfirmOpen(false)

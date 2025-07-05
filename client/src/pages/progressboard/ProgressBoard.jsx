@@ -63,6 +63,7 @@ const ProgressBoard = () => {
 
   // State for teams
   const [teams, setTeams] = useState([])
+  const [teamsLength, setTeamsLength] = useState()
   // State for events
   const [events, setEvents] = useState([])
   const [selectedEvent, setSelectedEvent] = useState(null)
@@ -115,6 +116,8 @@ const ProgressBoard = () => {
       if (!selectedEvent) return
       try {
         const teamsForEvent = await getDisplayEventTeams(selectedEvent)
+
+        setTeamsLength(teamsForEvent.length)
         setTeams(teamsForEvent)
       } catch (e) {
         console.log('Failed to load event teams', e)
@@ -161,7 +164,7 @@ const ProgressBoard = () => {
 
       {!isXSmall && (
         <video
-          src='/assets/mountain-with-way-points.mp4'
+          src="/assets/mountain-with-way-points.mp4"
           autoPlay
           loop
           muted
@@ -215,9 +218,9 @@ const ProgressBoard = () => {
             {/* Logo */}
             <Box sx={{ mb: { sm: 0.5 } }}>
               <Box
-                component='img'
+                component="img"
                 src={isXSmall ? C4CFavicon : C4CHorizontalGreenLogo}
-                alt='Climbing for Change Logo'
+                alt="Climbing for Change Logo"
                 sx={{
                   maxWidth: {
                     xxs: '1.6rem',
@@ -251,10 +254,10 @@ const ProgressBoard = () => {
               }}
             >
               <Typography
-                variant='h1'
-                color='secondary.main'
-                fontWeight='bold'
-                textTransform='uppercase'
+                variant="h1"
+                color="secondary.main"
+                fontWeight="bold"
+                textTransform="uppercase"
                 sx={{
                   fontStyle: 'italic',
                   mr: {
@@ -302,6 +305,7 @@ const ProgressBoard = () => {
                 setSelectedEvent={setSelectedEvent}
                 searchString={searchString}
                 setSearchString={setSearchString}
+                teamsLength={teamsLength}
                 loading={loading}
               />
             </Box>

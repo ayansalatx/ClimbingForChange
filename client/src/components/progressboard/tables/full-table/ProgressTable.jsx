@@ -9,6 +9,7 @@ import {
   TableContainer,
   TablePagination,
   TableRow,
+  Typography,
   useMediaQuery,
 } from '@mui/material'
 import { useEffect, useState } from 'react'
@@ -19,6 +20,7 @@ import FullscreenToggleButton from '../../shared/FullscreenToggleButton'
 import ProgressSearch from '../../shared/ProgressSearch'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
+import HikingIcon from '@mui/icons-material/Hiking'
 
 const ProgressTable = ({
   columns,
@@ -28,6 +30,7 @@ const ProgressTable = ({
   setSelectedEvent,
   searchString,
   setSearchString,
+  teamsLength,
   loading,
 }) => {
   // Get media queries to render appropriate content
@@ -40,7 +43,7 @@ const ProgressTable = ({
   }, [isSmall])
   // State for number of rows per page
   const defaultRowsPerPage =
-    teams.length > 100 ? 100 : teams.length > 25 ? 25 : 10
+    teamsLength > 100 ? 100 : teamsLength > 25 ? 25 : 10
 
   const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage)
 
@@ -56,7 +59,7 @@ const ProgressTable = ({
   }
 
   // Show all rows at once on small screen
-  const displayedRowsPerPage = isSmall ? teams.length : rowsPerPage
+  const displayedRowsPerPage = isSmall ? teams.Length : rowsPerPage
 
   // Hide the rows per page selector on small screen
   const rowsPerPageOptions = isSmall ? [] : [10, 25, 100]
@@ -103,6 +106,7 @@ const ProgressTable = ({
           height: '100%',
           overflowX: 'hidden',
           scrollbarWidth: 'thin',
+          backgroundColor: alpha(theme.palette.background.paper, 0.3),
           scrollbarColor: `${alpha(theme.palette.background.paper, 0.7)} ${alpha(theme.palette.primary.main, 0.3)}`,
         }}
       >
@@ -126,7 +130,7 @@ const ProgressTable = ({
               </TableRow>
             </TableBody>
           </Table>
-        ) : (
+        ) : teamsLength > 0 ? (
           <Table stickyHeader aria-label='team/participant progress table'>
             <TableHeaderRow columns={columns} />
             <TableDataRows
@@ -136,6 +140,33 @@ const ProgressTable = ({
               rowsPerPage={displayedRowsPerPage}
             />
           </Table>
+        ) : (
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100%',
+            }}
+          >
+            <HikingIcon
+              sx={{
+                fontSize: '6rem',
+                color: 'secondary.main',
+              }}
+            />
+            <Typography fontSize='2rem' color='background.paper'>
+              No teams climbing yet...
+            </Typography>
+            <Typography
+              fontSize='1.4rem'
+              lineHeight='1.5rem'
+              color='background.paper'
+            >
+              Check back later!
+            </Typography>
+          </Box>
         )}
       </TableContainer>
       <Box

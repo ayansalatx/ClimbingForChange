@@ -112,13 +112,13 @@ const DataTable = ({
           }}
         >
           <TableIcon
-            fontSize='large'
+            fontSize="large"
             sx={{
               color: 'secondary.main',
             }}
           />
           <Typography
-            variant='h1'
+            variant="h1"
             sx={{
               textAlign: 'left',
               margin: '0',
@@ -155,9 +155,9 @@ const DataTable = ({
             }}
           >
             <Typography
-              variant='body1'
-              component='span'
-              color='primary.light'
+              variant="body1"
+              component="span"
+              color="primary.light"
               textTransform={'uppercase'}
               fontWeight={'bold'}
               letterSpacing={'.05rem'}
@@ -187,29 +187,27 @@ const DataTable = ({
         })}
       >
         {loading ? (
-          <Table stickyHeader sx={{ height: '100%' }}>
+          <Table stickyHeader height="100%">
             <TableHeaderRow columns={tableColumns} />
             <TableBody
               sx={{
-                height: '100%',
                 backgroundColor: 'background.paper',
               }}
             >
               <TableRow>
                 <TableCell
                   colSpan={tableColumns.length + 1}
-                  align='center'
+                  align="center"
                   sx={{ border: 'none' }}
                 >
-                  <CircularProgress color='info' />
+                  <CircularProgress color="info" />
                 </TableCell>
               </TableRow>
             </TableBody>
           </Table>
-        ) : (
+        ) : filteredRows.length > 0 ? (
           <Table
             stickyHeader
-            aria-label='sticky table'
             sx={{
               width: '100%',
               '&:hover': { bgcolor: alpha(theme.palette.primary.light, 0.05) },
@@ -225,6 +223,25 @@ const DataTable = ({
               onDeleteClick={onDeleteClick}
               activeOnChange={activeOnChange}
             />
+          </Table>
+        ) : (
+          <Table height="100%" stickyHeader>
+            <TableHeaderRow columns={tableColumns} />
+            <TableBody
+              sx={{
+                backgroundColor: 'background.paper',
+              }}
+            >
+              <TableRow>
+                <TableCell
+                  colSpan={tableColumns.length + 1}
+                  align="center"
+                  sx={{ border: 'none' }}
+                >
+                  <Typography variant="h5" color="primary.main">No {tableTitle.toLowerCase()} to display</Typography>
+                </TableCell>
+              </TableRow>
+            </TableBody>
           </Table>
         )}
       </TableContainer>
@@ -244,7 +261,7 @@ const DataTable = ({
 
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
-          component='div'
+          component="div"
           count={filteredRows.length}
           rowsPerPage={rowsPerPage}
           page={page}
@@ -259,7 +276,7 @@ const DataTable = ({
               color: 'background.paper',
             },
           }}
-          labelRowsPerPage=''
+          labelRowsPerPage=""
         />
       </Box>
     </Paper>

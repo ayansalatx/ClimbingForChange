@@ -28,12 +28,12 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
           height: { sm: '3.5rem' },
           p: 0,
           backgroundColor: isEven
-            ? alpha(theme.palette.background.paper, 0.6)
-            : alpha(theme.palette.background.paper, 0.5),
+            ? alpha(theme.palette.background.paper, 0.3)
+            : alpha(theme.palette.background.paper, 0.2),
           '&:focus': {
             backgroundColor: isEven
-              ? alpha(theme.palette.background.paper, 0.6)
-              : alpha(theme.palette.background.paper, 0.5),
+              ? alpha(theme.palette.background.paper, 0.3)
+              : alpha(theme.palette.background.paper, 0.2),
           },
           '&:hover > *': {
             backgroundColor: alpha(theme.palette.secondary.light, 0.9),

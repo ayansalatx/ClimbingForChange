@@ -37,31 +37,16 @@ export const editLocation = async (id, data) => {
   }
 }
 
-export const deleteLocation = async (id) => {
+export const removeLocation = async (id) => {
   try {
-    const response = await api.delete(`/locations/${id}`)
+    const response = await api.put(`/locations/${id}`, {active: false})
     if (response.status === 200) {
       return true
     }
 
     throw new Error(`Unexpected response status: ${response.status}`)
   } catch (error) {
-    console.error('Failed to delete locations:', error)
+    console.error('Failed to remove location:', error)
     throw error
   }
 }
-
-// export const createLocation = async (data) => {
-//   const res = await api.post('/locations', data)
-//   return res.data
-// }
-
-// export const editLocation = async (id, data) => {
-//   const res = await api.put(`/locations/${id}`, data)
-//   return res.data
-// }
-
-// export const deleteLocation = async (id) => {
-//   const res = await api.delete(`/locations/${id}`)
-//   return res.data
-// }
