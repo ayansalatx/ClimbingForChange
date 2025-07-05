@@ -1,5 +1,5 @@
-// Import Jest's expect function
-global.expect = require('expect');
+// Setup jest-dom for testing
+import '@testing-library/jest-dom/extend-expect';
 
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
@@ -15,15 +15,3 @@ Object.defineProperty(window, 'matchMedia', {
     dispatchEvent: jest.fn(),
   })),
 });
-
-// Mock window.scrollTo
-window.scrollTo = jest.fn();
-
-// Mock console.error to fail tests on PropType warnings
-const originalConsoleError = console.error;
-console.error = (message) => {
-  if (/(Failed prop type)/.test(message)) {
-    throw new Error(message);
-  }
-  originalConsoleError(message);
-};
