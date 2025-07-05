@@ -1,3 +1,4 @@
+import HikingIcon from '@mui/icons-material/Hiking'
 import {
   alpha,
   Box,
@@ -16,11 +17,10 @@ import { useEffect, useState } from 'react'
 
 import theme from '../../../../styles/theme'
 import EventSelector from '../../shared/EventSelector'
-import FullscreenToggleButton from './FullscreenToggleButton'
 import ProgressSearch from '../../shared/ProgressSearch'
+import FullscreenToggleButton from './FullscreenToggleButton'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
-import HikingIcon from '@mui/icons-material/Hiking'
 
 const ProgressTable = ({
   columns,

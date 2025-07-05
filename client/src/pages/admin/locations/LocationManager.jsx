@@ -8,9 +8,9 @@ import DataTable from '../../../components/admin/tables/DataTable.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
 import {
   addNewLocation,
-  removeLocation,
   editLocation,
   getAllLocations,
+  removeLocation,
 } from '../../../services/locationService.js'
 
 const fullColumns = [

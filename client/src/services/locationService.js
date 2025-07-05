@@ -39,7 +39,7 @@ export const editLocation = async (id, data) => {
 
 export const removeLocation = async (id) => {
   try {
-    const response = await api.put(`/locations/${id}`, {active: false})
+    const response = await api.put(`/locations/${id}`, { active: false })
     if (response.status === 200) {
       return true
     }

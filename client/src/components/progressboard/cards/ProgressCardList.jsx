@@ -1,10 +1,9 @@
+import HikingIcon from '@mui/icons-material/Hiking'
 import { Box, CircularProgress, Typography } from '@mui/material'
 
 import EventSelector from '../shared/EventSelector'
 import ProgressSearch from '../shared/ProgressSearch'
 import ProgressCard from './ProgressCard'
-
-import HikingIcon from '@mui/icons-material/Hiking'
 
 const ProgressList = ({
   teams,
@@ -42,7 +41,6 @@ const ProgressList = ({
           flexGrow: 1,
           overflowY: 'auto',
           display: 'flex',
-          flexGrow: 1,
           flexDirection: 'column',
           justifyItems: 'flex-start',
           gap: 1,
