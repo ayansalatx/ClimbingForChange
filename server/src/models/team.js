@@ -54,7 +54,7 @@ const teamSchema = new Schema({
 teamSchema.virtual('participants', {
   ref: 'Participant',         
   localField: '_id',          
-  foreignField: 'teamId',     
+  foreignField: 'team',     
   justOne: false
 })
 
