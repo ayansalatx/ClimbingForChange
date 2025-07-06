@@ -10,13 +10,21 @@ import {
   TableCell,
   TableRow,
 } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 
 import theme from '../../../../styles/theme'
 
 const CollapsibleRow = ({ team, index, columns, participants }) => {
   const [open, setOpen] = useState(false)
+  const expandRef = useRef(null)
   const isEven = index % 2 === 0
+
+  // Scroll to expanded rows in team
+  const handleCollapseEntered = () => {
+    if (expandRef.current) {
+      expandRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' })
+    }
+  }
 
   return (
     <React.Fragment>
@@ -123,7 +131,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
         sx={{ backgroundColor: alpha(theme.palette.background.paper, 0.6) }}
       >
         <TableCell sx={{ p: 0 }} colSpan={columns.length + 1}>
-          <Collapse in={open} timeout='auto' unmountOnExit>
+          <Collapse in={open} timeout='auto' unmountOnExit  onEntered={handleCollapseEntered}>
             <Box sx={{ py: '.25rem' }}>
               <Table>
                 <TableBody sx={{ px: 0 }}>
@@ -192,6 +200,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
                   ))}
                 </TableBody>
               </Table>
+               <Box ref={expandRef} />
             </Box>
           </Collapse>
         </TableCell>
