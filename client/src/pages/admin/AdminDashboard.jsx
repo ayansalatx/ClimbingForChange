@@ -7,10 +7,11 @@ import Hiking from '@mui/icons-material/Hiking'
 import PeopleIcon from '@mui/icons-material/People'
 import PlaceIcon from '@mui/icons-material/Place'
 import TerrainIcon from '@mui/icons-material/Terrain'
-import { Box, IconButton, Typography } from '@mui/material'
+import { Box, IconButton, Typography, useMediaQuery } from '@mui/material'
 import { useEffect, useState } from 'react'
 import Carousel from 'react-multi-carousel'
 
+import theme from  '../../styles/theme'
 import ProgressBoardButton from '../../components/admin/buttons/ProgressBoardButton'
 import NavigationCard from '../../components/admin/NavigationCard'
 import EventSummaryTable from '../../components/admin/tables/EventsSummaryTable'
@@ -70,21 +71,30 @@ const CarouselRightArrow = ({ onClick }) => (
 )
 
 const responsive = {
-  desktop: {
-    breakpoint: { max: 3000, min: 1024 },
+  xlDesktop: {
+    breakpoint: { max: 3000, min: 1700 },
+    items: 5,
+  },
+  lgDesktop: {
+    breakpoint: { max: 1700, min: 1200 },
     items: 4,
   },
-  tablet: {
-    breakpoint: { max: 1400, min: 640 },
+  desktop: {
+    breakpoint: { max: 1200, min: 900 },
     items: 3,
   },
+  tablet: {
+    breakpoint: { max: 900, min: 600 },
+    items: 2,
+  },
   mobile: {
-    breakpoint: { max: 640, min: 0 },
+    breakpoint: { max: 600, min: 0 },
     items: 1,
   },
 }
 
 const AdminDashboard = () => {
+  const isLg = useMediaQuery(theme.breakpoints.up('xl'))
   const [events, setEvents] = useState()
 
   const displayAlert = useAlert()
@@ -118,61 +128,49 @@ const AdminDashboard = () => {
       title: 'Event Management',
       icon: EventIcon,
       link: '/admin/events',
-      bgColor: 'info.main',
-      iconSize: '12rem',
-      iconColor: 'secondary.light',
-      iconY: '2%',
-      iconX: '38%',
+      iconSize: '7.8rem',
+      iconY: '5%',
+      iconX: '44%',
     },
     {
       title: 'Team Management',
       icon: PeopleIcon,
       link: '/admin/teams',
-      bgColor: 'info.light',
-      iconSize: '16rem',
-      iconColor: 'info.main',
-      iconY: '-15%',
-      iconX: '5%',
+      iconSize: '9rem',
+      iconY: '',
+      iconX: '33%',
     },
     {
       title: 'Participant Management',
       icon: Hiking,
       link: '/admin/participants',
-      bgColor: 'info.main',
-      iconSize: '12rem',
-      iconColor: 'secondary.light',
-      iconY: '',
-      iconX: '42%',
+      iconSize: '7rem',
+      iconY: '5%',
+      iconX: '52%',
     },
     {
       title: 'Mountain Management',
       icon: TerrainIcon,
       link: '/admin/mountains',
-      bgColor: 'info.light',
-      iconSize: '18rem',
-      iconColor: 'info.main',
+      iconSize: '12rem',
       iconY: '-25%',
-      iconX: '',
+      iconX: '14%',
     },
     {
       title: 'Location Management',
       icon: PlaceIcon,
-      link: '/admin/locations',
       bgColor: 'secondary.main',
-      iconSize: '12rem',
-      iconColor: 'secondary.dark',
+      iconSize: '8rem',
       iconY: '',
-      iconX: '43%',
+      iconX: '47%',
     },
     {
       title: 'Hill Management',
       icon: DownhillSkiingIcon,
       link: '/admin/hills',
-      bgColor: 'secondary.main',
-      iconSize: '12rem',
-      iconColor: 'secondary.dark',
+      iconSize: '7.5rem',
       iconY: '',
-      iconX: '35%',
+      iconX: '45%',
     },
   ]
 
@@ -180,12 +178,12 @@ const AdminDashboard = () => {
     <Box
       sx={{
         width: '100%',
-        height: '100%',
+        flexGrow: 1,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        bgColor: 'background.main',
-        py: 3,
+        py: 1,
+        overflowY: 'auto',
       }}
     >
       <Typography
@@ -193,7 +191,7 @@ const AdminDashboard = () => {
         color="primary.main"
         fontWeight={'bold'}
         textTransform={'uppercase'}
-        sx={{ fontSize: '3.5rem' }}
+        sx={{ fontSize: '3rem' }}
       >
         Leaderboard Management
       </Typography>
@@ -211,18 +209,25 @@ const AdminDashboard = () => {
         <Box
           sx={{
             width: '100%',
-            maxWidth: '1800px',
-            my: '2rem',
+            maxWidth: '2400px',
+            flexDirection: 'row',
+            gap: isLg ? 0 : '1rem',
+            m: '1rem',
+            px: '1rem',
             display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-evenly',
+            alignItems: 'left',
+            justifyContent: isLg ? 'space-around' : 'space-between',
           }}
         >
-          <Box maxWidth={'70%'} padding={1}>
+          <Box>
             <EventSummaryTable events={events} />
           </Box>
 
-          <Box pr={1}>
+          <Box  sx={{
+
+            display: 'flex',
+            alignItems: 'center',
+          }}>
             <ProgressBoardButton liveEventExists={liveEventExists} />
           </Box>
         </Box>
@@ -230,6 +235,7 @@ const AdminDashboard = () => {
         <Box
           sx={{
             width: '100%',
+            mt: '1rem',
             backgroundColor: 'primary.light',
             padding: '1rem',
             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)',
@@ -242,23 +248,27 @@ const AdminDashboard = () => {
             customRightArrow={<CarouselRightArrow />}
             autoPlay
           >
-            {navCardData.map((card, index) => (
-              <Box
-                key={index}
-                sx={{ display: 'flex', justifyContent: 'center' }}
-              >
-                <NavigationCard
-                  cardTitle={card.title}
-                  cardIcon={card.icon}
-                  link={card.link}
-                  bgColor={card.bgColor}
-                  iconSize={card.iconSize}
-                  iconColor={card.iconColor}
-                  iconYPosition={card.iconY}
-                  iconXPosition={card.iconX}
-                />
-              </Box>
-            ))}
+            {navCardData.map((card, index) => {
+              const bgColor = index % 2 === 0 ? 'info.light' : 'secondary.main'
+              const iconColor = index % 2 === 0 ? 'info.main' : 'secondary.dark'
+              return (
+                <Box
+                  key={index}
+                  sx={{ display: 'flex', justifyContent: 'center' }}
+                >
+                  <NavigationCard
+                    cardTitle={card.title}
+                    cardIcon={card.icon}
+                    link={card.link}
+                    bgColor={bgColor}
+                    iconSize={card.iconSize}
+                    iconColor={iconColor}
+                    iconYPosition={card.iconY}
+                    iconXPosition={card.iconX}
+                  />
+                </Box>
+              )
+            })}
           </Carousel>
         </Box>
       </Box>

@@ -1,4 +1,5 @@
 import {
+  Box,
   Paper,
   Table,
   TableBody,
@@ -6,9 +7,26 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
+  useMediaQuery,
 } from '@mui/material'
 
-const headerColumns = [
+import AlarmIcon from '@mui/icons-material/Alarm'
+import theme from '../../../styles/theme'
+
+const lgColumns = [
+  { id: 'name', label: 'Name', align: 'left' },
+  { id: 'daysToGo', label: 'Days To Go', align: 'center' },
+  { id: 'startDate', label: 'Start Date', align: 'center' },
+  { id: 'startTime', label: 'Start Time', align: 'center' },
+  { id: 'endDate', label: 'End Date', align: 'center' },
+  { id: 'endTime', label: 'End Time', align: 'center' },
+  { id: 'teamsCount', label: 'Teams', align: 'center' },
+  { id: 'participantsCount', label: 'Climbers', align: 'center' },
+  { id: 'isLive', label: 'Live', align: 'center' },
+]
+
+const smColumns = [
   { id: 'name', label: 'Name', align: 'left' },
   { id: 'daysToGo', label: 'Days To Go', align: 'center' },
   { id: 'startDate', label: 'Start Date', align: 'center' },
@@ -19,8 +37,27 @@ const headerColumns = [
 ]
 
 const EventSummaryTable = ({ events = [] }) => {
+  const isLg = useMediaQuery(theme.breakpoints.up('lg'))
+  const totalRows = isLg ? 5 : 3
+  const headerColumns = isLg ? lgColumns : smColumns
   return (
-    <TableContainer component={Paper} sx={{ bgcolor: 'primary.dark' }}>
+    <TableContainer component={Paper} sx={{ bgcolor: 'primary.main' }}>
+      <Box
+        sx={{ display: 'flex', alignItems: 'center', pt: '.5rem', pl: '1rem' }}
+      >
+        <AlarmIcon sx={{ color: 'secondary.main' }} />
+        <Typography
+          variant="h5"
+          align="left"
+          textTransform="uppercase"
+          fontWeight="bold"
+          letterSpacing="0.05rem"
+          color="secondary.main"
+          sx={{ pl: 1.5 }}
+        >
+          Upcoming Events
+        </Typography>
+      </Box>
       <Table size="small" aria-label="current and upcoming events summary">
         <TableHead sx={{ backgroundColor: 'primary.main' }}>
           <TableRow>
@@ -42,7 +79,7 @@ const EventSummaryTable = ({ events = [] }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {Array.from({ length: 5 }).map((_, index) => {
+          {Array.from({ length: totalRows }).map((_, index) => {
             const event = events[index] || null
             const isEven = index % 2 === 0
             const bgColor = isEven ? 'primary.light' : 'primary.main'
@@ -60,77 +97,30 @@ const EventSummaryTable = ({ events = [] }) => {
                   borderColor: 'primary.dark',
                 }}
               >
-                <TableCell
-                  align="left"
-                  sx={{
-                    color: textColor,
-                    borderBottom: '1px solid',
-                    borderColor: 'primary.dark',
-                  }}
-                >
-                  {event?.name || '-'}
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{
-                    color: textColor,
-                    borderBottom: '1px solid',
-                    borderColor: 'primary.dark',
-                  }}
-                >
-                  {event?.daysToGo ?? '-'}
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{
-                    color: textColor,
-                    borderBottom: '1px solid',
-                    borderColor: 'primary.dark',
-                  }}
-                >
-                  {event?.startDate || '-'}
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{
-                    color: textColor,
-                    borderBottom: '1px solid',
-                    borderColor: 'primary.dark',
-                  }}
-                >
-                  {event?.startTime || '-'}
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{
-                    color: textColor,
-                    borderBottom: '1px solid',
-                    borderColor: 'primary.dark',
-                  }}
-                >
-                  {event?.teamsCount ?? '-'}
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{
-                    color: textColor,
-                    borderBottom: '1px solid',
-                    borderColor: 'primary.dark',
-                  }}
-                >
-                  {event?.participantsCount ?? '-'}
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{
-                    color: textColor,
-                    textTransform: 'uppercase',
-                    borderBottom: '1px solid',
-                    borderColor: 'primary.dark',
-                  }}
-                >
-                  {event ? (event.isLive ? 'Live' : '-') : '-'}
-                </TableCell>
+                {headerColumns.map((column) => {
+                  let value = event?.[column.id] ?? '-'
+
+                  // If this is the isLive column, transform the value
+                  if (column.id === 'isLive') {
+                    value = event ? (event.isLive ? 'LIVE' : '-') : '-'
+                  }
+
+                  return (
+                    <TableCell
+                      key={column.id}
+                      align={column.align}
+                      sx={{
+                        color: textColor,
+                        textTransform:
+                          column.id === 'isLive' ? 'uppercase' : undefined,
+                        borderBottom: '1px solid',
+                        borderColor: 'primary.dark',
+                      }}
+                    >
+                      {value}
+                    </TableCell>
+                  )
+                })}
               </TableRow>
             )
           })}

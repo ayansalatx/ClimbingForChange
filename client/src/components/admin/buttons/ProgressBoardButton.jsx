@@ -18,8 +18,8 @@ const ProgressBoardButton = ({ liveEventExists }) => {
         alignItems: 'center',
         justifyContent: 'space-evenly',
         flexWrap: 'wrap',
-        px: 2,
-        borderRadius: '8px',
+        p: 2,
+        borderRadius: '6px',
       }}
     >
       <Typography
@@ -29,10 +29,12 @@ const ProgressBoardButton = ({ liveEventExists }) => {
         textTransform="uppercase"
         fontWeight="bold"
         letterSpacing="0.1rem"
+        lineHeight='1.75rem'
+        sx={{pb: 1}}
       >
         Progress Board
       </Typography>
-      <HikingIcon sx={{ color: 'secondary.main', fontSize: liveEventExists ? '4rem' : '5.5rem' }} />
+      <HikingIcon sx={{ color: 'secondary.main', fontSize: liveEventExists ? '4rem' : '5rem' }} />
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Typography
           visibility={liveEventExists ? 'visible': 'hidden'}
