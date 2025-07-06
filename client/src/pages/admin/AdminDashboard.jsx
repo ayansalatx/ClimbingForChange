@@ -11,7 +11,7 @@ import { Box, IconButton, Typography, useMediaQuery } from '@mui/material'
 import { useEffect, useState } from 'react'
 import Carousel from 'react-multi-carousel'
 
-import theme from  '../../styles/theme'
+import theme from '../../styles/theme'
 import ProgressBoardButton from '../../components/admin/buttons/ProgressBoardButton'
 import NavigationCard from '../../components/admin/NavigationCard'
 import EventSummaryTable from '../../components/admin/tables/EventsSummaryTable'
@@ -223,11 +223,12 @@ const AdminDashboard = () => {
             <EventSummaryTable events={events} />
           </Box>
 
-          <Box  sx={{
-
-            display: 'flex',
-            alignItems: 'center',
-          }}>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
             <ProgressBoardButton liveEventExists={liveEventExists} />
           </Box>
         </Box>
