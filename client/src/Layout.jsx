@@ -3,6 +3,7 @@ import { Suspense, useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
 import AlertDisplay from './components/AlertDisplay'
+import Footer from './components/shared/Footer'
 import SideBar from './components/shared/SideBar'
 import TopAppBar from './components/shared/TopAppBar'
 
@@ -22,7 +23,6 @@ function Layout() {
   return (
     <>
       <header>
-        {/* Pass a function to onMenuClick so it triggers on event */}
         <TopAppBar onMenuClick={() => toggleDrawer(true)} onLogout={logout} />
       </header>
       <nav>
@@ -36,6 +36,7 @@ function Layout() {
             height: '100vh',
             paddingTop: '5rem',
             display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
           }}
@@ -57,6 +58,7 @@ function Layout() {
             <AlertDisplay />
             <Outlet sx={{ padding: 0, margin: 0 }} />
           </Suspense>
+          <Footer />
         </Box>
       </main>
     </>
