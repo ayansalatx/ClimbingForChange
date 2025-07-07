@@ -19,8 +19,8 @@ const fullColumns = [
   { id: 'location', label: 'Location', width: '12%', align: 'left' },
   { id: 'start', label: 'Start-Time', width: '15%', align: 'left' },
   { id: 'end', label: 'End-Time', width: '15%', align: 'left' },
-  { id: 'duration', label: 'Duration', width: '12%', align: 'left' },
-  { id: 'active', label: 'Active', width: '12%', align: 'left' },
+  { id: 'duration', label: 'Duration (hrs)', width: '12%', align: 'left' },
+  { id: 'activeStatus', label: 'Active', width: '12%', align: 'left' },
 ]
 
 const formatDateTime = (dateString) => {
@@ -62,11 +62,12 @@ const EventManager = () => {
     try {
       const events = await getAllEvents()
       const formattedEvents = events.map((event) => {
-        const startTime = event.startDateTime
-        const endTime = event.endDateTime
-        const startDate = new Date(startTime)
-        const endDate = new Date(endTime)
-        const durationTime = (endDate - startDate) / (1000 * 60)
+        const startTime = new Date(event.startDateTime)
+        const endTime = new Date(event.endDateTime)
+        const durationInHours = (endTime - startTime) / (1000 * 60 * 60)
+
+        const isPast = endTime < new Date()
+        const isActive = event.active && !isPast
 
         return {
           id: event.id,
@@ -76,8 +77,9 @@ const EventManager = () => {
           eventName: event.name || '',
           location: event.location?.name || '',
           locationId: event.location?.id,
-          duration: durationTime,
-          active: `${event.active}`,
+          duration: durationInHours.toFixed(1),
+          active: isActive,
+          activeStatus: isActive ? 'Active' : 'Inactive', 
         }
       })
 
@@ -91,7 +93,7 @@ const EventManager = () => {
       displayAlert('Events Error', `${error.message}`, 'error')
     }
   }
-   
+
   useEffect(() => {
     fetchEvents()
     fetchLocations()
@@ -117,14 +119,14 @@ const EventManager = () => {
     try {
       const response = await editEvent(id, eventData)
       if (response.status === 201 || response.status === 200) {
-        displayAlert('Event has been successfully edited.', 'success')
+        displayAlert('Event Edited', 'The event has been successfully edited.', 'success')
         fetchEvents()
         handleClosePopup()
       } else {
         throw new Error('Event was not edited')
       }
     } catch (error) {
-      displayAlert('Add Error', `Failed to edit the event: ${error.message}`, 'error')
+      displayAlert('Edit Error', `Failed to edit the event: ${error.message}`, 'error')
     }
   }
 
@@ -164,6 +166,10 @@ const EventManager = () => {
     setEventToDelete(null)
   }
 
+  const handleActiveToggle = (newValue) => {
+    setShowInactive(newValue)
+  }
+
   return (
     <Box
       sx={{
@@ -184,6 +190,7 @@ const EventManager = () => {
         tableData={events}
         showInactive={showInactive}
         setShowInactive={setShowInactive}
+        activeOnChange={handleActiveToggle}
         eventsForDropdown={[]}
         onAddClick={onAdd}
         onEditClick={onEdit}
