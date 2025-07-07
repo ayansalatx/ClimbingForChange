@@ -38,6 +38,7 @@ const fullColumns = [
 ]
 
 const MountainManager = () => {
+  const [loading, setLoading] = useState(true)
   const [mountains, setMountains] = useState([])
   const [showInactive, setShowInactive] = useState(false)
   const [popupOpen, setPopupOpen] = useState(false)
@@ -72,6 +73,9 @@ const MountainManager = () => {
         'error'
       )
     }
+    finally {
+        setLoading(false)
+      }
   }
   useEffect(() => {
     async function loadMountains() {
@@ -104,6 +108,8 @@ const MountainManager = () => {
           `Failed to Load Mountains: ${error.message}`,
           'error'
         )
+      }finally {
+        setLoading(false)
       }
     }
     loadMountains()
@@ -253,6 +259,7 @@ const MountainManager = () => {
         onAddClick={onAdd}
         onEditClick={onEdit}
         onDeleteClick={onDelete}
+        loading={loading}
       />
 
       <MountainModal
