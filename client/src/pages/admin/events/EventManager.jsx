@@ -123,13 +123,6 @@ const EventManager = () => {
     }
   }
 
-  // useEffect(() => {
-  //   fetchEvents()
-  //   fetchLocations()
-  //   fetchMountains()
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [displayAlert])
-
   useEffect(() => {
     fetchLocations()
     fetchMountains()
@@ -141,7 +134,7 @@ const EventManager = () => {
       fetchEvents()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [mountains])
 
 
   const handleAddEvent = async (eventData) => {
