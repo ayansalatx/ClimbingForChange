@@ -123,7 +123,10 @@ export const deleteOneParticipant = async (request, response) => {
     return response.status(400).json({ error: 'Participant is doesnt exist' })
   }
 
-  const updated = await Participant.findByIdAndUpdate(id)
+  // const updated = await Participant.findByIdAndUpdate(id)
 
-  response.status(200).json(updated)
+  // response.status(200).json(updated)
+  await Participant.findByIdAndDelete(id)
+
+  response.status(204).end() 
 }
