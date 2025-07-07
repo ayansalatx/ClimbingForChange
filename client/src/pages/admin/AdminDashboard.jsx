@@ -11,12 +11,12 @@ import { Box, IconButton, Typography, useMediaQuery } from '@mui/material'
 import { useEffect, useState } from 'react'
 import Carousel from 'react-multi-carousel'
 
-import theme from '../../styles/theme'
 import ProgressBoardButton from '../../components/admin/buttons/ProgressBoardButton'
 import NavigationCard from '../../components/admin/NavigationCard'
 import EventSummaryTable from '../../components/admin/tables/EventsSummaryTable'
 import { useAlert } from '../../hooks/useAlert'
 import { getUpcomingEventsSummary } from '../../services/eventService'
+import theme from '../../styles/theme'
 
 const CarouselLeftArrow = ({ onClick }) => (
   <IconButton

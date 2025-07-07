@@ -10,7 +10,7 @@ import {
   TableCell,
   TableRow,
 } from '@mui/material'
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useRef, useState } from 'react'
 
 import theme from '../../../../styles/theme'
 
@@ -200,7 +200,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
                   ))}
                 </TableBody>
               </Table>
-               <Box ref={expandRef} />
+              <Box ref={expandRef} />
             </Box>
           </Collapse>
         </TableCell>

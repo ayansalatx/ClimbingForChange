@@ -1,3 +1,4 @@
+import AlarmIcon from '@mui/icons-material/Alarm'
 import {
   Box,
   Paper,
@@ -11,7 +12,6 @@ import {
   useMediaQuery,
 } from '@mui/material'
 
-import AlarmIcon from '@mui/icons-material/Alarm'
 import theme from '../../../styles/theme'
 
 const lgColumns = [
@@ -53,7 +53,7 @@ const EventSummaryTable = ({ events = [] }) => {
           textTransform="uppercase"
           fontWeight="bold"
           color="secondary.main"
-          sx={{ pl: 1.5, letterSpacing: {xxs: '0.05rem', xl: '.1rem'}, fontSize: '1.65rem' }}
+          sx={{ pl: 1.5, letterSpacing: { xxs: '0.05rem', xl: '.1rem' }, fontSize: '1.65rem' }}
         >
           Upcoming Events
         </Typography>
@@ -69,8 +69,8 @@ const EventSummaryTable = ({ events = [] }) => {
                   color: 'background.paper',
                   textTransform: 'uppercase',
                   fontWeight: 'bold',
-                  letterSpacing: {xxs: '.05rem', xl: '.1rem'},
-                  fontSize: {xxs: '.9rem', xl: '1rem'},
+                  letterSpacing: { xxs: '.05rem', xl: '.1rem' },
+                  fontSize: { xxs: '.9rem', xl: '1rem' },
                 }}
               >
                 {label}
@@ -110,7 +110,7 @@ const EventSummaryTable = ({ events = [] }) => {
                       align={column.align}
                       sx={{
                         width: column.width,
-                        fontSize: {xxs: '0.9rem', xl: '1rem'},
+                        fontSize: { xxs: '0.9rem', xl: '1rem' },
                         color: textColor,
                         textTransform:
                           column.id === 'isLive' ? 'uppercase' : undefined,

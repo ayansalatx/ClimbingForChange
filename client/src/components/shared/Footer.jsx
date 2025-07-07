@@ -1,6 +1,5 @@
-import { Box, Container, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 
-import C4CGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Logo_Green.png'
 
 const Footer = () => {
   return (

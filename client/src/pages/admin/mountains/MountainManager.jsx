@@ -74,8 +74,8 @@ const MountainManager = () => {
       )
     }
     finally {
-        setLoading(false)
-      }
+      setLoading(false)
+    }
   }
   useEffect(() => {
     async function loadMountains() {
