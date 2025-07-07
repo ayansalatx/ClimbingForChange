@@ -8,6 +8,9 @@ const Footer = () => {
       component="footer"
       elevation={3}
       sx={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
         mt: 'auto',
         backgroundColor: 'primary.main',
         overflow: 'hidden',
@@ -25,7 +28,7 @@ const Footer = () => {
           py: 1,
         }}
       >
-        <Box sx={{ display: 'flex', gap: 1}}>
+        <Box sx={{ display: 'flex', gap: 1 }}>
           <Typography
             variant="body2"
             color="background.paper"
