@@ -15,13 +15,13 @@ import {
 import theme from '../../../styles/theme'
 
 const lgColumns = [
-  { id: 'name', label: 'Name', align: 'left', width: '25%' },
-  { id: 'daysToGo', label: 'Days To Go', align: 'center', width: '11%' },
-  { id: 'startDate', label: 'Start Date', align: 'center', width: '11%' },
+  { id: 'name', label: 'Name', align: 'left', width: '20%' },
+  { id: 'daysToGo', label: 'Days To Go', align: 'center', width: '10%' },
+  { id: 'startDate', label: 'Start Date', align: 'center', width: '15%' },
   { id: 'startTime', label: 'Start Time', align: 'center', width: '10%' },
-  { id: 'endDate', label: 'End Date', align: 'center', width: '11%' },
+  { id: 'endDate', label: 'End Date', align: 'center', width: '15%' },
   { id: 'endTime', label: 'End Time', align: 'center', width: '10%' },
-  { id: 'teamsCount', label: 'Teams', align: 'center', width: '7%' },
+  { id: 'teamsCount', label: 'Teams', align: 'center', width: '5%' },
   { id: 'participantsCount', label: 'Climbers', align: 'center', width: '10%' },
   { id: 'isLive', label: 'Live', align: 'center', width: '5%' },
 ]
