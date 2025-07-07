@@ -15,11 +15,11 @@ import {
 import theme from '../../../styles/theme'
 
 const lgColumns = [
-  { id: 'name', label: 'Name', align: 'left', width: '20%' },
+  { id: 'name', label: 'Name', align: 'left', width: '18%' },
   { id: 'daysToGo', label: 'Days To Go', align: 'center', width: '10%' },
-  { id: 'startDate', label: 'Start Date', align: 'center', width: '15%' },
+  { id: 'startDate', label: 'Start Date', align: 'center', width: '16%' },
   { id: 'startTime', label: 'Start Time', align: 'center', width: '10%' },
-  { id: 'endDate', label: 'End Date', align: 'center', width: '15%' },
+  { id: 'endDate', label: 'End Date', align: 'center', width: '16%' },
   { id: 'endTime', label: 'End Time', align: 'center', width: '10%' },
   { id: 'teamsCount', label: 'Teams', align: 'center', width: '5%' },
   { id: 'participantsCount', label: 'Climbers', align: 'center', width: '10%' },
@@ -27,13 +27,13 @@ const lgColumns = [
 ]
 
 const smColumns = [
-  { id: 'name', label: 'Name', align: 'left', width: '30%' },
+  { id: 'name', label: 'Name', align: 'left', width: '24%' },
   { id: 'daysToGo', label: 'Days To Go', align: 'center', width: '10%' },
-  { id: 'startDate', label: 'Start Date', align: 'center', width: '15%' },
-  { id: 'startTime', label: 'Start Time', align: 'center', width: '12%' },
+  { id: 'startDate', label: 'Start Date', align: 'center', width: '21%' },
+  { id: 'startTime', label: 'Start Time', align: 'center', width: '13%' },
   { id: 'teamsCount', label: 'Teams', align: 'center', width: '10%' },
   { id: 'participantsCount', label: 'Climbers', align: 'center', width: '13%' },
-  { id: 'isLive', label: 'Live', align: 'center', width: '10%' },
+  { id: 'isLive', label: 'Live', align: 'center', width: '9%' },
 ]
 
 const EventSummaryTable = ({ events = [] }) => {

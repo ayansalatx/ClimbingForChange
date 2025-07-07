@@ -122,16 +122,16 @@ const ProgressTable = ({
               <TableRow>
                 <TableCell
                   colSpan={columns.length + 1}
-                  align='center'
+                  align="center"
                   sx={{ border: 'none' }}
                 >
-                  <CircularProgress color='primary' />
+                  <CircularProgress color="primary" />
                 </TableCell>
               </TableRow>
             </TableBody>
           </Table>
         ) : teamsLength > 0 ? (
-          <Table stickyHeader aria-label='team/participant progress table'>
+          <Table stickyHeader aria-label="team/participant progress table">
             <TableHeaderRow columns={columns} />
             <TableDataRows
               columns={columns}
@@ -145,27 +145,37 @@ const ProgressTable = ({
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
+              width: '100%',
               height: '100%',
             }}
           >
-            <HikingIcon
+            <TableHeaderRow columns={columns} />
+            <Box
               sx={{
-                fontSize: '6rem',
-                color: 'secondary.main',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '100%',
               }}
-            />
-            <Typography fontSize='2rem' color='background.paper'>
-              No teams climbing yet...
-            </Typography>
-            <Typography
-              fontSize='1.4rem'
-              lineHeight='1.5rem'
-              color='background.paper'
             >
-              Check back later!
-            </Typography>
+              <HikingIcon
+                sx={{
+                  fontSize: '6rem',
+                  color: 'secondary.main',
+                }}
+              />
+              <Typography fontSize="2rem" color="background.paper">
+                No teams climbing yet...
+              </Typography>
+              <Typography
+                fontSize="1.4rem"
+                lineHeight="1.5rem"
+                color="background.paper"
+              >
+                Check back later!
+              </Typography>
+            </Box>
           </Box>
         )}
       </TableContainer>
@@ -183,7 +193,7 @@ const ProgressTable = ({
         {!isSmall && (
           <TablePagination
             rowsPerPageOptions={rowsPerPageOptions}
-            component='div'
+            component="div"
             count={teams.length}
             rowsPerPage={rowsPerPage}
             page={page}
