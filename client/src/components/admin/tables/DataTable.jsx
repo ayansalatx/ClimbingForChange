@@ -1,5 +1,6 @@
 import {
   Box,
+  CircularProgress,
   Paper,
   Table,
   TableContainer,
@@ -29,6 +30,7 @@ const DataTable = ({
   onAddClick,
   onEditClick,
   onDeleteClick,
+  loading,
 }) => {
   const [searchTerm, setSearchTerm] = useState('')
   const [page, setPage] = React.useState(0)
@@ -181,6 +183,8 @@ const DataTable = ({
 
       <TableContainer
         sx={(theme) => ({
+          width: '100%',
+          height: '100%',
           flexGrow: 1,
           overflowX: 'auto',
           overflowY: 'auto',
@@ -189,23 +193,43 @@ const DataTable = ({
           scrollbarColor: `${theme.palette.primary.light} ${theme.palette.background.default}`,
         })}
       >
-        <Table
-          stickyHeader
-          aria-label="sticky table"
-          sx={{
-            '&:hover': { bgcolor: alpha(theme.palette.primary.light, 0.05) },
-          }}
-        >
-          <TableHeaderRow columns={tableColumns} onAddClick={onAddClick} />
-          <TableDataRows
-            rows={filteredRows}
-            columns={tableColumns}
-            page={page}
-            rowsPerPage={rowsPerPage}
-            onEditClick={onEditClick}
-            onDeleteClick={onDeleteClick}
-          />
-        </Table>
+        {loading ? (
+          <Box
+            sx={{
+              height: '100%',
+              width: '100%',
+              pb: '3rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'background.paper',
+              color: 'white',
+              fontSize: '2rem',
+            }}
+          >
+            <CircularProgress color="secondary" />
+          </Box>
+        ) : (
+          <Table
+            stickyHeader
+            aria-label="sticky table"
+            sx={{
+              width: '100%',
+              height: '100%',
+              '&:hover': { bgcolor: alpha(theme.palette.primary.light, 0.05) },
+            }}
+          >
+            <TableHeaderRow columns={tableColumns} onAddClick={onAddClick} />
+            <TableDataRows
+              rows={filteredRows}
+              columns={tableColumns}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              onEditClick={onEditClick}
+              onDeleteClick={onDeleteClick}
+            />
+          </Table>
+        )}
       </TableContainer>
       <Box
         sx={{

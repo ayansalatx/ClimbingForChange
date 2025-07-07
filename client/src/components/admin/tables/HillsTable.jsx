@@ -8,7 +8,7 @@ import {
 import Paper from '@mui/material/Paper'
 import { alpha } from '@mui/material/styles'
 import Table from '@mui/material/Table'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import theme from '../../../styles/theme'
 import SearchBar from './SearchBar'
