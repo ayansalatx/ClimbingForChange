@@ -13,6 +13,7 @@ import {
   getAllEvents,
 } from '../../../services/eventService.js'
 import { getAllLocations } from '../../../services/locationService.js'
+import { getAllMountains } from '../../../services/mountainService.js'
 
 const fullColumns = [
   { id: 'eventName', label: 'Event', width: '34%', align: 'left' },
@@ -20,6 +21,7 @@ const fullColumns = [
   { id: 'start', label: 'Start-Time', width: '15%', align: 'left' },
   { id: 'end', label: 'End-Time', width: '15%', align: 'left' },
   { id: 'duration', label: 'Duration (hrs)', width: '12%', align: 'left' },
+  { id: 'mountains', label: 'Mountains', width: '14%', align: 'left' },
   { id: 'activeStatus', label: 'Active', width: '12%', align: 'left' },
 ]
 
@@ -43,6 +45,8 @@ const EventManager = () => {
   const [showInactive, setShowInactive] = useState(false)
   const [locations, setLocations] = useState([])
   const [eventToEdit, setEventToEdit] = useState(null)
+  const [mountains, setMountains] = useState({})
+  const [mountainsList, setMountainsList] = useState([])
 
   const handleOpenPopup = () => setOpenPopup(true)
   const handleClosePopup = () => setOpenPopup(false)
@@ -58,6 +62,7 @@ const EventManager = () => {
     }
   }
 
+
   const fetchEvents = async () => {
     try {
       const events = await getAllEvents()
@@ -69,6 +74,14 @@ const EventManager = () => {
         const isPast = endTime < new Date()
         const isActive = event.active && !isPast
 
+        const teamMountains = (event.teams || [])
+          .map(team => { const mountainName = mountains[team.mountain]
+            return mountainName !== undefined && mountainName !== null ? mountainName : null
+          }).filter(name => name !== null)
+        const mountainNames = teamMountains.length > 0 ? teamMountains : (event.mountains || [])
+          .map(m => m.name !== undefined && m.name !== null ? m.name : null)
+          .filter(name => name !== null)
+
         return {
           id: event.id,
           ...event,
@@ -78,6 +91,7 @@ const EventManager = () => {
           location: event.location?.name || '',
           locationId: event.location?.id,
           duration: durationInHours.toFixed(1),
+          mountains: mountainNames.length ? mountainNames.join(', ') : 'None',
           active: isActive,
           activeStatus: isActive ? 'Active' : 'Inactive', 
         }
@@ -94,11 +108,41 @@ const EventManager = () => {
     }
   }
 
+
+  const fetchMountains = async () => {
+    try {
+      const mountainsData = await getAllMountains()
+      setMountainsList(mountainsData)
+      const mountainMap = mountainsData.reduce((acc, m) => {
+        acc[m.id] = m.name
+        return acc
+      }, {})
+      setMountains(mountainMap)
+    } catch (error) {
+      displayAlert('Mountains Error', error.message, 'error')
+    }
+  }
+
+  // useEffect(() => {
+  //   fetchEvents()
+  //   fetchLocations()
+  //   fetchMountains()
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [displayAlert])
+
   useEffect(() => {
-    fetchEvents()
     fetchLocations()
+    fetchMountains()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [displayAlert])
+  }, [])
+  
+  useEffect(() => {
+    if (Object.keys(mountains).length > 0) {
+      fetchEvents()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
 
   const handleAddEvent = async (eventData) => {
     try {
@@ -206,6 +250,7 @@ const EventManager = () => {
         onAdd={handleAddEvent}
         onEdit={handleEditEvent}
         onLocation={locations}
+        onMountains={mountainsList}
         eventToEdit={eventToEdit}
       />
 
