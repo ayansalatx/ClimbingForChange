@@ -39,7 +39,7 @@ const HillManager = () => {
       try {
         const hillList = await getAllHills()
         setHills(hillList)
-        const locationList = await getAllLocations()
+        const locationList = await getAllLocations() 
         setLocations(locationList)
         displayAlert(
           'Hills Loaded',
