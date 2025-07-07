@@ -30,14 +30,14 @@ const ProgressBoardButton = ({ liveEventExists }) => {
         fontWeight="bold"
         letterSpacing="0.1rem"
         lineHeight="1.75rem"
-        sx={{ pb: 1, fontSize: { xxs: '1.2rem', md: '1.4rem', xl: '1.75rem' } }}
+        sx={{ pb: 1, fontSize: { xxs: '1.2rem', md: '1.4rem', xl: '1.7rem' } }}
       >
         Progress Board
       </Typography>
       <HikingIcon
         sx={{
           color: 'secondary.main',
-          fontSize: liveEventExists ? { xxs: '3rem', md: '3.5rem', xl: '5rem' } : { xxs: '2rem', md: '3rem', xl: '4rem' },
+          fontSize: liveEventExists ? { xxs: '3rem', md: '3.5rem', xl: '4.5rem' } : { xxs: '2rem', md: '3rem', xl: '4rem' },
         }}
       />
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -48,7 +48,7 @@ const ProgressBoardButton = ({ liveEventExists }) => {
           textTransform="uppercase"
           fontWeight="bold"
           letterSpacing="0.1rem"
-          sx={{ fontSize: liveEventExists ? { xxs: '1.2rem', md: '1.4rem', xl: '1.75rem' } : 0 }}
+          sx={{ fontSize: liveEventExists ? { xxs: '1.2rem', md: '1.4rem', xl: '1.7rem' } : 0 }}
         >
           Live Event
         </Typography>
@@ -56,7 +56,7 @@ const ProgressBoardButton = ({ liveEventExists }) => {
           visibility={liveEventExists ? 'visible' : 'hidden'}
           sx={{
             color: 'secondary.main',
-            fontSize: liveEventExists ? { xxs: '1.2rem', md: '1.4rem', xl: '1.75rem' } : 0,
+            fontSize: liveEventExists ? { xxs: '1.2rem', md: '1.4rem', xl: '1.7rem' } : 0,
             ml: '.5rem',
             
           }}

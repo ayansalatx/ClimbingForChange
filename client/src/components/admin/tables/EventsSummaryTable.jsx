@@ -37,8 +37,9 @@ const smColumns = [
 ]
 
 const EventSummaryTable = ({ events = [] }) => {
+  const isXLg = useMediaQuery(theme.breakpoints.up('xl'))
   const isLg = useMediaQuery(theme.breakpoints.up('lg'))
-  const totalRows = isLg ? 5 : 3
+  const totalRows = isXLg ? 4 : isLg ? 3 : 2
   const headerColumns = isLg ? lgColumns : smColumns
   return (
     <TableContainer component={Paper} sx={{ bgcolor: 'primary.main' }}>
@@ -52,7 +53,7 @@ const EventSummaryTable = ({ events = [] }) => {
           textTransform="uppercase"
           fontWeight="bold"
           color="secondary.main"
-          sx={{ pl: 1.5, letterSpacing: {xxs: '0.05rem', xl: '.1rem'}, fontSize: '1.75rem' }}
+          sx={{ pl: 1.5, letterSpacing: {xxs: '0.05rem', xl: '.1rem'}, fontSize: '1.65rem' }}
         >
           Upcoming Events
         </Typography>
@@ -69,7 +70,7 @@ const EventSummaryTable = ({ events = [] }) => {
                   textTransform: 'uppercase',
                   fontWeight: 'bold',
                   letterSpacing: {xxs: '.05rem', xl: '.1rem'},
-                  fontSize: {xxs: '1rem', xl: '1.1rem'},
+                  fontSize: {xxs: '.9rem', xl: '1rem'},
                 }}
               >
                 {label}

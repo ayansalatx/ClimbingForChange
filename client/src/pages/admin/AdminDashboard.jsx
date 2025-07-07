@@ -183,6 +183,7 @@ const AdminDashboard = () => {
         flexDirection: 'column',
         alignItems: 'center',
         py: 1,
+        mb: 1,
         overflowY: 'auto',
       }}
     >
@@ -191,7 +192,7 @@ const AdminDashboard = () => {
         color="primary.main"
         fontWeight={'bold'}
         textTransform={'uppercase'}
-        sx={{ fontSize: '3rem' }}
+        sx={{ fontSize: { xxs: '2.5rem', xl: '2.75rem' } }}
       >
         Leaderboard Management
       </Typography>
@@ -211,8 +212,7 @@ const AdminDashboard = () => {
             width: '100%',
             maxWidth: '2400px',
             flexDirection: 'row',
-            gap: isLg ? 0 : '1rem',
-            m: '1rem',
+            gap: isLg ? 1 : '1rem',
             px: '1rem',
             display: 'flex',
             alignItems: 'left',
@@ -236,7 +236,7 @@ const AdminDashboard = () => {
         <Box
           sx={{
             width: '100%',
-            mt: '1rem',
+            mt: 1,
             backgroundColor: 'primary.light',
             padding: '1rem',
             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)',
