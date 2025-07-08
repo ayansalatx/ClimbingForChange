@@ -1,5 +1,7 @@
-import { TableBody, TableCell, TableRow } from '@mui/material'
+import { alpha, TableBody, TableCell, TableRow } from '@mui/material'
 
+import theme from '../../../styles/theme'
+import DeactivateToggle from '../buttons/DeactivateToggle'
 import RowActions from '../buttons/RowActions'
 
 const TableDataRows = ({
@@ -7,6 +9,7 @@ const TableDataRows = ({
   columns = [],
   page,
   rowsPerPage,
+  activeOnChange,
   onEditClick,
   onDeleteClick,
 }) => {
@@ -18,21 +21,39 @@ const TableDataRows = ({
           return (
             <TableRow
               hover
-              role="checkbox"
+              role='checkbox'
               tabIndex={-1}
               key={row.id || index}
               sx={{
                 backgroundColor:
                   index % 2 === 0 ? 'background.paper' : 'background.default',
+                '&:hover > *': {
+                  backgroundColor: alpha(theme.palette.secondary.light, 0.9),
+                },
               }}
             >
               {columns.map((column) => {
-                const value = row[column.id]
+                const value = row[column.id] ?? ''
+
+                if (column.id === 'activeToggle') {
+                  return (
+                    <TableCell key={column.id} align={column.align || 'left'}>
+                      <DeactivateToggle
+                        checked={row.active}
+                        onChange={activeOnChange}
+                      />
+                    </TableCell>
+                  )
+                }
+
                 return (
                   <TableCell
                     key={column.id}
                     align={column.align || 'left'}
-                    sx={{ fontSize: '1rem', color: row.active ? 'primary.main' :'gray.main' }}
+                    sx={{
+                      fontSize: '1rem',
+                      color: row.active ? 'primary.main' : 'gray.main',
+                    }}
                   >
                     {column.format && typeof value === 'number'
                       ? column.format(value)
@@ -40,6 +61,7 @@ const TableDataRows = ({
                   </TableCell>
                 )
               })}
+
               <TableCell
                 key={row.id}
                 align={'center'}
