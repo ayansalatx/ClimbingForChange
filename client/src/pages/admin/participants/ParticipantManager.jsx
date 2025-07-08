@@ -41,7 +41,7 @@ const ParticipantManager = () => {
         const participantListRaw = await getAllParticipants()
         const participantList = participantListRaw.map((p) => ({
           ...p,
-          teamName: p.teamId?.name || '—',
+          teamName: p.team?.name || '—',
           eventId: p.team?.event || null, 
         }))
         setParticipants(participantList)
@@ -163,8 +163,8 @@ const ParticipantManager = () => {
   }
 
   const filteredParticipants = selectedEvent
-    ? participants.filter((p) => String(p.team.event) === String(selectedEvent))
-    : []
+  ? participants.filter((p) => String(p.team.event) === String(selectedEvent))
+  : []
 
   return (
     <Box
