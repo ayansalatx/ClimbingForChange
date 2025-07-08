@@ -34,7 +34,7 @@ const RFIDModal = ({ open, onClose, onSave, rfid }) => {
     
     // Prepare the RFID data
     const rfidData = {
-      serialNumber: serialNumber.trim()
+      serialNumber: serialNumber.trim(),
     }
     
     onSave(rfidData)

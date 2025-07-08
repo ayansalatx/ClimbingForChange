@@ -19,21 +19,21 @@ const tableColumns = [
     label: 'Serial Number', 
     width: '40%', 
     align: 'left',
-    format: (value) => value || 'N/A'
+    format: (value) => value || 'N/A',
   },
   { 
     id: 'createdAt', 
     label: 'Created At', 
     width: '30%', 
     align: 'center',
-    format: (value) => value || 'N/A'
+    format: (value) => value || 'N/A',
   },
   { 
     id: 'updatedAt', 
     label: 'Last Updated', 
     width: '30%', 
     align: 'center',
-    format: (value) => value || 'N/A'
+    format: (value) => value || 'N/A',
   },
 ]
 
@@ -51,7 +51,7 @@ const RFIDManager = () => {
   const loadData = useCallback(async () => {
     try {
       const tags = await getRfidTags()
-      const processedTags = tags.map(tag => ({
+      const processedTags = tags.map((tag) => ({
         id: tag._id || tag.id,
         serialNumber: tag.serialNumber,
         createdAt: new Date(tag.createdAt).toLocaleString(),
