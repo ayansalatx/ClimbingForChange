@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import { jest } from '@jest/globals'
-import {it, describe, expect} from '@jest/globals'
+import {it, describe, expect, jest} from '@jest/globals'
 
 // Mock the entire module to avoid complex dependencies
 jest.mock('../pages/admin/locations/LocationManager', () => {

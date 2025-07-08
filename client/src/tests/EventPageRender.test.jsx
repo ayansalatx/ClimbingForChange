@@ -3,11 +3,10 @@
  */
 
 import React from 'react'
-import { jest } from '@jest/globals'
+import { jest, it, describe, expect } from '@jest/globals'
 import { render, screen } from '@testing-library/react'
-import {it, describe, expect} from '@jest/globals'
 // Mock the entire EventManager component
-jest.mock('@/pages/admin/events/EventManager', () => {
+jest.mock('../pages/admin/events/EventManager', () => {
   return function MockEventManager() {
     return (
       <div data-testid="mock-event-manager">
@@ -55,7 +54,7 @@ jest.mock('@/pages/admin/events/EventManager', () => {
 })
 
 // Import after setting up the mock
-import EventManager from '@/pages/admin/events/EventManager'
+import EventManager from '../pages/admin/events/EventManager'
 
 describe('EventManager', () => {
   it('renders the component', () => {
