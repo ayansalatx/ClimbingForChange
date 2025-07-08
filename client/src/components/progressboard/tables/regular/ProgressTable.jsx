@@ -13,7 +13,7 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import theme from '../../../../styles/theme'
 import EventSelector from '../../shared/EventSelector'
@@ -141,25 +141,21 @@ const ProgressTable = ({
             />
           </Table>
         ) : (
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              width: '100%',
-              height: '100%',
-            }}
-          >
+          <Table stickyHeader sx={{ height: '100%' }}>
             <TableHeaderRow columns={columns} />
-            <Box
+            <TableBody
               sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
                 height: '100%',
+                background: `linear-gradient(to right, ${alpha(theme.palette.background.paper, 0.6)}, ${alpha(theme.palette.background.paper, 0.2)}, ${alpha(theme.palette.background.paper, 0.6)})`,
               }}
             >
-              <HikingIcon
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length + 1}
+                  align="center"
+                  sx={{ border: 'none' }}
+                >
+                  <HikingIcon
                 sx={{
                   fontSize: '6rem',
                   color: 'secondary.main',
@@ -175,8 +171,10 @@ const ProgressTable = ({
               >
                 Check back later!
               </Typography>
-            </Box>
-          </Box>
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
         )}
       </TableContainer>
       <Box
