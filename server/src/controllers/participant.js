@@ -4,7 +4,7 @@ import Team from '../models/team.js'
 
 export const getParticipants = async (req, response) => {
   const participants = await Participant.find({})
-    .populate('teamId')
+    .populate('team')
 
   response.json(participants)
 }
@@ -17,7 +17,7 @@ export const getParticipantById = async (request, response) => {
   }
 
   const participant = await Participant.findById(id)
-    .populate('teamId')
+    .populate('team')
 
   response.json(participant)
 }

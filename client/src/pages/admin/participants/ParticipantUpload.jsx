@@ -1,5 +1,5 @@
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
-import { Box, Button,Typography, useTheme } from '@mui/material'
+import { Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, InputLabel, MenuItem, Select, Typography, useTheme } from '@mui/material'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -8,16 +8,38 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Papa from 'papaparse'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
+import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog'
 import { useAlert } from '../../../hooks/useAlert'
-import { uploadParticipants } from '../../../services/participantService'
+import { getAllEvents } from '../../../services/eventService'
+import { uploadCSV } from '../../../services/uploadcsv'
 
 const ParticipantUpload = () => {
   const theme = useTheme()
   const [rows, setRows] = useState([])
+  const [selectedFile, setSelectedFile] = useState()
+  const [allEvent, setAllEvent] = useState()
+  const [selectedEvent, setSelectedEvent] = useState(null)
+  const [overwrite, setOverwrite] = useState(false)
+  const [eventError, setEventError] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [deleteConfirmOpen, setOverwriteConfirmOpen] = useState(false)
 
   const displayAlert = useAlert()
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const loadEvents = async () => {
+      const events = await getAllEvents()
+      setAllEvent(events)
+    }
+
+    loadEvents()
+
+  }, [])
 
   const handleFileChange = (event) => {
     const file = event.target.files[0]
@@ -47,7 +69,9 @@ const ParticipantUpload = () => {
             return newRow
           })
 
+          setSelectedFile(file)
           setRows(rowsWithRenamedHeaders)
+          event.target.value = ''
         },
         error: (err) => {
           console.error(err)
@@ -56,18 +80,33 @@ const ParticipantUpload = () => {
       })
     } else {
       displayAlert('Loading Error', 'Not a csv file.', 'error')
+      event.target.value = ''
       return
     }
   }
 
-  const handleUpload = async() => {
+  const handleUpload = async () => {
+    setOverwriteConfirmOpen(false)
     try {
-      await uploadParticipants(rows)
-      displayAlert('Uploaded', `Successfully uploaded ${rows.length}.`, 'success')
+      const formData = new FormData()
+      formData.append('file', selectedFile)
+
+      setIsLoading(true)
+      await uploadCSV(formData, selectedEvent.id, overwrite)
+      setIsLoading(false)
+      displayAlert('Uploaded', `Successfully uploaded ${selectedFile.name}.`, 'success')
       setRows([])
+      setSelectedFile(selectedFile)
+      navigate('/admin/participants')
     } catch (error) {
+      setIsLoading(false)
       displayAlert('Error', `Upload fail ${error.message}.`, 'error')
     }
+  }
+
+  const cancelDelete = () => {
+    setOverwriteConfirmOpen(false)
+    setOverwrite(false)
   }
 
   return (
@@ -95,7 +134,7 @@ const ParticipantUpload = () => {
           </Box>
         </Box>
 
-        <Box sx={{ padding: '1rem' }}>
+        <Box sx={{ padding: '1rem', height: '100%' }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Button variant="contained" component="label">
               Upload CSV File
@@ -106,16 +145,60 @@ const ParticipantUpload = () => {
               />
             </Button>
 
-            <Button 
-              variant='outlined' 
+
+            <Button
+              variant='outlined'
               sx={{ display: 'flex', gap: '0.25rem' }}
               disabled={rows.length === 0 ? true : false}
-              onClick={handleUpload}
-            ><CloudUploadIcon /> Upload</Button>
+              loading={isLoading}
+              onClick={() => {
+                if (!selectedEvent) {
+                  setEventError(true)
+                } else {
+                  setEventError(false)
+
+                  if (overwrite) {
+                    setOverwriteConfirmOpen(true)
+                  } else {
+                    handleUpload()
+                  }
+                }
+              }}
+            >
+              <CloudUploadIcon /> Upload
+            </Button>
+          </Box>
+          <Box sx={{ display: 'flex', py: '1rem' }}>
+            <FormControl sx={{ minWidth: '15rem' }} size="small" error={eventError}>
+              <InputLabel id="select-event-label">Select Event</InputLabel>
+              <Select
+                labelId="select-event-label"
+                id="demo-select-small"
+                value={selectedEvent || ''}
+                label="Select Event"
+                onChange={(event) => {
+                  setEventError(false)
+                  setSelectedEvent(event.target.value)
+                }}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {allEvent && allEvent.map((e) => {
+                  return <MenuItem key={e.id} value={e}>{e.name}</MenuItem>
+                })}
+              </Select>
+              {eventError && <FormHelperText>You must select an event</FormHelperText>}
+            </FormControl>
+          </Box>
+          <Box>
+            <FormGroup>
+              <FormControlLabel control={<Checkbox value={overwrite} onChange={(event) => { setOverwrite(event.target.checked) }} />} label="Overwrite existing list" />
+            </FormGroup>
           </Box>
 
-          {rows.length > 0 ? <TableContainer component={Paper} sx={{ margin: '1rem 0', height: '60vh', overflowY: 'scroll' }}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          {rows.length > 0 ? <TableContainer component={Paper} sx={{ margin: '1rem 0', height: '60%', overflowY: 'scroll' }}>
+            <Table sx={{ minWidth: 650 }} stickyHeader>
               <TableHead>
                 <TableRow sx={{
                   '& th': {
@@ -147,10 +230,15 @@ const ParticipantUpload = () => {
                 ))}
               </TableBody>
             </Table>
-          </TableContainer> : <Typography variant='h5'>Please select CSV to view data.</Typography>}
+          </TableContainer> : <Typography variant='h5' mt='5rem'>Please select CSV to view data.</Typography>}
 
         </Box>
       </Box>
+      <ConfirmDeleteDialog
+        open={deleteConfirmOpen}
+        onCancel={cancelDelete}
+        onConfirm={handleUpload}
+      />
     </div>
   )
 }

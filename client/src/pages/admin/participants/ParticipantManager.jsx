@@ -42,7 +42,7 @@ const ParticipantManager = () => {
         const participantList = participantListRaw.map((p) => ({
           ...p,
           teamName: p.teamId?.name || '—',
-          eventId: p.teamId?.event || null, 
+          eventId: p.team?.event || null, 
         }))
         setParticipants(participantList)
 
@@ -163,7 +163,7 @@ const ParticipantManager = () => {
   }
 
   const filteredParticipants = selectedEvent
-    ? participants.filter((p) => String(p.eventId) === String(selectedEvent))
+    ? participants.filter((p) => String(p.team.event) === String(selectedEvent))
     : []
 
   return (

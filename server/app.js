@@ -13,6 +13,7 @@ import rfidtagRoutes from './src/routes/rfidtag.js'
 import teamsRoutes from './src/routes/team.js'
 import lapRoutes from './src/routes/lap.js'
 import hillRoutes from './src/routes/hill.js'
+import uploadCSVRoutes from './src/routes/uploadCSV.js'
 import authRoutes from './src/routes/auth.js'
 
 const app = express()
@@ -42,6 +43,7 @@ authenticatedApiRouter.use('/hills', hillRoutes)
 authenticatedApiRouter.use('/rfidtags', rfidtagRoutes)
 authenticatedApiRouter.use('/teams', teamsRoutes)
 authenticatedApiRouter.use('/laps', lapRoutes)
+authenticatedApiRouter.use('/upload-csv', uploadCSVRoutes)
 
 app.use('/api', authenticatedApiRouter)
 

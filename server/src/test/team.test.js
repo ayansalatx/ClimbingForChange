@@ -70,7 +70,7 @@ beforeEach(async () => {
   initialTeamId = initialTeam._id
 
   // 4. Create a participant and assign them to the team to test virtual population
-  await new Participant({ firstName: 'Alex', lastName: 'Jones', teamId: initialTeamId }).save()
+  await new Participant({ firstName: 'Alex', lastName: 'Jones', team: initialTeamId }).save()
 })
 
 
