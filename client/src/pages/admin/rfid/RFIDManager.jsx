@@ -11,6 +11,7 @@ import {
   getRfidTags,
   updateRfidTag,
 } from '../../../services/rfidService'
+import RfidIcon from '@mui/icons-material/Nfc'
 
 const tableColumns = [
   { 
@@ -66,7 +67,7 @@ const RFIDManager = () => {
 
   useEffect(() => {
     loadData()
-  }, [loadData])
+  }, [])
 
   const handleSave = async (tagData) => {
     try {
@@ -135,7 +136,7 @@ const RFIDManager = () => {
     <Box sx={{ p: 3 }}>
       <DataTable
         tableTitle="RFID Tags"
-        tableIcon={null}
+        tableIcon={RfidIcon}
         tableColumns={tableColumns}
         tableData={rfidData}
         showInactive={showInactive}
