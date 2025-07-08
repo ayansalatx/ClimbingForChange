@@ -1,5 +1,7 @@
-import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, TextField, Typography } from '@mui/material'
+import { Box, Button, Checkbox, FormControl, InputLabel, MenuItem, Modal, Select, TextField, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
+
+import TextInput from '../forms/fields/TextInput'
 
 const style = {
   position: 'absolute',
@@ -13,13 +15,15 @@ const style = {
   borderRadius: 2,
 }
 
-const AddEventModal = ({ open, onClose, onAdd, onEdit ,onLocation, eventToEdit }) => {
+const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, eventToEdit }) => {
   const [eventName, setEventName] = useState('')
   const [location, setLocation] = useState('')
-  const [locations, setLocations] = useState([])  
+  const [locations, setLocations] = useState([])
   const [startDate, setStartDate] = useState('')
   const [startTime, setStartTime] = useState('')
   const [duration, setDuration] = useState('')
+  const [mountains, setMountains] = useState([])
+  const [mountainSelection, setMountainSelection] = useState([])
 
   const onModalClose = () => {
     onClose()
@@ -28,22 +32,30 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit ,onLocation, eventToEdit }
     setStartDate('')
     setStartTime('')
     setDuration('')
+    setMountainSelection([])
   }
 
   useEffect(() => {
-    setLocations(onLocation)
+    setLocations(onLocation || [])
   }, [onLocation])
 
   useEffect(() => {
+    setMountains(onMountains || [])
+  }, [onMountains])
+
+  useEffect(() => {
     if (eventToEdit) {
-      console.log(eventToEdit)
       setEventName(eventToEdit.name || '')
       setLocation(eventToEdit.locationId || '')
       const start = new Date(eventToEdit.startDateTime)
       setStartDate(start.toISOString().slice(0, 10))
       setStartTime(start.toTimeString().slice(0, 5))
-      const duration = (new Date(eventToEdit.endDateTime) - start) / 3600000
-      setDuration(duration)
+      const durationHours = (new Date(eventToEdit.endDateTime) - start) / 3600000
+      setDuration(durationHours)
+      const selectedMountains = eventToEdit.teams ? [...new Set(eventToEdit.teams.map((t) => t.mountain).filter((m) => m != null))] : []
+      setMountainSelection(selectedMountains)
+    } else {
+      setMountainSelection([])
     }
   }, [eventToEdit])
 
@@ -53,21 +65,21 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit ,onLocation, eventToEdit }
     const selectedLocation = locations.find((loc) => loc.id === location)
     const start = new Date(`${startDate}T${startTime}`)
     const end = new Date(start.getTime() + Number(duration) * 3600000)
-
     const eventData = {
       name: eventName,
-      location: selectedLocation.id, 
+      location: selectedLocation?.id || null,
+      mountains: mountainSelection,
       startDateTime: start.toISOString(),
       endDateTime: end.toISOString(),
-      hill: [], 
+      hill: [],
       active: true,
     }
 
     try {
       if (eventToEdit) {
-        onEdit(eventToEdit.id, eventData)
+        await onEdit(eventToEdit.id, eventData)
       } else {
-        onAdd(eventData)
+        await onAdd(eventData)
       }
     } catch (error) {
       console.error('Error saving event:', error)
@@ -75,6 +87,12 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit ,onLocation, eventToEdit }
     onModalClose()
   }
 
+  const handleMountainChange = (event) => {
+    const {
+      target: { value },
+    } = event
+    setMountainSelection(typeof value === 'string' ? value.split(',') : value)
+  }
   return (
     <Modal open={open} onClose={onModalClose}>
       <Box sx={style}>
@@ -82,27 +100,53 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit ,onLocation, eventToEdit }
           {eventToEdit ? 'Edit Event' : 'Add New Event'}
         </Typography>
         <form onSubmit={handleAdd}>
-          <TextField
+          <TextInput
             fullWidth
             label="Event Name"
-            variant="outlined"
             margin="normal"
             value={eventName}
             onChange={(e) => setEventName(e.target.value)}
             required
           />
 
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Location</InputLabel>
+          <FormControl fullWidth margin="normal">
+            <InputLabel id="location-select-label">Location</InputLabel>
             <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
+              labelId="location-select-label"
+              id="location-select"
               value={location}
               label="Location"
               onChange={(e) => setLocation(e.target.value)}
               required
             >
-              {locations.map((location) => <MenuItem value={location.id} key={location.id}> {location.name} </MenuItem> )}
+              {locations.map((loc) => (
+                <MenuItem value={loc.id} key={loc.id}>
+                  {loc.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <FormControl fullWidth margin="normal">
+            <InputLabel id="mountain-select-label">Mountains</InputLabel>
+            <Select
+              labelId="mountain-select-label"
+              id="mountain-select"
+              multiple
+              value={mountainSelection}
+              onChange={handleMountainChange}
+              label="Mountains"
+              renderValue={(selected) =>
+                selected
+                  .map((id) => mountains.find(((m) => m.id === id))?.name || id)
+              }
+            >
+              {mountains.map((mountain) => (
+                <MenuItem key={mountain.id} value={mountain.id}>
+                  <Checkbox checked={mountainSelection.indexOf(mountain.id) > -1} />
+                  {mountain.name}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
 
@@ -130,23 +174,22 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit ,onLocation, eventToEdit }
             required
           />
 
-          <TextField
+          <TextInput
             fullWidth
             label="Duration (hours)"
             type="number"
-            variant="outlined"
             margin="normal"
             value={duration}
             onChange={(e) => setDuration(e.target.value)}
             required
           />
-  
+
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
             <Button variant="outlined" onClick={onModalClose}>
               Cancel
             </Button>
             <Button type="submit" variant="contained">
-              Add
+              {eventToEdit ? 'Save' : 'Create'}
             </Button>
           </Box>
         </form>
