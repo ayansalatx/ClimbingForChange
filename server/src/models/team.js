@@ -11,7 +11,7 @@ const teamSchema = new Schema({
   mountain: {
     type: Schema.Types.ObjectId,
     ref: 'Mountain',
-    required: true
+    required: false
   },
   hill: {
     type: Schema.Types.ObjectId,

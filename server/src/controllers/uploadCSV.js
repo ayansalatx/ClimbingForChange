@@ -9,7 +9,6 @@ import Hill from '../models/hill.js'
 export const uploadCSV = async (request, response) => {
 
   const { eventid, overwrite } = request.query
-  console.log('🚀 ~ uploadCSV ~ overwrite:', overwrite)
 
   if (!request.file) {
     return response.status(400).json({ error: 'File to upload missing missing' })
@@ -40,8 +39,10 @@ export const uploadCSV = async (request, response) => {
     for (const row of rows) {
       const firstName = row['First Name']
       const lastName = row['Last Name']
-      const mountainName = row['Sub-event']
+      const subEventArray = row['Sub-event'].split(' ')
       const teamName = row['Team Name']
+
+      const mountainName = subEventArray[subEventArray.length - 1]
 
       const existingMountain = await Mountain.findOne({ name: mountainName })
 
