@@ -165,7 +165,7 @@ const ProgressBoard = () => {
 
       {!isXSmall && (
         <video
-          src="/assets/mountain-with-way-points.mp4"
+          src="/assets/mountain-with-way-points-full.mp4"
           autoPlay
           loop
           muted
