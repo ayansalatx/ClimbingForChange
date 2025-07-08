@@ -76,8 +76,7 @@ const ParticipantUpload = () => {
         error: (err) => {
           console.error(err)
           displayAlert('Loading Error', `Error while loading file ${err.message}.`, 'error')
-          event.target.value = ''
-        }
+        },
       })
     } else {
       displayAlert('Loading Error', 'Not a csv file.', 'error')
@@ -120,14 +119,13 @@ const ParticipantUpload = () => {
       <Box sx={{
         border: `2px solid ${theme.palette.primary['main']}`,
         mt: '5rem',
-        width: '90%',
-        height: '80%',
-        borderRadius: '5px'
+        width: '70%',
+        borderRadius: '5px',
       }}>
         <Box sx={{
           backgroundColor: theme.palette.primary['light'],
           padding: '1.5rem 0',
-          color: '#fff'
+          color: '#fff',
         }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0 1rem' }}>
             <CloudUploadIcon fontSize='large' />

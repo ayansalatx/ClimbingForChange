@@ -3,26 +3,29 @@ import { Suspense, useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
 import AlertDisplay from './components/AlertDisplay'
+import Footer from './components/shared/Footer'
 import SideBar from './components/shared/SideBar'
 import TopAppBar from './components/shared/TopAppBar'
+import { useAlert } from './hooks/useAlert'
 
-function Layout() {
+const Layout = () => {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const navigate = useNavigate()
+  const displayAlert = useAlert()
 
   const toggleDrawer = (open) => {
     setDrawerOpen(open)
   }
 
-  const logout = () => {
-    // TODO: Implement full logout
-    navigate('/')
+  const logout = async () => {
+    displayAlert('Success', 'You have been logged out', 'success')
+    localStorage.removeItem('token')
+    navigate('/login')
   }
 
   return (
     <>
       <header>
-        {/* Pass a function to onMenuClick so it triggers on event */}
         <TopAppBar onMenuClick={() => toggleDrawer(true)} onLogout={logout} />
       </header>
       <nav>
@@ -30,12 +33,13 @@ function Layout() {
       </nav>
       <main>
         <Box
-          component="section"
+          component='section'
           sx={{
             width: '100vw',
             height: '100vh',
             paddingTop: '5rem',
             display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
           }}
@@ -58,6 +62,9 @@ function Layout() {
             <Outlet sx={{ padding: 0, margin: 0 }} />
           </Suspense>
         </Box>
+        <footer>
+          <Footer />
+        </footer>
       </main>
     </>
   )
