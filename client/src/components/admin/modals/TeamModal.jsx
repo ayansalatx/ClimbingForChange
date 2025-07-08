@@ -129,7 +129,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
           />
 
           <FormControl fullWidth margin="normal" required>
-            <InputLabel id="mountain-select-label">Target Mountain</InputLabel>
+            <InputLabel id="mountain-select-label">Mountain</InputLabel>
             <Select
               labelId="mountain-select-label"
               id="mountain-select"
