@@ -8,26 +8,26 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
       sx={{
         width: {
           xxs: '100%',
-          sx: '100%',
+          xs: '100%',
           sm: '100%',
-          md: '40%',
-          lg: '28%',
-          xl: '28%',
+          md: '45%',
+          lg: '40%',
+          xl: '35%',
         },
         textAlign: 'left',
-        background: alpha(theme.palette.background.paper, 0.4),
+        backgroundColor: { xxs: 'background.paper', sm: alpha(theme.palette.background.paper, 0.4) },
         color: 'primary.main',
         borderRadius: '3px',
         '&:hover': {
-          background: alpha(theme.palette.info.main, 0.5),
+          backgroundColor: { xxs: 'info.main', sm: alpha(theme.palette.info.main, 0.5) },
         },
       }}
     >
       {/* Use MUI Autocomplete to display search suggestions for teams */}
       <Autocomplete
-        size="small"
+        size='small'
         freeSolo // Allow any input - not limited to the options
-        id="progress-search"
+        id='progress-search'
         disableClearable
         options={teamNames} // List of team names as suggestions
         inputValue={searchString}
@@ -38,6 +38,7 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
         slotProps={{
           paper: {
             sx: {
+              minHeight: { xxs: 'unset', xs: 'unset', sm: 0 },
               borderRadius: '3px',
               backgroundColor: 'background.paper',
               color: 'primary.main',

@@ -8,9 +8,9 @@ import DataTable from '../../../components/admin/tables/DataTable.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
 import {
   addNewLocation,
-  deleteLocation,
   editLocation,
   getAllLocations,
+  removeLocation,
 } from '../../../services/locationService.js'
 
 const fullColumns = [
@@ -22,13 +22,14 @@ const fullColumns = [
 ]
 
 const LocationManager = () => {
+  const [loading, setLoading] = useState(true)
   const [locations, setLocations] = useState([])
   const [showInactive, setShowInactive] = useState(false)
   const [currentLocation, setCurrentLocation] = useState(null)
   const [popupOpen, setPopupOpen] = useState(false)
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
   const [deletedLocation, setDeleteLocation] = useState(null)
- 
+
   const displayAlert = useAlert()
 
   useEffect(() => {
@@ -47,6 +48,8 @@ const LocationManager = () => {
           `Failed to Load Locations: ${error.message}`,
           'error'
         )
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -71,7 +74,7 @@ const LocationManager = () => {
 
   const confirmedDelete = async () => {
     try {
-      await deleteLocation(deletedLocation.id)
+      await removeLocation(deletedLocation.id)
       const newLocationList = await getAllLocations()
       setLocations(newLocationList)
       setDeleteConfirmOpen(false)
@@ -86,6 +89,8 @@ const LocationManager = () => {
         `Failed to delete ${deletedLocation.name}: ${error.message}`,
         'error'
       )
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -161,6 +166,7 @@ const LocationManager = () => {
         onAddClick={onAdd}
         onEditClick={onEdit}
         onDeleteClick={onDelete}
+        loading={loading}
       />
 
       <LocationModal

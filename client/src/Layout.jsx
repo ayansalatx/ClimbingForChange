@@ -61,8 +61,10 @@ const Layout = () => {
             <AlertDisplay />
             <Outlet sx={{ padding: 0, margin: 0 }} />
           </Suspense>
-          <Footer />
         </Box>
+        <footer>
+          <Footer />
+        </footer>
       </main>
     </>
   )

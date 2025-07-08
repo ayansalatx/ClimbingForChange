@@ -163,7 +163,7 @@ const ParticipantManager = () => {
   }
 
   const filteredParticipants = selectedEvent
-    ? participants.filter(p => String(p.eventId) === String(selectedEvent))
+    ? participants.filter((p) => String(p.eventId) === String(selectedEvent))
     : []
 
   return (
@@ -197,7 +197,7 @@ const ParticipantManager = () => {
         onClose={() => setPopupOpen(false)}
         onAdd={handleSave}
         participantData={selectedParticipant}
-        teamNames={teams.filter(team => String(team.event) === String(selectedEvent))}
+        teamNames={teams.filter((team) => String(team.event) === String(selectedEvent))}
       />
       <ConfirmDeleteDialog
         open={deleteConfirmOpen}

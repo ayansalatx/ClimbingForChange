@@ -48,7 +48,7 @@ const MountainModal = ({ open, onClose, onSave, mountain }) => {
       totalElevation: parseFloat(totalElevation) || 0,
       elevationUnit,
       imageURL: imageURL || '',
-      active: true
+      active: true,
     }
     
     console.log('Submitting mountain data:', mountainData)
