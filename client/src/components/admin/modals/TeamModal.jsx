@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 
 import { getAllEvents } from '../../../services/eventService'
 import { getAllHills } from '../../../services/hillService'
-import { getMountains } from '../../../services/mountainService'
+import { getAllMountains } from '../../../services/mountainService'
 
 const style = {
   position: 'absolute',
@@ -47,7 +47,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
       if (open) {
         try {
           const [mountainData, hillData, eventData] = await Promise.all([
-            getMountains(),
+            getAllMountains(),
             getAllHills(),
             getAllEvents()
           ])
@@ -134,7 +134,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
               labelId="mountain-select-label"
               id="mountain-select"
               value={selectedMountain}
-              label="Target Mountain"
+              label="Mountain"
               onChange={(e) => setSelectedMountain(e.target.value)}
             >
               {mountains.map((mountain) => (
@@ -181,24 +181,27 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
 
           <TextField
             fullWidth
-            label="Laps Required"
+            required
+            label="Laps"
             type="number"
             variant="outlined"
             margin="normal"
             value={lapsRequired}
             onChange={(e) => setLapsRequired(e.target.value)}
+            inputProps={{ min: 1 }}
           />
 
           <TextField
             fullWidth
-            label="Total Distance Required"
+            required
+            label="Total Distance"
             type="number"
             variant="outlined"
             margin="normal"
             value={distanceRequired}
             onChange={(e) => setDistanceRequired(e.target.value)}
+            inputProps={{ min: 1 }}
           />
-
           <TextField
             fullWidth
             label="Start Date & Time"

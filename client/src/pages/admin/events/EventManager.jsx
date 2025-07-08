@@ -37,27 +37,6 @@ const formatDateTime = (dateString) => {
   })
 }
 
-const fullColumns = [
-  { id: 'eventName', label: 'Event', width: '34%', align: 'left' },
-  { id: 'location', label: 'Location', width: '12%', align: 'left' },
-  { id: 'start', label: 'Start-Time', width: '15%', align: 'left' },
-  { id: 'end', label: 'End-Time', width: '15%', align: 'left' },
-  { id: 'duration', label: 'Duration', width: '12%', align: 'left' },
-  { id: 'active', label: 'Active', width: '12%', align: 'left' }
-]
-
-const formatDateTime = (dateString) => {
-  const date = new Date(dateString)
-  return date.toLocaleString([], {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: true,
-  })
-}
-
 const EventManager = () => {
   const [openPopup, setOpenPopup] = useState(false)
   const [events, setEvents] = useState([])
