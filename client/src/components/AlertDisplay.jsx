@@ -12,7 +12,7 @@ const AlertDisplay = () => {
         open={state.alert}
         autoHideDuration={6000}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        slots={{transition: Slide}}
+        slots={{ transition: Slide }}
       >
         <Alert severity={state.alert.type} variant='filled' sx={{ width: '100%', color: 'background.paper' }}>
           <AlertTitle>{state.alert.title}</AlertTitle>

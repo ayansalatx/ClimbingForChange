@@ -11,6 +11,7 @@ const theme = createTheme({
     },
     secondary: {
       main: '#cddc29',
+      dark: '#B9C51A',
     },
     error: {
       main: '#d56d6d',
@@ -39,6 +40,16 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: 'canada-type-gibson, "Roboto", "Helvetica", "Arial", sans-serif',
+  },
+  breakpoints: {
+    values: {
+      xxs: 0,
+      xs: 410,
+      sm: 600,
+      md: 900,
+      lg: 1300,
+      xl: 1536,
+    },
   },
 })
 
