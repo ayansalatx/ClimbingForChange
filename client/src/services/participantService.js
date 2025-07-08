@@ -2,7 +2,7 @@ import { api } from './api'
 
 export const getAllParticipants = async () => {
   const res = await api.get('/participants')
-  const participants = res.data.map(p => ({
+  const participants = res.data.map((p) => ({
     ...p,
     teamName: p.teamId ? p.teamId.name : '—',
     eventId: p.teamId ? p.teamId.event : null,

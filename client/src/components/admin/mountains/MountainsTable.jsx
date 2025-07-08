@@ -9,7 +9,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography
+  Typography,
 } from '@mui/material'
 import React from 'react'
 
@@ -19,9 +19,9 @@ const MountainsTable = ({
   onEdit, 
   onDelete,
   loading,
-  error
+  error,
 }) => {
-  const filteredMountains = mountains.filter(m =>
+  const filteredMountains = mountains.filter((m) =>
     m.name.toLowerCase().includes(searchTerm.toLowerCase())
   )
 

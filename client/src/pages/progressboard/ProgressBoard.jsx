@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import C4CFavicon from '../../assets/C4C-branding/Favicon.png'
 import ProgressList from '../../components/progressboard/cards/ProgressCardList'
-import ProgressTable from '../../components/progressboard/tables/full-table/ProgressTable'
+import ProgressTable from '../../components/progressboard/tables/regular/ProgressTable'
 import { getAllEvents, getDisplayEventTeams } from '../../services/eventService'
 import theme from '../../styles/theme'
 
@@ -33,12 +33,12 @@ const mdColumns = [
 
 const smColumns = [
   { id: 'name', label: 'Team', width: '30%' },
-  { id: 'mountainName', label: 'Mount.', width: '15%' },
-  { id: 'elevation', label: 'Elev.', width: '20%' },
-  { id: 'laps', label: 'Laps', width: '20%' },
+  { id: 'mountainName', label: 'Mount.', width: '13%' },
+  { id: 'elevation', label: 'Elev.', width: '15%' },
+  { id: 'laps', label: 'Laps', width: '13%' },
   { id: 'lapsToGo', label: 'To Go', width: '7%' },
-  { id: 'bestLap', label: 'Best Lap', width: '8%' },
-  { id: 'timeElapsed', label: 'Time', width: '10%' },
+  { id: 'bestLap', label: 'Best Lap', width: '9%' },
+  { id: 'timeElapsed', label: 'Time', width: '25%' },
 ]
 
 const ProgressBoard = () => {
@@ -63,6 +63,7 @@ const ProgressBoard = () => {
 
   // State for teams
   const [teams, setTeams] = useState([])
+  const [teamsLength, setTeamsLength] = useState()
   // State for events
   const [events, setEvents] = useState([])
   const [selectedEvent, setSelectedEvent] = useState(null)
@@ -71,6 +72,8 @@ const ProgressBoard = () => {
   const [searchString, setSearchString] = useState('')
   // State for teams filtered by the search input
   const [filteredTeams, setFilteredTeams] = useState([])
+
+  const [loading, setLoading] = useState(true)
 
   // Load Participant data from server
   useEffect(() => {
@@ -86,6 +89,7 @@ const ProgressBoard = () => {
     loadData()
   }, [])
 
+  // Set default event as the event that is ongoing or upcoming
   useEffect(() => {
     if (events.length > 0 && !selectedEvent) {
       const now = new Date()
@@ -113,9 +117,13 @@ const ProgressBoard = () => {
       if (!selectedEvent) return
       try {
         const teamsForEvent = await getDisplayEventTeams(selectedEvent)
+
+        setTeamsLength(teamsForEvent.length)
         setTeams(teamsForEvent)
       } catch (e) {
         console.log('Failed to load event teams', e)
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -154,9 +162,10 @@ const ProgressBoard = () => {
       }}
     >
       {/* https://pixabay.com/videos/search/terrain%20blue%20gray%20mountain/ */}
+
       {!isXSmall && (
         <video
-          src="/assets/mountain-with-way-points.mp4"
+          src="/assets/mountain-with-way-points-full.mp4"
           autoPlay
           loop
           muted
@@ -217,7 +226,7 @@ const ProgressBoard = () => {
                   maxWidth: {
                     xxs: '1.6rem',
                     xs: '1.8rem',
-                    sm: '10rem',
+                    sm: '8rem',
                     md: '12rem',
                     lg: '14rem',
                     xl: '15.5rem',
@@ -250,21 +259,22 @@ const ProgressBoard = () => {
                 color="secondary.main"
                 fontWeight="bold"
                 textTransform="uppercase"
+                letterSpacing='.05rem'
                 sx={{
                   fontStyle: 'italic',
                   mr: {
                     xxs: 0,
-                    xs: 0,
-                    sm: 0,
-                    md: 10,
-                    lg: 14,
-                    xl: 18,
+                    xs: 2,
+                    sm: 17,
+                    md: 26,
+                    lg: 32,
+                    xl: 34,
                   },
                   fontSize: {
                     xxs: '1.8rem',
                     xs: '2.2rem',
-                    sm: '2.7rem',
-                    md: '3.5rem',
+                    sm: '2.1rem',
+                    md: '3.25rem',
                     lg: '4rem',
                     xl: '4.5rem',
                   },
@@ -285,6 +295,7 @@ const ProgressBoard = () => {
               setSelectedEvent={setSelectedEvent}
               searchString={searchString}
               setSearchString={setSearchString}
+              loading={loading}
             />
           ) : (
             <Box sx={{ flexGrow: 1, width: '100%', overflowX: 'hidden' }}>
@@ -296,6 +307,8 @@ const ProgressBoard = () => {
                 setSelectedEvent={setSelectedEvent}
                 searchString={searchString}
                 setSearchString={setSearchString}
+                teamsLength={teamsLength}
+                loading={loading}
               />
             </Box>
           )}

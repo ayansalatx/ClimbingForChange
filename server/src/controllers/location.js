@@ -60,6 +60,7 @@ export const updateOneLocation = async (request, response) => {
         provState: body.provState,
         country: body.country,
         lap: body.lap,
+        active: body.active,
       }
     },
     {
