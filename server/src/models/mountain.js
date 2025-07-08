@@ -1,4 +1,4 @@
-import mongoose from '../utils/db.js'
+import mongoose from 'mongoose'
 
 const {Schema, model} = mongoose
 
@@ -17,11 +17,7 @@ const mountainSchema = new Schema({
     required: true,
     enum: ['FT', 'M'],
     default: 'FT'
-  },
-  imageURL: {
-    type: String,
-    required: false
-  },
+  }
 }, {
   timestamps: true
 })

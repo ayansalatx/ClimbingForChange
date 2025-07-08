@@ -1,7 +1,6 @@
 import { api } from './api'
 
-
-export const getMountains = async () => {
+export const getAllMountains = async () => {
   const res = await api.get('/mountains')
   return res.data
 }
@@ -22,7 +21,7 @@ export const createMountain = async (mountainData) => {
   const dataToSend = {
     ...mountainData,
     totalElevation: parseFloat(mountainData.totalElevation) || 0,
-    active: mountainData.active !== undefined ? mountainData.active : true
+    active: mountainData.active !== undefined ? mountainData.active : true,
   }
   
   const res = await api.post('/mountains', dataToSend)
@@ -41,7 +40,7 @@ export const updateMountain = async (id, mountainData) => {
     const dataToSend = {
       ...mountainData,
       totalElevation: parseFloat(mountainData.totalElevation) || 0,
-      active: mountainData.active !== undefined ? mountainData.active : true
+      active: mountainData.active !== undefined ? mountainData.active : true,
     }
     
     const res = await api.put(`/mountains/${id}`, dataToSend)

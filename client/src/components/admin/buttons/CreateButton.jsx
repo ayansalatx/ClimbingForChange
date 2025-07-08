@@ -1,6 +1,6 @@
 import { Button } from '@mui/material'
 
-export default function CreateButton({  onClick, disabled, type = 'button'}) {
+export default function CreateButton({  onClick, disabled, type = 'button' }) {
   return (
     <Button
       type={type}

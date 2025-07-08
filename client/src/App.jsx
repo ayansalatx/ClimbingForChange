@@ -3,6 +3,7 @@ import './App.css'
 import { CssBaseline,ThemeProvider } from '@mui/material'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
+import PrivateRoute from './components/admin/PrivateRoute'
 import Landing from './components/shared/Landing'
 import Layout from './Layout'
 import AdminDashboard from './pages/admin/AdminDashboard'
@@ -13,6 +14,7 @@ import LocationManager from './pages/admin/locations/LocationManager'
 import MountainManager from './pages/admin/mountains/MountainManager'
 import ParticipantManager from './pages/admin/participants/ParticipantManager'
 import ParticipantUpload from './pages/admin/participants/ParticipantUpload'
+import TeamsManager from './pages/admin/teams/TeamsManager' 
 import RFIDManager from './pages/admin/rfid/RFIDManager'
 import ProgressBoard from './pages/progressboard/ProgressBoard'
 import ProgressBoardFullscreen from './pages/progressboard/ProgressBoardFullscreen'
@@ -31,19 +33,23 @@ function App() {
             element={<ProgressBoardFullscreen />}
           />
 
-          <Route
-            path='/login'
-            element={<AdminLogin />}
-          >
-          </Route>
+          <Route path='/login'  element={<AdminLogin />} />
 
-          <Route path='/admin' element={<Layout />}>
+          <Route
+            path="/admin"
+            element={
+              <PrivateRoute>
+                <Layout />
+              </PrivateRoute>
+            }
+          >
             <Route index element={<AdminDashboard />} />
             <Route path='events' element={<EventManager />} />
             <Route path='participants' element={<ParticipantManager />} />
             <Route path='upload' element={<ParticipantUpload />} />
             <Route path='mountains' element={<MountainManager />} />
-            <Route path='locations' element={<LocationManager />} />
+            <Route path='locations' element={<LocationManager />} />  
+            <Route path='teams' element={<TeamsManager />} />              
             <Route path='hills' element={<HillManager />} />
             <Route path='rfid' element={<RFIDManager />} />
           </Route>
