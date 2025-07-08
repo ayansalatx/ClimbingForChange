@@ -163,8 +163,8 @@ const ParticipantManager = () => {
   }
 
   const filteredParticipants = selectedEvent
-  ? participants.filter((p) => String(p.team.event) === String(selectedEvent))
-  : []
+    ? participants.filter((p) => String(p.team.event) === String(selectedEvent))
+    : []
 
   return (
     <Box
