@@ -9,7 +9,7 @@ import { useAlert } from '../../../hooks/useAlert'
 import {
   createMountain,
   deleteMountain,
-  getMountains,
+  getAllMountains,
   updateMountain,
 } from '../../../services/mountainService'
 
@@ -49,7 +49,7 @@ const MountainManager = () => {
   const displayAlert = useAlert()
   async function loadData() {
     try {
-      const mountainsList = await getMountains()
+      const mountainsList = await getAllMountains()
       
       const mountainsWithIds = mountainsList.map((mountain) => {
         // Ensure all required fields have default values
@@ -80,7 +80,7 @@ const MountainManager = () => {
   useEffect(() => {
     async function loadMountains() {
       try {
-        const mountainsList = await getMountains()
+        const mountainsList = await getAllMountains()
         
         const mountainsWithIds = mountainsList.map((mountain) => {
           // Ensure all required fields have default values
