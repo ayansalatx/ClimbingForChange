@@ -14,6 +14,7 @@ import LocationManager from './pages/admin/locations/LocationManager'
 import MountainManager from './pages/admin/mountains/MountainManager'
 import ParticipantManager from './pages/admin/participants/ParticipantManager'
 import ParticipantUpload from './pages/admin/participants/ParticipantUpload'
+import RFIDManager from './pages/admin/rfid/RFIDManager'
 import TeamsManager from './pages/admin/teams/TeamsManager' 
 import ProgressBoard from './pages/progressboard/ProgressBoard'
 import ProgressBoardFullscreen from './pages/progressboard/ProgressBoardFullscreen'
@@ -50,6 +51,7 @@ function App() {
             <Route path='locations' element={<LocationManager />} />  
             <Route path='teams' element={<TeamsManager />} />              
             <Route path='hills' element={<HillManager />} />
+            <Route path='rfid' element={<RFIDManager />} />
           </Route>
         </Routes>
       </Router>
