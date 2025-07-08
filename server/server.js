@@ -1,11 +1,15 @@
 import http from 'http'
 import app from './app.js'
 import config from './src/utils/config.js'
+import connectDB from './src/utils/db.js'
 
-const server = http.createServer(app)
+const startServer = async () => {
+  await connectDB()
 
-const PORT = config.PORT
+  const server = http.createServer(app)
+  server.listen(config.PORT, () => {
+    console.log(`Server started on port ${config.PORT}`)
+  })
+}
 
-server.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`)
-})
+startServer()
