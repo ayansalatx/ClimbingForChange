@@ -8,11 +8,11 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
       sx={{
         width: {
           xxs: '100%',
-          sx: '100%',
+          xs: '100%',
           sm: '100%',
-          md: '40%',
-          lg: '28%',
-          xl: '28%',
+          md: '45%',
+          lg: '40%',
+          xl: '35%',
         },
         textAlign: 'left',
         background: alpha(theme.palette.background.paper, 0.4),

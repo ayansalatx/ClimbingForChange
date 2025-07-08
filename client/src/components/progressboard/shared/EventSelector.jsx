@@ -10,9 +10,9 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
           xxs: '100%',
           xs: '100%',
           sm: '100%',
-          md: '50%',
-          lg: '42%',
-          xl: '42%',
+          md: '45%',
+          lg: '40%',
+          xl: '35%',
         },
         borderRadius: '3px',
       }}
