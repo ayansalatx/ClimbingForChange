@@ -73,7 +73,7 @@ const RFIDManager = () => {
   const handleSave = async (tagData) => {
     try {
       const tagPayload = {
-        serialNumber: tagData.serialNumber.trim()
+        serialNumber: tagData.serialNumber.trim(),
       }
 
       if (editingRfid) {
