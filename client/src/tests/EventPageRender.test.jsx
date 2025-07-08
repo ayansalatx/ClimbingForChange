@@ -2,8 +2,9 @@
  * @jest-environment jsdom
  */
 
-import { render, screen } from '@testing-library/react'
 import React from 'react'
+import { jest } from '@jest/globals'
+import { render, screen } from '@testing-library/react'
 
 // Mock the entire EventManager component
 jest.mock('@/pages/admin/events/EventManager', () => {
