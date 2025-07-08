@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 
 import { getAllEvents } from '../../../services/eventService'
 import { getAllHills } from '../../../services/hillService'
-import { getAllMountains } from '../../../services/mountainService'
+import { getMountains } from '../../../services/mountainService'
 
 const style = {
   position: 'absolute',
@@ -47,7 +47,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
       if (open) {
         try {
           const [mountainData, hillData, eventData] = await Promise.all([
-            getAllMountains(),
+            getMountains(),
             getAllHills(),
             getAllEvents()
           ])
