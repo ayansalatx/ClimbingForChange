@@ -57,8 +57,7 @@ const DataTable = ({
       })
       .filter((row) => {
         if (!selectedEvent) return true
-        const matchesEvent = row.eventId === selectedEvent
-        return matchesEvent
+        return row.event === selectedEvent
       })
   } else {
     filteredRows = tableData

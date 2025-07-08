@@ -62,7 +62,6 @@ const EventManager = () => {
     }
   }
 
-
   const fetchEvents = async () => {
     try {
       const events = await getAllEvents()
@@ -103,11 +102,11 @@ const EventManager = () => {
         `Loaded ${events.length} events from the backend.`,
         'success'
       )
+
     } catch (error) {
       displayAlert('Events Error', `${error.message}`, 'error')
     }
   }
-
 
   const fetchMountains = async () => {
     try {
@@ -245,6 +244,12 @@ const EventManager = () => {
         onLocation={locations}
         onMountains={mountainsList}
         eventToEdit={eventToEdit}
+      />
+
+      <ConfirmDeleteDialog
+        open={deleteConfirmOpen}
+        onCancel={cancelDelete}
+        onConfirm={handleDeleteEvent}
       />
 
       <ConfirmDeleteDialog

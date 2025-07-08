@@ -65,7 +65,6 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
     const selectedLocation = locations.find((loc) => loc.id === location)
     const start = new Date(`${startDate}T${startTime}`)
     const end = new Date(start.getTime() + Number(duration) * 3600000)
-    console.log('mountainSelection:', mountainSelection)
     const eventData = {
       name: eventName,
       location: selectedLocation?.id || null,
