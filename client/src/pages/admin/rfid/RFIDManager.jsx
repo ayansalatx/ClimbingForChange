@@ -66,7 +66,7 @@ const RFIDManager = () => {
 
   useEffect(() => {
     loadData()
-  }, [])
+  }, [loadData])
 
   const handleSave = async (tagData) => {
     try {

@@ -3,11 +3,11 @@ import DashboardIcon from '@mui/icons-material/Dashboard'
 import DownhillSkiingIcon from '@mui/icons-material/DownhillSkiing'
 import EventIcon from '@mui/icons-material/Event'
 import Hiking from '@mui/icons-material/Hiking'
+import RfidIcon from '@mui/icons-material/Nfc'
 import PeopleIcon from '@mui/icons-material/People'
 import PlaceIcon from '@mui/icons-material/Place'
 import TerrainIcon from '@mui/icons-material/Terrain'
 import UploadIcon from '@mui/icons-material/Upload'
-import RfidIcon from '@mui/icons-material/Nfc'
 import {
   Box,
   Divider,

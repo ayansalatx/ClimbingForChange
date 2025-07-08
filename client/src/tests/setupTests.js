@@ -1,5 +1,12 @@
-// Setup jest-dom for testing
-import '@testing-library/jest-dom/extend-expect';
+/**
+ * @jest-environment jsdom
+ */
+
+import '@testing-library/jest-dom';
+import { configure } from '@testing-library/react';
+
+// Configure test environment
+configure({ testIdAttribute: 'data-testid' });
 
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
@@ -15,3 +22,15 @@ Object.defineProperty(window, 'matchMedia', {
     dispatchEvent: jest.fn(),
   })),
 });
+
+// Mock console methods
+const originalConsole = { ...console };
+
+global.console = {
+  ...originalConsole,
+  error: jest.fn(),
+  warn: jest.fn(),
+  log: jest.fn(),
+  info: jest.fn(),
+  debug: jest.fn(),
+}

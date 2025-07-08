@@ -1,5 +1,9 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
+/**
+ * @jest-environment jsdom
+ */
+
+import { render, screen } from '@testing-library/react'
+import React from 'react'
 
 // Mock the entire EventManager component
 jest.mock('@/pages/admin/events/EventManager', () => {
@@ -45,44 +49,44 @@ jest.mock('@/pages/admin/events/EventManager', () => {
           </tbody>
         </table>
       </div>
-    );
-  };
-});
+    )
+  }
+})
 
 // Import after setting up the mock
-import EventManager from '@/pages/admin/events/EventManager';
+import EventManager from '@/pages/admin/events/EventManager'
 
 describe('EventManager', () => {
   it('renders the component', () => {
-    render(<EventManager />);
-    expect(screen.getByTestId('mock-event-manager')).toBeInTheDocument();
-  });
+    render(<EventManager />)
+    expect(screen.getByTestId('mock-event-manager')).toBeInTheDocument()
+  })
 
   it('displays the event manager heading', () => {
-    render(<EventManager />);
-    expect(screen.getByRole('heading', { name: /event manager/i })).toBeInTheDocument();
-  });
+    render(<EventManager />)
+    expect(screen.getByRole('heading', { name: /event manager/i })).toBeInTheDocument()
+  })
 
   it('shows a loading state', () => {
-    render(<EventManager />);
-    expect(screen.getByText(/loading/i)).toBeInTheDocument();
-  });
+    render(<EventManager />)
+    expect(screen.getByText(/loading/i)).toBeInTheDocument()
+  })
 
   it('has an add event button', () => {
-    render(<EventManager />);
-    expect(screen.getByRole('button', { name: /add event/i })).toBeInTheDocument();
-  });
+    render(<EventManager />)
+    expect(screen.getByRole('button', { name: /add event/i })).toBeInTheDocument()
+  })
 
   it('has a search input', () => {
-    render(<EventManager />);
-    expect(screen.getByPlaceholderText(/search events/i)).toBeInTheDocument();
-  });
+    render(<EventManager />)
+    expect(screen.getByPlaceholderText(/search events/i)).toBeInTheDocument()
+  })
 
   it('displays event data', () => {
-    render(<EventManager />);
-    expect(screen.getByText('Summer Climb')).toBeInTheDocument();
-    expect(screen.getByText('Winter Ascent')).toBeInTheDocument();
-    expect(screen.getByText('Mountain Peak')).toBeInTheDocument();
-    expect(screen.getByText('Snowy Peaks')).toBeInTheDocument();
-  });
-});
+    render(<EventManager />)
+    expect(screen.getByText('Summer Climb')).toBeInTheDocument()
+    expect(screen.getByText('Winter Ascent')).toBeInTheDocument()
+    expect(screen.getByText('Mountain Peak')).toBeInTheDocument()
+    expect(screen.getByText('Snowy Peaks')).toBeInTheDocument()
+  })
+})
