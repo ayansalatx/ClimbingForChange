@@ -1,7 +1,7 @@
 import { api } from './api'
 
 
-export const getMountains = async () => {
+export const getAllMountains = async () => {
   const res = await api.get('/mountains')
   return res.data
 }
