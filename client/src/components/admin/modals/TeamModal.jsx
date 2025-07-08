@@ -1,4 +1,4 @@
-import {Box, Button, Checkbox, FormControl,FormControlLabel, InputLabel, MenuItem, Modal, Select, TextField, Typography} from '@mui/material'
+import { Box, Button, Checkbox, FormControl,FormControlLabel, InputLabel, MenuItem, Modal, Select, TextField, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import { getAllEvents } from '../../../services/eventService'
@@ -49,7 +49,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
           const [mountainData, hillData, eventData] = await Promise.all([
             getAllMountains(),
             getAllHills(),
-            getAllEvents()
+            getAllEvents(),
           ])
           setMountains(mountainData)
           setHills(hillData)

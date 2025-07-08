@@ -24,7 +24,7 @@ const fullColumns = [
   { id: 'isSoloTeam', label: 'Solo Team?', minWidth: 100 },
   { id: 'lapsRequired', label: 'Laps Req.', minWidth: 100 },
   { id: 'totalDistanceRequired', label: 'Distance Req.', minWidth: 130 },
-  { id: 'startDateTime', label: 'Start Time', minWidth: 170 }
+  { id: 'startDateTime', label: 'Start Time', minWidth: 170 },
 ]
 
 const TeamsTable = ({ searchTerm = '', teams = [], onTeamDelete, onTeamEdit }) => {

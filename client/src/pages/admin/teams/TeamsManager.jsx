@@ -38,7 +38,6 @@ const TeamsManager = () => {
   const [teamToEdit, setTeamToEdit] = useState(null)
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
   const [teamToDelete, setTeamToDelete] = useState(null)
-  const [showInactive, setShowInactive] = useState(false)
   const [events, setEvents] = useState([])
   const [selectedEvent, setSelectedEvent] = useState(null)
 
@@ -66,7 +65,7 @@ const TeamsManager = () => {
   }
 
   const getEventName = (events, id) => {
-    var result = events.find(event => event.id == id)
+    var result = events.find((event) => event.id == id)
     if (result == undefined) return 'N/A'
     return result.name
   }
@@ -108,7 +107,7 @@ const TeamsManager = () => {
         hillId: team.hill?.id,
         hill: team.hill?.name,
         event: team.event,
-        eventName: getEventName(formattedEvents, team.event)
+        eventName: getEventName(formattedEvents, team.event),
       }))
       setTeams(formattedTeams)
       displayAlert('Loaded', `Loaded ${teams.length} teams from the backend.`, 'success')
@@ -119,6 +118,7 @@ const TeamsManager = () => {
 
   useEffect(() => {
     fetchEvents()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleAddTeam = async (teamData) => {
@@ -164,10 +164,6 @@ const TeamsManager = () => {
     } catch (error) {
       displayAlert('Delete Error', `Failed to delete the team: ${error.message}`, 'error')
     }
-  }
-
-  const handleSelectEvent = async (eventId) => {
-    setSelectedEvent(eventId)
   }
 
   const onAdd = () => {
@@ -216,7 +212,6 @@ const TeamsManager = () => {
         tableColumns={fullColumns}
         tableData={(selectedEvent === null || selectedEvent.toString() === '')  ? [] : teamsDataForDisplay}
         showInactive={true}
-        setShowInactive={setShowInactive}
         eventsForDropdown={events}
         selectedEvent={selectedEvent}
         setSelectedEvent={setSelectedEvent}
