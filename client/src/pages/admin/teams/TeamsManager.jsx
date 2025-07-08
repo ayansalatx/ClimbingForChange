@@ -1,33 +1,22 @@
 import { Box, Typography } from '@mui/material'
-// import Button from '@mui/material/Button'
-import { useEffect, useState } from 'react'
-
-// import TeamsTable from '../../../components/admin/forms/teamforms/TeamsTable'
-// import SearchBar from '../../../components/admin/forms/eventforms/SearchBar'
+import { useEffect, useMemo, useState } from 'react'
 import { People } from '@mui/icons-material'
 import DataTable from '../../../components/admin/tables/DataTable.jsx'
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
 import AddTeamModal from '../../../components/admin/modals/TeamModal.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
 import {addTeam,deleteTeam,editTeam, getAllTeams} from '../../../services/teamService.js'
-import { addEvent, deleteEvent, editEvent,getAllEvents } from '../../../services/eventService.js'
-import { getAllMountains } from '../../../services/mountainService.js'
 
 const fullColumns = [
   { id: 'name', label: 'Team Name', width: '50%', align: 'left' },
+  { id: 'mountain', label: 'Mountain', width: '10%', align: 'left' },
+  { id: 'hill', label: 'Hill', width: '10%', align: 'left' },
+  { id: 'event', label: 'Event', width: '10%', align: 'left' },
   { id: 'isSoloTeam', label: 'Solo Team?', width: '10%', align: 'left' },
   { id: 'lapsRequired', label: 'Laps Req.', width: '10%', align: 'left' },
   { id: 'totalDistanceRequired', label: 'Distance Req.', width: '10%', align: 'left' },
   { id: 'startDateTime', label: 'Start Time', width: '20%', align: 'left' },
 ]
-
-// const fullColumns = [
-//   { id: 'name', label: 'Team Name', minWidth: 170 },
-//   { id: 'isSoloTeam', label: 'Solo Team?', minWidth: 100 },
-//   { id: 'lapsRequired', label: 'Laps Req.', minWidth: 100 },
-//   { id: 'totalDistanceRequired', label: 'Distance Req.', minWidth: 130 },
-//   { id: 'startDateTime', label: 'Start Time', minWidth: 170 }
-// ]
 
 const formatDateTime = (dateString) => {
   const date = new Date(dateString)
@@ -43,17 +32,35 @@ const formatDateTime = (dateString) => {
 
 const TeamsManager = () => {
   const [openPopup, setOpenPopup] = useState(false)
-  // const [searchTerm, setSearchTerm] = useState('')
   const [teams, setTeams] = useState([])
   const [teamToEdit, setTeamToEdit] = useState(null)
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
   const [teamToDelete, setTeamToDelete] = useState(null)
   const [showInactive, setShowInactive] = useState(false)
-  // const [mountains, setMountains] = useState([])
   const [events, setEvents] = useState([])
   const [selectedEvent, setSelectedEvent] = useState(null)
 
   const displayAlert = useAlert()
+
+  const teamsDataForDisplay = useMemo(() => {
+    return teams.map((team) => ({
+      id: team.id,
+      name: team.name,
+      isSoloTeam: team.isSoloTeam ? 'Yes' : 'No',
+      lapsRequired: team.lapsRequired,
+      totalDistanceRequired: team.totalDistanceRequired,
+      startDateTime: formatDateTime(team.startDateTime),
+      mountain: team.mountain,
+      mountainId: team.mountainId,
+      hill: team.hill,
+      hillId: team.hillId,
+      event: team.event ?? 'N/A',
+    }))
+  }, [teams])
+
+  const getTeamFromId = (id) => {
+    return teams.find((team) => team.id === id)
+  }
 
   const handleOpenPopup = () => setOpenPopup(true)
   const handleClosePopup = () => setOpenPopup(false)
@@ -61,13 +68,18 @@ const TeamsManager = () => {
   const fetchTeams = async () => {
     try {
       const teams = await getAllTeams()
-      const formattedTeams = teams.map((team) => ({
+     const formattedTeams = teams.map((team) => ({
         id: team.id,
         name: team.name,
-        isSoloTeam: team.isSoloTeam ? 'Yes' : 'No',
+        isSoloTeam: team.isSoloTeam,
         lapsRequired: team.lapsRequired,
         totalDistanceRequired: team.totalDistanceRequired,
-        startDateTime: formatDateTime(team.startDateTime),
+        startDateTime: team.startDateTime,
+        mountainId: team.mountain.id,
+        mountain: team.mountain.name,
+        hillId: team.hill?.id,
+        hill: team.hill?.name,
+        event: team.event,
       }))
       setTeams(formattedTeams)
       console.log(`Fetched teams: ${JSON.stringify(teams)}`)
@@ -88,26 +100,15 @@ const TeamsManager = () => {
         }
       })
       setEvents(formattedEvents)
-      // displayAlert('Fresh backend data', `Loaded ${events.length} events from the backend.`, 'success')
       console.log('Fetched events:', events)
     } catch (error) {
       displayAlert('Events Error', `${error.message}`, 'error')
     }
   }
 
-  // const fetchMountains = async () => {
-  //   try {
-  //     const mountainData = await getAllMountains()
-  //     setMountains(mountainData)
-  //   } catch (error) {
-  //     displayAlert('Mountains Error', error.message, 'error')
-  //   }
-  // }
-
   useEffect(() => {
     fetchEvents()
     fetchTeams()
-    // fetchMountains()
   }, [displayAlert])
 
   const handleAddTeam = async (teamData) => {
@@ -124,11 +125,6 @@ const TeamsManager = () => {
       displayAlert('Add Error', `Failed to add the team: ${error.message}`, 'error')
     }
   }
-
-  // const requestEditTeam = (team) => {
-  //   setTeamToEdit(team)
-  //   setOpenPopup(true)
-  // }
 
   const handleEditTeam = async (id, teamData) => {
     try {
@@ -170,7 +166,14 @@ const TeamsManager = () => {
   }
 
   const onEdit = (team) => {
-    setTeamToEdit(team)
+    const teamData = getTeamFromId(team.id)
+    if (!teamData) {
+      displayAlert('Edit Error', 'Team not found', 'error')
+      return
+    }
+
+    setTeamToEdit(teamData)
+    // setTeamToEdit(team)
     handleOpenPopup()
   }
 
@@ -201,7 +204,7 @@ const TeamsManager = () => {
         tableTitle="Teams"
         tableIcon={People}
         tableColumns={fullColumns}
-        tableData={teams}
+        tableData={teamsDataForDisplay}
         showInactive={true}
         setShowInactive={setShowInactive}
         eventsForDropdown={events}

@@ -1,5 +1,8 @@
-import {Box, Button, Modal, TextField, Typography, FormControlLabel, Checkbox} from '@mui/material'
+import {Box, Button, Modal, TextField, Typography, FormControlLabel, Checkbox, Select, MenuItem, InputLabel, FormControl} from '@mui/material'
 import { useEffect, useState } from 'react'
+import { getAllMountains } from '../../../services/mountainService'
+import { getAllHills } from '../../../services/hillService'
+import { getAllEvents } from '../../../services/eventService'
 
 const style = {
   position: 'absolute',
@@ -19,6 +22,12 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
   const [lapsRequired, setLapsRequired] = useState('')
   const [distanceRequired, setDistanceRequired] = useState('')
   const [startDateTime, setStartDateTime] = useState('')
+  const [selectedMountain, setSelectedMountain] = useState('')
+  const [selectedHill, setSelectedHill] = useState('')
+  const [selectedEvent, setSelectedEvent] = useState('')
+  const [mountains, setMountains] = useState([])
+  const [hills, setHills] = useState([])
+  const [events, setEvents] = useState([])
 
   const onModalClose = () => {
     onClose()
@@ -27,7 +36,30 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
     setLapsRequired('')
     setDistanceRequired('')
     setStartDateTime('')
+    setSelectedMountain('')
+    setSelectedHill('')
+    setSelectedEvent('')
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (open) {
+        try {
+          const [mountainData, hillData, eventData] = await Promise.all([
+            getAllMountains(),
+            getAllHills(),
+            getAllEvents()
+          ])
+          setMountains(mountainData)
+          setHills(hillData)
+          setEvents(eventData)
+        } catch (error) {
+          console.error('Error fetching data:', error)
+        }
+      }
+    }
+    fetchData()
+  }, [open])
 
   useEffect(() => {
     if (teamToEdit) {
@@ -36,9 +68,11 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
       setLapsRequired(teamToEdit.lapsRequired || '')
       setDistanceRequired(teamToEdit.totalDistanceRequired || '')
       setStartDateTime(teamToEdit.startDateTime?.slice(0, 16) || '')
+      setSelectedMountain(teamToEdit.mountainId || '')
+      setSelectedHill(teamToEdit.hillId || '')
+      setSelectedEvent(teamToEdit.event || '')
     }
   }, [teamToEdit])
-
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -48,6 +82,9 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
       lapsRequired: Number(lapsRequired),
       totalDistanceRequired: Number(distanceRequired),
       startDateTime: new Date(startDateTime).toISOString(),
+      mountain: selectedMountain,
+      hill: selectedHill,
+      event: selectedEvent,
     }
 
     try {
@@ -89,6 +126,57 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
             }
             label="Solo Team"
           />
+
+          <FormControl fullWidth margin="normal" required>
+            <InputLabel id="mountain-select-label">Target Mountain</InputLabel>
+            <Select
+              labelId="mountain-select-label"
+              id="mountain-select"
+              value={selectedMountain}
+              label="Target Mountain"
+              onChange={(e) => setSelectedMountain(e.target.value)}
+            >
+              {mountains.map((mountain) => (
+                <MenuItem key={mountain.id} value={mountain.id}>
+                  {mountain.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <FormControl fullWidth margin="normal" required>
+            <InputLabel id="hill-select-label">Hill</InputLabel>
+            <Select
+              labelId="hill-select-label"
+              id="hill-select"
+              value={selectedHill}
+              label="Hill"
+              onChange={(e) => setSelectedHill(e.target.value)}
+            >
+              {hills.map((hill) => (
+                <MenuItem key={hill.id} value={hill.id}>
+                  {hill.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <FormControl fullWidth margin="normal" required>
+            <InputLabel id="event-select-label">Event</InputLabel>
+            <Select
+              labelId="event-select-label"
+              id="event-select"
+              value={selectedEvent}
+              label="Event"
+              onChange={(e) => setSelectedEvent(e.target.value)}
+            >
+              {events.map((event) => (
+                <MenuItem key={event.id} value={event.id}>
+                  {event.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
           <TextField
             fullWidth
