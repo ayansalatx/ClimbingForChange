@@ -1,3 +1,4 @@
+import RfidIcon from '@mui/icons-material/Nfc'
 import { Box } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 
@@ -11,7 +12,6 @@ import {
   getRfidTags,
   updateRfidTag,
 } from '../../../services/rfidService'
-import RfidIcon from '@mui/icons-material/Nfc'
 
 const tableColumns = [
   { 
