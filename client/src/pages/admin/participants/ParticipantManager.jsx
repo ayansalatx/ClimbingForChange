@@ -162,6 +162,8 @@ const ParticipantManager = () => {
     setPopupOpen(false)
   }
 
+  console.log(participants)
+
   const filteredParticipants = selectedEvent
     ? participants.filter((p) => String(p.team.event) === String(selectedEvent))
     : []
