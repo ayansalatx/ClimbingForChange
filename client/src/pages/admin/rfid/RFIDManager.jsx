@@ -47,26 +47,25 @@ const RFIDManager = () => {
   
   const displayAlert = useAlert()
 
-
+  // Fetch RFID data
+  const loadData = async () => {
+    try {
+      const tags = await getRfidTags()
+      const processedTags = tags.map(tag => ({
+        id: tag._id || tag.id,
+        serialNumber: tag.serialNumber,
+        createdAt: new Date(tag.createdAt).toLocaleString(),
+        updatedAt: new Date(tag.updatedAt).toLocaleString(),
+        active: true // Assuming all RFID tags are active by default
+      }))
+      setRfidData(processedTags)
+    } catch (err) {
+      const errorMessage = err.response?.data?.message || err.message || 'Failed to load RFID tags'
+      displayAlert('Error', errorMessage, 'error')
+    }
+  }
 
   useEffect(() => {
-    // Fetch RFID data
-    const loadData = async () => {
-      try {
-        const tags = await getRfidTags()
-        const processedTags = tags.map(tag => ({
-          id: tag._id || tag.id,
-          serialNumber: tag.serialNumber,
-          createdAt: new Date(tag.createdAt).toLocaleString(),
-          updatedAt: new Date(tag.updatedAt).toLocaleString(),
-          active: true // Assuming all RFID tags are active by default
-        }))
-        setRfidData(processedTags)
-      } catch (err) {
-        const errorMessage = err.response?.data?.message || err.message || 'Failed to load RFID tags'
-        displayAlert('Error', errorMessage, 'error')
-      }
-    }
     loadData()
   }, [])
 
