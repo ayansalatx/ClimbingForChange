@@ -3,8 +3,11 @@ import {
   CircularProgress,
   Paper,
   Table,
+  TableBody,
+  TableCell,
   TableContainer,
   TablePagination,
+  TableRow,
   Typography,
 } from '@mui/material'
 import { alpha } from '@mui/material/styles'
@@ -41,45 +44,34 @@ const DataTable = ({
 
   let filteredRows = []
 
-  console.log('Original tableData:', tableData)
-  console.log('showInactive:', showInactive)
-  console.log('searchTerm:', searchTerm)
-
   if (tableTitle === 'Teams' || tableTitle === 'Participants') {
     filteredRows = tableData
       .filter((row) => {
         const show = showInactive || row.active
-        console.log(`Row ${row.id} - active: ${row.active}, show: ${show}`)
         return show
       })
       .filter((row) => {
         const searchableText = Object.values(row).join(' ').toLowerCase()
         const matchesSearch = searchableText.includes(searchTerm.toLowerCase())
-        console.log(`Row ${row.id} - search matches: ${matchesSearch}`)
         return matchesSearch
       })
       .filter((row) => {
         if (!selectedEvent) return true
         const matchesEvent = row.eventId === selectedEvent
-        console.log(`Row ${row.id} - event matches: ${matchesEvent}`)
         return matchesEvent
       })
   } else {
     filteredRows = tableData
       .filter((row) => {
         const show = showInactive || row.active
-        console.log(`Row ${row.id} - active: ${row.active}, show: ${show}`)
         return show
       })
       .filter((row) => {
         const searchableText = Object.values(row).join(' ').toLowerCase()
         const matchesSearch = searchableText.includes(searchTerm.toLowerCase())
-        console.log(`Row ${row.id} - search matches: ${matchesSearch}`)
         return matchesSearch
       })
   }
-  
-  console.log('Filtered rows:', filteredRows)
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -195,28 +187,29 @@ const DataTable = ({
         })}
       >
         {loading ? (
-          <Box
-            sx={{
-              height: '100%',
-              width: '100%',
-              pb: '3rem',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'background.paper',
-              color: 'white',
-              fontSize: '2rem',
-            }}
-          >
-            <CircularProgress color="secondary" />
-          </Box>
-        ) : (
+          <Table stickyHeader height="100%">
+            <TableHeaderRow columns={tableColumns} />
+            <TableBody
+              sx={{
+                backgroundColor: 'background.paper',
+              }}
+            >
+              <TableRow>
+                <TableCell
+                  colSpan={tableColumns.length + 1}
+                  align="center"
+                  sx={{ border: 'none' }}
+                >
+                  <CircularProgress color="info" />
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        ) : filteredRows.length > 0 ? (
           <Table
             stickyHeader
-            aria-label="sticky table"
             sx={{
               width: '100%',
-              height: '100%',
               '&:hover': { bgcolor: alpha(theme.palette.primary.light, 0.05) },
             }}
           >
@@ -228,7 +221,27 @@ const DataTable = ({
               rowsPerPage={rowsPerPage}
               onEditClick={onEditClick}
               onDeleteClick={onDeleteClick}
+              activeOnChange={activeOnChange}
             />
+          </Table>
+        ) : (
+          <Table height="100%" stickyHeader>
+            <TableHeaderRow columns={tableColumns} />
+            <TableBody
+              sx={{
+                backgroundColor: 'background.paper',
+              }}
+            >
+              <TableRow>
+                <TableCell
+                  colSpan={tableColumns.length + 1}
+                  align="center"
+                  sx={{ border: 'none' }}
+                >
+                  <Typography variant="h5" color="primary.main">No {tableTitle.toLowerCase()} to display</Typography>
+                </TableCell>
+              </TableRow>
+            </TableBody>
           </Table>
         )}
       </TableContainer>
@@ -242,7 +255,7 @@ const DataTable = ({
       >
         <ActiveToggle
           checked={showInactive}
-          onChange={() => activeOnChange?.(!showInactive)}
+          onChange={() => setShowInactive((prev) => !prev)}
           hidden={activeToggleOption}
         />
 
