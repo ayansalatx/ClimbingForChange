@@ -52,23 +52,28 @@ export default [
         'warn',
         { allowConstantExport: true },
       ],
-
-      // React not required to import
       'react/react-in-jsx-scope': 'off',
-
-      // Import sorting and cleanup
       'unused-imports/no-unused-imports': 'error',
       'import/no-unresolved': ['error', { caseSensitive: true }],
       'import/no-duplicates': 'error',
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
-
-      // Style rules
       '@stylistic/indent': ['error', 2],
       '@stylistic/quotes': ['error', 'single'],
       '@stylistic/semi': ['error', 'never'],
       '@stylistic/linebreak-style': ['error', 'unix'],
-      //'@stylistic/linebreak-style' : 'off',
+      '@stylistic/arrow-parens': ['error', 'always'],
+      '@stylistic/object-curly-spacing': ['error', 'always'],
+      '@stylistic/comma-dangle': [
+        'error',
+        {
+          arrays: 'always-multiline',
+          objects: 'always-multiline',
+          imports: 'always-multiline',
+          exports: 'always-multiline',
+          functions: 'never',
+        },
+      ],
       'react/prop-types': 'off',
     },
   },

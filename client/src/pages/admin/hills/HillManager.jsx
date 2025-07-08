@@ -144,7 +144,7 @@ const HillManager = () => {
         tableTitle="Hills"
         tableIcon={HikingIcon}
         tableColumns={fullColumns}
-        tableData={hills.map(hill => ({
+        tableData={hills.map((hill) => ({
           ...hill,
           active: true,
         }))}

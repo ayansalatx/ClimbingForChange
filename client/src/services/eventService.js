@@ -17,7 +17,7 @@ export const getDisplayEventTeams = async (id) => {
     const teamBestLap = getBestLapTime(laps)
     // Get time elapsed
     const teamTimeElapsed = getTimeElapsed(laps)
- 
+
     return {
       ...team,
       mountainName: team.mountain?.name,
@@ -27,7 +27,9 @@ export const getDisplayEventTeams = async (id) => {
       lapsCompleted: laps.length,
       lapsToGo: Math.max((team.lapsRequired || 0) - laps.length, 0),
       bestLap: laps.length ? formatBestTime(teamBestLap) : null,
-      timeElapsed: laps.length ? formatTimeElapsed(teamTimeElapsed) : '00:00:00',
+      timeElapsed: laps.length
+        ? formatTimeElapsed(teamTimeElapsed)
+        : '00:00:00',
       participants: team.participants?.map((participant) => ({
         id: participant.id,
         firstName: participant.firstName,
@@ -92,10 +94,25 @@ export const getUpcomingEventsSummary = async () => {
       hour12: true,
     })
 
+    const endDate = end.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+
+    // Format time: 3:20 PM
+    const endTime = end.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    })
+
     return {
       name: event.name,
       startDate: startDate,
       startTime: startTime,
+      endDate: endDate,
+      endTime: endTime,
       daysToGo: daysToGo,
       teamsCount: teamsCount,
       participantsCount: participantCount,

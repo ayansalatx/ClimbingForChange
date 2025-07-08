@@ -12,7 +12,7 @@ const Landing = () => {
         bgcolor: 'primary.main',
         flexDirection: 'column',
         alignContent: 'center',
-        color: 'background.default'
+        color: 'background.default',
       }}
     >
       <div className="p-6 text-center">
