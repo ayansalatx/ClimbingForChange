@@ -226,7 +226,7 @@ const DataTable = ({
           </Table>
         ) : (
           <Table height="100%" stickyHeader>
-            <TableHeaderRow columns={tableColumns} />
+            <TableHeaderRow columns={tableColumns} onAddClick={onAddClick}/>
             <TableBody
               sx={{
                 backgroundColor: 'background.paper',
