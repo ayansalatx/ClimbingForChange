@@ -13,7 +13,7 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import theme from '../../../../styles/theme'
 import EventSelector from '../../shared/EventSelector'
@@ -156,21 +156,21 @@ const ProgressTable = ({
                   sx={{ border: 'none' }}
                 >
                   <HikingIcon
-                sx={{
-                  fontSize: '6rem',
-                  color: 'secondary.main',
-                }}
-              />
-              <Typography fontSize="2rem" color="background.paper">
-                No teams climbing yet...
-              </Typography>
-              <Typography
-                fontSize="1.4rem"
-                lineHeight="1.5rem"
-                color="background.paper"
-              >
-                Check back later!
-              </Typography>
+                    sx={{
+                      fontSize: '6rem',
+                      color: 'secondary.main',
+                    }}
+                  />
+                  <Typography fontSize="2rem" color="background.paper">
+                    No teams climbing yet...
+                  </Typography>
+                  <Typography
+                    fontSize="1.4rem"
+                    lineHeight="1.5rem"
+                    color="background.paper"
+                  >
+                    Check back later!
+                  </Typography>
                 </TableCell>
               </TableRow>
             </TableBody>

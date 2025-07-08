@@ -27,14 +27,14 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
         inputProps={{ sx: { borderRadius: '3px !important' } }}
         sx={{
           textAlign: 'left',
-          background: alpha(theme.palette.background.paper, 0.4),
+          backgroundColor: { xxs: 'background.paper', sm: alpha(theme.palette.background.paper, 0.4) },
           borderRadius: '3px',
           color: 'primary.main',
           '&:before, &:after': {
             borderBottom: 'none !important',
           },
           '&.Mui-focused': {
-            background: alpha(theme.palette.background.paper, 0.4),
+            backgroundColor: { xxs: 'background.paper', sm: alpha(theme.palette.background.paper, 0.4) },
           },
           '& .MuiSelect-select': {
             py: {
@@ -65,7 +65,7 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
             background: alpha(theme.palette.info.main, 0.5),
           },
           '& .MuiSelect-select:focus': {
-            background: alpha(theme.palette.background.paper, 0.4),
+            backgroundColor: { xxs: 'background.paper', sm: alpha(theme.palette.background.paper, 0.4) },
           },
         }}
       >

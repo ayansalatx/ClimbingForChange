@@ -226,7 +226,7 @@ const ProgressBoard = () => {
                   maxWidth: {
                     xxs: '1.6rem',
                     xs: '1.8rem',
-                    sm: '10rem',
+                    sm: '8rem',
                     md: '12rem',
                     lg: '14rem',
                     xl: '15.5rem',
@@ -259,21 +259,22 @@ const ProgressBoard = () => {
                 color="secondary.main"
                 fontWeight="bold"
                 textTransform="uppercase"
+                letterSpacing='.05rem'
                 sx={{
                   fontStyle: 'italic',
                   mr: {
                     xxs: 0,
-                    xs: 0,
-                    sm: 0,
-                    md: 10,
-                    lg: 14,
-                    xl: 18,
+                    xs: 2,
+                    sm: 17,
+                    md: 26,
+                    lg: 32,
+                    xl: 34,
                   },
                   fontSize: {
                     xxs: '1.8rem',
                     xs: '2.2rem',
-                    sm: '2.7rem',
-                    md: '3.5rem',
+                    sm: '2.1rem',
+                    md: '3.25rem',
                     lg: '4rem',
                     xl: '4.5rem',
                   },

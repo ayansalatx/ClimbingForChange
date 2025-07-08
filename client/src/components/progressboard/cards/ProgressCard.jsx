@@ -6,7 +6,7 @@ const ProgressCard = ({ team }) => {
       sx={{
         p: { xxs: 1, xs: 1.25 },
         boxShadow: 3,
-        backgroundColor: 'background.default',
+        backgroundColor: 'background.paper',
         color: 'primary.main',
         display: 'flex',
         flexDirection: 'column',

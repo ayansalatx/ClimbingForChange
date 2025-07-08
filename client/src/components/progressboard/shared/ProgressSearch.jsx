@@ -15,11 +15,11 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
           xl: '35%',
         },
         textAlign: 'left',
-        background: alpha(theme.palette.background.paper, 0.4),
+        backgroundColor: { xxs: 'background.paper', sm: alpha(theme.palette.background.paper, 0.4) },
         color: 'primary.main',
         borderRadius: '3px',
         '&:hover': {
-          background: alpha(theme.palette.info.main, 0.5),
+          backgroundColor: { xxs: 'info.main', sm: alpha(theme.palette.info.main, 0.5) },
         },
       }}
     >
