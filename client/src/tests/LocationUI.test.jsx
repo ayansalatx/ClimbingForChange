@@ -1,8 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
+import { jest } from '@jest/globals'
+import {it, describe, expect} from '@jest/globals'
 
 // Mock the entire module to avoid complex dependencies
-jest.mock('@/pages/admin/locations/LocationManager', () => {
+jest.mock('../pages/admin/locations/LocationManager', () => {
   return function MockLocationManager() {
     return (
       <div data-testid="mock-location-manager">
@@ -15,7 +17,7 @@ jest.mock('@/pages/admin/locations/LocationManager', () => {
 })
 
 // Import after setting up the mock
-import LocationManager from '@/pages/admin/locations/LocationManager'
+import LocationManager from '../pages/admin/locations/LocationManager'
 
 describe('LocationManager', () => {
   it('renders the component', () => {

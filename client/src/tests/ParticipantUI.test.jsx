@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-
+import { jest } from '@jest/globals'
+import {it, describe, expect} from '@jest/globals'
 // Mock the entire ParticipantManager component to avoid complex dependencies
-jest.mock('@/pages/admin/participants/ParticipantManager', () => {
+jest.mock('../pages/admin/participants/ParticipantManager', () => {
   return function MockParticipantManager() {
     return (
       <div data-testid="mock-participant-manager">
@@ -39,7 +40,7 @@ jest.mock('@/pages/admin/participants/ParticipantManager', () => {
 })
 
 // Import after setting up the mock
-import ParticipantManager from '@/pages/admin/participants/ParticipantManager'
+import ParticipantManager from '../pages/admin/participants/ParticipantManager'
 
 describe('ParticipantManager', () => {
   it('renders the component', () => {

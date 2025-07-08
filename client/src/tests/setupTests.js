@@ -2,11 +2,13 @@
  * @jest-environment jsdom
  */
 
-import '@testing-library/jest-dom';
-import { configure } from '@testing-library/react';
+import '@testing-library/jest-dom'
 
+import { jest } from '@jest/globals'
+import { global } from '@testing-library/jest-dom/matchers'
+import { configure } from '@testing-library/react'
 // Configure test environment
-configure({ testIdAttribute: 'data-testid' });
+configure({ testIdAttribute: 'data-testid' })
 
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
@@ -21,10 +23,10 @@ Object.defineProperty(window, 'matchMedia', {
     removeEventListener: jest.fn(),
     dispatchEvent: jest.fn(),
   })),
-});
+})
 
 // Mock console methods
-const originalConsole = { ...console };
+const originalConsole = { ...console }
 
 global.console = {
   ...originalConsole,

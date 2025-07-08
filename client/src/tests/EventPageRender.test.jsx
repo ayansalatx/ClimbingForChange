@@ -5,7 +5,7 @@
 import React from 'react'
 import { jest } from '@jest/globals'
 import { render, screen } from '@testing-library/react'
-
+import {it, describe, expect} from '@jest/globals'
 // Mock the entire EventManager component
 jest.mock('@/pages/admin/events/EventManager', () => {
   return function MockEventManager() {
