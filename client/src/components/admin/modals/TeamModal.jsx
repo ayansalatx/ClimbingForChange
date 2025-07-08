@@ -1,8 +1,9 @@
-import {Box, Button, Modal, TextField, Typography, FormControlLabel, Checkbox, Select, MenuItem, InputLabel, FormControl} from '@mui/material'
+import {Box, Button, Checkbox, FormControl,FormControlLabel, InputLabel, MenuItem, Modal, Select, TextField, Typography} from '@mui/material'
 import { useEffect, useState } from 'react'
-import { getAllMountains } from '../../../services/mountainService'
-import { getAllHills } from '../../../services/hillService'
+
 import { getAllEvents } from '../../../services/eventService'
+import { getAllHills } from '../../../services/hillService'
+import { getAllMountains } from '../../../services/mountainService'
 
 const style = {
   position: 'absolute',

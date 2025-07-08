@@ -1,12 +1,13 @@
-import { Box, Typography } from '@mui/material'
-import { useEffect, useMemo, useState } from 'react'
 import { People } from '@mui/icons-material'
-import DataTable from '../../../components/admin/tables/DataTable.jsx'
+import { Box } from '@mui/material'
+import { useEffect, useMemo, useState } from 'react'
+
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
 import AddTeamModal from '../../../components/admin/modals/TeamModal.jsx'
+import DataTable from '../../../components/admin/tables/DataTable.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
-import { addTeam, deleteTeam, editTeam, getAllTeams } from '../../../services/teamService.js'
 import { getAllEvents } from '../../../services/eventService.js'
+import { addTeam, deleteTeam, editTeam, getAllTeams } from '../../../services/teamService.js'
 
 const fullColumns = [
   { id: 'name', label: 'Team Name', width: '50%', align: 'left' },
@@ -65,15 +66,15 @@ const TeamsManager = () => {
   }
 
   const getEventName = (events, id) => {
-    var result = events.find(event => event.id == id);
-    if (result == undefined) return "N/A"
+    var result = events.find(event => event.id == id)
+    if (result == undefined) return 'N/A'
     return result.name
   }
 
   const handleOpenPopup = () => setOpenPopup(true)
   const handleClosePopup = () => setOpenPopup(false)
 
-const fetchEvents = async () => {
+  const fetchEvents = async () => {
     try {
       const result = await getAllEvents()
       const formattedEvents = result.map((event) => {
@@ -213,7 +214,7 @@ const fetchEvents = async () => {
         tableTitle="Teams"
         tableIcon={People}
         tableColumns={fullColumns}
-        tableData={(selectedEvent === null || selectedEvent.toString() === "")  ? [] : teamsDataForDisplay}
+        tableData={(selectedEvent === null || selectedEvent.toString() === '')  ? [] : teamsDataForDisplay}
         showInactive={true}
         setShowInactive={setShowInactive}
         eventsForDropdown={events}
