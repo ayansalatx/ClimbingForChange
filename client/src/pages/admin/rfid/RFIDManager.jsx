@@ -1,6 +1,6 @@
 import RfidIcon from '@mui/icons-material/Nfc'
 import { Box } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog'
 import RFIDModal from '../../../components/admin/modals/RFIDModal'
@@ -48,7 +48,7 @@ const RFIDManager = () => {
   const displayAlert = useAlert()
 
   // Fetch RFID data
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
       const tags = await getRfidTags()
       const processedTags = tags.map(tag => ({
@@ -56,18 +56,19 @@ const RFIDManager = () => {
         serialNumber: tag.serialNumber,
         createdAt: new Date(tag.createdAt).toLocaleString(),
         updatedAt: new Date(tag.updatedAt).toLocaleString(),
-        active: true // Assuming all RFID tags are active by default
+        active: true,
       }))
       setRfidData(processedTags)
     } catch (err) {
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to load RFID tags'
+      const errorMessage =
+        err.response?.data?.message || err.message || 'Failed to load RFID tags'
       displayAlert('Error', errorMessage, 'error')
     }
-  }
+  }, [displayAlert])
 
   useEffect(() => {
     loadData()
-  }, [])
+  }, [loadData])
 
   const handleSave = async (tagData) => {
     try {
