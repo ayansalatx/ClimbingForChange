@@ -9,6 +9,7 @@ import Hill from '../models/hill.js'
 export const uploadCSV = async (request, response) => {
 
   const { eventid, overwrite } = request.query
+  console.log('🚀 ~ uploadCSV ~ overwrite:', overwrite)
 
   if (!request.file) {
     return response.status(400).json({ error: 'File to upload missing missing' })

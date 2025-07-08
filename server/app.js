@@ -29,15 +29,6 @@ app.use(requestLogger)
 
 app.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(openapiDoc))
 
-appRouter.use('/participants', participantRoutes)
-appRouter.use('/events', eventRoutes)
-appRouter.use('/locations', locationRoutes)
-appRouter.use('/mountains', mountainRoutes)
-appRouter.use('/hills', hillRoutes)
-appRouter.use('/rfidtags', rfidtagRoutes)
-appRouter.use('/teams', teamsRoutes)
-appRouter.use('/laps', lapRoutes)
-appRouter.use('/upload-csv', uploadCSVRoutes)
 app.use('/api/auth', authRoutes)
 
 const authenticatedApiRouter = express.Router()
@@ -52,6 +43,7 @@ authenticatedApiRouter.use('/hills', hillRoutes)
 authenticatedApiRouter.use('/rfidtags', rfidtagRoutes)
 authenticatedApiRouter.use('/teams', teamsRoutes)
 authenticatedApiRouter.use('/laps', lapRoutes)
+authenticatedApiRouter.use('/upload-csv', uploadCSVRoutes)
 
 app.use('/api', authenticatedApiRouter)
 

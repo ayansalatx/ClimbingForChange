@@ -99,6 +99,7 @@ const ParticipantUpload = () => {
       setSelectedFile(selectedFile)
       navigate('/admin/participants')
     } catch (error) {
+      setIsLoading(false)
       displayAlert('Error', `Upload fail ${error.message}.`, 'error')
     }
   }
@@ -183,7 +184,7 @@ const ParticipantUpload = () => {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                {allEvent && allEvent.map(e => {
+                {allEvent && allEvent.map((e) => {
                   return <MenuItem key={e.id} value={e}>{e.name}</MenuItem>
                 })}
               </Select>

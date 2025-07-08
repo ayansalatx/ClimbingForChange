@@ -2,12 +2,35 @@ import mongoose from 'mongoose'
 
 const { Schema, model } = mongoose
 
-const participantSchema = new Schema({
-  team: {
-    type: Schema.Types.ObjectId,
-    ref: 'Team',
-    required: false, // participant can be created without a team
-    index: true
+const participantSchema = new Schema(
+  {
+    team: {
+      type: Schema.Types.ObjectId,
+      ref: 'Team',
+      required: false, // participant can be created without a team
+      index: true,
+    },
+    // rfidTagId: { // This field is included for the 'RFID per Participant' scenario
+    //   type: Schema.Types.ObjectId,
+    //   ref: 'RFIDTag',
+    //   required: false,
+    //   unique: true,
+    //   sparse: true // allows for null duplicate though we specified unique: true
+    // },
+    firstName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    active: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     timestamps: true,

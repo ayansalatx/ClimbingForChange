@@ -3,13 +3,14 @@ import axios from 'axios'
 const BASE_URL = import.meta.env.VITE_API_URL
 console.log('🚀 ~ BASE_URL in api services:', BASE_URL)
 
-const token = localStorage.getItem('token');
+const token = localStorage.getItem('token')
+console.log('🚀 ~ token:', token)
 
 export const api = axios.create({
   baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`
+    'Authorization': `Bearer ${token}`,
   },
 })
 
