@@ -52,7 +52,7 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
       setStartTime(start.toTimeString().slice(0, 5))
       const durationHours = (new Date(eventToEdit.endDateTime) - start) / 3600000
       setDuration(durationHours)
-      const selectedMountains = eventToEdit.teams ? [...new Set(eventToEdit.teams.map(t => t.mountain).filter(m => m != null))] : []
+      const selectedMountains = eventToEdit.teams ? [...new Set(eventToEdit.teams.map((t) => t.mountain).filter((m) => m != null))] : []
       setMountainSelection(selectedMountains)
     } else {
       setMountainSelection([])
@@ -139,8 +139,7 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
               label="Mountains"
               renderValue={(selected) =>
                 selected
-                  .map((id) => mountains.find((m) => m.id === id)?.name || id)
-                  .join(', ')
+                  .map((id) => mountains.find(((m) => m.id === id))?.name || id)
               }
             >
               {mountains.map((mountain) => (

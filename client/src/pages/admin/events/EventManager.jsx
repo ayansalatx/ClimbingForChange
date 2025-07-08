@@ -75,12 +75,12 @@ const EventManager = () => {
         const isActive = event.active && !isPast
 
         const teamMountains = (event.teams || [])
-          .map(team => { const mountainName = mountains[team.mountain]
+          .map((team) => { const mountainName = mountains[team.mountain]
             return mountainName !== undefined && mountainName !== null ? mountainName : null
           }).filter(name => name !== null)
         const mountainNames = teamMountains.length > 0 ? teamMountains : (event.mountains || [])
-          .map(m => m.name !== undefined && m.name !== null ? m.name : null)
-          .filter(name => name !== null)
+          .map((m) => (m.name !== undefined && m.name !== null ? m.name : null))
+          .filter((name) => name !== null)
 
         return {
           id: event.id,
