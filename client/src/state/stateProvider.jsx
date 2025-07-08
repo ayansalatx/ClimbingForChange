@@ -1,4 +1,4 @@
-import {useReducer } from 'react'
+import { useReducer } from 'react'
 
 import { reducer } from './reducer'
 import { StateContext } from './stateContext'

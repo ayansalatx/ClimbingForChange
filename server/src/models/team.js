@@ -1,4 +1,4 @@
-import mongoose from '../utils/db.js'
+import mongoose from 'mongoose'
 
 const { Schema, model } = mongoose
 
@@ -11,7 +11,7 @@ const teamSchema = new Schema({
   mountain: {
     type: Schema.Types.ObjectId,
     ref: 'Mountain',
-    required: true
+    required: false
   },
   hill: {
     type: Schema.Types.ObjectId,

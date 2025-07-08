@@ -2,7 +2,7 @@ import express, { json } from 'express'
 import cors from 'cors'
 
 import participantRoutes from './src/routes/participants.js'
-import { requestLogger } from './src/utils/middleware.js'
+import { requestLogger, tokenExtractor } from './src/utils/middleware.js'
 import eventRoutes from './src/routes/event.js'
 import locationRoutes from './src/routes/location.js'
 import mountainRoutes from './src/routes/mountain.js'
@@ -14,6 +14,7 @@ import teamsRoutes from './src/routes/team.js'
 import lapRoutes from './src/routes/lap.js'
 import hillRoutes from './src/routes/hill.js'
 import uploadCSVRoutes from './src/routes/uploadCSV.js'
+import authRoutes from './src/routes/auth.js'
 
 const app = express()
 const openapiDoc = YAML.load('./openapi.yaml')
@@ -26,21 +27,25 @@ app.use(json())
 
 app.use(requestLogger)
 
-const appRouter = express.Router()
-
 app.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(openapiDoc))
 
-appRouter.use('/participants', participantRoutes)
-appRouter.use('/events', eventRoutes)
-appRouter.use('/locations', locationRoutes)
-appRouter.use('/mountains', mountainRoutes)
-appRouter.use('/hills', hillRoutes)
-appRouter.use('/rfidtags', rfidtagRoutes)
-appRouter.use('/teams', teamsRoutes)
-appRouter.use('/laps', lapRoutes)
-appRouter.use('/upload-csv', uploadCSVRoutes)
+app.use('/api/auth', authRoutes)
 
-app.use('/api', appRouter)
+const authenticatedApiRouter = express.Router()
+
+authenticatedApiRouter.use(tokenExtractor)
+
+authenticatedApiRouter.use('/participants', participantRoutes)
+authenticatedApiRouter.use('/events', eventRoutes)
+authenticatedApiRouter.use('/locations', locationRoutes)
+authenticatedApiRouter.use('/mountains', mountainRoutes)
+authenticatedApiRouter.use('/hills', hillRoutes)
+authenticatedApiRouter.use('/rfidtags', rfidtagRoutes)
+authenticatedApiRouter.use('/teams', teamsRoutes)
+authenticatedApiRouter.use('/laps', lapRoutes)
+authenticatedApiRouter.use('/upload-csv', uploadCSVRoutes)
+
+app.use('/api', authenticatedApiRouter)
 
 app.use(errorHandler)
 

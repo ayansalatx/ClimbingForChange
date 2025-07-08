@@ -26,7 +26,7 @@ const fullColumns = [
   { id: 'start', label: 'Start-Time', minWidth: 85 },
   { id: 'end', label: 'End-Time', minWidth: 85 },
   { id: 'duration', label: 'Duration', minWidth: 85 },
-  { id: 'active', label: 'Active', minWidth: 90 }
+  { id: 'active', label: 'Active', minWidth: 90 },
 ]
 
 const EventsTable = ({ searchTerm = '', events = [], onEventDelete, onEventEdit }) => {

@@ -76,8 +76,7 @@ const ParticipantUpload = () => {
         error: (err) => {
           console.error(err)
           displayAlert('Loading Error', `Error while loading file ${err.message}.`, 'error')
-          event.target.value = ''
-        }
+        },
       })
     } else {
       displayAlert('Loading Error', 'Not a csv file.', 'error')
@@ -100,6 +99,7 @@ const ParticipantUpload = () => {
       setSelectedFile(selectedFile)
       navigate('/admin/participants')
     } catch (error) {
+      setIsLoading(false)
       displayAlert('Error', `Upload fail ${error.message}.`, 'error')
     }
   }
@@ -120,14 +120,13 @@ const ParticipantUpload = () => {
       <Box sx={{
         border: `2px solid ${theme.palette.primary['main']}`,
         mt: '5rem',
-        width: '90%',
-        height: '80%',
-        borderRadius: '5px'
+        width: '70%',
+        borderRadius: '5px',
       }}>
         <Box sx={{
           backgroundColor: theme.palette.primary['light'],
           padding: '1.5rem 0',
-          color: '#fff'
+          color: '#fff',
         }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0 1rem' }}>
             <CloudUploadIcon fontSize='large' />
@@ -185,7 +184,7 @@ const ParticipantUpload = () => {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                {allEvent && allEvent.map(e => {
+                {allEvent && allEvent.map((e) => {
                   return <MenuItem key={e.id} value={e}>{e.name}</MenuItem>
                 })}
               </Select>

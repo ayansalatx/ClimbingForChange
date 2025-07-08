@@ -22,6 +22,17 @@ export const getParticipantById = async (request, response) => {
   response.json(participant)
 }
 
+export const uploadParticipants = async (request, response) => {
+  const body = request.body
+
+  if (!body) {
+    return response.status(400).json({ error: 'Participants to upload missing missing' })
+  }
+  
+  console.log('🚀 ~ uploadParticipants ~ body:', body.length)
+  response.status(200).send()
+}
+
 export const saveOneParticipant = async (request, response) => {
   const body = request.body
 
@@ -112,7 +123,10 @@ export const deleteOneParticipant = async (request, response) => {
     return response.status(400).json({ error: 'Participant is doesnt exist' })
   }
 
-  const updated = await Participant.findByIdAndUpdate(id)
+  // const updated = await Participant.findByIdAndUpdate(id)
 
-  response.status(200).json(updated)
+  // response.status(200).json(updated)
+  await Participant.findByIdAndDelete(id)
+
+  response.status(204).end() 
 }
