@@ -5,6 +5,7 @@ import DownhillSkiingIcon from '@mui/icons-material/DownhillSkiing'
 import EventIcon from '@mui/icons-material/Event'
 import Hiking from '@mui/icons-material/Hiking'
 import PeopleIcon from '@mui/icons-material/People'
+import RfidIcon from '@mui/icons-material/Nfc'
 import PlaceIcon from '@mui/icons-material/Place'
 import TerrainIcon from '@mui/icons-material/Terrain'
 import { Box, IconButton, Typography, useMediaQuery } from '@mui/material'
@@ -148,6 +149,14 @@ const AdminDashboard = () => {
       iconY: '5%',
       iconX: '52%',
     },
+        {
+      title: 'RFID Management',
+      icon: RfidIcon,
+      link: '/admin/rfid',
+      iconSize: '7.3rem',
+      iconY: '5%',
+      iconX: '45%',
+    },
     {
       title: 'Mountain Management',
       icon: TerrainIcon,
@@ -159,6 +168,7 @@ const AdminDashboard = () => {
     {
       title: 'Location Management',
       icon: PlaceIcon,
+      link: '/admin/locations',
       bgColor: 'secondary.main',
       iconSize: '8rem',
       iconY: '',
