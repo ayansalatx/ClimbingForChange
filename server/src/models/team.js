@@ -18,7 +18,7 @@ const teamSchema = new Schema({
     ref: 'Hill',
     required: true
   },
-  rfidTagId: {
+  rfidTag: {
     type: Schema.Types.ObjectId,
     ref: 'RFIDTag',
     unique: true,
@@ -54,14 +54,14 @@ const teamSchema = new Schema({
 teamSchema.virtual('participants', {
   ref: 'Participant',         
   localField: '_id',          
-  foreignField: 'teamId',     
+  foreignField: 'team',     
   justOne: false
 })
 
 teamSchema.virtual('laps', {
   ref: 'Lap',         
   localField: '_id',          
-  foreignField: 'teamId',     
+  foreignField: 'team',     
   justOne: false
 })
 
