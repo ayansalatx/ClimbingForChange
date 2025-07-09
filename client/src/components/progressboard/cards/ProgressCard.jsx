@@ -4,13 +4,14 @@ const ProgressCard = ({ team }) => {
   return (
     <Card
       sx={{
-        p: { xxs: 1, xs: 1.25 },
+        px: { xxs: 1, xs: 1 },
+        py: {xxs: 0.5, xs: 0.5},
         boxShadow: 3,
-        backgroundColor: 'background.paper',
+        backgroundColor: 'background.default',
         color: 'primary.main',
         display: 'flex',
         flexDirection: 'column',
-        gap: { xxs: 0.2, xs: 0.5 },
+
       }}
     >
       <Box
@@ -24,21 +25,9 @@ const ProgressCard = ({ team }) => {
             alignItems: 'center',
           }}
         >
-          <Typography
-            variant="body1"
-            fontSize={{ xxs: '1.05rem', xs: '1.15rem' }}
-            fontWeight="bold"
-            textTransform={'uppercase'}
-            letterSpacing={'.04rem'}
-            color={'info.main'}
-            whiteSpace="nowrap"
-          >
-            Team
-          </Typography>
-
           <Tooltip
             title={team.name ?? ''}
-            placement='top'
+            placement="top"
             slotProps={{
               tooltip: {
                 sx: {
@@ -62,8 +51,12 @@ const ProgressCard = ({ team }) => {
           >
             <Typography
               variant="body1"
-              fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
-              noWrap
+              fontSize={{ xxs: '1.15rem', xs: '1.25rem' }}
+              fontWeight="bold"
+              textTransform={'uppercase'}
+              letterSpacing={'.04rem'}
+              color={'info.main'}
+              whiteSpace="nowrap"
               sx={{ textOverflow: 'ellipsis' }}
             >
               {team.name ?? ''}
@@ -104,6 +97,7 @@ const ProgressCard = ({ team }) => {
         sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}
       >
         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+
           <Typography
             variant="body1"
             fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
@@ -112,10 +106,6 @@ const ProgressCard = ({ team }) => {
             letterSpacing={'.04rem'}
             whiteSpace="nowrap"
           >
-            Mount.
-          </Typography>
-
-          <Typography variant="body1" noWrap>
             {team.mountainName ?? ''}
           </Typography>
         </Box>

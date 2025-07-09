@@ -1,9 +1,10 @@
 import HikingIcon from '@mui/icons-material/Hiking'
-import { Box, CircularProgress, Typography } from '@mui/material'
+import { alpha, Box, CircularProgress, Typography } from '@mui/material'
 
 import EventSelector from '../shared/EventSelector'
 import ProgressSearch from '../shared/ProgressSearch'
 import ProgressCard from './ProgressCard'
+import theme from '../../../styles/theme'
 
 const ProgressList = ({
   teams,
@@ -24,7 +25,7 @@ const ProgressList = ({
         overflow: 'hidden',
       }}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', p: 1, backgroundColor: 'primary.light', borderRadius: '4px' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', p: 1, backgroundColor: alpha(theme.palette.primary.main, .85), borderRadius: '4px' }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, pb: 1 }}>
           <EventSelector
             events={events}
