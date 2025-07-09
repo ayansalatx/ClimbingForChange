@@ -1,6 +1,6 @@
 import { People } from '@mui/icons-material'
 import { Box } from '@mui/material'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
 import AddTeamModal from '../../../components/admin/modals/TeamModal.jsx'
@@ -55,7 +55,7 @@ const TeamsManager = () => {
       mountainId: team.mountainId,
       hill: team.hill,
       hillId: team.hillId,
-      event: team.event,
+      eventId: team.event,
       eventName: team.eventName,
     }))
   }, [teams])
@@ -73,7 +73,7 @@ const TeamsManager = () => {
   const handleOpenPopup = () => setOpenPopup(true)
   const handleClosePopup = () => setOpenPopup(false)
 
-  const fetchEvents = async () => {
+  const fetchEvents = useCallback(async () => {
     try {
       const result = await getAllEvents()
       const formattedEvents = result.map((event) => {
@@ -89,7 +89,7 @@ const TeamsManager = () => {
     } catch (error) {
       displayAlert('Events Error', `${error.message}`, 'error')
     }
-  }
+  }, [displayAlert])
 
   const fetchTeams = async (formattedEvents) => {
     try {
@@ -115,11 +115,10 @@ const TeamsManager = () => {
       displayAlert('Teams Error', `${error.message}`, 'error')
     }
   }
-
+  
   useEffect(() => {
     fetchEvents()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [fetchEvents])
 
   const handleAddTeam = async (teamData) => {
     try {
