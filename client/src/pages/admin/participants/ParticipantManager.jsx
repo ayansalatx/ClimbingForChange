@@ -180,7 +180,7 @@ const ParticipantManager = () => {
       }}
     >
       <DataTable
-        tableTitle="Participants"
+        tableTitle='Participants'
         tableIcon={PersonIcon}
         tableColumns={fullColumns}
         tableData={filteredParticipants}
