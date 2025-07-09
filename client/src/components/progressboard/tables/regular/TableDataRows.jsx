@@ -33,7 +33,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
         role='checkbox'
         tabIndex={-1}
         sx={{
-          height: { sm: '3.5rem' },
+          height: { sm: '3.2rem', lg: '3.5rem' },
           p: 0,
           backgroundColor: isEven
             ? alpha(theme.palette.background.paper, 0.3)
@@ -53,7 +53,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
           sx={{
             border: 'none',
             backgroundColor: 'inherit',
-            p: { sm: 0.5, md: 1, lg: 1.25, xl: 1.5 },
+            p: { sm: 0.5, md: 1, lg: 1.1, xl: 1.2 },
             pr: 0,
           }}
         >
@@ -68,9 +68,9 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
               '& svg': {
                 fontSize: {
                   sm: '1rem',
-                  md: '1.5rem',
-                  lg: '1.6rem',
-                  xl: '1.75rem',
+                  md: '1.4rem',
+                  lg: '1.5rem',
+                  xl: '1.7rem',
                 },
               },
             }}
@@ -108,10 +108,10 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
                 border: 'none',
                 padding: '0',
                 fontSize: {
-                  sm: '.9rem',
-                  md: '1rem',
-                  lg: '1.1rem',
-                  xl: '1.2rem',
+                  sm: '1rem',
+                  md: '1.1rem',
+                  lg: '1.2rem',
+                  xl: '1.3rem',
                 },
                 color: 'primary.main',
                 backgroundColor: 'inherit',
