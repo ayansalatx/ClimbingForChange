@@ -59,7 +59,7 @@ const ProgressTable = ({
   }
 
   // Show all rows at once on small screen
-  const displayedRowsPerPage = isSmall ? teams.Length : rowsPerPage
+  const displayedRowsPerPage = isSmall ? teams.length : rowsPerPage
 
   // Hide the rows per page selector on small screen
   const rowsPerPageOptions = isSmall ? [] : [10, 25, 100]
