@@ -24,7 +24,10 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
         onChange={(e) => setSelectedEvent(e.target.value)}
         displayEmpty
         required
-        inputProps={{ sx: { borderRadius: '3px !important' } }}
+        inputProps={{
+          paper: { minHeight: { xxs: 'unset', xs: 'unset' } },
+          sx: { borderRadius: '3px !important' },
+        }}
         sx={{
           textAlign: 'left',
           backgroundColor: {
