@@ -26,7 +26,7 @@ const ProgressCard = ({ team }) => {
         >
           <Tooltip
             title={team.name ?? ''}
-            placement='top'
+            placement="top"
             slotProps={{
               tooltip: {
                 sx: {
@@ -49,13 +49,13 @@ const ProgressCard = ({ team }) => {
             }}
           >
             <Typography
-              variant='body1'
+              variant="body1"
               fontSize={{ xxs: '1.05rem', xs: '1.15rem' }}
-              fontWeight='bold'
+              fontWeight="bold"
               textTransform={'uppercase'}
               letterSpacing={'.015rem'}
               color={'info.main'}
-              whiteSpace='nowrap'
+              whiteSpace="nowrap"
               sx={{ textOverflow: 'ellipsis', overflow: 'hidden' }}
             >
               {team.name ?? ''}
@@ -71,13 +71,13 @@ const ProgressCard = ({ team }) => {
           }}
         >
           <Typography
-            variant='body1'
+            variant="body1"
             fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
-            fontWeight='bold'
+            fontWeight="bold"
             textTransform={'uppercase'}
             letterSpacing={'0.015rem'}
-            color='secondary.dark'
-            whiteSpace='nowrap'
+            color="secondary.dark"
+            whiteSpace="nowrap"
           >
             {team.mountainName ?? ''}
           </Typography>
@@ -101,24 +101,71 @@ const ProgressCard = ({ team }) => {
           }}
         >
           <Typography
-            variant='body1'
+            variant="body1"
             fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
-            fontWeight='bold'
+            fontWeight="bold"
             textTransform={'uppercase'}
             letterSpacing={'0.015rem'}
             color={'primary.light'}
-            whiteSpace='nowrap'
+            whiteSpace="nowrap"
           >
             Laps
           </Typography>
 
-          <Typography
-            variant='body1'
-            fontSize={{ xxs: '0.9rem', xs: '1rem' }}
-            noWrap
+          <Box
+            sx={{
+              display: 'flex',
+              gap: 0.4,
+              alignItems: 'center',
+            }}
           >
-            {team.lapsCompleted ?? 0} / {team.lapsRequired ?? 0}
-          </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+                minWidth: '2rem',
+              }}
+            >
+              <Typography
+                variant="body1"
+                fontSize={{ xxs: '0.9rem', xs: '1rem' }}
+                noWrap
+              >
+                {team.lapsCompleted ?? 0}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyItems: 'center',
+              }}
+            >
+              <Typography
+                variant="body1"
+                fontSize={{ xxs: '0.9rem', xs: '1rem' }}
+                noWrap
+              >
+                /
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-start',
+              }}
+            >
+              <Typography
+                variant="body1"
+                fontSize={{ xxs: '0.9rem', xs: '1rem' }}
+                noWrap
+              >
+                {team.lapsRequired ?? 0}
+              </Typography>
+            </Box>
+          </Box>
         </Box>
         <Box
           sx={{
@@ -128,24 +175,33 @@ const ProgressCard = ({ team }) => {
           }}
         >
           <Typography
-            variant='body1'
+            variant="body1"
             fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
-            fontWeight='bold'
+            fontWeight="bold"
             textTransform={'uppercase'}
             letterSpacing={'.015rem'}
             color={'primary.light'}
-            whiteSpace='nowrap'
+            whiteSpace="nowrap"
           >
             Best Lap
           </Typography>
 
-          <Typography
-            variant='body1'
-            fontSize={{ xxs: '0.9rem', xs: '1rem' }}
-            noWrap
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              minWidth: { xxs: '2.7rem', xs: '2.85rem' },
+            }}
           >
-            {team.bestLap ?? '00:00'}
-          </Typography>
+            <Typography
+              variant="body1"
+              fontSize={{ xxs: '0.9rem', xs: '1rem' }}
+              noWrap
+            >
+              {team.bestLap ?? '00:00'}
+            </Typography>
+          </Box>
         </Box>
       </Box>
       <Box
@@ -160,28 +216,77 @@ const ProgressCard = ({ team }) => {
           sx={{
             display: 'flex',
             gap: 1,
-            justifyContent: 'left',
+            justifyContent: 'right',
             alignItems: 'center',
           }}
         >
           <Typography
-            variant='body1'
+            variant="body1"
             fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
-            fontWeight='bold'
+            fontWeight="bold"
             textTransform={'uppercase'}
             letterSpacing={'0.015rem'}
-            whiteSpace='nowrap'
+            whiteSpace="nowrap"
           >
             Elev.
           </Typography>
 
-          <Typography
-            variant='body1'
-            fontSize={{ xxs: '0.9rem', xs: '1rem' }}
-            noWrap
+          <Box
+            sx={{
+              display: 'flex',
+              gap: 0.4,
+              alignItems: 'center',
+            }}
           >
-            {team.currentElevation ?? 0} / {team.totalElevation ?? 0}
-          </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+                minWidth: '1.78rem',
+              }}
+            >
+              <Typography
+                variant="body1"
+                fontSize={{ xxs: '0.9rem', xs: '1rem' }}
+                noWrap
+              >
+                {team.currentElevation ?? 0}
+              </Typography>
+            </Box>
+
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Typography
+                variant="body1"
+                fontSize={{ xxs: '0.9rem', xs: '1rem' }}
+                noWrap
+              >
+                /
+              </Typography>
+            </Box>
+
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-start',
+              }}
+            >
+              <Typography
+                variant="body1"
+                fontSize={{ xxs: '0.9rem', xs: '1rem' }}
+                noWrap
+              >
+                {team.totalElevation ?? 0}
+              </Typography>
+            </Box>
+          </Box>
         </Box>
         <Box
           sx={{
@@ -192,23 +297,32 @@ const ProgressCard = ({ team }) => {
           }}
         >
           <Typography
-            variant='body1'
+            variant="body1"
             fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
-            fontWeight='bold'
+            fontWeight="bold"
             textTransform={'uppercase'}
             letterSpacing={'.015rem'}
             color={'primary.light'}
-            whiteSpace='nowrap'
+            whiteSpace="nowrap"
           >
             Time
           </Typography>
-          <Typography
-            variant='body1'
-            fontSize={{ xxs: '0.9rem', xs: '1rem' }}
-            noWrap
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              minWidth: { xxs: '4.11rem', xs: '4.4rem' },
+            }}
           >
-            {team.timeElapsed ?? '00:00:00'}
-          </Typography>
+            <Typography
+              variant="body1"
+              fontSize={{ xxs: '0.9rem', xs: '1rem' }}
+              noWrap
+            >
+              {team.timeElapsed ?? '00:00:00'}
+            </Typography>
+          </Box>
         </Box>
       </Box>
     </Card>
