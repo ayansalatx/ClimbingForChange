@@ -72,8 +72,25 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
       setSelectedMountain(teamToEdit.mountainId || '')
       setSelectedHill(teamToEdit.hillId || '')
       setSelectedEvent(teamToEdit.event || '')
+
+      if (mountains.some((m) => m.id === teamToEdit.mountainId)) {
+        setSelectedMountain(teamToEdit.mountainId)
+      } else {
+        setSelectedMountain('')
+      }
+      if (hills.some((h) => h.id === teamToEdit.hillId)) {
+        setSelectedHill(teamToEdit.hillId)
+      } else {
+        setSelectedHill('')
+      }
+      if (events.some((e) => e.id === teamToEdit.event)) {
+        setSelectedEvent(teamToEdit.event)
+      } else {
+        setSelectedEvent('')
+      }
     }
-  }, [teamToEdit])
+  }, [teamToEdit, mountains, hills, events])
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -127,40 +144,41 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
             }
             label="Solo Team"
           />
+          <Box display="flex" gap={2} mt={1.5} mb={0.5}>
+            <FormControl fullWidth required sx={{ flex: 1 }}>
+              <InputLabel id="mountain-select-label">Mountain</InputLabel>
+              <Select
+                labelId="mountain-select-label"
+                id="mountain-select"
+                value={selectedMountain}
+                label="Mountain"
+                onChange={(e) => setSelectedMountain(e.target.value)}
+              >
+                {mountains.map((mountain) => (
+                  <MenuItem key={mountain.id} value={mountain.id}>
+                    {mountain.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
-          <FormControl fullWidth margin="normal" required>
-            <InputLabel id="mountain-select-label">Mountain</InputLabel>
-            <Select
-              labelId="mountain-select-label"
-              id="mountain-select"
-              value={selectedMountain}
-              label="Mountain"
-              onChange={(e) => setSelectedMountain(e.target.value)}
-            >
-              {mountains.map((mountain) => (
-                <MenuItem key={mountain.id} value={mountain.id}>
-                  {mountain.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          <FormControl fullWidth margin="normal" required>
-            <InputLabel id="hill-select-label">Hill</InputLabel>
-            <Select
-              labelId="hill-select-label"
-              id="hill-select"
-              value={selectedHill}
-              label="Hill"
-              onChange={(e) => setSelectedHill(e.target.value)}
-            >
-              {hills.map((hill) => (
-                <MenuItem key={hill.id} value={hill.id}>
-                  {hill.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+            <FormControl fullWidth required sx={{ flex: 1 }}>
+              <InputLabel id="hill-select-label">Hill</InputLabel>
+              <Select
+                labelId="hill-select-label"
+                id="hill-select"
+                value={selectedHill}
+                label="Hill"
+                onChange={(e) => setSelectedHill(e.target.value)}
+              >
+                {hills.map((hill) => (
+                  <MenuItem key={hill.id} value={hill.id}>
+                    {hill.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
 
           <FormControl fullWidth margin="normal" required>
             <InputLabel id="event-select-label">Event</InputLabel>
@@ -179,29 +197,29 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
             </Select>
           </FormControl>
 
-          <TextField
-            fullWidth
-            required
-            label="Laps"
-            type="number"
-            variant="outlined"
-            margin="normal"
-            value={lapsRequired}
-            onChange={(e) => setLapsRequired(e.target.value)}
-            inputProps={{ min: 1 }}
-          />
+          <Box display="flex" gap={2} mt={1.5} mb={1}>
+            <TextField
+              required
+              label="Laps"
+              type="number"
+              variant="outlined"
+              value={lapsRequired}
+              onChange={(e) => setLapsRequired(e.target.value)}
+              inputProps={{ min: 1 }}
+              sx={{ flex: 1 }}
+            />
 
-          <TextField
-            fullWidth
-            required
-            label="Total Distance"
-            type="number"
-            variant="outlined"
-            margin="normal"
-            value={distanceRequired}
-            onChange={(e) => setDistanceRequired(e.target.value)}
-            inputProps={{ min: 1 }}
-          />
+            <TextField
+              required
+              label="Total Distance"
+              type="number"
+              variant="outlined"
+              value={distanceRequired}
+              onChange={(e) => setDistanceRequired(e.target.value)}
+              inputProps={{ min: 1 }}
+              sx={{ flex: 1 }}
+            />
+          </Box>
           <TextField
             fullWidth
             label="Start Date & Time"

@@ -10,10 +10,9 @@ import { getAllEvents } from '../../../services/eventService.js'
 import { addTeam, deleteTeam, editTeam, getAllTeams } from '../../../services/teamService.js'
 
 const fullColumns = [
-  { id: 'name', label: 'Team Name', width: '50%', align: 'left' },
+  { id: 'name', label: 'Team Name', width: '30%', align: 'left' },
   { id: 'mountain', label: 'Mountain', width: '10%', align: 'left' },
   { id: 'hill', label: 'Hill', width: '10%', align: 'left' },
-  { id: 'eventName', label: 'Event', width: '10%', align: 'left' },
   { id: 'isSoloTeam', label: 'Solo Team?', width: '10%', align: 'left' },
   { id: 'lapsRequired', label: 'Laps Req.', width: '10%', align: 'left' },
   { id: 'totalDistanceRequired', label: 'Distance Req.', width: '10%', align: 'left' },
@@ -56,7 +55,6 @@ const TeamsManager = () => {
       hill: team.hill,
       hillId: team.hillId,
       eventId: team.event,
-      eventName: team.eventName,
     }))
   }, [teams])
 
