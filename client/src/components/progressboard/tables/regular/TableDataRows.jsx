@@ -4,6 +4,7 @@ import {
   alpha,
   Box,
   Collapse,
+  colors,
   IconButton,
   Table,
   TableBody,
@@ -30,10 +31,10 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
     <React.Fragment>
       <TableRow
         hover
-        role='checkbox'
+        role="checkbox"
         tabIndex={-1}
         sx={{
-          height: { sm: '3.2rem', lg: '3.5rem' },
+          height: { sm: '2.95rem', md: '3.15rem', lg: '3.25rem', xl: '3.5rem' },
           p: 0,
           backgroundColor: isEven
             ? alpha(theme.palette.background.paper, 0.3)
@@ -67,7 +68,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
               },
               '& svg': {
                 fontSize: {
-                  sm: '1rem',
+                  sm: '1.1rem',
                   md: '1.4rem',
                   lg: '1.5rem',
                   xl: '1.7rem',
@@ -83,6 +84,42 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
         {/* Create a cell for each column in the row */}
         {columns.map((column, index) => {
           const columnAlign = index === 0 ? 'left' : 'center'
+          const fontWeight = column.id === 'name' ? 'bold' : 'regular'
+
+          let fontSize
+          let letterSpacing
+          let color
+          switch (column.id) {
+            case 'name':
+              fontSize = {
+                sm: '1.05rem',
+                md: '1.2rem',
+                lg: '1.3rem',
+                xl: '1.4rem',
+              }
+              letterSpacing = '.01rem'
+              color = 'primary.light'
+              break
+            case 'mountain':
+              fontSize = {
+                sm: '1rem',
+                md: '1.2rem',
+                lg: '1.3rem',
+                xl: '1.4rem',
+              }
+              letterSpacing = 'auto'
+              color = 'primary.main'
+              break
+            default:
+              fontSize = {
+                sm: '.9rem',
+                md: '1.1rem',
+                lg: '1.2rem',
+                xl: '1.3rem',
+              }
+              letterSpacing = 'auto'
+              color = 'primary.main'
+          }
 
           const currentElevation = team.currentElevation ?? 0
           const totalElevation = team.totalElevation ?? 0
@@ -107,14 +144,13 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
               sx={{
                 border: 'none',
                 padding: '0',
-                fontSize: {
-                  sm: '1rem',
-                  md: '1.1rem',
-                  lg: '1.2rem',
-                  xl: '1.3rem',
-                },
-                color: 'primary.main',
+                verticalAlign: 'middle',
                 backgroundColor: 'inherit',
+                color: color,
+                textTransform: 'uppercase',
+                letterSpacing: letterSpacing,
+                fontWeight: fontWeight,
+                fontSize: fontSize,
               }}
               key={column.id}
               align={columnAlign}
@@ -131,7 +167,12 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
         sx={{ backgroundColor: alpha(theme.palette.background.paper, 0.6) }}
       >
         <TableCell sx={{ p: 0 }} colSpan={columns.length + 1}>
-          <Collapse in={open} timeout='auto' unmountOnExit  onEntered={handleCollapseEntered}>
+          <Collapse
+            in={open}
+            timeout="auto"
+            unmountOnExit
+            onEntered={handleCollapseEntered}
+          >
             <Box sx={{ py: '.25rem' }}>
               <Table>
                 <TableBody sx={{ px: 0 }}>
@@ -151,7 +192,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
                         }}
                       >
                         <IconButton
-                          size='small'
+                          size="small"
                           disableRipple
                           sx={{
                             visibility: 'hidden',

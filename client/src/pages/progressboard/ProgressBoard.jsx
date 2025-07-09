@@ -32,13 +32,13 @@ const mdColumns = [
 ]
 
 const smColumns = [
-  { id: 'name', label: 'Team', width: '30%' },
+  { id: 'name', label: 'Team', width: '28%' },
   { id: 'mountainName', label: 'Mount.', width: '13%' },
   { id: 'elevation', label: 'Elev.', width: '15%' },
   { id: 'laps', label: 'Laps', width: '13%' },
   { id: 'lapsToGo', label: 'To Go', width: '7%' },
   { id: 'bestLap', label: 'Best Lap', width: '9%' },
-  { id: 'timeElapsed', label: 'Time', width: '25%' },
+  { id: 'timeElapsed', label: 'Time', width: '27%' },
 ]
 
 const ProgressBoard = () => {
