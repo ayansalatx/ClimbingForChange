@@ -118,10 +118,8 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
       return mountain ? mountain.name : id
     })
     return names.join(', ')
-
-
-
   }
+  
   return (
     <Modal open={open} onClose={onModalClose}>
       <Box sx={style}>

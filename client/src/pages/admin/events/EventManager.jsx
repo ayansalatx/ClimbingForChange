@@ -1,6 +1,6 @@
 import { Event } from '@mui/icons-material'
 import { Box } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
 import AddEventModal from '../../../components/admin/modals/EventModal.jsx'
@@ -53,16 +53,16 @@ const EventManager = () => {
 
   const displayAlert = useAlert()
 
-  const fetchLocations = async () => {
+  const fetchLocations = useCallback(async () => {
     try {
       const locations = await getAllLocations()
       setLocations(locations)
     } catch (error) {
       displayAlert('Locations Error', `${error.message}`, 'error')
     }
-  }
+  }, [displayAlert])
 
-  const fetchEvents = async () => {
+  const fetchEvents = useCallback(async () => {
     try {
       const events = await getAllEvents()
       const formattedEvents = events.map((event) => {
@@ -102,9 +102,9 @@ const EventManager = () => {
     } catch (error) {
       displayAlert('Events Error', `${error.message}`, 'error')
     }
-  }
+  }, [displayAlert])
 
-  const fetchMountains = async () => {
+  const fetchMountains = useCallback(async () => {
     try {
       const mountainsData = await getAllMountains()
       setMountainsList(mountainsData)
@@ -117,20 +117,18 @@ const EventManager = () => {
     } catch (error) {
       displayAlert('Mountains Error', error.message, 'error')
     }
-  }
+  }, [displayAlert])
 
   useEffect(() => {
     fetchLocations()
     fetchMountains()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [fetchLocations, fetchMountains])
   
   useEffect(() => {
     if (Object.keys(mountains).length > 0) {
       fetchEvents()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mountains])
+  }, [mountains, fetchEvents])
 
 
   const handleAddEvent = async (eventData) => {
