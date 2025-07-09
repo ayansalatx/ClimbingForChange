@@ -134,7 +134,19 @@ const RFIDManager = () => {
 
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box
+      sx={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        py: '4rem',
+        px: '1.5rem',
+      }}
+    >
+      
       <DataTable
         tableTitle="RFID Tags"
         tableIcon={RfidIcon}
