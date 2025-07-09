@@ -1,6 +1,6 @@
 import RfidIcon from '@mui/icons-material/Nfc'
 import { Box } from '@mui/material'
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog'
 import RFIDModal from '../../../components/admin/modals/RFIDModal'
@@ -146,7 +146,7 @@ const RFIDManager = () => {
         px: '1.5rem',
       }}
     >
-      
+
       <DataTable
         tableTitle="RFID Tags"
         tableIcon={RfidIcon}
