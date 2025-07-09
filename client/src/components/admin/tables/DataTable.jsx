@@ -57,7 +57,7 @@ const DataTable = ({
       })
       .filter((row) => {
         if (!selectedEvent) return true
-        return row.event === selectedEvent
+        return row.eventId === selectedEvent
       })
   } else {
     filteredRows = tableData
@@ -225,7 +225,7 @@ const DataTable = ({
           </Table>
         ) : (
           <Table height="100%" stickyHeader>
-            <TableHeaderRow columns={tableColumns} onAddClick={onAddClick}/>
+            <TableHeaderRow columns={tableColumns} onAddClick={onAddClick} />
             <TableBody
               sx={{
                 backgroundColor: 'background.paper',
