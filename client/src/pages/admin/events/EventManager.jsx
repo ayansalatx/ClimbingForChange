@@ -73,13 +73,9 @@ const EventManager = () => {
         const isPast = endTime < new Date()
         const isActive = event.active && !isPast
 
-        const teamMountains = (event.teams || [])
-          .map((team) => { const mountainName = mountains[team.mountain]
-            return mountainName !== undefined && mountainName !== null ? mountainName : null
-          }).filter((name) => name !== null)
-        const mountainNames = teamMountains.length > 0 ? teamMountains : (event.mountains || [])
-          .map((m) => (m.name !== undefined && m.name !== null ? m.name : null))
-          .filter((name) => name !== null)
+        const mountainNames = (event.mountains || [])
+          .map((m) => m.name)
+          .filter((name) => name !== null && name !== undefined && name !== '')
 
         return {
           id: event.id,
@@ -112,10 +108,11 @@ const EventManager = () => {
     try {
       const mountainsData = await getAllMountains()
       setMountainsList(mountainsData)
-      const mountainMap = mountainsData.reduce((acc, m) => {
-        acc[m.id] = m.name
-        return acc
-      }, {})
+      const mountainMap = {}
+      for (let i = 0; i < mountainsData.length; i++) {
+        const mountain = mountainsData[i]
+        mountainMap[mountain.id] = mountain.name
+      }
       setMountains(mountainMap)
     } catch (error) {
       displayAlert('Mountains Error', error.message, 'error')
@@ -244,12 +241,6 @@ const EventManager = () => {
         onLocation={locations}
         onMountains={mountainsList}
         eventToEdit={eventToEdit}
-      />
-
-      <ConfirmDeleteDialog
-        open={deleteConfirmOpen}
-        onCancel={cancelDelete}
-        onConfirm={handleDeleteEvent}
       />
 
       <ConfirmDeleteDialog

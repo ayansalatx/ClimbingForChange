@@ -14,6 +14,21 @@ const style = {
   p: 4,
   borderRadius: 2,
 }
+const parseMountainNames = (mountains) => {
+  if (typeof mountains === 'string') {
+    return mountains.split(',').map((s) => s.trim())
+  }
+  if (Array.isArray(mountains)) {
+    return mountains
+  }
+  return []
+}
+
+const getMountainIdsByName = (mountainNames, mountains) => {
+  return mountainNames
+    .map((name) => mountains.find((m) => m.name === name)?.id)
+    .filter((id) => id !== undefined)
+}
 
 const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, eventToEdit }) => {
   const [eventName, setEventName] = useState('')
@@ -52,12 +67,13 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
       setStartTime(start.toTimeString().slice(0, 5))
       const durationHours = (new Date(eventToEdit.endDateTime) - start) / 3600000
       setDuration(durationHours)
-      const selectedMountains = eventToEdit.teams ? [...new Set(eventToEdit.teams.map((t) => t.mountain).filter((m) => m != null))] : []
+      const mountainNames = parseMountainNames(eventToEdit.mountains)
+      const selectedMountains = getMountainIdsByName(mountainNames, mountains)
       setMountainSelection(selectedMountains)
     } else {
       setMountainSelection([])
     }
-  }, [eventToEdit])
+  }, [eventToEdit, mountains])
 
   const handleAdd = async (e) => {
     e.preventDefault()
@@ -87,11 +103,24 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
     onModalClose()
   }
 
-  const handleMountainChange = (event) => {
-    const {
-      target: { value },
-    } = event
-    setMountainSelection(typeof value === 'string' ? value.split(',') : value)
+  const handleMountainChange = (e) => {
+    const value = e.target.value
+    if (typeof value === 'string') {
+      setMountainSelection(value.split(','))
+    } else {
+      setMountainSelection(value)
+    }
+  }
+
+  const getMountainNames = (selected) => {
+    const names = selected.map((id) => {
+      const mountain = mountains.find((m) => m.id === id)
+      return mountain ? mountain.name : id
+    })
+    return names.join(', ')
+
+
+
   }
   return (
     <Modal open={open} onClose={onModalClose}>
@@ -136,10 +165,7 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
               value={mountainSelection}
               onChange={handleMountainChange}
               label="Mountains"
-              renderValue={(selected) =>
-                selected
-                  .map((id) => mountains.find(((m) => m.id === id))?.name || id)
-              }
+              renderValue={getMountainNames}
             >
               {mountains.map((mountain) => (
                 <MenuItem key={mountain.id} value={mountain.id}>
