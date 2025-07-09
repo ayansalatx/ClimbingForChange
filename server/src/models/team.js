@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const {Schema, model} = mongoose
+const { Schema, model } = mongoose
 
 const teamSchema = new Schema({
   event: {
@@ -11,17 +11,18 @@ const teamSchema = new Schema({
   mountain: {
     type: Schema.Types.ObjectId,
     ref: 'Mountain',
-    required: true
+    required: false
   },
   hill: {
     type: Schema.Types.ObjectId,
     ref: 'Hill',
-    required: true
+    required: false
   },
   rfidTag: {
     type: Schema.Types.ObjectId,
     ref: 'RFIDTag',
     unique: true,
+    sparse: true,
     required: false
   },
   name: {
@@ -35,17 +36,21 @@ const teamSchema = new Schema({
   },
   lapsRequired: {
     type: Number,
-    required: true,
+    required: false,
     min: 0
   },
   startDateTime: {
     type: Date,
-    required: true
+    required: false
   },
   totalDistanceRequired: {
     type: Number,
-    required: true,
+    required: false,
     min: 0
+  },
+  isIncomplete: {
+    type: Boolean,
+    default: false
   }
 }, {
   timestamps: true

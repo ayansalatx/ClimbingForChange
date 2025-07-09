@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import C4CFavicon from '../../assets/C4C-branding/Favicon.png'
-import AutoScrollTable from '../../components/progressboard/tables/full-table/auto-scroll/AutoScrollTable'
-import { getDisplayEventTeams, getOneEvent } from '../../services/eventService'
+import AutoScrollTable from '../../components/progressboard/tables/auto-scroll/AutoScrollTable'
+import { getDisplayEventTeams } from '../../services/eventService'
 import theme from '../../styles/theme'
 
 // Define columns for full width screen
@@ -84,19 +84,18 @@ const ProgressBoardFullscreen = () => {
   const { eventId } = useParams()
   // State for teams
   const [teams, setTeams] = useState([])
-  const [eventName, setEventName] = useState([])
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
 
   useEffect(() => {
-    const handleEsc = (event) => {
-      if (event.key === 'Escape') {
+    const handleSpace = (event) => {
+      if (event.code === 'Space') {
         navigate('/progress')
       }
     }
 
-    window.addEventListener('keydown', handleEsc)
-    return () => window.removeEventListener('keydown', handleEsc)
+    window.addEventListener('keydown', handleSpace)
+    return () => window.removeEventListener('keydown', handleSpace)
   }, [navigate])
 
   // Load Team data from server
@@ -104,11 +103,9 @@ const ProgressBoardFullscreen = () => {
     async function loadData() {
       try {
         const teamsList = await getDisplayEventTeams(eventId)
-        const event = await getOneEvent(eventId)
-        const eventName = event.name
+        // const event = await getOneEvent(eventId)
 
         setTeams(teamsList)
-        setEventName(eventName)
       } catch (e) {
         console.log('Failed to load progress data', e)
       } finally {
@@ -129,7 +126,7 @@ const ProgressBoardFullscreen = () => {
     >
       {/* https://pixabay.com/videos/search/terrain%20blue%20gray%20mountain/ */}
       <video
-        src="/assets/mountain-with-way-points.mp4"
+        src="/assets/mountain-with-way-points-full.mp4"
         autoPlay
         loop
         muted
@@ -170,7 +167,7 @@ const ProgressBoardFullscreen = () => {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'flex-end',
-              mb: {xxs: 1, xs: 1, sm: 2, md: 2.5, lg: 3, xl: 3 },
+              mb: { xxs: 1, xs: 1, sm: 2, md: 2.5, lg: 3, xl: 3 },
             }}
           >
             <Box
@@ -231,7 +228,7 @@ const ProgressBoardFullscreen = () => {
                   fontStyle: 'italic',
                 }}
               >
-                {eventName}
+                Climb Progress
               </Typography>
             </Box>
           </Box>
@@ -246,7 +243,7 @@ const ProgressBoardFullscreen = () => {
           >
             <AutoScrollTable
               columns={columns}
-              teams={teams}
+              teams={[...teams, ...teams]}
               loading={loading}
             />
           </Box>

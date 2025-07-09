@@ -10,9 +10,9 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
           xxs: '100%',
           xs: '100%',
           sm: '100%',
-          md: '50%',
-          lg: '42%',
-          xl: '42%',
+          md: '45%',
+          lg: '40%',
+          xl: '35%',
         },
         borderRadius: '3px',
       }}
@@ -27,14 +27,14 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
         inputProps={{ sx: { borderRadius: '3px !important' } }}
         sx={{
           textAlign: 'left',
-          background: alpha(theme.palette.background.paper, 0.4),
+          backgroundColor: { xxs: 'background.paper', sm: alpha(theme.palette.background.paper, 0.4) },
           borderRadius: '3px',
           color: 'primary.main',
           '&:before, &:after': {
             borderBottom: 'none !important',
           },
           '&.Mui-focused': {
-            background: alpha(theme.palette.background.paper, 0.4),
+            backgroundColor: { xxs: 'background.paper', sm: alpha(theme.palette.background.paper, 0.4) },
           },
           '& .MuiSelect-select': {
             py: {
@@ -65,7 +65,7 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
             background: alpha(theme.palette.info.main, 0.5),
           },
           '& .MuiSelect-select:focus': {
-            background: alpha(theme.palette.background.paper, 0.4),
+            backgroundColor: { xxs: 'background.paper', sm: alpha(theme.palette.background.paper, 0.4) },
           },
         }}
       >
@@ -90,7 +90,7 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
             key={event.id}
             sx={{
               borderRadius: '3px',
-              minHeight: { xxs: 'unset' },
+              minHeight: { xxs: 'unset', xs: 'unset', sm: 0 },
               color: 'primary.main',
               fontSize: {
                 xxs: '0.9rem',

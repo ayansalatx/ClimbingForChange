@@ -30,6 +30,8 @@ export const saveOneHill = async (request, response) => {
     lapElevationGain: body.lapElevationGain,
     location: body.location,
     active: body.active,
+    distanceUnit: body.distanceUnit,
+    elevationUnit: body.elevationUnit,
   })
 
   const savedMountain = await newMountain.save()
@@ -60,6 +62,8 @@ export const updateOneHill = async (request, response) => {
         lapElevationGain: body.lapElevationGain,
         location: body.location,
         active: body.active,
+        distanceUnit: body.distanceUnit,
+        elevationUnit: body.elevationUnit, 
       }
     },
     {

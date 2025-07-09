@@ -19,33 +19,34 @@ export const createJWTToken = (user) => {
 }
 
 export const loginUser = async (req, res) => {
-  const body = req.body
+  try {
+    const { username, password } = req.body
 
-  const user = await User.findOne({
-    username: body.username,
-  })
+    const user = await User.findOne({ username })
 
-  if (!user) {
-    throw new Error('Invalid username')
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid username' }) 
+    }
+
+    const passwordCorrect = user.password_hash
+      ? await bcrypt.compare(password, user.password_hash)
+      : false
+
+    if (!passwordCorrect) {
+      return res.status(401).json({ error: 'Invalid password' }) 
+    }
+
+    const token = createJWTToken(user)
+
+    const authenticatedUser = {
+      id: user.id,
+      username: user.username,
+      token,
+    }
+
+    return res.status(200).json(authenticatedUser)
+  } catch (err) {
+    return res.status(500).json({ error: err })
   }
-
-  const passwordCorrect =
-        // Condition: Check if user exists AND password_hash is truthy (exists and not empty)
-        user.password_hash
-          ? await bcrypt.compare(body.password, user.password_hash)
-          : false
-
-  if (!passwordCorrect) {
-    throw new Error('Invalid password')
-  }
-
-  const token = createJWTToken(user)
-
-  const authenticatedUser = {
-    id: user?.id,
-    username: user.username,
-    token: token,
-  }
-
-  return res.status(200).json(authenticatedUser)
 }
+

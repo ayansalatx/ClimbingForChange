@@ -4,7 +4,7 @@ import Team from '../models/team.js'
 
 export const getParticipants = async (req, response) => {
   const participants = await Participant.find({})
-    .populate('teamId')
+    .populate('team')
 
   response.json(participants)
 }
@@ -17,7 +17,7 @@ export const getParticipantById = async (request, response) => {
   }
 
   const participant = await Participant.findById(id)
-    .populate('teamId')
+    .populate('team')
 
   response.json(participant)
 }
@@ -123,7 +123,10 @@ export const deleteOneParticipant = async (request, response) => {
     return response.status(400).json({ error: 'Participant is doesnt exist' })
   }
 
-  const updated = await Participant.findByIdAndUpdate(id)
+  // const updated = await Participant.findByIdAndUpdate(id)
 
-  response.status(200).json(updated)
+  // response.status(200).json(updated)
+  await Participant.findByIdAndDelete(id)
+
+  response.status(204).end() 
 }

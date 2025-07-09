@@ -3,6 +3,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard'
 import DownhillSkiingIcon from '@mui/icons-material/DownhillSkiing'
 import EventIcon from '@mui/icons-material/Event'
 import Hiking from '@mui/icons-material/Hiking'
+import RfidIcon from '@mui/icons-material/Nfc'
 import PeopleIcon from '@mui/icons-material/People'
 import PlaceIcon from '@mui/icons-material/Place'
 import TerrainIcon from '@mui/icons-material/Terrain'
@@ -71,6 +72,12 @@ const SideBar = ({ open, toggleDrawer }) => {
       icon: <DownhillSkiingIcon />,
       // or FollowTheSigns or ForkRight/ForkLeft
       onClick: () => navigate('/admin/hills'),
+    },
+    {
+      text: 'RFID Management',
+      path: '/admin/rfid',
+      icon: <RfidIcon />,
+      onClick: () => navigate('/admin/rfid'),
     },
   ]
 
