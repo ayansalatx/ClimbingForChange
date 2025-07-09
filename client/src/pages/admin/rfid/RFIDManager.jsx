@@ -1,5 +1,5 @@
-import { Box } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { Box, SvgIcon } from '@mui/material'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog'
 import RFIDModal from '../../../components/admin/modals/RFIDModal'
@@ -11,6 +11,13 @@ import {
   getRfidTags,
   updateRfidTag,
 } from '../../../services/rfidService'
+
+// RFID Tag icon
+const RfidIcon = () => (
+  <SvgIcon>
+    <path d="M12 0C8.96 0 6.5 2.46 6.5 5.5c0 1.33.47 2.55 1.26 3.5H12v10H2v-2h8v-1H5v-9c0-1.1.9-2 2-2h9c1.1 0 2 .9 2 2v9h-7v1h8v2h-8v1h9v-2h1v-2h1v-2h1v-1h1V9h-1V5.5C21 2.46 18.54 0 15.5 0H12zm3.5 8c-1.38 0-2.5-1.12-2.5-2.5S14.12 3 15.5 3s2.5 1.12 2.5 2.5S16.88 8 15.5 8z" />
+  </SvgIcon>
+)
 
 const tableColumns = [
   { 
@@ -47,7 +54,7 @@ const RFIDManager = () => {
   const displayAlert = useAlert()
 
   // Fetch RFID data
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
       const tags = await getRfidTags()
       const processedTags = tags.map(tag => ({
@@ -55,14 +62,14 @@ const RFIDManager = () => {
         serialNumber: tag.serialNumber,
         createdAt: new Date(tag.createdAt).toLocaleString(),
         updatedAt: new Date(tag.updatedAt).toLocaleString(),
-        active: true // Assuming all RFID tags are active by default
+        active: tag.active !== false // Handle potential undefined active status
       }))
       setRfidData(processedTags)
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message || 'Failed to load RFID tags'
       displayAlert('Error', errorMessage, 'error')
     }
-  }
+  }, [displayAlert])
 
   useEffect(() => {
     loadData()
@@ -135,11 +142,14 @@ const RFIDManager = () => {
     <Box sx={{ p: 3 }}>
       <DataTable
         tableTitle="RFID Tags"
-        tableIcon={null}
+        tableIcon={RfidIcon}
         tableColumns={tableColumns}
         tableData={rfidData}
         showInactive={showInactive}
         setShowInactive={setShowInactive}
+        eventsForDropdown={[]}
+        selectedEvent={null}
+        setSelectedEvent={() => {}}
         onAddClick={onAdd}
         onEditClick={onEdit}
         onDeleteClick={onDelete}
