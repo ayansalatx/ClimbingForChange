@@ -68,9 +68,9 @@ const ScrollingTableRow = ({ teams, columns }) => {
                     px: { xxs: 0.5, md: 2 },
                     fontSize: {
                       xxs: '.65rem',
-                      md: '.85rem',
-                      lg: '1rem',
-                      xl: '1.25rem',
+                      md: '1rem',
+                      lg: '1.25rem',
+                      xl: '1.5rem',
                     },
                     textTransform: 'uppercase',
                     letterSpacing: '.05rem',
