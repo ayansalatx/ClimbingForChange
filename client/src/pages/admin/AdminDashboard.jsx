@@ -41,7 +41,7 @@ const CarouselLeftArrow = ({ onClick }) => (
       },
     }}
   >
-    <ArrowBackIos fontSize="large" />
+    <ArrowBackIos fontSize='large' />
   </IconButton>
 )
 
@@ -67,7 +67,7 @@ const CarouselRightArrow = ({ onClick }) => (
       },
     }}
   >
-    <ArrowForwardIos fontSize="large" />
+    <ArrowForwardIos fontSize='large' />
   </IconButton>
 )
 
@@ -194,8 +194,8 @@ const AdminDashboard = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        py: 2.25,
-        gap: 1.5,
+        py: {xs: 2.25, md: 3.5, lg: 3.5, xl: 4},
+        gap: {xxs: 1.5, md: 3, lg: 3, xl: 4},
         overflowY: 'auto',
       }}
     >
@@ -211,14 +211,14 @@ const AdminDashboard = () => {
         }}
       >
         <Typography
-          variant="h1"
-          color="primary.main"
-          fontWeight="bold"
-          textTransform="uppercase"
-          fontStyle="italic"
+          variant='h1'
+          color='primary.main'
+          fontWeight='bold'
+          textTransform='uppercase'
+          fontStyle='italic'
           fontSize={{ xxs: '2rem', sm: '2.25rem', md: '2.35rem', lg: '2.5rem', xl: '3.15rem' }}
           lineHeight={{ xxs: '2rem', sm: '2.25rem', md: '2.35rem', lg: '2.5rem', xl: '3.15rem' }}
-          align="left"
+          align='left'
 
         >
           Progressboard Management
@@ -244,7 +244,7 @@ const AdminDashboard = () => {
       <Box
         sx={{
           position: 'absolute',
-          bottom: '3rem',
+          bottom: '4rem',
           left: 0,
           width: '100%',
           backgroundColor: 'primary.light',
