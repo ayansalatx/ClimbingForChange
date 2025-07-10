@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, FormControl,FormControlLabel, InputLabel, MenuItem, Modal, Select, TextField, Typography } from '@mui/material'
+import { Box, Button, Checkbox, FormControl,FormControlLabel, InputLabel, MenuItem, Modal, Select, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import { getAllEvents } from '../../../services/eventService'
@@ -129,7 +129,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
           {teamToEdit ? 'Edit Team' : 'Add New Team'}
         </Typography>
         <form onSubmit={handleSubmit}>
-          <TextField
+          <TextInput
             fullWidth
             label="Team Name"
             variant="outlined"
@@ -202,7 +202,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
           </FormControl>
 
           <Box display="flex" gap={2} mt={1.5} mb={1}>
-            <TextField
+            <TextInput
               required
               label="Laps"
               type="number"
@@ -213,7 +213,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
               sx={{ flex: 1 }}
             />
 
-            <TextField
+            <TextInput
               required
               label="Total Distance"
               type="number"
@@ -224,7 +224,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
               sx={{ flex: 1 }}
             />
           </Box>
-          <TextField
+          <TextInput
             fullWidth
             label="Start Date & Time"
             type="datetime-local"
