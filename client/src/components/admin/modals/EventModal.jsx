@@ -2,6 +2,7 @@ import { Box, Button, Checkbox, FormControl, InputLabel, MenuItem, Modal, Select
 import { useEffect, useState } from 'react'
 
 import TextInput from '../forms/fields/TextInput'
+import { useAlert } from '../../../hooks/useAlert'
 
 const style = {
   position: 'absolute',
@@ -39,6 +40,8 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
   const [duration, setDuration] = useState('')
   const [mountains, setMountains] = useState([])
   const [mountainSelection, setMountainSelection] = useState([])
+
+  const displayAlert = useAlert()
 
   const onModalClose = () => {
     onClose()
@@ -91,15 +94,12 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
       active: true,
     }
 
-    try {
-      if (eventToEdit) {
-        await onEdit(eventToEdit.id, eventData)
-      } else {
-        await onAdd(eventData)
-      }
-    } catch (error) {
-      console.error('Error saving event:', error)
+    if (eventToEdit) {
+      await onEdit(eventToEdit.id, eventData)
+    } else {
+      await onAdd(eventData)
     }
+
     onModalClose()
   }
 
