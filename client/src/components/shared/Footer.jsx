@@ -4,7 +4,7 @@ import { Box, Typography } from '@mui/material'
 const Footer = () => {
   return (
     <Box
-      component="footer"
+      component='footer'
       elevation={3}
       sx={{
         position: 'fixed',
@@ -30,17 +30,17 @@ const Footer = () => {
       >
         <Box sx={{ display: 'flex', gap: 1 }}>
           <Typography
-            variant="body2"
-            color="background.paper"
-            align="center"
+            variant='body2'
+            color='background.paper'
+            align='center'
             sx={{ textAlign: { xs: 'center', sm: 'right' } }}
           >
             © {new Date().getFullYear()} Climbing for Change.
           </Typography>
           <Typography
-            variant="body2"
-            color="background.paper"
-            align="center"
+            variant='body2'
+            color='background.paper'
+            align='center'
             sx={{ textAlign: { xs: 'center', sm: 'right' } }}
           >
             All rights reserved.

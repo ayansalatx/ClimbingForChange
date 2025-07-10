@@ -4,11 +4,11 @@ import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material'
 import DownhillSkiingIcon from '@mui/icons-material/DownhillSkiing'
 import EventIcon from '@mui/icons-material/Event'
 import Hiking from '@mui/icons-material/Hiking'
-import PeopleIcon from '@mui/icons-material/People'
 import RfidIcon from '@mui/icons-material/Nfc'
+import PeopleIcon from '@mui/icons-material/People'
 import PlaceIcon from '@mui/icons-material/Place'
 import TerrainIcon from '@mui/icons-material/Terrain'
-import { Box, IconButton, Typography, useMediaQuery } from '@mui/material'
+import { Box, IconButton, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import Carousel from 'react-multi-carousel'
 
@@ -17,7 +17,6 @@ import NavigationCard from '../../components/admin/NavigationCard'
 import EventSummaryTable from '../../components/admin/tables/EventsSummaryTable'
 import { useAlert } from '../../hooks/useAlert'
 import { getUpcomingEventsSummary } from '../../services/eventService'
-import theme from '../../styles/theme'
 
 const CarouselLeftArrow = ({ onClick }) => (
   <IconButton
@@ -41,7 +40,7 @@ const CarouselLeftArrow = ({ onClick }) => (
       },
     }}
   >
-    <ArrowBackIos fontSize="large" />
+    <ArrowBackIos fontSize='large' />
   </IconButton>
 )
 
@@ -67,7 +66,7 @@ const CarouselRightArrow = ({ onClick }) => (
       },
     }}
   >
-    <ArrowForwardIos fontSize="large" />
+    <ArrowForwardIos fontSize='large' />
   </IconButton>
 )
 
@@ -212,11 +211,11 @@ const AdminDashboard = () => {
         }}
       >
         <Typography
-          variant="h1"
-          color="primary.main"
-          fontWeight="bold"
-          textTransform="uppercase"
-          fontStyle="italic"
+          variant='h1'
+          color='primary.main'
+          fontWeight='bold'
+          textTransform='uppercase'
+          fontStyle='italic'
           fontSize={{
             xxs: '2rem',
             sm: '2.25rem',
@@ -231,7 +230,7 @@ const AdminDashboard = () => {
             lg: '2.5rem',
             xl: '3.15rem',
           }}
-          align="left"
+          align='left'
         >
           Progressboard Management
         </Typography>
@@ -246,7 +245,6 @@ const AdminDashboard = () => {
           maxWidth: '2400px',
           flexDirection: 'row',
           px: '1.5rem',
-          display: 'flex',
           alignItems: 'left',
         }}
       >

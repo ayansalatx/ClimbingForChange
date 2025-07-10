@@ -34,7 +34,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
     <React.Fragment>
       <TableRow
         hover
-        role="checkbox"
+        role='checkbox'
         tabIndex={-1}
         sx={{
           height: { sm: '2.95rem', md: '3.15rem', lg: '3.25rem', xl: '3.5rem' },
@@ -175,7 +175,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
         <TableCell sx={{ p: 0 }} colSpan={columns.length + 1}>
           <Collapse
             in={open}
-            timeout="auto"
+            timeout='auto'
             unmountOnExit
             onEntered={handleCollapseEntered}
           >
@@ -198,7 +198,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
                         }}
                       >
                         <IconButton
-                          size="small"
+                          size='small'
                           disableRipple
                           sx={{
                             visibility: 'hidden',

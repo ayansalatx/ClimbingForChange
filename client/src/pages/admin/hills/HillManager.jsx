@@ -141,7 +141,7 @@ const HillManager = () => {
       }}
     >
       <DataTable
-        tableTitle="Hills"
+        tableTitle='Hills'
         tableIcon={HikingIcon}
         tableColumns={fullColumns}
         tableData={hills.map((hill) => ({

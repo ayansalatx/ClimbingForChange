@@ -126,7 +126,7 @@ const ProgressBoardFullscreen = () => {
     >
       {/* https://pixabay.com/videos/search/terrain%20blue%20gray%20mountain/ */}
       <video
-        src="/assets/mountain-with-way-points-full.mp4"
+        src='/assets/mountain-with-way-points-full.mp4'
         autoPlay
         loop
         muted
@@ -171,9 +171,9 @@ const ProgressBoardFullscreen = () => {
             }}
           >
             <Box
-              component="img"
+              component='img'
               src={C4CFavicon}
-              alt="Climbing for Change Logo"
+              alt='Climbing for Change Logo'
               sx={{
                 width: 'auto',
                 maxHeight: {
@@ -204,8 +204,8 @@ const ProgressBoardFullscreen = () => {
               }}
             >
               <Typography
-                variant="h1"
-                color="secondary.main"
+                variant='h1'
+                color='secondary.main'
                 fontWeight={'bold'}
                 textTransform={'uppercase'}
                 sx={{

@@ -1,6 +1,6 @@
+import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 import HikingIcon from '@mui/icons-material/Hiking'
 import WifiIcon from '@mui/icons-material/Wifi'
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { Box, Button, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 

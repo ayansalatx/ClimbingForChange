@@ -4,10 +4,10 @@ import theme from '../../../styles/theme'
 
 const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
   return (
-    <FormControl fullWidth sx={{ m: 0 }} size="small">
+    <FormControl fullWidth sx={{ m: 0 }} size='small'>
       <Select
-        variant="filled"
-        id="event-select"
+        variant='filled'
+        id='event-select'
         value={selectedEvent ?? ''}
         onChange={(e) => setSelectedEvent(e.target.value)}
         displayEmpty
@@ -37,7 +37,7 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
         }}
       >
         <MenuItem
-          value=""
+          value=''
           disabled
           sx={{
             minHeight: { xxs: 'unset' },

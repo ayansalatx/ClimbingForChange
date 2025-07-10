@@ -60,7 +60,7 @@ const LocationModal = ({ open, onClose, onSave, locationData }) => {
     <Modal open={open} onClose={onClose}>
       <Box sx={style}>
         <Typography
-          variant="h5"
+          variant='h5'
           mb={2}
           sx={{ textTransform: 'uppercase', color: 'primary.main' }}
         >
@@ -98,10 +98,10 @@ const LocationModal = ({ open, onClose, onSave, locationData }) => {
             onChange={(e) => setCountry(e.target.value)}
             required={true}
           />
-          <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
+          <Box mt={3} display='flex' justifyContent='space-between' gap={2}>
             <CancelButton onClick={onClose} color={'red'} />
             <SaveButton
-              type="submit"
+              type='submit'
               label={locationData ? 'Save' : 'Create'}
             />
           </Box>
