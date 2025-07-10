@@ -30,14 +30,14 @@ before(async () => {
 
 beforeEach(async () => {
   await Promise.all([
-    Location.deleteMany({}),
-    Hill.deleteMany({}),
-    Mountain.deleteMany({}),
-    RFIDTag.deleteMany({}),
-    Event.deleteMany({}),
-    Team.deleteMany({}),
-    Participant.deleteMany({}),
-    Lap.deleteMany({}),
+    Location.collection.drop(),
+    Hill.collection.drop(),
+    Mountain.collection.drop(),
+    RFIDTag.collection.drop(),
+    Event.collection.drop(),
+    Team.collection.drop(),
+    Participant.collection.drop(),
+    Lap.collection.drop(),
   ])
 
   // 1. Create all independent/prerequisite documents first
