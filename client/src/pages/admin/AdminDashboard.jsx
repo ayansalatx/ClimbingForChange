@@ -41,7 +41,7 @@ const CarouselLeftArrow = ({ onClick }) => (
       },
     }}
   >
-    <ArrowBackIos fontSize='large' />
+    <ArrowBackIos fontSize="large" />
   </IconButton>
 )
 
@@ -67,7 +67,7 @@ const CarouselRightArrow = ({ onClick }) => (
       },
     }}
   >
-    <ArrowForwardIos fontSize='large' />
+    <ArrowForwardIos fontSize="large" />
   </IconButton>
 )
 
@@ -95,9 +95,8 @@ const responsive = {
 }
 
 const AdminDashboard = () => {
-  const isLg = useMediaQuery(theme.breakpoints.up('xl'))
   const [events, setEvents] = useState()
-
+  const [loading, setLoading] = useState(true)
   const displayAlert = useAlert()
 
   useEffect(() => {
@@ -116,6 +115,8 @@ const AdminDashboard = () => {
           `Failed to Load Locations: ${error.message}`,
           'error'
         )
+      }finally {
+        setLoading(false)
       }
     }
 
@@ -194,8 +195,8 @@ const AdminDashboard = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        py: {xs: 2.25, md: 3.5, lg: 3.5, xl: 4},
-        gap: {xxs: 1.5, md: 3, lg: 3, xl: 4},
+        py: { xs: 2.25, md: 2.5, lg: 2.5, xl: 2.5 },
+        gap: 1,
         overflowY: 'auto',
       }}
     >
@@ -211,20 +212,31 @@ const AdminDashboard = () => {
         }}
       >
         <Typography
-          variant='h1'
-          color='primary.main'
-          fontWeight='bold'
-          textTransform='uppercase'
-          fontStyle='italic'
-          fontSize={{ xxs: '2rem', sm: '2.25rem', md: '2.35rem', lg: '2.5rem', xl: '3.15rem' }}
-          lineHeight={{ xxs: '2rem', sm: '2.25rem', md: '2.35rem', lg: '2.5rem', xl: '3.15rem' }}
-          align='left'
-
+          variant="h1"
+          color="primary.main"
+          fontWeight="bold"
+          textTransform="uppercase"
+          fontStyle="italic"
+          fontSize={{
+            xxs: '2rem',
+            sm: '2.25rem',
+            md: '2.35rem',
+            lg: '2.5rem',
+            xl: '3.15rem',
+          }}
+          lineHeight={{
+            xxs: '2rem',
+            sm: '2.25rem',
+            md: '2.35rem',
+            lg: '2.5rem',
+            xl: '3.15rem',
+          }}
+          align="left"
         >
           Progressboard Management
         </Typography>
 
-        <ProgressBoardButton liveEventExists={liveEventExists}/>
+        <ProgressBoardButton liveEventExists={liveEventExists} />
       </Box>
 
       <Box
@@ -238,7 +250,7 @@ const AdminDashboard = () => {
           alignItems: 'left',
         }}
       >
-        <EventSummaryTable events={events} />
+        <EventSummaryTable events={events} loading={loading} />
       </Box>
 
       <Box
