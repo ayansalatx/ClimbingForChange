@@ -74,7 +74,6 @@ const ParticipantUpload = () => {
           event.target.value = ''
         },
         error: (err) => {
-          console.error(err)
           displayAlert('Loading Error', `Error while loading file ${err.message}.`, 'error')
         },
       })
