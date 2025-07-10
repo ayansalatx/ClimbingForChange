@@ -151,6 +151,12 @@ const DataTable = ({
               px: 1,
               bgcolor: 'info.light',
               borderRadius: '3px',
+              fontSize: {
+                xxs: '0.9rem',
+                xs: '0.9rem',
+                sm: '0.9rem',
+                md: '1.1rem',
+              },
             }}
           >
             <Typography
@@ -237,7 +243,9 @@ const DataTable = ({
                   align="center"
                   sx={{ border: 'none' }}
                 >
-                  <Typography variant="h5" color="primary.main">No {tableTitle.toLowerCase()} to display</Typography>
+                  <Typography variant="h5" color="primary.main">
+                    No {tableTitle.toLowerCase()} to display
+                  </Typography>
                 </TableCell>
               </TableRow>
             </TableBody>

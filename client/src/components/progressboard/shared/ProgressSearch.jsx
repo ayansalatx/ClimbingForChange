@@ -96,6 +96,7 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
                 fontSize: {
                   xxs: '.75rem',
                   sm: '0.85rem',
+                  md: '0.95rem',
                   xl: '1rem',
                 },
               },
@@ -113,7 +114,7 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
                   xl: '1.05rem',
                 },
                 mb: { xxs: '2px', sm: 0 },
-                my: { sm: '1.7px', md: '1.7px' },
+                my: { sm: '1.7px', md: '2.75px', lg: '1.7px' },
               },
               '& .MuiOutlinedInput-notchedOutline': {
                 border: 'none',
