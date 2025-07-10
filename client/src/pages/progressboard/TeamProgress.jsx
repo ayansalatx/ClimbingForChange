@@ -1,47 +1,19 @@
-import { alpha, Box, Typography, useMediaQuery } from '@mui/material'
+import {
+  alpha,
+  Box,
+  Typography,
+  useMediaQuery,
+  CircularProgress,
+} from '@mui/material'
 import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import C4CHorizontalBlueLogo from '../../assets/C4C-branding/Climbing-For-Change-Horizontal_Green.png'
-import ProgressList from '../../components/progressboard/cards/ProgressCardList'
-import ProgressTable from '../../components/progressboard/tables/regular/ProgressTable'
-import { getAllEvents, getDisplayEventTeams } from '../../services/eventService'
+import { getTeamForDisplay } from '../../services/teamService'
 import theme from '../../styles/theme'
 
-// Define columns for full width screen
-const lgColumns = [
-  { id: 'name', label: 'Team', width: '25%' },
-  { id: 'mountainName', label: 'Mountain', width: '12%' },
-  { id: 'totalElevation', label: 'Total Elevation', width: '12%' },
-  { id: 'currentElevation', label: 'Current Elevation', width: '12%' },
-  { id: 'lapsRequired', label: 'Total Laps', width: '7%' },
-  { id: 'lapsCompleted', label: 'Laps', width: '7%' },
-  { id: 'lapsToGo', label: 'Laps To Go', width: '8%' },
-  { id: 'bestLap', label: 'Best Lap', width: '7%' },
-  { id: 'timeElapsed', label: 'Time Elapsed', width: '10%' },
-]
-
-const mdColumns = [
-  { id: 'name', label: 'Team', width: '30%' },
-  { id: 'mountainName', label: 'Mountain', width: '15%' },
-  { id: 'elevation', label: 'Elevation', width: '20%' },
-  { id: 'laps', label: 'Laps', width: '20%' },
-  { id: 'lapsToGo', label: 'Laps To Go', width: '7%' },
-  { id: 'bestLap', label: 'Best Lap', width: '8%' },
-  { id: 'timeElapsed', label: 'Time Elapsed', width: '10%' },
-]
-
-const smColumns = [
-  { id: 'name', label: 'Team', width: '28%' },
-  { id: 'mountainName', label: 'Mount.', width: '13%' },
-  { id: 'elevation', label: 'Elev.', width: '15%' },
-  { id: 'laps', label: 'Laps', width: '13%' },
-  { id: 'lapsToGo', label: 'To Go', width: '7%' },
-  { id: 'bestLap', label: 'Best Lap', width: '9%' },
-  { id: 'timeElapsed', label: 'Time', width: '27%' },
-]
-
-const TeamProgress = ({team}) => {
+const TeamProgress = () => {
   // Get media queries to render appropriate content
   const isXLarge = useMediaQuery(theme.breakpoints.up('xl'))
   const isLarge = useMediaQuery(theme.breakpoints.up('lg'))
@@ -49,84 +21,26 @@ const TeamProgress = ({team}) => {
   const isSmall = useMediaQuery(theme.breakpoints.up('sm'))
   const isXSmall = useMediaQuery(theme.breakpoints.down('sm'))
 
+  const [team, setTeam] = useState()
   const [loading, setLoading] = useState(true)
+
+  const { teamId } = useParams()
 
   // Load Participant data from server
   useEffect(() => {
     async function loadData() {
       try {
-        const eventList = await getAllEvents()
-        setEvents(eventList)
+        const teamForDisplay = await getTeamForDisplay(teamId)
+        setTeam(teamForDisplay)
       } catch (e) {
         console.log('Failed to load progress data', e)
-      }
-    }
-
-    loadData()
-  }, [])
-
-  // Set default event as the event that is ongoing or upcoming
-  useEffect(() => {
-    if (events.length > 0 && !selectedEvent) {
-      const now = new Date()
-
-      const sorted = [...events].sort(
-        (a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)
-      )
-
-      const currentOrUpcoming = sorted.find((ev) => {
-        const start = new Date(ev.startDateTime)
-        const end = new Date(ev.endDateTime)
-        return (now >= start && now <= end) || now < start
-      })
-
-      if (currentOrUpcoming) {
-        setSelectedEvent(currentOrUpcoming.id)
-      }
-    }
-  }, [events, selectedEvent])
-
-  useEffect(() => {}, [selectedEvent])
-
-  useEffect(() => {
-    const loadTeamsForEvent = async () => {
-      if (!selectedEvent) return
-      try {
-        const teamsForEvent = await getDisplayEventTeams(selectedEvent)
-
-        setTeamsLength(teamsForEvent.length)
-        setTeams(teamsForEvent)
-      } catch (e) {
-        console.log('Failed to load event teams', e)
       } finally {
         setLoading(false)
       }
     }
 
-    loadTeamsForEvent()
-  }, [selectedEvent])
-
-  useEffect(() => {
-    if (!searchString) {
-      setFilteredTeams(teams)
-      return
-    }
-    const filteredTeams = teams.filter((team) => {
-      const search = searchString.toLowerCase()
-
-      const teamMatch = team.name.toLowerCase().includes(search)
-
-      const participantMatch = team.participants.some((participant) => {
-        return (
-          participant.firstName.toLowerCase().includes(search) ||
-          participant.lastName.toLowerCase().includes(search)
-        )
-      })
-
-      return teamMatch || participantMatch
-    })
-    setFilteredTeams(filteredTeams)
-  }, [searchString, teams])
+    loadData()
+  }, [])
 
   return (
     <Box
@@ -244,39 +158,159 @@ const TeamProgress = ({team}) => {
                     md: 0,
                   },
                 }}
+              ></Box>
+            )}
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              height: '100%',
+              flexGrow: 1,
+              backgroundColor: alpha(theme.palette.primary.main, 0.75),
+              borderRadius: '4px',
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                height: '100%',
+                height: '100%',
+                flexGrow: 1,
+                flexDirection: 'column',
+                p: 2,
+                gap: 2,
+                borderRadius: '4px',
+              }}
+            >
+              <Box
+                sx={{
+                  width: '50%',
+                  height: '100%',
+                  borderRadius: '3px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start',
+                  backgroundColor: 'gray.light',
+                }}
               >
                 <Typography
                   variant='h1'
-                  color='secondary.main'
+                  color='primary.light'
                   fontWeight='bold'
                   textTransform='uppercase'
                   letterSpacing='.05rem'
                   sx={{
                     fontStyle: 'italic',
-                    mr: {
-                      xxs: 0,
-                      xs: 2,
-                      sm: 17,
-                      md: 26,
-                      lg: 32,
-                      xl: 34,
-                    },
                     fontSize: {
                       xxs: '1.8rem',
                       xs: '2.2rem',
                       sm: '2.1rem',
-                      md: '3.25rem',
-                      lg: '4rem',
-                      xl: '4.5rem',
+                      md: '3rem',
+                      lg: '3.5rem',
+                      xl: '4rem',
                     },
-                    lineHeight: 1.1,
-                    textAlign: 'center',
+                    textAlign: 'left',
                   }}
                 >
-                  Climb Progress
+                  {team?.name}
                 </Typography>
+                {team?.participants.map((participant, index) => (
+                  <Box sx={{ width: '100%' }}>
+                    <Typography sx={{ color: 'primary.main' }}>
+                      {participant.firstName} {participant.lastName}
+                    </Typography>
+                  </Box>
+                ))}
               </Box>
-            )}
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                height: '100%',
+                flexDirection: 'column',
+                height: '100%',
+                p: 2,
+                gap: 2,
+                borderRadius: '3px',
+              }}
+            >
+              <Box
+                sx={{
+                  width: '9rem',
+                  height: '9rem',
+                  borderRadius: '3px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: 'gray.light',
+                }}
+              >
+                <Typography sx={{ color: 'primary.main' }}>Laps</Typography>
+              </Box>
+
+              <Box
+                sx={{
+                  width: '9rem',
+                  height: '9rem',
+                  position: 'relative',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: 'background.paper',
+                  borderRadius: '3px',
+                }}
+              >
+                <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+                  <CircularProgress
+                    variant='determinate'
+                    value={100}
+                    sx={{
+                      color: 'gray.light',
+                      filter: 'drop-shadow(0 0 1px rgba(0, 0, 0, 0.3))',
+                    }}
+                    size={120}
+                    thickness={5}
+                  />
+                  <CircularProgress
+                    variant='determinate'
+                    value={50}
+                    sx={{
+                      color: 'primary.main',
+                      filter: 'drop-shadow(0 0 3px rgba(0, 0, 0, 0.3))',
+                      position: 'absolute',
+                      left: 0,
+                      '& .MuiCircularProgress-circle': {
+                        strokeLinecap: 'round',
+                      },
+                    }}
+                    size={120}
+                    thickness={5}
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    top: 0,
+                    left: 0,
+                    bottom: 0,
+                    right: 0,
+                    position: 'absolute',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'column',
+                  }}
+                >
+                  <Typography
+                    variant='subtitle2'
+                    sx={{ color: 'primary.main' }}
+                  >
+                    17,954 ft
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
           </Box>
         </Box>
       </Box>

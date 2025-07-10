@@ -10,11 +10,13 @@ import {
   TableCell,
   TableRow,
 } from '@mui/material'
-import React, { useEffect,useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import theme from '../../../../styles/theme'
 
 const CollapsibleRow = ({ team, index, columns, participants }) => {
+  const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const expandRef = useRef(null)
   const isEven = index % 2 === 0
@@ -34,9 +36,10 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
     <React.Fragment>
       <TableRow
         hover
-        role='checkbox'
+        role="checkbox"
         tabIndex={-1}
         sx={{
+          cursor: 'pointer',
           height: { sm: '2.95rem', md: '3.15rem', lg: '3.25rem', xl: '3.5rem' },
           p: 0,
           border: 'none',
@@ -147,6 +150,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
 
           return (
             <TableCell
+              onClick={() => navigate(`team/${team?._id}`)}
               sx={{
                 border: 'none',
                 padding: '0',
@@ -175,7 +179,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
         <TableCell sx={{ p: 0 }} colSpan={columns.length + 1}>
           <Collapse
             in={open}
-            timeout='auto'
+            timeout="auto"
             unmountOnExit
             onEntered={handleCollapseEntered}
           >
@@ -198,7 +202,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
                         }}
                       >
                         <IconButton
-                          size='small'
+                          size="small"
                           disableRipple
                           sx={{
                             visibility: 'hidden',

@@ -60,7 +60,7 @@ export const getTeamsForDisplay = async () => {
   return teamsForDisplay
 }
 
-export const getTeamForDisplay = async () => {
+export const getTeamForDisplay = async (id) => {
   const res = await api.get(`/teams/${id}`)
   const team = res.data
   // Get laps for each participant
