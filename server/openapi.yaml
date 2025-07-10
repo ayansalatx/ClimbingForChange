@@ -7,7 +7,36 @@ info:
 servers:
   - url: /api # Base path for all API endpoints
 
+security:
+  - bearerAuth: []
+
 paths:
+  /auth:
+    post:
+      tags:
+        - Authentication
+      summary: Authenticate user and get JWT token
+      operationId: loginUser
+      security: [] # No authentication required for login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Authentication successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /locations:
     get:
       tags:
@@ -23,6 +52,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Location'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
     post:
       tags:
         - Locations
@@ -47,6 +82,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidationErrorResponse'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
   /locations/{id}:
     get:
@@ -68,6 +109,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Location'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Location not found.
           content:
@@ -99,6 +146,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Location'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Location not found.
           content:
@@ -120,6 +173,12 @@ paths:
       responses:
         '204':
           description: Location deleted successfully. No content returned.
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Location not found.
           content:
@@ -142,6 +201,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/HillPopulated'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
     post:
       tags:
         - Hills
@@ -166,6 +231,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidationErrorResponse'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
   /hills/{id}:
     get:
@@ -187,6 +258,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HillPopulated'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Hill not found.
           content:
@@ -218,6 +295,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Hill'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Hill not found.
           content:
@@ -239,6 +322,12 @@ paths:
       responses:
         '204':
           description: Hill deleted successfully. No content returned.
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Hill not found.
           content:
@@ -261,6 +350,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mountain'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
     post:
       tags:
         - Mountains
@@ -285,6 +380,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidationErrorResponse'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
   /mountains/{id}:
     get:
@@ -306,6 +407,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Mountain'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Mountain not found.
           content:
@@ -337,6 +444,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Mountain'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Mountain not found.
           content:
@@ -358,6 +471,12 @@ paths:
       responses:
         '204':
           description: Mountain deleted successfully. No content returned.
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Mountain not found.
           content:
@@ -380,6 +499,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/RFIDTag'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
     post:
       tags:
         - RFIDTags
@@ -400,6 +525,12 @@ paths:
                 $ref: '#/components/schemas/RFIDTag'
         '400':
           description: Bad request (e.g., validation errors, duplicate serial number).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized - Invalid or missing token.
           content:
             application/json:
               schema:
@@ -425,6 +556,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RFIDTag'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: RFID tag not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /rfidtags/serial/{serialNumber}:
+    get:
+      tags:
+        - RFIDTags
+      summary: Get an RFID tag by its serial number
+      operationId: getRfidTagBySerialNumber
+      parameters:
+        - name: serialNumber
+          in: path
+          required: true
+          schema:
+            type: string
+            description: The serial number of the RFID tag to retrieve.
+      responses:
+        '200':
+          description: The requested RFID tag.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFIDTag'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: RFID tag not found.
           content:
@@ -456,6 +626,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RFIDTag'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: RFID tag not found.
           content:
@@ -477,6 +653,12 @@ paths:
       responses:
         '204':
           description: RFID tag deleted successfully. No content returned.
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: RFID tag not found.
           content:
@@ -499,6 +681,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/EventPopulated'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
     post:
       tags:
         - Events
@@ -523,6 +711,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidationErrorResponse'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
   /events/{id}:
     get:
@@ -544,6 +738,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EventPopulated'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Event not found.
           content:
@@ -575,6 +775,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Event'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Event not found.
           content:
@@ -596,6 +802,12 @@ paths:
       responses:
         '204':
           description: Event deleted successfully. No content returned.
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Event not found.
           content:
@@ -618,6 +830,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TeamPopulated'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
     post:
       tags:
         - Teams
@@ -642,6 +860,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidationErrorResponse'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
   /teams/{id}:
     get:
@@ -663,6 +887,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TeamPopulated'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Team not found.
           content:
@@ -694,6 +924,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Team'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Team not found.
           content:
@@ -715,6 +951,12 @@ paths:
       responses:
         '204':
           description: Team deleted successfully. No content returned.
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Team not found.
           content:
@@ -737,6 +979,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ParticipantPopulated'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
     post:
       tags:
         - Participants
@@ -761,6 +1009,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidationErrorResponse'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /participants/upload:
+    post:
+      tags:
+        - Participants
+      summary: Upload multiple participants
+      operationId: uploadParticipants
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ParticipantRequest'
+      responses:
+        '200':
+          description: Participants uploaded successfully.
+        '400':
+          description: Bad request (e.g., invalid data format).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
   /participants/{id}:
     get:
@@ -782,6 +1066,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ParticipantPopulated'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Participant not found.
           content:
@@ -813,6 +1103,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Participant'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Participant not found.
           content:
@@ -834,6 +1130,12 @@ paths:
       responses:
         '204':
           description: Participant deleted successfully. No content returned.
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Participant not found.
           content:
@@ -856,6 +1158,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/LapPopulated'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
     post:
       tags:
         - Laps
@@ -880,8 +1188,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidationErrorResponse'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token for authentication
+
   schemas:
     # --- Base Entities (as stored/returned when not populated) ---
     Location:
@@ -915,7 +1236,6 @@ components:
         name: { type: string }
         totalElevation: { type: number, format: float }
         elevationUnit: { type: string, enum: ['FT', 'M'] }
-        imageURL: { type: string, format: uri, nullable: true }
       required: [name, totalElevation]
 
     RFIDTag:
@@ -950,7 +1270,7 @@ components:
         event: { type: string, description: ID of the event the team participates in. }
         hill: { type: string, description: ID of the hill the team is climbing. }
         mountain: { type: string, description: ID of the virtual mountain the team chose. }
-        rfidTagId: { type: string, nullable: true, description: ID of the RFID tag assigned to this team. }
+        rfidTag: { type: string, nullable: true, description: ID of the RFID tag assigned to this team. }
         isSoloTeam: { type: boolean }
         lapsRequired: { type: number }
         totalDistanceRequired: { type: number }
@@ -963,7 +1283,7 @@ components:
         id: { type: string, description: Unique identifier for the participant. }
         firstName: { type: string }
         lastName: { type: string }
-        teamId: { type: string, nullable: true, description: ID of the team the participant belongs to (can be null for a free agent). }
+        team: { type: string, nullable: true, description: ID of the team the participant belongs to (can be null for a free agent). }
         active: { type: boolean }
       required: [firstName, lastName]
 
@@ -971,11 +1291,11 @@ components:
       type: object
       properties:
         id: { type: string, description: Unique identifier for the lap record. }
-        teamId: { type: string, description: ID of the team that completed the lap. }
-        rfidTagId: { type: string, description: ID of the RFID tag that recorded the lap. }
+        team: { type: string, description: ID of the team that completed the lap. }
+        rfidTag: { type: string, description: ID of the RFID tag that recorded the lap. }
         startDateTime: { type: string, format: date-time }
         endDateTime: { type: string, format: date-time }
-      required: [teamId, rfidTagId, startDateTime, endDateTime]
+      required: [team, rfidTag, startDateTime, endDateTime]
 
     # --- Populated Response Schemas ---
     EventPopulated:
@@ -1001,15 +1321,15 @@ components:
         - $ref: '#/components/schemas/Participant'
         - type: object
           properties:
-            teamId: { $ref: '#/components/schemas/Team' }
+            team: { $ref: '#/components/schemas/Team' }
 
     LapPopulated:
       allOf:
         - $ref: '#/components/schemas/Lap'
         - type: object
           properties:
-            teamId: { $ref: '#/components/schemas/Team' }
-            rfidTagId: { $ref: '#/components/schemas/RFIDTag' }
+            team: { $ref: '#/components/schemas/Team' }
+            rfidTag: { $ref: '#/components/schemas/RFIDTag' }
 
     HillPopulated:
       allOf:
@@ -1046,7 +1366,6 @@ components:
         name: { type: string }
         totalElevation: { type: number }
         elevationUnit: { type: string, enum: ['FT', 'M'] }
-        imageURL: { type: string, format: uri, nullable: true }
       required: [name, totalElevation]
 
     RFIDTagRequest:
@@ -1073,7 +1392,7 @@ components:
         event: { type: string, description: MongoDB ObjectId of the event. }
         hill: { type: string, description: MongoDB ObjectId of the hill. }
         mountain: { type: string, description: MongoDB ObjectId of the mountain. }
-        rfidTagId: { type: string, nullable: true, description: MongoDB ObjectId of the RFID tag. }
+        rfidTag: { type: string, nullable: true, description: MongoDB ObjectId of the RFID tag. }
         isSoloTeam: { type: boolean, default: false }
         lapsRequired: { type: number, minimum: 1 }
         totalDistanceRequired: { type: number, minimum: 0 }
@@ -1085,17 +1404,33 @@ components:
       properties:
         firstName: { type: string }
         lastName: { type: string }
-        teamId: { type: string, nullable: true, description: MongoDB ObjectId of the team. }
+        team: { type: string, nullable: true, description: MongoDB ObjectId of the team. }
       required: [firstName, lastName]
 
     LapRequest:
       type: object
       properties:
-        teamId: { type: string, description: MongoDB ObjectId of the team. }
-        rfidTagId: { type: string, description: MongoDB ObjectId of the RFID tag. }
+        team: { type: string, description: MongoDB ObjectId of the team. }
+        rfidTag: { type: string, description: MongoDB ObjectId of the RFID tag. }
         startDateTime: { type: string, format: date-time }
         endDateTime: { type: string, format: date-time }
-      required: [teamId, rfidTagId, startDateTime, endDateTime]
+      required: [team, rfidTag, startDateTime, endDateTime]
+
+    # --- Authentication Schemas ---
+    LoginRequest:
+      type: object
+      properties:
+        username: { type: string, description: User's username }
+        password: { type: string, description: User's password }
+      required: [username, password]
+
+    AuthResponse:
+      type: object
+      properties:
+        id: { type: string, description: User's unique identifier }
+        username: { type: string, description: User's username }
+        token: { type: string, description: JWT authentication token }
+      required: [id, username, token]
 
     # --- Error Responses ---
     ErrorResponse:
