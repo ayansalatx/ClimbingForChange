@@ -4,7 +4,6 @@ import {
   alpha,
   Box,
   Collapse,
-  colors,
   IconButton,
   Table,
   TableBody,
@@ -36,14 +35,13 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
         sx={{
           height: { sm: '2.95rem', md: '3.15rem', lg: '3.25rem', xl: '3.5rem' },
           p: 0,
-          backgroundColor: isEven
-            ? alpha(theme.palette.background.paper, 0.3)
-            : alpha(theme.palette.background.paper, 0.2),
-          '&:focus': {
-            backgroundColor: isEven
+          border: 'none',
+          backgroundColor: open
+            ? alpha(theme.palette.secondary.light, 0.5)
+            : isEven
               ? alpha(theme.palette.background.paper, 0.3)
               : alpha(theme.palette.background.paper, 0.2),
-          },
+
           '&:hover > *': {
             backgroundColor: alpha(theme.palette.secondary.light, 0.9),
           },
@@ -226,13 +224,15 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
                           border: 'none',
                           textAlign: 'left',
                           fontSize: {
-                            sm: '.8rem',
-                            md: '.9rem',
-                            lg: '1rem',
-                            xl: '1.1rem',
+                            sm: '.9rem',
+                            md: '1.1rem',
+                            lg: '1.2rem',
+                            xl: '1.3rem',
                           },
                           textTransform: 'uppercase',
-                          color: 'primary.main',
+                          fontWeight: 'bold',
+                          letterSpacing: '0.015rem',
+                          color: 'primary.light',
                         }}
                       >
                         {participant.firstName} {participant.lastName}

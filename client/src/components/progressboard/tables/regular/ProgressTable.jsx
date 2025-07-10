@@ -106,7 +106,7 @@ const ProgressTable = ({
           height: '100%',
           overflowX: 'hidden',
           scrollbarWidth: 'thin',
-          backgroundColor: alpha(theme.palette.background.paper, 0.3),
+          backgroundColor: alpha(theme.palette.background.paper, 0.2),
           scrollbarColor: `${alpha(theme.palette.background.paper, 0.7)} ${alpha(theme.palette.primary.main, 0.3)}`,
         }}
       >
@@ -122,16 +122,24 @@ const ProgressTable = ({
               <TableRow>
                 <TableCell
                   colSpan={columns.length + 1}
-                  align='center'
+                  align="center"
                   sx={{ border: 'none' }}
                 >
-                  <CircularProgress color='primary' />
+                  <CircularProgress color="primary" />
                 </TableCell>
               </TableRow>
             </TableBody>
           </Table>
         ) : teamsLength > 0 ? (
-          <Table stickyHeader aria-label='team/participant progress table'>
+          <Table
+            stickyHeader
+            aria-label="team/participant progress table"
+            sx={{
+              '& td, & th': {
+                border: 'none',
+              },
+            }}
+          >
             <TableHeaderRow columns={columns} />
             <TableDataRows
               columns={columns}
@@ -152,7 +160,7 @@ const ProgressTable = ({
               <TableRow>
                 <TableCell
                   colSpan={columns.length + 1}
-                  align='center'
+                  align="center"
                   sx={{ border: 'none' }}
                 >
                   <HikingIcon
@@ -161,13 +169,13 @@ const ProgressTable = ({
                       color: 'secondary.main',
                     }}
                   />
-                  <Typography fontSize='2rem' color='background.paper'>
+                  <Typography fontSize="2rem" color="background.paper">
                     No teams climbing yet...
                   </Typography>
                   <Typography
-                    fontSize='1.4rem'
-                    lineHeight='1.5rem'
-                    color='background.paper'
+                    fontSize="1.4rem"
+                    lineHeight="1.5rem"
+                    color="background.paper"
                   >
                     Check back later!
                   </Typography>
@@ -191,7 +199,7 @@ const ProgressTable = ({
         {!isSmall && (
           <TablePagination
             rowsPerPageOptions={rowsPerPageOptions}
-            component='div'
+            component="div"
             count={teams.length}
             rowsPerPage={rowsPerPage}
             page={page}
