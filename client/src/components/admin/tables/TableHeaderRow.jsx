@@ -2,7 +2,7 @@ import { TableCell, TableHead, TableRow } from '@mui/material'
 
 import AddButton from '../buttons/AddButton'
 
-const TableHeaderRow = ({ columns, onAddClick }) => {
+const TableHeaderRow = ({ columns, onAddClick, disabled }) => {
   return (
     <TableHead>
       <TableRow>
@@ -26,7 +26,7 @@ const TableHeaderRow = ({ columns, onAddClick }) => {
         <TableCell
           sx={{ bgcolor: 'info.main', padding: 0, px: 2, textAlign: 'center' }}
         >
-          <AddButton onAddClick={onAddClick} />
+          <AddButton onAddClick={onAddClick} disabled={disabled} />
         </TableCell>
       </TableRow>
     </TableHead>

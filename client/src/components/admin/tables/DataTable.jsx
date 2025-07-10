@@ -81,6 +81,8 @@ const DataTable = ({
     setPage(0)
   }
 
+  const disableAdd = tableTitle === 'Participants' && !selectedEvent;
+
   return (
     <Paper
       elevation={3}
@@ -225,7 +227,7 @@ const DataTable = ({
           </Table>
         ) : (
           <Table height="100%" stickyHeader>
-            <TableHeaderRow columns={tableColumns} onAddClick={onAddClick} />
+            <TableHeaderRow columns={tableColumns} onAddClick={onAddClick}  disabled={disableAdd} />
             <TableBody
               sx={{
                 backgroundColor: 'background.paper',
