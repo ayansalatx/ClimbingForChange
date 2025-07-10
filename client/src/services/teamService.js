@@ -60,6 +60,55 @@ export const getTeamsForDisplay = async () => {
   return teamsForDisplay
 }
 
+export const getTeamForDisplay = async () => {
+  const res = await api.get(`/teams/${id}`)
+  const team = res.data
+  // Get laps for each participant
+  const laps = team.participants?.flatMap((p) => p.laps || []) || []
+
+  // Get best lap
+  const teamBestLap = getBestLapTime(laps)
+
+  // Get time elapsed
+  const teamTimeElapsed = getTimeElapsed(laps)
+
+  const teamForDisplay = {
+    ...team,
+    mountainName: team.mountain?.name,
+    elevation: team.mountain?.totalElevation,
+    currentElevation: laps.length
+      ? laps.length * team.hill?.lapElevationGain
+      : '-',
+    lapsCompleted: laps.length ? laps.length : '-',
+    lapsToGo: Math.max((team.lapsRequired || 0) - laps.length, 0),
+    bestLap: laps.length ? formatTime(teamBestLap) : null,
+    timeElapsed: laps.length ? formatTime(teamTimeElapsed) : '00:00:00',
+    participants: team.participants?.map((participant) => {
+      const participantLaps = participant.laps || []
+
+      const participantBestLap = getBestLapTime(participantLaps)
+      const participantTimeElapsed = getTimeElapsed(participantLaps)
+
+      return {
+        ...participant,
+        currentElevation: participantLaps.length * team.hill?.lapElevationGain,
+        lapsCompleted: participantLaps.length,
+        lapsRequired: team.lapsRequired,
+        lapsToGo: Math.max(
+          (team.lapsRequired || '-') - participantLaps.length,
+          '-'
+        ),
+        bestLap: participantBestLap ? formatTime(participantBestLap) : null,
+        timeElapsed: participantTimeElapsed
+          ? formatTime(participantTimeElapsed)
+          : '00:00:00',
+      }
+    }),
+  }
+
+  return teamForDisplay
+}
+
 // Returns the lap with shortest duration, or null if no laps
 export function getBestLapTime(laps) {
   if (!laps.length) return null
@@ -93,7 +142,6 @@ function formatTime(durationMs) {
   return `${String(hours).padStart(2, '00')}:${String(minutes).padStart(2, '00')}:${String(seconds).padStart(2, '00')}`
 }
 
-
 // Add
 export const addTeam = async (data) => {
   console.log('Adding new team with data:', data)
@@ -106,7 +154,7 @@ export const addTeam = async (data) => {
   }
 }
 
-// Edit 
+// Edit
 export const editTeam = async (id, data) => {
   try {
     const response = await api.put(`/teams/${id}`, data)
