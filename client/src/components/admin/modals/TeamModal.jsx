@@ -5,6 +5,10 @@ import { getAllEvents } from '../../../services/eventService'
 import { getAllHills } from '../../../services/hillService'
 import { getAllMountains } from '../../../services/mountainService'
 
+import CancelButton from '../buttons/CancelButton'
+import SaveButton from '../buttons/SaveButton'
+import TextInput from '../forms/fields/TextInput'
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -233,12 +237,8 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
           />
 
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
-            <Button variant="outlined" onClick={onModalClose}>
-              Cancel
-            </Button>
-            <Button type="submit" variant="contained">
-              {teamToEdit ? 'Save' : 'Create'}
-            </Button>
+             <CancelButton onClick={onModalClose} color="red" />
+            <SaveButton type="submit" label={teamToEdit ? 'Save' : 'Create'} />
           </Box>
         </form>
       </Box>
