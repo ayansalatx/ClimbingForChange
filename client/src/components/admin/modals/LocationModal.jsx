@@ -93,22 +93,22 @@ const LocationModal = ({ open, onClose, onSave, locationData }) => {
           <TextInput
             label={'City'}
             value={city}
-          onChange={handleLettersOnlyChange(setCity)}
+            onChange={handleLettersOnlyChange(setCity)}
             required={true}
           />
           <Box display="flex" gap={2}>
-          <TextInput
-            label={'Province/State'}
-            value={provState}
-            onChange={handleProvStateChange}
-            required={true}
-          />
-          <TextInput
-            label={'Country'}
-            value={country}
-            onChange={handleLettersOnlyChange(setCountry)}
-            required={true}
-          />
+            <TextInput
+              label={'Province/State'}
+              value={provState}
+              onChange={handleProvStateChange}
+              required={true}
+            />
+            <TextInput
+              label={'Country'}
+              value={country}
+              onChange={handleLettersOnlyChange(setCountry)}
+              required={true}
+            />
           </Box>
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
             <CancelButton onClick={onClose} color={'red'} />

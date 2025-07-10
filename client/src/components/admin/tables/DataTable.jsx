@@ -81,7 +81,7 @@ const DataTable = ({
     setPage(0)
   }
 
-  const disableAdd = tableTitle === 'Participants' && !selectedEvent;
+  const disableAdd = tableTitle === 'Participants' && !selectedEvent
 
   return (
     <Paper
