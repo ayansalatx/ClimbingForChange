@@ -1,5 +1,3 @@
-
-
 export const errorHandler = (
   error,
   _request,
