@@ -46,7 +46,6 @@ export const updateMountain = async (id, mountainData) => {
     const res = await api.put(`/mountains/${id}`, dataToSend)
     return res.data
   } catch (error) {
-    console.error('Error updating mountain:', error)
     throw error
   }
 }
@@ -59,7 +58,6 @@ export const deleteMountain = async (id) => {
     const res = await api.delete(`/mountains/${id}`)
     return res.data
   } catch (error) {
-    console.error('Error deleting mountain:', error)
     throw error
   }
 }

@@ -19,7 +19,6 @@ export const addNewLocation = async (data) => {
     }
     throw new Error(`Unexpected response status: ${response.status}`)
   } catch (error) {
-    console.error('Failed to add new location:', error)
     throw error
   }
 }
@@ -32,7 +31,6 @@ export const editLocation = async (id, data) => {
     }
     throw new Error(`Unexpected response status: ${response.status}`)
   } catch (error) {
-    console.error('Failed to edit location:', error)
     throw error
   }
 }
@@ -46,7 +44,6 @@ export const removeLocation = async (id) => {
 
     throw new Error(`Unexpected response status: ${response.status}`)
   } catch (error) {
-    console.error('Failed to remove location:', error)
     throw error
   }
 }

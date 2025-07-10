@@ -94,7 +94,6 @@ const TeamsManager = () => {
   const fetchTeams = async (formattedEvents) => {
     try {
       const teams = await getAllTeams()
-      console.log(teams)
       const formattedTeams = teams.map((team) => ({
         id: team.id,
         name: team.name,

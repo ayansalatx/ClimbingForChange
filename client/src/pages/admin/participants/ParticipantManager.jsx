@@ -51,7 +51,6 @@ const ParticipantManager = () => {
 
         const eventsList = await getAllEvents()
         setEvents(eventsList)
-        console.log('Selected Event:', selectedEvent)
 
 
         displayAlert(

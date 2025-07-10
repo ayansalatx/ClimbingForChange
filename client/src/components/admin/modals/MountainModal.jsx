@@ -25,7 +25,6 @@ const MountainModal = ({ open, onClose, onSave, mountain }) => {
 
   useEffect(() => {
     if (open && mountain) {
-      console.log('Setting form values from mountain:', mountain)
       setName(mountain.name || '')
       setTotalElevation(mountain.totalElevation?.toString() || '0')
       setElevationUnit(mountain.elevationUnit || 'FT')
@@ -51,7 +50,6 @@ const MountainModal = ({ open, onClose, onSave, mountain }) => {
       active: true,
     }
     
-    console.log('Submitting mountain data:', mountainData)
     onSave(mountainData)
   }
 
