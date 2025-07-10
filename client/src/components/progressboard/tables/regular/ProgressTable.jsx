@@ -142,6 +142,7 @@ const ProgressTable = ({
           >
             <TableHeaderRow columns={columns} />
             <TableDataRows
+              eventId={selectedEvent}
               columns={columns}
               teams={teams}
               page={page}

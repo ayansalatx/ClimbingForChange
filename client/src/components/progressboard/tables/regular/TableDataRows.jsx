@@ -10,7 +10,7 @@ import {
   TableCell,
   TableRow,
 } from '@mui/material'
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 
 import theme from '../../../../styles/theme'
 
@@ -18,6 +18,10 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
   const [open, setOpen] = useState(false)
   const expandRef = useRef(null)
   const isEven = index % 2 === 0
+
+  useEffect(() => {
+    setOpen(false)
+  }, [team?.id, index])
 
   // Scroll to expanded rows in team
   const handleCollapseEntered = () => {
@@ -73,7 +77,11 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
                 },
               },
             }}
-            onClick={() => setOpen(!open)}
+            onClick={() => {
+              if (participants.length > 0) {
+                setOpen(!open)
+              }
+            }}
           >
             {open ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
           </IconButton>
@@ -250,7 +258,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
   )
 }
 
-const TableDataRows = ({ teams, columns, page, rowsPerPage }) => {
+const TableDataRows = ({ eventId, teams, columns, page, rowsPerPage }) => {
   return (
     <TableBody>
       {/* Slice the teams array to get only the teams for the current page. */}
@@ -260,7 +268,7 @@ const TableDataRows = ({ teams, columns, page, rowsPerPage }) => {
           const index = page * rowsPerPage + teamIndex
           return (
             <CollapsibleRow
-              key={team.id || index}
+              key={`${eventId}-${team.id || index}`}
               team={team}
               index={index}
               columns={columns}
