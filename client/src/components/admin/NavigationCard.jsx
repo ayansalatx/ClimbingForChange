@@ -23,7 +23,7 @@ const NavigationCard = ({
       sx={{
         position: 'relative',
         width: '14rem',
-        height: '8rem',
+        height: '9rem',
         bgcolor: bgColor,
         borderRadius: '6px',
         mx: '2rem',

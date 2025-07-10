@@ -51,7 +51,7 @@ const TableDataRows = ({
                     key={column.id}
                     align={column.align || 'left'}
                     sx={{
-                      fontSize: {sm: '1rem', md: '1.1rem', xl: '1.2rem'},
+                      fontSize: { sm: '1rem', md: '1.1rem', xl: '1.2rem' },
                       color: row.active ? 'primary.main' : 'gray.main',
                     }}
                   >

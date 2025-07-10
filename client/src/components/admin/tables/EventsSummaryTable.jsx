@@ -39,7 +39,8 @@ const smColumns = [
 const EventSummaryTable = ({ events = [] }) => {
   const isXLg = useMediaQuery(theme.breakpoints.up('xl'))
   const isLg = useMediaQuery(theme.breakpoints.up('lg'))
-  const totalRows = isXLg ? 4 : isLg ? 3 : 2
+  const isMd = useMediaQuery(theme.breakpoints.up('md'))
+  const totalRows = isXLg ? 5 : isMd ? 4 : 2
   const headerColumns = isLg ? lgColumns : smColumns
   return (
     <TableContainer component={Paper} sx={{ bgcolor: 'primary.main' }}>
