@@ -3,12 +3,12 @@ import mongoose from 'mongoose'
 const { Schema, model } = mongoose
 
 const lapSchema = new Schema({
-  teamId: {
+  team: {
     type: Schema.Types.ObjectId,
     ref: 'Team',
     required: true
   },
-  rfidTagId: {
+  rfidTag: {
     type: Schema.Types.ObjectId,
     ref: 'RFIDTag',
     required: true
