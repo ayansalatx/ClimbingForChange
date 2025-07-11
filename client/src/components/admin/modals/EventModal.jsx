@@ -1,8 +1,6 @@
-import { Box, Checkbox, FormControl, InputLabel, MenuItem, Modal, Select, TextField, Typography } from '@mui/material'
+import { Box, Button, Checkbox, FormControl, InputLabel, MenuItem, Modal, Select, TextField, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 
-import CancelButton from '../buttons/CancelButton'
-import SaveButton from '../buttons/SaveButton'
 import TextInput from '../forms/fields/TextInput'
 
 const style = {
