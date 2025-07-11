@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { isTokenValid } from './utils/auth'
+import { isTokenValid } from '../utils/isTokenValid'
 
 export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(() =>
