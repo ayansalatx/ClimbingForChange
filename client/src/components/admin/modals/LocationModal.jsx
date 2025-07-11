@@ -97,11 +97,11 @@ const LocationModal = ({ open, onClose, onSave, locationData }) => {
             required={true}
           />
           <TextInput
-              label={'Province/State'}
-              value={provState}
-              onChange={handleProvStateChange}
-              required={true}
-            />
+            label={'Province/State'}
+            value={provState}
+            onChange={handleProvStateChange}
+            required={true}
+          />
           <TextInput
             label={'Country'}
             value={country}
