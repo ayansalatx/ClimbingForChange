@@ -81,6 +81,8 @@ const DataTable = ({
     setPage(0)
   }
 
+  const disableAdd = tableTitle === 'Participants' && !selectedEvent
+
   return (
     <Paper
       elevation={3}

@@ -1,7 +1,7 @@
 import { AddOutlined } from '@mui/icons-material'
 import { Button } from '@mui/material'
 
-const AddButton = ({ onAddClick }) => {
+const AddButton = ({ onAddClick, disabled }) => {
   return (
     <Button
       variant='contained'
@@ -19,7 +19,8 @@ const AddButton = ({ onAddClick }) => {
           boxShadow: 'none',
         },
       }}
-      onClick={onAddClick}
+      onClick={disabled ? undefined : onAddClick}
+      disabled={disabled}
     >
       <AddOutlined />
     </Button>
