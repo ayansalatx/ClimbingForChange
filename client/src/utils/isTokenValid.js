@@ -1,3 +1,4 @@
+//JWTDecode was not letting me import it so I had to grab this from AI
 function parseJwt(token) {
   try {
     const base64Url = token.split('.')[1]
@@ -14,6 +15,7 @@ function parseJwt(token) {
   }
 }
 
+// checks if the expire time is greater or less than the time right now
 export function isTokenValid(token) {
   if (!token) return false
   const decoded = parseJwt(token)
