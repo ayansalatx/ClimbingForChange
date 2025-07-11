@@ -19,7 +19,7 @@ const AdminLogin = () => {
     const result = await login({ username, password })
 
     if (result.status != 200) {
-      displayAlert('Failed', result.error.message, 'error')
+      displayAlert('Error', result.error.message, 'error')
       return
     }
 

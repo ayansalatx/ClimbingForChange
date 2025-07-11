@@ -104,7 +104,7 @@ const AdminDashboard = () => {
       try {
         const eventList = await getUpcomingEventsSummary()
         displayAlert(
-          'Fresh backend data',
+          'Success',
           `Loaded ${eventList.length} events from the backend.`,
           'success'
         )

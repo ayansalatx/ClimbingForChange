@@ -41,8 +41,6 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
   const [mountains, setMountains] = useState([])
   const [mountainSelection, setMountainSelection] = useState([])
 
-  const displayAlert = useAlert()
-
   const onModalClose = () => {
     onClose()
     setEventName('')
