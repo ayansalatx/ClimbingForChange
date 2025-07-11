@@ -180,7 +180,7 @@ const ProgressBoard = () => {
         />
       ) : (
         <video
-          src='/assets/mountain-with-way-points-full.mp4'
+          src='/assets/progress-board-background.mp4'
           autoPlay
           loop
           muted
