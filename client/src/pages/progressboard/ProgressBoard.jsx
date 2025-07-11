@@ -158,9 +158,9 @@ const ProgressBoard = () => {
 
       {isXSmall ? (
         <Box
-          component="img"
-          src="/assets/mountain-range-illustration-2.jpeg"
-          alt="Mountain background"
+          component='img'
+          src='/assets/mountain-range-illustration-2.jpeg'
+          alt='Mountain background'
           sx={{
             position: 'absolute',
             top: 0,
@@ -173,7 +173,7 @@ const ProgressBoard = () => {
         />
       ) : (
         <video
-          src="/assets/progress-board-background.mp4"
+          src='/assets/progress-board-background.mp4'
           autoPlay
           loop
           muted
@@ -227,9 +227,9 @@ const ProgressBoard = () => {
             {/* Logo */}
             <Box sx={{ mb: { sm: 0.5 } }}>
               <Box
-                component="img"
+                component='img'
                 src={isXSmall ? C4CHorizontalBlueLogo : C4CHorizontalGreenLogo}
-                alt="Climbing for Change Logo"
+                alt='Climbing for Change Logo'
                 sx={{
                   maxWidth: {
                     xxs: '11rem',
@@ -263,11 +263,11 @@ const ProgressBoard = () => {
                 }}
               >
                 <Typography
-                  variant="h1"
-                  color="secondary.main"
-                  fontWeight="bold"
-                  textTransform="uppercase"
-                  letterSpacing=".05rem"
+                  variant='h1'
+                  color='secondary.main'
+                  fontWeight='bold'
+                  textTransform='uppercase'
+                  letterSpacing='.05rem'
                   sx={{
                     fontStyle: 'italic',
                     mr: {

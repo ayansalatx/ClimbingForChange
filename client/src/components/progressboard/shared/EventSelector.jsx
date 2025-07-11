@@ -29,8 +29,8 @@ const EventSelector = ({
       }}
     >
       <Select
-        variant="filled"
-        id="event-select"
+        variant='filled'
+        id='event-select'
         value={selectedEvent ?? ''}
         onChange={(e) => setSelectedEvent(e.target.value)}
         displayEmpty
@@ -109,7 +109,7 @@ const EventSelector = ({
         }}
       >
         <MenuItem
-          value=""
+          value=''
           disabled
           sx={{
             minHeight: { xxs: 'unset' },
@@ -167,7 +167,7 @@ const EventSelector = ({
 
         {pastEvents.length > 0 && [
           <MenuItem
-            value=""
+            value=''
             disabled
             sx={{
               minHeight: { xxs: 'unset' },
