@@ -8,7 +8,8 @@ import ProgressCard from './ProgressCard'
 
 const ProgressList = ({
   teams,
-  events,
+  activeEvents,
+  pastEvents,
   selectedEvent,
   setSelectedEvent,
   searchString,
@@ -25,10 +26,20 @@ const ProgressList = ({
         overflow: 'hidden',
       }}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', p: 1, backgroundColor: alpha(theme.palette.primary.main, .85), borderRadius: '4px' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
+          p: 1,
+          backgroundColor: alpha(theme.palette.primary.main, 0.85),
+          borderRadius: '4px',
+        }}
+      >
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, pb: 1 }}>
           <EventSelector
-            events={events}
+            activeEvents={activeEvents}
+            pastEvents={pastEvents}
             selectedEvent={selectedEvent}
             setSelectedEvent={setSelectedEvent}
           />
