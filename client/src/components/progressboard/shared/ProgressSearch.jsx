@@ -51,7 +51,14 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
               fontSize: { xxs: '.9rem', md: '1rem', xl: '1.05rem' },
               '& .MuiAutocomplete-option': {
                 minHeight: { xxs: 'unset', xs: 'unset' },
-                py: 0.5,
+                fontSize: {
+                  xxs: '0.9rem',
+                  xs: '0.9rem',
+                  sm: '0.9rem',
+                  md: '1rem',
+                },
+
+                mx: 0.75,
                 borderRadius: '3px',
                 color: 'primary.main',
                 transition: 'background-color 0.2s ease',
@@ -64,6 +71,15 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
                     borderRadius: '3px',
                     backgroundColor: alpha(theme.palette.secondary.main, 0.7),
                   },
+                },
+              },
+              '&.Mui-selected:hover': {
+                backgroundColor: alpha(theme.palette.secondary.main, 0.7),
+              },
+              '& .MuiAutocomplete-option': {
+                minHeight: { xxs: 'unset', xs: 'unset', sm: 0 },
+                '&:hover': {
+                  backgroundColor: alpha(theme.palette.secondary.main, 0.7),
                 },
               },
             },
@@ -85,8 +101,13 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
                 textTransform: 'uppercase',
                 letterSpacing: '.01rem',
                 color: 'primary.light',
+                fontSize: {
+                  xxs: '1rem',
+                  xs: '1rem',
+                  sm: '1rem',
+                  md: '1.1rem',
+                },
               },
-
               '& input::placeholder': {
                 textTransform: 'capitalize',
                 fontWeight: 'regular',
@@ -94,7 +115,7 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
                 color: 'primary.main',
                 opacity: 0.85,
                 fontSize: {
-                  xxs: '.75rem',
+                  xxs: '.85rem',
                   sm: '0.85rem',
                   md: '0.95rem',
                   xl: '1rem',

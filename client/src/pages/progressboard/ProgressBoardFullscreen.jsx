@@ -126,7 +126,7 @@ const ProgressBoardFullscreen = () => {
     >
       {/* https://pixabay.com/videos/search/terrain%20blue%20gray%20mountain/ */}
       <video
-        src='/assets/mountain-with-way-points-full.mp4'
+        src='/assets/progress-board-background.mp4'
         autoPlay
         loop
         muted

@@ -25,7 +25,8 @@ import TableHeaderRow from './TableHeaderRow'
 const ProgressTable = ({
   columns,
   teams = [],
-  events,
+  activeEvents,
+  pastEvents,
   selectedEvent,
   setSelectedEvent,
   searchString,
@@ -88,7 +89,8 @@ const ProgressTable = ({
         }}
       >
         <EventSelector
-          events={events}
+          activeEvents={activeEvents}
+          pastEvents={pastEvents}
           selectedEvent={selectedEvent}
           setSelectedEvent={setSelectedEvent}
         />
