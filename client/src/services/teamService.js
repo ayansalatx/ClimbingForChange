@@ -98,6 +98,7 @@ export const getTeamForDisplay = async (id) => {
           (team.lapsRequired || '-') - participantLaps.length,
           '-'
         ),
+        laps: participantLaps ?? [],
         bestLap: participantBestLap ? formatTime(participantBestLap) : null,
         timeElapsed: participantTimeElapsed
           ? formatTime(participantTimeElapsed)

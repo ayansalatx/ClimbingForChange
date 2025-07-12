@@ -55,9 +55,9 @@ const TeamProgress = () => {
 
       {isXSmall ? (
         <Box
-          component='img'
-          src='/assets/mountain-range-illustration-2.jpeg'
-          alt='Mountain background'
+          component="img"
+          src="/assets/mountain-range-illustration-2.jpeg"
+          alt="Mountain background"
           sx={{
             position: 'absolute',
             top: 0,
@@ -70,7 +70,7 @@ const TeamProgress = () => {
         />
       ) : (
         <video
-          src='/assets/mountain-with-way-points-full.mp4'
+          src="/assets/mountain-with-way-points-full.mp4"
           autoPlay
           loop
           muted
@@ -124,9 +124,9 @@ const TeamProgress = () => {
             {/* Logo */}
             <Box sx={{ mb: { sm: 0.5 } }}>
               <Box
-                component='img'
+                component="img"
                 src={isXSmall ? C4CHorizontalBlueLogo : C4CHorizontalGreenLogo}
-                alt='Climbing for Change Logo'
+                alt="Climbing for Change Logo"
                 sx={{
                   maxWidth: {
                     xxs: '11rem',
@@ -196,11 +196,11 @@ const TeamProgress = () => {
                 }}
               >
                 <Typography
-                  variant='h1'
-                  color='primary.light'
-                  fontWeight='bold'
-                  textTransform='uppercase'
-                  letterSpacing='.05rem'
+                  variant="h1"
+                  color="primary.light"
+                  fontWeight="bold"
+                  textTransform="uppercase"
+                  letterSpacing=".05rem"
                   sx={{
                     fontStyle: 'italic',
                     fontSize: {
@@ -238,8 +238,8 @@ const TeamProgress = () => {
             >
               <Box
                 sx={{
-                  width: '9rem',
-                  height: '9rem',
+                  width: '100%',
+                  height: '100%',
                   borderRadius: '3px',
                   display: 'flex',
                   alignItems: 'center',
@@ -252,40 +252,41 @@ const TeamProgress = () => {
 
               <Box
                 sx={{
-                  width: '9rem',
-                  height: '9rem',
+                  width: '100%',
+                  height: '100%',
                   position: 'relative',
                   display: 'inline-flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   backgroundColor: 'background.paper',
                   borderRadius: '3px',
+                  p: 2,
                 }}
               >
                 <Box sx={{ position: 'relative', display: 'inline-flex' }}>
                   <CircularProgress
-                    variant='determinate'
+                    variant="determinate"
                     value={100}
                     sx={{
-                      color: 'gray.light',
+                      color: 'gray.main',
                       filter: 'drop-shadow(0 0 1px rgba(0, 0, 0, 0.3))',
                     }}
-                    size={120}
+                    size={200}
                     thickness={5}
                   />
                   <CircularProgress
-                    variant='determinate'
+                    variant="determinate"
                     value={50}
                     sx={{
-                      color: 'primary.main',
-                      filter: 'drop-shadow(0 0 3px rgba(0, 0, 0, 0.3))',
+                      color: 'secondary.main',
+                      filter: 'drop-shadow(0 0 3px rgba(118, 163, 46, 0.3))',
                       position: 'absolute',
                       left: 0,
                       '& .MuiCircularProgress-circle': {
                         strokeLinecap: 'round',
                       },
                     }}
-                    size={120}
+                    size={200}
                     thickness={5}
                   />
                 </Box>
@@ -303,7 +304,7 @@ const TeamProgress = () => {
                   }}
                 >
                   <Typography
-                    variant='subtitle2'
+                    variant="subtitle2"
                     sx={{ color: 'primary.main' }}
                   >
                     17,954 ft
