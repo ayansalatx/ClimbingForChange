@@ -3,7 +3,7 @@ import EventManager from '../pages/admin/events/EventManager'
 import { addEvent, deleteEvent, editEvent, getAllEvents } from '../services/eventService'
 import { getAllLocations } from '../services/locationService'
 import '@testing-library/jest-dom'
-import { describe, expect, it, jest } from '@jest/globals'
+import { describe, expect, it, jest, beforeEach, afterEach } from '@jest/globals'
 
 jest.mock('../services/eventService')
 jest.mock('../services/locationService')

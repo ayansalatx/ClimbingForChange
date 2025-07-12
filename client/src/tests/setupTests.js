@@ -1,17 +1,18 @@
 /**
- * @jest-environment jsdom
+ * @jest-environment jsdn
  */
 
-import '@testing-library/jest-dom';
+import { jest, afterEach } from '@jest/globals';
 import { configure } from '@testing-library/react';
-import { TextEncoder, TextDecoder } from 'util'
+import '@testing-library/jest-dom';
+import { TextEncoder, TextDecoder } from 'util';
 
 if (!global.TextEncoder) {
-  global.TextEncoder = TextEncoder
+  global.TextEncoder = TextEncoder;
 }
 
 if (!global.TextDecoder) {
-  global.TextDecoder = TextDecoder
+  global.TextDecoder = TextDecoder;
 }
 
 // Configure test environment
@@ -21,7 +22,7 @@ configure({ testIdAttribute: 'data-testid' });
 if (typeof window !== 'undefined') {
   Object.defineProperty(window, 'matchMedia', {
     writable: true,
-    value: jest.fn().mockImplementation(query => ({
+    value: jest.fn().mockImplementation((query) => ({
       matches: false,
       media: query,
       onchange: null,
@@ -29,8 +30,8 @@ if (typeof window !== 'undefined') {
       removeListener: jest.fn(),
       addEventListener: jest.fn(),
       removeEventListener: jest.fn(),
-      dispatchEvent: jest.fn(),
-    })),
+      dispatchEvent: jest.fn()
+    }))
   });
 }
 
@@ -40,16 +41,17 @@ const originalConsole = {
   warn: console.warn,
   log: console.log,
   info: console.info,
-  debug: console.debug,
+  debug: console.debug
 };
 
+// Suppress console output in tests
 global.console = {
   ...console,
   error: jest.fn(),
   warn: jest.fn(),
   log: jest.fn(),
   info: jest.fn(),
-  debug: jest.fn(),
+  debug: jest.fn()
 };
 
 // Clean up mocks after each test
