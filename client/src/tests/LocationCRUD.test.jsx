@@ -1,13 +1,14 @@
-import { setupServer } from 'msw/node'
+import { afterAll, afterEach, beforeAll, describe, expect, test } from '@jest/globals'
 import { rest } from 'msw'
+import { setupServer } from 'msw/node'
+
 import {
+  addNewLocation,
+  deleteLocation,
+  editLocation,
   getAllLocations,
   getLocationById,
-  addNewLocation,
-  editLocation,
-  deleteLocation,
 } from '../services/locationService' // adjust path if needed
-import { describe, expect, afterEach, beforeAll, afterAll, test } from '@jest/globals'
 const BASE_URL = import.meta.env.VITE_API_URL
 
 // Setup MSW mock server

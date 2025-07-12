@@ -1,22 +1,24 @@
+/* eslint-env node */
 /**
  * @jest-environment jsdn
  */
 
-import { jest, afterEach } from '@jest/globals';
-import { configure } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { TextEncoder, TextDecoder } from 'util';
+import '@testing-library/jest-dom'
+
+import { afterEach,jest } from '@jest/globals'
+import { configure } from '@testing-library/react'
+import { TextDecoder,TextEncoder } from 'util'
 
 if (!global.TextEncoder) {
-  global.TextEncoder = TextEncoder;
+  global.TextEncoder = TextEncoder
 }
 
 if (!global.TextDecoder) {
-  global.TextDecoder = TextDecoder;
+  global.TextDecoder = TextDecoder
 }
 
 // Configure test environment
-configure({ testIdAttribute: 'data-testid' });
+configure({ testIdAttribute: 'data-testid' })
 
 // Mock window.matchMedia
 if (typeof window !== 'undefined') {
@@ -32,17 +34,8 @@ if (typeof window !== 'undefined') {
       removeEventListener: jest.fn(),
       dispatchEvent: jest.fn()
     }))
-  });
+  })
 }
-
-// Mock console methods
-const originalConsole = {
-  error: console.error,
-  warn: console.warn,
-  log: console.log,
-  info: console.info,
-  debug: console.debug
-};
 
 // Suppress console output in tests
 global.console = {
@@ -52,9 +45,9 @@ global.console = {
   log: jest.fn(),
   info: jest.fn(),
   debug: jest.fn()
-};
+}
 
 // Clean up mocks after each test
 afterEach(() => {
-  jest.clearAllMocks();
-});
+  jest.clearAllMocks()
+})

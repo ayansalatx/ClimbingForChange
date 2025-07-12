@@ -12,6 +12,8 @@ import globals from 'globals'
 
 export default [
   { ignores: ['public', 'dist'] },
+
+  // Main app (browser environment)
   {
     files: ['**/*.{js,jsx}'],
     languageOptions: {
@@ -52,24 +54,28 @@ export default [
         'warn',
         { allowConstantExport: true },
       ],
-
-      // React not required to import
       'react/react-in-jsx-scope': 'off',
-
-      // Import sorting and cleanup
       'unused-imports/no-unused-imports': 'error',
       'import/no-unresolved': ['error', { caseSensitive: true }],
       'import/no-duplicates': 'error',
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
-
-      // Style rules
       '@stylistic/indent': ['error', 2],
       '@stylistic/quotes': ['error', 'single'],
       '@stylistic/semi': ['error', 'never'],
       '@stylistic/linebreak-style': ['error', 'unix'],
-
       'react/prop-types': 'off',
+    },
+  },
+
+  // Test files (Node environment)
+  {
+    files: ['src/tests/setupTests.js', '**/*.test.js', '**/*.spec.js'],
+    languageOptions: {
+      globals: {
+        ...globals.node,  // Enable Node.js globals like `global`
+        ...globals.browser, // Also allow browser globals if needed
+      },
     },
   },
 ]

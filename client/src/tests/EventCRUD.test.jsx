@@ -1,9 +1,11 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import '@testing-library/jest-dom'
+
+import { afterEach,beforeEach, describe, expect, it, jest } from '@jest/globals'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+
 import EventManager from '../pages/admin/events/EventManager'
 import { addEvent, deleteEvent, editEvent, getAllEvents } from '../services/eventService'
 import { getAllLocations } from '../services/locationService'
-import '@testing-library/jest-dom'
-import { describe, expect, it, jest, beforeEach, afterEach } from '@jest/globals'
 
 jest.mock('../services/eventService')
 jest.mock('../services/locationService')
