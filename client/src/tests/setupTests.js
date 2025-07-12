@@ -4,6 +4,15 @@
 
 import '@testing-library/jest-dom';
 import { configure } from '@testing-library/react';
+import { TextEncoder, TextDecoder } from 'util'
+
+if (!global.TextEncoder) {
+  global.TextEncoder = TextEncoder
+}
+
+if (!global.TextDecoder) {
+  global.TextDecoder = TextDecoder
+}
 
 // Configure test environment
 configure({ testIdAttribute: 'data-testid' });
