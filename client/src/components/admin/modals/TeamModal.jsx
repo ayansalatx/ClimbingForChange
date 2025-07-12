@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, FormControl,FormControlLabel, InputLabel, MenuItem, Modal, Select, Typography } from '@mui/material'
+import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Modal, Select, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import { getAllEvents } from '../../../services/eventService'
@@ -23,10 +23,6 @@ const style = {
 
 const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
   const [name, setName] = useState('')
-  const [isSoloTeam, setIsSoloTeam] = useState(false)
-  const [lapsRequired, setLapsRequired] = useState('')
-  const [distanceRequired, setDistanceRequired] = useState('')
-  const [startDateTime, setStartDateTime] = useState('')
   const [selectedMountain, setSelectedMountain] = useState('')
   const [selectedHill, setSelectedHill] = useState('')
   const [selectedEvent, setSelectedEvent] = useState('')
@@ -37,10 +33,6 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
   const onModalClose = () => {
     onClose()
     setName('')
-    setIsSoloTeam(false)
-    setLapsRequired('')
-    setDistanceRequired('')
-    setStartDateTime('')
     setSelectedMountain('')
     setSelectedHill('')
     setSelectedEvent('')
@@ -69,10 +61,6 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
   useEffect(() => {
     if (teamToEdit) {
       setName(teamToEdit.name || '')
-      setIsSoloTeam(teamToEdit.isSoloTeam || false)
-      setLapsRequired(teamToEdit.lapsRequired || '')
-      setDistanceRequired(teamToEdit.totalDistanceRequired || '')
-      setStartDateTime(teamToEdit.startDateTime?.slice(0, 16) || '')
       setSelectedMountain(teamToEdit.mountainId || '')
       setSelectedHill(teamToEdit.hillId || '')
       setSelectedEvent(teamToEdit.event || '')
@@ -100,13 +88,15 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
 
     const teamData = {
       name,
-      isSoloTeam,
-      lapsRequired: Number(lapsRequired),
-      totalDistanceRequired: Number(distanceRequired),
-      startDateTime: new Date(startDateTime).toISOString(),
       mountain: selectedMountain,
       hill: selectedHill,
       event: selectedEvent,
+
+      // temporary data
+      isSoloTeam: false,
+      lapsRequired: 1,
+      totalDistanceRequired: 0,
+      startDateTime: "2025-07-12T03:46:43.305Z"
     }
 
     try {
@@ -139,15 +129,6 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
             required
           />
 
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={isSoloTeam}
-                onChange={(e) => setIsSoloTeam(e.target.checked)}
-              />
-            }
-            label="Solo Team"
-          />
           <Box display="flex" gap={2} mt={1.5} mb={0.5}>
             <FormControl fullWidth required sx={{ flex: 1 }}>
               <InputLabel id="mountain-select-label">Mountain</InputLabel>
@@ -157,6 +138,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
                 value={selectedMountain}
                 label="Mountain"
                 onChange={(e) => setSelectedMountain(e.target.value)}
+                required
               >
                 {mountains.map((mountain) => (
                   <MenuItem key={mountain.id} value={mountain.id}>
@@ -174,6 +156,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
                 value={selectedHill}
                 label="Hill"
                 onChange={(e) => setSelectedHill(e.target.value)}
+                required
               >
                 {hills.map((hill) => (
                   <MenuItem key={hill.id} value={hill.id}>
@@ -201,43 +184,8 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
             </Select>
           </FormControl>
 
-          <Box display="flex" gap={2} mt={1.5} mb={1}>
-            <TextInput
-              required
-              label="Laps"
-              type="number"
-              variant="outlined"
-              value={lapsRequired}
-              onChange={(e) => setLapsRequired(e.target.value)}
-              inputProps={{ min: 1 }}
-              sx={{ flex: 1 }}
-            />
-
-            <TextInput
-              required
-              label="Total Distance"
-              type="number"
-              variant="outlined"
-              value={distanceRequired}
-              onChange={(e) => setDistanceRequired(e.target.value)}
-              inputProps={{ min: 1 }}
-              sx={{ flex: 1 }}
-            />
-          </Box>
-          <TextInput
-            fullWidth
-            label="Start Date & Time"
-            type="datetime-local"
-            variant="outlined"
-            margin="normal"
-            value={startDateTime}
-            onChange={(e) => setStartDateTime(e.target.value)}
-            InputLabelProps={{ shrink: true }}
-            required
-          />
-
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
-             <CancelButton onClick={onModalClose} color="red" />
+            <CancelButton onClick={onModalClose} color="red" />
             <SaveButton type="submit" label={teamToEdit ? 'Save' : 'Create'} />
           </Box>
         </form>

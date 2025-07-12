@@ -21,10 +21,6 @@ const formatDateTime = (dateString) => {
 
 const fullColumns = [
   { id: 'name', label: 'Team Name', minWidth: 170 },
-  { id: 'isSoloTeam', label: 'Solo Team?', minWidth: 100 },
-  { id: 'lapsRequired', label: 'Laps Req.', minWidth: 100 },
-  { id: 'totalDistanceRequired', label: 'Distance Req.', minWidth: 130 },
-  { id: 'startDateTime', label: 'Start Time', minWidth: 170 },
 ]
 
 const TeamsTable = ({ searchTerm = '', teams = [], onTeamDelete, onTeamEdit }) => {
@@ -34,10 +30,6 @@ const TeamsTable = ({ searchTerm = '', teams = [], onTeamDelete, onTeamEdit }) =
   const formattedTeams = teams.map((team) => ({
     id: team.id,
     name: team.name,
-    isSoloTeam: team.isSoloTeam ? 'Yes' : 'No',
-    lapsRequired: team.lapsRequired,
-    totalDistanceRequired: team.totalDistanceRequired,
-    startDateTime: formatDateTime(team.startDateTime),
   }))
 
   const filteredRows = formattedTeams.filter((row) => {

@@ -10,26 +10,10 @@ import { getAllEvents } from '../../../services/eventService.js'
 import { addTeam, deleteTeam, editTeam, getAllTeams } from '../../../services/teamService.js'
 
 const fullColumns = [
-  { id: 'name', label: 'Team Name', width: '30%', align: 'left' },
-  { id: 'mountain', label: 'Mountain', width: '10%', align: 'left' },
-  { id: 'hill', label: 'Hill', width: '10%', align: 'left' },
-  { id: 'isSoloTeam', label: 'Solo Team?', width: '10%', align: 'left' },
-  { id: 'lapsRequired', label: 'Laps Req.', width: '10%', align: 'left' },
-  { id: 'totalDistanceRequired', label: 'Distance Req.', width: '10%', align: 'left' },
-  { id: 'startDateTime', label: 'Start Time', width: '20%', align: 'left' },
+  { id: 'name', label: 'Team Name', width: '60%', align: 'left' },
+  { id: 'mountain', label: 'Mountain', width: '20%', align: 'left' },
+  { id: 'hill', label: 'Hill', width: '20%', align: 'left' },
 ]
-
-const formatDateTime = (dateString) => {
-  const date = new Date(dateString)
-  return date.toLocaleString([], {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: true,
-  })
-}
 
 const TeamsManager = () => {
   const [openPopup, setOpenPopup] = useState(false)
@@ -46,10 +30,6 @@ const TeamsManager = () => {
     return teams.map((team) => ({
       id: team.id,
       name: team.name,
-      isSoloTeam: team.isSoloTeam ? 'Yes' : 'No',
-      lapsRequired: team.lapsRequired,
-      totalDistanceRequired: team.totalDistanceRequired,
-      startDateTime: formatDateTime(team.startDateTime),
       mountain: team.mountain,
       mountainId: team.mountainId,
       hill: team.hill,
@@ -96,10 +76,6 @@ const TeamsManager = () => {
       const formattedTeams = teams.map((team) => ({
         id: team.id,
         name: team.name,
-        isSoloTeam: team.isSoloTeam,
-        lapsRequired: team.hill.lapElevationGain,
-        totalDistanceRequired: team.hill.lapDistance,
-        startDateTime: team.startDateTime,
         mountainId: team.mountain.id,
         mountain: team.mountain.name,
         hillId: team.hill?.id,
