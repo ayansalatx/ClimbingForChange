@@ -5,7 +5,7 @@ import theme from '../../../styles/theme'
 const CancelButton = ({ onClick, color }) => {
   return (
     <Button
-      variant="outlined"
+      variant='outlined'
       onClick={onClick}
       sx={{
         width: '6rem',

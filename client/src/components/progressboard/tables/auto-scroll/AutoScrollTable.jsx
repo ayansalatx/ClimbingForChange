@@ -47,10 +47,10 @@ const AutoScrollTable = ({ teams, columns, loading }) => {
               fontSize: '2rem',
             }}
           >
-            <CircularProgress color="secondary" />
+            <CircularProgress color='secondary' />
           </Box>
         ) : (
-          <Table aria-label="auto scrolling table" size="small">
+          <Table aria-label='auto scrolling table' size='small'>
             <ScrollingTableRow
               columns={columns}
               teams={teams}
