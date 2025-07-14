@@ -2,7 +2,6 @@ import { Box, Button, Checkbox, FormControl, InputLabel, MenuItem, Modal, Select
 import { useEffect, useState } from 'react'
 
 import TextInput from '../forms/fields/TextInput'
-import { useAlert } from '../../../hooks/useAlert'
 
 const style = {
   position: 'absolute',
