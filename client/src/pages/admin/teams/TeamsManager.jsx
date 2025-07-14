@@ -8,11 +8,13 @@ import DataTable from '../../../components/admin/tables/DataTable.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
 import { getAllEvents } from '../../../services/eventService.js'
 import { addTeam, deleteTeam, editTeam, getAllTeams } from '../../../services/teamService.js'
+import { getRfidTags } from '../../../services/rfidService.js'
 
 const fullColumns = [
-  { id: 'name', label: 'Team Name', width: '60%', align: 'left' },
+  { id: 'name', label: 'Team Name', width: '40%', align: 'left' },
   { id: 'mountain', label: 'Mountain', width: '20%', align: 'left' },
   { id: 'hill', label: 'Hill', width: '20%', align: 'left' },
+  { id: 'rfidTag', label: 'RFID Tag', width: '20%', align: 'left' },
 ]
 
 const TeamsManager = () => {
@@ -23,6 +25,7 @@ const TeamsManager = () => {
   const [teamToDelete, setTeamToDelete] = useState(null)
   const [events, setEvents] = useState([])
   const [selectedEvent, setSelectedEvent] = useState(null)
+  const [rfidTags, setrfidTags] = useState([])
 
   const displayAlert = useAlert()
 
@@ -35,8 +38,20 @@ const TeamsManager = () => {
       hill: team.hill,
       hillId: team.hillId,
       eventId: team.event,
+      rfidTag: team.rfidTag
     }))
   }, [teams])
+
+  const getRfidTagList = async () => {
+    const result = await getRfidTags()
+    const formattedRfidTags = result.map((rfidTag) => {
+      return {
+        id: rfidTag.id,
+        label: rfidTag.serialNumber || '',
+      }
+    })
+    setrfidTags(formattedRfidTags)
+  }
 
   const getTeamFromId = (id) => {
     return teams.find((team) => team.id === id)
@@ -63,6 +78,7 @@ const TeamsManager = () => {
       })
       setEvents(formattedEvents)
       fetchTeams(formattedEvents)
+      getRfidTagList()
 
     } catch (error) {
       displayAlert('Events Error', `${error.message}`, 'error')
@@ -72,7 +88,6 @@ const TeamsManager = () => {
   const fetchTeams = async (formattedEvents) => {
     try {
       const teams = await getAllTeams()
-      console.log(teams)
       const formattedTeams = teams.map((team) => ({
         id: team.id,
         name: team.name,
@@ -89,7 +104,7 @@ const TeamsManager = () => {
       displayAlert('Teams Error', `${error.message}`, 'error')
     }
   }
-  
+
   useEffect(() => {
     fetchEvents()
   }, [fetchEvents])
@@ -178,12 +193,12 @@ const TeamsManager = () => {
       py: '4rem',
       px: '1.5rem',
     }}>
-    
+
       <DataTable
         tableTitle='Teams'
         tableIcon={People}
         tableColumns={fullColumns}
-        tableData={(selectedEvent === null || selectedEvent.toString() === '')  ? [] : teamsDataForDisplay}
+        tableData={(selectedEvent === null || selectedEvent.toString() === '') ? [] : teamsDataForDisplay}
         showInactive={true}
         eventsForDropdown={events}
         selectedEvent={selectedEvent}
@@ -202,6 +217,7 @@ const TeamsManager = () => {
         onAdd={handleAddTeam}
         onEdit={handleEditTeam}
         teamToEdit={teamToEdit}
+        rfidTagList={rfidTags}
       />
 
       <ConfirmDeleteDialog

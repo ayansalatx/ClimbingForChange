@@ -8,6 +8,8 @@ import { getAllMountains } from '../../../services/mountainService'
 import CancelButton from '../buttons/CancelButton'
 import SaveButton from '../buttons/SaveButton'
 import TextInput from '../forms/fields/TextInput'
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 
 const style = {
   position: 'absolute',
@@ -21,14 +23,18 @@ const style = {
   borderRadius: 2,
 }
 
-const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
+const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList }) => {
   const [name, setName] = useState('')
   const [selectedMountain, setSelectedMountain] = useState('')
   const [selectedHill, setSelectedHill] = useState('')
   const [selectedEvent, setSelectedEvent] = useState('')
+  const [selectedrfidTag, setSelectedrfidTag] = useState('')
   const [mountains, setMountains] = useState([])
   const [hills, setHills] = useState([])
   const [events, setEvents] = useState([])
+  const [rfidTag, setrfidTag] = useState([])
+  const [rfidTags, setrfidTags] = useState([])
+
 
   const onModalClose = () => {
     onClose()
@@ -50,6 +56,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
           setMountains(mountainData)
           setHills(hillData)
           setEvents(eventData)
+          setrfidTags(rfidTagList)
         } catch (error) {
           console.error('Error fetching data:', error)
         }
@@ -64,6 +71,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
       setSelectedMountain(teamToEdit.mountainId || '')
       setSelectedHill(teamToEdit.hillId || '')
       setSelectedEvent(teamToEdit.event || '')
+      setSelectedrfidTag(teamToEdit.event || '')
 
       if (mountains.some((m) => m.id === teamToEdit.mountainId)) {
         setSelectedMountain(teamToEdit.mountainId)
@@ -80,8 +88,9 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
       } else {
         setSelectedEvent('')
       }
+
     }
-  }, [teamToEdit, mountains, hills, events])
+  }, [teamToEdit, mountains, hills, events, rfidTag])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -91,6 +100,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
       mountain: selectedMountain,
       hill: selectedHill,
       event: selectedEvent,
+      rfidTag: selectedrfidTag,
 
       // temporary data
       isSoloTeam: false,
@@ -119,6 +129,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
           {teamToEdit ? 'Edit Team' : 'Add New Team'}
         </Typography>
         <form onSubmit={handleSubmit}>
+
           <TextInput
             fullWidth
             label='Team Name'
@@ -182,6 +193,17 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
                 </MenuItem>
               ))}
             </Select>
+          </FormControl>
+
+          <FormControl fullWidth margin='normal' required>
+            <Autocomplete
+            id='rfidTag-select'
+              disablePortal
+              options={rfidTags}
+              sx={{ width: 300 }}
+              renderInput={(params) => <TextField {...params} label="RFID Tag" />}
+            />
+
           </FormControl>
 
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
