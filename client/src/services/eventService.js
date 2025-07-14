@@ -9,7 +9,7 @@ export const getActiveUpcomingEvents = async () => {
   const res = await api.get('/events')
   const eventList = res.data
   const now = new Date()
-  
+
   const activeUpcomingEvents = eventList
     .filter((event) => {
       const end = new Date(event.endDateTime)
@@ -42,7 +42,11 @@ export const getDisplayEventTeams = async (id) => {
 
   const teamsForDisplay = teamList.map((team) => {
     // Get laps
-    const laps = team.laps || []
+    const laps =
+      team.participants?.flatMap((p) =>
+        (p.laps || []).filter((lap) => lap.endTime)
+      ) || []
+
     // Get best lap
     const teamBestLap = getBestLapTime(laps)
     // Get time elapsed

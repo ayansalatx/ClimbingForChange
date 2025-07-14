@@ -12,8 +12,11 @@ export const getTeamsForDisplay = async () => {
 
   // Create array for display
   const teamsForDisplay = teamList.map((team) => {
-    // Get laps for each participant
-    const laps = team.participants?.flatMap((p) => p.laps || []) || []
+    // Get laps for each team
+    const laps =
+      team.participants?.flatMap((p) =>
+        (p.laps || []).filter((lap) => lap.endTime)
+      ) || []
 
     // Get best lap
     const teamBestLap = getBestLapTime(laps)
@@ -64,7 +67,10 @@ export const getTeamForDisplay = async (id) => {
   const res = await api.get(`/teams/${id}`)
   const team = res.data
   // Get laps for each participant
-  const laps = team.participants?.flatMap((p) => p.laps || []) || []
+  const laps =
+    team.participants?.flatMap((p) =>
+      (p.laps || []).filter((lap) => lap.endTime)
+    ) || []
 
   // Get best lap
   const teamBestLap = getBestLapTime(laps)
@@ -75,34 +81,29 @@ export const getTeamForDisplay = async (id) => {
   const teamForDisplay = {
     ...team,
     mountainName: team.mountain?.name,
-    elevation: team.mountain?.totalElevation,
+    totalElevation: team.mountain?.totalElevation,
+    elevationUnit: team.mountain?.elevationUnit,
+    hillLap: team.hill?.lapElevationGain,
+    hillLapUnit: team.hill?.elevationUnit,
     currentElevation: laps.length
       ? laps.length * team.hill?.lapElevationGain
       : '-',
+    elevationProgress: team.mountain?.totalElevation
+      ? (laps.length * team.hill?.lapElevationGain) /
+        team.mountain.totalElevation
+      : 0,
+    totalLaps: team.lapsRequired,
     lapsCompleted: laps.length ? laps.length : '-',
     lapsToGo: Math.max((team.lapsRequired || 0) - laps.length, 0),
+    lapProgress: team.lapsRequired
+      ? (laps.length / team.lapsRequired) * 100
+      : 0,
     bestLap: laps.length ? formatTime(teamBestLap) : null,
     timeElapsed: laps.length ? formatTime(teamTimeElapsed) : '00:00:00',
     participants: team.participants?.map((participant) => {
-      const participantLaps = participant.laps || []
-
-      const participantBestLap = getBestLapTime(participantLaps)
-      const participantTimeElapsed = getTimeElapsed(participantLaps)
-
       return {
         ...participant,
-        currentElevation: participantLaps.length * team.hill?.lapElevationGain,
-        lapsCompleted: participantLaps.length,
-        lapsRequired: team.lapsRequired,
-        lapsToGo: Math.max(
-          (team.lapsRequired || '-') - participantLaps.length,
-          '-'
-        ),
-        laps: participantLaps ?? [],
-        bestLap: participantBestLap ? formatTime(participantBestLap) : null,
-        timeElapsed: participantTimeElapsed
-          ? formatTime(participantTimeElapsed)
-          : '00:00:00',
+        fullName: `${participant.firstName} ${participant.lastName}`,
       }
     }),
   }
