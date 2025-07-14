@@ -30,6 +30,8 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
   const [hills, setHills] = useState([])
   const [events, setEvents] = useState([])
 
+  const displayAlert = useAlert()
+
   const onModalClose = () => {
     onClose()
     setName('')
@@ -55,7 +57,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
           setHills(hillData)
           setEvents(eventData)
         } catch (error) {
-          console.error('Error fetching data:', error)
+          displayAlert('Error', `Error while fetching data: ${error}`, 'error')
         }
       }
     }
@@ -95,7 +97,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
         onAdd(teamData)
       }
     } catch (error) {
-      console.error('Error saving team:', error)
+      displayAlert('Error', `Error while saving team: ${error}`, 'error')
     }
 
     onModalClose()
