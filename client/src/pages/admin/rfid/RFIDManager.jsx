@@ -56,8 +56,7 @@ const RFIDManager = () => {
         serialNumber: tag.serialNumber,
         createdAt: new Date(tag.createdAt).toLocaleString(),
         updatedAt: new Date(tag.updatedAt).toLocaleString(),
-        active: true,
-        active: tag.active !== false // Handle potential undefined active status
+        active: tag.active !== false, // Handle potential undefined active status
       }))
       setRfidData(processedTags)
     } catch (err) {
