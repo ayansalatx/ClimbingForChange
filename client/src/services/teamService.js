@@ -111,8 +111,8 @@ export const editTeam = async (id, data) => {
     if (response.status === 200) {
       return response
     } else {
+      throw new Error(`Unexpected response status: ${response.status}`)
     }
-    throw new Error(`Unexpected response status: ${response.status}`)
   } catch (error) {
     throw error
   }
