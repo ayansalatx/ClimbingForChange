@@ -16,6 +16,11 @@ import hillRoutes from './src/routes/hill.js'
 import uploadCSVRoutes from './src/routes/uploadCSV.js'
 import authRoutes from './src/routes/auth.js'
 
+import { mockRouter } from './src/mock/mock.router.js'
+import config from './src/utils/config.js'
+import liveDataRoutes from './src/routes/liveData.js'
+import { pollForNewData } from './src/utils/serverState.js'
+
 const app = express()
 const openapiDoc = YAML.load('./openapi.yaml')
 
@@ -28,6 +33,13 @@ app.use(json())
 app.use(requestLogger)
 
 app.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(openapiDoc))
+
+if (config.API_MODE === 'mock') {
+    console.log('Server is starting in MOCK API mode.');
+    app.use('/mock-api', mockRouter);
+}
+
+app.use('/api/live-data', liveDataRoutes)
 
 app.use('/api/auth', authRoutes)
 
@@ -48,5 +60,9 @@ authenticatedApiRouter.use('/upload-csv', uploadCSVRoutes)
 app.use('/api', authenticatedApiRouter)
 
 app.use(errorHandler)
+
+setTimeout(() => {
+    setInterval(pollForNewData, 5000); 
+}, 2000); 
 
 export default app
