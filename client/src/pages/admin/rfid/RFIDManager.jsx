@@ -1,5 +1,6 @@
-import { Box, SvgIcon } from '@mui/material'
-import React, { useCallback, useEffect, useState } from 'react'
+import RfidIcon from '@mui/icons-material/Nfc'
+import { Box } from '@mui/material'
+import { useCallback, useEffect, useState } from 'react'
 
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog'
 import RFIDModal from '../../../components/admin/modals/RFIDModal'
@@ -25,21 +26,21 @@ const tableColumns = [
     label: 'Serial Number', 
     width: '40%', 
     align: 'left',
-    format: (value) => value || 'N/A'
+    format: (value) => value || 'N/A',
   },
   { 
     id: 'createdAt', 
     label: 'Created At', 
     width: '30%', 
     align: 'center',
-    format: (value) => value || 'N/A'
+    format: (value) => value || 'N/A',
   },
   { 
     id: 'updatedAt', 
     label: 'Last Updated', 
     width: '30%', 
     align: 'center',
-    format: (value) => value || 'N/A'
+    format: (value) => value || 'N/A',
   },
 ]
 
@@ -57,16 +58,18 @@ const RFIDManager = () => {
   const loadData = useCallback(async () => {
     try {
       const tags = await getRfidTags()
-      const processedTags = tags.map(tag => ({
+      const processedTags = tags.map((tag) => ({
         id: tag._id || tag.id,
         serialNumber: tag.serialNumber,
         createdAt: new Date(tag.createdAt).toLocaleString(),
         updatedAt: new Date(tag.updatedAt).toLocaleString(),
+        active: true,
         active: tag.active !== false // Handle potential undefined active status
       }))
       setRfidData(processedTags)
     } catch (err) {
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to load RFID tags'
+      const errorMessage =
+        err.response?.data?.message || err.message || 'Failed to load RFID tags'
       displayAlert('Error', errorMessage, 'error')
     }
   }, [displayAlert])
@@ -78,7 +81,7 @@ const RFIDManager = () => {
   const handleSave = async (tagData) => {
     try {
       const tagPayload = {
-        serialNumber: tagData.serialNumber.trim()
+        serialNumber: tagData.serialNumber.trim(),
       }
 
       if (editingRfid) {
@@ -139,7 +142,19 @@ const RFIDManager = () => {
 
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box
+      sx={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        py: '4rem',
+        px: '1.5rem',
+      }}
+    >
+
       <DataTable
         tableTitle="RFID Tags"
         tableIcon={RfidIcon}

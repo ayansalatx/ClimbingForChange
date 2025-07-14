@@ -97,5 +97,5 @@ button:focus-visible {
 }
 
 .marquee__content {
-  animation: scroll-vertical 30s linear infinite;
+  animation: scroll-vertical 28s linear infinite;
 }

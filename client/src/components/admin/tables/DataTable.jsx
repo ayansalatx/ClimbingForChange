@@ -1,9 +1,13 @@
 import {
   Box,
+  CircularProgress,
   Paper,
   Table,
+  TableBody,
+  TableCell,
   TableContainer,
   TablePagination,
+  TableRow,
   Typography,
 } from '@mui/material'
 import { alpha } from '@mui/material/styles'
@@ -26,9 +30,11 @@ const DataTable = ({
   eventsForDropdown,
   selectedEvent,
   setSelectedEvent,
+  activeOnChange,
   onAddClick,
   onEditClick,
   onDeleteClick,
+  loading,
 }) => {
   const [searchTerm, setSearchTerm] = useState('')
   const [page, setPage] = React.useState(0)
@@ -38,45 +44,33 @@ const DataTable = ({
 
   let filteredRows = []
 
-  console.log('Original tableData:', tableData)
-  console.log('showInactive:', showInactive)
-  console.log('searchTerm:', searchTerm)
-
   if (tableTitle === 'Teams' || tableTitle === 'Participants') {
     filteredRows = tableData
       .filter((row) => {
         const show = showInactive || row.active
-        console.log(`Row ${row.id} - active: ${row.active}, show: ${show}`)
         return show
       })
       .filter((row) => {
         const searchableText = Object.values(row).join(' ').toLowerCase()
         const matchesSearch = searchableText.includes(searchTerm.toLowerCase())
-        console.log(`Row ${row.id} - search matches: ${matchesSearch}`)
         return matchesSearch
       })
       .filter((row) => {
         if (!selectedEvent) return true
-        const matchesEvent = row.eventId === selectedEvent
-        console.log(`Row ${row.id} - event matches: ${matchesEvent}`)
-        return matchesEvent
+        return row.eventId === selectedEvent
       })
   } else {
     filteredRows = tableData
       .filter((row) => {
         const show = showInactive || row.active
-        console.log(`Row ${row.id} - active: ${row.active}, show: ${show}`)
         return show
       })
       .filter((row) => {
         const searchableText = Object.values(row).join(' ').toLowerCase()
         const matchesSearch = searchableText.includes(searchTerm.toLowerCase())
-        console.log(`Row ${row.id} - search matches: ${matchesSearch}`)
         return matchesSearch
       })
   }
-  
-  console.log('Filtered rows:', filteredRows)
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -86,6 +80,8 @@ const DataTable = ({
     setRowsPerPage(+event.target.value)
     setPage(0)
   }
+
+  const disableAdd = tableTitle === 'Participants' && !selectedEvent
 
   return (
     <Paper
@@ -181,6 +177,8 @@ const DataTable = ({
 
       <TableContainer
         sx={(theme) => ({
+          width: '100%',
+          height: '100%',
           flexGrow: 1,
           overflowX: 'auto',
           overflowY: 'auto',
@@ -189,23 +187,64 @@ const DataTable = ({
           scrollbarColor: `${theme.palette.primary.light} ${theme.palette.background.default}`,
         })}
       >
-        <Table
-          stickyHeader
-          aria-label="sticky table"
-          sx={{
-            '&:hover': { bgcolor: alpha(theme.palette.primary.light, 0.05) },
-          }}
-        >
-          <TableHeaderRow columns={tableColumns} onAddClick={onAddClick} />
-          <TableDataRows
-            rows={filteredRows}
-            columns={tableColumns}
-            page={page}
-            rowsPerPage={rowsPerPage}
-            onEditClick={onEditClick}
-            onDeleteClick={onDeleteClick}
-          />
-        </Table>
+        {loading ? (
+          <Table stickyHeader height="100%">
+            <TableHeaderRow columns={tableColumns} />
+            <TableBody
+              sx={{
+                backgroundColor: 'background.paper',
+              }}
+            >
+              <TableRow>
+                <TableCell
+                  colSpan={tableColumns.length + 1}
+                  align="center"
+                  sx={{ border: 'none' }}
+                >
+                  <CircularProgress color="info" />
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        ) : filteredRows.length > 0 ? (
+          <Table
+            stickyHeader
+            sx={{
+              width: '100%',
+              '&:hover': { bgcolor: alpha(theme.palette.primary.light, 0.05) },
+            }}
+          >
+            <TableHeaderRow columns={tableColumns} onAddClick={onAddClick} />
+            <TableDataRows
+              rows={filteredRows}
+              columns={tableColumns}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              onEditClick={onEditClick}
+              onDeleteClick={onDeleteClick}
+              activeOnChange={activeOnChange}
+            />
+          </Table>
+        ) : (
+          <Table height="100%" stickyHeader>
+            <TableHeaderRow columns={tableColumns} onAddClick={onAddClick}  disabled={disableAdd} />
+            <TableBody
+              sx={{
+                backgroundColor: 'background.paper',
+              }}
+            >
+              <TableRow>
+                <TableCell
+                  colSpan={tableColumns.length + 1}
+                  align="center"
+                  sx={{ border: 'none' }}
+                >
+                  <Typography variant="h5" color="primary.main">No {tableTitle.toLowerCase()} to display</Typography>
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        )}
       </TableContainer>
       <Box
         sx={{

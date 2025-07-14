@@ -17,18 +17,19 @@ export const getDisplayEventTeams = async (id) => {
     const teamBestLap = getBestLapTime(laps)
     // Get time elapsed
     const teamTimeElapsed = getTimeElapsed(laps)
- 
+
     return {
       ...team,
       mountainName: team.mountain?.name,
-      elevation: team.mountain?.totalElevation,
-      currentElevation: laps.length
-        ? laps.length * (team.hill?.lapElevationGain ?? 0)
-        : '-',
-      lapsCompleted: laps.length || '-',
+      totalElevation: team.mountain?.totalElevation,
+      currentElevation: laps.length * (team.hill?.lapElevationGain ?? 0),
+
+      lapsCompleted: laps.length,
       lapsToGo: Math.max((team.lapsRequired || 0) - laps.length, 0),
-      bestLap: laps.length ? formatTime(teamBestLap) : null,
-      timeElapsed: laps.length ? formatTime(teamTimeElapsed) : '00:00:00',
+      bestLap: laps.length ? formatBestTime(teamBestLap) : null,
+      timeElapsed: laps.length
+        ? formatTimeElapsed(teamTimeElapsed)
+        : '00:00:00',
       participants: team.participants?.map((participant) => ({
         id: participant.id,
         firstName: participant.firstName,
@@ -93,10 +94,25 @@ export const getUpcomingEventsSummary = async () => {
       hour12: true,
     })
 
+    const endDate = end.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+
+    // Format time: 3:20 PM
+    const endTime = end.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    })
+
     return {
       name: event.name,
       startDate: startDate,
       startTime: startTime,
+      endDate: endDate,
+      endTime: endTime,
       daysToGo: daysToGo,
       teamsCount: teamsCount,
       participantsCount: participantCount,
@@ -172,7 +188,7 @@ export function getTimeElapsed(laps) {
 }
 
 // Format time to display
-function formatTime(durationMs) {
+function formatTimeElapsed(durationMs) {
   const totalSeconds = Math.floor(durationMs / 1000)
   const seconds = totalSeconds % 60
   const totalMinutes = Math.floor(totalSeconds / 60)
@@ -180,4 +196,12 @@ function formatTime(durationMs) {
   const hours = Math.floor(totalMinutes / 60)
 
   return `${String(hours).padStart(2, '00')}:${String(minutes).padStart(2, '00')}:${String(seconds).padStart(2, '00')}`
+}
+
+function formatBestTime(durationMs) {
+  const totalSeconds = Math.floor(durationMs / 1000)
+  const seconds = totalSeconds % 60
+  const totalMinutes = Math.floor(totalSeconds / 60)
+
+  return `${String(totalMinutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
 }

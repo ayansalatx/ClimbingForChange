@@ -22,11 +22,11 @@ const NavigationCard = ({
     <Card
       sx={{
         position: 'relative',
-        width: '18rem',
-        height: '12rem',
+        width: '14rem',
+        height: '8rem',
         bgcolor: bgColor,
-        borderRadius: '.5rem',
-        mx: '2.5rem',
+        borderRadius: '6px',
+        mx: '2rem',
         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)',
       }}
     >
@@ -55,7 +55,7 @@ const NavigationCard = ({
         >
           <Typography
             variant="h4"
-            fontSize={'2.1rem'}
+            fontSize={'1.5rem'}
             component="div"
             color="background.paper"
             align="start"

@@ -25,4 +25,5 @@ jobs:
             - name: Run Tests
               env:
                 MONGODB_URI: ${{ secrets.MONGODB_URI }}
+                JWT_SECRET: ${{ secrets.JWT_SECRET }}
               run: npm run test # concurent test one not working

@@ -7,6 +7,7 @@ import Mountain from '../models/mountain.js'
 import Participant from '../models/participant.js'
 import RFIDTag from '../models/rfidTag.js'
 import Team from '../models/team.js'
+import User from '../models/user.js'
 
 const seedDatabase = async () => {
   try {
@@ -30,7 +31,7 @@ const seedDatabase = async () => {
     // ------------------ SEEDING (ORDER IS CRITICAL) ------------------ //
 
     // 1. Seed documents with NO dependencies first.
-    console.log('Seeding Locations, Mountains, and RFID Tags...')
+    console.log('Seeding User, Locations, Mountains, and RFID Tags...')
     const locations = await Location.insertMany([
       {
         name: 'Down Town Park',
@@ -41,24 +42,36 @@ const seedDatabase = async () => {
       },
     ])
 
+    await User.insertMany([
+      {
+        username: 'admin',
+        firstName: 'John',
+        lastName: 'Doe',
+        password_hash: '$2a$12$7lCxHOSbd8XIJr/D6ZMsyO90FjYxqyQWzxx/IP6fznanAS6PjqcEK',
+      },
+      {
+        username: 'admin',
+        firstName: 'Jane',
+        lasttName: 'Mary',
+        password_hash: '$2a$12$7lCxHOSbd8XIJr/D6ZMsyO90FjYxqyQWzxx/IP6fznanAS6PjqcEK',
+      }
+    ])
+
     const mountains = await Mountain.insertMany([
       {
         name: 'Everest',
         totalElevation: 29029,
         elevationUnit: 'FT',
-        imageURL: 'https://images.unsplash.com/photo-1486911278844-a81c5267e227?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
       },
       {
         name: 'Denali',
         totalElevation: 20310,
         elevationUnit: 'FT',
-        imageURL: 'https://plus.unsplash.com/premium_photo-1674500519353-c816e0c06ad6?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
       },
       {
         name: 'Rainier',
         totalElevation: 14410,
         elevationUnit: 'FT',
-        imageURL: 'https://plus.unsplash.com/premium_photo-1673264933212-d78737f38e48?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8TW91bnQlMjBSYWluaWVyfGVufDB8fDB8fHww'
       },
     ])
 

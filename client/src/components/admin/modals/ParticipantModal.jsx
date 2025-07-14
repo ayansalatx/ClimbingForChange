@@ -1,8 +1,9 @@
-import { Box, MenuItem,Modal, TextField, Typography } from '@mui/material'
-import { useState } from 'react'
+import { Box, MenuItem, Modal, TextField, Typography } from '@mui/material'
+import { useEffect, useState } from 'react'
 
 import CancelButton from '../buttons/CancelButton'
-import CreateButton from '../buttons/CreateButton'
+import SaveButton from '../buttons/SaveButton'
+import TextInput from '../forms/fields/TextInput'
 
 const style = {
   position: 'absolute',
@@ -16,52 +17,69 @@ const style = {
   borderRadius: 2,
 }
 
-const AddParticipantModal = ({ open, teamNames = [], onClose, onAdd }) => {
+const AddParticipantModal = ({
+  open,
+  onClose,
+  onAdd,
+  participantData,
+  teamNames = [],
+}) => {
+  const [id, setId] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [teamId, setTeamId] = useState('')
 
-  const handleAdd = (e) => {
+  useEffect(() => {
+    if (open && participantData) {
+      setId(participantData.id || '')
+      setFirstName(participantData.firstName || '')
+      setLastName(participantData.lastName || '')
+      setTeamId(participantData.teamId?.id || participantData.teamId || '')
+    } else if (!open) {
+      setId('')
+      setFirstName('')
+      setLastName('')
+      setTeamId('')
+    }
+  }, [open, participantData])
+
+  const handleSubmit = (e) => {
     e.preventDefault()
 
-    const selectedTeam = teamNames.find((team) => team.id === teamId)
-    console.log('Selected team:', selectedTeam)
-
-    const participantData = {
-      firstName,
-      lastName,
-      team: selectedTeam || null
+    const newParticipant = {
+      id: id || undefined,
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
+      teamId: teamId || null,
     }
 
-    onAdd(participantData)
+    onAdd(newParticipant)
     onClose()
-
-    setFirstName('')
-    setLastName('')
-    setTeamId('')
   }
 
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={style}>
-        <Typography variant="h6" mb={2} sx={{ color: 'black' }}>
-          Add New Participant
+        <Typography
+          variant="h5"
+          mb={2}
+          sx={{ textTransform: 'uppercase', color: 'primary.main' }}
+        >
+          {participantData ? 'Edit Participant' : 'Add New Participant'}
         </Typography>
 
-        <form onSubmit={handleAdd}>
-          <TextField
+        <form onSubmit={handleSubmit}>
+          <TextInput
             fullWidth
             label="First Name"
-            variant="outlined"
             margin="normal"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
           />
-          <TextField
+          <TextInput
             fullWidth
             label="Last Name"
-            variant="outlined"
             margin="normal"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
@@ -70,7 +88,7 @@ const AddParticipantModal = ({ open, teamNames = [], onClose, onAdd }) => {
           <TextField
             select
             fullWidth
-            label="Team Name"
+            label="Team"
             variant="outlined"
             margin="normal"
             value={teamId}
@@ -90,8 +108,8 @@ const AddParticipantModal = ({ open, teamNames = [], onClose, onAdd }) => {
           </TextField>
 
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
-            <CancelButton onClick={onClose} />
-            <CreateButton type="submit" label="Create" />
+            <CancelButton onClick={onClose} color="red"/>
+            <SaveButton type="submit" label={participantData ? 'Save' : 'Create'} />
           </Box>
         </form>
       </Box>
