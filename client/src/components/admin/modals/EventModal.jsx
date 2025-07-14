@@ -1,6 +1,8 @@
-import { Box, Button, Checkbox, FormControl, InputLabel, MenuItem, Modal, Select, TextField, Typography } from '@mui/material'
+import { Box, Checkbox, FormControl, InputLabel, MenuItem, Modal, Select, TextField, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 
+import CancelButton from '../buttons/CancelButton'
+import SaveButton from '../buttons/SaveButton'
 import TextInput from '../forms/fields/TextInput'
 
 const style = {
@@ -185,36 +187,32 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
             InputLabelProps={{ shrink: true }}
             required
           />
+          <Box display="flex" gap={2}>
+            <TextField
+              fullWidth
+              label="Start Time"
+              type="time"
+              variant="outlined"
+              margin="normal"
+              value={startTime}
+              onChange={(e) => setStartTime(e.target.value)}
+              InputLabelProps={{ shrink: true }}
+              required
+            />
 
-          <TextField
-            fullWidth
-            label='Start Time'
-            type='time'
-            variant='outlined'
-            margin='normal'
-            value={startTime}
-            onChange={(e) => setStartTime(e.target.value)}
-            InputLabelProps={{ shrink: true }}
-            required
-          />
-
-          <TextInput
-            fullWidth
-            label='Duration (hours)'
-            type='number'
-            margin='normal'
-            value={duration}
-            onChange={(e) => setDuration(e.target.value)}
-            required
-          />
-
-          <Box mt={3} display='flex' justifyContent='space-between' gap={2}>
-            <Button variant='outlined' onClick={onModalClose}>
-              Cancel
-            </Button>
-            <Button type='submit' variant='contained'>
-              {eventToEdit ? 'Save' : 'Create'}
-            </Button>
+            <TextInput
+              fullWidth
+              label="Duration (hours)"
+              type="number"
+              margin="normal"
+              value={duration}
+              onChange={(e) => setDuration(e.target.value)}
+              required
+            />
+          </Box>
+          <Box mt={2} display="flex" justifyContent="space-between" gap={2}>
+            <CancelButton onClick={onModalClose} color="red" />
+            <SaveButton type="submit" label={eventToEdit? 'Save' : 'Create'} />
           </Box>
         </form>
       </Box>

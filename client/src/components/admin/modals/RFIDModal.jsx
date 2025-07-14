@@ -59,8 +59,8 @@ const RFIDModal = ({ open, onClose, onSave, rfid }) => {
           />
           
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, gap: 1 }}>
-            <CancelButton onClick={onClose} />
-            <SaveButton type='submit' label={rfid?.id ? 'Update' : 'Add'} />
+            <CancelButton onClick={onClose} color="red"/>
+            <SaveButton type="submit" label={rfid?.id ? 'Update' : 'Add'} />
           </Box>
         </form>
       </Box>
