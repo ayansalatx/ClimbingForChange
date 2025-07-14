@@ -13,13 +13,6 @@ import {
   updateRfidTag,
 } from '../../../services/rfidService'
 
-// RFID Tag icon
-const RfidIcon = () => (
-  <SvgIcon>
-    <path d="M12 0C8.96 0 6.5 2.46 6.5 5.5c0 1.33.47 2.55 1.26 3.5H12v10H2v-2h8v-1H5v-9c0-1.1.9-2 2-2h9c1.1 0 2 .9 2 2v9h-7v1h8v2h-8v1h9v-2h1v-2h1v-2h1v-1h1V9h-1V5.5C21 2.46 18.54 0 15.5 0H12zm3.5 8c-1.38 0-2.5-1.12-2.5-2.5S14.12 3 15.5 3s2.5 1.12 2.5 2.5S16.88 8 15.5 8z" />
-  </SvgIcon>
-)
-
 const tableColumns = [
   { 
     id: 'serialNumber', 
