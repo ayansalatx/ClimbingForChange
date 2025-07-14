@@ -200,6 +200,7 @@ const TeamProgress = () => {
                     alignItems: 'center',
                     justifyContent: 'flex-start',
                     backgroundColor: 'gray.light',
+                    pb: 2,
                   }}
                 >
                   <Typography
@@ -257,6 +258,7 @@ const TeamProgress = () => {
                     alignItems: 'center',
                     justifyContent: 'flex-start',
                     backgroundColor: 'gray.light',
+                    p: 2,
                   }}
                 >
                   <Box
@@ -310,7 +312,6 @@ const TeamProgress = () => {
                   <Box
                     sx={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}
                   >
-                    {' '}
                     <Box
                       sx={{ display: 'flex', flexWrap: 'wrap', width: '50%' }}
                     >
@@ -369,7 +370,20 @@ const TeamProgress = () => {
                 gap: 2,
               }}
             >
-              
+              <Box
+                sx={{
+                  height: '100%',
+                  borderRadius: '3px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start',
+                  backgroundColor: 'gray.light',
+                  p: 2,
+                }}
+              >
+                
+              </Box>
             </Box>
 
             <Box
