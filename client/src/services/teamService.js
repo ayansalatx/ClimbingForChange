@@ -83,8 +83,8 @@ export const getTeamForDisplay = async (id) => {
       ? laps.length * team.hill?.lapElevationGain
       : '-',
     elevationProgress: team.mountain?.totalElevation
-      ? (laps.length * team.hill?.lapElevationGain) /
-        team.mountain.totalElevation
+      ? ((laps.length * team.hill?.lapElevationGain) /
+        team.mountain.totalElevation) * 100
       : 0,
     totalLaps: team.lapsRequired,
     lapsCompleted: laps.length ? laps.length : '-',

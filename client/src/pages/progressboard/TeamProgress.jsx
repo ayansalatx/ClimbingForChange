@@ -16,10 +16,10 @@ import theme from '../../styles/theme'
 
 const columns = [
   { id: 'lapNumber', label: 'Lap', width: '5%', align: 'center' },
-  { id: 'startDateTime', label: 'Start', width: '37%', align: 'left' },
-  { id: 'endDateTime', label: 'Finish', width: '37%', align: 'left' },
-  { id: 'duration', label: 'Time', width: '20%', align: 'left' },
-  { id: 'completed', label: '', width: '3%', align: 'center' },
+  { id: 'startDateTime', label: 'Start', width: '35%', align: 'left' },
+  { id: 'endDateTime', label: 'Finish', width: '35%', align: 'left' },
+  { id: 'duration', label: 'Time', width: '15%', align: 'left' },
+  { id: 'completed', label: 'Done', width: '10%', align: 'center' },
 ]
 
 const TeamProgress = () => {
@@ -56,8 +56,8 @@ const TeamProgress = () => {
     <Box
       sx={{
         position: 'relative',
-        width: '100%',
-        height: '100%',
+        width: '100vw',
+        height: '100vh',
         overflow: 'hidden',
       }}
     >
@@ -445,7 +445,7 @@ const TeamProgress = () => {
                     display: 'inline-flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    backgroundColor: 'background.paper',
+                    backgroundColor: alpha(theme.palette.background.paper, 0.25),
                     borderRadius: '4px',
                     p: 2,
                   }}
@@ -455,7 +455,7 @@ const TeamProgress = () => {
                       variant="determinate"
                       value={100}
                       sx={{
-                        color: 'gray.main',
+                        color: alpha(theme.palette.primary.main, 0.75),
                         filter: 'drop-shadow(0 0 1px rgba(0, 0, 0, 0.3))',
                       }}
                       size={200}

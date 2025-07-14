@@ -1,13 +1,9 @@
 import { alpha, TableBody, TableCell, TableRow } from '@mui/material'
+import LapCompletedIcon from '@mui/icons-material/PublishedWithChanges'
 
 import theme from '../../../../styles/theme'
 
-const LapDataRows = ({
-  rows = [],
-  columns = [],
-  page,
-  rowsPerPage,
-}) => {
+const LapDataRows = ({ rows = [], columns = [], page, rowsPerPage }) => {
   return (
     <TableBody>
       {rows
@@ -17,15 +13,16 @@ const LapDataRows = ({
           return (
             <TableRow
               hover
-              role='checkbox'
+              role="checkbox"
               tabIndex={-1}
               key={row.id || index}
               sx={{
-                backgroundColor: isEven ? alpha(theme.palette.background.paper, 0.2)
-              : alpha(theme.palette.background.paper, 0.1),
+                backgroundColor: isEven
+                  ? alpha(theme.palette.background.paper, 0.05)
+                  : alpha(theme.palette.background.paper, 0.1),
                 '&:hover > *': {
                   backgroundColor: alpha(theme.palette.secondary.light, 0.9),
-                  color: 'primary.main'
+                  color: 'primary.main',
                 },
               }}
             >
@@ -42,9 +39,19 @@ const LapDataRows = ({
                       color: 'background.paper',
                     }}
                   >
-                    {column.format && typeof value === 'number'
-                      ? column.format(value)
-                      : value}
+                    {column.id === 'completed' ? (
+                      row.completed ? (
+                        <LapCompletedIcon
+                          sx={{
+                            color: 'secondary.main',
+                          }}
+                        />
+                      ) : null
+                    ) : column.format && typeof value === 'number' ? (
+                      column.format(value)
+                    ) : (
+                      value
+                    )}
                   </TableCell>
                 )
               })}

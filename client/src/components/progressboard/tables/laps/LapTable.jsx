@@ -39,7 +39,7 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
-        background: 'transparent',
+        backgroundColor: 'transparent',
       }}
     >
       <Box
