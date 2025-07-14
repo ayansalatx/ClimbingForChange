@@ -14,7 +14,7 @@ const TableHeaderRow = ({ columns, onAddClick, disabled }) => {
               width: column.width,
               textTransform: 'uppercase',
               letterSpacing: '0.075em',
-              fontSize: '1.1rem',
+              fontSize: { xxs: '1.1rem', md: '1.2rem', lg: '1.25rem', xl: '1.4rem' },
               fontWeight: 'bold',
               bgcolor: 'info.main',
               color: 'background.paper',

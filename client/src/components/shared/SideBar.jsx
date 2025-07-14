@@ -96,7 +96,7 @@ const SideBar = ({ open, toggleDrawer }) => {
   ]
 
   return (
-    <Drawer anchor="left" open={open} onClose={() => toggleDrawer(false)}>
+    <Drawer anchor='left' open={open} onClose={() => toggleDrawer(false)}>
       <Box
         sx={{
           width: 300,
@@ -107,11 +107,11 @@ const SideBar = ({ open, toggleDrawer }) => {
       >
         <Box sx={{ p: 1, pl: 3, mt: 2.5 }}>
           <a
-            href="https://www.climbingforchange.ca/"
-            target="_blank"
-            rel="noreferrer"
+            href='https://www.climbingforchange.ca/'
+            target='_blank'
+            rel='noreferrer'
           >
-            <img src={C4CBanner} alt="Climbing for Change Logo" height={80} />
+            <img src={C4CBanner} alt='Climbing for Change Logo' height={80} />
           </a>
         </Box>
 
@@ -155,7 +155,7 @@ const SideBar = ({ open, toggleDrawer }) => {
 
         <Box sx={{ pl: 3.5, pt: 2, pb: .5 }}>
           <Typography
-            variant="subtitle2"
+            variant='subtitle2'
             sx={{
               fontSize: '1.35rem',
               textTransform: 'uppercase',
@@ -196,7 +196,7 @@ const SideBar = ({ open, toggleDrawer }) => {
 
         <Box sx={{ pl: 3.5, pt: 1, pb: .5 }}>
           <Typography
-            variant="subtitle2"
+            variant='subtitle2'
             sx={{
               fontSize: '1.35rem',
               textTransform: 'uppercase',

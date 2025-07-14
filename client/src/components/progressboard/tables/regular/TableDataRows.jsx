@@ -10,7 +10,7 @@ import {
   TableCell,
   TableRow,
 } from '@mui/material'
-import React, { useRef, useState } from 'react'
+import React, { useEffect,useRef, useState } from 'react'
 
 import theme from '../../../../styles/theme'
 
@@ -18,6 +18,10 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
   const [open, setOpen] = useState(false)
   const expandRef = useRef(null)
   const isEven = index % 2 === 0
+
+  useEffect(() => {
+    setOpen(false)
+  }, [team?.id, index])
 
   // Scroll to expanded rows in team
   const handleCollapseEntered = () => {
@@ -33,16 +37,15 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
         role='checkbox'
         tabIndex={-1}
         sx={{
-          height: { sm: '3.5rem' },
+          height: { sm: '2.95rem', md: '3.15rem', lg: '3.25rem', xl: '3.5rem' },
           p: 0,
-          backgroundColor: isEven
-            ? alpha(theme.palette.background.paper, 0.3)
-            : alpha(theme.palette.background.paper, 0.2),
-          '&:focus': {
-            backgroundColor: isEven
+          border: 'none',
+          backgroundColor: open
+            ? alpha(theme.palette.secondary.light, 0.5)
+            : isEven
               ? alpha(theme.palette.background.paper, 0.3)
               : alpha(theme.palette.background.paper, 0.2),
-          },
+
           '&:hover > *': {
             backgroundColor: alpha(theme.palette.secondary.light, 0.9),
           },
@@ -53,7 +56,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
           sx={{
             border: 'none',
             backgroundColor: 'inherit',
-            p: { sm: 0.5, md: 1, lg: 1.25, xl: 1.5 },
+            p: { sm: 0.5, md: 1, lg: 1.1, xl: 1.2 },
             pr: 0,
           }}
         >
@@ -67,14 +70,18 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
               },
               '& svg': {
                 fontSize: {
-                  sm: '1rem',
-                  md: '1.5rem',
-                  lg: '1.6rem',
-                  xl: '1.75rem',
+                  sm: '1.1rem',
+                  md: '1.4rem',
+                  lg: '1.5rem',
+                  xl: '1.7rem',
                 },
               },
             }}
-            onClick={() => setOpen(!open)}
+            onClick={() => {
+              if (participants.length > 0) {
+                setOpen(!open)
+              }
+            }}
           >
             {open ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
           </IconButton>
@@ -83,6 +90,42 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
         {/* Create a cell for each column in the row */}
         {columns.map((column, index) => {
           const columnAlign = index === 0 ? 'left' : 'center'
+          const fontWeight = column.id === 'name' ? 'bold' : 'regular'
+
+          let fontSize
+          let letterSpacing
+          let color
+          switch (column.id) {
+            case 'name':
+              fontSize = {
+                sm: '1.05rem',
+                md: '1.2rem',
+                lg: '1.3rem',
+                xl: '1.4rem',
+              }
+              letterSpacing = '.01rem'
+              color = 'primary.light'
+              break
+            case 'mountain':
+              fontSize = {
+                sm: '1rem',
+                md: '1.2rem',
+                lg: '1.3rem',
+                xl: '1.4rem',
+              }
+              letterSpacing = 'auto'
+              color = 'primary.main'
+              break
+            default:
+              fontSize = {
+                sm: '.9rem',
+                md: '1.1rem',
+                lg: '1.2rem',
+                xl: '1.3rem',
+              }
+              letterSpacing = 'auto'
+              color = 'primary.main'
+          }
 
           const currentElevation = team.currentElevation ?? 0
           const totalElevation = team.totalElevation ?? 0
@@ -107,14 +150,13 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
               sx={{
                 border: 'none',
                 padding: '0',
-                fontSize: {
-                  sm: '.9rem',
-                  md: '1rem',
-                  lg: '1.1rem',
-                  xl: '1.2rem',
-                },
-                color: 'primary.main',
+                verticalAlign: 'middle',
                 backgroundColor: 'inherit',
+                color: color,
+                textTransform: 'uppercase',
+                letterSpacing: letterSpacing,
+                fontWeight: fontWeight,
+                fontSize: fontSize,
               }}
               key={column.id}
               align={columnAlign}
@@ -131,7 +173,12 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
         sx={{ backgroundColor: alpha(theme.palette.background.paper, 0.6) }}
       >
         <TableCell sx={{ p: 0 }} colSpan={columns.length + 1}>
-          <Collapse in={open} timeout='auto' unmountOnExit  onEntered={handleCollapseEntered}>
+          <Collapse
+            in={open}
+            timeout='auto'
+            unmountOnExit
+            onEntered={handleCollapseEntered}
+          >
             <Box sx={{ py: '.25rem' }}>
               <Table>
                 <TableBody sx={{ px: 0 }}>
@@ -185,13 +232,15 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
                           border: 'none',
                           textAlign: 'left',
                           fontSize: {
-                            sm: '.8rem',
-                            md: '.9rem',
-                            lg: '1rem',
-                            xl: '1.1rem',
+                            sm: '.9rem',
+                            md: '1.1rem',
+                            lg: '1.2rem',
+                            xl: '1.3rem',
                           },
                           textTransform: 'uppercase',
-                          color: 'primary.main',
+                          fontWeight: 'bold',
+                          letterSpacing: '0.015rem',
+                          color: 'primary.light',
                         }}
                       >
                         {participant.firstName} {participant.lastName}
@@ -209,7 +258,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
   )
 }
 
-const TableDataRows = ({ teams, columns, page, rowsPerPage }) => {
+const TableDataRows = ({ eventId, teams, columns, page, rowsPerPage }) => {
   return (
     <TableBody>
       {/* Slice the teams array to get only the teams for the current page. */}
@@ -219,7 +268,7 @@ const TableDataRows = ({ teams, columns, page, rowsPerPage }) => {
           const index = page * rowsPerPage + teamIndex
           return (
             <CollapsibleRow
-              key={team.id || index}
+              key={`${eventId}-${team.id || index}`}
               team={team}
               index={index}
               columns={columns}

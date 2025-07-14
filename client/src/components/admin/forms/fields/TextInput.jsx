@@ -5,8 +5,8 @@ const TextInput = ({ label, value, onChange, required, type = 'text', inputProps
     <TextField
       fullWidth
       label={label}
-      variant="outlined"
-      margin="normal"
+      variant='outlined'
+      margin='normal'
       value={value}
       onChange={onChange}
       required={required}
