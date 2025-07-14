@@ -11,7 +11,17 @@ import { useParams } from 'react-router-dom'
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import C4CHorizontalBlueLogo from '../../assets/C4C-branding/Climbing-For-Change-Horizontal_Green.png'
 import { getTeamForDisplay } from '../../services/teamService'
+import LapTable from '../../components/progressboard/tables/laps/LapTable'
 import theme from '../../styles/theme'
+
+const columns = [
+  { id: 'lapNumber', label: 'Lap', width: '10%' },
+  { id: 'startDateTime', label: 'Start', width: '30%' },
+  { id: 'endDateTime', label: 'Finish', width: '30%' },
+  { id: 'duration', label: 'Time', width: '20%' },
+  { id: 'completed', label: 'Done', width: '10%' },
+];
+
 
 const TeamProgress = () => {
   // Get media queries to render appropriate content
@@ -70,7 +80,7 @@ const TeamProgress = () => {
         />
       ) : (
         <video
-          src="/assets/mountain-with-way-points-full.mp4"
+          src="/assets/progress-board-background.mp4"
           autoPlay
           loop
           muted
@@ -174,7 +184,7 @@ const TeamProgress = () => {
                 justifyContent: 'center',
               }}
             >
-              <CircularProgress color='secondary' />
+              <CircularProgress color="secondary" />
             </Box>
           ) : (
             <Box
@@ -394,10 +404,10 @@ const TeamProgress = () => {
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'flex-start',
-                    backgroundColor: 'gray.light',
-                    p: 2,
                   }}
-                ></Box>
+                >
+                  <LapTable tableColumns={columns} laps={team.laps} />
+                </Box>
               </Box>
 
               <Box
