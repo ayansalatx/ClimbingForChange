@@ -13,10 +13,7 @@ export const getTeamsForDisplay = async () => {
   // Create array for display
   const teamsForDisplay = teamList.map((team) => {
     // Get laps for each team
-    const laps =
-      team.participants?.flatMap((p) =>
-        (p.laps || []).filter((lap) => lap.endTime)
-      ) || []
+    const laps = (team.laps || []).filter((lap) => lap.endDateTime)
 
     // Get best lap
     const teamBestLap = getBestLapTime(laps)
@@ -66,11 +63,8 @@ export const getTeamsForDisplay = async () => {
 export const getTeamForDisplay = async (id) => {
   const res = await api.get(`/teams/${id}`)
   const team = res.data
-  // Get laps for each participant
-  const laps =
-    team.participants?.flatMap((p) =>
-      (p.laps || []).filter((lap) => lap.endTime)
-    ) || []
+  // Get laps for each team
+  const laps = (team.laps || []).filter((lap) => lap.endDateTime)
 
   // Get best lap
   const teamBestLap = getBestLapTime(laps)
@@ -104,6 +98,28 @@ export const getTeamForDisplay = async (id) => {
       return {
         ...participant,
         fullName: `${participant.firstName} ${participant.lastName}`,
+      }
+    }),
+    laps: laps.map((lap, index) => {
+      const start = new Date(lap.startDateTime)
+      const end = new Date(lap.endDateTime)
+
+      return {
+        lapNumber: index + 1,
+        startDateTime: start.toLocaleString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true,
+        }),
+        endDateTime: end.toLocaleString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true,
+        }),
+        duration: formatTime(end - start),
+        completed: Boolean(lap.endDateTime),
       }
     }),
   }

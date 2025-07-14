@@ -22,6 +22,7 @@ export const getTeamById = async (request, response) => {
     .populate('mountain')
     .populate('hill')
     .populate('rfidTag')
+    .populate('laps')
 
   response.json(team)
 }

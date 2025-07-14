@@ -19,7 +19,7 @@ import LapDataRows from './LapDataRows'
 
 const LapTable = ({ tableColumns, laps = [], loading }) => {
   const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(5)
+  const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -159,7 +159,7 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
         }}
       >
         <TablePagination
-          rowsPerPageOptions={[5, 25, 100]}
+          rowsPerPageOptions={[10, 25, 100]}
           component="div"
           count={laps.length}
           rowsPerPage={rowsPerPage}

@@ -13,6 +13,7 @@ const LapDataRows = ({
       {rows
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
         .map((row, index) => {
+          const isEven = index % 2 === 0
           return (
             <TableRow
               hover
@@ -20,10 +21,11 @@ const LapDataRows = ({
               tabIndex={-1}
               key={row.id || index}
               sx={{
-                backgroundColor:
-                  index % 2 === 0 ? 'background.paper' : 'background.default',
+                backgroundColor: isEven ? alpha(theme.palette.background.paper, 0.3)
+              : alpha(theme.palette.background.paper, 0.2),
                 '&:hover > *': {
                   backgroundColor: alpha(theme.palette.secondary.light, 0.9),
+                  color: 'primary.main'
                 },
               }}
             >
@@ -35,8 +37,8 @@ const LapDataRows = ({
                     key={column.id}
                     align={column.align || 'left'}
                     sx={{
-                      fontSize: { sm: '1rem', md: '1.1rem', xl: '1.2rem' },
-                      color: row.active ? 'primary.main' : 'gray.main',
+                      fontSize: { sm: '1rem', md: '1rem', xl: '1rem' },
+                      color: 'background.paper',
                     }}
                   >
                     {column.format && typeof value === 'number'

@@ -18,8 +18,8 @@ const columns = [
   { id: 'lapNumber', label: 'Lap', width: '10%' },
   { id: 'startDateTime', label: 'Start', width: '30%' },
   { id: 'endDateTime', label: 'Finish', width: '30%' },
-  { id: 'duration', label: 'Time', width: '20%' },
-  { id: 'completed', label: 'Done', width: '10%' },
+  { id: 'duration', label: 'Time', width: '25%' },
+  { id: 'completed', label: '', width: '5%' },
 ];
 
 
@@ -41,6 +41,7 @@ const TeamProgress = () => {
     async function loadData() {
       try {
         const teamForDisplay = await getTeamForDisplay(teamId)
+        console.log(teamForDisplay)
         setTeam(teamForDisplay)
       } catch (e) {
         console.log('Failed to load progress data', e)
@@ -56,8 +57,8 @@ const TeamProgress = () => {
     <Box
       sx={{
         position: 'relative',
-        width: '100vw',
-        height: '100vh',
+        width: '100%',
+        height: '100%',
         overflow: 'hidden',
       }}
     >
