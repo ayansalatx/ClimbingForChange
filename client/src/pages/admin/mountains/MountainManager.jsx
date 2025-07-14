@@ -157,7 +157,7 @@ const MountainManager = () => {
       
       displayAlert(
         'Success',
-        `Mountain "${mountainToDelete.name}" has been deleted.`,
+        `Mountain '${mountainToDelete.name}' has been deleted.`,
         'success'
       )
     } catch (error) {
@@ -197,7 +197,7 @@ const MountainManager = () => {
         
         displayAlert(
           'Success',
-          `Mountain "${editedMountain.name}" has been updated.`,
+          `Mountain '${editedMountain.name}' has been updated.`,
           'success'
         )
         loadData()
@@ -215,7 +215,7 @@ const MountainManager = () => {
         
         displayAlert(
           'Success',
-          `Mountain "${savedMountain.name}" has been created.`,
+          `Mountain '${savedMountain.name}' has been created.`,
           'success'
         )
         loadData()

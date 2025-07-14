@@ -1,8 +1,6 @@
-import { Box, Checkbox, FormControl, InputLabel, MenuItem, Modal, Select, TextField, Typography } from '@mui/material'
+import { Box, Button, Checkbox, FormControl, InputLabel, MenuItem, Modal, Select, TextField, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 
-import CancelButton from '../buttons/CancelButton'
-import SaveButton from '../buttons/SaveButton'
 import TextInput from '../forms/fields/TextInput'
 
 const style = {
@@ -125,26 +123,26 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
   return (
     <Modal open={open} onClose={onModalClose}>
       <Box sx={style}>
-        <Typography variant="h6" mb={2} sx={{ color: 'black' }}>
+        <Typography variant='h6' mb={2} sx={{ color: 'black' }}>
           {eventToEdit ? 'Edit Event' : 'Add New Event'}
         </Typography>
         <form onSubmit={handleAdd}>
           <TextInput
             fullWidth
-            label="Event Name"
-            margin="normal"
+            label='Event Name'
+            margin='normal'
             value={eventName}
             onChange={(e) => setEventName(e.target.value)}
             required
           />
 
-          <FormControl fullWidth margin="normal">
-            <InputLabel id="location-select-label">Location</InputLabel>
+          <FormControl fullWidth margin='normal'>
+            <InputLabel id='location-select-label'>Location</InputLabel>
             <Select
-              labelId="location-select-label"
-              id="location-select"
+              labelId='location-select-label'
+              id='location-select'
               value={location}
-              label="Location"
+              label='Location'
               onChange={(e) => setLocation(e.target.value)}
               required
             >
@@ -156,15 +154,15 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
             </Select>
           </FormControl>
 
-          <FormControl fullWidth margin="normal">
-            <InputLabel id="mountain-select-label">Mountains</InputLabel>
+          <FormControl fullWidth margin='normal'>
+            <InputLabel id='mountain-select-label'>Mountains</InputLabel>
             <Select
-              labelId="mountain-select-label"
-              id="mountain-select"
+              labelId='mountain-select-label'
+              id='mountain-select'
               multiple
               value={mountainSelection}
               onChange={handleMountainChange}
-              label="Mountains"
+              label='Mountains'
               renderValue={getMountainNames}
             >
               {mountains.map((mountain) => (
@@ -178,41 +176,45 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
 
           <TextField
             fullWidth
-            label="Start Date"
-            type="date"
-            variant="outlined"
-            margin="normal"
+            label='Start Date'
+            type='date'
+            variant='outlined'
+            margin='normal'
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
             InputLabelProps={{ shrink: true }}
             required
           />
-          <Box display="flex" gap={2}>
-            <TextField
-              fullWidth
-              label="Start Time"
-              type="time"
-              variant="outlined"
-              margin="normal"
-              value={startTime}
-              onChange={(e) => setStartTime(e.target.value)}
-              InputLabelProps={{ shrink: true }}
-              required
-            />
 
-            <TextInput
-              fullWidth
-              label="Duration (hours)"
-              type="number"
-              margin="normal"
-              value={duration}
-              onChange={(e) => setDuration(e.target.value)}
-              required
-            />
-          </Box>
-          <Box mt={2} display="flex" justifyContent="space-between" gap={2}>
-            <CancelButton onClick={onModalClose} color="red" />
-            <SaveButton type="submit" label={eventToEdit? 'Save' : 'Create'} />
+          <TextField
+            fullWidth
+            label='Start Time'
+            type='time'
+            variant='outlined'
+            margin='normal'
+            value={startTime}
+            onChange={(e) => setStartTime(e.target.value)}
+            InputLabelProps={{ shrink: true }}
+            required
+          />
+
+          <TextInput
+            fullWidth
+            label='Duration (hours)'
+            type='number'
+            margin='normal'
+            value={duration}
+            onChange={(e) => setDuration(e.target.value)}
+            required
+          />
+
+          <Box mt={3} display='flex' justifyContent='space-between' gap={2}>
+            <Button variant='outlined' onClick={onModalClose}>
+              Cancel
+            </Button>
+            <Button type='submit' variant='contained'>
+              {eventToEdit ? 'Save' : 'Create'}
+            </Button>
           </Box>
         </form>
       </Box>

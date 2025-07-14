@@ -12,7 +12,7 @@ import CancelButton from '../buttons/CancelButton'
 import DeleteButton from '../buttons/DeleteButton'
 
 const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />
+  return <Slide direction='up' ref={ref} {...props} />
 })
 
 const ConfirmDeleteDialog = ({ open, onCancel, onConfirm }) => {
@@ -24,11 +24,11 @@ const ConfirmDeleteDialog = ({ open, onCancel, onConfirm }) => {
       }}
       keepMounted
       onClose={onCancel}
-      aria-describedby="confirm-delete-dialog"
+      aria-describedby='confirm-delete-dialog'
     >
       <DialogTitle>{'Confirm Delete'}</DialogTitle>
       <DialogContent sx={{ py: 0 }}>
-        <DialogContentText id="alert-dialog-slide-description">
+        <DialogContentText id='alert-dialog-slide-description'>
           Are you sure you want to delete this item?
         </DialogContentText>
       </DialogContent>

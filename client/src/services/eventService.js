@@ -23,9 +23,18 @@ export const getDisplayEventTeams = async (id) => {
       mountainName: team.mountain?.name,
       totalElevation: team.mountain?.totalElevation,
       currentElevation: laps.length * (team.hill?.lapElevationGain ?? 0),
-
+      lapsRequired: Math.round(
+        (team.mountain?.totalElevation ?? 0) /
+          (team.hill?.lapElevationGain ?? 0)
+      ),
       lapsCompleted: laps.length,
-      lapsToGo: Math.max((team.lapsRequired || 0) - laps.length, 0),
+      lapsToGo: Math.max(
+        Math.round(
+          (team.mountain?.totalElevation ?? 0) /
+            (team.hill?.lapElevationGain ?? 0)
+        ) - laps.length,
+        0
+      ),
       bestLap: laps.length ? formatBestTime(teamBestLap) : null,
       timeElapsed: laps.length
         ? formatTimeElapsed(teamTimeElapsed)

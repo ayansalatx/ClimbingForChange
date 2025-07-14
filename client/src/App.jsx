@@ -36,7 +36,7 @@ function App() {
           <Route path='/login'  element={<AdminLogin />} />
 
           <Route
-            path="/admin"
+            path='/admin'
             element={
               <PrivateRoute>
                 <Layout />
