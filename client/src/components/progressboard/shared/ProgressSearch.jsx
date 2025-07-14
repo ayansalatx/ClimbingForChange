@@ -49,6 +49,8 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
               backgroundColor: 'background.paper',
               color: 'primary.main',
               fontSize: { xxs: '.9rem', md: '1rem', xl: '1.05rem' },
+              mx: 0.75,
+              transition: 'background-color 0.2s ease',
               '& .MuiAutocomplete-option': {
                 minHeight: { xxs: 'unset', xs: 'unset' },
                 fontSize: {
@@ -57,16 +59,9 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
                   sm: '0.9rem',
                   md: '1rem',
                 },
-
-                mx: 0.75,
-                borderRadius: '3px',
-                color: 'primary.main',
-                transition: 'background-color 0.2s ease',
                 '&:hover': {
                   borderRadius: '3px',
-                  backgroundColor: {
-                    backgroundColor: alpha(theme.palette.secondary.main, 0.7),
-                  },
+                  backgroundColor: alpha(theme.palette.secondary.main, 0.7),
                   '&:focus': {
                     borderRadius: '3px',
                     backgroundColor: alpha(theme.palette.secondary.main, 0.7),
@@ -75,12 +70,6 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
               },
               '&.Mui-selected:hover': {
                 backgroundColor: alpha(theme.palette.secondary.main, 0.7),
-              },
-              '& .MuiAutocomplete-option': {
-                minHeight: { xxs: 'unset', xs: 'unset', sm: 0 },
-                '&:hover': {
-                  backgroundColor: alpha(theme.palette.secondary.main, 0.7),
-                },
               },
             },
           },

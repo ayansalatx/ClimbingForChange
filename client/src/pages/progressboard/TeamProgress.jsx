@@ -169,71 +169,216 @@ const TeamProgress = () => {
               flexGrow: 1,
               backgroundColor: alpha(theme.palette.primary.main, 0.75),
               borderRadius: '4px',
+              p: 2,
+              gap: 2,
             }}
           >
             <Box
               sx={{
                 display: 'flex',
                 height: '100%',
-                height: '100%',
                 flexGrow: 1,
                 flexDirection: 'column',
-                p: 2,
-                gap: 2,
                 borderRadius: '4px',
               }}
             >
               <Box
                 sx={{
-                  width: '50%',
                   height: '100%',
-                  borderRadius: '3px',
                   display: 'flex',
                   flexDirection: 'column',
-                  alignItems: 'center',
                   justifyContent: 'flex-start',
-                  backgroundColor: 'gray.light',
+                  gap: 2,
                 }}
               >
-                <Typography
-                  variant="h1"
-                  color="primary.light"
-                  fontWeight="bold"
-                  textTransform="uppercase"
-                  letterSpacing=".05rem"
+                <Box
                   sx={{
-                    fontStyle: 'italic',
-                    fontSize: {
-                      xxs: '1.8rem',
-                      xs: '2.2rem',
-                      sm: '2.1rem',
-                      md: '3rem',
-                      lg: '3.5rem',
-                      xl: '4rem',
-                    },
-                    textAlign: 'left',
+                    height: '100%',
+                    borderRadius: '3px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
+                    backgroundColor: 'gray.light',
                   }}
                 >
-                  {team?.name}
-                </Typography>
-                {team?.participants.map((participant, index) => (
-                  <Box sx={{ width: '100%' }}>
-                    <Typography sx={{ color: 'primary.main' }}>
-                      {participant.firstName} {participant.lastName}
-                    </Typography>
+                  <Typography
+                    variant="h1"
+                    color="primary.light"
+                    fontWeight="bold"
+                    textTransform="uppercase"
+                    letterSpacing=".05rem"
+                    sx={{
+                      fontStyle: 'italic',
+                      fontSize: {
+                        xxs: '1.8rem',
+                        xs: '2.2rem',
+                        sm: '2.1rem',
+                        md: '3rem',
+                        lg: '3.5rem',
+                        xl: '4rem',
+                      },
+                      textAlign: 'left',
+                      pb: 2,
+                    }}
+                  >
+                    {team?.name}
+                  </Typography>
+                  <Box
+                    sx={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}
+                  >
+                    {team?.participants.map((participant, index) => (
+                      <Box key={index} sx={{ width: '50%', px: 2 }}>
+                        <Typography
+                          sx={{
+                            fontSize: {
+                              xxs: '1rem',
+                              xs: '1rem',
+                              sm: '1.25rem',
+                              md: '1.5rem',
+                              lg: '1.5rem',
+                              xl: '2rem',
+                            },
+                            color: 'primary.main',
+                          }}
+                        >
+                          {participant.firstName} {participant.lastName}
+                        </Typography>
+                      </Box>
+                    ))}
                   </Box>
-                ))}
+                </Box>
+                <Box
+                  sx={{
+                    height: '100%',
+                    borderRadius: '3px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
+                    backgroundColor: 'gray.light',
+                  }}
+                >
+                  <Box
+                    sx={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}
+                  >
+                    <Box
+                      sx={{ display: 'flex', flexWrap: 'wrap', width: '50%' }}
+                    >
+                      <Box sx={{ width: '50%', px: 2 }}>
+                        <Typography
+                          variant="h6"
+                          color="primary.main"
+                          sx={{ textAlign: 'left' }}
+                        >
+                          Mountain:
+                        </Typography>
+                      </Box>
+                      <Box sx={{ width: '50%', px: 2 }}>
+                        <Typography
+                          variant="h6"
+                          color="primary.main"
+                          sx={{ textAlign: 'right' }}
+                        >
+                          {team?.mountainName}
+                        </Typography>
+                      </Box>
+                    </Box>
+                    <Box
+                      sx={{ display: 'flex', flexWrap: 'wrap', width: '50%' }}
+                    >
+                      <Box sx={{ width: '50%', px: 2 }}>
+                        <Typography
+                          variant="h6"
+                          color="primary.main"
+                          sx={{ textAlign: 'left' }}
+                        >
+                          Elevation:
+                        </Typography>
+                      </Box>
+                      <Box sx={{ width: '50%', px: 2 }}>
+                        <Typography
+                          variant="h6"
+                          color="primary.main"
+                          sx={{ textAlign: 'right' }}
+                        >
+                          {team?.totalElevation} {team?.elevationUnit}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                  <Box
+                    sx={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}
+                  >
+                    {' '}
+                    <Box
+                      sx={{ display: 'flex', flexWrap: 'wrap', width: '50%' }}
+                    >
+                      <Box sx={{ width: '50%', px: 2 }}>
+                        <Typography
+                          variant="h6"
+                          color="primary.main"
+                          sx={{ textAlign: 'left' }}
+                        >
+                          Total Laps:
+                        </Typography>
+                      </Box>
+                      <Box sx={{ width: '50%', px: 2 }}>
+                        <Typography
+                          variant="h6"
+                          color="primary.main"
+                          sx={{ textAlign: 'right' }}
+                        >
+                          {team?.totalLaps}
+                        </Typography>
+                      </Box>
+                    </Box>
+                    <Box
+                      sx={{ display: 'flex', flexWrap: 'wrap', width: '50%' }}
+                    >
+                      <Box sx={{ width: '50%', px: 2 }}>
+                        <Typography
+                          variant="h6"
+                          color="primary.main"
+                          sx={{ textAlign: 'left' }}
+                        >
+                          Lap Elevation:
+                        </Typography>
+                      </Box>
+                      <Box sx={{ width: '50%', px: 2 }}>
+                        <Typography
+                          variant="h6"
+                          color="primary.main"
+                          sx={{ textAlign: 'right' }}
+                        >
+                          {team?.hillLap} {team?.hillLapUnit}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                </Box>
               </Box>
             </Box>
+
             <Box
               sx={{
                 display: 'flex',
                 height: '100%',
                 flexDirection: 'column',
-                height: '100%',
-                p: 2,
-                gap: 2,
                 borderRadius: '3px',
+                gap: 2,
+              }}
+            >
+              
+            </Box>
+
+            <Box
+              sx={{
+                display: 'flex',
+                height: '100%',
+                flexDirection: 'column',
+                borderRadius: '3px',
+                gap: 2,
               }}
             >
               <Box
@@ -276,7 +421,7 @@ const TeamProgress = () => {
                   />
                   <CircularProgress
                     variant="determinate"
-                    value={50}
+                    value={team?.elevationProgress}
                     sx={{
                       color: 'secondary.main',
                       filter: 'drop-shadow(0 0 3px rgba(118, 163, 46, 0.3))',
@@ -307,7 +452,7 @@ const TeamProgress = () => {
                     variant="subtitle2"
                     sx={{ color: 'primary.main' }}
                   >
-                    17,954 ft
+                    {team?.currentElevation} ft
                   </Typography>
                 </Box>
               </Box>
