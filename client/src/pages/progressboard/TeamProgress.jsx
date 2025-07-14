@@ -466,7 +466,7 @@ const TeamProgress = () => {
                       value={team?.elevationProgress}
                       sx={{
                         color: 'secondary.main',
-                        filter: 'drop-shadow(0 0 4px rgba(118, 163, 46, 0.3))',
+                        filter: 'drop-shadow(0 0 4px rgba(48, 51, 31, 0.3))',
                         position: 'absolute',
                         left: 0,
                         '& .MuiCircularProgress-circle': {
@@ -491,10 +491,10 @@ const TeamProgress = () => {
                     }}
                   >
                     <Typography
-                      variant="subtitle2"
-                      sx={{ color: 'primary.main' }}
+                      variant="h6"
+                      sx={{ fontWeight: 'bold', letterSpacing: '0.1rem', color: 'secondary.main' }}
                     >
-                      {team?.currentElevation} ft
+                      {team?.currentElevation} {team?.elevationUnit}
                     </Typography>
                   </Box>
                 </Box>

@@ -57,7 +57,7 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
             flexDirection: 'row',
             alignItems: 'center',
             justifyItems: 'bottom',
-            py: '.5rem',
+            py: '.25rem',
           }}
         >
           <FlagIcon
@@ -93,7 +93,7 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
           minHeight: 0,
           position: 'relative',
           scrollbarWidth: 'thin',
-          scrollbarColor: `${theme.palette.primary.light} ${theme.palette.background.default}`,
+          scrollbarColor: `${theme.palette.secondary.main} ${theme.palette.background.default}`,
         })}
       >
         {loading ? (
@@ -167,7 +167,7 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
           sx={{
-            minHeight: '3.25rem',
+            minHeight: '3rem',
             bgcolor: 'background.paper',
             color: 'primary.main',
             '& .MuiSvgIcon-root': {
