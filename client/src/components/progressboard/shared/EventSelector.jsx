@@ -18,23 +18,32 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
       }}
     >
       <Select
-        variant="filled"
-        id="event-select"
+        variant='filled'
+        id='event-select'
         value={selectedEvent ?? ''}
         onChange={(e) => setSelectedEvent(e.target.value)}
         displayEmpty
         required
-        inputProps={{ sx: { borderRadius: '3px !important' } }}
+        inputProps={{
+          paper: { minHeight: { xxs: 'unset', xs: 'unset' } },
+          sx: { borderRadius: '3px !important' },
+        }}
         sx={{
           textAlign: 'left',
-          backgroundColor: { xxs: 'background.paper', sm: alpha(theme.palette.background.paper, 0.4) },
+          backgroundColor: {
+            xxs: 'gray.light',
+            sm: alpha(theme.palette.background.paper, 0.4),
+          },
           borderRadius: '3px',
-          color: 'primary.main',
+          color: 'primary.light',
           '&:before, &:after': {
             borderBottom: 'none !important',
           },
           '&.Mui-focused': {
-            backgroundColor: { xxs: 'background.paper', sm: alpha(theme.palette.background.paper, 0.4) },
+            backgroundColor: {
+              xxs: 'background.paper',
+              sm: alpha(theme.palette.background.paper, 0.4),
+            },
           },
           '& .MuiSelect-select': {
             py: {
@@ -53,29 +62,42 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
             },
             opacity: '100%',
             fontSize: {
-              xxs: '0.85rem',
-              xs: '0.85rem',
-              sm: '0.85rem',
-              md: '0.9rem',
-              lg: '1rem',
-              xl: '1.05rem',
+              xxs: '0.9rem',
+              xs: '0.9rem',
+              sm: '0.9rem',
+              md: '1.1rem',
+              xl: '1.15rem',
             },
+            fontWeight: 'bold',
+            textTransform: 'uppercase',
+            letterSpacing: '.01rem',
           },
           '& .MuiSelect-select:hover': {
-            background: alpha(theme.palette.info.main, 0.5),
+            backgroundColor: {
+              xxs: 'info.main',
+              sm: alpha(theme.palette.info.main, 0.5),
+            },
           },
           '& .MuiSelect-select:focus': {
-            backgroundColor: { xxs: 'background.paper', sm: alpha(theme.palette.background.paper, 0.4) },
+            backgroundColor: {
+              xxs: 'gray.light',
+              sm: alpha(theme.palette.background.paper, 0.4),
+            },
+          },
+          '.MuiSvgIcon-root': {
+            color: 'primary.light',
           },
         }}
       >
         <MenuItem
-          value=""
+          value=''
           disabled
           sx={{
             minHeight: { xxs: 'unset' },
             fontSize: {
               xxs: '0.9rem',
+              xs: '0.9rem',
+              sm: '0.9rem',
               md: '1rem',
             },
             py: 0,
@@ -101,6 +123,10 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
               '&:hover': {
                 borderRadius: '3px',
                 background: alpha(theme.palette.secondary.main, 0.7),
+              },
+              '&:focus': {
+                borderRadius: '3px',
+                backgroundColor: alpha(theme.palette.secondary.main, 0.7),
               },
             }}
           >

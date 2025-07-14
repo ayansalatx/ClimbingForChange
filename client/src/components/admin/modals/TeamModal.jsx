@@ -115,15 +115,15 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
   return (
     <Modal open={open} onClose={onModalClose}>
       <Box sx={style}>
-        <Typography variant="h6" mb={2} sx={{ color: 'black' }}>
+        <Typography variant='h6' mb={2} sx={{ color: 'black' }}>
           {teamToEdit ? 'Edit Team' : 'Add New Team'}
         </Typography>
         <form onSubmit={handleSubmit}>
           <TextInput
             fullWidth
-            label="Team Name"
-            variant="outlined"
-            margin="normal"
+            label='Team Name'
+            variant='outlined'
+            margin='normal'
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
@@ -167,13 +167,13 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
             </FormControl>
           </Box>
 
-          <FormControl fullWidth margin="normal" required>
-            <InputLabel id="event-select-label">Event</InputLabel>
+          <FormControl fullWidth margin='normal' required>
+            <InputLabel id='event-select-label'>Event</InputLabel>
             <Select
-              labelId="event-select-label"
-              id="event-select"
+              labelId='event-select-label'
+              id='event-select'
               value={selectedEvent}
-              label="Event"
+              label='Event'
               onChange={(e) => setSelectedEvent(e.target.value)}
             >
               {events.map((event) => (
@@ -184,9 +184,48 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
             </Select>
           </FormControl>
 
+          <TextField
+            fullWidth
+            required
+            label="Laps"
+            type="number"
+            variant="outlined"
+            margin="normal"
+            value={lapsRequired}
+            onChange={(e) => setLapsRequired(e.target.value)}
+            inputProps={{ min: 1 }}
+          />
+
+          <TextField
+            fullWidth
+            required
+            label="Total Distance"
+            type="number"
+            variant="outlined"
+            margin="normal"
+            value={distanceRequired}
+            onChange={(e) => setDistanceRequired(e.target.value)}
+            inputProps={{ min: 1 }}
+          />
+          <TextField
+            fullWidth
+            label="Start Date & Time"
+            type="datetime-local"
+            variant="outlined"
+            margin="normal"
+            value={startDateTime}
+            onChange={(e) => setStartDateTime(e.target.value)}
+            InputLabelProps={{ shrink: true }}
+            required
+          />
+
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
-            <CancelButton onClick={onModalClose} color="red" />
-            <SaveButton type="submit" label={teamToEdit ? 'Save' : 'Create'} />
+            <Button variant="outlined" onClick={onModalClose}>
+              Cancel
+            </Button>
+            <Button type="submit" variant="contained">
+              {teamToEdit ? 'Save' : 'Create'}
+            </Button>
           </Box>
         </form>
       </Box>

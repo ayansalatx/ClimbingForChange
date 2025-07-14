@@ -32,7 +32,7 @@ const RowActions = ({ row, onEditClick, onDeleteClick, active }) => {
             fontSize: '1.5rem',
             color: active ? 'primary.light' : 'grey.main',
           }}
-          fontSize="small"
+          fontSize='small'
         />
       </IconButton>
       <IconButton
@@ -53,7 +53,7 @@ const RowActions = ({ row, onEditClick, onDeleteClick, active }) => {
         })}
       >
         <Delete
-          fontSize="small"
+          fontSize='small'
           sx={{
             fontSize: '1.5rem',
             color: active ? 'error.main' : 'grey.main',
