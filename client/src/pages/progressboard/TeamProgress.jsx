@@ -15,13 +15,12 @@ import LapTable from '../../components/progressboard/tables/laps/LapTable'
 import theme from '../../styles/theme'
 
 const columns = [
-  { id: 'lapNumber', label: 'Lap', width: '10%' },
-  { id: 'startDateTime', label: 'Start', width: '30%' },
-  { id: 'endDateTime', label: 'Finish', width: '30%' },
-  { id: 'duration', label: 'Time', width: '25%' },
-  { id: 'completed', label: '', width: '5%' },
-];
-
+  { id: 'lapNumber', label: 'Lap', width: '5%', align: 'center' },
+  { id: 'startDateTime', label: 'Start', width: '37%', align: 'left' },
+  { id: 'endDateTime', label: 'Finish', width: '37%', align: 'left' },
+  { id: 'duration', label: 'Time', width: '20%', align: 'left' },
+  { id: 'completed', label: '', width: '3%', align: 'center' },
+]
 
 const TeamProgress = () => {
   // Get media queries to render appropriate content
@@ -198,6 +197,7 @@ const TeamProgress = () => {
                 borderRadius: '4px',
                 p: 2,
                 gap: 2,
+                minHeight: 0,
               }}
             >
               <Box
@@ -221,7 +221,7 @@ const TeamProgress = () => {
                   <Box
                     sx={{
                       height: '100%',
-                      borderRadius: '3px',
+                      borderRadius: '4px',
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
@@ -279,7 +279,7 @@ const TeamProgress = () => {
                   <Box
                     sx={{
                       height: '100%',
-                      borderRadius: '3px',
+                      borderRadius: '4px',
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
@@ -393,18 +393,21 @@ const TeamProgress = () => {
                   display: 'flex',
                   height: '100%',
                   flexDirection: 'column',
-                  borderRadius: '3px',
+                  borderRadius: '4px',
                   gap: 2,
+                  overflowY: 'hidden',
+                  minHeight: 0,
                 }}
               >
                 <Box
                   sx={{
                     height: '100%',
-                    borderRadius: '3px',
+                    borderRadius: '4px',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'flex-start',
+                    overflowY: 'hidden',
                   }}
                 >
                   <LapTable tableColumns={columns} laps={team.laps} />
@@ -416,7 +419,7 @@ const TeamProgress = () => {
                   display: 'flex',
                   height: '100%',
                   flexDirection: 'column',
-                  borderRadius: '3px',
+                  borderRadius: '4px',
                   gap: 2,
                 }}
               >
@@ -424,7 +427,7 @@ const TeamProgress = () => {
                   sx={{
                     width: '100%',
                     height: '100%',
-                    borderRadius: '3px',
+                    borderRadius: '4px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -443,7 +446,7 @@ const TeamProgress = () => {
                     alignItems: 'center',
                     justifyContent: 'center',
                     backgroundColor: 'background.paper',
-                    borderRadius: '3px',
+                    borderRadius: '4px',
                     p: 2,
                   }}
                 >
@@ -463,7 +466,7 @@ const TeamProgress = () => {
                       value={team?.elevationProgress}
                       sx={{
                         color: 'secondary.main',
-                        filter: 'drop-shadow(0 0 3px rgba(118, 163, 46, 0.3))',
+                        filter: 'drop-shadow(0 0 4px rgba(118, 163, 46, 0.3))',
                         position: 'absolute',
                         left: 0,
                         '& .MuiCircularProgress-circle': {

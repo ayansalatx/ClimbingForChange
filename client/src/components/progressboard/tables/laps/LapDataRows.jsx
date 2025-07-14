@@ -21,8 +21,8 @@ const LapDataRows = ({
               tabIndex={-1}
               key={row.id || index}
               sx={{
-                backgroundColor: isEven ? alpha(theme.palette.background.paper, 0.3)
-              : alpha(theme.palette.background.paper, 0.2),
+                backgroundColor: isEven ? alpha(theme.palette.background.paper, 0.2)
+              : alpha(theme.palette.background.paper, 0.1),
                 '&:hover > *': {
                   backgroundColor: alpha(theme.palette.secondary.light, 0.9),
                   color: 'primary.main'
@@ -35,9 +35,10 @@ const LapDataRows = ({
                 return (
                   <TableCell
                     key={column.id}
-                    align={column.align || 'left'}
+                    align={column.align}
                     sx={{
-                      fontSize: { sm: '1rem', md: '1rem', xl: '1rem' },
+                      whiteSpace: 'nowrap',
+                      fontSize: { sm: '1rem', md: '1.1rem', xl: '1.1rem' },
                       color: 'background.paper',
                     }}
                   >

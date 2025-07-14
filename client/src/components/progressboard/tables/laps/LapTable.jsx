@@ -19,7 +19,7 @@ import LapDataRows from './LapDataRows'
 
 const LapTable = ({ tableColumns, laps = [], loading }) => {
   const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(10)
+  const [rowsPerPage, setRowsPerPage] = React.useState(15)
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -87,11 +87,10 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
 
       <TableContainer
         sx={(theme) => ({
-          width: '100%',
-          height: '100%',
-          flexGrow: 1,
-          overflowX: 'auto',
+          flex: 1,
           overflowY: 'auto',
+          overflowX: 'hidden',
+          minHeight: 0,
           position: 'relative',
           scrollbarWidth: 'thin',
           scrollbarColor: `${theme.palette.primary.light} ${theme.palette.background.default}`,
@@ -115,6 +114,7 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
         ) : laps.length > 0 ? (
           <Table
             stickyHeader
+            size="small"
             sx={{
               width: '100%',
               '&:hover': { bgcolor: alpha(theme.palette.primary.light, 0.05) },
@@ -136,7 +136,7 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
                 <TableCell
                   colSpan={tableColumns.length + 1}
                   align="center"
-                      sx={{
+                  sx={{
                     backgroundColor: alpha(theme.palette.background.paper, 0.1),
                     border: 'none',
                   }}
@@ -159,7 +159,7 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
         }}
       >
         <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
+          rowsPerPageOptions={[15, 25, 100]}
           component="div"
           count={laps.length}
           rowsPerPage={rowsPerPage}
