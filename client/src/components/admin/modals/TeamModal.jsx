@@ -184,41 +184,6 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
             </Select>
           </FormControl>
 
-          <TextField
-            fullWidth
-            required
-            label="Laps"
-            type="number"
-            variant="outlined"
-            margin="normal"
-            value={lapsRequired}
-            onChange={(e) => setLapsRequired(e.target.value)}
-            inputProps={{ min: 1 }}
-          />
-
-          <TextField
-            fullWidth
-            required
-            label="Total Distance"
-            type="number"
-            variant="outlined"
-            margin="normal"
-            value={distanceRequired}
-            onChange={(e) => setDistanceRequired(e.target.value)}
-            inputProps={{ min: 1 }}
-          />
-          <TextField
-            fullWidth
-            label="Start Date & Time"
-            type="datetime-local"
-            variant="outlined"
-            margin="normal"
-            value={startDateTime}
-            onChange={(e) => setStartDateTime(e.target.value)}
-            InputLabelProps={{ shrink: true }}
-            required
-          />
-
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
             <Button variant="outlined" onClick={onModalClose}>
               Cancel
