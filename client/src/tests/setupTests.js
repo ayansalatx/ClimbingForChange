@@ -34,7 +34,7 @@ if (typeof window !== 'undefined') {
       removeEventListener: jest.fn(),
       dispatchEvent: jest.fn(),
     })),
-  });
+  })
 }
 
 Object.defineProperty(window, 'matchMedia', {
@@ -60,7 +60,7 @@ global.console = {
   warn: jest.fn(),
   log: jest.fn(),
   info: jest.fn(),
-  debug: jest.fn()
+  debug: jest.fn(),
 }
 
 // Clean up mocks after each test

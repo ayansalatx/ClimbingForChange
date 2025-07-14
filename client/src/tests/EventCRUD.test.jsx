@@ -10,7 +10,7 @@ import { getAllLocations } from '../services/locationService'
 jest.mock('../services/eventService')
 jest.mock('../services/locationService')
 jest.mock('../hooks/useAlert', () => ({
-  useAlert: () => jest.fn()
+  useAlert: () => jest.fn(),
 }))
 
 describe('EventManager CRUD operations', () => {
@@ -21,7 +21,7 @@ describe('EventManager CRUD operations', () => {
       location: { id: 'loc1', name: 'Location 1' },
       startDateTime: '2025-08-10T10:00:00Z',
       endDateTime: '2025-08-10T12:00:00Z',
-      active: true
+      active: true,
     },
     {
       id: '2',
@@ -29,13 +29,13 @@ describe('EventManager CRUD operations', () => {
       location: { id: 'loc2', name: 'Location 2' },
       startDateTime: '2025-08-12T14:00:00Z',
       endDateTime: '2025-08-12T16:00:00Z',
-      active: true
-    }
+      active: true,
+    },
   ]
 
   const mockLocations = [
     { id: 'loc1', name: 'Location 1' },
-    { id: 'loc2', name: 'Location 2' }
+    { id: 'loc2', name: 'Location 2' },
   ]
 
   beforeEach(() => {
@@ -85,7 +85,7 @@ describe('EventManager CRUD operations', () => {
     await waitFor(() => {
       expect(addEvent).toHaveBeenCalledWith(expect.objectContaining({
         name: 'New Event',
-        location: 'loc1'
+        location: 'loc1',
       }))
     })
   })
@@ -94,7 +94,7 @@ describe('EventManager CRUD operations', () => {
     render(<EventManager />)
     await waitFor(() => screen.getByText('Test Event 1'))
     const iconButtons = screen.getAllByRole('button')
-    const editButton = iconButtons.find(btn => btn.querySelector('svg[data-testid="EditIcon"]'))
+    const editButton = iconButtons.find((btn) => btn.querySelector('svg[data-testid="EditIcon"]'))
     fireEvent.click(editButton)
     await waitFor(() => screen.getByText(/edit event/i))
 
@@ -106,7 +106,7 @@ describe('EventManager CRUD operations', () => {
 
     await waitFor(() => {
       expect(editEvent).toHaveBeenCalledWith('1', expect.objectContaining({
-        name: 'Updated Event Name'
+        name: 'Updated Event Name',
       }))
     })
   })
@@ -115,7 +115,7 @@ describe('EventManager CRUD operations', () => {
     render(<EventManager />)
     await waitFor(() => screen.getByText('Test Event 1'))
     const iconButtons = screen.getAllByRole('button')
-    const deleteButton = iconButtons.find(btn => btn.querySelector('svg[data-testid="DeleteIcon"]'))
+    const deleteButton = iconButtons.find((btn) => btn.querySelector('svg[data-testid="DeleteIcon"]'))
     fireEvent.click(deleteButton)
     await waitFor(() => {
       expect(deleteEvent).toHaveBeenCalledWith('1')
