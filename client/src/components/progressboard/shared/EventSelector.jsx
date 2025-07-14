@@ -3,7 +3,6 @@ import {
   FormControl,
   MenuItem,
   Select,
-  ListSubheader,
 } from '@mui/material'
 
 import theme from '../../../styles/theme'
@@ -130,9 +129,9 @@ const EventSelector = ({
         </MenuItem>
 
         {activeEvents.length > 0 && [
-          ...activeEvents.map((event) => (
+          ...activeEvents.map((event, eventsIndex) => (
             <MenuItem
-              key={event.id}
+              key={event.id || eventsIndex}
               value={event.id}
               sx={{
                 mx: 0.75,
@@ -167,6 +166,7 @@ const EventSelector = ({
 
         {pastEvents.length > 0 && [
           <MenuItem
+            key={0}
             value=''
             disabled
             sx={{
@@ -186,9 +186,9 @@ const EventSelector = ({
           >
             Past Events
           </MenuItem>,
-          ...pastEvents.map((event) => (
+          ...pastEvents.map((event, pastEventsIndex) => (
             <MenuItem
-              key={event.id}
+              key={event.id || pastEventsIndex}
               value={event.id}
               sx={{
                 mx: 0.75,

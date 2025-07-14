@@ -1,7 +1,7 @@
 import { Fullscreen } from '@mui/icons-material'
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 import { Box, IconButton, Tooltip, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 const FullscreenToggleButton = ({ eventId }) => {
   const navigate = useNavigate()
@@ -20,35 +20,35 @@ const FullscreenToggleButton = ({ eventId }) => {
           'Fullscreen'
         ) : (
           <Box display="flex" alignItems="center" gap={0.5}>
-            <ErrorOutlineIcon   sx={{fontSize: '1.15rem' }} />
+            <ErrorOutlineIcon   sx={{ fontSize: '1.15rem' }} />
             <Typography>Select Event</Typography>
           </Box>
         )
       }
       slotProps=
-      {{
-        tooltip: {
-          sx: {
-            bgcolor: 'info.main',
-            color: 'primary.main',
-            fontSize: {
-              sm: '0.65rem',
-              md: '0.65rem',
-              lg: '0.75rem',
-              xl: '0.9rem',
+        {{
+          tooltip: {
+            sx: {
+              bgcolor: 'info.main',
+              color: 'primary.main',
+              fontSize: {
+                sm: '0.65rem',
+                md: '0.65rem',
+                lg: '0.75rem',
+                xl: '0.9rem',
+              },
+              px: {
+                sm: 1,
+              },
+              py: {
+                sm: 0.5,
+              },
+              borderRadius: 0.5,
+              boxShadow: 3,
             },
-            px: {
-              sm: 1,
-            },
-            py: {
-              sm: 0.5,
-            },
-            borderRadius: 0.5,
-            boxShadow: 3,
           },
-        },
-      }}
-      >
+        }}
+    >
       <IconButton
         onClick={handleClick}
         sx={{
