@@ -97,6 +97,7 @@ const TeamsManager = () => {
         hill: team.hill?.name,
         event: team.event,
         eventName: getEventName(formattedEvents, team.event),
+        rfidTag: team.rfidTag?.serialNumber || ''
       }))
       setTeams(formattedTeams)
       displayAlert('Loaded', `Loaded ${teams.length} teams from the backend.`, 'success')

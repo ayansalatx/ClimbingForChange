@@ -4,9 +4,6 @@ import { useEffect, useState } from 'react'
 import { getAllEvents } from '../../../services/eventService'
 import { getAllHills } from '../../../services/hillService'
 import { getAllMountains } from '../../../services/mountainService'
-
-import CancelButton from '../buttons/CancelButton'
-import SaveButton from '../buttons/SaveButton'
 import TextInput from '../forms/fields/TextInput'
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
@@ -42,6 +39,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
     setSelectedMountain('')
     setSelectedHill('')
     setSelectedEvent('')
+   // setSelectedrfidTag('')
   }
 
   useEffect(() => {
@@ -71,7 +69,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
       setSelectedMountain(teamToEdit.mountainId || '')
       setSelectedHill(teamToEdit.hillId || '')
       setSelectedEvent(teamToEdit.event || '')
-      setSelectedrfidTag(teamToEdit.event || '')
+    
 
       if (mountains.some((m) => m.id === teamToEdit.mountainId)) {
         setSelectedMountain(teamToEdit.mountainId)
@@ -88,6 +86,14 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
       } else {
         setSelectedEvent('')
       }
+        // 
+      if (rfidTags.some((tag) => tag.id === teamToEdit.rfidTag)) {
+        setSelectedrfidTag(
+          rfidTags.find((tag) => tag.id === teamToEdit.rfidTag)
+        )
+      } else {
+        setSelectedrfidTag('')
+      }
 
     }
   }, [teamToEdit, mountains, hills, events, rfidTag])
@@ -100,7 +106,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
       mountain: selectedMountain,
       hill: selectedHill,
       event: selectedEvent,
-      rfidTag: selectedrfidTag,
+       rfidTagId: selectedrfidTag?.id || '',
 
       // temporary data
       isSoloTeam: false,
@@ -197,13 +203,15 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
 
           <FormControl fullWidth margin='normal' required>
             <Autocomplete
-            id='rfidTag-select'
+              id='rfidTag-select'
               disablePortal
               options={rfidTags}
-              sx={{ width: 300 }}
+              sx={{ width: '100%' }}  
+              value={selectedrfidTag} 
+              onChange={(_, newValue) => setSelectedrfidTag(newValue)} 
+              //getOptionLabel={(option) => option?.label || ''}
               renderInput={(params) => <TextField {...params} label="RFID Tag" />}
             />
-
           </FormControl>
 
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
