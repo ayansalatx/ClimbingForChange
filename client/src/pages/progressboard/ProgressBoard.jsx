@@ -77,6 +77,10 @@ const ProgressBoard = () => {
   const [searchString, setSearchString] = useState('')
   // State for teams filtered by the search input
   const [filteredTeams, setFilteredTeams] = useState([])
+  
+  const [leaderboard, setLeaderboard] = useState([])
+  console.log('🚀 ~ ProgressBoard ~ leaderboard:', leaderboard)
+
 
   const [loading, setLoading] = useState(true)
 
@@ -109,7 +113,25 @@ const ProgressBoard = () => {
     }
   }, [activeEvents, pastEvents, selectedEvent])
 
-  useEffect(() => {}, [selectedEvent])
+  useEffect(() => {
+    const loadLeaderboard = async () => {
+      if (!selectedEvent) return
+      try {
+        const leaderboard = await getLeaderboard(selectedEvent)
+        setLeaderboard(leaderboard)
+      } catch (error) {
+        console.error('Failed to load leaderboard:', error)
+      }
+    }
+
+    loadLeaderboard()
+
+    const intervalId = setInterval(loadLeaderboard, 2000)
+
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [selectedEvent])
 
   useEffect(() => {
     const loadTeamsForEvent = async () => {

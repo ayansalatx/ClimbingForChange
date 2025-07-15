@@ -1195,6 +1195,39 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
+  /leaderboard:
+    get:
+      tags:
+        - Leaderboard
+      summary: Get the current leaderboard
+      operationId: getLeaderboard
+      parameters:
+        - name: eventId
+          in: query
+          required: false
+          schema:
+            type: string
+            description: The ID of the event to get the leaderboard for. If not provided, uses the current event.
+      responses:
+        '200':
+          description: The current leaderboard with team rankings and statistics.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaderboardResponse'
+        '401':
+          description: Unauthorized - Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
 components:
   securitySchemes:
     bearerAuth:
@@ -1415,6 +1448,37 @@ components:
         startDateTime: { type: string, format: date-time }
         endDateTime: { type: string, format: date-time }
       required: [team, rfidTag, startDateTime, endDateTime]
+
+    # --- Leaderboard Schemas ---
+    LeaderboardResponse:
+      type: object
+      properties:
+        eventId: { type: string, description: The ID of the event this leaderboard is for. }
+        lastUpdated: { type: string, format: date-time, description: When the leaderboard was last updated. }
+        teams: 
+          type: array
+          items:
+            $ref: '#/components/schemas/LeaderboardTeam'
+      required: [eventId, lastUpdated, teams]
+
+    LeaderboardTeam:
+      type: object
+      properties:
+        id: { type: string, description: Unique identifier for the team. }
+        rank: { type: integer, minimum: 1, description: Current ranking position (1st, 2nd, etc.). }
+        name: { type: string, description: Team name. }
+        mountainName: { type: string, description: Name of the mountain the team is climbing. }
+        hillName: { type: string, description: Name of the hill the team is using. }
+        lapsCompleted: { type: integer, minimum: 0, description: Number of laps completed so far. }
+        lapsRequired: { type: integer, minimum: 1, description: Total number of laps required to complete the mountain. }
+        totalElevation: { type: number, format: float, description: Total elevation gained so far (in feet or meters). }
+        progressPercentage: { type: number, format: float, minimum: 0, maximum: 100, description: Percentage of mountain completed. }
+        lastUpdateTime: { type: string, format: date-time, description: When the team last completed a lap. }
+        status: { type: string, enum: ['Not Started', 'Running', 'Finished'], description: Current status of the team. }
+        bestLapTime: { type: number, nullable: true, description: Best lap time in milliseconds (null if no laps completed). }
+        averageLapTime: { type: number, nullable: true, description: Average lap time in milliseconds (null if no laps completed). }
+        totalTime: { type: number, nullable: true, description: Total time from first to last lap in milliseconds (null if no laps completed). }
+      required: [id, rank, name, mountainName, hillName, lapsCompleted, lapsRequired, totalElevation, progressPercentage, lastUpdateTime, status]
 
     # --- Authentication Schemas ---
     LoginRequest:
