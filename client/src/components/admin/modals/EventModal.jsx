@@ -41,6 +41,10 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
   const [mountainSelection, setMountainSelection] = useState([])
   const [isActive, setIsActive] = useState(true)
 
+  const isPastEvent = eventToEdit
+  ? new Date(eventToEdit.startDateTime) < new Date()
+  : false
+
   const onModalClose = () => {
     onClose()
     setEventName('')
@@ -139,6 +143,7 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
                   checked={isActive}
                   onChange={(e) => setIsActive(e.target.checked)}
                   color="success"
+                  disabled={isPastEvent}
                 />
               </Box>
             </FormControl>
