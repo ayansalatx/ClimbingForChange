@@ -221,6 +221,11 @@ const DataTable = ({
               onEditClick={onEditClick}
               onDeleteClick={onDeleteClick}
               activeOnChange={activeOnChange}
+              toggleDisabled={(row) =>
+                tableTitle === 'Events' &&
+                !row.active &&
+                !row.canReactivate
+              }
             />
           </Table>
         ) : (

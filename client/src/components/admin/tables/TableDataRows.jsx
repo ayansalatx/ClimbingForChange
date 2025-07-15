@@ -1,7 +1,6 @@
-import { alpha, TableBody, TableCell, TableRow } from '@mui/material'
-import { Switch } from '@mui/material'
+import { alpha, Switch,TableBody, TableCell, TableRow  } from '@mui/material'
+
 import theme from '../../../styles/theme'
-import DeactivateToggle from '../buttons/DeactivateToggle'
 import RowActions from '../buttons/RowActions'
 
 const TableDataRows = ({
@@ -12,6 +11,7 @@ const TableDataRows = ({
   activeOnChange,
   onEditClick,
   onDeleteClick,
+  toggleDisabled, 
 }) => {
   return (
     <TableBody>
@@ -32,34 +32,35 @@ const TableDataRows = ({
                 },
               }}
             >
-             {columns.map((column) => {
+              {columns.map((column) => {
               // 'activeStatus' 
-              if (column.id === 'activeStatus') {
-                return (
-                  <TableCell key={column.id} align="center">
-                    <Switch
-                      checked={row.active}
-                      onChange={() => activeOnChange(row)}
-                      color="success"
-                      size="small"
-                    />
-                  </TableCell>
-                )
-              }
+                if (column.id === 'activeStatus') {
+                  return (
+                    <TableCell key={column.id} align="center">
+                      <Switch
+                        checked={row.active}
+                        onChange={() => activeOnChange(row)}
+                        color="success"
+                        size="small"
+                        disabled={toggleDisabled?.(row)}
+                      />
+                    </TableCell>
+                  )
+                }
 
-              const value = row[column.id] ?? ''
-              return (
-                <TableCell
-                  key={column.id}
-                  align={column.align || 'left'}
-                  sx={{
-                    fontSize: '1rem',
-                    color: row.active ? 'primary.main' : 'gray.main',
-                  }}
-                >
-                  {column.format && typeof value === 'number'
-                    ? column.format(value)
-                    : value}
+                const value = row[column.id] ?? ''
+                return (
+                  <TableCell
+                    key={column.id}
+                    align={column.align || 'left'}
+                    sx={{
+                      fontSize: '1rem',
+                      color: row.active ? 'primary.main' : 'gray.main',
+                    }}
+                  >
+                    {column.format && typeof value === 'number'
+                      ? column.format(value)
+                      : value}
                   </TableCell>
                 )
               })}
