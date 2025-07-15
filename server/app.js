@@ -18,7 +18,7 @@ import authRoutes from './src/routes/auth.js'
 
 import { mockRouter } from './src/mock/mock.router.js'
 import config from './src/utils/config.js'
-import liveDataRoutes from './src/routes/liveData.js'
+import leaderboardRoutes from './src/routes/leaderboard.js'
 import { pollForNewData } from './src/utils/serverState.js'
 
 const app = express()
@@ -39,7 +39,7 @@ if (config.API_MODE === 'mock') {
     app.use('/mock-api', mockRouter);
 }
 
-app.use('/api/live-data', liveDataRoutes)
+app.use('/api/leaderboard', leaderboardRoutes)
 
 app.use('/api/auth', authRoutes)
 

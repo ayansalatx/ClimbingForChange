@@ -9,6 +9,7 @@ import Participant from '../models/participant.js'
 import RFIDTag from '../models/rfidTag.js'
 import Team from '../models/team.js'
 import User from '../models/user.js'
+import Passing from '../models/passing.js'
 
 const seedDatabase = async () => {
   try {
@@ -26,6 +27,7 @@ const seedDatabase = async () => {
       Team.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }),
       Participant.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }),
       Lap.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }),
+      Passing.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }),
     ])
     console.log('All collections cleared.')
 
@@ -77,31 +79,39 @@ const seedDatabase = async () => {
     ])
 
     const rfidTags = await RFIDTag.insertMany([
-      { serialNumber: '1', description: 'RFID for Bib 1' },
-      { serialNumber: '11', description: 'RFID for Bib 11' },
-      { serialNumber: '24', description: 'RFID for Bib 24' },
-      { serialNumber: '115', description: 'RFID for Bib 115' },
-      { serialNumber: '180', description: 'RFID for Bib 180' },
-      { serialNumber: '211', description: 'RFID for Bib 211' },
-      { serialNumber: '222', description: 'RFID for Bib 222' },
-      { serialNumber: '225', description: 'RFID for Bib 225' },
-      { serialNumber: '295', description: 'RFID for Bib 295' },
-      { serialNumber: '305', description: 'RFID for Bib 305' },
-      { serialNumber: '362', description: 'RFID for Bib 362' },
-      { serialNumber: '400', description: 'RFID for Bib 400' },
-      { serialNumber: '446', description: 'RFID for Bib 446' },
-      { serialNumber: '469', description: 'RFID for Bib 469' },
-      { serialNumber: '4085', description: 'RFID for Bib 4085' },
-      { serialNumber: '4416', description: 'RFID for Bib 4416' },
-      { serialNumber: '4607', description: 'RFID for Bib 4607' },
-      { serialNumber: '4777', description: 'RFID for Bib 4777' },
-      { serialNumber: '4977', description: 'RFID for Bib 4977' },
-      { serialNumber: '5026', description: 'RFID for Bib 5026' },
-      { serialNumber: '5052', description: 'RFID for Bib 5052' },
-      { serialNumber: '5155', description: 'RFID for Bib 5155' },
-      { serialNumber: '5207', description: 'RFID for Bib 5207' },
-      { serialNumber: '5294', description: 'RFID for Bib 5294' },
-      { serialNumber: '10041', description: 'RFID for Bib 10041' },
+      { serialNumber: '1', description: 'RFID for Luke Williamson (Solo)' },
+      { serialNumber: '2', description: 'RFID for Stewart Wyllie (Solo)' },
+      { serialNumber: '3', description: 'RFID for Andrew McDaniel (Solo)' },
+      { serialNumber: '4', description: 'RFID for Devon Chorney (Solo)' },
+      { serialNumber: '5', description: 'RFID for Nelson Baetjer (Solo)' },
+      { serialNumber: '6', description: 'RFID for Lauren Guillette (Solo)' },
+      { serialNumber: '7', description: 'RFID for Ryan Batty (Solo)' },
+      { serialNumber: '8', description: 'RFID for Nick Green (Solo)' },
+      { serialNumber: '9', description: 'RFID for Moe Barzagar (Solo)' },
+      { serialNumber: '10', description: 'RFID for Jeff Gerretsen (Solo)' },
+      { serialNumber: '11', description: 'RFID for Bennett Douglas (Solo)' },
+      { serialNumber: '12', description: 'RFID for Matt Aubin (Solo)' },
+      { serialNumber: '13', description: 'RFID for Jennifer Xu (Solo)' },
+      { serialNumber: '14', description: 'RFID for Brittany Foy (Solo)' },
+      { serialNumber: '15', description: 'RFID for Adam Perry (Solo)' },
+      { serialNumber: '16', description: 'RFID for Justin Mazzolini (Solo)' },
+      { serialNumber: '17', description: 'RFID for Angela Mazzolini (Solo)' },
+      { serialNumber: '18', description: 'RFID for Erica Kirkman (Solo)' },
+      { serialNumber: '19', description: 'RFID for Annamarie Lottering (Solo)' },
+      { serialNumber: '20', description: 'RFID for Barend Lottering (Solo)' },
+      { serialNumber: '21', description: 'RFID for Sarah Saunders (Solo)' },
+      { serialNumber: '22', description: 'RFID for Alberta SPCA Team' },
+      { serialNumber: '23', description: 'RFID for BIMbros Team' },
+      { serialNumber: '24', description: 'RFID for Glenrose Human Ability Team' },
+      { serialNumber: '25', description: 'RFID for HIBCO Generals Team' },
+      { serialNumber: '26', description: 'RFID for Hill Billies Team' },
+      { serialNumber: '27', description: 'RFID for KEEN Team' },
+      { serialNumber: '28', description: 'RFID for Like A Boss Team' },
+      { serialNumber: '29', description: 'RFID for Rabbit Hill Team' },
+      { serialNumber: '30', description: 'RFID for Springboks Team' },
+      { serialNumber: '31', description: 'RFID for STARS Team' },
+      { serialNumber: '32', description: 'RFID for Team Order' },
+      { serialNumber: '33', description: 'RFID for United Nations Team' }
     ])
     console.log('Seeded base data successfully.')
 
@@ -112,7 +122,7 @@ const seedDatabase = async () => {
       {
         location: locations[0]._id,
         name: 'The Grinder',
-        lapElevationGain: 217,
+        lapElevationGain: 1451,
         lapDistance: 0.75,
         elevationUnit: 'FT',
         distanceUnit: 'KM'
@@ -120,7 +130,7 @@ const seedDatabase = async () => {
       {
         location: locations[0]._id,
         name: 'Easy Loop',
-        lapElevationGain: 120,
+        lapElevationGain: 721,
         lapDistance: 0.5,
         elevationUnit: 'FT',
         distanceUnit: 'KM'
@@ -146,90 +156,96 @@ const seedDatabase = async () => {
 
     // 4. Seed Teams (depends on Event, Mountain, Hill, RFIDTag)
     console.log('Seeding Teams...')
-    // We calculate required laps/distance for realism
+    // All teams use the same hill (The Grinder) but have different lap requirements based on their mountain
     const everestData = mountains.find(m => m.name === 'Everest')
-    const grinderHillData = hills.find(h => h.name === 'The Grinder')
-    const everestLaps = Math.ceil(everestData.totalElevation / grinderHillData.lapElevationGain) // ~134
-    const everestDistance = everestLaps * grinderHillData.lapDistance // ~100.5
-
     const denaliData = mountains.find(m => m.name === 'Denali')
-    const denaliLaps = Math.ceil(denaliData.totalElevation / grinderHillData.lapElevationGain) // ~94
-    const denaliDistance = denaliLaps * grinderHillData.lapDistance // ~70.5
+    const rainierData = mountains.find(m => m.name === 'Rainier')
+    const grinderHillData = hills.find(h => h.name === 'The Grinder')
+    
+    // Calculate laps required based on mountain elevation using the same hill
+    const everestLaps = Math.ceil(everestData.totalElevation / grinderHillData.lapElevationGain) // ~134 laps
+    const everestDistance = everestLaps * grinderHillData.lapDistance // ~100.5 km
+    const denaliLaps = Math.ceil(denaliData.totalElevation / grinderHillData.lapElevationGain) // ~94 laps
+    const denaliDistance = denaliLaps * grinderHillData.lapDistance // ~70.5 km
+    const rainierLaps = Math.ceil(rainierData.totalElevation / grinderHillData.lapElevationGain) // ~121 laps
+    const rainierDistance = rainierLaps * grinderHillData.lapDistance // ~90.75 km
+    
+    console.log(`[Seed] Lap requirements: Everest=${everestLaps}, Denali=${denaliLaps}, Rainier=${rainierLaps} (all using ${grinderHillData.name})`);
     
     const teams = await Team.insertMany([
+      // Solo participants (no team name) - each becomes their own team
       {
         event: events[0]._id,
         mountain: everestData._id,
         hill: grinderHillData._id,
         rfidTag: rfidTags.find(tag => tag.serialNumber === '1')._id,
-        name: 'Summit Striders',
-        isSoloTeam: false,
+        name: 'Luke Williamson',
+        isSoloTeam: true,
         lapsRequired: everestLaps,
         totalDistanceRequired: everestDistance,
         startDateTime: new Date('2024-09-14T08:05:00Z')
       },
       {
         event: events[0]._id,
-        mountain: denaliData._id,
+        mountain: everestData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find(tag => tag.serialNumber === '11')._id,
-        name: 'Peak Performers',
-        isSoloTeam: false,
-        lapsRequired: denaliLaps,
-        totalDistanceRequired: denaliDistance,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '2')._id,
+        name: 'Stewart Wyllie',
+        isSoloTeam: true,
+        lapsRequired: everestLaps,
+        totalDistanceRequired: everestDistance,
         startDateTime: new Date('2024-09-14T08:10:00Z')
       },
       {
         event: events[0]._id,
-        mountain: mountains.find(m => m.name === 'Rainier')._id,
-        hill: hills.find(h => h.name === 'Easy Loop')._id,
-        rfidTag: rfidTags.find(tag => tag.serialNumber === '24')._id,
-        name: 'Jane Doe',
-        isSoloTeam: true,
-        lapsRequired: 121, // 14410 / 120
-        totalDistanceRequired: 60.5, // 121 * 0.5
-        startDateTime: new Date('2024-09-14T08:15:00Z')
-      },
-      // Add more teams for the remaining bib numbers
-      {
-        event: events[0]._id,
         mountain: everestData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find(tag => tag.serialNumber === '115')._id,
-        name: 'Team 115',
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '3')._id,
+        name: 'Andrew McDaniel',
         isSoloTeam: true,
         lapsRequired: everestLaps,
         totalDistanceRequired: everestDistance,
+        startDateTime: new Date('2024-09-14T08:15:00Z')
+      },
+      {
+        event: events[0]._id,
+        mountain: rainierData._id,
+        hill: grinderHillData._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '4')._id,
+        name: 'Devon Chorney',
+        isSoloTeam: true,
+        lapsRequired: rainierLaps,
+        totalDistanceRequired: rainierDistance,
         startDateTime: new Date('2024-09-14T08:20:00Z')
       },
       {
         event: events[0]._id,
-        mountain: denaliData._id,
+        mountain: everestData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find(tag => tag.serialNumber === '180')._id,
-        name: 'Team 180',
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '5')._id,
+        name: 'Nelson Baetjer',
         isSoloTeam: true,
-        lapsRequired: denaliLaps,
-        totalDistanceRequired: denaliDistance,
+        lapsRequired: everestLaps,
+        totalDistanceRequired: everestDistance,
         startDateTime: new Date('2024-09-14T08:25:00Z')
       },
       {
         event: events[0]._id,
-        mountain: everestData._id,
+        mountain: rainierData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find(tag => tag.serialNumber === '211')._id,
-        name: 'Team 211',
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '6')._id,
+        name: 'Lauren Guillette',
         isSoloTeam: true,
-        lapsRequired: everestLaps,
-        totalDistanceRequired: everestDistance,
+        lapsRequired: rainierLaps,
+        totalDistanceRequired: rainierDistance,
         startDateTime: new Date('2024-09-14T08:30:00Z')
       },
       {
         event: events[0]._id,
         mountain: denaliData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find(tag => tag.serialNumber === '222')._id,
-        name: 'Team 222',
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '7')._id,
+        name: 'Ryan Batty',
         isSoloTeam: true,
         lapsRequired: denaliLaps,
         totalDistanceRequired: denaliDistance,
@@ -237,65 +253,65 @@ const seedDatabase = async () => {
       },
       {
         event: events[0]._id,
-        mountain: everestData._id,
+        mountain: denaliData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find(tag => tag.serialNumber === '225')._id,
-        name: 'Team 225',
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '8')._id,
+        name: 'Nick Green',
         isSoloTeam: true,
-        lapsRequired: everestLaps,
-        totalDistanceRequired: everestDistance,
+        lapsRequired: denaliLaps,
+        totalDistanceRequired: denaliDistance,
         startDateTime: new Date('2024-09-14T08:40:00Z')
       },
       {
         event: events[0]._id,
-        mountain: denaliData._id,
+        mountain: rainierData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find(tag => tag.serialNumber === '295')._id,
-        name: 'Team 295',
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '9')._id,
+        name: 'Moe Barzagar',
         isSoloTeam: true,
-        lapsRequired: denaliLaps,
-        totalDistanceRequired: denaliDistance,
+        lapsRequired: rainierLaps,
+        totalDistanceRequired: rainierDistance,
         startDateTime: new Date('2024-09-14T08:45:00Z')
       },
       {
         event: events[0]._id,
-        mountain: everestData._id,
+        mountain: rainierData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find(tag => tag.serialNumber === '305')._id,
-        name: 'Team 305',
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '10')._id,
+        name: 'Jeff Gerretsen',
         isSoloTeam: true,
-        lapsRequired: everestLaps,
-        totalDistanceRequired: everestDistance,
+        lapsRequired: rainierLaps,
+        totalDistanceRequired: rainierDistance,
         startDateTime: new Date('2024-09-14T08:50:00Z')
+      },
+      {
+        event: events[0]._id,
+        mountain: rainierData._id,
+        hill: grinderHillData._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '11')._id,
+        name: 'Bennett Douglas',
+        isSoloTeam: true,
+        lapsRequired: rainierLaps,
+        totalDistanceRequired: rainierDistance,
+        startDateTime: new Date('2024-09-14T08:55:00Z')
       },
       {
         event: events[0]._id,
         mountain: denaliData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find(tag => tag.serialNumber === '362')._id,
-        name: 'Team 362',
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '12')._id,
+        name: 'Matt Aubin',
         isSoloTeam: true,
         lapsRequired: denaliLaps,
         totalDistanceRequired: denaliDistance,
-        startDateTime: new Date('2024-09-14T08:55:00Z')
-      },
-      {
-        event: events[0]._id,
-        mountain: everestData._id,
-        hill: grinderHillData._id,
-        rfidTag: rfidTags.find(tag => tag.serialNumber === '400')._id,
-        name: 'Team 400',
-        isSoloTeam: true,
-        lapsRequired: everestLaps,
-        totalDistanceRequired: everestDistance,
         startDateTime: new Date('2024-09-14T09:00:00Z')
       },
       {
         event: events[0]._id,
         mountain: denaliData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find(tag => tag.serialNumber === '446')._id,
-        name: 'Team 446',
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '13')._id,
+        name: 'Jennifer Xu',
         isSoloTeam: true,
         lapsRequired: denaliLaps,
         totalDistanceRequired: denaliDistance,
@@ -305,8 +321,8 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: everestData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find(tag => tag.serialNumber === '469')._id,
-        name: 'Team 469',
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '14')._id,
+        name: 'Brittany Foy',
         isSoloTeam: true,
         lapsRequired: everestLaps,
         totalDistanceRequired: everestDistance,
@@ -314,21 +330,21 @@ const seedDatabase = async () => {
       },
       {
         event: events[0]._id,
-        mountain: denaliData._id,
+        mountain: everestData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find(tag => tag.serialNumber === '4085')._id,
-        name: 'Team 4085',
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '15')._id,
+        name: 'Adam Perry',
         isSoloTeam: true,
-        lapsRequired: denaliLaps,
-        totalDistanceRequired: denaliDistance,
+        lapsRequired: everestLaps,
+        totalDistanceRequired: everestDistance,
         startDateTime: new Date('2024-09-14T09:15:00Z')
       },
       {
         event: events[0]._id,
         mountain: everestData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find(tag => tag.serialNumber === '4416')._id,
-        name: 'Team 4416',
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '16')._id,
+        name: 'Justin Mazzolini',
         isSoloTeam: true,
         lapsRequired: everestLaps,
         totalDistanceRequired: everestDistance,
@@ -336,21 +352,21 @@ const seedDatabase = async () => {
       },
       {
         event: events[0]._id,
-        mountain: denaliData._id,
+        mountain: everestData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find(tag => tag.serialNumber === '4607')._id,
-        name: 'Team 4607',
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '17')._id,
+        name: 'Angela Mazzolini',
         isSoloTeam: true,
-        lapsRequired: denaliLaps,
-        totalDistanceRequired: denaliDistance,
+        lapsRequired: everestLaps,
+        totalDistanceRequired: everestDistance,
         startDateTime: new Date('2024-09-14T09:25:00Z')
       },
       {
         event: events[0]._id,
         mountain: everestData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find(tag => tag.serialNumber === '4777')._id,
-        name: 'Team 4777',
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '18')._id,
+        name: 'Erica Kirkman',
         isSoloTeam: true,
         lapsRequired: everestLaps,
         totalDistanceRequired: everestDistance,
@@ -358,55 +374,56 @@ const seedDatabase = async () => {
       },
       {
         event: events[0]._id,
-        mountain: denaliData._id,
+        mountain: rainierData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find(tag => tag.serialNumber === '4977')._id,
-        name: 'Team 4977',
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '19')._id,
+        name: 'Annamarie Lottering',
         isSoloTeam: true,
-        lapsRequired: denaliLaps,
-        totalDistanceRequired: denaliDistance,
+        lapsRequired: rainierLaps,
+        totalDistanceRequired: rainierDistance,
         startDateTime: new Date('2024-09-14T09:35:00Z')
       },
       {
         event: events[0]._id,
-        mountain: everestData._id,
+        mountain: rainierData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find(tag => tag.serialNumber === '5026')._id,
-        name: 'Team 5026',
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '20')._id,
+        name: 'Barend Lottering',
         isSoloTeam: true,
-        lapsRequired: everestLaps,
-        totalDistanceRequired: everestDistance,
+        lapsRequired: rainierLaps,
+        totalDistanceRequired: rainierDistance,
         startDateTime: new Date('2024-09-14T09:40:00Z')
       },
       {
         event: events[0]._id,
-        mountain: denaliData._id,
-        hill: grinderHillData._id,
-        rfidTag: rfidTags.find(tag => tag.serialNumber === '5052')._id,
-        name: 'Team 5052',
-        isSoloTeam: true,
-        lapsRequired: denaliLaps,
-        totalDistanceRequired: denaliDistance,
-        startDateTime: new Date('2024-09-14T09:45:00Z')
-      },
-      {
-        event: events[0]._id,
         mountain: everestData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find(tag => tag.serialNumber === '5155')._id,
-        name: 'Team 5155',
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '21')._id,
+        name: 'Sarah Saunders',
         isSoloTeam: true,
         lapsRequired: everestLaps,
         totalDistanceRequired: everestDistance,
+        startDateTime: new Date('2024-09-14T09:45:00Z')
+      },
+      // Team participants - each team gets one RFID tag
+      {
+        event: events[0]._id,
+        mountain: rainierData._id,
+        hill: grinderHillData._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '22')._id,
+        name: 'Alberta SPCA',
+        isSoloTeam: false,
+        lapsRequired: rainierLaps,
+        totalDistanceRequired: rainierDistance,
         startDateTime: new Date('2024-09-14T09:50:00Z')
       },
       {
         event: events[0]._id,
         mountain: denaliData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find(tag => tag.serialNumber === '5207')._id,
-        name: 'Team 5207',
-        isSoloTeam: true,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '23')._id,
+        name: 'BIMbros',
+        isSoloTeam: false,
         lapsRequired: denaliLaps,
         totalDistanceRequired: denaliDistance,
         startDateTime: new Date('2024-09-14T09:55:00Z')
@@ -415,23 +432,111 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: everestData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find(tag => tag.serialNumber === '5294')._id,
-        name: 'Team 5294',
-        isSoloTeam: true,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '24')._id,
+        name: 'Glenrose Human Ability',
+        isSoloTeam: false,
         lapsRequired: everestLaps,
         totalDistanceRequired: everestDistance,
         startDateTime: new Date('2024-09-14T10:00:00Z')
       },
       {
         event: events[0]._id,
+        mountain: rainierData._id,
+        hill: grinderHillData._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '25')._id,
+        name: 'HIBCO Generals',
+        isSoloTeam: false,
+        lapsRequired: rainierLaps,
+        totalDistanceRequired: rainierDistance,
+        startDateTime: new Date('2024-09-14T10:05:00Z')
+      },
+      {
+        event: events[0]._id,
         mountain: denaliData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find(tag => tag.serialNumber === '10041')._id,
-        name: 'Team 10041',
-        isSoloTeam: true,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '26')._id,
+        name: 'Hill Billies',
+        isSoloTeam: false,
         lapsRequired: denaliLaps,
         totalDistanceRequired: denaliDistance,
-        startDateTime: new Date('2024-09-14T10:05:00Z')
+        startDateTime: new Date('2024-09-14T10:10:00Z')
+      },
+      {
+        event: events[0]._id,
+        mountain: denaliData._id,
+        hill: grinderHillData._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '27')._id,
+        name: 'KEEN Team',
+        isSoloTeam: false,
+        lapsRequired: denaliLaps,
+        totalDistanceRequired: denaliDistance,
+        startDateTime: new Date('2024-09-14T10:15:00Z')
+      },
+      {
+        event: events[0]._id,
+        mountain: denaliData._id,
+        hill: grinderHillData._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '28')._id,
+        name: 'Like A Boss',
+        isSoloTeam: false,
+        lapsRequired: denaliLaps,
+        totalDistanceRequired: denaliDistance,
+        startDateTime: new Date('2024-09-14T10:20:00Z')
+      },
+      {
+        event: events[0]._id,
+        mountain: rainierData._id,
+        hill: grinderHillData._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '29')._id,
+        name: 'Rabbit Hill',
+        isSoloTeam: false,
+        lapsRequired: rainierLaps,
+        totalDistanceRequired: rainierDistance,
+        startDateTime: new Date('2024-09-14T10:25:00Z')
+      },
+      {
+        event: events[0]._id,
+        mountain: rainierData._id,
+        hill: grinderHillData._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '30')._id,
+        name: 'Springboks',
+        isSoloTeam: false,
+        lapsRequired: rainierLaps,
+        totalDistanceRequired: rainierDistance,
+        startDateTime: new Date('2024-09-14T10:30:00Z')
+      },
+      {
+        event: events[0]._id,
+        mountain: everestData._id,
+        hill: grinderHillData._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '31')._id,
+        name: 'STARS',
+        isSoloTeam: false,
+        lapsRequired: everestLaps,
+        totalDistanceRequired: everestDistance,
+        startDateTime: new Date('2024-09-14T10:35:00Z')
+      },
+      {
+        event: events[0]._id,
+        mountain: denaliData._id,
+        hill: grinderHillData._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '32')._id,
+        name: 'Team Order',
+        isSoloTeam: false,
+        lapsRequired: denaliLaps,
+        totalDistanceRequired: denaliDistance,
+        startDateTime: new Date('2024-09-14T10:40:00Z')
+      },
+      {
+        event: events[0]._id,
+        mountain: denaliData._id,
+        hill: grinderHillData._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '33')._id,
+        name: 'United Nations',
+        isSoloTeam: false,
+        lapsRequired: denaliLaps,
+        totalDistanceRequired: denaliDistance,
+        startDateTime: new Date('2024-09-14T10:45:00Z')
       }
     ])
     console.log('Seeded Teams successfully.')

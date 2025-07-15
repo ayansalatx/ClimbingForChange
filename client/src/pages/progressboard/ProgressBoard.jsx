@@ -7,6 +7,7 @@ import ProgressList from '../../components/progressboard/cards/ProgressCardList'
 import ProgressTable from '../../components/progressboard/tables/regular/ProgressTable'
 import { getAllEvents, getDisplayEventTeams } from '../../services/eventService'
 import theme from '../../styles/theme'
+import { getLeaderboard } from '../../services/leaderboard'
 
 // Define columns for full width screen
 const lgColumns = [
@@ -72,6 +73,9 @@ const ProgressBoard = () => {
   const [searchString, setSearchString] = useState('')
   // State for teams filtered by the search input
   const [filteredTeams, setFilteredTeams] = useState([])
+  
+  const [leaderboard, setLeaderboard] = useState([])
+
 
   const [loading, setLoading] = useState(true)
 
@@ -110,7 +114,26 @@ const ProgressBoard = () => {
     }
   }, [events, selectedEvent])
 
-  useEffect(() => {}, [selectedEvent])
+  useEffect(() => {
+    const loadLeaderboard = async () => {
+      if (!selectedEvent) return
+      try {
+        const leaderboard = await getLeaderboard(selectedEvent)
+        console.log("🚀 ~ loadLeaderboard ~ leaderboard:", leaderboard)
+        setLeaderboard(leaderboard)
+      } catch (error) {
+        console.error('Failed to load leaderboard:', error)
+      }
+    }
+
+    loadLeaderboard()
+
+    const intervalId = setInterval(loadLeaderboard, 2000)
+
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [selectedEvent])
 
   useEffect(() => {
     const loadTeamsForEvent = async () => {
