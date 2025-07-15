@@ -49,7 +49,7 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '.5rem',
-          backgroundColor: alpha(theme.palette.background.paper, 0.3),
+          backgroundColor: alpha(theme.palette.background.paper, 0.5),
         }}
       >
         <Box
@@ -156,7 +156,7 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'flex-end',
-          backgroundColor: alpha(theme.palette.background.paper, 0.3),
+          backgroundColor: alpha(theme.palette.background.paper, 0.5),
         }}
       >
         <TablePagination
