@@ -1,8 +1,8 @@
 import { getBestLapTime } from '../utils/calcBestLap'
-import { formatNumber } from '../utils/formatNumber'
 import { getDuration, getTimeElapsed } from '../utils/calcDuration'
-import { formatDurationTimeHours, formatDurationTimeMinutes } from '../utils/formatDurationTime'
 import { formatTimeSeconds } from '../utils/formatDateTime'
+import { formatDurationTimeHours, formatDurationTimeMinutes } from '../utils/formatDurationTime'
+import { formatNumber } from '../utils/formatNumber'
 import { api } from './api'
 
 // Get all teams

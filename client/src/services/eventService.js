@@ -1,15 +1,11 @@
 import { getBestLapTime } from '../utils/calcBestLap'
-import { formatNumber } from '../utils/formatNumber'
-import { getDuration, getTimeElapsed } from '../utils/calcDuration'
+import { getTimeElapsed } from '../utils/calcDuration'
+import { formatDateLong, formatTimeMinutes } from '../utils/formatDateTime'
 import {
   formatDurationTimeHours,
   formatDurationTimeMinutes,
 } from '../utils/formatDurationTime'
-import {
-  formatDateLong,
-  formatDateTimeLong,
-  formatTimeSeconds,
-} from '../utils/formatDateTime'
+import { formatNumber } from '../utils/formatNumber'
 import { api } from './api'
 
 export const getAllEvents = async () => {
