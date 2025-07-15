@@ -91,14 +91,6 @@ const MountainModal = ({ open, onClose, onSave, mountain }) => {
             </Select>
           </FormControl>
           
-          <TextField
-            fullWidth
-            label='Image URL (Optional)'
-            value={imageURL}
-            onChange={(e) => setImageURL(e.target.value)}
-            margin='dense'
-          />
-          
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, gap: 1 }}>
             <CancelButton onClick={onClose} />
             <SaveButton type='submit' label={mountain?.id ? 'Update' : 'Add'} />
