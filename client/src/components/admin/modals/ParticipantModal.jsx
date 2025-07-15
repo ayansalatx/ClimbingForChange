@@ -23,6 +23,7 @@ const AddParticipantModal = ({
   onAdd,
   participantData,
   teamNames = [],
+  selectedEvent, 
 }) => {
   const [id, setId] = useState('')
   const [firstName, setFirstName] = useState('')
@@ -34,7 +35,11 @@ const AddParticipantModal = ({
       setId(participantData.id || '')
       setFirstName(participantData.firstName || '')
       setLastName(participantData.lastName || '')
-      setTeamId(participantData.teamId?.id || participantData.teamId || '')
+      const extractedTeamId = participantData.teamId?.id
+        || participantData.team?.id
+        || (typeof participantData.teamId === 'string' ? participantData.teamId : '')
+      
+      setTeamId(extractedTeamId || '')
     } else if (!open) {
       setId('')
       setFirstName('')
@@ -51,11 +56,15 @@ const AddParticipantModal = ({
       firstName: firstName.trim(),
       lastName: lastName.trim(),
       teamId: teamId || null,
+      eventId: selectedEvent || null, 
     }
 
     onAdd(newParticipant)
     onClose()
   }
+  useEffect(() => {
+
+  }, [selectedEvent])
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -91,7 +100,7 @@ const AddParticipantModal = ({
             label="Team"
             variant="outlined"
             margin="normal"
-            value={teamId}
+            value={teamId || ''}
             onChange={(e) => setTeamId(e.target.value)}
             required
           >

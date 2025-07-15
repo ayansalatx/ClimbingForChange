@@ -11,8 +11,8 @@ export const getAllParticipants = async () => {
 }
 
 export const getParticipantsByEvent = async (eventId) => {
-  const res = await api.get(`/participants?event=${eventId}`)
-  const participants = res.data.map((p) => ({
+  const res = await api.get('/participants')
+  const participants = res.data.filter((p) => p.team?.event === eventId).map((p) => ({
     ...p,
     teamName: p.team ? p.team.name : '—',
     eventId: p.team ? p.team.event : null,
@@ -25,13 +25,25 @@ export const uploadParticipants = async (participantsFromCSV) => {
   return res.data
 }
 
-export const addNewParticipant = async (hillData) => {
-  const res = await api.post('/participants', hillData)
+export const addNewParticipant = async (participantData) => {
+  const dataToSend = {
+    ...participantData,
+    team: participantData.teamId,
+    event: participantData.eventId,
+  }
+  delete dataToSend.teamId
+  delete dataToSend.eventId
+
+  const res = await api.post('/participants', dataToSend)
   return res.data
 }
 
-export const editParticipant = async (id, hillData) => {
-  const res = await api.put(`/participants/${id}`, hillData)
+export const editParticipant = async (id, participantData) => {
+  const dataToSend = { ...participantData }
+  delete dataToSend.id  
+  delete dataToSend.eventId
+  console.log('PUT /participants/' + id, dataToSend)
+  const res = await api.put(`/participants/${id}`, dataToSend)
   return res.data
 }
 

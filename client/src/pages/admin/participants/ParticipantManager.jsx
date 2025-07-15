@@ -65,6 +65,7 @@ const ParticipantManager = () => {
       setLoading(true)
       try {
         const participantsList = await getParticipantsByEvent(selectedEvent)
+       
         setParticipants(participantsList)
 
         displayAlert(
@@ -85,13 +86,18 @@ const ParticipantManager = () => {
   const onAdd = () => {
     if (loading) return
     setSelectedParticipant(null)
+
     setPopupOpen(true)
   }
 
   const onEdit = (participant) => {
     if (loading) return
-    setSelectedParticipant(participant)
+    setSelectedParticipant({
+      ...participant,
+      id: participant.id || participant._id,
+    })
     setPopupOpen(true)
+
   }
 
   const onDelete = (participant) => {
@@ -132,8 +138,14 @@ const ParticipantManager = () => {
     if (!participantData) return
     setLoading(true)
     try {
+      participantData.eventId = selectedEvent
+      if (participantData.teamId !== undefined) {
+        participantData.team = participantData.teamId
+        delete participantData.teamId
+      }
       if (participantData.id) {
         await editParticipant(participantData.id, participantData)
+        console.log('Payload:', participantData)
         displayAlert('Edited Participant', `Edited ${participantData.firstName} ${participantData.lastName}.`, 'success')
       } else {
         await addNewParticipant(participantData)
@@ -148,9 +160,16 @@ const ParticipantManager = () => {
       setLoading(false)
       setPopupOpen(false)
     }
+
   }
 
   const filteredParticipants = selectedEvent ? participants : []
+  const currentTeamId = selectedParticipant?.teamId || selectedParticipant?.team?.id
+
+  const filteredTeams = teams.filter(
+    (team) =>
+      String(team.event) === String(selectedEvent) || team.id === currentTeamId
+  )
 
   return (
     <Box
@@ -183,7 +202,8 @@ const ParticipantManager = () => {
         onClose={() => setPopupOpen(false)}
         onAdd={handleSave}
         participantData={selectedParticipant}
-        teamNames={teams.filter((team) => String(team.event) === String(selectedEvent))}
+        teamNames={filteredTeams}
+        selectedEvent={selectedEvent} 
       />
       <ConfirmDeleteDialog
         open={deleteConfirmOpen}
