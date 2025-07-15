@@ -4,10 +4,11 @@ import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material'
 import DownhillSkiingIcon from '@mui/icons-material/DownhillSkiing'
 import EventIcon from '@mui/icons-material/Event'
 import Hiking from '@mui/icons-material/Hiking'
+import RfidIcon from '@mui/icons-material/Nfc'
 import PeopleIcon from '@mui/icons-material/People'
 import PlaceIcon from '@mui/icons-material/Place'
 import TerrainIcon from '@mui/icons-material/Terrain'
-import { Box, IconButton, Typography, useMediaQuery } from '@mui/material'
+import { Box, IconButton, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import Carousel from 'react-multi-carousel'
 
@@ -16,7 +17,6 @@ import NavigationCard from '../../components/admin/NavigationCard'
 import EventSummaryTable from '../../components/admin/tables/EventsSummaryTable'
 import { useAlert } from '../../hooks/useAlert'
 import { getUpcomingEventsSummary } from '../../services/eventService'
-import theme from '../../styles/theme'
 
 const CarouselLeftArrow = ({ onClick }) => (
   <IconButton
@@ -40,7 +40,7 @@ const CarouselLeftArrow = ({ onClick }) => (
       },
     }}
   >
-    <ArrowBackIos fontSize="large" />
+    <ArrowBackIos fontSize='large' />
   </IconButton>
 )
 
@@ -66,7 +66,7 @@ const CarouselRightArrow = ({ onClick }) => (
       },
     }}
   >
-    <ArrowForwardIos fontSize="large" />
+    <ArrowForwardIos fontSize='large' />
   </IconButton>
 )
 
@@ -94,9 +94,8 @@ const responsive = {
 }
 
 const AdminDashboard = () => {
-  const isLg = useMediaQuery(theme.breakpoints.up('xl'))
   const [events, setEvents] = useState()
-
+  const [loading, setLoading] = useState(true)
   const displayAlert = useAlert()
 
   useEffect(() => {
@@ -115,6 +114,8 @@ const AdminDashboard = () => {
           `Failed to Load Locations: ${error.message}`,
           'error'
         )
+      }finally {
+        setLoading(false)
       }
     }
 
@@ -128,150 +129,168 @@ const AdminDashboard = () => {
       title: 'Event Management',
       icon: EventIcon,
       link: '/admin/events',
-      iconSize: '7.8rem',
+      iconSize: '8.8rem',
       iconY: '5%',
-      iconX: '44%',
+      iconX: '39%',
     },
     {
       title: 'Team Management',
       icon: PeopleIcon,
       link: '/admin/teams',
-      iconSize: '9rem',
-      iconY: '',
-      iconX: '33%',
+      iconSize: '10.5rem',
+      iconY: '-3%',
+      iconX: '23%',
     },
     {
       title: 'Participant Management',
       icon: Hiking,
       link: '/admin/participants',
-      iconSize: '7rem',
+      iconSize: '7.8rem',
       iconY: '5%',
-      iconX: '52%',
+      iconX: '48%',
+    },
+    {
+      title: 'RFID Management',
+      icon: RfidIcon,
+      link: '/admin/rfid',
+      iconSize: '8.4rem',
+      iconY: '5%',
+      iconX: '38%',
     },
     {
       title: 'Mountain Management',
       icon: TerrainIcon,
       link: '/admin/mountains',
-      iconSize: '12rem',
-      iconY: '-25%',
-      iconX: '14%',
+      iconSize: '13rem',
+      iconY: '-20%',
+      iconX: '8%',
     },
     {
       title: 'Location Management',
       icon: PlaceIcon,
+      link: '/admin/locations',
       bgColor: 'secondary.main',
-      iconSize: '8rem',
+      iconSize: '9rem',
       iconY: '',
-      iconX: '47%',
+      iconX: '43%',
     },
     {
       title: 'Hill Management',
       icon: DownhillSkiingIcon,
       link: '/admin/hills',
-      iconSize: '7.5rem',
-      iconY: '',
-      iconX: '45%',
+      iconSize: '7.8rem',
+      iconY: '6%',
+      iconX: '42%',
     },
   ]
 
   return (
     <Box
       sx={{
+        position: 'relative',
         width: '100%',
+        height: '100%',
         flexGrow: 1,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        py: 1,
-        mb: 1,
+        py: { xs: 2.25, md: 2.5, lg: 2.5, xl: 2.5 },
+        gap: 1,
         overflowY: 'auto',
       }}
     >
-      <Typography
-        variant="h1"
-        color="primary.main"
-        fontWeight={'bold'}
-        textTransform={'uppercase'}
-        sx={{ fontSize: { xxs: '2.5rem', xl: '2.75rem' } }}
-      >
-        Leaderboard Management
-      </Typography>
-
       <Box
         sx={{
           width: '100%',
-          height: '100%',
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: 'row',
           alignItems: 'center',
-          justifyContent: 'space-evenly',
+          justifyContent: 'space-between',
+          px: '1.5rem',
+          pb: 1,
         }}
       >
-        <Box
-          sx={{
-            width: '100%',
-            maxWidth: '2400px',
-            flexDirection: 'row',
-            gap: isLg ? 1 : '1rem',
-            px: '1rem',
-            display: 'flex',
-            alignItems: 'left',
-            justifyContent: isLg ? 'space-around' : 'space-between',
+        <Typography
+          variant='h1'
+          color='primary.main'
+          fontWeight='bold'
+          textTransform='uppercase'
+          fontStyle='italic'
+          fontSize={{
+            xxs: '2rem',
+            sm: '2.25rem',
+            md: '2.35rem',
+            lg: '2.5rem',
+            xl: '3.15rem',
           }}
-        >
-          <Box>
-            <EventSummaryTable events={events} />
-          </Box>
-
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            <ProgressBoardButton liveEventExists={liveEventExists} />
-          </Box>
-        </Box>
-
-        <Box
-          sx={{
-            width: '100%',
-            mt: 1,
-            backgroundColor: 'primary.light',
-            padding: '1rem',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)',
+          lineHeight={{
+            xxs: '2rem',
+            sm: '2.25rem',
+            md: '2.35rem',
+            lg: '2.5rem',
+            xl: '3.15rem',
           }}
+          align='left'
         >
-          <Carousel
-            responsive={responsive}
-            infinite
-            customLeftArrow={<CarouselLeftArrow />}
-            customRightArrow={<CarouselRightArrow />}
-            autoPlay
-          >
-            {navCardData.map((card, index) => {
-              const bgColor = index % 2 === 0 ? 'info.light' : 'secondary.main'
-              const iconColor = index % 2 === 0 ? 'info.main' : 'secondary.dark'
-              return (
-                <Box
-                  key={index}
-                  sx={{ display: 'flex', justifyContent: 'center' }}
-                >
-                  <NavigationCard
-                    cardTitle={card.title}
-                    cardIcon={card.icon}
-                    link={card.link}
-                    bgColor={bgColor}
-                    iconSize={card.iconSize}
-                    iconColor={iconColor}
-                    iconYPosition={card.iconY}
-                    iconXPosition={card.iconX}
-                  />
-                </Box>
-              )
-            })}
-          </Carousel>
-        </Box>
+          Progressboard Management
+        </Typography>
+
+        <ProgressBoardButton liveEventExists={liveEventExists} />
+      </Box>
+
+      <Box
+        sx={{
+          display: 'flex',
+          width: '100%',
+          maxWidth: '2400px',
+          flexDirection: 'row',
+          px: '1.5rem',
+          alignItems: 'left',
+        }}
+      >
+        <EventSummaryTable events={events} loading={loading} />
+      </Box>
+
+      <Box
+        sx={{
+          position: 'absolute',
+          bottom: '4rem',
+          left: 0,
+          width: '100%',
+          backgroundColor: 'primary.light',
+          padding: '1rem',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)',
+        }}
+      >
+        <Carousel
+          responsive={responsive}
+          infinite
+          customLeftArrow={<CarouselLeftArrow />}
+          customRightArrow={<CarouselRightArrow />}
+          autoPlay
+        >
+          {navCardData.map((card, index) => {
+            const bgColor = index % 2 === 0 ? 'info.light' : 'secondary.main'
+            const iconColor = index % 2 === 0 ? 'info.main' : 'secondary.dark'
+            return (
+              <Box
+                key={index}
+                sx={{ display: 'flex', justifyContent: 'center' }}
+              >
+                <NavigationCard
+                  cardTitle={card.title}
+                  cardIcon={card.icon}
+                  link={card.link}
+                  bgColor={bgColor}
+                  iconSize={card.iconSize}
+                  iconColor={iconColor}
+                  iconYPosition={card.iconY}
+                  iconXPosition={card.iconX}
+                />
+              </Box>
+            )
+          })}
+        </Carousel>
       </Box>
     </Box>
   )

@@ -10,7 +10,7 @@
     "lint:server": "npm run lint --prefix server",
     "lint": "npm run lint:client && npm run lint:server",
     "client": "npm run dev --prefix client",
-    "server": "npm run dev   --prefix server",
+    "server": "npm run dev --prefix server",
     "dev": "concurrently \"npm:server\" \"npm:client\"",
     "test": "npm run test --prefix server",
     "lint:fix": "npm run lint:fix --prefix client && npm run lint:fix --prefix server"

@@ -73,7 +73,7 @@ const HillModal = ({ open, onClose, onSave, hillData, onLocation }) => {
     <Modal open={open} onClose={onClose}>
       <Box sx={style}>
         <Typography
-          variant="h5"
+          variant='h5'
           mb={2}
           sx={{ textTransform: 'uppercase', color: 'primary.main' }}
         >
@@ -83,7 +83,7 @@ const HillModal = ({ open, onClose, onSave, hillData, onLocation }) => {
         <form onSubmit={handleSave}>
           <TextInput
             fullWidth
-            label="Hill Name"
+            label='Hill Name'
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
@@ -91,59 +91,59 @@ const HillModal = ({ open, onClose, onSave, hillData, onLocation }) => {
 
           <TextInput
             fullWidth
-            label="Lap Distance"
-            type="number"
+            label='Lap Distance'
+            type='number'
             inputProps={{ step: 'any', min: 0 }}
             value={lapDistance}
             onChange={(e) => setLapDistance(e.target.value)}
             required
-            margin="normal"
+            margin='normal'
           />
 
-          <FormControl fullWidth margin="dense">
+          <FormControl fullWidth margin='dense'>
             <InputLabel>Distance Unit</InputLabel>
             <Select
               value={distanceUnit}
-              label="Distance Unit"
+              label='Distance Unit'
               onChange={(e) => setDistanceUnit(e.target.value)}
               required
             >
-              <MenuItem value="KM">Kilometers</MenuItem>
-              <MenuItem value="MI">Miles</MenuItem>
+              <MenuItem value='KM'>Kilometers</MenuItem>
+              <MenuItem value='MI'>Miles</MenuItem>
             </Select>
           </FormControl>
 
           <TextInput
             fullWidth
-            label="Lap Elevation Gain"
-            type="number"
+            label='Lap Elevation Gain'
+            type='number'
             inputProps={{ step: 'any', min: 0 }}
             value={lapElevationGain}
             onChange={(e) => setLapElevationGain(e.target.value)}
             required
-            margin="normal"
+            margin='normal'
           />
 
-          <FormControl fullWidth margin="dense">
+          <FormControl fullWidth margin='dense'>
             <InputLabel>Elevation Unit</InputLabel>
             <Select
               value={elevationUnit}
-              label="Elevation Unit"
+              label='Elevation Unit'
               onChange={(e) => setElevationUnit(e.target.value)}
               required
             >
-              <MenuItem value="FT">Feet</MenuItem>
-              <MenuItem value="M">Meters</MenuItem>
+              <MenuItem value='FT'>Feet</MenuItem>
+              <MenuItem value='M'>Meters</MenuItem>
             </Select>
           </FormControl>
 
-          <FormControl fullWidth required margin="normal">
-            <InputLabel id="location-select-label">Location</InputLabel>
+          <FormControl fullWidth required margin='normal'>
+            <InputLabel id='location-select-label'>Location</InputLabel>
             <Select
-              labelId="location-select-label"
-              id="location-select"
+              labelId='location-select-label'
+              id='location-select'
               value={location}
-              label="Location"
+              label='Location'
               onChange={(e) => setLocation(e.target.value)}
             >
               {locations.map((loc) => (
@@ -154,9 +154,9 @@ const HillModal = ({ open, onClose, onSave, hillData, onLocation }) => {
             </Select>
           </FormControl>
 
-          <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
-            <CancelButton onClick={onClose} color="red" />
-            <SaveButton type="submit" label={hillData ? 'Save' : 'Create'} />
+          <Box mt={3} display='flex' justifyContent='space-between' gap={2}>
+            <CancelButton onClick={onClose} color='red' />
+            <SaveButton type='submit' label={hillData ? 'Save' : 'Create'} />
           </Box>
         </form>
       </Box>

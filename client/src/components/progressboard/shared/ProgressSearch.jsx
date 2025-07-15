@@ -15,11 +15,17 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
           xl: '35%',
         },
         textAlign: 'left',
-        backgroundColor: { xxs: 'background.paper', sm: alpha(theme.palette.background.paper, 0.4) },
+        backgroundColor: {
+          xxs: 'gray.light',
+          sm: alpha(theme.palette.background.paper, 0.4),
+        },
         color: 'primary.main',
         borderRadius: '3px',
         '&:hover': {
-          backgroundColor: { xxs: 'info.main', sm: alpha(theme.palette.info.main, 0.5) },
+          backgroundColor: {
+            xxs: 'info.main',
+            sm: alpha(theme.palette.info.main, 0.5),
+          },
         },
       }}
     >
@@ -42,9 +48,9 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
               borderRadius: '3px',
               backgroundColor: 'background.paper',
               color: 'primary.main',
-              fontSize: { xxs: '.9rem', md: '1rem' },
+              fontSize: { xxs: '.9rem', md: '1rem', xl: '1.05rem' },
               '& .MuiAutocomplete-option': {
-                minHeight: { xxs: 'unset' },
+                minHeight: { xxs: 'unset', xs: 'unset' },
                 py: 0.5,
                 borderRadius: '3px',
                 color: 'primary.main',
@@ -74,8 +80,25 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
               },
             }}
             sx={{
+              '& input': {
+                fontWeight: 'bold',
+                textTransform: 'uppercase',
+                letterSpacing: '.01rem',
+                color: 'primary.light',
+              },
+
               '& input::placeholder': {
-                opacity: 0.65,
+                textTransform: 'capitalize',
+                fontWeight: 'regular',
+                letterSpacing: 0,
+                color: 'primary.main',
+                opacity: 0.85,
+                fontSize: {
+                  xxs: '.75rem',
+                  sm: '0.85rem',
+                  md: '0.95rem',
+                  xl: '1rem',
+                },
               },
               '& .MuiOutlinedInput-root': {
                 border: 'none',
@@ -90,6 +113,8 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
                   lg: '1rem',
                   xl: '1.05rem',
                 },
+                mb: { xxs: '2px', sm: 0 },
+                my: { sm: '1.7px', md: '2.75px', lg: '1.7px' },
               },
               '& .MuiOutlinedInput-notchedOutline': {
                 border: 'none',
@@ -98,13 +123,13 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
                 outline: 'none',
                 border: 'none',
                 color: 'primary.main',
-                pt: '2px !important',
+                pt: '0 !important',
                 pr: '0 !important',
                 pl: '0 !important',
                 pb: {
                   xxs: '1px !important',
                   xs: '1px !important',
-                  sm: '2px !important',
+                  sm: '1px !important',
                   md: '2px !important',
                   lg: '2px !important',
                   xl: '2px !important',

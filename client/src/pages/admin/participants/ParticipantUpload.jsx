@@ -135,10 +135,10 @@ const ParticipantUpload = () => {
 
         <Box sx={{ padding: '1rem', height: '100%' }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Button variant="contained" component="label">
+            <Button variant='contained' component='label'>
               Upload CSV File
               <input
-                type="file"
+                type='file'
                 hidden
                 onChange={handleFileChange}
               />
@@ -168,19 +168,19 @@ const ParticipantUpload = () => {
             </Button>
           </Box>
           <Box sx={{ display: 'flex', py: '1rem' }}>
-            <FormControl sx={{ minWidth: '15rem' }} size="small" error={eventError}>
-              <InputLabel id="select-event-label">Select Event</InputLabel>
+            <FormControl sx={{ minWidth: '15rem' }} size='small' error={eventError}>
+              <InputLabel id='select-event-label'>Select Event</InputLabel>
               <Select
-                labelId="select-event-label"
-                id="demo-select-small"
+                labelId='select-event-label'
+                id='demo-select-small'
                 value={selectedEvent || ''}
-                label="Select Event"
+                label='Select Event'
                 onChange={(event) => {
                   setEventError(false)
                   setSelectedEvent(event.target.value)
                 }}
               >
-                <MenuItem value="">
+                <MenuItem value=''>
                   <em>None</em>
                 </MenuItem>
                 {allEvent && allEvent.map((e) => {
@@ -192,7 +192,7 @@ const ParticipantUpload = () => {
           </Box>
           <Box>
             <FormGroup>
-              <FormControlLabel control={<Checkbox value={overwrite} onChange={(event) => { setOverwrite(event.target.checked) }} />} label="Overwrite existing list" />
+              <FormControlLabel control={<Checkbox value={overwrite} onChange={(event) => { setOverwrite(event.target.checked) }} />} label='Overwrite existing list' />
             </FormGroup>
           </Box>
 
@@ -218,7 +218,7 @@ const ParticipantUpload = () => {
                     key={row.participantId}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
-                    <TableCell component="th" scope="row">
+                    <TableCell component='th' scope='row'>
                       {row.participantId}
                     </TableCell>
                     <TableCell>{row.firstName}</TableCell>

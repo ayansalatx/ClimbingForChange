@@ -206,7 +206,7 @@ const TeamsManager = () => {
     }}>
     
       <DataTable
-        tableTitle="Teams"
+        tableTitle='Teams'
         tableIcon={People}
         tableColumns={fullColumns}
         tableData={(selectedEvent === null || selectedEvent.toString() === '')  ? [] : teamsDataForDisplay}
