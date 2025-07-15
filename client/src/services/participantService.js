@@ -40,9 +40,7 @@ export const addNewParticipant = async (participantData) => {
 
 export const editParticipant = async (id, participantData) => {
   const dataToSend = { ...participantData }
-  delete dataToSend.id  
-  delete dataToSend.eventId
-  console.log('PUT /participants/' + id, dataToSend)
+  delete dataToSend.id
   const res = await api.put(`/participants/${id}`, dataToSend)
   return res.data
 }

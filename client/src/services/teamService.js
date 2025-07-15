@@ -6,6 +6,11 @@ export const getAllTeams = async () => {
   return res.data
 }
 
+export const getTeamsByEvent = async (eventId) => {
+  const res = await api.get('/teams', { params: { eventId } })
+  return res.data
+}
+
 // Get all teams for the current event
 export const getTeamsForDisplay = async () => {
   const teamList = await getAllTeams()

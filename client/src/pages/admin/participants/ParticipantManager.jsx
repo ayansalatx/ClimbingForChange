@@ -14,6 +14,7 @@ import {
   getParticipantsByEvent,
 } from '../../../services/participantService'
 import { getAllTeams } from '../../../services/teamService.js'
+import { getTeamsByEvent } from '../../../services/teamService.js'
 
 const fullColumns = [
   { id: 'firstName', label: 'First Name', align: 'left', width: '30%' },
@@ -35,52 +36,52 @@ const ParticipantManager = () => {
   const displayAlert = useAlert()
 
   useEffect(() => {
-    async function loadData() {
+    async function loadEvents() {
       setLoading(true)
       try {
-        const teamsList = await getAllTeams()
-        setTeams(teamsList)
-
         const eventsList = await getAllEvents()
         setEvents(eventsList)
-        
-        displayAlert('Loaded Events & Teams', 'Successfully loaded team and event data.', 'success')
+
+        displayAlert('Loaded Events', 'Successfully loaded event data.', 'success')
       } catch (error) {
-        displayAlert(
-          'Error',
-          `Failed to Load Participants: ${error.message}`,
-          'error'
-        )
+        displayAlert('Error', `Failed to load events: ${error.message}`, 'error')
       } finally {
         setLoading(false)
       }
     }
-    loadData()
+    loadEvents()
   }, [displayAlert])
 
-  useEffect(() => {
-    if (!selectedEvent) return
+    useEffect(() => {
+    if (!selectedEvent) {
+      setParticipants([])
+      setTeams([])
+      return
+    }
 
-    async function loadParticipants() {
+    async function loadParticipantsAndTeams() {
       setLoading(true)
       try {
+
         const participantsList = await getParticipantsByEvent(selectedEvent)
-       
         setParticipants(participantsList)
 
+        const filteredTeams = await getTeamsByEvent(selectedEvent)
+        setTeams(filteredTeams)
+        
         displayAlert(
-          'Participants Loaded',
+          'Data Loaded',
           `Loaded ${participantsList.length} participants for selected event.`,
           'success'
         )
       } catch (error) {
-        displayAlert('Error', `Failed to load participants: ${error.message}`, 'error')
+        displayAlert('Error', `Failed to load participants or teams: ${error.message}`, 'error')
       } finally {
         setLoading(false)
       }
     }
 
-    loadParticipants()
+    loadParticipantsAndTeams()
   }, [selectedEvent, displayAlert])
 
   const onAdd = () => {
@@ -140,11 +141,12 @@ const ParticipantManager = () => {
     try {
       participantData.eventId = selectedEvent
       if (participantData.teamId !== undefined) {
-        participantData.team = participantData.teamId
-        delete participantData.teamId
+        participantData.teamId = participantData.teamId
+        delete participantData.team
       }
       if (participantData.id) {
         await editParticipant(participantData.id, participantData)
+        console.log('Saving participant:', participantData)
         console.log('Payload:', participantData)
         displayAlert('Edited Participant', `Edited ${participantData.firstName} ${participantData.lastName}.`, 'success')
       } else {
