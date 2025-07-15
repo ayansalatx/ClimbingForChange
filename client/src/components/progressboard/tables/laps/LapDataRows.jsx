@@ -1,5 +1,5 @@
-import { alpha, TableBody, TableCell, TableRow } from '@mui/material'
 import LapCompletedIcon from '@mui/icons-material/PublishedWithChanges'
+import { alpha, TableBody, TableCell, TableRow } from '@mui/material'
 
 import theme from '../../../../styles/theme'
 
@@ -13,13 +13,13 @@ const LapDataRows = ({ rows = [], columns = [], page, rowsPerPage }) => {
           return (
             <TableRow
               hover
-              role="checkbox"
+              role='checkbox'
               tabIndex={-1}
               key={row.id || index}
               sx={{
                 backgroundColor: isEven
                   ? alpha(theme.palette.background.paper, 0.05)
-                  : alpha(theme.palette.background.paper, 0.1),
+                  : alpha(theme.palette.background.paper, 0.15),
                 '&:hover > *': {
                   backgroundColor: alpha(theme.palette.secondary.light, 0.9),
                   color: 'primary.main',

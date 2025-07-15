@@ -1,3 +1,4 @@
+import FlagIcon from '@mui/icons-material/Flag'
 import {
   Box,
   CircularProgress,
@@ -11,11 +12,11 @@ import {
   Typography,
 } from '@mui/material'
 import { alpha } from '@mui/material/styles'
-import React, { useState } from 'react'
-import FlagIcon from '@mui/icons-material/Flag'
+import React from 'react'
+
 import theme from '../../../../styles/theme'
-import LapHeaderRow from './LapHeaderRow'
 import LapDataRows from './LapDataRows'
+import LapHeaderRow from './LapHeaderRow'
 
 const LapTable = ({ tableColumns, laps = [], loading }) => {
   const [page, setPage] = React.useState(0)
@@ -48,7 +49,7 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '.5rem',
-          backgroundColor: 'background.paper',
+          backgroundColor: alpha(theme.palette.background.paper, 0.3),
         }}
       >
         <Box
@@ -67,7 +68,7 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
             }}
           />
           <Typography
-            variant="h1"
+            variant='h1'
             sx={{
               textAlign: 'left',
               margin: '0',
@@ -77,7 +78,7 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
               fontWeight: 'bold',
               textTransform: 'uppercase',
               letterSpacing: '0.05em',
-              color: 'primary.light',
+              color: 'primary.main',
             }}
           >
             Laps
@@ -93,20 +94,20 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
           minHeight: 0,
           position: 'relative',
           scrollbarWidth: 'thin',
-          scrollbarColor: `${theme.palette.secondary.main} ${theme.palette.background.default}`,
+          scrollbarColor: `${theme.palette.secondary.main} ${theme.palette.primary.light}`,
         })}
       >
         {loading ? (
-          <Table stickyHeader height="100%">
+          <Table stickyHeader height='100%'>
             <LapHeaderRow columns={tableColumns} />
             <TableBody>
               <TableRow>
                 <TableCell
                   colSpan={tableColumns.length + 1}
-                  align="center"
+                  align='center'
                   sx={{ border: 'none' }}
                 >
-                  <CircularProgress color="secondary" />
+                  <CircularProgress color='secondary' />
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -114,7 +115,7 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
         ) : laps.length > 0 ? (
           <Table
             stickyHeader
-            size="small"
+            size='small'
             sx={{
               width: '100%',
               '&:hover': { bgcolor: alpha(theme.palette.primary.light, 0.05) },
@@ -129,19 +130,19 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
             />
           </Table>
         ) : (
-          <Table height="100%" stickyHeader>
+          <Table height='100%' stickyHeader>
             <LapHeaderRow columns={tableColumns} />
             <TableBody>
               <TableRow>
                 <TableCell
                   colSpan={tableColumns.length + 1}
-                  align="center"
+                  align='center'
                   sx={{
-                    backgroundColor: alpha(theme.palette.background.paper, 0.1),
+                    backgroundColor: alpha(theme.palette.background.paper, 0.3),
                     border: 'none',
                   }}
                 >
-                  <Typography variant="h5" color="secondary.main">
+                  <Typography variant='h5' color='secondary.main'>
                     no laps to display yet
                   </Typography>
                 </TableCell>
@@ -155,12 +156,12 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'flex-end',
-          backgroundColor: 'background.paper',
+          backgroundColor: alpha(theme.palette.background.paper, 0.3),
         }}
       >
         <TablePagination
           rowsPerPageOptions={[15, 25, 100]}
-          component="div"
+          component='div'
           count={laps.length}
           rowsPerPage={rowsPerPage}
           page={page}
@@ -168,14 +169,14 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
           onRowsPerPageChange={handleChangeRowsPerPage}
           sx={{
             minHeight: '3rem',
-            bgcolor: 'background.paper',
+            backgroundColor: alpha(theme.palette.background.paper, 0),
             color: 'primary.main',
             '& .MuiSvgIcon-root': {
               fontSize: '1.25rem',
               color: 'primary.main',
             },
           }}
-          labelRowsPerPage=""
+          labelRowsPerPage=''
         />
       </Box>
     </Paper>

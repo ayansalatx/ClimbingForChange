@@ -10,8 +10,8 @@ import { useParams } from 'react-router-dom'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import C4CHorizontalBlueLogo from '../../assets/C4C-branding/Climbing-For-Change-Horizontal_Green.png'
-import { getTeamForDisplay } from '../../services/teamService'
 import LapTable from '../../components/progressboard/tables/laps/LapTable'
+import { getTeamForDisplay } from '../../services/teamService'
 import theme from '../../styles/theme'
 
 const columns = [
@@ -65,9 +65,9 @@ const TeamProgress = () => {
 
       {isXSmall ? (
         <Box
-          component="img"
-          src="/assets/mountain-range-illustration-2.jpeg"
-          alt="Mountain background"
+          component='img'
+          src='/assets/mountain-range-illustration-2.jpeg'
+          alt='Mountain background'
           sx={{
             position: 'absolute',
             top: 0,
@@ -80,7 +80,7 @@ const TeamProgress = () => {
         />
       ) : (
         <video
-          src="/assets/progress-board-background.mp4"
+          src='/assets/progress-board-background.mp4'
           autoPlay
           loop
           muted
@@ -134,9 +134,9 @@ const TeamProgress = () => {
             {/* Logo */}
             <Box sx={{ mb: { sm: 0.5 } }}>
               <Box
-                component="img"
+                component='img'
                 src={isXSmall ? C4CHorizontalBlueLogo : C4CHorizontalGreenLogo}
-                alt="Climbing for Change Logo"
+                alt='Climbing for Change Logo'
                 sx={{
                   maxWidth: {
                     xxs: '11rem',
@@ -184,7 +184,7 @@ const TeamProgress = () => {
                 justifyContent: 'center',
               }}
             >
-              <CircularProgress color="secondary" />
+              <CircularProgress color='secondary' />
             </Box>
           ) : (
             <Box
@@ -231,11 +231,11 @@ const TeamProgress = () => {
                     }}
                   >
                     <Typography
-                      variant="h1"
-                      color="primary.light"
-                      fontWeight="bold"
-                      textTransform="uppercase"
-                      letterSpacing=".05rem"
+                      variant='h1'
+                      color='primary.light'
+                      fontWeight='bold'
+                      textTransform='uppercase'
+                      letterSpacing='.05rem'
                       sx={{
                         fontStyle: 'italic',
                         fontSize: {
@@ -296,8 +296,8 @@ const TeamProgress = () => {
                       >
                         <Box sx={{ width: '50%', px: 2 }}>
                           <Typography
-                            variant="h6"
-                            color="primary.main"
+                            variant='h6'
+                            color='primary.main'
                             sx={{ textAlign: 'left' }}
                           >
                             Mountain:
@@ -305,8 +305,8 @@ const TeamProgress = () => {
                         </Box>
                         <Box sx={{ width: '50%', px: 2 }}>
                           <Typography
-                            variant="h6"
-                            color="primary.main"
+                            variant='h6'
+                            color='primary.main'
                             sx={{ textAlign: 'right' }}
                           >
                             {team?.mountainName}
@@ -318,8 +318,8 @@ const TeamProgress = () => {
                       >
                         <Box sx={{ width: '50%', px: 2 }}>
                           <Typography
-                            variant="h6"
-                            color="primary.main"
+                            variant='h6'
+                            color='primary.main'
                             sx={{ textAlign: 'left' }}
                           >
                             Elevation:
@@ -327,8 +327,8 @@ const TeamProgress = () => {
                         </Box>
                         <Box sx={{ width: '50%', px: 2 }}>
                           <Typography
-                            variant="h6"
-                            color="primary.main"
+                            variant='h6'
+                            color='primary.main'
                             sx={{ textAlign: 'right' }}
                           >
                             {team?.totalElevation} {team?.elevationUnit}
@@ -344,8 +344,8 @@ const TeamProgress = () => {
                       >
                         <Box sx={{ width: '50%', px: 2 }}>
                           <Typography
-                            variant="h6"
-                            color="primary.main"
+                            variant='h6'
+                            color='primary.main'
                             sx={{ textAlign: 'left' }}
                           >
                             Total Laps:
@@ -353,8 +353,8 @@ const TeamProgress = () => {
                         </Box>
                         <Box sx={{ width: '50%', px: 2 }}>
                           <Typography
-                            variant="h6"
-                            color="primary.main"
+                            variant='h6'
+                            color='primary.main'
                             sx={{ textAlign: 'right' }}
                           >
                             {team?.totalLaps}
@@ -366,8 +366,8 @@ const TeamProgress = () => {
                       >
                         <Box sx={{ width: '50%', px: 2 }}>
                           <Typography
-                            variant="h6"
-                            color="primary.main"
+                            variant='h6'
+                            color='primary.main'
                             sx={{ textAlign: 'left' }}
                           >
                             Lap Elevation:
@@ -375,8 +375,8 @@ const TeamProgress = () => {
                         </Box>
                         <Box sx={{ width: '50%', px: 2 }}>
                           <Typography
-                            variant="h6"
-                            color="primary.main"
+                            variant='h6'
+                            color='primary.main'
                             sx={{ textAlign: 'right' }}
                           >
                             {team?.hillLap} {team?.hillLapUnit}
@@ -452,7 +452,7 @@ const TeamProgress = () => {
                 >
                   <Box sx={{ position: 'relative', display: 'inline-flex' }}>
                     <CircularProgress
-                      variant="determinate"
+                      variant='determinate'
                       value={100}
                       sx={{
                         color: alpha(theme.palette.primary.main, 0.75),
@@ -462,7 +462,7 @@ const TeamProgress = () => {
                       thickness={5}
                     />
                     <CircularProgress
-                      variant="determinate"
+                      variant='determinate'
                       value={team?.elevationProgress}
                       sx={{
                         color: 'secondary.main',
@@ -491,7 +491,7 @@ const TeamProgress = () => {
                     }}
                   >
                     <Typography
-                      variant="h6"
+                      variant='h6'
                       sx={{ fontWeight: 'bold', letterSpacing: '0.1rem', color: 'secondary.main' }}
                     >
                       {team?.currentElevation} {team?.elevationUnit}
