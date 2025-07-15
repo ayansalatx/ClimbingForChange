@@ -6,8 +6,10 @@ const lapSchema = new Schema({
   team: {
     type: Schema.Types.ObjectId,
     ref: 'Team',
-    required: true
+    required: true,
+    index: true 
   },
+  
   rfidTag: {
     type: Schema.Types.ObjectId,
     ref: 'RFIDTag',
@@ -20,6 +22,14 @@ const lapSchema = new Schema({
   endDateTime: {
     type: Date,
     required: true,
+  },
+  lapDuration: {
+    type: Number,
+    required: true
+  },
+  lapNumber: {
+    type: Number,
+    required: true
   }
 }, {
   timestamps: true

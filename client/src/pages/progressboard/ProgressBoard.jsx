@@ -6,6 +6,7 @@ import C4CHorizontalBlueLogo from '../../assets/C4C-branding/Climbing-For-Change
 import ProgressList from '../../components/progressboard/cards/ProgressCardList'
 import ProgressTable from '../../components/progressboard/tables/regular/ProgressTable'
 import { getAllEvents, getDisplayEventTeams } from '../../services/eventService'
+import { getLeaderboard } from '../../services/leaderboard'
 import theme from '../../styles/theme'
 
 // Define columns for full width screen
@@ -72,6 +73,10 @@ const ProgressBoard = () => {
   const [searchString, setSearchString] = useState('')
   // State for teams filtered by the search input
   const [filteredTeams, setFilteredTeams] = useState([])
+  
+  const [leaderboard, setLeaderboard] = useState([])
+  console.log('🚀 ~ ProgressBoard ~ leaderboard:', leaderboard)
+
 
   const [loading, setLoading] = useState(true)
 
@@ -110,7 +115,25 @@ const ProgressBoard = () => {
     }
   }, [events, selectedEvent])
 
-  useEffect(() => {}, [selectedEvent])
+  useEffect(() => {
+    const loadLeaderboard = async () => {
+      if (!selectedEvent) return
+      try {
+        const leaderboard = await getLeaderboard(selectedEvent)
+        setLeaderboard(leaderboard)
+      } catch (error) {
+        console.error('Failed to load leaderboard:', error)
+      }
+    }
+
+    loadLeaderboard()
+
+    const intervalId = setInterval(loadLeaderboard, 2000)
+
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [selectedEvent])
 
   useEffect(() => {
     const loadTeamsForEvent = async () => {

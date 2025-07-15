@@ -10,7 +10,8 @@ loadEnv({
 const config = {
   PORT: process.env.PORT,
   MONGODB_URI: process.env.MONGODB_URI,
-  JWT_SECRET: process.env.JWT_SECRET
+  JWT_SECRET: process.env.JWT_SECRET,
+  API_MODE: process.env.API_MODE
 }
 
 export default config
