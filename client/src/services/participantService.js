@@ -10,6 +10,16 @@ export const getAllParticipants = async () => {
   return participants
 }
 
+export const getParticipantsByEvent = async (eventId) => {
+  const res = await api.get(`/participants?event=${eventId}`)
+  const participants = res.data.map((p) => ({
+    ...p,
+    teamName: p.team ? p.team.name : '—',
+    eventId: p.team ? p.team.event : null,
+  }))
+  return participants
+}
+
 export const uploadParticipants = async (participantsFromCSV) => {
   const res = await api.post('/participants/upload', participantsFromCSV)
   return res.data
