@@ -1,5 +1,5 @@
 import { alpha, TableBody, TableCell, TableRow } from '@mui/material'
-
+import { Switch } from '@mui/material'
 import theme from '../../../styles/theme'
 import DeactivateToggle from '../buttons/DeactivateToggle'
 import RowActions from '../buttons/RowActions'
@@ -32,32 +32,34 @@ const TableDataRows = ({
                 },
               }}
             >
-              {columns.map((column) => {
-                const value = row[column.id] ?? ''
-
-                if (column.id === 'activeToggle') {
-                  return (
-                    <TableCell key={column.id} align={column.align || 'left'}>
-                      <DeactivateToggle
-                        checked={row.active}
-                        onChange={activeOnChange}
-                      />
-                    </TableCell>
-                  )
-                }
-
+             {columns.map((column) => {
+              // 'activeStatus' 
+              if (column.id === 'activeStatus') {
                 return (
-                  <TableCell
-                    key={column.id}
-                    align={column.align || 'left'}
-                    sx={{
-                      fontSize: '1rem',
-                      color: row.active ? 'primary.main' : 'gray.main',
-                    }}
-                  >
-                    {column.format && typeof value === 'number'
-                      ? column.format(value)
-                      : value}
+                  <TableCell key={column.id} align="center">
+                    <Switch
+                      checked={row.active}
+                      onChange={() => activeOnChange(row)}
+                      color="success"
+                      size="small"
+                    />
+                  </TableCell>
+                )
+              }
+
+              const value = row[column.id] ?? ''
+              return (
+                <TableCell
+                  key={column.id}
+                  align={column.align || 'left'}
+                  sx={{
+                    fontSize: '1rem',
+                    color: row.active ? 'primary.main' : 'gray.main',
+                  }}
+                >
+                  {column.format && typeof value === 'number'
+                    ? column.format(value)
+                    : value}
                   </TableCell>
                 )
               })}

@@ -76,6 +76,7 @@ const EventManager = () => {
         const mountainNames = (event.mountains || [])
           .map((m) => m.name)
           .filter((name) => name !== null && name !== undefined && name !== '')
+        const mountainIds = (event.mountains || []).map(m => m.id || m._id)
 
         return {
           id: event.id,
@@ -87,6 +88,7 @@ const EventManager = () => {
           locationId: event.location?.id,
           duration: durationInHours.toFixed(1),
           mountains: mountainNames.length ? mountainNames.join(', ') : 'None',
+          mountainIds,
           active: isActive,
           activeStatus: isActive ? 'Active' : 'Inactive', 
         }
@@ -133,7 +135,11 @@ const EventManager = () => {
 
   const handleAddEvent = async (eventData) => {
     try {
-      const response = await addEvent(eventData)
+    const dataToSend = {
+      ...eventData,
+      mountains: eventData.mountains?.map(m => typeof m === 'object' ? m.id || m._id : m) || []
+    }
+        const response = await addEvent(dataToSend)
       if (response.status === 201 || response.status === 200) {
         displayAlert('Event Created', 'The event has been successfully created.', 'success')
         fetchEvents()
@@ -148,7 +154,12 @@ const EventManager = () => {
 
   const handleEditEvent = async (id, eventData) => {
     try {
-      const response = await editEvent(id, eventData)
+       const dataToSend = {
+      ...eventData,
+      mountains: eventData.mountains?.map(m => typeof m === 'object' ? m.id || m._id : m) || []
+       }
+      const response = await editEvent(id, dataToSend)
+      //const response = await editEvent(id, eventData)
       if (response.status === 201 || response.status === 200) {
         displayAlert('Event Edited', 'The event has been successfully edited.', 'success')
         fetchEvents()
@@ -175,6 +186,26 @@ const EventManager = () => {
       displayAlert('Delete Error', `Failed to delete the event: ${error.message}`, 'error')
     }
   }
+
+  const handleToggleActive = async (event) => {
+  try {
+    const updated = {
+      ...event,
+      active: !event.active,
+      mountains: event.mountainIds || [], 
+    }
+
+    await editEvent(event.id, updated)
+    displayAlert(
+      'Event Updated',
+      `Event "${event.name}" is now ${updated.active ? 'active' : 'inactive'}.`,
+      'success'
+    )
+    fetchEvents()
+  } catch (error) {
+    displayAlert('Toggle Error', `Failed to update active status: ${error.message}`, 'error')
+  }
+}
 
   const onAdd = () => {
     setEventToEdit(null)
@@ -221,7 +252,7 @@ const EventManager = () => {
         tableData={events}
         showInactive={showInactive}
         setShowInactive={setShowInactive}
-        activeOnChange={handleActiveToggle}
+        activeOnChange={handleToggleActive}
         eventsForDropdown={[]}
         onAddClick={onAdd}
         onEditClick={onEdit}
