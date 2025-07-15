@@ -3,8 +3,7 @@ import { Alert, AlertTitle, Slide, Snackbar } from '@mui/material'
 import { useGlobalState } from '../state'
 
 const AlertDisplay = () => {
-  // eslint-disable-next-line no-unused-vars
-  const [state, dispatch] = useGlobalState()
+  const [state] = useGlobalState()
 
   return (
     state.alert && (
