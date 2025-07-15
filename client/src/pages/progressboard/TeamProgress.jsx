@@ -199,7 +199,8 @@ const TeamProgress = () => {
                 gap: 2,
                 minHeight: 0,
               }}
-            >
+              >
+              {/* Team Header */}
               <Box
                 sx={{
                   borderRadius: '4px',
