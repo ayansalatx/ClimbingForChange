@@ -81,7 +81,7 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
             />
           </Box>
           <Typography
-            variant="h1"
+            variant='h1'
             sx={{
               textAlign: 'left',
               margin: '0',
@@ -112,16 +112,16 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
         })}
       >
         {loading ? (
-          <Table stickyHeader height="100%">
+          <Table stickyHeader height='100%'>
             <LapHeaderRow columns={tableColumns} />
             <TableBody>
               <TableRow>
                 <TableCell
                   colSpan={tableColumns.length + 1}
-                  align="center"
+                  align='center'
                   sx={{ border: 'none' }}
                 >
-                  <CircularProgress color="secondary" />
+                  <CircularProgress color='secondary' />
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -129,7 +129,7 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
         ) : laps.length > 0 ? (
           <Table
             stickyHeader
-            size="small"
+            size='small'
             sx={{
               width: '100%',
               '&:hover': { bgcolor: alpha(theme.palette.primary.light, 0.05) },
@@ -144,19 +144,19 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
             />
           </Table>
         ) : (
-          <Table height="100%" stickyHeader>
+          <Table height='100%' stickyHeader>
             <LapHeaderRow columns={tableColumns} />
             <TableBody>
               <TableRow>
                 <TableCell
                   colSpan={tableColumns.length + 1}
-                  align="center"
+                  align='center'
                   sx={{
                     backgroundColor: alpha(theme.palette.background.paper, 0.3),
                     border: 'none',
                   }}
                 >
-                  <Typography variant="h5" color="secondary.main">
+                  <Typography variant='h5' color='secondary.main'>
                     no laps to display yet
                   </Typography>
                 </TableCell>
@@ -175,7 +175,7 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
       >
         <TablePagination
           rowsPerPageOptions={[15, 25, 100]}
-          component="div"
+          component='div'
           count={laps.length}
           rowsPerPage={rowsPerPage}
           page={page}
@@ -190,7 +190,7 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
               color: 'primary.main',
             },
           }}
-          labelRowsPerPage=""
+          labelRowsPerPage=''
         />
       </Box>
     </Paper>
