@@ -18,7 +18,7 @@ const columns = [
   { id: 'lapNumber', label: 'Lap', width: '5%', align: 'center' },
   { id: 'startDateTime', label: 'Start', width: '35%', align: 'left' },
   { id: 'endDateTime', label: 'Finish', width: '35%', align: 'left' },
-  { id: 'duration', label: 'Time', width: '15%', align: 'left' },
+  { id: 'duration', label: 'Time', width: '15%', align: 'center' },
   { id: 'completed', label: 'Done', width: '10%', align: 'center' },
 ]
 
@@ -65,9 +65,9 @@ const TeamProgress = () => {
 
       {isXSmall ? (
         <Box
-          component='img'
-          src='/assets/mountain-range-illustration-2.jpeg'
-          alt='Mountain background'
+          component="img"
+          src="/assets/mountain-range-illustration-2.jpeg"
+          alt="Mountain background"
           sx={{
             position: 'absolute',
             top: 0,
@@ -80,7 +80,7 @@ const TeamProgress = () => {
         />
       ) : (
         <video
-          src='/assets/progress-board-background.mp4'
+          src="/assets/progress-board-background.mp4"
           autoPlay
           loop
           muted
@@ -134,9 +134,9 @@ const TeamProgress = () => {
             {/* Logo */}
             <Box sx={{ mb: { sm: 0.5 } }}>
               <Box
-                component='img'
+                component="img"
                 src={isXSmall ? C4CHorizontalBlueLogo : C4CHorizontalGreenLogo}
-                alt='Climbing for Change Logo'
+                alt="Climbing for Change Logo"
                 sx={{
                   maxWidth: {
                     xxs: '11rem',
@@ -184,7 +184,7 @@ const TeamProgress = () => {
                 justifyContent: 'center',
               }}
             >
-              <CircularProgress color='secondary' />
+              <CircularProgress color="secondary" />
             </Box>
           ) : (
             <Box
@@ -204,7 +204,7 @@ const TeamProgress = () => {
                 sx={{
                   display: 'flex',
                   height: '100%',
-                  flexGrow: 1,
+                  flex: 1,
                   flexDirection: 'column',
                   borderRadius: '4px',
                 }}
@@ -231,11 +231,11 @@ const TeamProgress = () => {
                     }}
                   >
                     <Typography
-                      variant='h1'
-                      color='primary.light'
-                      fontWeight='bold'
-                      textTransform='uppercase'
-                      letterSpacing='.05rem'
+                      variant="h1"
+                      color="primary.light"
+                      fontWeight="bold"
+                      textTransform="uppercase"
+                      letterSpacing=".05rem"
                       sx={{
                         fontStyle: 'italic',
                         fontSize: {
@@ -278,12 +278,12 @@ const TeamProgress = () => {
                   </Box>
                   <Box
                     sx={{
-                      height: '100%',
-                      borderRadius: '4px',
                       display: 'flex',
+                      height: '100%',
                       flexDirection: 'column',
                       alignItems: 'center',
                       justifyContent: 'flex-start',
+                      borderRadius: '4px',
                       backgroundColor: 'gray.light',
                       p: 2,
                     }}
@@ -296,8 +296,8 @@ const TeamProgress = () => {
                       >
                         <Box sx={{ width: '50%', px: 2 }}>
                           <Typography
-                            variant='h6'
-                            color='primary.main'
+                            variant="h6"
+                            color="primary.main"
                             sx={{ textAlign: 'left' }}
                           >
                             Mountain:
@@ -305,8 +305,8 @@ const TeamProgress = () => {
                         </Box>
                         <Box sx={{ width: '50%', px: 2 }}>
                           <Typography
-                            variant='h6'
-                            color='primary.main'
+                            variant="h6"
+                            color="primary.main"
                             sx={{ textAlign: 'right' }}
                           >
                             {team?.mountainName}
@@ -318,8 +318,8 @@ const TeamProgress = () => {
                       >
                         <Box sx={{ width: '50%', px: 2 }}>
                           <Typography
-                            variant='h6'
-                            color='primary.main'
+                            variant="h6"
+                            color="primary.main"
                             sx={{ textAlign: 'left' }}
                           >
                             Elevation:
@@ -327,8 +327,8 @@ const TeamProgress = () => {
                         </Box>
                         <Box sx={{ width: '50%', px: 2 }}>
                           <Typography
-                            variant='h6'
-                            color='primary.main'
+                            variant="h6"
+                            color="primary.main"
                             sx={{ textAlign: 'right' }}
                           >
                             {team?.totalElevation} {team?.elevationUnit}
@@ -344,8 +344,8 @@ const TeamProgress = () => {
                       >
                         <Box sx={{ width: '50%', px: 2 }}>
                           <Typography
-                            variant='h6'
-                            color='primary.main'
+                            variant="h6"
+                            color="primary.main"
                             sx={{ textAlign: 'left' }}
                           >
                             Total Laps:
@@ -353,8 +353,8 @@ const TeamProgress = () => {
                         </Box>
                         <Box sx={{ width: '50%', px: 2 }}>
                           <Typography
-                            variant='h6'
-                            color='primary.main'
+                            variant="h6"
+                            color="primary.main"
                             sx={{ textAlign: 'right' }}
                           >
                             {team?.totalLaps}
@@ -366,8 +366,8 @@ const TeamProgress = () => {
                       >
                         <Box sx={{ width: '50%', px: 2 }}>
                           <Typography
-                            variant='h6'
-                            color='primary.main'
+                            variant="h6"
+                            color="primary.main"
                             sx={{ textAlign: 'left' }}
                           >
                             Lap Elevation:
@@ -375,8 +375,8 @@ const TeamProgress = () => {
                         </Box>
                         <Box sx={{ width: '50%', px: 2 }}>
                           <Typography
-                            variant='h6'
-                            color='primary.main'
+                            variant="h6"
+                            color="primary.main"
                             sx={{ textAlign: 'right' }}
                           >
                             {team?.hillLap} {team?.hillLapUnit}
@@ -391,6 +391,7 @@ const TeamProgress = () => {
               <Box
                 sx={{
                   display: 'flex',
+                  flex: 1,
                   height: '100%',
                   flexDirection: 'column',
                   borderRadius: '4px',
@@ -417,85 +418,203 @@ const TeamProgress = () => {
               <Box
                 sx={{
                   display: 'flex',
-                  height: '100%',
                   flexDirection: 'column',
-                  borderRadius: '4px',
+                    flexGrow: 1,
+                  maxWidth: '20%',
                   gap: 2,
+                  borderRadius: '4px',
                 }}
               >
                 <Box
                   sx={{
-                    width: '100%',
-                    height: '100%',
-                    borderRadius: '4px',
                     display: 'flex',
+                    flexDirection: 'column',
+                    flex: 1,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    backgroundColor: 'gray.light',
+                    borderRadius: '4px',
+                    backgroundColor: alpha(
+                      theme.palette.background.paper,
+                      0.25
+                    ),
                   }}
                 >
-                  <Typography sx={{ color: 'primary.main' }}>Laps</Typography>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      flex: 1,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      borderRadius: '4px',
+                      p: 2,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        flex: 1,
+                        position: 'relative',
+                        aspectRatio: '1',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <CircularProgress
+                        variant="determinate"
+                        value={100}
+                        thickness={5}
+                        size={'100%'}
+                        sx={{
+                          width: '100%',
+                          height: '100%',
+                          color: alpha(theme.palette.primary.main, 0.75),
+                          filter: 'drop-shadow(0 0 4px rgba(0, 0, 0, 0.3))',
+                        }}
+                      />
+                      <CircularProgress
+                        variant="determinate"
+                        value={team?.elevationProgress}
+                        thickness={5}
+                        size={'100%'}
+                        sx={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          width: '100%',
+                          height: '100%',
+                          color: 'secondary.main',
+                          filter: 'drop-shadow(0 0 4px rgba(48, 51, 31, 0.3))',
+                          '& .MuiCircularProgress-circle': {
+                            strokeLinecap: 'round',
+                          },
+                        }}
+                      />
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          width: '100%',
+                          height: '100%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          flexDirection: 'column',
+                        }}
+                      >
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            fontWeight: 'bold',
+                            letterSpacing: '0.1rem',
+                            color: 'secondary.main',
+                          }}
+                        >
+                          {team?.currentElevation} {team?.elevationUnit}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
                 </Box>
 
                 <Box
                   sx={{
-                    width: '100%',
-                    height: '100%',
-                    position: 'relative',
-                    display: 'inline-flex',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    flex: 1,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    backgroundColor: alpha(theme.palette.background.paper, 0.25),
                     borderRadius: '4px',
-                    p: 2,
+                    backgroundColor: alpha(
+                      theme.palette.background.paper,
+                      0.25
+                    ),
                   }}
                 >
-                  <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-                    <CircularProgress
-                      variant='determinate'
-                      value={100}
-                      sx={{
-                        color: alpha(theme.palette.primary.main, 0.75),
-                        filter: 'drop-shadow(0 0 1px rgba(0, 0, 0, 0.3))',
-                      }}
-                      size={200}
-                      thickness={5}
-                    />
-                    <CircularProgress
-                      variant='determinate'
-                      value={team?.elevationProgress}
-                      sx={{
-                        color: 'secondary.main',
-                        filter: 'drop-shadow(0 0 4px rgba(48, 51, 31, 0.3))',
-                        position: 'absolute',
-                        left: 0,
-                        '& .MuiCircularProgress-circle': {
-                          strokeLinecap: 'round',
-                        },
-                      }}
-                      size={200}
-                      thickness={5}
-                    />
-                  </Box>
                   <Box
                     sx={{
-                      top: 0,
-                      left: 0,
-                      bottom: 0,
-                      right: 0,
-                      position: 'absolute',
                       display: 'flex',
+                      flexDirection: 'column',
+                      flex: 1,
                       alignItems: 'center',
                       justifyContent: 'center',
-                      flexDirection: 'column',
+                      borderRadius: '4px',
+                      p: 2,
                     }}
                   >
-                    <Typography
-                      variant='h6'
-                      sx={{ fontWeight: 'bold', letterSpacing: '0.1rem', color: 'secondary.main' }}
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        flex: 1,
+                        aspectRatio: '1',
+                        position: 'relative',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
                     >
-                      {team?.currentElevation} {team?.elevationUnit}
-                    </Typography>
+                      <CircularProgress
+                        variant="determinate"
+                        value={100}
+                        thickness={5}
+                        size={'100%'}
+                        sx={{
+                          width: '100%',
+                          height: '100%',
+                          color: alpha(theme.palette.primary.main, 0.75),
+                          filter: 'drop-shadow(0 0 4px rgba(0, 0, 0, 0.3))',
+                        }}
+                      />
+                      <CircularProgress
+                        variant="determinate"
+                        value={team?.lapProgress}
+                        thickness={5}
+                        size={'100%'}
+                        sx={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          width: '100%',
+                          height: '100%',
+                          color: 'info.main',
+                          filter: 'drop-shadow(0 0 4px rgba(27, 50, 53, 0.3))',
+                          '& .MuiCircularProgress-circle': {
+                            strokeLinecap: 'round',
+                          },
+                        }}
+                      />
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          width: '100%',
+                          height: '100%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          flexDirection: 'column',
+                        }}
+                      >
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            fontWeight: 'bold',
+                            letterSpacing: '0.1rem',
+                            color: 'info.main',
+                            textTransform: 'uppercase',
+                          }}
+                        >
+                          {team?.lapsCompleted} Laps
+                        </Typography>
+                      </Box>
+                    </Box>
                   </Box>
                 </Box>
               </Box>

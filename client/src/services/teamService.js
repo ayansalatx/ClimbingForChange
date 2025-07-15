@@ -1,7 +1,10 @@
 import { getBestLapTime } from '../utils/calcBestLap'
 import { getDuration, getTimeElapsed } from '../utils/calcDuration'
 import { formatTimeSeconds } from '../utils/formatDateTime'
-import { formatDurationTimeHours, formatDurationTimeMinutes } from '../utils/formatDurationTime'
+import {
+  formatDurationTimeHours,
+  formatDurationTimeMinutes,
+} from '../utils/formatDurationTime'
 import { formatNumber } from '../utils/formatNumber'
 import { api } from './api'
 
@@ -36,7 +39,9 @@ export const getTeamsForDisplay = async () => {
       lapsCompleted: laps.length ? laps.length : '-',
       lapsToGo: Math.max((team.lapsRequired || 0) - laps.length, 0),
       bestLap: laps.length ? formatDurationTimeMinutes(teamBestLap) : null,
-      timeElapsed: laps.length ? formatDurationTimeHours(teamTimeElapsed) : '00:00:00',
+      timeElapsed: laps.length
+        ? formatDurationTimeHours(teamTimeElapsed)
+        : '00:00:00',
       participants: team.participants?.map((participant) => {
         return {
           ...participant,
@@ -70,7 +75,7 @@ export const getTeamForDisplay = async (id) => {
     mountainName: team.mountain?.name,
     totalElevation: formatNumber(team.mountain?.totalElevation),
     elevationUnit: team.mountain?.elevationUnit,
-    hillLap: team.hill?.lapElevationGain,
+    hillLap: formatNumber(team.hill?.lapElevationGain),
     hillLapUnit: team.hill?.elevationUnit,
     currentElevation: laps.length
       ? formatNumber(laps.length * team.hill?.lapElevationGain)
@@ -78,16 +83,25 @@ export const getTeamForDisplay = async (id) => {
     elevationProgress: team.mountain?.totalElevation
       ? ((laps.length * team.hill?.lapElevationGain) /
           team.mountain.totalElevation) *
+          100 >
         100
+        ? 100
+        : ((laps.length * team.hill?.lapElevationGain) /
+            team.mountain.totalElevation) *
+          100
       : 0,
-    totalLaps: team.lapsRequired,
-    lapsCompleted: laps.length ? laps.length : '-',
-    lapsToGo: Math.max((team.lapsRequired || 0) - laps.length, 0),
+    totalLaps: formatNumber(team.lapsRequired),
+    lapsCompleted: laps.length ? formatNumber(laps.length) : '-',
+    lapsToGo: formatNumber(Math.max((team.lapsRequired || 0) - laps.length, 0)),
     lapProgress: team.lapsRequired
-      ? (laps.length / team.lapsRequired) * 100
+      ? (laps.length / team.lapsRequired) * 100 > 100
+        ? 100
+        : formatNumber((laps.length / team.lapsRequired) * 100)
       : 0,
     bestLap: laps.length ? formatDurationTimeMinutes(teamBestLap) : null,
-    timeElapsed: laps.length ? formatDurationTimeHours(teamTimeElapsed) : '00:00:00',
+    timeElapsed: laps.length
+      ? formatDurationTimeHours(teamTimeElapsed)
+      : '00:00:00',
     participants: team.participants?.map((participant) => {
       return {
         ...participant,
@@ -99,7 +113,7 @@ export const getTeamForDisplay = async (id) => {
       const end = new Date(lap.endDateTime)
 
       return {
-        lapNumber: index + 1,
+        lapNumber: formatNumber(index + 1),
         startDateTime: formatTimeSeconds(start),
         endDateTime: formatTimeSeconds(end),
         duration: formatDurationTimeMinutes(getDuration(start, end)),
