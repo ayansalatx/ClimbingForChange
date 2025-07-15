@@ -1,6 +1,6 @@
 import { getBestLapTime } from '../utils/calcBestLap'
 import { getTimeElapsed } from '../utils/calcDuration'
-import { formatDateLong, formatTimeMinutes } from '../utils/formatDateTime'
+import { formatDateLong, formatTime } from '../utils/formatDateTime'
 import {
   formatDurationTimeHours,
   formatDurationTimeMinutes,
@@ -134,12 +134,12 @@ export const getUpcomingEventsSummary = async () => {
     const startDate = formatDateLong(start)
 
     // Format time: 3:20 PM
-    const startTime = formatTimeMinutes(start)
+    const startTime = formatTime(start)
 
     const endDate = formatDateLong(end)
 
     // Format time: 3:20 PM
-    const endTime = formatTimeMinutes(end)
+    const endTime = formatTime(end)
 
     return {
       name: event.name,
