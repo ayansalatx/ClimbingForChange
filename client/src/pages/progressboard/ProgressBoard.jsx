@@ -97,11 +97,17 @@ const ProgressBoard = () => {
   }, [])
 
   // Set default event as the event that is ongoing or upcoming
-  useEffect(() => {
-    if (activeEvents.length > 0 && !selectedEvent) {
-      setSelectedEvent(activeEvents[0].id)
-    }
-  }, [activeEvents, selectedEvent])
+  // If no upcoming then set to last event
+  // If no events then null
+useEffect(() => {
+  if (activeEvents.length > 0 && !selectedEvent) {
+    setSelectedEvent(activeEvents[0].id)
+  } else if (pastEvents.length > 0 && !selectedEvent) {
+    setSelectedEvent(pastEvents[0].id)
+  } else if (activeEvents.length === 0 && pastEvents.length === 0) {
+    setSelectedEvent(null)
+  }
+}, [activeEvents, pastEvents, selectedEvent])
 
   useEffect(() => {}, [selectedEvent])
 
