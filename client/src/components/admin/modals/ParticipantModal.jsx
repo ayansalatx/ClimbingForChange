@@ -107,9 +107,9 @@ const AddParticipantModal = ({
               ))}
           </TextField>
 
-          <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
-            <CancelButton onClick={onClose} color="red"/>
-            <SaveButton type="submit" label={participantData ? 'Save' : 'Create'} />
+          <Box mt={3} display='flex' justifyContent='space-between' gap={2}>
+            <CancelButton onClick={onClose} />
+            <SaveButton type='submit' label={participantData ? 'Save' : 'Create'} />
           </Box>
         </form>
       </Box>

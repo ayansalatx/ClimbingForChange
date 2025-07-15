@@ -71,32 +71,30 @@ const MountainModal = ({ open, onClose, onSave, mountain }) => {
             margin='dense'
             required
           />
+
+          <TextField
+            fullWidth
+            label='Elevation'
+            type='number'
+            value={totalElevation}
+            onChange={(e) => setTotalElevation(e.target.value)}
+            margin='dense'
+            required
+          />
           
-          <Box display="flex" gap={2} alignItems="baseline" >
-            <TextField
-              label="Elevation"
-              type="number"
-              value={totalElevation}
-              onChange={(e) => setTotalElevation(e.target.value)}
+          <FormControl fullWidth margin='dense'>
+            <InputLabel>Unit</InputLabel>
+            <Select
+              value={elevationUnit}
+              label='Unit'
+              onChange={(e) => setElevationUnit(e.target.value)}
               required
-              fullWidth
-              margin="dense"
-            />
-
-            <FormControl fullWidth margin="dense" sx={{ minWidth: 120 }}>
-              <InputLabel>Unit</InputLabel>
-              <Select
-                value={elevationUnit}
-                label="Unit"
-                onChange={(e) => setElevationUnit(e.target.value)}
-                required
-              >
-                <MenuItem value="FT">Feet</MenuItem>
-                <MenuItem value="M">Meters</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-
+            >
+              <MenuItem value='FT'>Feet</MenuItem>
+              <MenuItem value='M'>Meters</MenuItem>
+            </Select>
+          </FormControl>
+          
           <TextField
             fullWidth
             label='Image URL (Optional)'
@@ -105,9 +103,9 @@ const MountainModal = ({ open, onClose, onSave, mountain }) => {
             margin='dense'
           />
           
-          <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
-            <CancelButton onClick={onClose} color="red" />
-            <SaveButton type="submit" label={mountain?.id ? 'Save' : 'Create'} />
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, gap: 1 }}>
+            <CancelButton onClick={onClose} />
+            <SaveButton type='submit' label={mountain?.id ? 'Update' : 'Add'} />
           </Box>
         </form>
       </Box>
