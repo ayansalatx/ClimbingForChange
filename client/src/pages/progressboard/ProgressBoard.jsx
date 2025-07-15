@@ -6,8 +6,8 @@ import C4CHorizontalBlueLogo from '../../assets/C4C-branding/Climbing-For-Change
 import ProgressList from '../../components/progressboard/cards/ProgressCardList'
 import ProgressTable from '../../components/progressboard/tables/regular/ProgressTable'
 import { getAllEvents, getDisplayEventTeams } from '../../services/eventService'
-import theme from '../../styles/theme'
 import { getLeaderboard } from '../../services/leaderboard'
+import theme from '../../styles/theme'
 
 // Define columns for full width screen
 const lgColumns = [
@@ -75,6 +75,7 @@ const ProgressBoard = () => {
   const [filteredTeams, setFilteredTeams] = useState([])
   
   const [leaderboard, setLeaderboard] = useState([])
+  console.log('🚀 ~ ProgressBoard ~ leaderboard:', leaderboard)
 
 
   const [loading, setLoading] = useState(true)
@@ -119,7 +120,6 @@ const ProgressBoard = () => {
       if (!selectedEvent) return
       try {
         const leaderboard = await getLeaderboard(selectedEvent)
-        console.log("🚀 ~ loadLeaderboard ~ leaderboard:", leaderboard)
         setLeaderboard(leaderboard)
       } catch (error) {
         console.error('Failed to load leaderboard:', error)

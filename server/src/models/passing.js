@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 
-const { Schema, model } = mongoose;
+const { Schema, model } = mongoose
 
 const passingSchema = new Schema({
   Code: {
@@ -70,16 +70,16 @@ const passingSchema = new Schema({
   }
 }, {
   timestamps: true
-});
+})
 
-passingSchema.index({ Code: 1, LoopID: 1, PassingNo: 1 }, { unique: true });
+passingSchema.index({ Code: 1, LoopID: 1, PassingNo: 1 }, { unique: true })
 
 passingSchema.set('toJSON', {
   transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString();
-    delete returnedObject._id;
-    delete returnedObject.__v;
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
   }
-});
+})
 
-export default model('Passing', passingSchema);
+export default model('Passing', passingSchema)

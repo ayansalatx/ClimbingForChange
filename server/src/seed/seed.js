@@ -170,7 +170,7 @@ const seedDatabase = async () => {
     const rainierLaps = Math.ceil(rainierData.totalElevation / grinderHillData.lapElevationGain) // ~121 laps
     const rainierDistance = rainierLaps * grinderHillData.lapDistance // ~90.75 km
     
-    console.log(`[Seed] Lap requirements: Everest=${everestLaps}, Denali=${denaliLaps}, Rainier=${rainierLaps} (all using ${grinderHillData.name})`);
+    console.log(`[Seed] Lap requirements: Everest=${everestLaps}, Denali=${denaliLaps}, Rainier=${rainierLaps} (all using ${grinderHillData.name})`)
     
     const teams = await Team.insertMany([
       // Solo participants (no team name) - each becomes their own team

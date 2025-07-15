@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 
-const { Schema, model } = mongoose;
+const { Schema, model } = mongoose
 
 const lapSchema = new Schema({
   team: {
@@ -33,14 +33,14 @@ const lapSchema = new Schema({
   }
 }, {
   timestamps: true
-});
+})
 
 lapSchema.set('toJSON', {
   transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString();
-    delete returnedObject._id;
-    delete returnedObject.__v;
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
   }
-});
+})
 
-export default model('Lap', lapSchema);
+export default model('Lap', lapSchema)

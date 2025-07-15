@@ -35,8 +35,8 @@ app.use(requestLogger)
 app.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(openapiDoc))
 
 if (config.API_MODE === 'mock') {
-    console.log('Server is starting in MOCK API mode.');
-    app.use('/mock-api', mockRouter);
+  console.log('Server is starting in MOCK API mode.')
+  app.use('/mock-api', mockRouter)
 }
 
 app.use('/api/leaderboard', leaderboardRoutes)
@@ -61,8 +61,10 @@ app.use('/api', authenticatedApiRouter)
 
 app.use(errorHandler)
 
-setTimeout(() => {
-    setInterval(pollForNewData, 5000); 
-}, 2000); 
+if (process.env.NODE_ENV !== 'test') {
+  setTimeout(() => {
+    setInterval(pollForNewData, 5000) 
+  }, 2000) 
+}
 
 export default app
