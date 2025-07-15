@@ -7,7 +7,7 @@ const LapHeaderRow = ({ columns }) => {
         {columns.map((column) => (
           <TableCell
             key={column.id}
-            align='center'
+            align="center"
             sx={{
               width: column.width,
               border: 'none',
@@ -22,6 +22,7 @@ const LapHeaderRow = ({ columns }) => {
               fontWeight: 'bold',
               bgcolor: 'info.main',
               color: 'background.paper',
+              boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
             }}
           >
             {column.label}

@@ -5,7 +5,7 @@ import theme from '../../../../styles/theme'
 
 const LapDataRows = ({ rows = [], columns = [], page, rowsPerPage }) => {
   return (
-    <TableBody>
+    <TableBody sx={{boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',}}>
       {rows
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
         .map((row, index) => {

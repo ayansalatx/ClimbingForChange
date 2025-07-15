@@ -209,6 +209,7 @@ const TeamProgress = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   backgroundColor: alpha(theme.palette.background.paper, 0.75),
+                  boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
                 }}
               >
                 <Typography
@@ -274,6 +275,7 @@ const TeamProgress = () => {
                           theme.palette.background.paper,
                           0.75
                         ),
+                        boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
                         p: 2,
                       }}
                     >
@@ -344,6 +346,7 @@ const TeamProgress = () => {
                           theme.palette.background.paper,
                           0.75
                         ),
+                        boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
                         p: 2,
                         gap: 2,
                       }}
@@ -654,6 +657,7 @@ const TeamProgress = () => {
                         theme.palette.background.paper,
                         0.5
                       ),
+                      boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
                     }}
                   >
                     <Box
@@ -754,6 +758,7 @@ const TeamProgress = () => {
                         theme.palette.background.paper,
                         0.5
                       ),
+                      boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
                     }}
                   >
                     <Box
@@ -841,6 +846,7 @@ const TeamProgress = () => {
                     </Box>
                   </Box>
                 </Box>
+
                 <Box
                   sx={{
                     display: 'flex',
@@ -851,6 +857,7 @@ const TeamProgress = () => {
                     gap: 2,
                     overflowY: 'hidden',
                     minHeight: 0,
+                    boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
                   }}
                 >
                   <Box

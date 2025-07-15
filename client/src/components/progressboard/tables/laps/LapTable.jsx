@@ -41,6 +41,7 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
         flexDirection: 'column',
         overflow: 'hidden',
         backgroundColor: 'transparent',
+        boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
       }}
     >
       <Box
@@ -107,6 +108,7 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
           position: 'relative',
           scrollbarWidth: 'thin',
           scrollbarColor: `${theme.palette.secondary.main} ${theme.palette.primary.light}`,
+          boxShadow: '0px 3px 1px rgba(49, 47, 47, 0.3)',
         })}
       >
         {loading ? (
