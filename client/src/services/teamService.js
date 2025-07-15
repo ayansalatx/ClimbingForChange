@@ -1,3 +1,8 @@
+import { getBestLapTime } from '../utils/calcBestLap'
+import { formatNumber } from '../utils/formatNumber'
+import { getDuration, getTimeElapsed } from '../utils/calcDuration'
+import { formatDurationTimeHours, formatDurationTimeMinutes } from '../utils/formatDurationTime'
+import { formatTimeSeconds } from '../utils/formatDateTime'
 import { api } from './api'
 
 // Get all teams
@@ -24,34 +29,18 @@ export const getTeamsForDisplay = async () => {
     return {
       ...team,
       mountainName: team.mountain?.name,
-      elevation: team.mountain?.totalElevation,
+      elevation: formatNumber(team.mountain?.totalElevation),
       currentElevation: laps.length
-        ? laps.length * team.hill?.lapElevationGain
+        ? formatNumber(laps.length * team.hill?.lapElevationGain)
         : '-',
       lapsCompleted: laps.length ? laps.length : '-',
       lapsToGo: Math.max((team.lapsRequired || 0) - laps.length, 0),
-      bestLap: laps.length ? formatTime(teamBestLap) : null,
-      timeElapsed: laps.length ? formatTime(teamTimeElapsed) : '00:00:00',
+      bestLap: laps.length ? formatDurationTimeMinutes(teamBestLap) : null,
+      timeElapsed: laps.length ? formatDurationTimeHours(teamTimeElapsed) : '00:00:00',
       participants: team.participants?.map((participant) => {
-        const participantLaps = participant.laps || []
-
-        const participantBestLap = getBestLapTime(participantLaps)
-        const participantTimeElapsed = getTimeElapsed(participantLaps)
-
         return {
           ...participant,
-          currentElevation:
-            participantLaps.length * team.hill?.lapElevationGain,
-          lapsCompleted: participantLaps.length,
-          lapsRequired: team.lapsRequired,
-          lapsToGo: Math.max(
-            (team.lapsRequired || '-') - participantLaps.length,
-            '-'
-          ),
-          bestLap: participantBestLap ? formatTime(participantBestLap) : null,
-          timeElapsed: participantTimeElapsed
-            ? formatTime(participantTimeElapsed)
-            : '00:00:00',
+          fullName: `${participant.firstName} ${participant.lastName}`,
         }
       }),
     }
@@ -63,6 +52,10 @@ export const getTeamsForDisplay = async () => {
 export const getTeamForDisplay = async (id) => {
   const res = await api.get(`/teams/${id}`)
   const team = res.data
+
+  if (!team) {
+    return null
+  }
   // Get laps for each team
   const laps = (team.laps || []).filter((lap) => lap.endDateTime)
 
@@ -75,16 +68,17 @@ export const getTeamForDisplay = async (id) => {
   const teamForDisplay = {
     ...team,
     mountainName: team.mountain?.name,
-    totalElevation: team.mountain?.totalElevation,
+    totalElevation: formatNumber(team.mountain?.totalElevation),
     elevationUnit: team.mountain?.elevationUnit,
     hillLap: team.hill?.lapElevationGain,
     hillLapUnit: team.hill?.elevationUnit,
     currentElevation: laps.length
-      ? laps.length * team.hill?.lapElevationGain
+      ? formatNumber(laps.length * team.hill?.lapElevationGain)
       : '-',
     elevationProgress: team.mountain?.totalElevation
       ? ((laps.length * team.hill?.lapElevationGain) /
-        team.mountain.totalElevation) * 100
+          team.mountain.totalElevation) *
+        100
       : 0,
     totalLaps: team.lapsRequired,
     lapsCompleted: laps.length ? laps.length : '-',
@@ -92,8 +86,8 @@ export const getTeamForDisplay = async (id) => {
     lapProgress: team.lapsRequired
       ? (laps.length / team.lapsRequired) * 100
       : 0,
-    bestLap: laps.length ? formatTime(teamBestLap) : null,
-    timeElapsed: laps.length ? formatTime(teamTimeElapsed) : '00:00:00',
+    bestLap: laps.length ? formatDurationTimeMinutes(teamBestLap) : null,
+    timeElapsed: laps.length ? formatDurationTimeHours(teamTimeElapsed) : '00:00:00',
     participants: team.participants?.map((participant) => {
       return {
         ...participant,
@@ -106,58 +100,15 @@ export const getTeamForDisplay = async (id) => {
 
       return {
         lapNumber: index + 1,
-        startDateTime: start.toLocaleString('en-US', {
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: true,
-        }),
-        endDateTime: end.toLocaleString('en-US', {
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: true,
-        }),
-        duration: formatTime(end - start),
+        startDateTime: formatTimeSeconds(start),
+        endDateTime: formatTimeSeconds(end),
+        duration: formatDurationTimeMinutes(getDuration(start, end)),
         completed: Boolean(lap.endDateTime),
       }
     }),
   }
 
   return teamForDisplay
-}
-
-// Returns the lap with shortest duration, or null if no laps
-export function getBestLapTime(laps) {
-  if (!laps.length) return null
-  const bestLap = laps.reduce((best, current) => {
-    const bestDuration =
-      new Date(best.endDateTime) - new Date(best.startDateTime)
-    const currentDuration =
-      new Date(current.endDateTime) - new Date(current.startDateTime)
-    return currentDuration < bestDuration ? current : best
-  }, laps[0])
-
-  return new Date(bestLap.endDateTime) - new Date(bestLap.startDateTime)
-}
-
-// Calculate total elapsed time between first lap start and last lap end
-export function getTimeElapsed(laps) {
-  if (!laps.length) return null
-  const start = new Date(laps[0].startDateTime)
-  const end = new Date(laps[laps.length - 1].endDateTime)
-  return end - start
-}
-
-// Format time to display
-function formatTime(durationMs) {
-  const totalSeconds = Math.floor(durationMs / 1000)
-  const seconds = totalSeconds % 60
-  const totalMinutes = Math.floor(totalSeconds / 60)
-  const minutes = totalMinutes % 60
-  const hours = Math.floor(totalMinutes / 60)
-
-  return `${String(hours).padStart(2, '00')}:${String(minutes).padStart(2, '00')}:${String(seconds).padStart(2, '00')}`
 }
 
 // Add

@@ -1,5 +1,5 @@
 // Format time to display with hours
-export const formatTimeHours = (durationMs) => {
+export const formatDurationTimeHours = (durationMs) => {
   const totalSeconds = Math.floor(durationMs / 1000)
   const seconds = totalSeconds % 60
   const totalMinutes = Math.floor(totalSeconds / 60)
@@ -10,7 +10,7 @@ export const formatTimeHours = (durationMs) => {
 }
 
 // Format time to display without hours
-export const formatTimeMinutes = (durationMs) => {
+export const formatDurationTimeMinutes = (durationMs) => {
   const totalSeconds = Math.floor(durationMs / 1000)
   const seconds = totalSeconds % 60
   const minutes = Math.floor(totalSeconds / 60)
