@@ -67,7 +67,8 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
       setSelectedHill(teamToEdit.hillId || '')
       setSelectedEvent(teamToEdit.event || '')
 
-      const foundRfid = rfidTagList.find((tag) => tag.id === teamToEdit.rfidTag)
+      const foundRfid = rfidTagList.find((tag) => 
+        tag.id === teamToEdit.rfidTag)
       setSelectedRfidTag(foundRfid || '')
     }
   }, [teamToEdit, rfidTagList])
@@ -81,6 +82,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
       hill: selectedHill,
       event: selectedEvent,
       rfidTag: selectedRfidTag?.id || '',
+      //temp data
 
       isSoloTeam: false,
       lapsRequired: 1,

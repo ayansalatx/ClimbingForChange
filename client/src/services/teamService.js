@@ -97,7 +97,7 @@ function formatTime(durationMs) {
 export const addTeam = async (data) => {
   const payload = {
     ...data,
-    rfidTag: data.rfidTag, // ✅ Make sure to send rfidTag not rfidTagId
+    rfidTag: data.rfidTag, 
   }
 
   console.log('Adding new team with data:', payload)
@@ -114,7 +114,7 @@ export const addTeam = async (data) => {
 export const editTeam = async (id, data) => {
   const payload = {
     ...data,
-    rfidTag: data.rfidTag, // ✅ Update this to match backend field
+    rfidTag: data.rfidTag, 
   }
 
   try {
