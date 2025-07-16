@@ -1,4 +1,5 @@
 import { alpha, Box, CircularProgress, Typography } from '@mui/material'
+
 import theme from '../../../styles/theme'
 
 const ProgressIndicator = ({ progress, label, color, shadow }) => {

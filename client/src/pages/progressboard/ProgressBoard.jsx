@@ -10,6 +10,7 @@ import {
   getDisplayEventTeams,
   getPastEvents,
 } from '../../services/eventService'
+import { getLeaderboard } from '../../services/leaderboard'
 import theme from '../../styles/theme'
 
 // Define columns for full width screen

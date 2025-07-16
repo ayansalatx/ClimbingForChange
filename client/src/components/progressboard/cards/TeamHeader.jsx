@@ -1,4 +1,5 @@
 import { alpha, Box, Typography } from '@mui/material'
+
 import theme from '../../../styles/theme'
 
 const TeamHeader = ({ teamName }) => {
@@ -32,7 +33,7 @@ const TeamHeader = ({ teamName }) => {
             xl: '4rem',
           },
           textAlign: 'left',
-          pb:{sm: .5, lg: 1},
+          pb:{ sm: .5, lg: 1 },
         }}
       >
         {teamName}

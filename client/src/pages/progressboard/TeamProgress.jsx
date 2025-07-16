@@ -2,7 +2,6 @@ import {
   alpha,
   Box,
   CircularProgress,
-  Typography,
   useMediaQuery,
 } from '@mui/material'
 import { useEffect, useState } from 'react'
@@ -10,13 +9,13 @@ import { useParams } from 'react-router-dom'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import C4CHorizontalBlueLogo from '../../assets/C4C-branding/Climbing-For-Change-Horizontal_Green.png'
+import InfoCard from '../../components/progressboard/cards/InfoCard'
+import ParticipantCard from '../../components/progressboard/cards/ParticipantCard'
+import ProgressIndicator from '../../components/progressboard/cards/ProgressIndicator'
+import TeamHeader from '../../components/progressboard/cards/TeamHeader'
 import LapTable from '../../components/progressboard/tables/laps/LapTable'
 import { getTeamForDisplay } from '../../services/teamService'
 import theme from '../../styles/theme'
-import ParticipantCard from '../../components/progressboard/cards/ParticipantCard'
-import InfoCard from '../../components/progressboard/cards/InfoCard'
-import TeamHeader from '../../components/progressboard/cards/TeamHeader'
-import ProgressIndicator from '../../components/progressboard/cards/ProgressIndicator'
 
 const columns = [
   { id: 'lapNumber', label: 'Lap', width: '5%', align: 'center' },
