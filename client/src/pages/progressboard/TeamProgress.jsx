@@ -16,6 +16,7 @@ import theme from '../../styles/theme'
 import ParticipantCard from '../../components/progressboard/cards/ParticipantCard'
 import InfoCard from '../../components/progressboard/cards/InfoCard'
 import TeamHeader from '../../components/progressboard/cards/TeamHeader'
+import ProgressIndicator from '../../components/progressboard/cards/ProgressIndicator'
 
 const columns = [
   { id: 'lapNumber', label: 'Lap', width: '5%', align: 'center' },
@@ -214,7 +215,8 @@ const TeamProgress = () => {
               }}
             >
               {/* Team Header */}
-              <TeamHeader teamName={team?.name}/>
+              <TeamHeader teamName={team?.name} />
+
               <Box
                 sx={{
                   display: 'flex',
@@ -243,11 +245,12 @@ const TeamProgress = () => {
                       gap: 2,
                     }}
                   >
+                    {/* Participants */}
                     <Box
                       sx={{
-                        height: '100%',
                         borderRadius: '4px',
                         display: 'flex',
+                        flex: 1,
                         flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'flex-start',
@@ -364,206 +367,20 @@ const TeamProgress = () => {
                   }}
                 >
                   {/* Laps Progress Indicator */}
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      flex: 1,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderRadius: '4px',
-                      backgroundColor: alpha(
-                        theme.palette.background.paper,
-                        0.5
-                      ),
-                      boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        flex: 1,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: '4px',
-                        p: 2,
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          flex: 1,
-                          position: 'relative',
-                          aspectRatio: '1',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        <CircularProgress
-                          variant="determinate"
-                          value={100}
-                          thickness={5}
-                          size={'100%'}
-                          sx={{
-                            width: '100%',
-                            height: '100%',
-                            color: alpha(theme.palette.primary.main, 0.75),
-                            filter: 'drop-shadow(0 0 4px rgba(0, 0, 0, 0.3))',
-                          }}
-                        />
-                        <CircularProgress
-                          variant="determinate"
-                          value={team?.elevationProgress}
-                          thickness={5}
-                          size={'100%'}
-                          sx={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            width: '100%',
-                            height: '100%',
-                            color: 'secondary.main',
-                            filter:
-                              'drop-shadow(0 0 4px rgba(48, 51, 31, 0.3))',
-                            '& .MuiCircularProgress-circle': {
-                              strokeLinecap: 'round',
-                            },
-                          }}
-                        />
-                        <Box
-                          sx={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            width: '100%',
-                            height: '100%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            flexDirection: 'column',
-                          }}
-                        >
-                          <Typography
-                            variant="h6"
-                            sx={{
-                              fontWeight: 'bold',
-                              fontSize: '1.5rem',
-                              letterSpacing: '0.1rem',
-                              color: 'primary.main',
-                              textTransform: 'uppercase',
-                            }}
-                          >
-                            {team?.currentElevation} {team?.elevationUnit}
-                          </Typography>
-                        </Box>
-                      </Box>
-                    </Box>
-                  </Box>
+                  <ProgressIndicator
+                    progress={team?.lapProgress}
+                      label={`${team?.lapsCompleted} Laps`}
+                      color={ 'secondary.main' }
+                      shadow={ 'drop-shadow(0 0 4px rgba(48, 51, 31, 0.3))' }
+                  />
 
                   {/* Elevation Progress Indicator */}
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      flex: 1,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderRadius: '4px',
-                      backgroundColor: alpha(
-                        theme.palette.background.paper,
-                        0.5
-                      ),
-                      boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        flex: 1,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: '4px',
-                        p: 2,
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          flex: 1,
-                          aspectRatio: '1',
-                          position: 'relative',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        <CircularProgress
-                          variant="determinate"
-                          value={100}
-                          thickness={5}
-                          size={'100%'}
-                          sx={{
-                            width: '100%',
-                            height: '100%',
-                            color: alpha(theme.palette.primary.main, 0.75),
-                            filter: 'drop-shadow(0 0 4px rgba(0, 0, 0, 0.3))',
-                          }}
-                        />
-                        <CircularProgress
-                          variant="determinate"
-                          value={team?.lapProgress}
-                          thickness={5}
-                          size={'100%'}
-                          sx={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            width: '100%',
-                            height: '100%',
-                            color: 'info.main',
-                            filter:
-                              'drop-shadow(0 0 4px rgba(27, 50, 53, 0.3))',
-                            '& .MuiCircularProgress-circle': {
-                              strokeLinecap: 'round',
-                            },
-                          }}
-                        />
-                        <Box
-                          sx={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            width: '100%',
-                            height: '100%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            flexDirection: 'column',
-                          }}
-                        >
-                          <Typography
-                            variant="h6"
-                            sx={{
-                              fontWeight: 'bold',
-                              fontSize: '1.5rem',
-                              letterSpacing: '0.1rem',
-                              color: 'primary.main',
-                              textTransform: 'uppercase',
-                            }}
-                          >
-                            {team?.lapsCompleted} Laps
-                          </Typography>
-                        </Box>
-                      </Box>
-                    </Box>
-                  </Box>
+                    <ProgressIndicator
+                    progress={team?.elevationProgress}
+                      label={`${team?.currentElevation} ${team?.elevationUnit}`}
+                      color={ 'info.main' }
+                      shadow={ 'drop-shadow(0 0 4px rgba(31, 47, 51, 0.3))' }
+                  />
                 </Box>
 
                 {/* Laps Table */}

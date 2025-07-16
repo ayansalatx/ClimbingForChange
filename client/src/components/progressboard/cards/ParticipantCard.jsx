@@ -42,7 +42,7 @@ const ParticipantCard = ({ participant }) => {
             color: 'primary.main',
           }}
         >
-          {participant.firstName} {participant.lastName}
+          {participant.fullName}
         </Typography>
       </Box>
     </Box>

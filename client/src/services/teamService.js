@@ -98,7 +98,7 @@ export const getTeamForDisplay = async (id) => {
         ? 100
         : formatNumber((laps.length / team.lapsRequired) * 100)
       : 0,
-    bestLap: laps.length ? formatDurationTimeMinutes(teamBestLap) : null,
+    bestLap: laps.length ? formatDurationTimeMinutes(teamBestLap) : '-',
     timeElapsed: laps.length
       ? formatDurationTimeHours(teamTimeElapsed)
       : '00:00:00',
