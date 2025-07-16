@@ -32,7 +32,7 @@ const TeamHeader = ({ teamName }) => {
             xl: '4rem',
           },
           textAlign: 'left',
-          pb: 1,
+          pb:{sm: .5, lg: 1},
         }}
       >
         {teamName}

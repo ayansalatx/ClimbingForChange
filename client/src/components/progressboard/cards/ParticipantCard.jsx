@@ -12,19 +12,20 @@ const ParticipantCard = ({ participant }) => {
           backgroundColor: 'info.main',
           boxShadow: '1px 1px 4px rgba(0, 0, 0, 0.3)',
           borderRadius: '4px',
-          px: 2,
-          gap: 2,
+          px: {md: 1, lg: 1.25, xl: 2 },
+          py: { md: .5, lg: 1, xl: .5 },
+          gap: {md: 1, lg: 1.25, xl: 2},
         }}
       >
         <AwardIcon
           sx={{
             fontSize: {
-              xxs: '.8rem',
-              xs: '.8rem',
-              sm: '1.05rem',
-              md: '1.3rem',
+              xxs: '0.8rem',
+              xs: '0.8rem',
+              sm: '0.95rem',
+              md: '1.2rem',
               lg: '1.3rem',
-              xl: '2rem',
+              xl: '1.75rem',
             },
             color: 'primary.main',
           }}
@@ -35,9 +36,9 @@ const ParticipantCard = ({ participant }) => {
               xxs: '1rem',
               xs: '1rem',
               sm: '1.25rem',
-              md: '1.5rem',
-              lg: '1.5rem',
-              xl: '2rem',
+              md: '1.15rem',
+              lg: '1.35rem',
+              xl: '1.65rem',
             },
             color: 'primary.main',
           }}
