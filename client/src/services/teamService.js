@@ -90,15 +90,19 @@ function formatTime(durationMs) {
   const minutes = totalMinutes % 60
   const hours = Math.floor(totalMinutes / 60)
 
-  return `${String(hours).padStart(2, '00')}:${String(minutes).padStart(2, '00')}:${String(seconds).padStart(2, '00')}`
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
 }
-
 
 // Add
 export const addTeam = async (data) => {
-  console.log('Adding new team with data:', data)
+  const payload = {
+    ...data,
+    rfidTag: data.rfidTag, // ✅ Make sure to send rfidTag not rfidTagId
+  }
+
+  console.log('Adding new team with data:', payload)
   try {
-    const response = await api.post('/teams', data)
+    const response = await api.post('/teams', payload)
     return response
   } catch (error) {
     console.error('Failed to add team:', error)
@@ -108,8 +112,13 @@ export const addTeam = async (data) => {
 
 // Edit 
 export const editTeam = async (id, data) => {
+  const payload = {
+    ...data,
+    rfidTag: data.rfidTag, // ✅ Update this to match backend field
+  }
+
   try {
-    const response = await api.put(`/teams/${id}`, data)
+    const response = await api.put(`/teams/${id}`, payload)
     if (response.status === 200) {
       console.log('Team edited successfully:', response.data)
       return response

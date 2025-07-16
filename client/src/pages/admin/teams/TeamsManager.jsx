@@ -44,13 +44,12 @@ const TeamsManager = () => {
 
   const getRfidTagList = async () => {
     const result = await getRfidTags()
-    const formattedRfidTags = result.map((rfidTag) => {
-      return {
-        id: rfidTag.id,
-        label: rfidTag.serialNumber || '',
-      }
-    })
-    setrfidTags(formattedRfidTags)
+    const formatted = result.map((tag) => ({
+      id: tag.id,
+      label: tag.serialNumber
+    }))
+    setrfidTags(formatted)
+    return formatted
   }
 
   const getTeamFromId = (id) => {
@@ -58,9 +57,8 @@ const TeamsManager = () => {
   }
 
   const getEventName = (events, id) => {
-    var result = events.find((event) => event.id == id)
-    if (result == undefined) return 'N/A'
-    return result.name
+    const result = events.find((event) => event.id === id)
+    return result ? result.name : 'N/A'
   }
 
   const handleOpenPopup = () => setOpenPopup(true)
@@ -69,36 +67,44 @@ const TeamsManager = () => {
   const fetchEvents = useCallback(async () => {
     try {
       const result = await getAllEvents()
-      const formattedEvents = result.map((event) => {
-
-        return {
-          id: event.id,
-          name: event.name || '',
-        }
-      })
+      const formattedEvents = result.map((event) => ({
+        id: event.id,
+        name: event.name || '',
+      }))
       setEvents(formattedEvents)
-      fetchTeams(formattedEvents)
-      getRfidTagList()
+
+      const rfidList = await getRfidTagList()
+      await fetchTeams(formattedEvents, rfidList)
 
     } catch (error) {
       displayAlert('Events Error', `${error.message}`, 'error')
     }
   }, [displayAlert])
 
-  const fetchTeams = async (formattedEvents) => {
+  const fetchTeams = async (formattedEvents, rfidList) => {
     try {
       const teams = await getAllTeams()
-      const formattedTeams = teams.map((team) => ({
-        id: team.id,
-        name: team.name,
-        mountainId: team.mountain.id,
-        mountain: team.mountain.name,
-        hillId: team.hill?.id,
-        hill: team.hill?.name,
-        event: team.event,
-        eventName: getEventName(formattedEvents, team.event),
-        rfidTag: team.rfidTag?.serialNumber || ''
-      }))
+
+      const formattedTeams = teams.map((team) => {
+
+        return {
+          id: team.id,
+          name: team.name,
+          mountainId: team.mountain.id,
+          mountain: team.mountain.name,
+          hillId: team.hill?.id,
+          hill: team.hill?.name,
+          event: team.event,
+          eventName: getEventName(formattedEvents, team.event),
+          rfidTag: (() => {
+            const tagId = team.rfidTag?._id || team.rfidTag?.id || team.rfidTag
+            const match = rfidList.find(tag => tag.id === tagId)
+            return match?.label || ''
+          })(),
+
+        }
+      })
+
       setTeams(formattedTeams)
       displayAlert('Loaded', `Loaded ${teams.length} teams from the backend.`, 'success')
     } catch (error) {
@@ -115,7 +121,8 @@ const TeamsManager = () => {
       const response = await addTeam(teamData)
       if (response.status === 201 || response.status === 200) {
         displayAlert('Team Created', 'The team has been successfully created.', 'success')
-        fetchTeams(events)
+        const rfidList = await getRfidTagList()
+        fetchTeams(events, rfidList)
         handleClosePopup()
       } else {
         throw new Error('Team was not created')
@@ -130,7 +137,8 @@ const TeamsManager = () => {
       const response = await editTeam(id, teamData)
       if (response.status === 201 || response.status === 200) {
         displayAlert('Team Edited', 'The team has been successfully edited.', 'success')
-        fetchTeams(events)
+        const rfidList = await getRfidTagList()
+        fetchTeams(events, rfidList)
         handleClosePopup()
       } else {
         throw new Error('Team was not edited')
@@ -145,7 +153,8 @@ const TeamsManager = () => {
       const success = await deleteTeam(teamToDelete.id)
       if (success) {
         displayAlert('Team Deleted', 'The team has been successfully deleted.', 'success')
-        fetchTeams(events)
+        const rfidList = await getRfidTagList()
+        fetchTeams(events, rfidList)
         setDeleteConfirmOpen(false)
       } else {
         displayAlert('Delete Error', 'Failed to delete the team. Please try again.', 'error')
@@ -166,9 +175,7 @@ const TeamsManager = () => {
       displayAlert('Edit Error', 'Team not found', 'error')
       return
     }
-
     setTeamToEdit(teamData)
-    // setTeamToEdit(team)
     handleOpenPopup()
   }
 
@@ -194,7 +201,6 @@ const TeamsManager = () => {
       py: '4rem',
       px: '1.5rem',
     }}>
-
       <DataTable
         tableTitle='Teams'
         tableIcon={People}

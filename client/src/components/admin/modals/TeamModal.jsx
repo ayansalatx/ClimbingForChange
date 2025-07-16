@@ -1,12 +1,11 @@
-import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Modal, Select, Typography } from '@mui/material'
+import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
-
 import { getAllEvents } from '../../../services/eventService'
 import { getAllHills } from '../../../services/hillService'
 import { getAllMountains } from '../../../services/mountainService'
 import TextInput from '../forms/fields/TextInput'
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete'
+import TextField from '@mui/material/TextField'
 
 const style = {
   position: 'absolute',
@@ -25,13 +24,11 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
   const [selectedMountain, setSelectedMountain] = useState('')
   const [selectedHill, setSelectedHill] = useState('')
   const [selectedEvent, setSelectedEvent] = useState('')
-  const [selectedrfidTag, setSelectedrfidTag] = useState('')
+  const [selectedRfidTag, setSelectedRfidTag] = useState('')
   const [mountains, setMountains] = useState([])
   const [hills, setHills] = useState([])
   const [events, setEvents] = useState([])
-  const [rfidTag, setrfidTag] = useState([])
-  const [rfidTags, setrfidTags] = useState([])
-
+  const [rfidTags, setRfidTags] = useState([])
 
   const onModalClose = () => {
     onClose()
@@ -39,7 +36,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
     setSelectedMountain('')
     setSelectedHill('')
     setSelectedEvent('')
-   // setSelectedrfidTag('')
+    setSelectedRfidTag('')
   }
 
   useEffect(() => {
@@ -54,7 +51,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
           setMountains(mountainData)
           setHills(hillData)
           setEvents(eventData)
-          setrfidTags(rfidTagList)
+          setRfidTags(rfidTagList)
         } catch (error) {
           console.error('Error fetching data:', error)
         }
@@ -69,34 +66,11 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
       setSelectedMountain(teamToEdit.mountainId || '')
       setSelectedHill(teamToEdit.hillId || '')
       setSelectedEvent(teamToEdit.event || '')
-    
 
-      if (mountains.some((m) => m.id === teamToEdit.mountainId)) {
-        setSelectedMountain(teamToEdit.mountainId)
-      } else {
-        setSelectedMountain('')
-      }
-      if (hills.some((h) => h.id === teamToEdit.hillId)) {
-        setSelectedHill(teamToEdit.hillId)
-      } else {
-        setSelectedHill('')
-      }
-      if (events.some((e) => e.id === teamToEdit.event)) {
-        setSelectedEvent(teamToEdit.event)
-      } else {
-        setSelectedEvent('')
-      }
-        // 
-      if (rfidTags.some((tag) => tag.id === teamToEdit.rfidTag)) {
-        setSelectedrfidTag(
-          rfidTags.find((tag) => tag.id === teamToEdit.rfidTag)
-        )
-      } else {
-        setSelectedrfidTag('')
-      }
-
+      const foundRfid = rfidTagList.find((tag) => tag.id === teamToEdit.rfidTag)
+      setSelectedRfidTag(foundRfid || '')
     }
-  }, [teamToEdit, mountains, hills, events, rfidTag])
+  }, [teamToEdit, rfidTagList])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -106,9 +80,8 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
       mountain: selectedMountain,
       hill: selectedHill,
       event: selectedEvent,
-       rfidTagId: selectedrfidTag?.id || '',
+      rfidTag: selectedRfidTag?.id || '',
 
-      // temporary data
       isSoloTeam: false,
       lapsRequired: 1,
       totalDistanceRequired: 0,
@@ -151,11 +124,9 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
               <InputLabel id="mountain-select-label">Mountain</InputLabel>
               <Select
                 labelId="mountain-select-label"
-                id="mountain-select"
                 value={selectedMountain}
                 label="Mountain"
                 onChange={(e) => setSelectedMountain(e.target.value)}
-                required
               >
                 {mountains.map((mountain) => (
                   <MenuItem key={mountain.id} value={mountain.id}>
@@ -169,11 +140,9 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
               <InputLabel id="hill-select-label">Hill</InputLabel>
               <Select
                 labelId="hill-select-label"
-                id="hill-select"
                 value={selectedHill}
                 label="Hill"
                 onChange={(e) => setSelectedHill(e.target.value)}
-                required
               >
                 {hills.map((hill) => (
                   <MenuItem key={hill.id} value={hill.id}>
@@ -188,7 +157,6 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
             <InputLabel id='event-select-label'>Event</InputLabel>
             <Select
               labelId='event-select-label'
-              id='event-select'
               value={selectedEvent}
               label='Event'
               onChange={(e) => setSelectedEvent(e.target.value)}
@@ -206,10 +174,9 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
               id='rfidTag-select'
               disablePortal
               options={rfidTags}
-              sx={{ width: '100%' }}  
-              value={selectedrfidTag} 
-              onChange={(_, newValue) => setSelectedrfidTag(newValue)} 
-              //getOptionLabel={(option) => option?.label || ''}
+              sx={{ width: '100%' }}
+              value={selectedRfidTag}
+              onChange={(_, newValue) => setSelectedRfidTag(newValue)}
               renderInput={(params) => <TextField {...params} label="RFID Tag" />}
             />
           </FormControl>
