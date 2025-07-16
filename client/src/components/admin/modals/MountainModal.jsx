@@ -21,20 +21,17 @@ const MountainModal = ({ open, onClose, onSave, mountain }) => {
   const [name, setName] = useState('')
   const [totalElevation, setTotalElevation] = useState('')
   const [elevationUnit, setElevationUnit] = useState('FT')
-  const [imageURL, setImageURL] = useState('')
 
   useEffect(() => {
     if (open && mountain) {
       setName(mountain.name || '')
       setTotalElevation(mountain.totalElevation?.toString() || '0')
       setElevationUnit(mountain.elevationUnit || 'FT')
-      setImageURL(mountain.imageURL || '')
     } else if (!open) {
       // Reset form when closing
       setName('')
       setTotalElevation('0')
       setElevationUnit('FT')
-      setImageURL('')
     }
   }, [open, mountain])
 
@@ -46,7 +43,6 @@ const MountainModal = ({ open, onClose, onSave, mountain }) => {
       name: name.trim(),
       totalElevation: parseFloat(totalElevation) || 0,
       elevationUnit,
-      imageURL: imageURL || '',
       active: true,
     }
     
@@ -92,14 +88,6 @@ const MountainModal = ({ open, onClose, onSave, mountain }) => {
               <MenuItem value='M'>Meters</MenuItem>
             </Select>
           </FormControl>
-          
-          <TextField
-            fullWidth
-            label='Image URL (Optional)'
-            value={imageURL}
-            onChange={(e) => setImageURL(e.target.value)}
-            margin='dense'
-          />
           
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, gap: 1 }}>
             <CancelButton onClick={onClose} />
