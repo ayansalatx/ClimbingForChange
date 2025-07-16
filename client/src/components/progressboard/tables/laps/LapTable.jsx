@@ -76,7 +76,7 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
             <FlagIcon
               sx={{
                 color: 'secondary.main',
-                fontSize: '1.4rem',
+                fontSize: {md: '1.2rem', lg: '1.4rem'},
               }}
             />
           </Box>
@@ -87,7 +87,7 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
               margin: '0',
               paddingBottom: '.15rem',
               paddingLeft: '.35rem',
-              fontSize: '2.25rem',
+              fontSize: {md: '1.75rem', lg: '2rem' ,xl: '2.25rem'},
               fontWeight: 'bold',
               textTransform: 'uppercase',
               letterSpacing: '0.05em',

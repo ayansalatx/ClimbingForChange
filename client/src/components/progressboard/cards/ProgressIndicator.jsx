@@ -1,12 +1,7 @@
-import {
-  alpha,
-  Box,
-  CircularProgress,
-  Typography,
-} from '@mui/material'
+import { alpha, Box, CircularProgress, Typography } from '@mui/material'
 import theme from '../../../styles/theme'
 
-const ProgressIndicator = ({progress, label, color, shadow}) => {
+const ProgressIndicator = ({ progress, label, color, shadow }) => {
   return (
     <Box
       sx={{
@@ -28,7 +23,7 @@ const ProgressIndicator = ({progress, label, color, shadow}) => {
           alignItems: 'center',
           justifyContent: 'center',
           borderRadius: '4px',
-          p: 2,
+          p: { md: 4, lg: 2 },
         }}
       >
         <Box
@@ -91,7 +86,7 @@ const ProgressIndicator = ({progress, label, color, shadow}) => {
               variant="h6"
               sx={{
                 fontWeight: 'bold',
-                fontSize: '1.5rem',
+                fontSize: { md: '1.2rem', lg: '1.35rem', xl: '1.5rem' },
                 letterSpacing: '0.1rem',
                 color: 'primary.main',
                 textTransform: 'uppercase',

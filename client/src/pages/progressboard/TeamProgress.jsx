@@ -254,12 +254,13 @@ const TeamProgress = () => {
                         flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'flex-start',
+                        overflowY: 'hidden',
                         backgroundColor: alpha(
                           theme.palette.background.paper,
                           0.75
                         ),
                         boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
-                        p: 2,
+                        p: { md: 0.1, lg: 1 },
                       }}
                     >
                       <Box
@@ -267,7 +268,9 @@ const TeamProgress = () => {
                           display: 'flex',
                           flexWrap: 'wrap',
                           width: '100%',
-                          gap: 2,
+                          p: 1,
+                          gap: { md: 1.1, lg: 2 },
+                          overflowY: 'auto',
                         }}
                       >
                         {team?.participants.map((participant, index) => (
@@ -292,8 +295,9 @@ const TeamProgress = () => {
                           0.75
                         ),
                         boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
-                        p: 2,
-                        gap: 2,
+                        p: { md: 1.1, lg: 2 },
+                        gap: { md: 1.1, lg: 2 },
+                        overflowY: 'auto',
                       }}
                     >
                       {/* Row 1 */}
@@ -302,7 +306,7 @@ const TeamProgress = () => {
                           display: 'flex',
                           flexWrap: 'wrap',
                           width: '100%',
-                          gap: 2,
+                          gap: { md: 1.1, lg: 2 },
                         }}
                       >
                         <InfoCard
@@ -321,7 +325,7 @@ const TeamProgress = () => {
                           display: 'flex',
                           flexWrap: 'wrap',
                           width: '100%',
-                          gap: 2,
+                          gap: { md: 1.1, lg: 2 },
                         }}
                       >
                         <InfoCard
@@ -340,7 +344,7 @@ const TeamProgress = () => {
                           display: 'flex',
                           flexWrap: 'wrap',
                           width: '100%',
-                          gap: 2,
+                          gap: { md: 1.1, lg: 2 },
                         }}
                       >
                         <InfoCard
@@ -361,7 +365,7 @@ const TeamProgress = () => {
                     display: 'flex',
                     flexDirection: 'column',
                     flexGrow: 1,
-                    maxWidth: '18%',
+                    maxWidth: { md: '19%', lg: '18%' },
                     gap: 2,
                     borderRadius: '4px',
                   }}
@@ -369,17 +373,17 @@ const TeamProgress = () => {
                   {/* Laps Progress Indicator */}
                   <ProgressIndicator
                     progress={team?.lapProgress}
-                      label={`${team?.lapsCompleted} Laps`}
-                      color={ 'secondary.main' }
-                      shadow={ 'drop-shadow(0 0 4px rgba(48, 51, 31, 0.3))' }
+                    label={`${team?.lapsCompleted} Laps`}
+                    color={'secondary.main'}
+                    shadow={'drop-shadow(0 0 4px rgba(48, 51, 31, 0.3))'}
                   />
 
                   {/* Elevation Progress Indicator */}
-                    <ProgressIndicator
+                  <ProgressIndicator
                     progress={team?.elevationProgress}
-                      label={`${team?.currentElevation} ${team?.elevationUnit}`}
-                      color={ 'info.main' }
-                      shadow={ 'drop-shadow(0 0 4px rgba(31, 47, 51, 0.3))' }
+                    label={`${team?.currentElevation} ${team?.elevationUnit}`}
+                    color={'info.main'}
+                    shadow={'drop-shadow(0 0 4px rgba(31, 47, 51, 0.3))'}
                   />
                 </Box>
 
@@ -389,6 +393,7 @@ const TeamProgress = () => {
                     display: 'flex',
                     flex: 1,
                     height: '100%',
+                    minWidth: '40%',
                     flexDirection: 'column',
                     borderRadius: '4px',
                     gap: 2,
