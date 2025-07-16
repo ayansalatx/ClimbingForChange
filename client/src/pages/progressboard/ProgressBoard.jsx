@@ -8,6 +8,7 @@ import ProgressTable from '../../components/progressboard/tables/regular/Progres
 import { getAllEvents, getDisplayEventTeams } from '../../services/eventService'
 import { getLeaderboard } from '../../services/leaderboard'
 import theme from '../../styles/theme'
+import WarningDialog from '../../components/admin/modals/WarningDialog'
 
 // Define columns for full width screen
 const lgColumns = [
@@ -63,6 +64,9 @@ const ProgressBoard = () => {
   }
 
   // State for teams
+  const [warningOpen, setWarningOpen] = useState(false)
+    const [loading, setLoading] = useState(true)
+
   const [teams, setTeams] = useState([])
   const [teamsLength, setTeamsLength] = useState()
   // State for events
@@ -73,25 +77,26 @@ const ProgressBoard = () => {
   const [searchString, setSearchString] = useState('')
   // State for teams filtered by the search input
   const [filteredTeams, setFilteredTeams] = useState([])
-  
+
   const [leaderboard, setLeaderboard] = useState([])
   console.log('🚀 ~ ProgressBoard ~ leaderboard:', leaderboard)
 
-
-  const [loading, setLoading] = useState(true)
+  const showWarning = () => {
+    setWarningOpen(true)
+  }
 
   // Load Participant data from server
   useEffect(() => {
-    async function loadData() {
+    async function loadEventData() {
       try {
         const eventList = await getAllEvents()
         setEvents(eventList)
       } catch (e) {
-        console.log('Failed to load progress data', e)
+        showWarning()
       }
     }
 
-    loadData()
+    loadEventData()
   }, [])
 
   // Set default event as the event that is ongoing or upcoming
@@ -122,7 +127,7 @@ const ProgressBoard = () => {
         const leaderboard = await getLeaderboard(selectedEvent)
         setLeaderboard(leaderboard)
       } catch (error) {
-        console.error('Failed to load leaderboard:', error)
+        showWarning()
       }
     }
 
@@ -144,7 +149,7 @@ const ProgressBoard = () => {
         setTeamsLength(teamsForEvent.length)
         setTeams(teamsForEvent)
       } catch (e) {
-        console.log('Failed to load event teams', e)
+        showWarning()
       } finally {
         setLoading(false)
       }
@@ -188,9 +193,9 @@ const ProgressBoard = () => {
 
       {isXSmall ? (
         <Box
-          component='img'
-          src='/assets/mountain-range-illustration-2.jpeg'
-          alt='Mountain background'
+          component="img"
+          src="/assets/mountain-range-illustration-2.jpeg"
+          alt="Mountain background"
           sx={{
             position: 'absolute',
             top: 0,
@@ -203,7 +208,7 @@ const ProgressBoard = () => {
         />
       ) : (
         <video
-          src='/assets/progress-board-background.mp4'
+          src="/assets/progress-board-background.mp4"
           autoPlay
           loop
           muted
@@ -257,9 +262,9 @@ const ProgressBoard = () => {
             {/* Logo */}
             <Box sx={{ mb: { sm: 0.5 } }}>
               <Box
-                component='img'
+                component="img"
                 src={isXSmall ? C4CHorizontalBlueLogo : C4CHorizontalGreenLogo}
-                alt='Climbing for Change Logo'
+                alt="Climbing for Change Logo"
                 sx={{
                   maxWidth: {
                     xxs: '11rem',
@@ -293,11 +298,11 @@ const ProgressBoard = () => {
                 }}
               >
                 <Typography
-                  variant='h1'
-                  color='secondary.main'
-                  fontWeight='bold'
-                  textTransform='uppercase'
-                  letterSpacing='.05rem'
+                  variant="h1"
+                  color="secondary.main"
+                  fontWeight="bold"
+                  textTransform="uppercase"
+                  letterSpacing=".05rem"
                   sx={{
                     fontStyle: 'italic',
                     mr: {
@@ -353,6 +358,13 @@ const ProgressBoard = () => {
           )}
         </Box>
       </Box>
+
+      <WarningDialog
+        open={warningOpen}
+        title={'Data Loading Error'}
+        message={'Data for event is not loading.'}
+        onCancel={() => setWarningOpen(false)}
+      />
     </Box>
   )
 }
