@@ -52,7 +52,7 @@ api.interceptors.response.use(
   }
 )
 
-function formatApiError(error, fallbackMsg) {
+export function formatApiError(error, fallbackMsg) {
   const message = error.response?.data?.message || error.message || fallbackMsg
   return new Error(message)
 }
