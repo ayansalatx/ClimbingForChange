@@ -13,7 +13,7 @@ export const getMountainById = async (id) => {
 }
 
 export const createMountain = async (mountainData) => {
-  if (!mountainData) throw new Error('Mountain data is required')
+  if (!mountainData) throw new Error('Mountain data is required.')
 
   const dataToSend = {
     ...mountainData,
@@ -31,7 +31,7 @@ export const createMountain = async (mountainData) => {
 
 export const updateMountain = async (id, mountainData) => {
   if (!id) throw new Error('Mountain ID is required')
-  if (!mountainData) throw new Error('Mountain data is required')
+  if (!mountainData) throw new Error('Mountain data is required.')
 
   const dataToSend = {
     ...mountainData,
@@ -48,7 +48,7 @@ export const updateMountain = async (id, mountainData) => {
 }
 
 export const deleteMountain = async (id) => {
-  if (!id) throw new Error('Mountain ID is required')
+  if (!id) throw new Error('Mountain ID is required.')
 
   try {
     const res = await api.delete(`/mountains/${id}`)

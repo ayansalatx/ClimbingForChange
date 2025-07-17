@@ -100,7 +100,7 @@ export const addTeam = async (data) => {
     const response = await api.post('/teams', data)
     return response
   } catch (error) {
-    throw formatApiError(error, 'Failed to create team')
+    throw formatApiError(error, 'Failed to create team.')
   }
 }
 
@@ -111,10 +111,10 @@ export const editTeam = async (id, data) => {
     if (response.status === 200) {
       return response
     } else {
-      throw new Error(`Unexpected response status: ${response.status}`)
+      throw new Error(`Unexpected response status: ${response.status}.`)
     }
   } catch (error) {
-    throw formatApiError(error, 'Failed to edit team')
+    throw formatApiError(error, 'Failed to edit team.')
   }
 }
 
@@ -124,6 +124,6 @@ export const deleteTeam = async (id) => {
     await api.delete(`/teams/${id}`)
     return true
   } catch (error) {
-    throw formatApiError(error, 'Failed to delete team')
+    throw formatApiError(error, 'Failed to delete team.')
   }
 }
