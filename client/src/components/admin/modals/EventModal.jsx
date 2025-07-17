@@ -42,8 +42,8 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
   const [isActive, setIsActive] = useState(true)
 
   const isPastEvent = eventToEdit
-  ? new Date(eventToEdit.startDateTime) < new Date()
-  : false
+    ? new Date(eventToEdit.startDateTime) < new Date()
+    : false
 
   const onModalClose = () => {
     onClose()
@@ -212,10 +212,10 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
           <Box sx={{ display: 'flex', gap: 2 }}>
             <TextField
               fullWidth
-              label="Start Time"
-              type="time"
-              variant="outlined"
-              margin="normal"
+              label='Start Time'
+              type='time'
+              variant='outlined'
+              margin='normal'
               value={startTime}
               onChange={(e) => setStartTime(e.target.value)}
               InputLabelProps={{ shrink: true }}
@@ -224,9 +224,9 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
 
             <TextInput
               fullWidth
-              label="Duration (hours)"
-              type="number"
-              margin="normal"
+              label='Duration (hours)'
+              type='number'
+              margin='normal'
               value={duration}
               onChange={(e) => setDuration(e.target.value)}
               required
