@@ -78,8 +78,9 @@ const ProgressBoard = () => {
   // State for teams filtered by the search input
   const [filteredTeams, setFilteredTeams] = useState([])
 
-  // const [leaderboar, setLeaderboard] = useState([]) for use in later refactoring
-  const [setLeaderboard] = useState([]) // Obey lint rules for now 
+  // const [leaderboard, setLeaderboard] = useState([])
+  //  for use in later refactoring
+  const [, setLeaderboard] = useState([]) // Obey lint rules for now 
 
   const showWarning = () => {
     setWarningOpen(true)
@@ -126,7 +127,8 @@ const ProgressBoard = () => {
       try {
         const leaderboard = await getLeaderboard(selectedEvent)
         setLeaderboard(leaderboard)
-      } catch {
+      } catch (error){
+        console.log(error)
         showWarning()
       }
     }
