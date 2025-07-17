@@ -31,7 +31,7 @@ export const uploadCSV = async (request, response) => {
       } catch (unlinkError) {
         console.warn('⚠️ Failed to delete CSV file:', unlinkError.message)
       }
-    } catch (err) {
+    } catch {
       return response.status(400).json({ error: 'Invalid CSV format' })
     }
 
