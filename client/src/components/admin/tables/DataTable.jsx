@@ -81,6 +81,8 @@ const DataTable = ({
     setPage(0)
   }
 
+  const disableAdd = tableTitle === 'Participants' && !selectedEvent
+
   return (
     <Paper
       elevation={3}
@@ -111,13 +113,13 @@ const DataTable = ({
           }}
         >
           <TableIcon
-            fontSize="large"
+            fontSize='large'
             sx={{
               color: 'secondary.main',
             }}
           />
           <Typography
-            variant="h1"
+            variant='h1'
             sx={{
               textAlign: 'left',
               margin: '0',
@@ -151,12 +153,18 @@ const DataTable = ({
               px: 1,
               bgcolor: 'info.light',
               borderRadius: '3px',
+              fontSize: {
+                xxs: '0.9rem',
+                xs: '0.9rem',
+                sm: '0.9rem',
+                md: '1.1rem',
+              },
             }}
           >
             <Typography
-              variant="body1"
-              component="span"
-              color="primary.light"
+              variant='body1'
+              component='span'
+              color='primary.light'
               textTransform={'uppercase'}
               fontWeight={'bold'}
               letterSpacing={'.05rem'}
@@ -186,7 +194,7 @@ const DataTable = ({
         })}
       >
         {loading ? (
-          <Table stickyHeader height="100%">
+          <Table stickyHeader height='100%'>
             <TableHeaderRow columns={tableColumns} />
             <TableBody
               sx={{
@@ -196,10 +204,10 @@ const DataTable = ({
               <TableRow>
                 <TableCell
                   colSpan={tableColumns.length + 1}
-                  align="center"
+                  align='center'
                   sx={{ border: 'none' }}
                 >
-                  <CircularProgress color="info" />
+                  <CircularProgress color='info' />
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -212,7 +220,7 @@ const DataTable = ({
               '&:hover': { bgcolor: alpha(theme.palette.primary.light, 0.05) },
             }}
           >
-            <TableHeaderRow columns={tableColumns} onAddClick={onAddClick} />
+            <TableHeaderRow columns={tableColumns} onAddClick={onAddClick} disabled={disableAdd} />
             <TableDataRows
               rows={filteredRows}
               columns={tableColumns}
@@ -224,8 +232,8 @@ const DataTable = ({
             />
           </Table>
         ) : (
-          <Table height="100%" stickyHeader>
-            <TableHeaderRow columns={tableColumns} onAddClick={onAddClick} />
+          <Table height='100%' stickyHeader>
+            <TableHeaderRow columns={tableColumns} onAddClick={onAddClick} disabled={disableAdd} />
             <TableBody
               sx={{
                 backgroundColor: 'background.paper',
@@ -234,10 +242,12 @@ const DataTable = ({
               <TableRow>
                 <TableCell
                   colSpan={tableColumns.length + 1}
-                  align="center"
+                  align='center'
                   sx={{ border: 'none' }}
                 >
-                  <Typography variant="h5" color="primary.main">No {tableTitle.toLowerCase()} to display</Typography>
+                  <Typography variant='h5' color='primary.main'>
+                    No {tableTitle.toLowerCase()} to display
+                  </Typography>
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -260,7 +270,7 @@ const DataTable = ({
 
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
-          component="div"
+          component='div'
           count={filteredRows.length}
           rowsPerPage={rowsPerPage}
           page={page}
@@ -275,7 +285,7 @@ const DataTable = ({
               color: 'background.paper',
             },
           }}
-          labelRowsPerPage=""
+          labelRowsPerPage=''
         />
       </Box>
     </Paper>

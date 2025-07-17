@@ -3,7 +3,7 @@ import { Button } from '@mui/material'
 const DeleteButton = ({ onClick }) => {
   return (
     <Button
-      variant="contained"
+      variant='contained'
       onClick={onClick}
       sx={{
         width: '6rem',

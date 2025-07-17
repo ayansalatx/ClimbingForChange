@@ -1,3 +1,4 @@
+import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 import HikingIcon from '@mui/icons-material/Hiking'
 import WifiIcon from '@mui/icons-material/Wifi'
 import { Box, Button, Typography } from '@mui/material'
@@ -8,60 +9,121 @@ const ProgressBoardButton = ({ liveEventExists }) => {
   return (
     <Button
       onClick={() => navigate('/progress')}
-      variant="contained"
+      variant='contained'
       sx={{
-        maxHeight: '14rem',
-        my: '1rem',
         bgcolor: 'primary.main',
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-evenly',
-        flexWrap: 'wrap',
-        p: 2,
-        borderRadius: '6px',
+        justifyContent: 'center',
+        flexWrap: 'nowrap',
+        p: 1,
+        borderRadius: '5px',
       }}
     >
-      <Typography
-        variant="h6"
-        fontSize="1.75rem"
-        color="background.paper"
-        textTransform="uppercase"
-        fontWeight="bold"
-        letterSpacing="0.1rem"
-        lineHeight="1.75rem"
-        sx={{ pb: 1, fontSize: { xxs: '1.2rem', md: '1.4rem', xl: '1.7rem' } }}
-      >
-        Progress Board
-      </Typography>
-      <HikingIcon
-        sx={{
-          color: 'secondary.main',
-          fontSize: liveEventExists ? { xxs: '3rem', md: '3.5rem', xl: '4.5rem' } : { xxs: '2rem', md: '3rem', xl: '4rem' },
-        }}
-      />
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Typography
-          visibility={liveEventExists ? 'visible' : 'hidden'}
-          variant="h6"
-          color={liveEventExists ? 'secondary.main' : 'background.paper'}
-          textTransform="uppercase"
-          fontWeight="bold"
-          letterSpacing="0.1rem"
-          sx={{ fontSize: liveEventExists ? { xxs: '1.2rem', md: '1.4rem', xl: '1.7rem' } : 0 }}
-        >
-          Live Event
-        </Typography>
-        <WifiIcon
-          visibility={liveEventExists ? 'visible' : 'hidden'}
+      {liveEventExists ? (
+        <Box
           sx={{
-            color: 'secondary.main',
-            fontSize: liveEventExists ? { xxs: '1.2rem', md: '1.4rem', xl: '1.7rem' } : 0,
-            ml: '.5rem',
-            
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            px: 1,
+            gap: 1,
           }}
-        ></WifiIcon>
-      </Box>
+        >
+          <WifiIcon
+            sx={{
+              color: 'secondary.main',
+              fontSize: {
+                xxs: '1.2rem',
+                md: '1.4rem',
+                lg: '1.5rem',
+                xl: '2rem',
+              },
+            }}
+          />
+          <Box sx={{ px: { xxs: 0.75, lg: 1 }, py: { xxs: 0.2, lg: 0.5 } }}>
+            <Typography
+              variant='h6'
+              color='secondary.main'
+              textTransform='uppercase'
+              fontWeight='bold'
+              letterSpacing='0.1rem'
+              lineHeight={{
+                xxs: '1rem',
+                md: '1.3rem',
+                lg: '1.45rem',
+                xl: '1.75rem',
+              }}
+              fontSize={{
+                xxs: '1rem',
+                md: '1.3rem',
+                lg: '1.45rem',
+                xl: '1.75rem',
+              }}
+            >
+              Live Event
+            </Typography>
+          </Box>
+
+          <ExitToAppIcon
+            sx={{
+              color: 'background.paper',
+              fontSize: {
+                xxs: '1.2rem',
+                md: '1.4rem',
+                lg: '1.5rem',
+                xl: '1.6rem',
+              },
+            }}
+          />
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Box sx={{ px: { xxs: 0.75, lg: 1 }, py: { xxs: 0.2, lg: 0.5 } }}>
+            <Typography
+              variant='h6'
+              color='background.paper'
+              textTransform='uppercase'
+              fontWeight='bold'
+              letterSpacing='0.1rem'
+              lineHeight={{
+                xxs: '1rem',
+                md: '1.3rem',
+                lg: '1.45rem',
+                xl: '1.75rem',
+              }}
+              fontSize={{
+                xxs: '1rem',
+                md: '1.3rem',
+                lg: '1.45rem',
+                xl: '1.75rem',
+              }}
+            >
+              Progress Board
+            </Typography>
+          </Box>
+          <HikingIcon
+            sx={{
+              color: 'secondary.main',
+              fontSize: {
+                xxs: '1.2rem',
+                md: '1.4rem',
+                lg: '1.5rem',
+                xl: '1.75rem',
+              },
+            }}
+          />
+        </Box>
+      )}
     </Button>
   )
 }

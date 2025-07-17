@@ -43,24 +43,24 @@ const RFIDModal = ({ open, onClose, onSave, rfid }) => {
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={style}>
-        <Typography variant="h5" mb={2} sx={{ textTransform: 'uppercase', color: 'primary.main' }}>
+        <Typography variant='h5' mb={2} sx={{ textTransform: 'uppercase', color: 'primary.main' }}>
           {rfid?.id ? 'Edit RFID Tag' : 'Add New RFID Tag'}
         </Typography>
 
         <form onSubmit={handleSubmit}>
           <TextField
             fullWidth
-            label="RFID Serial Number"
+            label='RFID Serial Number'
             value={serialNumber}
             onChange={(e) => setSerialNumber(e.target.value)}
-            margin="dense"
+            margin='dense'
             required
-            helperText="Enter the unique serial number of the RFID tag"
+            helperText='Enter the unique serial number of the RFID tag'
           />
           
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, gap: 1 }}>
             <CancelButton onClick={onClose} />
-            <SaveButton type="submit" label={rfid?.id ? 'Update' : 'Add'} />
+            <SaveButton type='submit' label={rfid?.id ? 'Update' : 'Add'} />
           </Box>
         </form>
       </Box>
