@@ -28,19 +28,21 @@ const AddParticipantModal = ({
   const [id, setId] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-  const [teamId, setTeamId] = useState('')
+  //const [teamId, setTeamId] = useState('')
+  const [selectedTeam, setSelectedTeam] = useState(null)
 
   useEffect(() => {
     if (open && participantData) {
       setId(participantData.id || '')
       setFirstName(participantData.firstName || '')
       setLastName(participantData.lastName || '')
-      setTeamId(participantData.team?.id || participantData.teamId || '')
+      setSelectedTeam(participantData.team || null)
     } else if (!open) {
       setId('')
       setFirstName('')
       setLastName('')
-      setTeamId('')
+      //setTeamId('')
+      setSelectedTeam(null)
     }
   }, [open, participantData])
 
@@ -51,10 +53,11 @@ const AddParticipantModal = ({
       id: id || undefined,
       firstName: firstName.trim(),
       lastName: lastName.trim(),
-      teamId: teamId || null,
+      //teamId: teamId || null,
+      team: selectedTeam || null,
       eventId: selectedEvent || null, 
     }
-
+    console.log('Submitting participant with teamId:', selectedTeam)
     onAdd(newParticipant)
     onClose()
   }
@@ -96,17 +99,19 @@ const AddParticipantModal = ({
             label="Team"
             variant="outlined"
             margin="normal"
-            value={teamId || ''}
-            onChange={(e) => setTeamId(e.target.value)}
+            value={selectedTeam?.id || ''}
+            onChange={(e) => {
+              const selected = teamNames.find((t) => (t._id || t.id) === e.target.value)
+              setSelectedTeam(selected || null)
+            }}
             required
           >
             <MenuItem disabled value="">
               -- Select a team --
             </MenuItem>
             {teamNames
-              .filter((team) => !team.isSoloTeam)
               .map((team) => (
-                <MenuItem key={team.id} value={team.id}>
+                <MenuItem key={team._id || team.id} value={team._id || team.id}>
                   {team.name}
                 </MenuItem>
               ))}

@@ -7,7 +7,9 @@ export const getAllTeams = async () => {
 }
 
 export const getTeamsByEvent = async (eventId) => {
-  const res = await api.get('/teams', { params: { eventId } })
+  const res = await api.get('/teams', {
+    params: { event: eventId }
+  })
   return res.data
 }
 

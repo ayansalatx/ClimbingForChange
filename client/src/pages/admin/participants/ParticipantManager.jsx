@@ -13,7 +13,6 @@ import {
   editParticipant,
   getParticipantsByEvent,
 } from '../../../services/participantService'
-import { getAllTeams } from '../../../services/teamService.js'
 import { getTeamsByEvent } from '../../../services/teamService.js'
 
 const fullColumns = [
@@ -52,7 +51,7 @@ const ParticipantManager = () => {
     loadEvents()
   }, [displayAlert])
 
-    useEffect(() => {
+  useEffect(() => {
     if (!selectedEvent) {
       setParticipants([])
       setTeams([])
@@ -68,12 +67,12 @@ const ParticipantManager = () => {
 
         const filteredTeams = await getTeamsByEvent(selectedEvent)
         setTeams(filteredTeams)
-        
         displayAlert(
           'Data Loaded',
-          `Loaded ${participantsList.length} participants for selected event.`,
+          `Loaded ${participantsList.length} participants and ${filteredTeams.length} teams for selected event.`,
           'success'
         )
+        
       } catch (error) {
         displayAlert('Error', `Failed to load participants or teams: ${error.message}`, 'error')
       } finally {
@@ -93,10 +92,8 @@ const ParticipantManager = () => {
 
   const onEdit = (participant) => {
     if (loading) return
-    setSelectedParticipant({
-      ...participant,
-      id: participant.id || participant._id,
-    })
+    console.log('onEdit called with participant:', participant)
+    setSelectedParticipant(participant)
     setPopupOpen(true)
 
   }
@@ -140,14 +137,13 @@ const ParticipantManager = () => {
     setLoading(true)
     try {
       participantData.eventId = selectedEvent
-      if (participantData.teamId !== undefined) {
-        participantData.teamId = participantData.teamId
+      if (participantData.team) {
+        participantData.teamId = participantData.team.id
         delete participantData.team
       }
       if (participantData.id) {
         await editParticipant(participantData.id, participantData)
         console.log('Saving participant:', participantData)
-        console.log('Payload:', participantData)
         displayAlert('Edited Participant', `Edited ${participantData.firstName} ${participantData.lastName}.`, 'success')
       } else {
         await addNewParticipant(participantData)
@@ -166,11 +162,11 @@ const ParticipantManager = () => {
   }
 
   const filteredParticipants = selectedEvent ? participants : []
-  const currentTeamId = selectedParticipant?.teamId || selectedParticipant?.team?.id
+  const currentTeamId = selectedParticipant?.team?.id
 
   const filteredTeams = teams.filter(
     (team) =>
-      String(team.event) === String(selectedEvent) || team.id === currentTeamId
+      String(team.event) === String(selectedEvent) || String(team._id || team.id) === String(currentTeamId)
   )
 
   return (
