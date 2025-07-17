@@ -1,4 +1,4 @@
-import { api } from './api'
+import { api, formatApiError } from './api'
 
 // Get all teams
 export const getAllTeams = async () => {
