@@ -1,11 +1,20 @@
 import globals from 'globals'
 import js from '@eslint/js'
-import stylisticJs from '@stylistic/eslint-plugin-js'
+import stylistic from '@stylistic/eslint-plugin'
 import { globalIgnores } from 'eslint/config'
+
+const stylisticRules = stylistic.configs.customize({
+  indent: 2,
+  linebreakStyle: 'unix',
+  quotes: 'single',
+  semi: false,
+})
 
 export default [
   globalIgnores(['public/**']),
-  js.configs.recommended,
+
+  js.configs.recommended, 
+
   {
     files: ['**/*.js'],
     languageOptions: {
@@ -14,13 +23,10 @@ export default [
       ecmaVersion: 'latest',
     },
     plugins: {
-      '@stylistic/js': stylisticJs,
+      '@stylistic': stylistic,
     },
     rules: {
-      '@stylistic/js/indent': ['error', 2],
-      '@stylistic/js/linebreak-style': ['error', 'unix'],
-      '@stylistic/js/quotes': ['error', 'single'],
-      '@stylistic/js/semi': ['error', 'never'],
+      ...stylisticRules.rules,
     },
   },
 ]

@@ -10,8 +10,26 @@ import unicorn from 'eslint-plugin-unicorn'
 import unusedImports from 'eslint-plugin-unused-imports'
 import globals from 'globals'
 
+const stylisticRules = stylistic.configs.customize({
+  indent: 2,
+  semi: false,
+  quotes: 'single',
+  linebreakStyle: 'unix',
+  arrowParens: 'always',
+  objectCurlySpacing: true,
+  commaDangle: {
+    arrays: 'always-multiline',
+    objects: 'always-multiline',
+    imports: 'always-multiline',
+    exports: 'always-multiline',
+    functions: 'never',
+  },
+})
+
 export default [
-  { ignores: ['public', 'dist'] },
+  {
+    ignores: ['public', 'dist'],
+  },
   {
     files: ['**/*.{js,jsx}'],
     languageOptions: {
@@ -32,7 +50,7 @@ export default [
       import: importPlugin,
       'simple-import-sort': simpleImportSort,
       'unused-imports': unusedImports,
-      unicorn,
+      unicorn: unicorn,
     },
     settings: {
       react: {
@@ -48,35 +66,32 @@ export default [
       ...js.configs.recommended.rules,
       ...reactPlugin.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
+      ...stylisticRules.rules,
 
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'react/react-in-jsx-scope': 'off',
+      'react/prop-types': 'off',
+
       'unused-imports/no-unused-imports': 'error',
       'import/no-unresolved': ['error', { caseSensitive: true }],
       'import/no-duplicates': 'error',
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
       'no-console': 'error',
-      '@stylistic/indent': ['error', 2],
-      '@stylistic/quotes': ['error', 'single'],
-      '@stylistic/semi': ['error', 'never'],
-      '@stylistic/linebreak-style': ['error', 'unix'],
-      '@stylistic/arrow-parens': ['error', 'always'],
-      '@stylistic/object-curly-spacing': ['error', 'always'],
-      '@stylistic/comma-dangle': [
-        'error',
-        {
-          arrays: 'always-multiline',
-          objects: 'always-multiline',
-          imports: 'always-multiline',
-          exports: 'always-multiline',
-          functions: 'never',
-        },
-      ],
-      'react/prop-types': 'off',
+      
+      //Don't lint
+      '@stylistic/no-trailing-spaces': 'off',
+
+      '@stylistic/multiline-ternary': 'off',
+      '@stylistic/jsx-one-expression-per-line': 'off',
+      '@stylistic/jsx-quotes': 'off',
+      '@stylistic/quote-props': 'off',
+      '@stylistic/brace-style': 'off',
+      '@stylistic/operator-linebreak': 'off',
+      '@stylistic/indent-binary-ops': 'off',
+      '@stylistic/jsx-curly-brace-presence': 'off',
+      '@stylistic/jsx-wrap-multilines': 'off',
+      '@stylistic/spaced-comment': 'off',
     },
   },
 ]
