@@ -138,7 +138,7 @@ const ProgressBoard = () => {
     return () => {
       clearInterval(intervalId)
     }
-  }, [selectedEvent])
+  }, [selectedEvent, setLeaderboard])
 
   useEffect(() => {
     const loadTeamsForEvent = async () => {
