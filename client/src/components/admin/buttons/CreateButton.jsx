@@ -4,7 +4,7 @@ export default function CreateButton({  onClick, disabled, type = 'button' }) {
   return (
     <Button
       type={type}
-      variant="contained"
+      variant='contained'
       sx={{
         width: '6rem',
         borderWidth: '2px',

@@ -23,7 +23,7 @@ const NavigationCard = ({
       sx={{
         position: 'relative',
         width: '14rem',
-        height: '8rem',
+        height: '9rem',
         bgcolor: bgColor,
         borderRadius: '6px',
         mx: '2rem',
@@ -54,11 +54,11 @@ const NavigationCard = ({
           }}
         >
           <Typography
-            variant="h4"
+            variant='h4'
             fontSize={'1.5rem'}
-            component="div"
-            color="background.paper"
-            align="start"
+            component='div'
+            color='background.paper'
+            align='start'
             textTransform={'uppercase'}
             fontWeight={'bold'}
             letterSpacing={'0.1rem'}

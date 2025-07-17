@@ -1,15 +1,17 @@
 import { TextField } from '@mui/material'
 
-const TextInput = ({ label, value, onChange, required }) => {
+const TextInput = ({ label, value, onChange, required, type = 'text', inputProps }) => {
   return (
     <TextField
       fullWidth
       label={label}
-      variant="outlined"
-      margin="normal"
+      variant='outlined'
+      margin='normal'
       value={value}
       onChange={onChange}
       required={required}
+      type={type}
+      inputProps={inputProps}
       sx={{
         borderWidth: '2px',
         bgcolor: 'background.default',

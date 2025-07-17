@@ -2,10 +2,11 @@ import { alpha, Box, Typography, useMediaQuery } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
-import C4CFavicon from '../../assets/C4C-branding/Favicon.png'
+import C4CHorizontalBlueLogo from '../../assets/C4C-branding/Climbing-For-Change-Horizontal_Green.png'
 import ProgressList from '../../components/progressboard/cards/ProgressCardList'
 import ProgressTable from '../../components/progressboard/tables/regular/ProgressTable'
 import { getAllEvents, getDisplayEventTeams } from '../../services/eventService'
+import { getLeaderboard } from '../../services/leaderboard'
 import theme from '../../styles/theme'
 
 // Define columns for full width screen
@@ -32,13 +33,13 @@ const mdColumns = [
 ]
 
 const smColumns = [
-  { id: 'name', label: 'Team', width: '30%' },
+  { id: 'name', label: 'Team', width: '28%' },
   { id: 'mountainName', label: 'Mount.', width: '13%' },
   { id: 'elevation', label: 'Elev.', width: '15%' },
   { id: 'laps', label: 'Laps', width: '13%' },
   { id: 'lapsToGo', label: 'To Go', width: '7%' },
   { id: 'bestLap', label: 'Best Lap', width: '9%' },
-  { id: 'timeElapsed', label: 'Time', width: '25%' },
+  { id: 'timeElapsed', label: 'Time', width: '27%' },
 ]
 
 const ProgressBoard = () => {
@@ -72,6 +73,10 @@ const ProgressBoard = () => {
   const [searchString, setSearchString] = useState('')
   // State for teams filtered by the search input
   const [filteredTeams, setFilteredTeams] = useState([])
+  
+  const [leaderboard, setLeaderboard] = useState([])
+  console.log('🚀 ~ ProgressBoard ~ leaderboard:', leaderboard)
+
 
   const [loading, setLoading] = useState(true)
 
@@ -110,7 +115,25 @@ const ProgressBoard = () => {
     }
   }, [events, selectedEvent])
 
-  useEffect(() => {}, [selectedEvent])
+  useEffect(() => {
+    const loadLeaderboard = async () => {
+      if (!selectedEvent) return
+      try {
+        const leaderboard = await getLeaderboard(selectedEvent)
+        setLeaderboard(leaderboard)
+      } catch (error) {
+        console.error('Failed to load leaderboard:', error)
+      }
+    }
+
+    loadLeaderboard()
+
+    const intervalId = setInterval(loadLeaderboard, 2000)
+
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [selectedEvent])
 
   useEffect(() => {
     const loadTeamsForEvent = async () => {
@@ -163,9 +186,24 @@ const ProgressBoard = () => {
     >
       {/* https://pixabay.com/videos/search/terrain%20blue%20gray%20mountain/ */}
 
-      {!isXSmall && (
+      {isXSmall ? (
+        <Box
+          component='img'
+          src='/assets/mountain-range-illustration-2.jpeg'
+          alt='Mountain background'
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            zIndex: 0,
+          }}
+        />
+      ) : (
         <video
-          src="/assets/mountain-with-way-points-full.mp4"
+          src='/assets/progress-board-background.mp4'
           autoPlay
           loop
           muted
@@ -188,8 +226,8 @@ const ProgressBoard = () => {
           left: 0,
           width: '100%',
           height: '100%',
-          backgroundColor: isXSmall
-            ? 'primary.main'
+          background: isXSmall
+            ? `linear-gradient(to bottom, ${alpha(theme.palette.primary.main, 0.8)}, ${alpha(theme.palette.primary.main, 0.3)}, ${alpha(theme.palette.primary.main, 0.8)})`
             : alpha(theme.palette.primary.main, 0.6),
         }}
       >
@@ -219,13 +257,13 @@ const ProgressBoard = () => {
             {/* Logo */}
             <Box sx={{ mb: { sm: 0.5 } }}>
               <Box
-                component="img"
-                src={isXSmall ? C4CFavicon : C4CHorizontalGreenLogo}
-                alt="Climbing for Change Logo"
+                component='img'
+                src={isXSmall ? C4CHorizontalBlueLogo : C4CHorizontalGreenLogo}
+                alt='Climbing for Change Logo'
                 sx={{
                   maxWidth: {
-                    xxs: '1.6rem',
-                    xs: '1.8rem',
+                    xxs: '11rem',
+                    xs: '13rem',
                     sm: '8rem',
                     md: '12rem',
                     lg: '14rem',
@@ -233,58 +271,59 @@ const ProgressBoard = () => {
                   },
                   height: 'auto',
                   display: 'block',
-                  pb: { xxs: 0.5, xs: 0.5 },
                   ml: { xxs: 0.5, xs: 1 },
                 }}
               />
             </Box>
 
             {/* Title */}
-            <Box
-              sx={{
-                display: 'flex',
-                flexGrow: 1,
-                justifyContent: 'center',
-                alignItems: 'flex-end',
-                mt: {
-                  xxs: 0,
-                  xs: 0,
-                  sm: 0,
-                  md: 0,
-                },
-              }}
-            >
-              <Typography
-                variant="h1"
-                color="secondary.main"
-                fontWeight="bold"
-                textTransform="uppercase"
-                letterSpacing='.05rem'
+            {!isXSmall && (
+              <Box
                 sx={{
-                  fontStyle: 'italic',
-                  mr: {
+                  display: 'flex',
+                  flexGrow: 1,
+                  justifyContent: 'center',
+                  alignItems: 'flex-end',
+                  mt: {
                     xxs: 0,
-                    xs: 2,
-                    sm: 17,
-                    md: 26,
-                    lg: 32,
-                    xl: 34,
+                    xs: 0,
+                    sm: 0,
+                    md: 0,
                   },
-                  fontSize: {
-                    xxs: '1.8rem',
-                    xs: '2.2rem',
-                    sm: '2.1rem',
-                    md: '3.25rem',
-                    lg: '4rem',
-                    xl: '4.5rem',
-                  },
-                  lineHeight: 1.1,
-                  textAlign: 'center',
                 }}
               >
-                Climb Progress
-              </Typography>
-            </Box>
+                <Typography
+                  variant='h1'
+                  color='secondary.main'
+                  fontWeight='bold'
+                  textTransform='uppercase'
+                  letterSpacing='.05rem'
+                  sx={{
+                    fontStyle: 'italic',
+                    mr: {
+                      xxs: 0,
+                      xs: 2,
+                      sm: 17,
+                      md: 26,
+                      lg: 32,
+                      xl: 34,
+                    },
+                    fontSize: {
+                      xxs: '1.8rem',
+                      xs: '2.2rem',
+                      sm: '2.1rem',
+                      md: '3.25rem',
+                      lg: '4rem',
+                      xl: '4.5rem',
+                    },
+                    lineHeight: 1.1,
+                    textAlign: 'center',
+                  }}
+                >
+                  Climb Progress
+                </Typography>
+              </Box>
+            )}
           </Box>
 
           {isXSmall ? (
