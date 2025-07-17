@@ -13,6 +13,7 @@ import {
 } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import React from 'react'
+import { useParams } from 'react-router-dom'
 
 import theme from '../../../../styles/theme'
 import ExitButton from './ExitButton'
@@ -22,6 +23,8 @@ import LapHeaderRow from './LapHeaderRow'
 const LapTable = ({ tableColumns, laps = [], loading }) => {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(15)
+
+  const { teamId } = useParams()
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -71,24 +74,40 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
               justifyItems: 'bottom',
               backgroundColor: 'primary.light',
               borderRadius: '36px',
-              p: .5,
+              p: 0.5,
             }}
           >
             <FlagIcon
               sx={{
-                color: { xxs: alpha(theme.palette.background.paper, 0.85), md: 'secondary.main' },
-                fontSize: { xxs: '.95rem', xs: '1rem', sm: '1.1rem', md: '1.2rem', lg: '1.4rem' },
+                color: {
+                  xxs: alpha(theme.palette.background.paper, 0.85),
+                  md: 'secondary.main',
+                },
+                fontSize: {
+                  xxs: '.95rem',
+                  xs: '1rem',
+                  sm: '1.1rem',
+                  md: '1.2rem',
+                  lg: '1.4rem',
+                },
               }}
             />
           </Box>
           <Typography
-            variant='h1'
+            variant="h1"
             sx={{
               textAlign: 'left',
               margin: '0',
               paddingBottom: '.15rem',
               paddingLeft: '.35rem',
-              fontSize: { xxs: '1.2rem', xs: '1.5rem', sm: '1.75rem', md: '1.75rem', lg: '2rem' ,xl: '2.25rem' },
+              fontSize: {
+                xxs: '1.2rem',
+                xs: '1.5rem',
+                sm: '1.75rem',
+                md: '1.75rem',
+                lg: '2rem',
+                xl: '2.25rem',
+              },
               fontWeight: 'bold',
               textTransform: 'uppercase',
               letterSpacing: '0.05em',
@@ -113,16 +132,16 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
         })}
       >
         {loading ? (
-          <Table stickyHeader height='100%'>
+          <Table stickyHeader height="100%">
             <LapHeaderRow columns={tableColumns} />
             <TableBody>
               <TableRow>
                 <TableCell
                   colSpan={tableColumns.length + 1}
-                  align='center'
+                  align="center"
                   sx={{ border: 'none' }}
                 >
-                  <CircularProgress color='secondary' />
+                  <CircularProgress color="secondary" />
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -130,7 +149,7 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
         ) : laps.length > 0 ? (
           <Table
             stickyHeader
-            size='small'
+            size="small"
             sx={{
               width: '100%',
               '&:hover': { bgcolor: alpha(theme.palette.primary.light, 0.05) },
@@ -145,19 +164,19 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
             />
           </Table>
         ) : (
-          <Table height='100%' stickyHeader>
+          <Table height="100%" stickyHeader>
             <LapHeaderRow columns={tableColumns} />
             <TableBody>
               <TableRow>
                 <TableCell
                   colSpan={tableColumns.length + 1}
-                  align='center'
+                  align="center"
                   sx={{
                     backgroundColor: alpha(theme.palette.background.paper, 0.3),
                     border: 'none',
                   }}
                 >
-                  <Typography variant='h5' color='secondary.main'>
+                  <Typography variant="h5" color="secondary.main">
                     no laps to display yet
                   </Typography>
                 </TableCell>
@@ -174,10 +193,10 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
           backgroundColor: alpha(theme.palette.background.paper, 0.75),
         }}
       >
-        <ExitButton />
+        <ExitButton teamId={teamId} color={'primary.main'} />
         <TablePagination
           rowsPerPageOptions={[15, 25, 100]}
-          component='div'
+          component="div"
           count={laps.length}
           rowsPerPage={rowsPerPage}
           page={page}
@@ -192,7 +211,7 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
               color: 'primary.main',
             },
           }}
-          labelRowsPerPage=''
+          labelRowsPerPage=""
         />
       </Box>
     </Paper>

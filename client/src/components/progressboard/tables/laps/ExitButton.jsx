@@ -2,13 +2,15 @@ import LeaveIcon from '@mui/icons-material/Logout'
 import { IconButton, Tooltip } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 
-const ExitButton = ({ eventId }) => {
+const ExitButton = ({ teamId, color }) => {
   const navigate = useNavigate()
 
   // Navigate to fullscreen page for large onsite display
   const handleClick = () => {
-    if (eventId) {
-      navigate(`/progress/team/${eventId}`, { replace: true })
+    if (teamId) {
+      navigate(`/progress/team/${teamId}`, { replace: true })
+    } else {
+      navigate('/progress', { replace: true })
     }
   }
 
@@ -43,9 +45,9 @@ const ExitButton = ({ eventId }) => {
             md: 'hidden',
           },
           ml: '.25rem',
-          color: 'primary.main',
+          color: color,
           '&:hover': {
-            color: 'primary.light',
+            color: 'secondary.main',
           },
           p: {
             sm: '0.45rem',

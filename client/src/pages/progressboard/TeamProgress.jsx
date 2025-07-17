@@ -11,6 +11,7 @@ import ParticipantCard from '../../components/progressboard/cards/ParticipantCar
 import ProgressIndicator from '../../components/progressboard/cards/ProgressIndicator'
 import TeamHeader from '../../components/progressboard/cards/TeamHeader'
 import LapsViewButton from '../../components/progressboard/shared/LapsViewButton'
+import ExitButton from '../../components/progressboard/tables/laps/ExitButton'
 import LapTable from '../../components/progressboard/tables/laps/LapTable'
 import { getTeamForDisplay } from '../../services/teamService'
 import theme from '../../styles/theme'
@@ -188,7 +189,7 @@ const TeamProgress = () => {
             }}
           >
             {/* Logo */}
-            <Box sx={{ mb: { sm: 0.5 } }}>
+            <Box sx={{ mb: { xxs: 0.5 } }}>
               <Box
                 component="img"
                 src={isXSmall ? C4CHorizontalBlueLogo : C4CHorizontalGreenLogo}
@@ -196,7 +197,7 @@ const TeamProgress = () => {
                 sx={{
                   maxWidth: {
                     xxs: '11rem',
-                    xs: '13rem',
+                    xs: '12rem',
                     sm: '8rem',
                     md: '12rem',
                     lg: '14rem',
@@ -209,13 +210,14 @@ const TeamProgress = () => {
               />
             </Box>
 
-            {!isXSmall && (
+            {isXSmall && (
               <Box
                 sx={{
                   display: 'flex',
                   flexGrow: 1,
-                  justifyContent: 'center',
+                  justifyContent: 'right',
                   alignItems: 'flex-end',
+                  height: '100%',
                   mt: {
                     xxs: 0,
                     xs: 0,
@@ -223,7 +225,9 @@ const TeamProgress = () => {
                     md: 0,
                   },
                 }}
-              ></Box>
+              >
+                <ExitButton color={'background.paper'}/>
+              </Box>
             )}
           </Box>
           {loading ? (
@@ -413,7 +417,7 @@ const TeamProgress = () => {
                     flexDirection: { md: 'column' },
                     flexGrow: 1,
                     maxWidth: { md: '19%', lg: '18%' },
-                    maxHeight: { xs: '30%', md: 'none' },
+                    maxHeight: { xxs: '27%', xs: '30%', md: 'none' },
                     minHeight: { xxs: '20%', md: 'none' },
                     gap: { xxs: 1.25, xs: 2 },
                     borderRadius: '4px',
