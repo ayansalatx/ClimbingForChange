@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import C4CFavicon from '../../assets/C4C-branding/Favicon.png'
+import WarningDialog from '../../components/admin/modals/WarningDialog'
 import AutoScrollTable from '../../components/progressboard/tables/auto-scroll/AutoScrollTable'
 import { getDisplayEventTeams } from '../../services/eventService'
 import theme from '../../styles/theme'
-import WarningDialog from '../../components/admin/modals/WarningDialog'
 
 // Define columns for full width screen
 const xlColumns = [
@@ -86,6 +86,7 @@ const ProgressBoardFullscreen = () => {
   // State for teams
   const [teams, setTeams] = useState([])
   const [loading, setLoading] = useState(true)
+  const [warningOpen, setWarningOpen] = useState(false)
   const navigate = useNavigate()
 
   const showWarning = () => {
@@ -111,7 +112,7 @@ const ProgressBoardFullscreen = () => {
         // const event = await getOneEvent(eventId)
 
         setTeams(teamsList)
-      } catch (e) {
+      } catch {
         showWarning()
       } finally {
         setLoading(false)
