@@ -99,8 +99,8 @@ const AddParticipantModal = ({
             label='Team'
             variant='outlined'
             margin='normal'
-            value={teamId}
-            onChange={(e) => setTeamId(e.target.value)}
+            value={selectedTeam}
+            onChange={(e) => setSelectedTeam(e.target.value)}
             required
           >
             <MenuItem disabled value=''>
