@@ -78,7 +78,8 @@ const ProgressBoard = () => {
   // State for teams filtered by the search input
   const [filteredTeams, setFilteredTeams] = useState([])
 
-  const [leaderboard, setLeaderboard] = useState([])
+  // const [leaderboar, setLeaderboard] = useState([]) for use in later refactoring
+  const [setLeaderboard] = useState([]) // Obey lint rules for now 
 
   const showWarning = () => {
     setWarningOpen(true)
