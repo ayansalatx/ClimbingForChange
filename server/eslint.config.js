@@ -13,10 +13,10 @@ export default [
       globals: { ...globals.node },
       ecmaVersion: 'latest',
     },
-    plugins: { 
+    plugins: {
       '@stylistic/js': stylisticJs,
     },
-    rules: { 
+    rules: {
       '@stylistic/js/indent': ['error', 2],
       '@stylistic/js/linebreak-style': ['error', 'unix'],
       '@stylistic/js/quotes': ['error', 'single'],

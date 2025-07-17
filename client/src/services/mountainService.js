@@ -7,7 +7,7 @@ export const getAllMountains = async () => {
 
 export const getMountainById = async (id) => {
   if (!id) throw new Error('Mountain ID is required')
-  
+
   const res = await api.get(`/mountains/${id}`)
   return res.data
 }

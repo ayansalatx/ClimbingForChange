@@ -18,7 +18,7 @@ export const api = supertest(app)
 export const emptyTestDB = async () => {
   await Promise.all([
     Location.deleteMany({}),
-    Hill.deleteMany({}), 
+    Hill.deleteMany({}),
     Mountain.deleteMany({}),
     RFIDTag.deleteMany({}),
     Event.deleteMany({}),
@@ -35,24 +35,23 @@ let connection = null
 export const loginAndGetToken = async () => {
   const testUser = {
     username: 'admin',
-    password: '12345678'
+    password: '12345678',
   }
 
   // Create test user
   await User.create({
     username: testUser.username,
-    password_hash: '$2a$12$7lCxHOSbd8XIJr/D6ZMsyO90FjYxqyQWzxx/IP6fznanAS6PjqcEK',
+    password_hash:
+      '$2a$12$7lCxHOSbd8XIJr/D6ZMsyO90FjYxqyQWzxx/IP6fznanAS6PjqcEK',
     firstName: 'Test',
-    lastName: 'Admin'
+    lastName: 'Admin',
   })
 
   // Get auth token
-  const response = await api
-    .post('/api/auth')
-    .send({
-      username: testUser.username,
-      password: testUser.password
-    })
+  const response = await api.post('/api/auth').send({
+    username: testUser.username,
+    password: testUser.password,
+  })
 
   return response.body.token
 }

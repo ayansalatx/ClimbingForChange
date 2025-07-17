@@ -13,7 +13,11 @@ const AlertDisplay = () => {
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         slots={{ transition: Slide }}
       >
-        <Alert severity={state.alert.type} variant='filled' sx={{ width: '100%', color: 'background.paper' }}>
+        <Alert
+          severity={state.alert.type}
+          variant="filled"
+          sx={{ width: '100%', color: 'background.paper' }}
+        >
           <AlertTitle>{state.alert.title}</AlertTitle>
           {state.alert.message}
         </Alert>

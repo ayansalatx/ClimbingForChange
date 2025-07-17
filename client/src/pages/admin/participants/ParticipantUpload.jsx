@@ -1,5 +1,18 @@
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
-import { Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, InputLabel, MenuItem, Select, Typography, useTheme } from '@mui/material'
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+  useTheme,
+} from '@mui/material'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -38,7 +51,6 @@ const ParticipantUpload = () => {
     }
 
     loadEvents()
-
   }, [])
 
   const handleFileChange = (event) => {
@@ -56,8 +68,8 @@ const ParticipantUpload = () => {
 
     if (file.type === 'text/csv') {
       Papa.parse(file, {
-        header: true,         // first row → keys
-        worker: true,         // parse in a Web Worker
+        header: true, // first row → keys
+        worker: true, // parse in a Web Worker
         skipEmptyLines: true,
         complete: (results) => {
           const rowsWithRenamedHeaders = results.data.map((row) => {
@@ -74,7 +86,11 @@ const ParticipantUpload = () => {
           event.target.value = ''
         },
         error: (err) => {
-          displayAlert('Loading Error', `Error while loading file ${err.message}.`, 'error')
+          displayAlert(
+            'Loading Error',
+            `Error while loading file ${err.message}.`,
+            'error'
+          )
         },
       })
     } else {
@@ -93,7 +109,11 @@ const ParticipantUpload = () => {
       setIsLoading(true)
       await uploadCSV(formData, selectedEvent.id, overwrite)
       setIsLoading(false)
-      displayAlert('Uploaded', `Successfully uploaded ${selectedFile.name}.`, 'success')
+      displayAlert(
+        'Uploaded',
+        `Successfully uploaded ${selectedFile.name}.`,
+        'success'
+      )
       setRows([])
       setSelectedFile(selectedFile)
       navigate('/admin/participants')
@@ -109,44 +129,52 @@ const ParticipantUpload = () => {
   }
 
   return (
-    <div style={{
-      position: 'relative',
-      width: '95vw',
-      height: '90vh',
-      display: 'flex',
-      justifyContent: 'center',
-    }}>
-      <Box sx={{
-        border: `2px solid ${theme.palette.primary['main']}`,
-        mt: '5rem',
-        width: '70%',
-        borderRadius: '5px',
-      }}>
-        <Box sx={{
-          backgroundColor: theme.palette.primary['light'],
-          padding: '1.5rem 0',
-          color: '#fff',
-        }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0 1rem' }}>
-            <CloudUploadIcon fontSize='large' />
-            <Typography variant='h4'>Participants Upload</Typography>
+    <div
+      style={{
+        position: 'relative',
+        width: '95vw',
+        height: '90vh',
+        display: 'flex',
+        justifyContent: 'center',
+      }}
+    >
+      <Box
+        sx={{
+          border: `2px solid ${theme.palette.primary['main']}`,
+          mt: '5rem',
+          width: '70%',
+          borderRadius: '5px',
+        }}
+      >
+        <Box
+          sx={{
+            backgroundColor: theme.palette.primary['light'],
+            padding: '1.5rem 0',
+            color: '#fff',
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              padding: '0 1rem',
+            }}
+          >
+            <CloudUploadIcon fontSize="large" />
+            <Typography variant="h4">Participants Upload</Typography>
           </Box>
         </Box>
 
         <Box sx={{ padding: '1rem', height: '100%' }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Button variant='contained' component='label'>
+            <Button variant="contained" component="label">
               Upload CSV File
-              <input
-                type='file'
-                hidden
-                onChange={handleFileChange}
-              />
+              <input type="file" hidden onChange={handleFileChange} />
             </Button>
 
-
             <Button
-              variant='outlined'
+              variant="outlined"
               sx={{ display: 'flex', gap: '0.25rem' }}
               disabled={rows.length === 0 ? true : false}
               loading={isLoading}
@@ -168,69 +196,100 @@ const ParticipantUpload = () => {
             </Button>
           </Box>
           <Box sx={{ display: 'flex', py: '1rem' }}>
-            <FormControl sx={{ minWidth: '15rem' }} size='small' error={eventError}>
-              <InputLabel id='select-event-label'>Select Event</InputLabel>
+            <FormControl
+              sx={{ minWidth: '15rem' }}
+              size="small"
+              error={eventError}
+            >
+              <InputLabel id="select-event-label">Select Event</InputLabel>
               <Select
-                labelId='select-event-label'
-                id='demo-select-small'
+                labelId="select-event-label"
+                id="demo-select-small"
                 value={selectedEvent || ''}
-                label='Select Event'
+                label="Select Event"
                 onChange={(event) => {
                   setEventError(false)
                   setSelectedEvent(event.target.value)
                 }}
               >
-                <MenuItem value=''>
+                <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                {allEvent && allEvent.map((e) => {
-                  return <MenuItem key={e.id} value={e}>{e.name}</MenuItem>
-                })}
+                {allEvent &&
+                  allEvent.map((e) => {
+                    return (
+                      <MenuItem key={e.id} value={e}>
+                        {e.name}
+                      </MenuItem>
+                    )
+                  })}
               </Select>
-              {eventError && <FormHelperText>You must select an event</FormHelperText>}
+              {eventError && (
+                <FormHelperText>You must select an event</FormHelperText>
+              )}
             </FormControl>
           </Box>
           <Box>
             <FormGroup>
-              <FormControlLabel control={<Checkbox value={overwrite} onChange={(event) => { setOverwrite(event.target.checked) }} />} label='Overwrite existing list' />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    value={overwrite}
+                    onChange={(event) => {
+                      setOverwrite(event.target.checked)
+                    }}
+                  />
+                }
+                label="Overwrite existing list"
+              />
             </FormGroup>
           </Box>
 
-          {rows.length > 0 ? <TableContainer component={Paper} sx={{ margin: '1rem 0', height: '60%', overflowY: 'scroll' }}>
-            <Table sx={{ minWidth: 650 }} stickyHeader>
-              <TableHead>
-                <TableRow sx={{
-                  '& th': {
-                    backgroundColor: theme.palette.primary['light'], // MUI blue
-                    color: '#fff',              // white text
-                  },
-                }}>
-                  <TableCell>Participant ID</TableCell>
-                  <TableCell>First Name</TableCell>
-                  <TableCell>Last Name</TableCell>
-                  <TableCell>Sub Event</TableCell>
-                  <TableCell>Team Name</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map((row) => (
+          {rows.length > 0 ? (
+            <TableContainer
+              component={Paper}
+              sx={{ margin: '1rem 0', height: '60%', overflowY: 'scroll' }}
+            >
+              <Table sx={{ minWidth: 650 }} stickyHeader>
+                <TableHead>
                   <TableRow
-                    key={row.participantId}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    sx={{
+                      '& th': {
+                        backgroundColor: theme.palette.primary['light'], // MUI blue
+                        color: '#fff', // white text
+                      },
+                    }}
                   >
-                    <TableCell component='th' scope='row'>
-                      {row.participantId}
-                    </TableCell>
-                    <TableCell>{row.firstName}</TableCell>
-                    <TableCell>{row.lastName}</TableCell>
-                    <TableCell>{row.subEvent}</TableCell>
-                    <TableCell>{row.teamName}</TableCell>
+                    <TableCell>Participant ID</TableCell>
+                    <TableCell>First Name</TableCell>
+                    <TableCell>Last Name</TableCell>
+                    <TableCell>Sub Event</TableCell>
+                    <TableCell>Team Name</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer> : <Typography variant='h5' mt='5rem'>Please select CSV to view data.</Typography>}
-
+                </TableHead>
+                <TableBody>
+                  {rows.map((row) => (
+                    <TableRow
+                      key={row.participantId}
+                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {row.participantId}
+                      </TableCell>
+                      <TableCell>{row.firstName}</TableCell>
+                      <TableCell>{row.lastName}</TableCell>
+                      <TableCell>{row.subEvent}</TableCell>
+                      <TableCell>{row.teamName}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ) : (
+            <Typography variant="h5" mt="5rem">
+              Please select CSV to view data.
+            </Typography>
+          )}
         </Box>
       </Box>
       <ConfirmDeleteDialog

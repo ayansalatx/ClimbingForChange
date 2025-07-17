@@ -93,7 +93,6 @@ function formatTime(durationMs) {
   return `${String(hours).padStart(2, '00')}:${String(minutes).padStart(2, '00')}:${String(seconds).padStart(2, '00')}`
 }
 
-
 // Add
 export const addTeam = async (data) => {
   try {
@@ -104,7 +103,7 @@ export const addTeam = async (data) => {
   }
 }
 
-// Edit 
+// Edit
 export const editTeam = async (id, data) => {
   try {
     const response = await api.put(`/teams/${id}`, data)

@@ -11,7 +11,11 @@ import Event from '../models/event.js'
 import Team from '../models/team.js'
 import Participant from '../models/participant.js'
 import Lap from '../models/lap.js'
-import { loginAndGetToken, closeDBConnection, connectToTestDB } from './testHelper.js'
+import {
+  loginAndGetToken,
+  closeDBConnection,
+  connectToTestDB,
+} from './testHelper.js'
 
 const api = supertest(app)
 
@@ -52,7 +56,9 @@ describe('Mountains API (/api/mountains)', () => {
   })
 
   test('all mountains are returned', async () => {
-    const response = await api.get('/api/mountains').set('Authorization', `bearer ${authToken}`)
+    const response = await api
+      .get('/api/mountains')
+      .set('Authorization', `bearer ${authToken}`)
     assert.strictEqual(response.body.length, initialMountainsData.length)
   })
 
@@ -60,41 +66,62 @@ describe('Mountains API (/api/mountains)', () => {
     const newMountain = {
       name: 'Denali',
       totalElevation: 20310,
-      elevationUnit: 'FT'
+      elevationUnit: 'FT',
     }
 
     await api
-      .post('/api/mountains').set('Authorization', `bearer ${authToken}`)
+      .post('/api/mountains')
+      .set('Authorization', `bearer ${authToken}`)
       .send(newMountain)
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
-    const response = await api.get('/api/mountains').set('Authorization', `bearer ${authToken}`)
-    const mountainNames = response.body.map(m => m.name)
+    const response = await api
+      .get('/api/mountains')
+      .set('Authorization', `bearer ${authToken}`)
+    const mountainNames = response.body.map((m) => m.name)
 
     assert.strictEqual(response.body.length, initialMountainsData.length + 1)
     assert(mountainNames.includes('Denali'))
   })
 
   test('a mountain can be updated', async () => {
-    const mountains = await api.get('/api/mountains').set('Authorization', `bearer ${authToken}`)
+    const mountains = await api
+      .get('/api/mountains')
+      .set('Authorization', `bearer ${authToken}`)
     const mountainToUpdate = mountains.body[0]
     const payload = { ...mountainToUpdate, name: 'UPDATED Everest' }
 
-    await api.put(`/api/mountains/${mountainToUpdate.id}`).set('Authorization', `bearer ${authToken}`).send(payload).expect(200)
+    await api
+      .put(`/api/mountains/${mountainToUpdate.id}`)
+      .set('Authorization', `bearer ${authToken}`)
+      .send(payload)
+      .expect(200)
 
-    const res = await api.get(`/api/mountains/${mountainToUpdate.id}`).set('Authorization', `bearer ${authToken}`)
+    const res = await api
+      .get(`/api/mountains/${mountainToUpdate.id}`)
+      .set('Authorization', `bearer ${authToken}`)
     assert.strictEqual(res.body.name, 'UPDATED Everest')
   })
 
   test('a mountain can be deleted', async () => {
-    const mountains = await api.get('/api/mountains').set('Authorization', `bearer ${authToken}`)
+    const mountains = await api
+      .get('/api/mountains')
+      .set('Authorization', `bearer ${authToken}`)
     const mountainToDelete = mountains.body[0]
 
-    await api.delete(`/api/mountains/${mountainToDelete.id}`).set('Authorization', `bearer ${authToken}`).expect(204)
+    await api
+      .delete(`/api/mountains/${mountainToDelete.id}`)
+      .set('Authorization', `bearer ${authToken}`)
+      .expect(204)
 
-    const finalMountains = await api.get('/api/mountains').set('Authorization', `bearer ${authToken}`)
-    assert.strictEqual(finalMountains.body.length, initialMountainsData.length - 1)
+    const finalMountains = await api
+      .get('/api/mountains')
+      .set('Authorization', `bearer ${authToken}`)
+    assert.strictEqual(
+      finalMountains.body.length,
+      initialMountainsData.length - 1
+    )
   })
 })
 

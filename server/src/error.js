@@ -1,9 +1,4 @@
-export const errorHandler = (
-  error,
-  _request,
-  response,
-  next
-) => {
+export const errorHandler = (error, _request, response, next) => {
   console.log('--- ERROR HANDLER ENTERED ---')
   console.error('Error caught by errorHandler:', error)
 
@@ -16,7 +11,7 @@ export const errorHandler = (
     return response.status(500).send({ error: error.message })
   }
 
-  process.on('uncaughtException', error => {
+  process.on('uncaughtException', (error) => {
     console.error('There was an uncaught error', error)
     process.exit(1)
   })

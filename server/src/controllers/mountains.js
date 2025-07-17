@@ -2,21 +2,18 @@ import Hill from '../models/hill.js'
 import Mountain from '../models/mountain.js'
 
 export const getHills = async (req, response) => {
-
   const mountains = await Hill.find({})
 
   response.json(mountains)
 }
 
 export const getMountains = async (req, response) => {
-
   const mountains = await Mountain.find({})
 
   response.json(mountains)
 }
 
 export const getMountainById = async (req, response) => {
-
   const { id } = req.params
 
   const mountain = await Mountain.findById(id)
@@ -25,7 +22,6 @@ export const getMountainById = async (req, response) => {
 }
 
 export const saveOneMountain = async (request, response) => {
-
   const body = request.body
 
   if (!body) {
@@ -46,12 +42,13 @@ export const saveOneMountain = async (request, response) => {
 }
 
 export const updateOneMountain = async (request, response) => {
-
   const body = request.body
   const id = request.params.id
 
   if (!body || !id) {
-    return response.status(400).json({ error: 'Target mountain body or id missing' })
+    return response
+      .status(400)
+      .json({ error: 'Target mountain body or id missing' })
   }
 
   const MountainToDelete = await Mountain.findById(id)
@@ -72,7 +69,7 @@ export const updateOneMountain = async (request, response) => {
         elevationUnit: body.elevationUnit,
         imageURL: body.imageURL,
         active: body.active,
-      }
+      },
     },
     {
       new: true,
@@ -83,11 +80,12 @@ export const updateOneMountain = async (request, response) => {
 }
 
 export const deleteOneMountain = async (request, response) => {
-
   const id = request.params.id
 
   if (!id) {
-    return response.status(400).json({ error: 'Target mountain id to delete is missing' })
+    return response
+      .status(400)
+      .json({ error: 'Target mountain id to delete is missing' })
   }
 
   const MountainToDelete = await Mountain.findById(id)

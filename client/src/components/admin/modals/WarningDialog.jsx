@@ -11,7 +11,7 @@ import { forwardRef } from 'react'
 import CancelButton from '../buttons/CancelButton'
 
 const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction='up' ref={ref} {...props} />
+  return <Slide direction="up" ref={ref} {...props} />
 })
 
 const WarningDialog = ({ open, title, message, onCancel }) => {
@@ -23,15 +23,17 @@ const WarningDialog = ({ open, title, message, onCancel }) => {
       }}
       keepMounted
       onClose={onCancel}
-      aria-describedby='confirm-delete-dialog'
+      aria-describedby="confirm-delete-dialog"
     >
       <DialogTitle>{title}</DialogTitle>
       <DialogContent sx={{ py: 0 }}>
-        <DialogContentText id='alert-dialog-slide-description'>
+        <DialogContentText id="alert-dialog-slide-description">
           {message}
         </DialogContentText>
       </DialogContent>
-      <DialogActions sx={{ display: 'flex', justifyContent: 'space-between', px: 3, py: 3 }}>
+      <DialogActions
+        sx={{ display: 'flex', justifyContent: 'space-between', px: 3, py: 3 }}
+      >
         <CancelButton onClick={onCancel} color={'gray'}></CancelButton>
       </DialogActions>
     </Dialog>

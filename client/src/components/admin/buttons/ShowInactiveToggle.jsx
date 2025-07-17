@@ -6,7 +6,7 @@ const ActiveToggle = ({ checked, onChange, hidden }) => {
       <FormControlLabel
         control={
           <Switch
-            size='small'
+            size="small"
             checked={checked}
             onChange={onChange}
             sx={{
@@ -34,7 +34,7 @@ const ActiveToggle = ({ checked, onChange, hidden }) => {
             Show Inactive
           </Typography>
         }
-        labelPlacement='start'
+        labelPlacement="start"
         sx={{ ml: 1.5 }}
       />
     </Box>

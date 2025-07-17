@@ -1,4 +1,13 @@
-import { Box, FormControl, InputLabel, MenuItem, Modal, Select, TextField, Typography } from '@mui/material'
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  TextField,
+  Typography,
+} from '@mui/material'
 import React, { useEffect, useState } from 'react'
 
 import CancelButton from '../buttons/CancelButton'
@@ -37,7 +46,7 @@ const MountainModal = ({ open, onClose, onSave, mountain }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    
+
     // Prepare the mountain data
     const mountainData = {
       name: name.trim(),
@@ -45,53 +54,59 @@ const MountainModal = ({ open, onClose, onSave, mountain }) => {
       elevationUnit,
       active: true,
     }
-    
+
     onSave(mountainData)
   }
 
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={style}>
-        <Typography variant='h5' mb={2} sx={{ textTransform: 'uppercase', color: 'primary.main' }}>
+        <Typography
+          variant="h5"
+          mb={2}
+          sx={{ textTransform: 'uppercase', color: 'primary.main' }}
+        >
           {mountain?.id ? 'Edit Mountain' : 'Add New Mountain'}
         </Typography>
 
         <form onSubmit={handleSubmit}>
           <TextField
             fullWidth
-            label='Mountain Name'
+            label="Mountain Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            margin='dense'
+            margin="dense"
             required
           />
-          
+
           <TextField
             fullWidth
-            label='Elevation'
-            type='number'
+            label="Elevation"
+            type="number"
             value={totalElevation}
             onChange={(e) => setTotalElevation(e.target.value)}
-            margin='dense'
+            margin="dense"
             required
           />
-          
-          <FormControl fullWidth margin='dense'>
+
+          <FormControl fullWidth margin="dense">
             <InputLabel>Unit</InputLabel>
             <Select
               value={elevationUnit}
-              label='Unit'
+              label="Unit"
               onChange={(e) => setElevationUnit(e.target.value)}
               required
             >
-              <MenuItem value='FT'>Feet</MenuItem>
-              <MenuItem value='M'>Meters</MenuItem>
+              <MenuItem value="FT">Feet</MenuItem>
+              <MenuItem value="M">Meters</MenuItem>
             </Select>
           </FormControl>
-          
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, gap: 1 }}>
+
+          <Box
+            sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, gap: 1 }}
+          >
             <CancelButton onClick={onClose} />
-            <SaveButton type='submit' label={mountain?.id ? 'Update' : 'Add'} />
+            <SaveButton type="submit" label={mountain?.id ? 'Update' : 'Add'} />
           </Box>
         </form>
       </Box>

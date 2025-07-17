@@ -50,9 +50,7 @@ const EventSummaryTable = ({ events = [], loading }) => {
 
   return (
     <TableContainer component={Paper} sx={{ bgcolor: 'primary.main' }}>
-      <Box
-        sx={{ display: 'flex', alignItems: 'center', pt: '.5rem', pl: '1rem' }}
-      >
+      <Box sx={{ display: 'flex', alignItems: 'center', pt: '.5rem', pl: '1rem' }}>
         <AlarmIcon sx={{ color: 'secondary.main' }} />
         <Typography
           variant='h5'
@@ -95,11 +93,7 @@ const EventSummaryTable = ({ events = [], loading }) => {
           </TableRow>
         </TableHead>
         {loading ? (
-          <TableBody
-            sx={{
-              height: '12rem',
-            }}
-          >
+          <TableBody sx={{ height: '12rem' }}>
             <TableRow>
               <TableCell
                 colSpan={headerColumns.length + 1}

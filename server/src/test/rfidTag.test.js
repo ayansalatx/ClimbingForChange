@@ -11,7 +11,11 @@ import Event from '../models/event.js'
 import Team from '../models/team.js'
 import Participant from '../models/participant.js'
 import Lap from '../models/lap.js'
-import { closeDBConnection, connectToTestDB, loginAndGetToken } from './testHelper.js'
+import {
+  closeDBConnection,
+  connectToTestDB,
+  loginAndGetToken,
+} from './testHelper.js'
 
 const api = supertest(app)
 
@@ -43,9 +47,7 @@ beforeEach(async () => {
   await RFIDTag.insertMany(initialRFIDTags)
 })
 
-
 describe('RFID Tags API (/api/rfidtags)', () => {
-
   test('RFID tags are returned as json', async () => {
     await api
       .get('/api/rfidtags')
@@ -55,7 +57,9 @@ describe('RFID Tags API (/api/rfidtags)', () => {
   })
 
   test('all RFID tags are returned', async () => {
-    const response = await api.get('/api/rfidtags').set('Authorization', `bearer ${authToken}`)
+    const response = await api
+      .get('/api/rfidtags')
+      .set('Authorization', `bearer ${authToken}`)
     assert.strictEqual(response.body.length, initialRFIDTags.length)
   })
 
@@ -71,19 +75,23 @@ describe('RFID Tags API (/api/rfidtags)', () => {
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
-    const response = await api.get('/api/rfidtags').set('Authorization', `bearer ${authToken}`)
-    const allSerialNumbers = response.body.map(t => t.serialNumber)
+    const response = await api
+      .get('/api/rfidtags')
+      .set('Authorization', `bearer ${authToken}`)
+    const allSerialNumbers = response.body.map((t) => t.serialNumber)
 
     assert.strictEqual(response.body.length, initialRFIDTags.length + 1)
     assert(allSerialNumbers.includes('RFID999'))
   })
 
   test('an RFID tag can be updated', async () => {
-    const tagsAtStart = await api.get('/api/rfidtags').set('Authorization', `bearer ${authToken}`)
+    const tagsAtStart = await api
+      .get('/api/rfidtags')
+      .set('Authorization', `bearer ${authToken}`)
     const tagToUpdate = tagsAtStart.body[0]
 
     const payload = {
-      serialNumber: 'UPDATED-RFID-001'
+      serialNumber: 'UPDATED-RFID-001',
     }
 
     await api
@@ -92,13 +100,17 @@ describe('RFID Tags API (/api/rfidtags)', () => {
       .send(payload)
       .expect(200)
 
-    const res = await api.get(`/api/rfidtags/${tagToUpdate.id}`).set('Authorization', `bearer ${authToken}`)
+    const res = await api
+      .get(`/api/rfidtags/${tagToUpdate.id}`)
+      .set('Authorization', `bearer ${authToken}`)
 
     assert.strictEqual(res.body.serialNumber, 'UPDATED-RFID-001')
   })
 
   test('an RFID tag can be deleted', async () => {
-    const tagsAtStart = await api.get('/api/rfidtags').set('Authorization', `bearer ${authToken}`)
+    const tagsAtStart = await api
+      .get('/api/rfidtags')
+      .set('Authorization', `bearer ${authToken}`)
     const tagToDelete = tagsAtStart.body[0]
 
     await api
@@ -106,16 +118,15 @@ describe('RFID Tags API (/api/rfidtags)', () => {
       .set('Authorization', `bearer ${authToken}`)
       .expect(204)
 
-    const tagsAtEnd = await api.get('/api/rfidtags').set('Authorization', `bearer ${authToken}`)
-    const finalIds = tagsAtEnd.body.map(t => t.id)
+    const tagsAtEnd = await api
+      .get('/api/rfidtags')
+      .set('Authorization', `bearer ${authToken}`)
+    const finalIds = tagsAtEnd.body.map((t) => t.id)
 
     assert.strictEqual(tagsAtEnd.body.length, initialRFIDTags.length - 1)
     assert(!finalIds.includes(tagToDelete.id))
   })
-
-
 })
-
 
 after(async () => {
   await closeDBConnection()

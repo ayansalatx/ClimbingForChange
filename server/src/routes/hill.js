@@ -17,10 +17,13 @@ hillRoutes.post('/', validateHill, checkValidation, asyncHandler(saveOneHill))
 
 hillRoutes.get('/:id', asyncHandler(getHillById))
 
-hillRoutes.put('/:id', validateHill, checkValidation, asyncHandler(updateOneHill))
+hillRoutes.put(
+  '/:id',
+  validateHill,
+  checkValidation,
+  asyncHandler(updateOneHill)
+)
 
 hillRoutes.delete('/:id', asyncHandler(deleteOneHill))
-
-
 
 export default hillRoutes

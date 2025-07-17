@@ -36,7 +36,6 @@
 //   // }))
 // })
 
-
 // test('Participants are returned as json', async () => {
 //   await api
 //     .get('/api/participants')

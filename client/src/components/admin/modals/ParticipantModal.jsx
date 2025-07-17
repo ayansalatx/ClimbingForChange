@@ -61,7 +61,7 @@ const AddParticipantModal = ({
     <Modal open={open} onClose={onClose}>
       <Box sx={style}>
         <Typography
-          variant='h5'
+          variant="h5"
           mb={2}
           sx={{ textTransform: 'uppercase', color: 'primary.main' }}
         >
@@ -71,16 +71,16 @@ const AddParticipantModal = ({
         <form onSubmit={handleSubmit}>
           <TextInput
             fullWidth
-            label='First Name'
-            margin='normal'
+            label="First Name"
+            margin="normal"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
           />
           <TextInput
             fullWidth
-            label='Last Name'
-            margin='normal'
+            label="Last Name"
+            margin="normal"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
@@ -88,14 +88,14 @@ const AddParticipantModal = ({
           <TextField
             select
             fullWidth
-            label='Team'
-            variant='outlined'
-            margin='normal'
+            label="Team"
+            variant="outlined"
+            margin="normal"
             value={teamId}
             onChange={(e) => setTeamId(e.target.value)}
             required
           >
-            <MenuItem disabled value=''>
+            <MenuItem disabled value="">
               -- Select a team --
             </MenuItem>
             {teamNames
@@ -107,9 +107,12 @@ const AddParticipantModal = ({
               ))}
           </TextField>
 
-          <Box mt={3} display='flex' justifyContent='space-between' gap={2}>
+          <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
             <CancelButton onClick={onClose} />
-            <SaveButton type='submit' label={participantData ? 'Save' : 'Create'} />
+            <SaveButton
+              type="submit"
+              label={participantData ? 'Save' : 'Create'}
+            />
           </Box>
         </form>
       </Box>

@@ -42,7 +42,7 @@ const ParticipantManager = () => {
         const participantList = participantListRaw.map((p) => ({
           ...p,
           teamName: p.team?.name || '—',
-          eventId: p.team?.event || null, 
+          eventId: p.team?.event || null,
         }))
         setParticipants(participantList)
 
@@ -51,7 +51,6 @@ const ParticipantManager = () => {
 
         const eventsList = await getAllEvents()
         setEvents(eventsList)
-
 
         displayAlert(
           'Participants Loaded',
@@ -179,7 +178,7 @@ const ParticipantManager = () => {
       }}
     >
       <DataTable
-        tableTitle='Participants'
+        tableTitle="Participants"
         tableIcon={PersonIcon}
         tableColumns={fullColumns}
         tableData={filteredParticipants}
@@ -196,7 +195,9 @@ const ParticipantManager = () => {
         onClose={() => setPopupOpen(false)}
         onAdd={handleSave}
         participantData={selectedParticipant}
-        teamNames={teams.filter((team) => String(team.event) === String(selectedEvent))}
+        teamNames={teams.filter(
+          (team) => String(team.event) === String(selectedEvent)
+        )}
       />
       <ConfirmDeleteDialog
         open={deleteConfirmOpen}

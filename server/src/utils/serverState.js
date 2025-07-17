@@ -15,21 +15,29 @@ export const initializeServerState = async () => {
   try {
     const passingsResult = await Passing.deleteMany({})
     const lapsResult = await Lap.deleteMany({})
-    console.log(`[Startup] Deleted all passings. Deleted count: ${passingsResult.deletedCount}`)
-    console.log(`[Startup] Deleted all laps. Deleted count: ${lapsResult.deletedCount}`)
+    console.log(
+      `[Startup] Deleted all passings. Deleted count: ${passingsResult.deletedCount}`
+    )
+    console.log(
+      `[Startup] Deleted all laps. Deleted count: ${lapsResult.deletedCount}`
+    )
   } catch (err) {
     console.error('[Startup] Failed to delete passings or laps:', err)
   }
 
   try {
     const teams = await Team.find({}).populate('rfidTag')
-    teams.forEach(team => {
+    teams.forEach((team) => {
       if (team.rfidTag) {
         bibToTeamMap.set(team.rfidTag.serialNumber, team._id)
-        console.log(`[Initialization] Mapped bib ${team.rfidTag.serialNumber} (type: ${typeof team.rfidTag.serialNumber}) to team ${team._id}`)
+        console.log(
+          `[Initialization] Mapped bib ${team.rfidTag.serialNumber} (type: ${typeof team.rfidTag.serialNumber}) to team ${team._id}`
+        )
       }
     })
-    console.log(`[Initialization] Bib-to-Team map created with ${bibToTeamMap.size} entries.`)
+    console.log(
+      `[Initialization] Bib-to-Team map created with ${bibToTeamMap.size} entries.`
+    )
 
     if (config.API_MODE === 'mock') {
       await initializeMockData()
@@ -37,9 +45,11 @@ export const initializeServerState = async () => {
 
     console.log('Initialization complete. Starting continuous data polling...')
     setInterval(pollForNewData, 2000) // Poll every 5 seconds
-
   } catch (error) {
-    console.error('FATAL: Could not initialize server state. Polling will not start.', error)
+    console.error(
+      'FATAL: Could not initialize server state. Polling will not start.',
+      error
+    )
     process.exit(1)
   }
 }
@@ -49,32 +59,38 @@ export async function pollForNewData() {
   if (process.env.NODE_ENV === 'test') {
     return
   }
-  
+
   if (isPolling) {
     console.log('[Polling] Skipping poll - already processing data')
     return
   }
   isPolling = true
-  
+
   try {
     if (process.env.API_MODE === 'mock') {
-      console.log(`[Polling] Fetching passings from index ${lastReceivedIndex}...`)
-      
+      console.log(
+        `[Polling] Fetching passings from index ${lastReceivedIndex}...`
+      )
+
       // Check if we have a valid port configuration
       if (!config.PORT) {
         console.warn('[Polling] PORT is undefined, skipping HTTP polling.')
         return
       }
-      
+
       const mockApiUrl = `http://localhost:${config.PORT}/mock-api/getpassings?fromIndex=${lastReceivedIndex}`
       const response = await fetch(mockApiUrl)
       const data = await response.json()
-  
+
       if (data.passings && data.passings.length > 0) {
-        console.log(`[Polling] Received ${data.passings.length} new passings. Processing...`)
+        console.log(
+          `[Polling] Received ${data.passings.length} new passings. Processing...`
+        )
         await processNewPassings(data.passings)
       } else {
-        console.log(`[Polling] No new passings available (lastIndex: ${data.lastIndex})`)
+        console.log(
+          `[Polling] No new passings available (lastIndex: ${data.lastIndex})`
+        )
       }
       lastReceivedIndex = data.lastIndex
     }

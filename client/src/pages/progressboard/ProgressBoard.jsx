@@ -80,7 +80,7 @@ const ProgressBoard = () => {
 
   // const [leaderboard, setLeaderboard] = useState([])
   //  for use in later refactoring
-  const [, setLeaderboard] = useState([]) // Obey lint rules for now 
+  const [, setLeaderboard] = useState([]) // Obey lint rules for now
 
   const showWarning = () => {
     setWarningOpen(true)

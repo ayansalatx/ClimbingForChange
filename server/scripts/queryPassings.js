@@ -10,10 +10,10 @@ const queryPassings = async () => {
 
     // Get all passings with team information
     const passings = await Passing.find({}).populate('team', 'name')
-    
+
     console.log('\n=== DATABASE QUERY RESULTS ===')
     console.log(`Total passings in database: ${passings.length}`)
-    
+
     if (passings.length === 0) {
       console.log('No passings found in database.')
       return
@@ -21,7 +21,7 @@ const queryPassings = async () => {
 
     // Group passings by team
     const passingsByTeam = {}
-    passings.forEach(passing => {
+    passings.forEach((passing) => {
       const teamName = passing.team?.name || 'Unknown Team'
       if (!passingsByTeam[teamName]) {
         passingsByTeam[teamName] = []
@@ -32,18 +32,21 @@ const queryPassings = async () => {
     console.log('\n=== PASSINGS BY TEAM ===')
     Object.entries(passingsByTeam).forEach(([teamName, teamPassings]) => {
       console.log(`\n${teamName}: ${teamPassings.length} passings`)
-      teamPassings.forEach(passing => {
-        console.log(`  - Bib: ${passing.Code}, LoopID: ${passing.LoopID}, PassingNo: ${passing.PassingNo}, Time: ${passing.RealTime.toISOString()}`)
+      teamPassings.forEach((passing) => {
+        console.log(
+          `  - Bib: ${passing.Code}, LoopID: ${passing.LoopID}, PassingNo: ${passing.PassingNo}, Time: ${passing.RealTime.toISOString()}`
+        )
       })
     })
 
     // Get all teams
     const teams = await Team.find({}).populate('rfidTag', 'serialNumber')
     console.log('\n=== ALL TEAMS ===')
-    teams.forEach(team => {
-      console.log(`- ${team.name} (RFID: ${team.rfidTag?.serialNumber || 'None'})`)
+    teams.forEach((team) => {
+      console.log(
+        `- ${team.name} (RFID: ${team.rfidTag?.serialNumber || 'None'})`
+      )
     })
-
   } catch (error) {
     console.error('Error querying database:', error)
   } finally {
@@ -51,4 +54,4 @@ const queryPassings = async () => {
   }
 }
 
-queryPassings() 
+queryPassings()
