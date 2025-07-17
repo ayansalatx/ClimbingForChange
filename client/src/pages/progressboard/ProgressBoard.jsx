@@ -127,8 +127,7 @@ const ProgressBoard = () => {
       try {
         const leaderboard = await getLeaderboard(selectedEvent)
         setLeaderboard(leaderboard)
-      } catch (error){
-        console.log(error)
+      } catch {
         showWarning()
       }
     }
