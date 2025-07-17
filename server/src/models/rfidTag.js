@@ -12,7 +12,7 @@ const rfidTagSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 )
 
 rfidTagSchema.set('toJSON', {

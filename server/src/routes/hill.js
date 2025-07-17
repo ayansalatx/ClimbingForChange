@@ -21,7 +21,7 @@ hillRoutes.put(
   '/:id',
   validateHill,
   checkValidation,
-  asyncHandler(updateOneHill)
+  asyncHandler(updateOneHill),
 )
 
 hillRoutes.delete('/:id', asyncHandler(deleteOneHill))

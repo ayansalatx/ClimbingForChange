@@ -29,10 +29,12 @@ export const uploadCSV = async (request, response) => {
       rows = await csv().fromFile(filePath)
       try {
         fs.unlinkSync(filePath)
-      } catch (unlinkError) {
+      }
+      catch (unlinkError) {
         console.warn('⚠️ Failed to delete CSV file:', unlinkError.message)
       }
-    } catch {
+    }
+    catch {
       return response.status(400).json({ error: 'Invalid CSV format' })
     }
 
@@ -58,20 +60,21 @@ export const uploadCSV = async (request, response) => {
       const team = existingTeam
         ? existingTeam
         : await Team.create({
-          event: eventid,
-          mountain: mountain._id,
-          hill: hill._id,
-          name: teamName ? teamName : `${firstName} ${lastName}`,
-          isSoloTeam: teamName ? false : true,
-          isIncomplete: true,
-        })
+            event: eventid,
+            mountain: mountain._id,
+            hill: hill._id,
+            name: teamName ? teamName : `${firstName} ${lastName}`,
+            isSoloTeam: teamName ? false : true,
+            isIncomplete: true,
+          })
       await Participant.create({
         team: team._id,
         firstName: firstName,
         lastName: lastName,
       })
     }
-  } else {
+  }
+  else {
     console.log('NOT overwriting')
   }
 

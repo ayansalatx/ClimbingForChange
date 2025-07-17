@@ -23,7 +23,8 @@ export const tokenExtractor = (req, res, next) => {
 
     req.token = providedToken
     next()
-  } else {
+  }
+  else {
     res.status(401).json({ error: 'token missing or invalid' })
   }
 }

@@ -41,7 +41,7 @@ const eventSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 )
 
 eventSchema.virtual('teams', {

@@ -66,7 +66,7 @@ beforeEach(async () => {
   }).save()
   aLocationId = location.id
 
-  const hillsToCreate = initialHillsData.map((h) => ({
+  const hillsToCreate = initialHillsData.map(h => ({
     ...h,
     location: aLocationId,
   }))
@@ -107,7 +107,7 @@ describe('Hills API (/api/hills)', () => {
     const response = await api
       .get('/api/hills')
       .set('Authorization', `bearer ${authToken}`)
-    const hillNames = response.body.map((h) => h.name)
+    const hillNames = response.body.map(h => h.name)
 
     assert.strictEqual(response.body.length, initialHillsData.length + 1)
     assert(hillNames.includes('The Grinder'))

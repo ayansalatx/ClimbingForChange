@@ -56,7 +56,7 @@ export const updateOneRFIDTag = async (request, response) => {
     },
     {
       new: true,
-    }
+    },
   )
 
   response.status(200).json(updated)

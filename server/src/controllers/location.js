@@ -63,7 +63,7 @@ export const updateOneLocation = async (request, response) => {
     {
       new: true,
       runValidators: true,
-    }
+    },
   )
 
   response.status(200).json(updated)

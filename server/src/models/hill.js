@@ -37,7 +37,7 @@ const hillSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 )
 
 hillSchema.set('toJSON', {

@@ -21,7 +21,7 @@ teamsRoutes.put(
   '/:id',
   validateTeam,
   checkValidation,
-  asyncHandler(updateOneTeam)
+  asyncHandler(updateOneTeam),
 )
 
 teamsRoutes.delete('/:id', asyncHandler(deleteOneTeam))

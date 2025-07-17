@@ -23,7 +23,7 @@ participantRoutes.post(
   '/',
   validateParticipant,
   checkValidation,
-  asyncHandler(saveOneParticipant)
+  asyncHandler(saveOneParticipant),
 )
 
 participantRoutes.put('/:id', asyncHandler(updateOneParticipant))

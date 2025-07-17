@@ -78,7 +78,7 @@ describe('RFID Tags API (/api/rfidtags)', () => {
     const response = await api
       .get('/api/rfidtags')
       .set('Authorization', `bearer ${authToken}`)
-    const allSerialNumbers = response.body.map((t) => t.serialNumber)
+    const allSerialNumbers = response.body.map(t => t.serialNumber)
 
     assert.strictEqual(response.body.length, initialRFIDTags.length + 1)
     assert(allSerialNumbers.includes('RFID999'))
@@ -121,7 +121,7 @@ describe('RFID Tags API (/api/rfidtags)', () => {
     const tagsAtEnd = await api
       .get('/api/rfidtags')
       .set('Authorization', `bearer ${authToken}`)
-    const finalIds = tagsAtEnd.body.map((t) => t.id)
+    const finalIds = tagsAtEnd.body.map(t => t.id)
 
     assert.strictEqual(tagsAtEnd.body.length, initialRFIDTags.length - 1)
     assert(!finalIds.includes(tagToDelete.id))

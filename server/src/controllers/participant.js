@@ -84,7 +84,8 @@ export const updateOneParticipant = async (request, response) => {
   // Attach the team id to this participant to assign them to that team.
   if (existingTeam) {
     participantObjectToUpdate.teamId = existingTeam.id
-  } else {
+  }
+  else {
     // Remove them from that team as it doesn't exist anymore
     delete participantObjectToUpdate.teamId
   }
@@ -101,7 +102,7 @@ export const updateOneParticipant = async (request, response) => {
     },
     {
       new: true,
-    }
+    },
   )
 
   response.status(201).json(updated)

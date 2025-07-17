@@ -94,7 +94,7 @@ describe('Locations API (/api/locations)', () => {
     const response = await api
       .get('/api/locations')
       .set('Authorization', `bearer ${authToken}`)
-    const allLocationNames = response.body.map((l) => l.name)
+    const allLocationNames = response.body.map(l => l.name)
 
     assert.strictEqual(response.body.length, initialLocations.length + 1)
     assert(allLocationNames.includes('Whistler Summit'))
@@ -144,10 +144,10 @@ describe('Locations API (/api/locations)', () => {
       .set('Authorization', `bearer ${authToken}`)
     assert.strictEqual(allLocationsAtEnd.body.length, initialCount - 1)
 
-    const locationIds = allLocationsAtEnd.body.map((l) => l.id)
+    const locationIds = allLocationsAtEnd.body.map(l => l.id)
     assert(
       !locationIds.includes(locationToDelete.id),
-      'Deleted location ID should not exist'
+      'Deleted location ID should not exist',
     )
   })
 })

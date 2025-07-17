@@ -22,7 +22,7 @@ const mountainSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 )
 
 mountainSchema.set('toJSON', {

@@ -1,8 +1,8 @@
 import { config as loadEnv } from 'dotenv'
 import path from 'path'
 
-const envFileToLoad =
-  process.env.NODE_ENV === 'development'
+const envFileToLoad
+  = process.env.NODE_ENV === 'development'
     ? '.env.production.local'
     : '.env.test.local'
 

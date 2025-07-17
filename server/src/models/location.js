@@ -36,7 +36,7 @@ const locationSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 )
 
 locationSchema.set('toJSON', {

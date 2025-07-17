@@ -17,7 +17,7 @@ mountainRoutes.post(
   '/',
   validateMountain,
   checkValidation,
-  asyncHandler(saveOneMountain)
+  asyncHandler(saveOneMountain),
 )
 
 mountainRoutes.get('/:id', asyncHandler(getMountainById))
@@ -26,7 +26,7 @@ mountainRoutes.put(
   '/:id',
   validateMountain,
   checkValidation,
-  asyncHandler(updateOneMountain)
+  asyncHandler(updateOneMountain),
 )
 
 mountainRoutes.delete('/:id', asyncHandler(deleteOneMountain))

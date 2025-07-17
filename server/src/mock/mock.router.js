@@ -21,10 +21,11 @@ const loadCsv = async (filePath) => {
   try {
     const jsonArray = await csv().fromFile(filePath)
     console.log(
-      `[Mock] Loaded ${jsonArray.length} rows from ${path.basename(filePath)}`
+      `[Mock] Loaded ${jsonArray.length} rows from ${path.basename(filePath)}`,
     )
     return jsonArray
-  } catch (error) {
+  }
+  catch (error) {
     console.error(`[Mock] Error loading CSV from ${filePath}:`, error)
     throw error
   }
@@ -32,7 +33,7 @@ const loadCsv = async (filePath) => {
 
 const generateFullPassingHistory = async (
   participantsData,
-  overallResultsData
+  overallResultsData,
 ) => {
   const passings = []
   const simulatedEventStartTime = new Date()
@@ -69,7 +70,7 @@ const generateFullPassingHistory = async (
       const mountainName = team.mountain.name || 'Unknown'
       mountainLapCounts.set(
         mountainName,
-        (mountainLapCounts.get(mountainName) || 0) + 1
+        (mountainLapCounts.get(mountainName) || 0) + 1,
       )
     }
 
@@ -90,10 +91,11 @@ const generateFullPassingHistory = async (
     const chipTimeParts = chipTimeStr.split(':').map(Number)
     let totalChipTimeMs
     if (chipTimeParts.length === 3) {
-      totalChipTimeMs =
-        (chipTimeParts[0] * 3600 + chipTimeParts[1] * 60 + chipTimeParts[2]) *
-        1000
-    } else {
+      totalChipTimeMs
+        = (chipTimeParts[0] * 3600 + chipTimeParts[1] * 60 + chipTimeParts[2])
+          * 1000
+    }
+    else {
       // Handles MM:SS format
       totalChipTimeMs = (chipTimeParts[0] * 60 + chipTimeParts[1]) * 1000
     }
@@ -114,7 +116,7 @@ const generateFullPassingHistory = async (
 
       cumulativeTimeMs += currentLapTimeMs
       const lapPassingTime = new Date(
-        simulatedStartTime.getTime() + cumulativeTimeMs
+        simulatedStartTime.getTime() + cumulativeTimeMs,
       )
 
       passings.push({
@@ -131,14 +133,14 @@ const generateFullPassingHistory = async (
   // Log mountain lap requirement summary
   console.log('[Mock] Mountain lap requirements:')
   for (const [mountain, count] of mountainLapCounts) {
-    const team = teams.find((t) => t.mountain?.name === mountain)
+    const team = teams.find(t => t.mountain?.name === mountain)
     const lapsRequired = team ? team.lapsRequired : 'Unknown'
     console.log(`  - ${mountain}: ${count} teams, ${lapsRequired} laps each`)
   }
 
   passings.sort((a, b) => new Date(a.RealTime) - new Date(b.RealTime))
   console.log(
-    `[Mock] Generated ${passings.length} simulated passings for ${bibToTeamMap.size} teams`
+    `[Mock] Generated ${passings.length} simulated passings for ${bibToTeamMap.size} teams`,
   )
   return passings
 }
@@ -147,49 +149,50 @@ const initializeMockData = async () => {
   try {
     console.log('[Mock] Starting mock data initialization...')
     const participants = await loadCsv(
-      path.join(__dirname, 'data', 'Sample_Participant_list.csv')
+      path.join(__dirname, 'data', 'Sample_Participant_list.csv'),
     )
     const overallResults = await loadCsv(
-      path.join(__dirname, 'data', 'Sample_results.csv')
+      path.join(__dirname, 'data', 'Sample_results.csv'),
     )
 
     console.log(
-      '[Mock] CSV files loaded successfully. Generating passing history...'
+      '[Mock] CSV files loaded successfully. Generating passing history...',
     )
     allSimulatedPassings = await generateFullPassingHistory(
       participants,
-      overallResults
+      overallResults,
     )
 
     console.log(
-      `[Mock] Setting up simulation timer. Total passings: ${allSimulatedPassings.length}`
+      `[Mock] Setting up simulation timer. Total passings: ${allSimulatedPassings.length}`,
     )
     setInterval(() => {
       if (nextPassingIndex < allSimulatedPassings.length) {
         const passingsToRelease = Math.floor(Math.random() * 5) + 3
         nextPassingIndex = Math.min(
           nextPassingIndex + passingsToRelease,
-          allSimulatedPassings.length
+          allSimulatedPassings.length,
         )
 
         // Only log every 10 releases or when reaching milestones
         if (
-          nextPassingIndex % 50 === 0 ||
-          nextPassingIndex === allSimulatedPassings.length
+          nextPassingIndex % 50 === 0
+          || nextPassingIndex === allSimulatedPassings.length
         ) {
           const progress = (
-            (nextPassingIndex / allSimulatedPassings.length) *
-            100
+            (nextPassingIndex / allSimulatedPassings.length)
+            * 100
           ).toFixed(1)
           console.log(
-            `[Mock] Progress: ${progress}% (${nextPassingIndex}/${allSimulatedPassings.length} passings released)`
+            `[Mock] Progress: ${progress}% (${nextPassingIndex}/${allSimulatedPassings.length} passings released)`,
           )
         }
       }
     }, 2000)
 
     console.log('[Mock] Data loaded and simulation timer started.')
-  } catch (error) {
+  }
+  catch (error) {
     console.error('[Mock] Fatal error loading mock data:', error)
   }
 }

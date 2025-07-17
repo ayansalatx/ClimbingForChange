@@ -56,7 +56,7 @@ const teamSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 )
 
 teamSchema.virtual('participants', {

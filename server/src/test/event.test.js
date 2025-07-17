@@ -110,20 +110,20 @@ beforeEach(async () => {
   const createdMountains = await Mountain.insertMany(initialMountains)
 
   const hillsToCreate = initialHills.map((hill) => {
-    const location = createdLocations.find((l) => l.name === hill.locationName)
+    const location = createdLocations.find(l => l.name === hill.locationName)
     return { ...hill, location: location._id }
   })
   const createdHills = await Hill.insertMany(hillsToCreate)
 
   const eventPromises = initialEvents.map((eventData) => {
     const location = createdLocations.find(
-      (l) => l.name === eventData.locationName
+      l => l.name === eventData.locationName,
     )
-    const hills = createdHills.filter((h) =>
-      eventData.availableHillNames.includes(h.name)
+    const hills = createdHills.filter(h =>
+      eventData.availableHillNames.includes(h.name),
     )
-    const mountains = createdMountains.filter((m) =>
-      eventData.availableMountainNames.includes(m.name)
+    const mountains = createdMountains.filter(m =>
+      eventData.availableMountainNames.includes(m.name),
     )
 
     const newEvent = new Event({
@@ -131,8 +131,8 @@ beforeEach(async () => {
       location: location._id,
       startDateTime: eventData.startDateTime,
       endDateTime: eventData.endDateTime,
-      availableHills: hills.map((h) => h._id),
-      availableMountains: mountains.map((m) => m._id),
+      availableHills: hills.map(h => h._id),
+      availableMountains: mountains.map(m => m._id),
       active: eventData.active,
     })
 
@@ -143,9 +143,9 @@ beforeEach(async () => {
 
   aLocationId = createdLocations[0]._id.toString()
   someHillIds = createdHills
-    .filter((h) => h.location.equals(aLocationId))
-    .map((h) => h._id.toString())
-  someMountainIds = createdMountains.map((m) => m._id.toString())
+    .filter(h => h.location.equals(aLocationId))
+    .map(h => h._id.toString())
+  someMountainIds = createdMountains.map(m => m._id.toString())
 })
 
 describe('Event API', () => {
@@ -185,12 +185,12 @@ describe('Event API', () => {
     const response = await api
       .get('/api/events')
       .set('Authorization', `bearer ${authToken}`)
-    const allEventNames = response.body.map((e) => e.name)
+    const allEventNames = response.body.map(e => e.name)
 
     assert.strictEqual(response.body.length, initialEvents.length + 1)
     assert(
       allEventNames.includes('New Test Event'),
-      'The new event name should be in the list'
+      'The new event name should be in the list',
     )
   })
 
@@ -226,7 +226,7 @@ describe('Event API', () => {
     assert.strictEqual(updatedEventFromDB.active, false)
     assert.strictEqual(
       updatedEventFromDB.mountains.length,
-      someMountainIds.length
+      someMountainIds.length,
     )
   })
 
@@ -248,10 +248,10 @@ describe('Event API', () => {
     assert.strictEqual(allEventsAtEnd.body.length, initialCount - 1)
 
     // Verify that the specific event is no longer in the list
-    const eventIdsAtEnd = allEventsAtEnd.body.map((e) => e.id)
+    const eventIdsAtEnd = allEventsAtEnd.body.map(e => e.id)
     assert(
       !eventIdsAtEnd.includes(eventToDelete.id),
-      'The deleted event ID should not be found'
+      'The deleted event ID should not be found',
     )
   })
 })

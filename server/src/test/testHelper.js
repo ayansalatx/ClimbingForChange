@@ -66,7 +66,8 @@ export const connectToTestDB = async () => {
     connection = await mongoose.connect(config.MONGODB_URI)
     console.log('config.JWT_SECRET: ', config.JWT_SECRET)
     console.log('--- Test DB connection established. ---')
-  } catch (err) {
+  }
+  catch (err) {
     console.error('Failed to connect to test DB', err)
     process.exit(1)
   }

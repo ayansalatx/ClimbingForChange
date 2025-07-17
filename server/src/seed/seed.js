@@ -181,27 +181,27 @@ const seedDatabase = async () => {
     // 4. Seed Teams (depends on Event, Mountain, Hill, RFIDTag)
     console.log('Seeding Teams...')
     // All teams use the same hill (The Grinder) but have different lap requirements based on their mountain
-    const everestData = mountains.find((m) => m.name === 'Everest')
-    const denaliData = mountains.find((m) => m.name === 'Denali')
-    const rainierData = mountains.find((m) => m.name === 'Rainier')
-    const grinderHillData = hills.find((h) => h.name === 'The Grinder')
+    const everestData = mountains.find(m => m.name === 'Everest')
+    const denaliData = mountains.find(m => m.name === 'Denali')
+    const rainierData = mountains.find(m => m.name === 'Rainier')
+    const grinderHillData = hills.find(h => h.name === 'The Grinder')
 
     // Calculate laps required based on mountain elevation using the same hill
     const everestLaps = Math.ceil(
-      everestData.totalElevation / grinderHillData.lapElevationGain
+      everestData.totalElevation / grinderHillData.lapElevationGain,
     ) // ~134 laps
     const everestDistance = everestLaps * grinderHillData.lapDistance // ~100.5 km
     const denaliLaps = Math.ceil(
-      denaliData.totalElevation / grinderHillData.lapElevationGain
+      denaliData.totalElevation / grinderHillData.lapElevationGain,
     ) // ~94 laps
     const denaliDistance = denaliLaps * grinderHillData.lapDistance // ~70.5 km
     const rainierLaps = Math.ceil(
-      rainierData.totalElevation / grinderHillData.lapElevationGain
+      rainierData.totalElevation / grinderHillData.lapElevationGain,
     ) // ~121 laps
     const rainierDistance = rainierLaps * grinderHillData.lapDistance // ~90.75 km
 
     console.log(
-      `[Seed] Lap requirements: Everest=${everestLaps}, Denali=${denaliLaps}, Rainier=${rainierLaps} (all using ${grinderHillData.name})`
+      `[Seed] Lap requirements: Everest=${everestLaps}, Denali=${denaliLaps}, Rainier=${rainierLaps} (all using ${grinderHillData.name})`,
     )
 
     const teams = await Team.insertMany([
@@ -210,7 +210,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: everestData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '1')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '1')._id,
         name: 'Luke Williamson',
         isSoloTeam: true,
         lapsRequired: everestLaps,
@@ -221,7 +221,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: everestData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '2')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '2')._id,
         name: 'Stewart Wyllie',
         isSoloTeam: true,
         lapsRequired: everestLaps,
@@ -232,7 +232,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: everestData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '3')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '3')._id,
         name: 'Andrew McDaniel',
         isSoloTeam: true,
         lapsRequired: everestLaps,
@@ -243,7 +243,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: rainierData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '4')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '4')._id,
         name: 'Devon Chorney',
         isSoloTeam: true,
         lapsRequired: rainierLaps,
@@ -254,7 +254,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: everestData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '5')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '5')._id,
         name: 'Nelson Baetjer',
         isSoloTeam: true,
         lapsRequired: everestLaps,
@@ -265,7 +265,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: rainierData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '6')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '6')._id,
         name: 'Lauren Guillette',
         isSoloTeam: true,
         lapsRequired: rainierLaps,
@@ -276,7 +276,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: denaliData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '7')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '7')._id,
         name: 'Ryan Batty',
         isSoloTeam: true,
         lapsRequired: denaliLaps,
@@ -287,7 +287,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: denaliData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '8')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '8')._id,
         name: 'Nick Green',
         isSoloTeam: true,
         lapsRequired: denaliLaps,
@@ -298,7 +298,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: rainierData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '9')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '9')._id,
         name: 'Moe Barzagar',
         isSoloTeam: true,
         lapsRequired: rainierLaps,
@@ -309,7 +309,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: rainierData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '10')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '10')._id,
         name: 'Jeff Gerretsen',
         isSoloTeam: true,
         lapsRequired: rainierLaps,
@@ -320,7 +320,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: rainierData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '11')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '11')._id,
         name: 'Bennett Douglas',
         isSoloTeam: true,
         lapsRequired: rainierLaps,
@@ -331,7 +331,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: denaliData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '12')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '12')._id,
         name: 'Matt Aubin',
         isSoloTeam: true,
         lapsRequired: denaliLaps,
@@ -342,7 +342,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: denaliData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '13')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '13')._id,
         name: 'Jennifer Xu',
         isSoloTeam: true,
         lapsRequired: denaliLaps,
@@ -353,7 +353,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: everestData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '14')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '14')._id,
         name: 'Brittany Foy',
         isSoloTeam: true,
         lapsRequired: everestLaps,
@@ -364,7 +364,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: everestData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '15')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '15')._id,
         name: 'Adam Perry',
         isSoloTeam: true,
         lapsRequired: everestLaps,
@@ -375,7 +375,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: everestData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '16')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '16')._id,
         name: 'Justin Mazzolini',
         isSoloTeam: true,
         lapsRequired: everestLaps,
@@ -386,7 +386,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: everestData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '17')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '17')._id,
         name: 'Angela Mazzolini',
         isSoloTeam: true,
         lapsRequired: everestLaps,
@@ -397,7 +397,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: everestData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '18')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '18')._id,
         name: 'Erica Kirkman',
         isSoloTeam: true,
         lapsRequired: everestLaps,
@@ -408,7 +408,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: rainierData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '19')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '19')._id,
         name: 'Annamarie Lottering',
         isSoloTeam: true,
         lapsRequired: rainierLaps,
@@ -419,7 +419,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: rainierData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '20')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '20')._id,
         name: 'Barend Lottering',
         isSoloTeam: true,
         lapsRequired: rainierLaps,
@@ -430,7 +430,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: everestData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '21')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '21')._id,
         name: 'Sarah Saunders',
         isSoloTeam: true,
         lapsRequired: everestLaps,
@@ -442,7 +442,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: rainierData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '22')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '22')._id,
         name: 'Alberta SPCA',
         isSoloTeam: false,
         lapsRequired: rainierLaps,
@@ -453,7 +453,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: denaliData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '23')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '23')._id,
         name: 'BIMbros',
         isSoloTeam: false,
         lapsRequired: denaliLaps,
@@ -464,7 +464,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: everestData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '24')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '24')._id,
         name: 'Glenrose Human Ability',
         isSoloTeam: false,
         lapsRequired: everestLaps,
@@ -475,7 +475,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: rainierData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '25')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '25')._id,
         name: 'HIBCO Generals',
         isSoloTeam: false,
         lapsRequired: rainierLaps,
@@ -486,7 +486,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: denaliData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '26')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '26')._id,
         name: 'Hill Billies',
         isSoloTeam: false,
         lapsRequired: denaliLaps,
@@ -497,7 +497,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: denaliData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '27')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '27')._id,
         name: 'KEEN Team',
         isSoloTeam: false,
         lapsRequired: denaliLaps,
@@ -508,7 +508,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: denaliData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '28')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '28')._id,
         name: 'Like A Boss',
         isSoloTeam: false,
         lapsRequired: denaliLaps,
@@ -519,7 +519,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: rainierData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '29')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '29')._id,
         name: 'Rabbit Hill',
         isSoloTeam: false,
         lapsRequired: rainierLaps,
@@ -530,7 +530,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: rainierData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '30')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '30')._id,
         name: 'Springboks',
         isSoloTeam: false,
         lapsRequired: rainierLaps,
@@ -541,7 +541,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: everestData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '31')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '31')._id,
         name: 'STARS',
         isSoloTeam: false,
         lapsRequired: everestLaps,
@@ -552,7 +552,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: denaliData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '32')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '32')._id,
         name: 'Team Order',
         isSoloTeam: false,
         lapsRequired: denaliLaps,
@@ -563,7 +563,7 @@ const seedDatabase = async () => {
         event: events[0]._id,
         mountain: denaliData._id,
         hill: grinderHillData._id,
-        rfidTag: rfidTags.find((tag) => tag.serialNumber === '33')._id,
+        rfidTag: rfidTags.find(tag => tag.serialNumber === '33')._id,
         name: 'United Nations',
         isSoloTeam: false,
         lapsRequired: denaliLaps,
@@ -622,10 +622,12 @@ const seedDatabase = async () => {
     console.log('Seeded Laps successfully.')
 
     console.log('\n✅ ✅ ✅ Database seeding complete! ✅ ✅ ✅')
-  } catch (error) {
+  }
+  catch (error) {
     console.error('❌ Error seeding database:', error)
     process.exit(1)
-  } finally {
+  }
+  finally {
     // ------------------ CLOSE CONNECTION ------------------ //
     await mongoose.connection.close()
     console.log('MongoDB connection closed.')

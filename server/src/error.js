@@ -5,7 +5,7 @@ export const errorHandler = (error, _request, response, next) => {
   if (error instanceof Error) {
     console.log(
       'file errors/index.ts line 81 Error happened with message: ',
-      error
+      error,
     )
 
     return response.status(500).send({ error: error.message })

@@ -35,7 +35,7 @@ const lapSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 )
 
 lapSchema.set('toJSON', {

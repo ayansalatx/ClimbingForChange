@@ -122,11 +122,11 @@ const EventSummaryTable = ({ events = [], loading }) => {
                     cursor: event ? 'pointer' : 'default',
                     '&:hover': event
                       ? {
-                        backgroundColor: alpha(
-                          theme.palette.background.paper,
-                          0.2
-                        ),
-                      }
+                          backgroundColor: alpha(
+                            theme.palette.background.paper,
+                            0.2
+                          ),
+                        }
                       : {},
                     backgroundColor: bgColor,
                     color: textColor,

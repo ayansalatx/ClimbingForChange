@@ -73,7 +73,7 @@ export const updateOneMountain = async (request, response) => {
     },
     {
       new: true,
-    }
+    },
   )
 
   response.status(200).json(updated)

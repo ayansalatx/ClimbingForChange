@@ -79,7 +79,7 @@ describe('Mountains API (/api/mountains)', () => {
     const response = await api
       .get('/api/mountains')
       .set('Authorization', `bearer ${authToken}`)
-    const mountainNames = response.body.map((m) => m.name)
+    const mountainNames = response.body.map(m => m.name)
 
     assert.strictEqual(response.body.length, initialMountainsData.length + 1)
     assert(mountainNames.includes('Denali'))
@@ -120,7 +120,7 @@ describe('Mountains API (/api/mountains)', () => {
       .set('Authorization', `bearer ${authToken}`)
     assert.strictEqual(
       finalMountains.body.length,
-      initialMountainsData.length - 1
+      initialMountainsData.length - 1,
     )
   })
 })

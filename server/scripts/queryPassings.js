@@ -34,7 +34,7 @@ const queryPassings = async () => {
       console.log(`\n${teamName}: ${teamPassings.length} passings`)
       teamPassings.forEach((passing) => {
         console.log(
-          `  - Bib: ${passing.Code}, LoopID: ${passing.LoopID}, PassingNo: ${passing.PassingNo}, Time: ${passing.RealTime.toISOString()}`
+          `  - Bib: ${passing.Code}, LoopID: ${passing.LoopID}, PassingNo: ${passing.PassingNo}, Time: ${passing.RealTime.toISOString()}`,
         )
       })
     })
@@ -44,12 +44,14 @@ const queryPassings = async () => {
     console.log('\n=== ALL TEAMS ===')
     teams.forEach((team) => {
       console.log(
-        `- ${team.name} (RFID: ${team.rfidTag?.serialNumber || 'None'})`
+        `- ${team.name} (RFID: ${team.rfidTag?.serialNumber || 'None'})`,
       )
     })
-  } catch (error) {
+  }
+  catch (error) {
     console.error('Error querying database:', error)
-  } finally {
+  }
+  finally {
     process.exit(0)
   }
 }

@@ -127,7 +127,7 @@ describe('Teams API (/api/teams)', () => {
     // Test that the virtual 'participants' field is populated
     assert(
       Array.isArray(team.participants),
-      'Participants field should be an array'
+      'Participants field should be an array',
     )
     assert.strictEqual(team.participants.length, 1)
     assert.strictEqual(team.participants[0].firstName, 'Alex')
@@ -156,7 +156,7 @@ describe('Teams API (/api/teams)', () => {
     const response = await api
       .get('/api/teams')
       .set('Authorization', `bearer ${authToken}`)
-    const teamNames = response.body.map((t) => t.name)
+    const teamNames = response.body.map(t => t.name)
 
     assert.strictEqual(response.body.length, 2)
     assert(teamNames.includes('The Second Wave'))

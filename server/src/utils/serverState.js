@@ -16,12 +16,13 @@ export const initializeServerState = async () => {
     const passingsResult = await Passing.deleteMany({})
     const lapsResult = await Lap.deleteMany({})
     console.log(
-      `[Startup] Deleted all passings. Deleted count: ${passingsResult.deletedCount}`
+      `[Startup] Deleted all passings. Deleted count: ${passingsResult.deletedCount}`,
     )
     console.log(
-      `[Startup] Deleted all laps. Deleted count: ${lapsResult.deletedCount}`
+      `[Startup] Deleted all laps. Deleted count: ${lapsResult.deletedCount}`,
     )
-  } catch (err) {
+  }
+  catch (err) {
     console.error('[Startup] Failed to delete passings or laps:', err)
   }
 
@@ -31,12 +32,12 @@ export const initializeServerState = async () => {
       if (team.rfidTag) {
         bibToTeamMap.set(team.rfidTag.serialNumber, team._id)
         console.log(
-          `[Initialization] Mapped bib ${team.rfidTag.serialNumber} (type: ${typeof team.rfidTag.serialNumber}) to team ${team._id}`
+          `[Initialization] Mapped bib ${team.rfidTag.serialNumber} (type: ${typeof team.rfidTag.serialNumber}) to team ${team._id}`,
         )
       }
     })
     console.log(
-      `[Initialization] Bib-to-Team map created with ${bibToTeamMap.size} entries.`
+      `[Initialization] Bib-to-Team map created with ${bibToTeamMap.size} entries.`,
     )
 
     if (config.API_MODE === 'mock') {
@@ -45,10 +46,11 @@ export const initializeServerState = async () => {
 
     console.log('Initialization complete. Starting continuous data polling...')
     setInterval(pollForNewData, 2000) // Poll every 5 seconds
-  } catch (error) {
+  }
+  catch (error) {
     console.error(
       'FATAL: Could not initialize server state. Polling will not start.',
-      error
+      error,
     )
     process.exit(1)
   }
@@ -69,7 +71,7 @@ export async function pollForNewData() {
   try {
     if (process.env.API_MODE === 'mock') {
       console.log(
-        `[Polling] Fetching passings from index ${lastReceivedIndex}...`
+        `[Polling] Fetching passings from index ${lastReceivedIndex}...`,
       )
 
       // Check if we have a valid port configuration
@@ -84,19 +86,22 @@ export async function pollForNewData() {
 
       if (data.passings && data.passings.length > 0) {
         console.log(
-          `[Polling] Received ${data.passings.length} new passings. Processing...`
+          `[Polling] Received ${data.passings.length} new passings. Processing...`,
         )
         await processNewPassings(data.passings)
-      } else {
+      }
+      else {
         console.log(
-          `[Polling] No new passings available (lastIndex: ${data.lastIndex})`
+          `[Polling] No new passings available (lastIndex: ${data.lastIndex})`,
         )
       }
       lastReceivedIndex = data.lastIndex
     }
-  } catch (error) {
+  }
+  catch (error) {
     console.error('[Polling] Error during poll cycle:', error)
-  } finally {
+  }
+  finally {
     isPolling = false
   }
 }

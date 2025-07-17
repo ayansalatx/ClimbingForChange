@@ -72,7 +72,7 @@ const passingSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 )
 
 passingSchema.index({ Code: 1, LoopID: 1, PassingNo: 1 }, { unique: true })
