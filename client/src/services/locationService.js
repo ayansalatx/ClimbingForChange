@@ -1,9 +1,8 @@
-import { api } from './api'
+import { api, formatApiError } from './api'
 
 export const getAllLocations = async () => {
   const res = await api.get('/locations')
-  const data = res.data
-  return [...data].sort((a,b) => a.name.localeCompare(b.name))
+  return [...res.data].sort((a, b) => a.name.localeCompare(b.name))
 }
 
 export const getLocationById = async (id) => {
@@ -13,37 +12,28 @@ export const getLocationById = async (id) => {
 
 export const addNewLocation = async (data) => {
   try {
-    const response = await api.post('/locations', data)
-    if (response.status === 201 || response.status === 200) {
-      return response.data
-    }
-    throw new Error(`Unexpected response status: ${response.status}`)
+    const res = await api.post('/locations', data)
+    return res.data
   } catch (error) {
-    throw error
+    throw formatApiError(error, 'Failed to add location.')
   }
 }
 
 export const editLocation = async (id, data) => {
   try {
-    const response = await api.put(`/locations/${id}`, data)
-    if (response.status === 200) {
-      return response.data
-    }
-    throw new Error(`Unexpected response status: ${response.status}`)
+    const res = await api.put(`/locations/${id}`, data)
+    return res.data
   } catch (error) {
-    throw error
+    throw formatApiError(error, 'Failed to edit location.')
   }
 }
 
+//Deactivate location (Soft Delete)
 export const removeLocation = async (id) => {
   try {
-    const response = await api.put(`/locations/${id}`, { active: false })
-    if (response.status === 200) {
-      return true
-    }
-
-    throw new Error(`Unexpected response status: ${response.status}`)
+    await api.put(`/locations/${id}`, { active: false })
+    return true
   } catch (error) {
-    throw error
+    throw formatApiError(error, 'Failed to remove location.')
   }
 }
