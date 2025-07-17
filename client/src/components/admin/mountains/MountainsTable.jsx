@@ -31,7 +31,7 @@ const MountainsTable = ({
 
   if (error) {
     return (
-      <Typography color="error" sx={{ mb: 2, textAlign: 'center' }}>
+      <Typography color='error' sx={{ mb: 2, textAlign: 'center' }}>
         {error}
       </Typography>
     )

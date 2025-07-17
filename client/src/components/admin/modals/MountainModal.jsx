@@ -21,7 +21,6 @@ const MountainModal = ({ open, onClose, onSave, mountain }) => {
   const [name, setName] = useState('')
   const [totalElevation, setTotalElevation] = useState('')
   const [elevationUnit, setElevationUnit] = useState('FT')
-  const [imageURL, setImageURL] = useState('')
 
   useEffect(() => {
     if (open && mountain) {
@@ -29,13 +28,11 @@ const MountainModal = ({ open, onClose, onSave, mountain }) => {
       setName(mountain.name || '')
       setTotalElevation(mountain.totalElevation?.toString() || '0')
       setElevationUnit(mountain.elevationUnit || 'FT')
-      setImageURL(mountain.imageURL || '')
     } else if (!open) {
       // Reset form when closing
       setName('')
       setTotalElevation('0')
       setElevationUnit('FT')
-      setImageURL('')
     }
   }, [open, mountain])
 
@@ -47,7 +44,6 @@ const MountainModal = ({ open, onClose, onSave, mountain }) => {
       name: name.trim(),
       totalElevation: parseFloat(totalElevation) || 0,
       elevationUnit,
-      imageURL: imageURL || '',
       active: true,
     }
     
@@ -58,54 +54,46 @@ const MountainModal = ({ open, onClose, onSave, mountain }) => {
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={style}>
-        <Typography variant="h5" mb={2} sx={{ textTransform: 'uppercase', color: 'primary.main' }}>
+        <Typography variant='h5' mb={2} sx={{ textTransform: 'uppercase', color: 'primary.main' }}>
           {mountain?.id ? 'Edit Mountain' : 'Add New Mountain'}
         </Typography>
 
         <form onSubmit={handleSubmit}>
           <TextField
             fullWidth
-            label="Mountain Name"
+            label='Mountain Name'
             value={name}
             onChange={(e) => setName(e.target.value)}
-            margin="dense"
+            margin='dense'
             required
           />
           
           <TextField
             fullWidth
-            label="Elevation"
-            type="number"
+            label='Elevation'
+            type='number'
             value={totalElevation}
             onChange={(e) => setTotalElevation(e.target.value)}
-            margin="dense"
+            margin='dense'
             required
           />
           
-          <FormControl fullWidth margin="dense">
+          <FormControl fullWidth margin='dense'>
             <InputLabel>Unit</InputLabel>
             <Select
               value={elevationUnit}
-              label="Unit"
+              label='Unit'
               onChange={(e) => setElevationUnit(e.target.value)}
               required
             >
-              <MenuItem value="FT">Feet</MenuItem>
-              <MenuItem value="M">Meters</MenuItem>
+              <MenuItem value='FT'>Feet</MenuItem>
+              <MenuItem value='M'>Meters</MenuItem>
             </Select>
           </FormControl>
           
-          <TextField
-            fullWidth
-            label="Image URL (Optional)"
-            value={imageURL}
-            onChange={(e) => setImageURL(e.target.value)}
-            margin="dense"
-          />
-          
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, gap: 1 }}>
             <CancelButton onClick={onClose} />
-            <SaveButton type="submit" label={mountain?.id ? 'Update' : 'Add'} />
+            <SaveButton type='submit' label={mountain?.id ? 'Update' : 'Add'} />
           </Box>
         </form>
       </Box>

@@ -148,7 +148,7 @@ const RFIDManager = () => {
     >
 
       <DataTable
-        tableTitle="RFID Tags"
+        tableTitle='RFID Tags'
         tableIcon={RfidIcon}
         tableColumns={tableColumns}
         tableData={rfidData}
