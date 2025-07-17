@@ -1,4 +1,4 @@
-import { api } from './api'
+import { api, formatApiError } from './api'
 
 export const getAllEvents = async () => {
   const res = await api.get('/events')
@@ -142,7 +142,7 @@ export const addEvent = async (data) => {
     const response = await api.post('/events', data)
     return response
   } catch (error) {
-    throw error
+    throw formatApiError(error, 'Failed to create event.')
   }
 }
 
@@ -155,7 +155,7 @@ export const editEvent = async (id, data) => {
       throw new Error(`Unexpected response status: ${response.status}`)
     }
   } catch (error) {
-    throw error
+    throw formatApiError(error, 'Failed to edit event.')
   }
 }
 
@@ -164,7 +164,7 @@ export const deleteEvent = async (id) => {
     await api.delete(`/events/${id}`)
     return true
   } catch (error) {
-    throw error
+    throw formatApiError(error, 'Failed to delete event.')
   }
 }
 
