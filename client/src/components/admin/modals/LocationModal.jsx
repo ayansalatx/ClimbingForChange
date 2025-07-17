@@ -56,6 +56,16 @@ const LocationModal = ({ open, onClose, onSave, locationData }) => {
     onSave(newLocationData)
   }
 
+  const handleLettersOnlyChange = (setter) => (e) => {
+    const lettersOnly = e.target.value.replace(/[^a-zA-Z\s]/g, '')
+    setter(lettersOnly)
+  }
+
+  const handleProvStateChange = (e) => {
+    const lettersOnly = e.target.value.replace(/[^a-zA-Z]/g, '').toUpperCase().slice(0, 2)
+    setProvState(lettersOnly)
+  }
+
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={style}>
@@ -83,19 +93,19 @@ const LocationModal = ({ open, onClose, onSave, locationData }) => {
           <TextInput
             label={'City'}
             value={city}
-            onChange={(e) => setCity(e.target.value)}
+            onChange={handleLettersOnlyChange(setCity)}
             required={true}
           />
           <TextInput
             label={'Province/State'}
             value={provState}
-            onChange={(e) => setProvState(e.target.value)}
+            onChange={handleProvStateChange}
             required={true}
           />
           <TextInput
             label={'Country'}
             value={country}
-            onChange={(e) => setCountry(e.target.value)}
+            onChange={handleLettersOnlyChange(setCountry)}
             required={true}
           />
           <Box mt={3} display='flex' justifyContent='space-between' gap={2}>

@@ -15,7 +15,7 @@ import {
 import { getAllLocations } from '../../../services/locationService.js'
 
 const fullColumns = [
-  { id: 'name', label: 'Hill Name', width: '30%', align: 'left' },
+  { id: 'name', label: 'Hill Name', width: '50%', align: 'left' },
   { id: 'lapDistance', label: 'Lap Distance', width: '15%', align: 'center' },
   { id: 'distanceUnit', label: 'Distance Unit', width: '10%', align: 'center' },
   { id: 'lapElevationGain', label: 'Elevation Gain', width: '15%', align: 'center' },

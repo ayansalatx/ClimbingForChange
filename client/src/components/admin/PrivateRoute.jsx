@@ -1,9 +1,11 @@
 import { Navigate } from 'react-router-dom'
 
-const PrivateRoute = ({ children }) => {
-  const token = localStorage.getItem('token')
+import { useAuth } from '../../hooks/useAuth'
 
-  return token ? children : <Navigate to='/login' replace />
+const PrivateRoute = ({ children }) => {
+  const { isAuthenticated } = useAuth()
+  
+  return isAuthenticated ? children : <Navigate to="/login" replace />
 }
 
 export default PrivateRoute
