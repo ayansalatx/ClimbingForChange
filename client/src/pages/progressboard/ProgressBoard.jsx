@@ -90,7 +90,7 @@ const ProgressBoard = () => {
       try {
         const eventList = await getAllEvents()
         setEvents(eventList)
-      } catch (e) {
+      } catch {
         showWarning()
       }
     }
@@ -125,7 +125,7 @@ const ProgressBoard = () => {
       try {
         const leaderboard = await getLeaderboard(selectedEvent)
         setLeaderboard(leaderboard)
-      } catch (error) {
+      } catch {
         showWarning()
       }
     }
@@ -147,7 +147,7 @@ const ProgressBoard = () => {
 
         setTeamsLength(teamsForEvent.length)
         setTeams(teamsForEvent)
-      } catch (e) {
+      } catch {
         showWarning()
       } finally {
         setLoading(false)
