@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import C4CHorizontalBlueLogo from '../../assets/C4C-branding/Climbing-For-Change-Horizontal_Green.png'
+import WarningDialog from '../../components/admin/modals/WarningDialog'
 import ProgressList from '../../components/progressboard/cards/ProgressCardList'
 import ProgressTable from '../../components/progressboard/tables/regular/ProgressTable'
 import { getAllEvents, getDisplayEventTeams } from '../../services/eventService'
 import { getLeaderboard } from '../../services/leaderboard'
 import theme from '../../styles/theme'
-import WarningDialog from '../../components/admin/modals/WarningDialog'
 
 // Define columns for full width screen
 const lgColumns = [
@@ -65,7 +65,7 @@ const ProgressBoard = () => {
 
   // State for teams
   const [warningOpen, setWarningOpen] = useState(false)
-    const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true)
 
   const [teams, setTeams] = useState([])
   const [teamsLength, setTeamsLength] = useState()
@@ -79,7 +79,6 @@ const ProgressBoard = () => {
   const [filteredTeams, setFilteredTeams] = useState([])
 
   const [leaderboard, setLeaderboard] = useState([])
-  console.log('🚀 ~ ProgressBoard ~ leaderboard:', leaderboard)
 
   const showWarning = () => {
     setWarningOpen(true)
