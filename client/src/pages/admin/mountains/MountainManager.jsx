@@ -58,7 +58,6 @@ const MountainManager = () => {
           name: mountain.name || 'Unnamed Mountain',
           totalElevation: mountain.totalElevation?.toString() || '0',
           elevationUnit: mountain.elevationUnit || 'FT',
-          imageURL: mountain.imageURL || '',
           active: mountain.active !== undefined ? mountain.active : true,
           ...mountain, // Spread the rest of the properties
         }
@@ -89,7 +88,6 @@ const MountainManager = () => {
             name: mountain.name || 'Unnamed Mountain',
             totalElevation: mountain.totalElevation?.toString() || '0',
             elevationUnit: mountain.elevationUnit || 'FT',
-            imageURL: mountain.imageURL || '',
             active: mountain.active !== undefined ? mountain.active : true,
             ...mountain, // Spread the rest of the properties
           }
@@ -120,7 +118,6 @@ const MountainManager = () => {
       name: '',
       totalElevation: '0',
       elevationUnit: 'FT',
-      imageURL: '',
       active: true,
     })
     setPopupOpen(true)
@@ -132,7 +129,6 @@ const MountainManager = () => {
       name: mountain.name || '',
       totalElevation: mountain.totalElevation?.toString() || '0',
       elevationUnit: mountain.elevationUnit || 'FT',
-      imageURL: mountain.imageURL || '',
       active: mountain.active !== undefined ? mountain.active : true,
     })
     setPopupOpen(true)
