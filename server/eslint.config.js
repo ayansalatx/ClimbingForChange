@@ -13,8 +13,7 @@ const stylisticRules = stylistic.configs.customize({
 export default [
   globalIgnores(['public/**']),
 
-  js.configs.recommended, 
-
+  js.configs.recommended,
   {
     files: ['**/*.js'],
     languageOptions: {
