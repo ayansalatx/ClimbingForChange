@@ -51,3 +51,8 @@ api.interceptors.response.use(
     return Promise.reject(new Error(errorMessage))
   }
 )
+
+function formatApiError(error, fallbackMsg) {
+  const message = error.response?.data?.message || error.message || fallbackMsg
+  return new Error(message)
+}
