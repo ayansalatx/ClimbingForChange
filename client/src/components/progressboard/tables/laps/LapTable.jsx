@@ -15,6 +15,7 @@ import { alpha } from '@mui/material/styles'
 import React from 'react'
 
 import theme from '../../../../styles/theme'
+import ExitButton from './ExitButton'
 import LapDataRows from './LapDataRows'
 import LapHeaderRow from './LapHeaderRow'
 
@@ -75,8 +76,8 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
           >
             <FlagIcon
               sx={{
-                color: 'secondary.main',
-                fontSize: { md: '1.2rem', lg: '1.4rem' },
+                color: { xxs: alpha(theme.palette.background.paper, 0.85), md: 'secondary.main' },
+                fontSize: { xxs: '.95rem', xs: '1rem', sm: '1.1rem', md: '1.2rem', lg: '1.4rem' },
               }}
             />
           </Box>
@@ -87,11 +88,11 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
               margin: '0',
               paddingBottom: '.15rem',
               paddingLeft: '.35rem',
-              fontSize: { md: '1.75rem', lg: '2rem' ,xl: '2.25rem' },
+              fontSize: { xxs: '1.2rem', xs: '1.5rem', sm: '1.75rem', md: '1.75rem', lg: '2rem' ,xl: '2.25rem' },
               fontWeight: 'bold',
               textTransform: 'uppercase',
               letterSpacing: '0.05em',
-              color: 'primary.main',
+              color: { xxs: 'primary.light', md: 'primary.main' },
             }}
           >
             Laps
@@ -169,10 +170,11 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
         sx={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'flex-end',
+          justifyContent: 'space-between',
           backgroundColor: alpha(theme.palette.background.paper, 0.75),
         }}
       >
+        <ExitButton />
         <TablePagination
           rowsPerPageOptions={[15, 25, 100]}
           component='div'

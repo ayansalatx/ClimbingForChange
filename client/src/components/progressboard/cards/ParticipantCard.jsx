@@ -6,7 +6,9 @@ const ParticipantCard = ({ participant }) => {
     <Box
       sx={{
         flex: {
-          xs: '1 1 100%',
+          xxs: '1 1 100%',
+          xs:'1 1 calc(50% - 0.5rem)',
+          md: '1 1 100%',
           lg: '1 1 calc(50% - 0.5rem)',
         },
         boxSizing: 'border-box',
@@ -21,17 +23,17 @@ const ParticipantCard = ({ participant }) => {
           backgroundColor: 'info.main',
           boxShadow: '1px 1px 4px rgba(0, 0, 0, 0.3)',
           borderRadius: '4px',
-          px: { md: 1, lg: 1.25, xl: 2 },
-          py: { md: 0.5, lg: 1, xl: 0.5 },
-          gap: { md: 1, lg: 1.25, xl: 2 },
+          px: { xxs: .25, xs: .5, sm: 1, md: 1, lg: 1.25, xl: 2 },
+          py: { xxs:.25, xs:.5, sm: .5, md: 0.5, lg: 1, xl: 0.5 },
+          gap: { xxs: 1, xs: .5, sm: 1, md: 1, lg: 1.25, xl: 2 },
         }}
       >
         <AwardIcon
           sx={{
             fontSize: {
-              xxs: '0.8rem',
-              xs: '0.8rem',
-              sm: '0.95rem',
+              xxs: '1.1rem',
+              xs: '1.1rem',
+              sm: '1.5rem',
               md: '1.2rem',
               lg: '1.3rem',
               xl: '1.75rem',

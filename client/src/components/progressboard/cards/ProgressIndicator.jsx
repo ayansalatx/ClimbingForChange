@@ -24,7 +24,7 @@ const ProgressIndicator = ({ progress, label, color, shadow }) => {
           alignItems: 'center',
           justifyContent: 'center',
           borderRadius: '4px',
-          p: { md: 4, lg: 2 },
+          p: { xxs: 1, md: 6.5, lg: 2 },
         }}
       >
         <Box
@@ -87,7 +87,7 @@ const ProgressIndicator = ({ progress, label, color, shadow }) => {
               variant="h6"
               sx={{
                 fontWeight: 'bold',
-                fontSize: { md: '1.2rem', lg: '1.35rem', xl: '1.5rem' },
+                fontSize: { xxs:'1rem', sm: '1.2rem', lg: '1.35rem', xl: '1.5rem' },
                 letterSpacing: '0.1rem',
                 color: 'primary.main',
                 textTransform: 'uppercase',

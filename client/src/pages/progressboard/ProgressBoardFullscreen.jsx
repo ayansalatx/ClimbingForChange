@@ -82,15 +82,16 @@ const ProgressBoardFullscreen = () => {
   }
 
   const { eventId } = useParams()
+  const navigate = useNavigate()
+  
   // State for teams
   const [teams, setTeams] = useState([])
   const [loading, setLoading] = useState(true)
-  const navigate = useNavigate()
 
   useEffect(() => {
     const handleSpace = (event) => {
       if (event.code === 'Space') {
-        navigate('/progress')
+        navigate('/progress', { replace: true })
       }
     }
 

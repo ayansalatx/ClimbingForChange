@@ -1,11 +1,8 @@
-import {
-  alpha,
-  Box,
-  CircularProgress,
-  useMediaQuery,
-} from '@mui/material'
+import TimeIcon from '@mui/icons-material/AccessTimeFilled'
+import TerrainIcon from '@mui/icons-material/Terrain'
+import { alpha, Box, CircularProgress, useMediaQuery } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate,useParams } from 'react-router-dom'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import C4CHorizontalBlueLogo from '../../assets/C4C-branding/Climbing-For-Change-Horizontal_Green.png'
@@ -13,6 +10,7 @@ import InfoCard from '../../components/progressboard/cards/InfoCard'
 import ParticipantCard from '../../components/progressboard/cards/ParticipantCard'
 import ProgressIndicator from '../../components/progressboard/cards/ProgressIndicator'
 import TeamHeader from '../../components/progressboard/cards/TeamHeader'
+import LapsViewButton from '../../components/progressboard/shared/LapsViewButton'
 import LapTable from '../../components/progressboard/tables/laps/LapTable'
 import { getTeamForDisplay } from '../../services/teamService'
 import theme from '../../styles/theme'
@@ -26,19 +24,17 @@ const columns = [
 ]
 
 const TeamProgress = () => {
-  // Get media queries to render appropriate content
-  // const isXLarge = useMediaQuery(theme.breakpoints.up('xl'))
-  // const isLarge = useMediaQuery(theme.breakpoints.up('lg'))
-  // const isMedium = useMediaQuery(theme.breakpoints.up('md'))
-  // const isSmall = useMediaQuery(theme.breakpoints.up('sm'))
+  const navigate = useNavigate()
+  const isSmall = useMediaQuery(theme.breakpoints.down('md'))
   const isXSmall = useMediaQuery(theme.breakpoints.down('sm'))
+  const isXXSmall = useMediaQuery(theme.breakpoints.down('xs'))
 
   const [team, setTeam] = useState()
   const [loading, setLoading] = useState(true)
 
   const { teamId } = useParams()
 
-  // Load Participant data from server
+  // Load Team data from server
   useEffect(() => {
     async function loadData() {
       try {
@@ -54,7 +50,7 @@ const TeamProgress = () => {
     loadData()
   }, [teamId])
 
-  const teamStats = [
+  const lgTeamStats = [
     { label: 'Mountain:', value: team?.mountainName },
     {
       label: 'Elevation:',
@@ -65,6 +61,51 @@ const TeamProgress = () => {
     { label: 'Best Lap Time:', value: team?.bestLap },
     { label: 'Time Elapsed:', value: team?.timeElapsed },
   ]
+
+  const smTeamStats = [
+    { label: 'Mount:', value: team?.mountainName },
+    {
+      label: 'Elev:',
+      value: `${team?.totalElevation} ${team?.elevationUnit}`,
+    },
+    { label: 'Total Laps:', value: team?.totalLaps },
+    { label: 'Lap Elev:', value: `${team?.hillLap} ${team?.hillLapUnit}` },
+    { label: 'Best Lap:', value: team?.bestLap },
+    { label: 'Time:', value: team?.timeElapsed },
+  ]
+
+  const xSmTeamStats = [
+    {
+      icon: <TerrainIcon sx={{ color: 'primary.main' }} />,
+      value: team?.mountainName,
+    },
+    {
+      icon: <TerrainIcon sx={{ color: 'primary.main' }} />,
+      value: `${team?.totalElevation} ${team?.elevationUnit}`,
+    },
+    {
+      label: 'Laps:',
+      icon: <TerrainIcon sx={{ color: 'primary.main' }} />,
+      value: team?.totalLaps,
+    },
+    {
+      label: 'Lap:',
+      icon: <TerrainIcon sx={{ color: 'primary.main' }} />,
+      value: `${team?.hillLap} ${team?.hillLapUnit}`,
+    },
+    { label: 'Best Lap:', value: team?.bestLap },
+    { icon: <TimeIcon sx={{ color: 'primary.main' }} />, value: team?.timeElapsed },
+  ]
+
+  // Calc size to determine stat labels
+  let teamStats
+  if (isXXSmall) {
+    teamStats = xSmTeamStats
+  } else if (isXSmall) {
+    teamStats = smTeamStats
+  } else {
+    teamStats = lgTeamStats
+  }
 
   return (
     <Box
@@ -120,6 +161,7 @@ const TeamProgress = () => {
           background: isXSmall
             ? `linear-gradient(to bottom, ${alpha(theme.palette.primary.main, 0.8)}, ${alpha(theme.palette.primary.main, 0.3)}, ${alpha(theme.palette.primary.main, 0.8)})`
             : alpha(theme.palette.primary.main, 0.6),
+          overflowY: 'auto',
         }}
       >
         <Box
@@ -208,8 +250,8 @@ const TeamProgress = () => {
                 flexGrow: 1,
                 backgroundColor: alpha(theme.palette.primary.main, 0.75),
                 borderRadius: '4px',
-                p: 2,
-                gap: 2,
+                p: { xxs: 1.5, xs: 2 },
+                gap: { xxs: 1.25, xs: 2 },
                 minHeight: 0,
               }}
             >
@@ -219,10 +261,10 @@ const TeamProgress = () => {
               <Box
                 sx={{
                   display: 'flex',
-                  flexDirection: 'row',
+                  flexDirection: { xxs: 'column', md: 'row' },
                   height: '100%',
                   flexGrow: 1,
-                  gap: 2,
+                  gap: { xxs: 1.25, xs: 2 },
                   minHeight: 0,
                 }}
               >
@@ -241,7 +283,7 @@ const TeamProgress = () => {
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'flex-start',
-                      gap: 2,
+                      gap: { xxs: 1.25, xs: 2 },
                     }}
                   >
                     {/* Participants */}
@@ -259,7 +301,7 @@ const TeamProgress = () => {
                           0.75
                         ),
                         boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
-                        p: { md: 0.1, lg: 1 },
+                        p: { xxs: 0.5, xs: 1, sm: 0.5, md: 0.1, lg: 1 },
                       }}
                     >
                       <Box
@@ -267,8 +309,8 @@ const TeamProgress = () => {
                           display: 'flex',
                           flexWrap: 'wrap',
                           width: '100%',
-                          p: 1,
-                          gap: { md: 1.1, lg: 2 },
+                          p: { xxs: 0.55, sm: 1 },
+                          gap: { xxs: 1, xs: 1.5, sm: 1.5, md: 1.1, lg: 2 },
                           overflowY: 'auto',
                         }}
                       >
@@ -294,8 +336,8 @@ const TeamProgress = () => {
                           0.75
                         ),
                         boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
-                        p: { md: 1.1, lg: 2 },
-                        gap: { md: 1.1, lg: 2 },
+                        p: { xxs: 1, xs: 1.5, md: 1.1, lg: 2 },
+                        gap: { xxs: 1, xs: 1.5, md: 1.1, lg: 2 },
                         overflowY: 'auto',
                       }}
                     >
@@ -305,16 +347,18 @@ const TeamProgress = () => {
                           display: 'flex',
                           flexWrap: 'wrap',
                           width: '100%',
-                          gap: { md: 1.1, lg: 2 },
+                          gap: { xxs: 1, xs: 1.5, md: 1.1, lg: 2 },
                         }}
                       >
                         <InfoCard
                           label={teamStats[0].label}
                           value={teamStats[0].value}
+                          icon={teamStats[0].icon}
                         />
                         <InfoCard
                           label={teamStats[1].label}
                           value={teamStats[1].value}
+                          icon={teamStats[1].icon}
                         />
                       </Box>
 
@@ -324,16 +368,18 @@ const TeamProgress = () => {
                           display: 'flex',
                           flexWrap: 'wrap',
                           width: '100%',
-                          gap: { md: 1.1, lg: 2 },
+                          gap: { xxs: 1, xs: 1.5, md: 1.1, lg: 2 },
                         }}
                       >
                         <InfoCard
                           label={teamStats[2].label}
                           value={teamStats[2].value}
+                          icon={teamStats[2].icon}
                         />
                         <InfoCard
                           label={teamStats[3].label}
                           value={teamStats[3].value}
+                          icon={teamStats[3].icon}
                         />
                       </Box>
 
@@ -343,16 +389,18 @@ const TeamProgress = () => {
                           display: 'flex',
                           flexWrap: 'wrap',
                           width: '100%',
-                          gap: { md: 1.1, lg: 2 },
+                          gap: { xxs: 1, xs: 1.5, md: 1.1, lg: 2 },
                         }}
                       >
                         <InfoCard
                           label={teamStats[4].label}
                           value={teamStats[4].value}
+                          icon={teamStats[4].icon}
                         />
                         <InfoCard
                           label={teamStats[5].label}
                           value={teamStats[5].value}
+                          icon={teamStats[5].icon}
                         />
                       </Box>
                     </Box>
@@ -362,10 +410,12 @@ const TeamProgress = () => {
                 <Box
                   sx={{
                     display: 'flex',
-                    flexDirection: 'column',
+                    flexDirection: { md: 'column' },
                     flexGrow: 1,
                     maxWidth: { md: '19%', lg: '18%' },
-                    gap: 2,
+                    maxHeight: { xs: '30%', md: 'none' },
+                    minHeight: { xxs: '20%', md: 'none' },
+                    gap: { xxs: 1.25, xs: 2 },
                     borderRadius: '4px',
                   }}
                 >
@@ -387,34 +437,45 @@ const TeamProgress = () => {
                 </Box>
 
                 {/* Laps Table */}
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flex: 1,
-                    height: '100%',
-                    minWidth: '40%',
-                    flexDirection: 'column',
-                    borderRadius: '4px',
-                    gap: 2,
-                    overflowY: 'hidden',
-                    minHeight: 0,
-                    boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
-                  }}
-                >
+                {!isSmall ? (
                   <Box
                     sx={{
-                      height: '100%',
-                      borderRadius: '4px',
                       display: 'flex',
+                      flex: 1,
+                      height: '100%',
+                      minWidth: '40%',
                       flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'flex-start',
+                      borderRadius: '4px',
+                      gap: 2,
                       overflowY: 'hidden',
+                      minHeight: 0,
+                      boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
                     }}
                   >
-                    <LapTable tableColumns={columns} laps={team.laps} />
+                    <Box
+                      sx={{
+                        height: '100%',
+                        borderRadius: '4px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'flex-start',
+                        overflowY: 'hidden',
+                      }}
+                    >
+                      <LapTable tableColumns={columns} laps={team?.laps} />
+                    </Box>
                   </Box>
-                </Box>
+                ) : (
+                  <LapsViewButton
+                    label={'View Team\'s Laps Table'}
+                    onClick={() => {
+                      if (teamId) {
+                        navigate(`/progress/team/${team.id}/laps`)
+                      }
+                    }}
+                  />
+                )}
               </Box>
             </Box>
           )}

@@ -14,7 +14,9 @@ const LapHeaderRow = ({ columns }) => {
               textTransform: 'uppercase',
               letterSpacing: '0.075em',
               fontSize: {
-                xxs: '1.1rem',
+                xxs: '0.95rem',
+                xs: '1rem',
+                sm: '1.2rem',
                 md: '1rem',
                 lg: '1.25rem',
                 xl: '1.4rem',
@@ -23,8 +25,8 @@ const LapHeaderRow = ({ columns }) => {
               bgcolor: 'info.main',
               color: 'background.paper',
               boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
-              px: { md: 1, lg: 1.75, xl: 2 },
-              py: { md: 1, lg: 1.25, xl: 1.75 },
+              px: { xxs: 1, sm: 1, md: 1, lg: 1.75, xl: 2 },
+              py: { xxs: .5, sm: 1, md: 1, lg: 1.25, xl: 1.75 },
             }}
           >
             {column.label}

@@ -14,6 +14,7 @@ const TeamHeader = ({ teamName }) => {
         backgroundColor: alpha(theme.palette.background.paper, 0.75),
         boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
         px: 2,
+        py: { xxs:.25 , md: 0 },
       }}
     >
       <Typography
@@ -25,15 +26,14 @@ const TeamHeader = ({ teamName }) => {
         sx={{
           fontStyle: 'italic',
           fontSize: {
-            xxs: '1.8rem',
-            xs: '2.2rem',
+            xxs: '1.25rem',
+            xs: '1.65rem',
             sm: '2.1rem',
             md: '3rem',
             lg: '3.5rem',
             xl: '4rem',
           },
-          textAlign: 'left',
-          pb:{ sm: .5, lg: 1 },
+          pb:{ xxs: 0, xs: .5, sm: .5, lg: 1 },
         }}
       >
         {teamName}

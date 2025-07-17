@@ -35,7 +35,7 @@ const LapDataRows = ({ rows = [], columns = [], page, rowsPerPage }) => {
                     align={column.align}
                     sx={{
                       whiteSpace: 'nowrap',
-                      fontSize: { sm: '1rem', md: '1.1rem', xl: '1.1rem' },
+                      fontSize: { xxs: '.95rem', sm: '1rem', md: '1.1rem', xl: '1.1rem' },
                       color: 'background.paper',
                     }}
                   >
