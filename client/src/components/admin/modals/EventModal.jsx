@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, FormControl, InputLabel, MenuItem, Modal, Select, TextField, Typography } from '@mui/material'
+import { Box, Button, Checkbox, FormControl, InputLabel, MenuItem, Modal, Select, Switch, TextField, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import TextInput from '../forms/fields/TextInput'
@@ -39,6 +39,11 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
   const [duration, setDuration] = useState('')
   const [mountains, setMountains] = useState([])
   const [mountainSelection, setMountainSelection] = useState([])
+  const [isActive, setIsActive] = useState(true)
+
+  const isPastEvent = eventToEdit
+  ? new Date(eventToEdit.startDateTime) < new Date()
+  : false
 
   const onModalClose = () => {
     onClose()
@@ -70,7 +75,9 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
       const mountainNames = parseMountainNames(eventToEdit.mountains)
       const selectedMountains = getMountainIdsByName(mountainNames, mountains)
       setMountainSelection(selectedMountains)
+      setIsActive(eventToEdit.active)
     } else {
+      setIsActive(true)
       setMountainSelection([])
     }
   }, [eventToEdit, mountains])
@@ -88,7 +95,8 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
       startDateTime: start.toISOString(),
       endDateTime: end.toISOString(),
       hill: [],
-      active: true,
+      //active: true,
+      active: isActive,
     }
 
     try {
@@ -123,9 +131,24 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
   return (
     <Modal open={open} onClose={onModalClose}>
       <Box sx={style}>
-        <Typography variant="h6" mb={2} sx={{ color: 'black' }}>
-          {eventToEdit ? 'Edit Event' : 'Add New Event'}
-        </Typography>
+        <Box mb={1} display="flex" alignItems="center" justifyContent="space-between">
+          <Typography variant="h6" sx={{ color: 'black' }}>
+            {eventToEdit ? 'Edit Event' : 'Add New Event'}
+          </Typography>
+          {eventToEdit && (
+            <FormControl>
+              <Box display="flex" alignItems="center" gap={1}>
+                <Typography>Active</Typography>
+                <Switch
+                  checked={isActive}
+                  onChange={(e) => setIsActive(e.target.checked)}
+                  color="success"
+                  disabled={isPastEvent}
+                />
+              </Box>
+            </FormControl>
+          )}
+        </Box>
         <form onSubmit={handleAdd}>
           <TextInput
             fullWidth
@@ -186,27 +209,29 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
             required
           />
 
-          <TextField
-            fullWidth
-            label="Start Time"
-            type="time"
-            variant="outlined"
-            margin="normal"
-            value={startTime}
-            onChange={(e) => setStartTime(e.target.value)}
-            InputLabelProps={{ shrink: true }}
-            required
-          />
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <TextField
+              fullWidth
+              label="Start Time"
+              type="time"
+              variant="outlined"
+              margin="normal"
+              value={startTime}
+              onChange={(e) => setStartTime(e.target.value)}
+              InputLabelProps={{ shrink: true }}
+              required
+            />
 
-          <TextInput
-            fullWidth
-            label="Duration (hours)"
-            type="number"
-            margin="normal"
-            value={duration}
-            onChange={(e) => setDuration(e.target.value)}
-            required
-          />
+            <TextInput
+              fullWidth
+              label="Duration (hours)"
+              type="number"
+              margin="normal"
+              value={duration}
+              onChange={(e) => setDuration(e.target.value)}
+              required
+            />
+          </Box>
 
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
             <Button variant="outlined" onClick={onModalClose}>
