@@ -4,9 +4,10 @@ import { useParams } from 'react-router-dom'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import C4CHorizontalBlueLogo from '../../assets/C4C-branding/Climbing-For-Change-Horizontal_Green.png'
+import WarningDialog from '../../components/admin/modals/WarningDialog'
 import TeamHeader from '../../components/progressboard/cards/TeamHeader'
 import LapTable from '../../components/progressboard/tables/laps/LapTable'
-import { getTeamForDisplay } from '../../services/teamService'
+import { getLeaderboardTeam } from '../../services/leaderboardService'
 import theme from '../../styles/theme'
 
 const smColumns = [
@@ -30,17 +31,23 @@ const LapProgress = () => {
 
   const { teamId } = useParams()
 
-  const [team, setTeam] = useState()
+  const [warningOpen, setWarningOpen] = useState(false)
   const [loading, setLoading] = useState(true)
+
+  const [team, setTeam] = useState()
+
+  const showWarning = () => {
+    setWarningOpen(true)
+  }
 
   // Load Team data from server
   useEffect(() => {
     async function loadData() {
       try {
-        const teamForDisplay = await getTeamForDisplay(teamId)
+        const teamForDisplay = await getLeaderboardTeam(teamId)
         setTeam(teamForDisplay)
-      } catch (e) {
-        console.log('Failed to load progress data', e)
+      } catch {
+        showWarning()
       } finally {
         setLoading(false)
       }
@@ -48,12 +55,12 @@ const LapProgress = () => {
 
     loadData()
   }, [teamId])
-    
+
   // Calc size to determine stat labels
   let columns
   if (isXSmall) {
     columns = xsColumns
-  }  else {
+  } else {
     columns = smColumns
   }
 
@@ -173,7 +180,8 @@ const LapProgress = () => {
                     md: 0,
                   },
                 }}
-              ></Box>
+              >
+              </Box>
             )}
           </Box>
           {loading ? (
@@ -214,6 +222,12 @@ const LapProgress = () => {
           )}
         </Box>
       </Box>
+      <WarningDialog
+        open={warningOpen}
+        title={'Data Loading Error'}
+        message={'Data for team laps is not loading.'}
+        onCancel={() => setWarningOpen(false)}
+      />
     </Box>
   )
 }

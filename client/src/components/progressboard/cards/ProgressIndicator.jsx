@@ -87,7 +87,7 @@ const ProgressIndicator = ({ progress, label, color, shadow }) => {
               variant="h6"
               sx={{
                 fontWeight: 'bold',
-                fontSize: { xxs:'1rem', sm: '1.2rem', lg: '1.35rem', xl: '1.5rem' },
+                fontSize: { xxs: '1rem', sm: '1.2rem', lg: '1.35rem', xl: '1.5rem' },
                 letterSpacing: '0.1rem',
                 color: 'primary.main',
                 textTransform: 'uppercase',

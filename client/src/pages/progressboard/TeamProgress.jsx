@@ -2,10 +2,11 @@ import TimeIcon from '@mui/icons-material/AccessTimeFilled'
 import TerrainIcon from '@mui/icons-material/Terrain'
 import { alpha, Box, CircularProgress, useMediaQuery } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { useNavigate,useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import C4CHorizontalBlueLogo from '../../assets/C4C-branding/Climbing-For-Change-Horizontal_Green.png'
+import WarningDialog from '../../components/admin/modals/WarningDialog'
 import InfoCard from '../../components/progressboard/cards/InfoCard'
 import ParticipantCard from '../../components/progressboard/cards/ParticipantCard'
 import ProgressIndicator from '../../components/progressboard/cards/ProgressIndicator'
@@ -13,7 +14,7 @@ import TeamHeader from '../../components/progressboard/cards/TeamHeader'
 import LapsViewButton from '../../components/progressboard/shared/LapsViewButton'
 import ExitButton from '../../components/progressboard/tables/laps/ExitButton'
 import LapTable from '../../components/progressboard/tables/laps/LapTable'
-import { getTeamForDisplay } from '../../services/teamService'
+import { getLeaderboardTeam } from '../../services/leaderboardService'
 import theme from '../../styles/theme'
 
 const columns = [
@@ -31,18 +32,23 @@ const TeamProgress = () => {
   const isXXSmall = useMediaQuery(theme.breakpoints.down('xs'))
 
   const [team, setTeam] = useState()
+  const [warningOpen, setWarningOpen] = useState(false)
   const [loading, setLoading] = useState(true)
 
   const { teamId } = useParams()
+
+  const showWarning = () => {
+    setWarningOpen(true)
+  }
 
   // Load Team data from server
   useEffect(() => {
     async function loadData() {
       try {
-        const teamForDisplay = await getTeamForDisplay(teamId)
+        const teamForDisplay = await getLeaderboardTeam(teamId)
         setTeam(teamForDisplay)
-      } catch (e) {
-        console.log('Failed to load progress data', e)
+      } catch {
+        showWarning()
       } finally {
         setLoading(false)
       }
@@ -57,7 +63,7 @@ const TeamProgress = () => {
       label: 'Elevation:',
       value: `${team?.totalElevation} ${team?.elevationUnit}`,
     },
-    { label: 'Total Laps:', value: team?.totalLaps },
+    { label: 'Total Laps:', value: team?.lapsRequired },
     { label: 'Lap Elevation:', value: `${team?.hillLap} ${team?.hillLapUnit}` },
     { label: 'Best Lap Time:', value: team?.bestLap },
     { label: 'Time Elapsed:', value: team?.timeElapsed },
@@ -95,7 +101,10 @@ const TeamProgress = () => {
       value: `${team?.hillLap} ${team?.hillLapUnit}`,
     },
     { label: 'Best Lap:', value: team?.bestLap },
-    { icon: <TimeIcon sx={{ color: 'primary.main' }} />, value: team?.timeElapsed },
+    {
+      icon: <TimeIcon sx={{ color: 'primary.main' }} />,
+      value: team?.timeElapsed,
+    },
   ]
 
   // Calc size to determine stat labels
@@ -226,7 +235,7 @@ const TeamProgress = () => {
                   },
                 }}
               >
-                <ExitButton color={'background.paper'}/>
+                <ExitButton color={'background.paper'} />
               </Box>
             )}
           </Box>
@@ -485,6 +494,12 @@ const TeamProgress = () => {
           )}
         </Box>
       </Box>
+      <WarningDialog
+        open={warningOpen}
+        title={'Data Loading Error'}
+        message={'Data for event is not loading.'}
+        onCancel={() => setWarningOpen(false)}
+      />
     </Box>
   )
 }

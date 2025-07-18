@@ -8,10 +8,9 @@ import ProgressList from '../../components/progressboard/cards/ProgressCardList'
 import ProgressTable from '../../components/progressboard/tables/regular/ProgressTable'
 import {
   getActiveUpcomingEvents,
-  getDisplayEventTeams,
   getPastEvents,
 } from '../../services/eventService'
-import { getLeaderboard } from '../../services/leaderboard'
+import { getLeaderboard } from '../../services/leaderboardService'
 import theme from '../../styles/theme'
 
 // Define columns for full width screen
@@ -83,10 +82,6 @@ const ProgressBoard = () => {
   // State for teams filtered by the search input
   const [filteredTeams, setFilteredTeams] = useState([])
 
-  // const [leaderboard, setLeaderboard] = useState([])
-  //  for use in later refactoring
-  const [, setLeaderboard] = useState([]) // Obey lint rules for now
-
   const showWarning = () => {
     setWarningOpen(true)
   }
@@ -99,8 +94,8 @@ const ProgressBoard = () => {
         const pastEventList = await getPastEvents()
         setActiveEvents(upcomingEventList)
         setPastEvents(pastEventList)
-      } catch (e) {
-        console.log('Failed to load progress data', e)
+      } catch {
+        showWarning()
       }
     }
 
@@ -125,9 +120,14 @@ const ProgressBoard = () => {
       if (!selectedEvent) return
       try {
         const leaderboard = await getLeaderboard(selectedEvent)
-        setLeaderboard(leaderboard)
+        const teamsForDisplay = leaderboard.teams
+
+        setTeamsLength(teamsForDisplay.length)
+        setTeams(teamsForDisplay)
       } catch {
         showWarning()
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -138,24 +138,6 @@ const ProgressBoard = () => {
     return () => {
       clearInterval(intervalId)
     }
-  }, [selectedEvent, setLeaderboard])
-
-  useEffect(() => {
-    const loadTeamsForEvent = async () => {
-      if (!selectedEvent) return
-      try {
-        const teamsForEvent = await getDisplayEventTeams(selectedEvent)
-
-        setTeamsLength(teamsForEvent.length)
-        setTeams(teamsForEvent)
-      } catch {
-        showWarning()
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    loadTeamsForEvent()
   }, [selectedEvent])
 
   useEffect(() => {
@@ -340,6 +322,7 @@ const ProgressBoard = () => {
               setSelectedEvent={setSelectedEvent}
               searchString={searchString}
               setSearchString={setSearchString}
+              teamsLength={teamsLength}
               loading={loading}
             />
           ) : (

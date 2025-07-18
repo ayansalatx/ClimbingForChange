@@ -150,7 +150,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
 
           return (
             <TableCell
-              onClick={() => navigate(`team/${team?._id}`)}
+              onClick={() => navigate(`team/${team?.id}`)}
               sx={{
                 border: 'none',
                 padding: '0',

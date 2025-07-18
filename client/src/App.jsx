@@ -40,7 +40,6 @@ function App() {
           />
           <Route path='/progress/team/:teamId/laps' element={<LapProgress />} />
 
-
           <Route path="/login" element={<AdminLogin />} />
 
           <Route

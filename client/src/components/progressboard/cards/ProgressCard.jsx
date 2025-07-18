@@ -14,7 +14,7 @@ const ProgressCard = ({ team }) => {
     <Card
       onClick={() => {
         handleTap()
-        navigate(`team/${team?._id}`)
+        navigate(`team/${team?.id}`)
       }}
       sx={{
         px: { xxs: 1, xs: 1 },

@@ -26,7 +26,7 @@ const LapHeaderRow = ({ columns }) => {
               color: 'background.paper',
               boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
               px: { xxs: 1, sm: 1, md: 1, lg: 1.75, xl: 2 },
-              py: { xxs: .5, sm: 1, md: 1, lg: 1.25, xl: 1.75 },
+              py: { xxs: 0.5, sm: 1, md: 1, lg: 1.25, xl: 1.75 },
             }}
           >
             {column.label}

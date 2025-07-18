@@ -20,34 +20,33 @@ const FullscreenToggleButton = ({ eventId }) => {
           'Fullscreen'
         ) : (
           <Box display="flex" alignItems="center" gap={0.5}>
-            <ErrorOutlineIcon   sx={{ fontSize: '1.15rem' }} />
+            <ErrorOutlineIcon sx={{ fontSize: '1.15rem' }} />
             <Typography>Select Event</Typography>
           </Box>
         )
       }
-      slotProps=
-        {{
-          tooltip: {
-            sx: {
-              bgcolor: 'info.main',
-              color: 'primary.main',
-              fontSize: {
-                sm: '0.65rem',
-                md: '0.65rem',
-                lg: '0.75rem',
-                xl: '0.9rem',
-              },
-              px: {
-                sm: 1,
-              },
-              py: {
-                sm: 0.5,
-              },
-              borderRadius: 0.5,
-              boxShadow: 3,
+      slotProps={{
+        tooltip: {
+          sx: {
+            bgcolor: 'info.main',
+            color: 'primary.main',
+            fontSize: {
+              sm: '0.65rem',
+              md: '0.65rem',
+              lg: '0.75rem',
+              xl: '0.9rem',
             },
+            px: {
+              sm: 1,
+            },
+            py: {
+              sm: 0.5,
+            },
+            borderRadius: 0.5,
+            boxShadow: 3,
           },
-        }}
+        },
+      }}
     >
       <IconButton
         onClick={handleClick}

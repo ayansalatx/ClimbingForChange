@@ -14,6 +14,7 @@ const ProgressList = ({
   setSelectedEvent,
   searchString,
   setSearchString,
+  teamsLength,
   loading,
 }) => {
   return (
@@ -71,7 +72,7 @@ const ProgressList = ({
             >
               <CircularProgress color="secondary" />
             </Box>
-          ) : teams.length > 0 ? (
+          ) : teamsLength && !loading > 0 ? (
             teams.map((team, index) => (
               <Box key={index}>
                 <ProgressCard team={team} />

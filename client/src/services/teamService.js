@@ -8,7 +8,6 @@ import {
 import { formatNumber } from '../utils/formatNumber'
 import { api, formatApiError } from './api'
 
-
 // Get all teams
 export const getAllTeams = async () => {
   const res = await api.get('/teams')
@@ -86,8 +85,8 @@ export const getTeamForDisplay = async (id) => {
           team.mountain.totalElevation) *
           100 >
         100
-        ? 100
-        : ((laps.length * team.hill?.lapElevationGain) /
+          ? 100
+          : ((laps.length * team.hill?.lapElevationGain) /
             team.mountain.totalElevation) *
           100
       : 0,
@@ -96,8 +95,8 @@ export const getTeamForDisplay = async (id) => {
     lapsToGo: formatNumber(Math.max((team.lapsRequired || 0) - laps.length, 0)),
     lapProgress: team.lapsRequired
       ? (laps.length / team.lapsRequired) * 100 > 100
-        ? 100
-        : formatNumber((laps.length / team.lapsRequired) * 100)
+          ? 100
+          : formatNumber((laps.length / team.lapsRequired) * 100)
       : 0,
     bestLap: laps.length ? formatDurationTimeMinutes(teamBestLap) : '-',
     timeElapsed: laps.length
