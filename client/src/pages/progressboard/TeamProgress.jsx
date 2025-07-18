@@ -11,8 +11,8 @@ import InfoCard from '../../components/progressboard/cards/InfoCard'
 import ParticipantCard from '../../components/progressboard/cards/ParticipantCard'
 import ProgressIndicator from '../../components/progressboard/cards/ProgressIndicator'
 import TeamHeader from '../../components/progressboard/cards/TeamHeader'
-import LapsViewButton from '../../components/progressboard/shared/LapsViewButton'
 import ExitButton from '../../components/progressboard/shared/ExitButton'
+import LapsViewButton from '../../components/progressboard/shared/LapsViewButton'
 import LapTable from '../../components/progressboard/tables/laps/LapTable'
 import { getLeaderboardTeam } from '../../services/leaderboardService'
 import theme from '../../styles/theme'
@@ -206,7 +206,7 @@ const TeamProgress = () => {
               }}
             >
               {/* Logo */}
-              <Box sx={{ mb: { xxs: .85, sm: 0.5 } }}>
+              <Box sx={{ mb: { xxs: 0.85, sm: 0.5 } }}>
                 <Box
                   component="img"
                   src={
@@ -473,7 +473,7 @@ const TeamProgress = () => {
                   </Box>
                 ) : (
                   <LapsViewButton
-                    label={"View Team's Laps Table"}
+                    label={'View Team\'s Laps Table'}
                     onClick={() => {
                       if (teamId) {
                         navigate(`/progress/team/${team.id}/laps`)
