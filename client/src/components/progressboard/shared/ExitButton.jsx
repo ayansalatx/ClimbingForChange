@@ -41,16 +41,13 @@ const ExitButton = ({ teamId, color }) => {
       <IconButton
         onClick={handleClick}
         sx={{
-          visibility: {
-            sm: 'visible',
-            md: 'hidden',
-          },
           ml: '.25rem',
           color: color,
           '&:hover': {
             color: 'secondary.main',
           },
           p: {
+            xxs: '0.25rem',
             sm: '0.45rem',
             md: '0.5rem',
           },

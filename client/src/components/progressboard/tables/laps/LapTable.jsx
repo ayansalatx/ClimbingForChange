@@ -16,7 +16,7 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 
 import theme from '../../../../styles/theme'
-import ExitButton from './ExitButton'
+import ExitButton from '../../shared/ExitButton'
 import LapDataRows from './LapDataRows'
 import LapHeaderRow from './LapHeaderRow'
 

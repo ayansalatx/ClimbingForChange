@@ -12,7 +12,7 @@ import ParticipantCard from '../../components/progressboard/cards/ParticipantCar
 import ProgressIndicator from '../../components/progressboard/cards/ProgressIndicator'
 import TeamHeader from '../../components/progressboard/cards/TeamHeader'
 import LapsViewButton from '../../components/progressboard/shared/LapsViewButton'
-import ExitButton from '../../components/progressboard/tables/laps/ExitButton'
+import ExitButton from '../../components/progressboard/shared/ExitButton'
 import LapTable from '../../components/progressboard/tables/laps/LapTable'
 import { getLeaderboardTeam } from '../../services/leaderboardService'
 import theme from '../../styles/theme'
@@ -47,11 +47,9 @@ const TeamProgress = () => {
       try {
         const teamForDisplay = await getLeaderboardTeam(teamId)
         setTeam(teamForDisplay)
-      }
-      catch {
+      } catch {
         showWarning()
-      }
-      finally {
+      } finally {
         setLoading(false)
       }
     }
@@ -113,11 +111,9 @@ const TeamProgress = () => {
   let teamStats
   if (isXXSmall) {
     teamStats = xSmTeamStats
-  }
-  else if (isXSmall) {
+  } else if (isXSmall) {
     teamStats = smTeamStats
-  }
-  else {
+  } else {
     teamStats = lgTeamStats
   }
 
@@ -195,53 +191,45 @@ const TeamProgress = () => {
               alignItems: 'flex-end',
               justifyContent: 'space-between',
               flexWrap: 'wrap',
-              mb: {
-                sm: 1.25,
-                md: 1.5,
-              },
             }}
           >
-            {/* Logo */}
-            <Box sx={{ mb: { xxs: 0.5 } }}>
-              <Box
-                component="img"
-                src={isXSmall ? C4CHorizontalBlueLogo : C4CHorizontalGreenLogo}
-                alt="Climbing for Change Logo"
-                sx={{
-                  maxWidth: {
-                    xxs: '11rem',
-                    xs: '12rem',
-                    sm: '8rem',
-                    md: '12rem',
-                    lg: '14rem',
-                    xl: '15.5rem',
-                  },
-                  height: 'auto',
-                  display: 'block',
-                  ml: { xxs: 0.5, xs: 1 },
-                }}
-              />
-            </Box>
-
-            {isXSmall && (
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexGrow: 1,
-                  justifyContent: 'right',
-                  alignItems: 'flex-end',
-                  height: '100%',
-                  mt: {
-                    xxs: 0,
-                    xs: 0,
-                    sm: 0,
-                    md: 0,
-                  },
-                }}
-              >
-                <ExitButton color={'background.paper'} />
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'flex-end',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                mb: {
+                  sm: 1.25,
+                  md: 1.5,
+                },
+              }}
+            >
+              {/* Logo */}
+              <Box sx={{ mb: { xxs: .85, sm: 0.5 } }}>
+                <Box
+                  component="img"
+                  src={
+                    isXSmall ? C4CHorizontalBlueLogo : C4CHorizontalGreenLogo
+                  }
+                  alt="Climbing for Change Logo"
+                  sx={{
+                    maxWidth: {
+                      xxs: '11rem',
+                      xs: '12rem',
+                      sm: '8rem',
+                      md: '12rem',
+                      lg: '14rem',
+                      xl: '15.5rem',
+                    },
+                    height: 'auto',
+                    display: 'block',
+                    ml: { xxs: 0.5, xs: 1 },
+                  }}
+                />
               </Box>
-            )}
+            </Box>
+            <ExitButton color={'background.paper'} />
           </Box>
           {loading ? (
             <Box
@@ -485,7 +473,7 @@ const TeamProgress = () => {
                   </Box>
                 ) : (
                   <LapsViewButton
-                    label={'View Team\'s Laps Table'}
+                    label={"View Team's Laps Table"}
                     onClick={() => {
                       if (teamId) {
                         navigate(`/progress/team/${team.id}/laps`)
