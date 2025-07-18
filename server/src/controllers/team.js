@@ -36,6 +36,7 @@ export const saveOneTeam = async (request, response) => {
     Hill.findById(body.hill),
     Mountain.findById(body.mountain),
     body.rfidTag ? RFIDTag.findById(body.rfidTag) : null,
+
   ])
 
   if (!event || !hill || !mountain) {

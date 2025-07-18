@@ -69,7 +69,7 @@ const ProgressList = ({
                 height: '100%',
               }}
             >
-              <CircularProgress color='secondary' />
+              <CircularProgress color="secondary" />
             </Box>
           ) : teams.length > 0 ? (
             teams.map((team, index) => (
@@ -93,10 +93,10 @@ const ProgressList = ({
                   color: 'secondary.main',
                 }}
               />
-              <Typography fontSize='1.5rem' color='background.paper'>
+              <Typography fontSize="1.5rem" color="background.paper">
                 No teams climbing yet...
               </Typography>
-              <Typography color='background.paper'>
+              <Typography color="background.paper">
                 Check back later!
               </Typography>
             </Box>

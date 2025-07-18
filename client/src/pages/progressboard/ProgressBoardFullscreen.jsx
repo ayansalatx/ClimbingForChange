@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import C4CFavicon from '../../assets/C4C-branding/Favicon.png'
+import WarningDialog from '../../components/admin/modals/WarningDialog'
 import AutoScrollTable from '../../components/progressboard/tables/auto-scroll/AutoScrollTable'
 import { getDisplayEventTeams } from '../../services/eventService'
 import theme from '../../styles/theme'
@@ -87,6 +88,11 @@ const ProgressBoardFullscreen = () => {
   // State for teams
   const [teams, setTeams] = useState([])
   const [loading, setLoading] = useState(true)
+  const [warningOpen, setWarningOpen] = useState(false)
+
+  const showWarning = () => {
+    setWarningOpen(true)
+  }
 
   useEffect(() => {
     const handleSpace = (event) => {
@@ -107,8 +113,8 @@ const ProgressBoardFullscreen = () => {
         // const event = await getOneEvent(eventId)
 
         setTeams(teamsList)
-      } catch (e) {
-        console.log('Failed to load progress data', e)
+      } catch {
+        showWarning()
       } finally {
         setLoading(false)
       }
@@ -127,7 +133,7 @@ const ProgressBoardFullscreen = () => {
     >
       {/* https://pixabay.com/videos/search/terrain%20blue%20gray%20mountain/ */}
       <video
-        src='/assets/progress-board-background.mp4'
+        src="/assets/progress-board-background.mp4"
         autoPlay
         loop
         muted
@@ -172,9 +178,9 @@ const ProgressBoardFullscreen = () => {
             }}
           >
             <Box
-              component='img'
+              component="img"
               src={C4CFavicon}
-              alt='Climbing for Change Logo'
+              alt="Climbing for Change Logo"
               sx={{
                 width: 'auto',
                 maxHeight: {
@@ -205,8 +211,8 @@ const ProgressBoardFullscreen = () => {
               }}
             >
               <Typography
-                variant='h1'
-                color='secondary.main'
+                variant="h1"
+                color="secondary.main"
                 fontWeight={'bold'}
                 textTransform={'uppercase'}
                 sx={{
@@ -250,6 +256,15 @@ const ProgressBoardFullscreen = () => {
           </Box>
         </Box>
       </Box>
+      <WarningDialog
+        open={warningOpen}
+        title={'Data Loading Error'}
+        message={'Data for event is not loading.'}
+        onCancel={() => {
+          setWarningOpen(false)
+          navigate('/progress', { replace: true })
+        }}
+      />
     </Box>
   )
 }

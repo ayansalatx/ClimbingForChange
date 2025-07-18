@@ -40,7 +40,7 @@ const CarouselLeftArrow = ({ onClick }) => (
       },
     }}
   >
-    <ArrowBackIos fontSize='large' />
+    <ArrowBackIos fontSize="large" />
   </IconButton>
 )
 
@@ -66,7 +66,7 @@ const CarouselRightArrow = ({ onClick }) => (
       },
     }}
   >
-    <ArrowForwardIos fontSize='large' />
+    <ArrowForwardIos fontSize="large" />
   </IconButton>
 )
 
@@ -103,7 +103,7 @@ const AdminDashboard = () => {
       try {
         const eventList = await getUpcomingEventsSummary()
         displayAlert(
-          'Fresh backend data',
+          'Success',
           `Loaded ${eventList.length} events from the backend.`,
           'success'
         )
@@ -114,7 +114,7 @@ const AdminDashboard = () => {
           `Failed to Load Locations: ${error.message}`,
           'error'
         )
-      }finally {
+      } finally {
         setLoading(false)
       }
     }
@@ -211,11 +211,11 @@ const AdminDashboard = () => {
         }}
       >
         <Typography
-          variant='h1'
-          color='primary.main'
-          fontWeight='bold'
-          textTransform='uppercase'
-          fontStyle='italic'
+          variant="h1"
+          color="primary.main"
+          fontWeight="bold"
+          textTransform="uppercase"
+          fontStyle="italic"
           fontSize={{
             xxs: '2rem',
             sm: '2.25rem',
@@ -230,7 +230,7 @@ const AdminDashboard = () => {
             lg: '2.5rem',
             xl: '3.15rem',
           }}
-          align='left'
+          align="left"
         >
           Progressboard Management
         </Typography>

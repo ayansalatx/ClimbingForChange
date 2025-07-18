@@ -1,7 +1,6 @@
 import RFIDTag from '../models/rfidTag.js'
 
 export const getRFIDTags = async (request, response) => {
-  
   const rfidTags = await RFIDTag.find({})
 
   response.json(rfidTags)
@@ -15,18 +14,16 @@ export const getRFIDTagByID = async (request, response) => {
 }
 
 export const getBySerialNumber = async (request, response) => {
-
   const serialNumber = request.params.serialNumber
 
   const rfidTag = await RFIDTag.find({
-    serialNumber: serialNumber
+    serialNumber: serialNumber,
   })
 
   response.json(rfidTag)
 }
 
 export const saveOneRFIDTag = async (request, response) => {
-
   const body = request.body
 
   if (!body) {
@@ -55,11 +52,11 @@ export const updateOneRFIDTag = async (request, response) => {
     {
       $set: {
         serialNumber: rfidTagToUpdate.serialNumber,
-      }
+      },
     },
     {
       new: true,
-    }
+    },
   )
 
   response.status(200).json(updated)

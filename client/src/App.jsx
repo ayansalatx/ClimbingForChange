@@ -1,6 +1,6 @@
 import './App.css'
 
-import { CssBaseline,ThemeProvider } from '@mui/material'
+import { CssBaseline, ThemeProvider } from '@mui/material'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 import PrivateRoute from './components/admin/PrivateRoute'
@@ -28,10 +28,10 @@ function App() {
       <CssBaseline />
       <Router>
         <Routes>
-          <Route path='/' element={<Landing />} />
-          <Route path='/progress' element={<ProgressBoard />} />
+          <Route path="/" element={<Landing />} />
+          <Route path="/progress" element={<ProgressBoard />} />
           <Route
-            path='/progress/fullscreen/:eventId'
+            path="/progress/fullscreen/:eventId"
             element={<ProgressBoardFullscreen />}
           />
           <Route
@@ -41,10 +41,10 @@ function App() {
           <Route path='/progress/team/:teamId/laps' element={<LapProgress />} />
 
 
-          <Route path='/login'  element={<AdminLogin />} />
+          <Route path="/login" element={<AdminLogin />} />
 
           <Route
-            path='/admin'
+            path="/admin"
             element={
               <PrivateRoute>
                 <Layout />
@@ -52,14 +52,14 @@ function App() {
             }
           >
             <Route index element={<AdminDashboard />} />
-            <Route path='events' element={<EventManager />} />
-            <Route path='participants' element={<ParticipantManager />} />
-            <Route path='upload' element={<ParticipantUpload />} />
-            <Route path='mountains' element={<MountainManager />} />
-            <Route path='locations' element={<LocationManager />} />  
-            <Route path='teams' element={<TeamsManager />} />              
-            <Route path='hills' element={<HillManager />} />
-            <Route path='rfid' element={<RFIDManager />} />
+            <Route path="events" element={<EventManager />} />
+            <Route path="participants" element={<ParticipantManager />} />
+            <Route path="upload" element={<ParticipantUpload />} />
+            <Route path="mountains" element={<MountainManager />} />
+            <Route path="locations" element={<LocationManager />} />
+            <Route path="teams" element={<TeamsManager />} />
+            <Route path="hills" element={<HillManager />} />
+            <Route path="rfid" element={<RFIDManager />} />
           </Route>
         </Routes>
       </Router>

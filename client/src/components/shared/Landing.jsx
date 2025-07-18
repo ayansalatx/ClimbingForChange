@@ -15,13 +15,13 @@ const Landing = () => {
         color: 'background.default',
       }}
     >
-      <div className='p-6 text-center'>
+      <div className="p-6 text-center">
         <a
-          href='https://www.climbingforchange.ca/'
-          target='_blank'
-          rel='noreferrer'
+          href="https://www.climbingforchange.ca/"
+          target="_blank"
+          rel="noreferrer"
         >
-          <img src={C4Clogo} alt='Climbing for Change Logo' height={250} />
+          <img src={C4Clogo} alt="Climbing for Change Logo" height={250} />
         </a>
         <h1 style={{ letterSpacing: '0.05rem' }}>
           Welcome to the C4C Team Two WebApp
@@ -35,10 +35,10 @@ const Landing = () => {
         <nav>
           <ul style={{ listStyle: 'none' }}>
             <li>
-              <Link to='/progress'>Progress Board</Link>
+              <Link to="/progress">Progress Board</Link>
             </li>
             <li>
-              <Link to='/admin'>Admin Dashboard</Link>
+              <Link to="/admin">Admin Dashboard</Link>
             </li>
           </ul>
         </nav>

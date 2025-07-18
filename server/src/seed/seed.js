@@ -19,15 +19,33 @@ const seedDatabase = async () => {
 
     console.log('Clearing existing data...')
     await Promise.all([
-      Location.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }), // Drop collection, ignore if not found
-      Mountain.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }),
-      Hill.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }),
-      RFIDTag.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }),
-      Event.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }),
-      Team.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }),
-      Participant.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }),
-      Lap.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }),
-      Passing.collection.drop().catch(e => { if (e.codeName !== 'NamespaceNotFound') throw e }),
+      Location.collection.drop().catch((e) => {
+        if (e.codeName !== 'NamespaceNotFound') throw e
+      }), // Drop collection, ignore if not found
+      Mountain.collection.drop().catch((e) => {
+        if (e.codeName !== 'NamespaceNotFound') throw e
+      }),
+      Hill.collection.drop().catch((e) => {
+        if (e.codeName !== 'NamespaceNotFound') throw e
+      }),
+      RFIDTag.collection.drop().catch((e) => {
+        if (e.codeName !== 'NamespaceNotFound') throw e
+      }),
+      Event.collection.drop().catch((e) => {
+        if (e.codeName !== 'NamespaceNotFound') throw e
+      }),
+      Team.collection.drop().catch((e) => {
+        if (e.codeName !== 'NamespaceNotFound') throw e
+      }),
+      Participant.collection.drop().catch((e) => {
+        if (e.codeName !== 'NamespaceNotFound') throw e
+      }),
+      Lap.collection.drop().catch((e) => {
+        if (e.codeName !== 'NamespaceNotFound') throw e
+      }),
+      Passing.collection.drop().catch((e) => {
+        if (e.codeName !== 'NamespaceNotFound') throw e
+      }),
     ])
     console.log('All collections cleared.')
 
@@ -41,7 +59,7 @@ const seedDatabase = async () => {
         address: '123 Park Ave',
         city: 'Edmonton',
         provState: 'AB',
-        country: 'Canada'
+        country: 'Canada',
       },
     ])
 
@@ -50,14 +68,16 @@ const seedDatabase = async () => {
         username: 'admin',
         firstName: 'John',
         lastName: 'Doe',
-        password_hash: '$2a$12$7lCxHOSbd8XIJr/D6ZMsyO90FjYxqyQWzxx/IP6fznanAS6PjqcEK',
+        password_hash:
+          '$2a$12$7lCxHOSbd8XIJr/D6ZMsyO90FjYxqyQWzxx/IP6fznanAS6PjqcEK',
       },
       {
         username: 'admin2',
         firstName: 'Jane',
         lastName: 'Mary',
-        password_hash: '$2a$12$7lCxHOSbd8XIJr/D6ZMsyO90FjYxqyQWzxx/IP6fznanAS6PjqcEK',
-      }
+        password_hash:
+          '$2a$12$7lCxHOSbd8XIJr/D6ZMsyO90FjYxqyQWzxx/IP6fznanAS6PjqcEK',
+      },
     ])
 
     const mountains = await Mountain.insertMany([
@@ -97,12 +117,18 @@ const seedDatabase = async () => {
       { serialNumber: '16', description: 'RFID for Justin Mazzolini (Solo)' },
       { serialNumber: '17', description: 'RFID for Angela Mazzolini (Solo)' },
       { serialNumber: '18', description: 'RFID for Erica Kirkman (Solo)' },
-      { serialNumber: '19', description: 'RFID for Annamarie Lottering (Solo)' },
+      {
+        serialNumber: '19',
+        description: 'RFID for Annamarie Lottering (Solo)',
+      },
       { serialNumber: '20', description: 'RFID for Barend Lottering (Solo)' },
       { serialNumber: '21', description: 'RFID for Sarah Saunders (Solo)' },
       { serialNumber: '22', description: 'RFID for Alberta SPCA Team' },
       { serialNumber: '23', description: 'RFID for BIMbros Team' },
-      { serialNumber: '24', description: 'RFID for Glenrose Human Ability Team' },
+      {
+        serialNumber: '24',
+        description: 'RFID for Glenrose Human Ability Team',
+      },
       { serialNumber: '25', description: 'RFID for HIBCO Generals Team' },
       { serialNumber: '26', description: 'RFID for Hill Billies Team' },
       { serialNumber: '27', description: 'RFID for KEEN Team' },
@@ -111,10 +137,9 @@ const seedDatabase = async () => {
       { serialNumber: '30', description: 'RFID for Springboks Team' },
       { serialNumber: '31', description: 'RFID for STARS Team' },
       { serialNumber: '32', description: 'RFID for Team Order' },
-      { serialNumber: '33', description: 'RFID for United Nations Team' }
+      { serialNumber: '33', description: 'RFID for United Nations Team' },
     ])
     console.log('Seeded base data successfully.')
-
 
     // 2. Seed Hills (depends on Location)
     console.log('Seeding Hills...')
@@ -125,7 +150,7 @@ const seedDatabase = async () => {
         lapElevationGain: 1451,
         lapDistance: 0.75,
         elevationUnit: 'FT',
-        distanceUnit: 'KM'
+        distanceUnit: 'KM',
       },
       {
         location: locations[0]._id,
@@ -133,7 +158,7 @@ const seedDatabase = async () => {
         lapElevationGain: 721,
         lapDistance: 0.5,
         elevationUnit: 'FT',
-        distanceUnit: 'KM'
+        distanceUnit: 'KM',
       },
     ])
     console.log('Seeded Hills successfully.')
@@ -153,7 +178,6 @@ const seedDatabase = async () => {
     ])
     console.log('Seeded Events successfully.')
 
-
     // 4. Seed Teams (depends on Event, Mountain, Hill, RFIDTag)
     console.log('Seeding Teams...')
     // All teams use the same hill (The Grinder) but have different lap requirements based on their mountain
@@ -161,17 +185,25 @@ const seedDatabase = async () => {
     const denaliData = mountains.find(m => m.name === 'Denali')
     const rainierData = mountains.find(m => m.name === 'Rainier')
     const grinderHillData = hills.find(h => h.name === 'The Grinder')
-    
+
     // Calculate laps required based on mountain elevation using the same hill
-    const everestLaps = Math.ceil(everestData.totalElevation / grinderHillData.lapElevationGain) // ~134 laps
+    const everestLaps = Math.ceil(
+      everestData.totalElevation / grinderHillData.lapElevationGain,
+    ) // ~134 laps
     const everestDistance = everestLaps * grinderHillData.lapDistance // ~100.5 km
-    const denaliLaps = Math.ceil(denaliData.totalElevation / grinderHillData.lapElevationGain) // ~94 laps
+    const denaliLaps = Math.ceil(
+      denaliData.totalElevation / grinderHillData.lapElevationGain,
+    ) // ~94 laps
     const denaliDistance = denaliLaps * grinderHillData.lapDistance // ~70.5 km
-    const rainierLaps = Math.ceil(rainierData.totalElevation / grinderHillData.lapElevationGain) // ~121 laps
+    const rainierLaps = Math.ceil(
+      rainierData.totalElevation / grinderHillData.lapElevationGain,
+    ) // ~121 laps
     const rainierDistance = rainierLaps * grinderHillData.lapDistance // ~90.75 km
-    
-    console.log(`[Seed] Lap requirements: Everest=${everestLaps}, Denali=${denaliLaps}, Rainier=${rainierLaps} (all using ${grinderHillData.name})`)
-    
+
+    console.log(
+      `[Seed] Lap requirements: Everest=${everestLaps}, Denali=${denaliLaps}, Rainier=${rainierLaps} (all using ${grinderHillData.name})`,
+    )
+
     const teams = await Team.insertMany([
       // Solo participants (no team name) - each becomes their own team
       {
@@ -183,7 +215,7 @@ const seedDatabase = async () => {
         isSoloTeam: true,
         lapsRequired: everestLaps,
         totalDistanceRequired: everestDistance,
-        startDateTime: new Date('2024-09-14T08:05:00Z')
+        startDateTime: new Date('2024-09-14T08:05:00Z'),
       },
       {
         event: events[0]._id,
@@ -194,7 +226,7 @@ const seedDatabase = async () => {
         isSoloTeam: true,
         lapsRequired: everestLaps,
         totalDistanceRequired: everestDistance,
-        startDateTime: new Date('2024-09-14T08:10:00Z')
+        startDateTime: new Date('2024-09-14T08:10:00Z'),
       },
       {
         event: events[0]._id,
@@ -205,7 +237,7 @@ const seedDatabase = async () => {
         isSoloTeam: true,
         lapsRequired: everestLaps,
         totalDistanceRequired: everestDistance,
-        startDateTime: new Date('2024-09-14T08:15:00Z')
+        startDateTime: new Date('2024-09-14T08:15:00Z'),
       },
       {
         event: events[0]._id,
@@ -216,7 +248,7 @@ const seedDatabase = async () => {
         isSoloTeam: true,
         lapsRequired: rainierLaps,
         totalDistanceRequired: rainierDistance,
-        startDateTime: new Date('2024-09-14T08:20:00Z')
+        startDateTime: new Date('2024-09-14T08:20:00Z'),
       },
       {
         event: events[0]._id,
@@ -227,7 +259,7 @@ const seedDatabase = async () => {
         isSoloTeam: true,
         lapsRequired: everestLaps,
         totalDistanceRequired: everestDistance,
-        startDateTime: new Date('2024-09-14T08:25:00Z')
+        startDateTime: new Date('2024-09-14T08:25:00Z'),
       },
       {
         event: events[0]._id,
@@ -238,7 +270,7 @@ const seedDatabase = async () => {
         isSoloTeam: true,
         lapsRequired: rainierLaps,
         totalDistanceRequired: rainierDistance,
-        startDateTime: new Date('2024-09-14T08:30:00Z')
+        startDateTime: new Date('2024-09-14T08:30:00Z'),
       },
       {
         event: events[0]._id,
@@ -249,7 +281,7 @@ const seedDatabase = async () => {
         isSoloTeam: true,
         lapsRequired: denaliLaps,
         totalDistanceRequired: denaliDistance,
-        startDateTime: new Date('2024-09-14T08:35:00Z')
+        startDateTime: new Date('2024-09-14T08:35:00Z'),
       },
       {
         event: events[0]._id,
@@ -260,7 +292,7 @@ const seedDatabase = async () => {
         isSoloTeam: true,
         lapsRequired: denaliLaps,
         totalDistanceRequired: denaliDistance,
-        startDateTime: new Date('2024-09-14T08:40:00Z')
+        startDateTime: new Date('2024-09-14T08:40:00Z'),
       },
       {
         event: events[0]._id,
@@ -271,7 +303,7 @@ const seedDatabase = async () => {
         isSoloTeam: true,
         lapsRequired: rainierLaps,
         totalDistanceRequired: rainierDistance,
-        startDateTime: new Date('2024-09-14T08:45:00Z')
+        startDateTime: new Date('2024-09-14T08:45:00Z'),
       },
       {
         event: events[0]._id,
@@ -282,7 +314,7 @@ const seedDatabase = async () => {
         isSoloTeam: true,
         lapsRequired: rainierLaps,
         totalDistanceRequired: rainierDistance,
-        startDateTime: new Date('2024-09-14T08:50:00Z')
+        startDateTime: new Date('2024-09-14T08:50:00Z'),
       },
       {
         event: events[0]._id,
@@ -293,7 +325,7 @@ const seedDatabase = async () => {
         isSoloTeam: true,
         lapsRequired: rainierLaps,
         totalDistanceRequired: rainierDistance,
-        startDateTime: new Date('2024-09-14T08:55:00Z')
+        startDateTime: new Date('2024-09-14T08:55:00Z'),
       },
       {
         event: events[0]._id,
@@ -304,7 +336,7 @@ const seedDatabase = async () => {
         isSoloTeam: true,
         lapsRequired: denaliLaps,
         totalDistanceRequired: denaliDistance,
-        startDateTime: new Date('2024-09-14T09:00:00Z')
+        startDateTime: new Date('2024-09-14T09:00:00Z'),
       },
       {
         event: events[0]._id,
@@ -315,7 +347,7 @@ const seedDatabase = async () => {
         isSoloTeam: true,
         lapsRequired: denaliLaps,
         totalDistanceRequired: denaliDistance,
-        startDateTime: new Date('2024-09-14T09:05:00Z')
+        startDateTime: new Date('2024-09-14T09:05:00Z'),
       },
       {
         event: events[0]._id,
@@ -326,7 +358,7 @@ const seedDatabase = async () => {
         isSoloTeam: true,
         lapsRequired: everestLaps,
         totalDistanceRequired: everestDistance,
-        startDateTime: new Date('2024-09-14T09:10:00Z')
+        startDateTime: new Date('2024-09-14T09:10:00Z'),
       },
       {
         event: events[0]._id,
@@ -337,7 +369,7 @@ const seedDatabase = async () => {
         isSoloTeam: true,
         lapsRequired: everestLaps,
         totalDistanceRequired: everestDistance,
-        startDateTime: new Date('2024-09-14T09:15:00Z')
+        startDateTime: new Date('2024-09-14T09:15:00Z'),
       },
       {
         event: events[0]._id,
@@ -348,7 +380,7 @@ const seedDatabase = async () => {
         isSoloTeam: true,
         lapsRequired: everestLaps,
         totalDistanceRequired: everestDistance,
-        startDateTime: new Date('2024-09-14T09:20:00Z')
+        startDateTime: new Date('2024-09-14T09:20:00Z'),
       },
       {
         event: events[0]._id,
@@ -359,7 +391,7 @@ const seedDatabase = async () => {
         isSoloTeam: true,
         lapsRequired: everestLaps,
         totalDistanceRequired: everestDistance,
-        startDateTime: new Date('2024-09-14T09:25:00Z')
+        startDateTime: new Date('2024-09-14T09:25:00Z'),
       },
       {
         event: events[0]._id,
@@ -370,7 +402,7 @@ const seedDatabase = async () => {
         isSoloTeam: true,
         lapsRequired: everestLaps,
         totalDistanceRequired: everestDistance,
-        startDateTime: new Date('2024-09-14T09:30:00Z')
+        startDateTime: new Date('2024-09-14T09:30:00Z'),
       },
       {
         event: events[0]._id,
@@ -381,7 +413,7 @@ const seedDatabase = async () => {
         isSoloTeam: true,
         lapsRequired: rainierLaps,
         totalDistanceRequired: rainierDistance,
-        startDateTime: new Date('2024-09-14T09:35:00Z')
+        startDateTime: new Date('2024-09-14T09:35:00Z'),
       },
       {
         event: events[0]._id,
@@ -392,7 +424,7 @@ const seedDatabase = async () => {
         isSoloTeam: true,
         lapsRequired: rainierLaps,
         totalDistanceRequired: rainierDistance,
-        startDateTime: new Date('2024-09-14T09:40:00Z')
+        startDateTime: new Date('2024-09-14T09:40:00Z'),
       },
       {
         event: events[0]._id,
@@ -403,7 +435,7 @@ const seedDatabase = async () => {
         isSoloTeam: true,
         lapsRequired: everestLaps,
         totalDistanceRequired: everestDistance,
-        startDateTime: new Date('2024-09-14T09:45:00Z')
+        startDateTime: new Date('2024-09-14T09:45:00Z'),
       },
       // Team participants - each team gets one RFID tag
       {
@@ -415,7 +447,7 @@ const seedDatabase = async () => {
         isSoloTeam: false,
         lapsRequired: rainierLaps,
         totalDistanceRequired: rainierDistance,
-        startDateTime: new Date('2024-09-14T09:50:00Z')
+        startDateTime: new Date('2024-09-14T09:50:00Z'),
       },
       {
         event: events[0]._id,
@@ -426,7 +458,7 @@ const seedDatabase = async () => {
         isSoloTeam: false,
         lapsRequired: denaliLaps,
         totalDistanceRequired: denaliDistance,
-        startDateTime: new Date('2024-09-14T09:55:00Z')
+        startDateTime: new Date('2024-09-14T09:55:00Z'),
       },
       {
         event: events[0]._id,
@@ -437,7 +469,7 @@ const seedDatabase = async () => {
         isSoloTeam: false,
         lapsRequired: everestLaps,
         totalDistanceRequired: everestDistance,
-        startDateTime: new Date('2024-09-14T10:00:00Z')
+        startDateTime: new Date('2024-09-14T10:00:00Z'),
       },
       {
         event: events[0]._id,
@@ -448,7 +480,7 @@ const seedDatabase = async () => {
         isSoloTeam: false,
         lapsRequired: rainierLaps,
         totalDistanceRequired: rainierDistance,
-        startDateTime: new Date('2024-09-14T10:05:00Z')
+        startDateTime: new Date('2024-09-14T10:05:00Z'),
       },
       {
         event: events[0]._id,
@@ -459,7 +491,7 @@ const seedDatabase = async () => {
         isSoloTeam: false,
         lapsRequired: denaliLaps,
         totalDistanceRequired: denaliDistance,
-        startDateTime: new Date('2024-09-14T10:10:00Z')
+        startDateTime: new Date('2024-09-14T10:10:00Z'),
       },
       {
         event: events[0]._id,
@@ -470,7 +502,7 @@ const seedDatabase = async () => {
         isSoloTeam: false,
         lapsRequired: denaliLaps,
         totalDistanceRequired: denaliDistance,
-        startDateTime: new Date('2024-09-14T10:15:00Z')
+        startDateTime: new Date('2024-09-14T10:15:00Z'),
       },
       {
         event: events[0]._id,
@@ -481,7 +513,7 @@ const seedDatabase = async () => {
         isSoloTeam: false,
         lapsRequired: denaliLaps,
         totalDistanceRequired: denaliDistance,
-        startDateTime: new Date('2024-09-14T10:20:00Z')
+        startDateTime: new Date('2024-09-14T10:20:00Z'),
       },
       {
         event: events[0]._id,
@@ -492,7 +524,7 @@ const seedDatabase = async () => {
         isSoloTeam: false,
         lapsRequired: rainierLaps,
         totalDistanceRequired: rainierDistance,
-        startDateTime: new Date('2024-09-14T10:25:00Z')
+        startDateTime: new Date('2024-09-14T10:25:00Z'),
       },
       {
         event: events[0]._id,
@@ -503,7 +535,7 @@ const seedDatabase = async () => {
         isSoloTeam: false,
         lapsRequired: rainierLaps,
         totalDistanceRequired: rainierDistance,
-        startDateTime: new Date('2024-09-14T10:30:00Z')
+        startDateTime: new Date('2024-09-14T10:30:00Z'),
       },
       {
         event: events[0]._id,
@@ -514,7 +546,7 @@ const seedDatabase = async () => {
         isSoloTeam: false,
         lapsRequired: everestLaps,
         totalDistanceRequired: everestDistance,
-        startDateTime: new Date('2024-09-14T10:35:00Z')
+        startDateTime: new Date('2024-09-14T10:35:00Z'),
       },
       {
         event: events[0]._id,
@@ -525,7 +557,7 @@ const seedDatabase = async () => {
         isSoloTeam: false,
         lapsRequired: denaliLaps,
         totalDistanceRequired: denaliDistance,
-        startDateTime: new Date('2024-09-14T10:40:00Z')
+        startDateTime: new Date('2024-09-14T10:40:00Z'),
       },
       {
         event: events[0]._id,
@@ -536,8 +568,8 @@ const seedDatabase = async () => {
         isSoloTeam: false,
         lapsRequired: denaliLaps,
         totalDistanceRequired: denaliDistance,
-        startDateTime: new Date('2024-09-14T10:45:00Z')
-      }
+        startDateTime: new Date('2024-09-14T10:45:00Z'),
+      },
     ])
     console.log('Seeded Teams successfully.')
 
@@ -567,7 +599,7 @@ const seedDatabase = async () => {
         startDateTime: new Date('2024-09-14T08:05:01Z'),
         endDateTime: new Date('2024-09-14T08:12:31Z'),
         lapDuration: 7 * 60 * 1000 + 30 * 1000, // 7 minutes 30 seconds in milliseconds
-        lapNumber: 1
+        lapNumber: 1,
       },
       {
         team: teams[0]._id,
@@ -575,7 +607,7 @@ const seedDatabase = async () => {
         startDateTime: new Date('2024-09-14T08:12:32Z'),
         endDateTime: new Date('2024-09-14T08:20:05Z'),
         lapDuration: 7 * 60 * 1000 + 33 * 1000, // 7 minutes 33 seconds in milliseconds
-        lapNumber: 2
+        lapNumber: 2,
       },
       // 1 lap for Peak Performers
       {
@@ -584,18 +616,18 @@ const seedDatabase = async () => {
         startDateTime: new Date('2024-09-14T08:10:01Z'),
         endDateTime: new Date('2024-09-14T08:19:45Z'),
         lapDuration: 9 * 60 * 1000 + 44 * 1000, // 9 minutes 44 seconds in milliseconds
-        lapNumber: 1
-      }
+        lapNumber: 1,
+      },
     ])
     console.log('Seeded Laps successfully.')
 
-
     console.log('\n✅ ✅ ✅ Database seeding complete! ✅ ✅ ✅')
-
-  } catch (error) {
+  }
+  catch (error) {
     console.error('❌ Error seeding database:', error)
     process.exit(1)
-  } finally {
+  }
+  finally {
     // ------------------ CLOSE CONNECTION ------------------ //
     await mongoose.connection.close()
     console.log('MongoDB connection closed.')

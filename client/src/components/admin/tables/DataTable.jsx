@@ -113,13 +113,13 @@ const DataTable = ({
           }}
         >
           <TableIcon
-            fontSize='large'
+            fontSize="large"
             sx={{
               color: 'secondary.main',
             }}
           />
           <Typography
-            variant='h1'
+            variant="h1"
             sx={{
               textAlign: 'left',
               margin: '0',
@@ -162,9 +162,9 @@ const DataTable = ({
             }}
           >
             <Typography
-              variant='body1'
-              component='span'
-              color='primary.light'
+              variant="body1"
+              component="span"
+              color="primary.light"
               textTransform={'uppercase'}
               fontWeight={'bold'}
               letterSpacing={'.05rem'}
@@ -194,7 +194,7 @@ const DataTable = ({
         })}
       >
         {loading ? (
-          <Table stickyHeader height='100%'>
+          <Table stickyHeader height="100%">
             <TableHeaderRow columns={tableColumns} />
             <TableBody
               sx={{
@@ -204,10 +204,10 @@ const DataTable = ({
               <TableRow>
                 <TableCell
                   colSpan={tableColumns.length + 1}
-                  align='center'
+                  align="center"
                   sx={{ border: 'none' }}
                 >
-                  <CircularProgress color='info' />
+                  <CircularProgress color="info" />
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -220,7 +220,11 @@ const DataTable = ({
               '&:hover': { bgcolor: alpha(theme.palette.primary.light, 0.05) },
             }}
           >
-            <TableHeaderRow columns={tableColumns} onAddClick={onAddClick} disabled={disableAdd} />
+            <TableHeaderRow
+              columns={tableColumns}
+              onAddClick={onAddClick}
+              disabled={disableAdd}
+            />
             <TableDataRows
               rows={filteredRows}
               columns={tableColumns}
@@ -232,8 +236,12 @@ const DataTable = ({
             />
           </Table>
         ) : (
-          <Table height='100%' stickyHeader>
-            <TableHeaderRow columns={tableColumns} onAddClick={onAddClick} disabled={disableAdd} />
+          <Table height="100%" stickyHeader>
+            <TableHeaderRow
+              columns={tableColumns}
+              onAddClick={onAddClick}
+              disabled={disableAdd}
+            />
             <TableBody
               sx={{
                 backgroundColor: 'background.paper',
@@ -242,10 +250,10 @@ const DataTable = ({
               <TableRow>
                 <TableCell
                   colSpan={tableColumns.length + 1}
-                  align='center'
+                  align="center"
                   sx={{ border: 'none' }}
                 >
-                  <Typography variant='h5' color='primary.main'>
+                  <Typography variant="h5" color="primary.main">
                     No {tableTitle.toLowerCase()} to display
                   </Typography>
                 </TableCell>
@@ -270,7 +278,7 @@ const DataTable = ({
 
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
-          component='div'
+          component="div"
           count={filteredRows.length}
           rowsPerPage={rowsPerPage}
           page={page}
@@ -285,7 +293,7 @@ const DataTable = ({
               color: 'background.paper',
             },
           }}
-          labelRowsPerPage=''
+          labelRowsPerPage=""
         />
       </Box>
     </Paper>

@@ -7,6 +7,7 @@ import {
 } from '../utils/formatDurationTime'
 import { formatNumber } from '../utils/formatNumber'
 import { api } from './api'
+import { api, formatApiError } from './api'
 
 export const getAllEvents = async () => {
   const res = await api.get('/events')
@@ -163,13 +164,11 @@ export const getOneEvent = async (id) => {
 }
 
 export const addEvent = async (data) => {
-  console.log('Adding new event with data:', data)
   try {
     const response = await api.post('/events', data)
     return response
   } catch (error) {
-    console.error('Failed to edit event:', error)
-    throw error
+    throw formatApiError(error, 'Failed to create event.')
   }
 }
 
@@ -177,15 +176,12 @@ export const editEvent = async (id, data) => {
   try {
     const response = await api.put(`/events/${id}`, data)
     if (response.status === 200) {
-      console.log('Event edited successfully:', response.data)
       return response
     } else {
-      console.error('Failed to edit event:', response.statusText)
+      throw new Error(`Unexpected response status: ${response.status}`)
     }
-    throw new Error(`Unexpected response status: ${response.status}`)
   } catch (error) {
-    console.error('Failed to edit event:', error)
-    throw error
+    throw formatApiError(error, 'Failed to edit event.')
   }
 }
 
@@ -194,7 +190,6 @@ export const deleteEvent = async (id) => {
     await api.delete(`/events/${id}`)
     return true
   } catch (error) {
-    console.error('Failed to delete event:', error)
-    throw error
+    throw formatApiError(error, 'Failed to delete event.')
   }
 }

@@ -3,8 +3,7 @@ import Team from '../models/team.js'
 import Participant from '../models/participant.js'
 import RFIDTag from '../models/rfidTag.js'
 
-export const getLaps = async(req, response) => {
-
+export const getLaps = async (req, response) => {
   const mountains = await Lap.find({})
     .populate('teamId')
     .populate('participantId')
@@ -14,7 +13,6 @@ export const getLaps = async(req, response) => {
 }
 
 export const saveOneLap = async (request, response) => {
-
   const body = request.body
 
   if (!body) {
@@ -26,15 +24,25 @@ export const saveOneLap = async (request, response) => {
   const rfidTag = await RFIDTag.findById(body.rfidTagId)
 
   if (!team || !participant || !rfidTag) {
-    return response.status(400).json({ error: 'Team, participant or rfidTag doesnt exists.' })
+    return response
+      .status(400)
+      .json({ error: 'Team, participant or rfidTag doesnt exists.' })
   }
 
   if (participant.teamId.toString() !== team.id) {
-    return response.status(400).json({ error: `${participant.firstName + ' ' + participant.lastName} does not belong to team ${team.name}` })
+    return response
+      .status(400)
+      .json({
+        error: `${participant.firstName + ' ' + participant.lastName} does not belong to team ${team.name}`,
+      })
   }
 
   if (rfidTag.id !== participant.rfidTagId.toString()) {
-    return response.status(400).json({ error: `RFIDTag ${rfidTag.serialNumber} does not belongs to ${participant.firstName + ' ' + participant.lastName}` })
+    return response
+      .status(400)
+      .json({
+        error: `RFIDTag ${rfidTag.serialNumber} does not belongs to ${participant.firstName + ' ' + participant.lastName}`,
+      })
   }
 
   const newLap = new Lap({

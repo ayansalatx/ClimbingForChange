@@ -1,6 +1,12 @@
 import express from 'express'
 import asyncHandler from 'express-async-handler'
-import { deleteOneLocation, getLocationById, getLocations, saveOneLocation, updateOneLocation } from '../controllers/location.js'
+import {
+  deleteOneLocation,
+  getLocationById,
+  getLocations,
+  saveOneLocation,
+  updateOneLocation,
+} from '../controllers/location.js'
 
 const locationRoutes = express.Router()
 
