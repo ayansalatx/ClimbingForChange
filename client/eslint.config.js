@@ -68,10 +68,7 @@ export default [
       ...reactHooks.configs.recommended.rules,
       ...stylisticRules.rules,
 
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
 
@@ -81,13 +78,17 @@ export default [
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
       'no-console': 'error',
-
+      
       //Don't lint
       '@stylistic/no-trailing-spaces': 'off',
+
       '@stylistic/multiline-ternary': 'off',
       '@stylistic/jsx-one-expression-per-line': 'off',
       '@stylistic/jsx-quotes': 'off',
       '@stylistic/quote-props': 'off',
+      '@stylistic/brace-style': 'off',
+      '@stylistic/operator-linebreak': 'off',
+      '@stylistic/indent-binary-ops': 'off',
       '@stylistic/jsx-curly-brace-presence': 'off',
       '@stylistic/jsx-wrap-multilines': 'off',
       '@stylistic/spaced-comment': 'off',

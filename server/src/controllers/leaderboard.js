@@ -207,8 +207,8 @@ async function generateLeaderboard() {
       lastUpdateTime,
       status,
 
-      bestLap: bestLapTime ?? '-',
-      averageLapTime: averageLapTime ?? '-',
+      bestLap: formatDurationTimeMinutes(bestLapTime) ?? '-',
+      averageLapTime: formatDurationTimeMinutes(averageLapTime) ?? '-',
       timeElapsed: formatDurationTimeHours(timeElapsed),
 
       // Participants with fullName
@@ -360,8 +360,8 @@ export const getTeamProgress = async (request, response) => {
       lastUpdateTime,
       status,
 
-      bestLap: bestLapTime ?? '-',
-      averageLapTime: averageLapTime ?? '-',
+      bestLap: formatDurationTimeMinutes(bestLapTime) ?? '-',
+      averageLapTime: formatDurationTimeMinutes(averageLapTime) ?? '-',
       timeElapsed: formatDurationTimeHours(timeElapsed),
 
       // Participants with fullName
@@ -387,4 +387,16 @@ export const getTeamProgress = async (request, response) => {
     console.error('Error fetching team progress:', error)
     response.status(500).json({ error: 'Failed to fetch team progress' })
   }
+}
+
+export const getLeaderboardEvents = async (req, response) => {
+  const events = await Event.find({})
+    .populate('location')
+    .populate('mountains')
+    .populate({
+      path: 'teams',
+      populate: { path: 'participants' },
+    })
+
+  response.json(events)
 }
