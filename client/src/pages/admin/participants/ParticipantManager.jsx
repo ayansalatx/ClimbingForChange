@@ -86,13 +86,11 @@ const ParticipantManager = () => {
   const onAdd = () => {
     if (loading) return
     setSelectedParticipant(null)
-
     setPopupOpen(true)
   }
 
   const onEdit = (participant) => {
     if (loading) return
-    console.log('onEdit called with participant:', participant)
     setSelectedParticipant(participant)
     setPopupOpen(true)
 
@@ -143,13 +141,11 @@ const ParticipantManager = () => {
       }
       if (participantData.id) {
         await editParticipant(participantData.id, participantData)
-        console.log('Saving participant:', participantData)
         displayAlert('Edited Participant', `Edited ${participantData.firstName} ${participantData.lastName}.`, 'success')
       } else {
         await addNewParticipant(participantData)
         displayAlert('New Participant Added', `Added ${participantData.firstName} ${participantData.lastName}.`, 'success')
       }
-
       const updatedList = await getParticipantsByEvent(selectedEvent)
       setParticipants(updatedList)
     } catch (error) {

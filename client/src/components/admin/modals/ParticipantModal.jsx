@@ -28,7 +28,6 @@ const AddParticipantModal = ({
   const [id, setId] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-  //const [teamId, setTeamId] = useState('')
   const [selectedTeam, setSelectedTeam] = useState(null)
 
   useEffect(() => {
@@ -41,7 +40,6 @@ const AddParticipantModal = ({
       setId('')
       setFirstName('')
       setLastName('')
-      //setTeamId('')
       setSelectedTeam(null)
     }
   }, [open, participantData])
@@ -53,11 +51,9 @@ const AddParticipantModal = ({
       id: id || undefined,
       firstName: firstName.trim(),
       lastName: lastName.trim(),
-      //teamId: teamId || null,
       team: selectedTeam || null,
       eventId: selectedEvent || null, 
     }
-    console.log('Submitting participant with teamId:', selectedTeam)
     onAdd(newParticipant)
     onClose()
   }
@@ -111,7 +107,7 @@ const AddParticipantModal = ({
             </MenuItem>
             {teamNames
               .map((team) => (
-                <MenuItem key={team._id || team.id} value={team._id || team.id}>
+                <MenuItem key={team.id} value={team.id}>
                   {team.name}
                 </MenuItem>
               ))}
