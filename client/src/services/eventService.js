@@ -6,7 +6,6 @@ import {
   formatDurationTimeMinutes,
 } from '../utils/formatDurationTime'
 import { formatNumber } from '../utils/formatNumber'
-import { api } from './api'
 import { api, formatApiError } from './api'
 
 export const getAllEvents = async () => {
