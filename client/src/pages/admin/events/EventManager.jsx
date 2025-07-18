@@ -57,7 +57,8 @@ const EventManager = () => {
     try {
       const locations = await getAllLocations()
       setLocations(locations)
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert('Locations Error', `${error.message}`, 'error')
     }
   }, [displayAlert])
@@ -98,7 +99,8 @@ const EventManager = () => {
         `Loaded ${events.length} events from the backend.`,
         'success'
       )
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert('Events Error', `${error.message}`, 'error')
     }
   }, [displayAlert])
@@ -113,7 +115,8 @@ const EventManager = () => {
         mountainMap[mountain.id] = mountain.name
       }
       setMountains(mountainMap)
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert('Mountains Error', error.message, 'error')
     }
   }, [displayAlert])
@@ -140,10 +143,12 @@ const EventManager = () => {
         )
         fetchEvents()
         handleClosePopup()
-      } else {
+      }
+      else {
         throw new Error('Event was not created')
       }
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert(
         'Add Error',
         `Failed to add the event: ${error.message}`,
@@ -163,10 +168,12 @@ const EventManager = () => {
         )
         fetchEvents()
         handleClosePopup()
-      } else {
+      }
+      else {
         throw new Error('Event was not edited')
       }
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert(
         'Edit Error',
         `Failed to edit the event: ${error.message}`,
@@ -186,14 +193,16 @@ const EventManager = () => {
         )
         fetchEvents()
         setDeleteConfirmOpen(false)
-      } else {
+      }
+      else {
         displayAlert(
           'Delete Error',
           'Failed to delete the event. Please try again.',
           'error'
         )
       }
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert(
         'Delete Error',
         `Failed to delete the event: ${error.message}`,

@@ -36,22 +36,24 @@ const ScrollingTableRow = ({ teams, columns }) => {
               let value = team[column.id] ?? 0
 
               if (
-                (team[column.id] === 0 &&
-                  column.id === 'currentElevation' &&
-                  isLarge) ||
-                (team[column.id] === 0 &&
-                  column.id === 'lapsCompleted' &&
-                  isLarge) ||
-                (team[column.id] === null && column.id === 'bestLap' && isLarge)
+                (team[column.id] === 0
+                  && column.id === 'currentElevation'
+                  && isLarge)
+                || (team[column.id] === 0
+                  && column.id === 'lapsCompleted'
+                  && isLarge)
+                || (team[column.id] === null && column.id === 'bestLap' && isLarge)
               ) {
                 value = '-'
               }
 
               if (column.id === 'elevation') {
                 value = `${team.currentElevation} / ${team.totalElevation}`
-              } else if (column.id === 'laps') {
+              }
+              else if (column.id === 'laps') {
                 value = `${team.lapsCompleted} / ${team.lapsRequired}`
-              } else {
+              }
+              else {
                 value = team[column.id] ?? '-'
               }
 

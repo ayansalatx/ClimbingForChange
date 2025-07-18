@@ -35,7 +35,8 @@ const AddParticipantModal = ({
       setFirstName(participantData.firstName || '')
       setLastName(participantData.lastName || '')
       setTeamId(participantData.teamId?.id || participantData.teamId || '')
-    } else if (!open) {
+    }
+    else if (!open) {
       setId('')
       setFirstName('')
       setLastName('')

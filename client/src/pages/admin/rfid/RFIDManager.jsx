@@ -59,9 +59,10 @@ const RFIDManager = () => {
         active: true,
       }))
       setRfidData(processedTags)
-    } catch (err) {
-      const errorMessage =
-        err.response?.data?.message || err.message || 'Failed to load RFID tags'
+    }
+    catch (err) {
+      const errorMessage
+        = err.response?.data?.message || err.message || 'Failed to load RFID tags'
       displayAlert('Error', errorMessage, 'error')
     }
   }, [displayAlert])
@@ -79,7 +80,8 @@ const RFIDManager = () => {
       if (editingRfid) {
         await updateRfidTag(editingRfid.id, tagPayload)
         displayAlert('Success', 'RFID tag updated successfully', 'success')
-      } else {
+      }
+      else {
         await createRfidTag(tagPayload)
         displayAlert('Success', 'RFID tag created successfully', 'success')
       }
@@ -87,9 +89,10 @@ const RFIDManager = () => {
       setIsModalOpen(false)
       setEditingRfid(null)
       loadData()
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || 'Failed to save RFID tag'
+    }
+    catch (error) {
+      const errorMessage
+        = error.response?.data?.message || 'Failed to save RFID tag'
       displayAlert('Error', errorMessage, 'error')
     }
   }
@@ -116,13 +119,15 @@ const RFIDManager = () => {
       await deleteRfidTag(rfidToDelete.id)
       displayAlert('Success', 'RFID tag deleted successfully', 'success')
       loadData()
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert(
         'Error',
         error.response?.data?.message || 'Failed to delete RFID tag',
         'error'
       )
-    } finally {
+    }
+    finally {
       setDeleteConfirmOpen(false)
       setRfidToDelete(null)
     }

@@ -24,7 +24,8 @@ export const createMountain = async (mountainData) => {
   try {
     const res = await api.post('/mountains', dataToSend)
     return res.data
-  } catch (error) {
+  }
+  catch (error) {
     throw formatApiError(error, 'Failed to create mountain.')
   }
 }
@@ -42,7 +43,8 @@ export const updateMountain = async (id, mountainData) => {
   try {
     const res = await api.put(`/mountains/${id}`, dataToSend)
     return res.data
-  } catch (error) {
+  }
+  catch (error) {
     throw formatApiError(error, 'Failed to update mountain.')
   }
 }
@@ -53,7 +55,8 @@ export const deleteMountain = async (id) => {
   try {
     const res = await api.delete(`/mountains/${id}`)
     return res.data
-  } catch (error) {
+  }
+  catch (error) {
     throw formatApiError(error, 'Failed to delete mountain.')
   }
 }

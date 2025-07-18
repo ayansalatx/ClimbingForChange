@@ -43,8 +43,8 @@ const ProgressTable = ({
     setPage(0)
   }, [isSmall])
   // State for number of rows per page
-  const defaultRowsPerPage =
-    teamsLength > 100 ? 100 : teamsLength > 25 ? 25 : 10
+  const defaultRowsPerPage
+    = teamsLength > 100 ? 100 : teamsLength > 25 ? 25 : 10
 
   const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage)
 

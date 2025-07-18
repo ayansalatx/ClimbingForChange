@@ -58,11 +58,14 @@ const ProgressBoard = () => {
   let columns
   if (isLarge || isXLarge) {
     columns = lgColumns
-  } else if (isMedium) {
+  }
+  else if (isMedium) {
     columns = mdColumns
-  } else if (isSmall) {
+  }
+  else if (isSmall) {
     columns = smColumns
-  } else {
+  }
+  else {
     columns = [] // no columns for mobile
   }
 
@@ -94,7 +97,8 @@ const ProgressBoard = () => {
         const pastEventList = await getPastEvents()
         setActiveEvents(upcomingEventList)
         setPastEvents(pastEventList)
-      } catch {
+      }
+      catch {
         showWarning()
       }
     }
@@ -108,9 +112,11 @@ const ProgressBoard = () => {
   useEffect(() => {
     if (activeEvents.length > 0 && !selectedEvent) {
       setSelectedEvent(activeEvents[0].id)
-    } else if (pastEvents.length > 0 && !selectedEvent) {
+    }
+    else if (pastEvents.length > 0 && !selectedEvent) {
       setSelectedEvent(pastEvents[0].id)
-    } else if (activeEvents.length === 0 && pastEvents.length === 0) {
+    }
+    else if (activeEvents.length === 0 && pastEvents.length === 0) {
       setSelectedEvent(null)
     }
   }, [activeEvents, pastEvents, selectedEvent])
@@ -124,9 +130,11 @@ const ProgressBoard = () => {
 
         setTeamsLength(teamsForDisplay.length)
         setTeams(teamsForDisplay)
-      } catch {
+      }
+      catch {
         showWarning()
-      } finally {
+      }
+      finally {
         setLoading(false)
       }
     }
@@ -152,8 +160,8 @@ const ProgressBoard = () => {
 
       const participantMatch = team.participants.some((participant) => {
         return (
-          participant.firstName.toLowerCase().includes(search) ||
-          participant.lastName.toLowerCase().includes(search)
+          participant.firstName.toLowerCase().includes(search)
+          || participant.lastName.toLowerCase().includes(search)
         )
       })
 

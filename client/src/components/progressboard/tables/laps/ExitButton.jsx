@@ -9,7 +9,8 @@ const ExitButton = ({ teamId, color }) => {
   const handleClick = () => {
     if (teamId) {
       navigate(`/progress/team/${teamId}`, { replace: true })
-    } else {
+    }
+    else {
       navigate('/progress', { replace: true })
     }
   }

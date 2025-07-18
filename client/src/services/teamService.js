@@ -81,14 +81,14 @@ export const getTeamForDisplay = async (id) => {
       ? formatNumber(laps.length * team.hill?.lapElevationGain)
       : '-',
     elevationProgress: team.mountain?.totalElevation
-      ? ((laps.length * team.hill?.lapElevationGain) /
-          team.mountain.totalElevation) *
-          100 >
-        100
+      ? ((laps.length * team.hill?.lapElevationGain)
+        / team.mountain.totalElevation)
+      * 100
+      > 100
           ? 100
-          : ((laps.length * team.hill?.lapElevationGain) /
-            team.mountain.totalElevation) *
-          100
+          : ((laps.length * team.hill?.lapElevationGain)
+            / team.mountain.totalElevation)
+          * 100
       : 0,
     totalLaps: formatNumber(team.lapsRequired),
     lapsCompleted: laps.length ? formatNumber(laps.length) : '-',
@@ -130,7 +130,8 @@ export const addTeam = async (data) => {
   try {
     const response = await api.post('/teams', data)
     return response
-  } catch (error) {
+  }
+  catch (error) {
     throw formatApiError(error, 'Failed to create team.')
   }
 }
@@ -141,10 +142,12 @@ export const editTeam = async (id, data) => {
     const response = await api.put(`/teams/${id}`, data)
     if (response.status === 200) {
       return response
-    } else {
+    }
+    else {
       throw new Error(`Unexpected response status: ${response.status}.`)
     }
-  } catch (error) {
+  }
+  catch (error) {
     throw formatApiError(error, 'Failed to edit team.')
   }
 }
@@ -154,7 +157,8 @@ export const deleteTeam = async (id) => {
   try {
     await api.delete(`/teams/${id}`)
     return true
-  } catch (error) {
+  }
+  catch (error) {
     throw formatApiError(error, 'Failed to delete team.')
   }
 }

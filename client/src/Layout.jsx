@@ -30,7 +30,8 @@ const Layout = () => {
       )
 
       navigate('/login', { replace: true })
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert('Error', 'An error occurred during logout', error.message)
       navigate('/login', { replace: true })
     }

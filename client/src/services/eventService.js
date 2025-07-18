@@ -65,14 +65,14 @@ export const getDisplayEventTeams = async (id) => {
         laps.length * (team.hill?.lapElevationGain ?? 0)
       ),
       lapsRequired: Math.round(
-        (team.mountain?.totalElevation ?? 0) /
-          (team.hill?.lapElevationGain ?? 0)
+        (team.mountain?.totalElevation ?? 0)
+        / (team.hill?.lapElevationGain ?? 0)
       ),
       lapsCompleted: laps.length,
       lapsToGo: Math.max(
         Math.round(
-          (team.mountain?.totalElevation ?? 0) /
-            (team.hill?.lapElevationGain ?? 0)
+          (team.mountain?.totalElevation ?? 0)
+          / (team.hill?.lapElevationGain ?? 0)
         ) - laps.length,
         0
       ),
@@ -166,7 +166,8 @@ export const addEvent = async (data) => {
   try {
     const response = await api.post('/events', data)
     return response
-  } catch (error) {
+  }
+  catch (error) {
     throw formatApiError(error, 'Failed to create event.')
   }
 }
@@ -176,10 +177,12 @@ export const editEvent = async (id, data) => {
     const response = await api.put(`/events/${id}`, data)
     if (response.status === 200) {
       return response
-    } else {
+    }
+    else {
       throw new Error(`Unexpected response status: ${response.status}`)
     }
-  } catch (error) {
+  }
+  catch (error) {
     throw formatApiError(error, 'Failed to edit event.')
   }
 }
@@ -188,7 +191,8 @@ export const deleteEvent = async (id) => {
   try {
     await api.delete(`/events/${id}`)
     return true
-  } catch (error) {
+  }
+  catch (error) {
     throw formatApiError(error, 'Failed to delete event.')
   }
 }

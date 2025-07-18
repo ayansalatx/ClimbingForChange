@@ -47,9 +47,11 @@ const TeamProgress = () => {
       try {
         const teamForDisplay = await getLeaderboardTeam(teamId)
         setTeam(teamForDisplay)
-      } catch {
+      }
+      catch {
         showWarning()
-      } finally {
+      }
+      finally {
         setLoading(false)
       }
     }
@@ -111,9 +113,11 @@ const TeamProgress = () => {
   let teamStats
   if (isXXSmall) {
     teamStats = xSmTeamStats
-  } else if (isXSmall) {
+  }
+  else if (isXSmall) {
     teamStats = smTeamStats
-  } else {
+  }
+  else {
     teamStats = lgTeamStats
   }
 

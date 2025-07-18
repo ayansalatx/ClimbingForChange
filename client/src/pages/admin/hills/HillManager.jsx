@@ -56,9 +56,11 @@ const HillManager = () => {
           `Loaded ${hillList.length} hills from the backend.`,
           'success'
         )
-      } catch (error) {
+      }
+      catch (error) {
         displayAlert('Error', `Failed to Load Hills: ${error.message}`, 'error')
-      } finally {
+      }
+      finally {
         setLoading(false)
       }
     }
@@ -96,13 +98,15 @@ const HillManager = () => {
         `Deleted ${deletedHill.name} hill.`,
         'success'
       )
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert(
         'Error',
         `Failed to delete ${deletedHill.name}: ${error.message}`,
         'error'
       )
-    } finally {
+    }
+    finally {
       setLoading(false)
     }
   }
@@ -119,7 +123,8 @@ const HillManager = () => {
       if (hillData.id) {
         await editHill(hillData.id, hillData)
         displayAlert('Edited Hill', `Edited ${hillData.name} hill.`, 'success')
-      } else {
+      }
+      else {
         await addNewHill(hillData)
         displayAlert(
           'New Hill Added',
@@ -130,9 +135,11 @@ const HillManager = () => {
       const newHillList = await getAllHills()
       setHills(newHillList)
       setPopupOpen(false)
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert('Error', `Failed to save hill: ${error.message}`, 'error')
-    } finally {
+    }
+    finally {
       setLoading(false)
     }
   }

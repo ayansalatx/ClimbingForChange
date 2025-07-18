@@ -23,7 +23,8 @@ const RFIDModal = ({ open, onClose, onSave, rfid }) => {
   useEffect(() => {
     if (open && rfid) {
       setSerialNumber(rfid.serialNumber || '')
-    } else if (!open) {
+    }
+    else if (!open) {
       // Reset form when closing
       setSerialNumber('')
     }

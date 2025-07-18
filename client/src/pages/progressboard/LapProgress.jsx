@@ -46,9 +46,11 @@ const LapProgress = () => {
       try {
         const teamForDisplay = await getLeaderboardTeam(teamId)
         setTeam(teamForDisplay)
-      } catch {
+      }
+      catch {
         showWarning()
-      } finally {
+      }
+      finally {
         setLoading(false)
       }
     }
@@ -60,7 +62,8 @@ const LapProgress = () => {
   let columns
   if (isXSmall) {
     columns = xsColumns
-  } else {
+  }
+  else {
     columns = smColumns
   }
 

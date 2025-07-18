@@ -57,13 +57,15 @@ const ParticipantManager = () => {
           `Loaded ${participantList.length} participants from the backend.`,
           'success'
         )
-      } catch (error) {
+      }
+      catch (error) {
         displayAlert(
           'Error',
           `Failed to Load Participants: ${error.message}`,
           'error'
         )
-      } finally {
+      }
+      finally {
         setLoading(false)
       }
     }
@@ -112,13 +114,15 @@ const ParticipantManager = () => {
         `Deleted ${deletedParticipant.firstName} ${deletedParticipant.lastName}.`,
         'success'
       )
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert(
         'Error',
         `Failed to delete ${deletedParticipant.firstName} ${deletedParticipant.lastName}: ${error.message}`,
         'error'
       )
-    } finally {
+    }
+    finally {
       setLoading(false)
     }
   }
@@ -134,7 +138,8 @@ const ParticipantManager = () => {
           `Edited ${participantData.firstName} ${participantData.lastName}.`,
           'success'
         )
-      } else {
+      }
+      else {
         await addNewParticipant(participantData)
         displayAlert(
           'New Participant Added',
@@ -148,13 +153,15 @@ const ParticipantManager = () => {
         teamName: p.teamId?.name || '—',
       }))
       setParticipants(formattedList)
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert(
         'Error',
         `Failed to save participant: ${error.message}`,
         'error'
       )
-    } finally {
+    }
+    finally {
       setLoading(false)
     }
     setPopupOpen(false)
