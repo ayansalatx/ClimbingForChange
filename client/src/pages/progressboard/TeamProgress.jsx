@@ -426,7 +426,7 @@ const TeamProgress = () => {
                 >
                   {/* Laps Progress Indicator */}
                   <ProgressIndicator
-                    progress={team?.lapProgress}
+                    progress={team?.progressPercentage}
                     label={`${team?.lapsCompleted} Laps`}
                     color={'secondary.main'}
                     shadow={'drop-shadow(0 0 4px rgba(48, 51, 31, 0.3))'}
@@ -434,7 +434,7 @@ const TeamProgress = () => {
 
                   {/* Elevation Progress Indicator */}
                   <ProgressIndicator
-                    progress={team?.elevationProgress}
+                    progress={team?.progressPercentage}
                     label={`${team?.currentElevation} ${team?.elevationUnit}`}
                     color={'info.main'}
                     shadow={'drop-shadow(0 0 4px rgba(31, 47, 51, 0.3))'}
