@@ -6,11 +6,8 @@ import C4CHorizontalBlueLogo from '../../assets/C4C-branding/Climbing-For-Change
 import WarningDialog from '../../components/admin/modals/WarningDialog'
 import ProgressList from '../../components/progressboard/cards/ProgressCardList'
 import ProgressTable from '../../components/progressboard/tables/regular/ProgressTable'
-import {
-  getActiveUpcomingEvents,
-  getPastEvents,
-} from '../../services/eventService'
-import { getLeaderboard } from '../../services/leaderboardService'
+import { getActiveUpcomingEvents,
+  getLeaderboard, getPastEvents } from '../../services/leaderboardService'
 import theme from '../../styles/theme'
 
 // Define columns for full width screen
@@ -125,11 +122,10 @@ const ProgressBoard = () => {
     const loadLeaderboard = async () => {
       if (!selectedEvent) return
       try {
-        const leaderboard = await getLeaderboard(selectedEvent)
-        const teamsForDisplay = leaderboard.teams
+        const teamsList = await getLeaderboard(selectedEvent)
 
-        setTeamsLength(teamsForDisplay.length)
-        setTeams(teamsForDisplay)
+        setTeamsLength(teamsList.length)
+        setTeams(teamsList)
       }
       catch {
         showWarning()

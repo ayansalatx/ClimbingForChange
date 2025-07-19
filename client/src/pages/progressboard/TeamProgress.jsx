@@ -64,7 +64,7 @@ const TeamProgress = () => {
       value: `${team?.totalElevation} ${team?.elevationUnit}`,
     },
     { label: 'Total Laps:', value: team?.lapsRequired },
-    { label: 'Lap Elevation:', value: `${team?.hillLap} ${team?.hillLapUnit}` },
+    { label: 'Lap Elevation:', value: `${team?.lapElevation} ${team?.lapElevationUnit}` },
     { label: 'Best Lap Time:', value: team?.bestLap },
     { label: 'Time Elapsed:', value: team?.timeElapsed },
   ]

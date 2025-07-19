@@ -3,12 +3,7 @@ import { bibToTeamMap } from '../utils/serverState.js'
 import Passing from '../models/passing.js'
 import Lap from '../models/lap.js'
 import Team from '../models/team.js'
-import { formatNumber } from '../../../client/src/utils/formatNumber.js'
-import { formatTimeSeconds } from '../../../client/src/utils/formatDateTime.js'
-import {
-  formatDurationTimeHours,
-  formatDurationTimeMinutes,
-} from '../../../client/src/utils/formatDurationTime.js'
+import Event from '../models/event.js'
 
 async function processNewPassings(newPassings) {
   const START_LOOP_ID = 1
@@ -131,18 +126,20 @@ async function generateLeaderboard() {
   const calculatedTeams = teams.map((team) => {
     // Filter laps to only completed (endDateTime)
     const completedLaps = (team.laps || []).filter(lap => lap.endDateTime)
+    const lapsCompleted = completedLaps.length || 0
+    const lapsToGo = Math.max((team.lapsRequired || 0) - lapsCompleted, 0)
 
-    const lapsCompleted = completedLaps.length
     const totalElevation = team.mountain?.totalElevation || 0
     const elevationGainPerLap = team.hill?.lapElevationGain || 0
-    const currentElevation = lapsCompleted * elevationGainPerLap
+
+    const currentElevation = lapsCompleted * elevationGainPerLap || 0
     const progressPercentage = team.mountain
       ? (currentElevation / team.mountain.totalElevation) * 100
       : 0
 
     let lastUpdateTime = team.startDateTime
-    let bestLapTime = '-'
-    let averageLapTime = '-'
+    let bestLapTime = 0
+    let averageLapTime = 0
     let timeElapsed = 0
 
     if (lapsCompleted > 0) {
@@ -197,43 +194,25 @@ async function generateLeaderboard() {
       id: team.id,
       name: team.name,
       mountainName: team.mountain ? team.mountain.name : 'N/A',
-      hillName: team.hill ? team.hill.name : 'N/A',
-      elevationUnit: team.mountain?.elevationUnit,
-      hillLap: formatNumber(team.hill?.lapElevationGain) ?? '-',
-      hillLapUnit: team.hill?.elevationUnit,
-      totalElevation: formatNumber(totalElevation) || 0,
-      currentElevation: lapsCompleted ? formatNumber(currentElevation) : '-',
+      lapElevation: team.hill?.lapElevationGain ?? 0,
+      totalElevation,
+      currentElevation,
 
-      lapsRequired: formatNumber(team.lapsRequired) || 0,
-      lapsCompleted: lapsCompleted ? formatNumber(lapsCompleted) : '-',
-      lapsToGo: Math.max((team.lapsRequired || 0) - lapsCompleted, 0),
-
-      progressPercentage: Math.min(progressPercentage, 100),
+      lapsRequired: team.lapsRequired || 0,
+      lapsCompleted: lapsCompleted,
+      lapsToGo,
       lastUpdateTime,
       status,
 
-      bestLap: formatDurationTimeMinutes(bestLapTime) ?? '-',
-      averageLapTime: formatDurationTimeMinutes(averageLapTime) ?? '-',
-      timeElapsed: formatDurationTimeHours(timeElapsed),
+      bestLap: bestLapTime,
+      averageLapTime,
+      timeElapsed,
 
       // Participants with fullName
       participants: team.participants.map(p => ({
         ...p.toObject(),
         fullName: `${p.firstName} ${p.lastName}`,
       })),
-
-      laps: completedLaps.map((lap, idx) => {
-        const start = new Date(lap.startDateTime)
-        const end = new Date(lap.endDateTime)
-
-        return {
-          lapNumber: formatNumber(idx + 1),
-          startDateTime: formatTimeSeconds(start),
-          endDateTime: formatTimeSeconds(end),
-          duration: formatDurationTimeHours(lap.lapDuration),
-          completed: Boolean(lap.endDateTime),
-        }
-      }),
     }
   })
 
@@ -298,8 +277,8 @@ export const getTeamProgress = async (request, response) => {
       : 0
 
     let lastUpdateTime = team.startDateTime
-    let bestLapTime = '-'
-    let averageLapTime = '-'
+    let bestLapTime = 0
+    let averageLapTime = 0
     let timeElapsed = 0
 
     if (lapsCompleted > 0) {
@@ -356,22 +335,22 @@ export const getTeamProgress = async (request, response) => {
       mountainName: team.mountain ? team.mountain.name : 'N/A',
       hillName: team.hill ? team.hill.name : 'N/A',
       elevationUnit: team.mountain?.elevationUnit,
-      hillLap: formatNumber(team.hill?.lapElevationGain),
-      hillLapUnit: team.hill?.elevationUnit,
-      totalElevation: formatNumber(totalElevation) || 0,
-      currentElevation: lapsCompleted ? formatNumber(currentElevation) : '-',
+      lapElevation: team.hill?.lapElevationGain ?? null,
+      lapElevationUnit: team.hill?.elevationUnit,
+      totalElevation: totalElevation,
+      currentElevation: lapsCompleted ? currentElevation : null,
 
-      lapsRequired: formatNumber(team.lapsRequired) ?? '-',
-      lapsCompleted: lapsCompleted ? formatNumber(lapsCompleted) : '-',
+      lapsRequired: team.lapsRequired ?? 0,
+      lapsCompleted: lapsCompleted || 0,
       lapsToGo: Math.max((team.lapsRequired || 0) - lapsCompleted, 0),
 
       progressPercentage: Math.min(progressPercentage, 100),
       lastUpdateTime,
       status,
 
-      bestLap: formatDurationTimeMinutes(bestLapTime) ?? '-',
-      averageLapTime: formatDurationTimeMinutes(averageLapTime) ?? '-',
-      timeElapsed: formatDurationTimeHours(timeElapsed),
+      bestLap: bestLapTime,
+      averageLapTime,
+      timeElapsed,
 
       // Participants with fullName
       participants: team.participants.map(p => ({
@@ -380,14 +359,11 @@ export const getTeamProgress = async (request, response) => {
       })),
 
       laps: completedLaps.map((lap, idx) => {
-        const start = new Date(lap.startDateTime)
-        const end = new Date(lap.endDateTime)
-
         return {
-          lapNumber: formatNumber(idx + 1),
-          startDateTime: formatTimeSeconds(start),
-          endDateTime: formatTimeSeconds(end),
-          duration: formatDurationTimeHours(lap.lapDuration),
+          lapNumber: idx + 1,
+          startDateTime: lap.startDateTime,
+          endDateTime: lap.endDateTime,
+          duration: lap.lapDuration,
           completed: Boolean(lap.endDateTime),
         }
       }),
@@ -399,7 +375,7 @@ export const getTeamProgress = async (request, response) => {
   }
 }
 
-export const getLeaderboardEvents = async (req, response) => {
+export const getLeaderboardEvents = async (request, response) => {
   const events = await Event.find({})
     .populate('location')
     .populate('mountains')
