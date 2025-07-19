@@ -1,5 +1,6 @@
 import { alpha, Box, Typography, useMediaQuery } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { io } from 'socket.io-client'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import C4CHorizontalBlueLogo from '../../assets/C4C-branding/Climbing-For-Change-Horizontal_Green.png'
@@ -7,7 +8,7 @@ import WarningDialog from '../../components/admin/modals/WarningDialog'
 import ProgressList from '../../components/progressboard/cards/ProgressCardList'
 import ProgressTable from '../../components/progressboard/tables/regular/ProgressTable'
 import { getActiveUpcomingEvents,
-  getLeaderboard, getPastEvents } from '../../services/leaderboardService'
+  getLeaderboard, getPastEvents, updateLeaderboardTeamLaps } from '../../services/leaderboardService'
 import theme from '../../styles/theme'
 
 // Define columns for full width screen
@@ -69,6 +70,7 @@ const ProgressBoard = () => {
   // State for teams
   const [warningOpen, setWarningOpen] = useState(false)
   const [loading, setLoading] = useState(true)
+  const socketRef = useRef(null)
 
   const [teams, setTeams] = useState([])
   const [teamsLength, setTeamsLength] = useState()
@@ -165,6 +167,62 @@ const ProgressBoard = () => {
     })
     setFilteredTeams(filteredTeams)
   }, [searchString, teams])
+
+  // Listen for lap updates on socket
+  useEffect(() => {
+    socketRef.current = io('http://localhost:5001/')
+
+    const handleLapUpdate = (change) => {
+      const updatedLap = change.fullDocument
+      // Don't update for laps without an end time
+      if (!updatedLap || !updatedLap.endDateTime) {
+        return
+      }
+
+      // Get teams and update for only the team with ID that matches
+      setTeams((prevTeams) => {
+        const teamIndex = prevTeams.findIndex((team) => team.id?.toString() === updatedLap.teamId)
+        if (teamIndex === -1) return prevTeams
+
+        const team = prevTeams[teamIndex]
+        const laps = team.laps ?? []
+
+        // Update existing lap
+        const lapIndex = laps.findIndex(
+          (lap) => lap.id === updatedLap._id || lap._id === updatedLap._id
+        )
+
+        let newLaps
+
+        // Create new lap
+        if (lapIndex !== -1) {
+          newLaps = [
+            ...laps.slice(0, lapIndex),
+            updatedLap,
+            ...laps.slice(lapIndex + 1),
+          ]
+        } else {
+          newLaps = [...laps, updatedLap]
+        }
+
+        const updatedTeam = updateLeaderboardTeamLaps(team, newLaps)
+
+        // Update display for only team with lap update
+        return [
+          ...prevTeams.slice(0, teamIndex),
+          updatedTeam,
+          ...prevTeams.slice(teamIndex + 1),
+        ]
+      })
+    }
+
+    socketRef.current.on('lapUpdate', handleLapUpdate)
+
+    return () => {
+      socketRef.current.off('lapUpdate', handleLapUpdate)
+      socketRef.current.disconnect()
+    }
+  }, [])
 
   return (
     <Box

@@ -14,7 +14,9 @@ import TeamHeader from '../../components/progressboard/cards/TeamHeader'
 import ExitButton from '../../components/progressboard/shared/ExitButton'
 import LapsViewButton from '../../components/progressboard/shared/LapsViewButton'
 import LapTable from '../../components/progressboard/tables/laps/LapTable'
-import { getLeaderboardTeam } from '../../services/leaderboardService'
+import {
+  getLeaderboardTeam,
+} from '../../services/leaderboardService'
 import theme from '../../styles/theme'
 
 const columns = [
@@ -26,16 +28,16 @@ const columns = [
 ]
 
 const TeamProgress = () => {
+  const { teamId } = useParams()
+  const [warningOpen, setWarningOpen] = useState(false)
+  const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
+
   const isSmall = useMediaQuery(theme.breakpoints.down('md'))
   const isXSmall = useMediaQuery(theme.breakpoints.down('sm'))
   const isXXSmall = useMediaQuery(theme.breakpoints.down('xs'))
 
   const [team, setTeam] = useState()
-  const [warningOpen, setWarningOpen] = useState(false)
-  const [loading, setLoading] = useState(true)
-
-  const { teamId } = useParams()
 
   const showWarning = () => {
     setWarningOpen(true)
@@ -64,7 +66,10 @@ const TeamProgress = () => {
       value: `${team?.totalElevation} ${team?.elevationUnit}`,
     },
     { label: 'Total Laps:', value: team?.lapsRequired },
-    { label: 'Lap Elevation:', value: `${team?.lapElevation} ${team?.lapElevationUnit}` },
+    {
+      label: 'Lap Elevation:',
+      value: `${team?.lapElevation} ${team?.lapElevationUnit}`,
+    },
     { label: 'Best Lap Time:', value: team?.bestLap },
     { label: 'Time Elapsed:', value: team?.timeElapsed },
   ]
@@ -426,7 +431,7 @@ const TeamProgress = () => {
                 >
                   {/* Laps Progress Indicator */}
                   <ProgressIndicator
-                    progress={team?.lapProgress}
+                    progress={team?.progressPercentage}
                     label={`${team?.lapsCompleted} Laps`}
                     color={'secondary.main'}
                     shadow={'drop-shadow(0 0 4px rgba(48, 51, 31, 0.3))'}
@@ -434,7 +439,7 @@ const TeamProgress = () => {
 
                   {/* Elevation Progress Indicator */}
                   <ProgressIndicator
-                    progress={team?.elevationProgress}
+                    progress={team?.progressPercentage}
                     label={`${team?.currentElevation} ${team?.elevationUnit}`}
                     color={'info.main'}
                     shadow={'drop-shadow(0 0 4px rgba(31, 47, 51, 0.3))'}
