@@ -14,9 +14,7 @@ import TeamHeader from '../../components/progressboard/cards/TeamHeader'
 import ExitButton from '../../components/progressboard/shared/ExitButton'
 import LapsViewButton from '../../components/progressboard/shared/LapsViewButton'
 import LapTable from '../../components/progressboard/tables/laps/LapTable'
-import {
-  getLeaderboardTeam,
-} from '../../services/leaderboardService'
+import { getLeaderboardTeam } from '../../services/leaderboardService'
 import theme from '../../styles/theme'
 
 const columns = [
@@ -57,6 +55,12 @@ const TeamProgress = () => {
     }
 
     loadData()
+
+    const intervalId = setInterval(loadData, 2000)
+
+    return () => {
+      clearInterval(intervalId)
+    }
   }, [teamId])
 
   const lgTeamStats = [
@@ -478,7 +482,7 @@ const TeamProgress = () => {
                   </Box>
                 ) : (
                   <LapsViewButton
-                    label={'View Team\'s Laps Table'}
+                    label={"View Team's Laps Table"}
                     onClick={() => {
                       if (teamId) {
                         navigate(`/progress/team/${team.id}/laps`)
