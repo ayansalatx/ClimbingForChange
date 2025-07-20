@@ -43,6 +43,11 @@ const TeamProgress = () => {
 
   // Load Team data from server
   useEffect(() => {
+    if (!teamId) {
+      return
+    }
+    // socketRef.current = io('http://localhost:5001/')
+
     async function loadData() {
       try {
         const teamForDisplay = await getLeaderboardTeam(teamId)
@@ -56,7 +61,7 @@ const TeamProgress = () => {
 
     loadData()
 
-    const intervalId = setInterval(loadData, 2000)
+    const intervalId = setInterval(loadData, 15000)
 
     return () => {
       clearInterval(intervalId)
