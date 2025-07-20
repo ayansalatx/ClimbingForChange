@@ -147,7 +147,7 @@ const ParticipantUpload = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center',
+          justifyContent: 'flex-start',
           background: alpha(theme.palette.primary.light, 0.035),
         }}
       >
@@ -207,136 +207,161 @@ const ParticipantUpload = () => {
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                width: '60%',
+                width: '100%',
+                gap: 1,
               }}
             >
-              <Box sx={{ display: 'flex', width: '100%' }}>
-                <FormControl
+              <Box
+                sx={{
+                  display: 'flex',
+                  width: '100%',
+                }}
+              >
+                <Box
                   sx={{
-                    width: '100%',
+                    width: '60%',
                   }}
                 >
-                  <Select
-                    size="small"
-                    variant="outlined"
-                    id="event-select"
-                    value={selectedEvent ?? ''}
-                    onChange={(e) => setSelectedEvent(e.target.value)}
-                    displayEmpty
-                    required
-                    sx={{
-                      textAlign: 'left',
-                      borderRadius: '3px',
-                      border: `2px solid ${theme.palette.primary.main}`,
-                      color: 'primary.light',
-                      fontSize: '1rem',
-                      '&:before, &:after': {
-                        borderBottom: 'none !important',
-                      },
-                      '& .MuiSelect-select': {
-                        opacity: '100%',
-                        backgroundColor: 'background.paper',
-                        fontWeight: 'bold',
-                        textTransform: 'uppercase',
-                        letterSpacing: '.01rem',
-                        border: 'none',
-                      },
-                      '& .MuiSelect-select:hover': {
-                        background: alpha(theme.palette.primary.light, 0.1),
-                        border: 'none',
-                      },
-                      '.MuiSvgIcon-root': {
-                        color: 'primary.main',
-                      },
-                    }}
-                  >
-                    <MenuItem
-                      value=""
-                      disabled
+                  <FormControl sx={{ width: '100%' }}>
+                    <Select
+                      size="small"
+                      variant="outlined"
+                      id="event-select"
+                      value={selectedEvent ?? ''}
+                      onChange={(e) => setSelectedEvent(e.target.value)}
+                      displayEmpty
+                      required
                       sx={{
-                        minHeight: { xxs: 'unset' },
-                        fontSize: '1.25rem',
-                        py: 0,
+                        textAlign: 'left',
+                        borderRadius: '3px',
+                        border: `2px solid ${theme.palette.primary.main}`,
                         color: 'primary.light',
+                        fontSize: '1rem',
+                        '&:before, &:after': {
+                          borderBottom: 'none !important',
+                        },
+                        '& .MuiSelect-select': {
+                          opacity: '100%',
+                          backgroundColor: 'background.paper',
+                          fontWeight: 'bold',
+                          textTransform: 'uppercase',
+                          letterSpacing: '.01rem',
+                          border: 'none',
+                        },
+                        '& .MuiSelect-select:hover': {
+                          background: alpha(theme.palette.primary.light, 0.1),
+                          border: 'none',
+                        },
+                        '.MuiSvgIcon-root': {
+                          color: 'primary.main',
+                        },
                       }}
                     >
-                      Select an Event
-                    </MenuItem>
-                    {events.map((event) => (
                       <MenuItem
-                        value={event.id}
-                        key={event.id}
+                        value=""
+                        disabled
                         sx={{
+                          minHeight: { xxs: 'unset' },
                           fontSize: '1.25rem',
-                          minHeight: { xxs: 'unset', xs: 'unset', sm: 0 },
-                          color: 'primary.main',
-                          '&:hover': {
-                            backgroundColor: alpha(
-                              theme.palette.secondary.main,
-                              0.7
-                            ),
-                          },
-                          '&:focus': {
-                            background: alpha(theme.palette.primary.light, 0.1),
-                          },
+                          py: 0,
+                          color: 'primary.light',
                         }}
                       >
-                        {event.name}
+                        Select an Event
                       </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                      {events.map((event) => (
+                        <MenuItem
+                          value={event.id}
+                          key={event.id}
+                          sx={{
+                            fontSize: '1.25rem',
+                            minHeight: { xxs: 'unset', xs: 'unset', sm: 0 },
+                            color: 'primary.main',
+                            '&:hover': {
+                              backgroundColor: alpha(
+                                theme.palette.secondary.main,
+                                0.7
+                              ),
+                            },
+                            '&:focus': {
+                              background: alpha(
+                                theme.palette.primary.light,
+                                0.1
+                              ),
+                            },
+                          }}
+                        >
+                          {event.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Box>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    width: '40%',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <FormGroup>
+                    <FormControlLabel
+                      sx={{ color: 'primary.main' }}
+                      control={
+                        <Checkbox
+                          value={overwrite}
+                          onChange={(event) => {
+                            setOverwrite(event.target.checked)
+                          }}
+                          sx={{ color: 'primary.main', borderRadius: '4px' }}
+                        />
+                      }
+                      label={
+                        <Typography
+                          sx={{
+                            fontSize: '1rem',
+                            color: 'primary.main',
+                            textTransform: 'uppercase',
+                            fontWeight: 'bold',
+                            letterSpacing: '.01rem',
+                          }}
+                        >
+                          Overwrite
+                        </Typography>
+                      }
+                    />
+                  </FormGroup>
+                </Box>
               </Box>
-              <Box sx={{ ml: 2 }}>
-                <FormGroup>
-                  <FormControlLabel
-                    sx={{ color: 'primary.main' }}
-                    control={
-                      <Checkbox
-                        value={overwrite}
-                        onChange={(event) => {
-                          setOverwrite(event.target.checked)
-                        }}
-                        sx={{ color: 'primary.main', borderRadius: '4px' }}
-                      />
-                    }
-                    label={
-                      <Typography
-                        sx={{
-                          fontSize: '1rem',
-                          color: 'primary.main',
-                          textTransform: 'uppercase',
-                          fontWeight: 'bold',
-                          letterSpacing: '.01rem',
-                        }}
-                      >
-                        Overwrite
-                      </Typography>
-                    }
-                  />
-                </FormGroup>
+              <Box sx={{ display: 'flex' }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    height: '100%',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Button variant="contained" component="label">
+                    Select CSV File
+                    <input type="file" hidden onChange={handleFileChange} />
+                  </Button>
+                </Box>
               </Box>
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                flex: 1,
-                height: '100%',
-                alignItems: 'flex-start',
-                justifyContent: 'center',
-              }}
-            >
-              <Button variant="contained" component="label">
-                Select CSV File
-                <input type="file" hidden onChange={handleFileChange} />
-              </Button>
             </Box>
           </Box>
+          {rows.length > 0 ? (
+            <Box sx={{ flexGrow: 1, minHeight: 0, width: '100%' }}>
+              <UploadPreviewTable rows={rows} theme={theme} />
+            </Box>
+          ) : (
+            'none'
+          )}
           <Box
             sx={{
               display: 'flex',
               flexDirection: 'row',
-              justifyContent: 'space-between',
+              justifyContent: 'right',
             }}
           >
             <Button
@@ -350,7 +375,8 @@ const ParticipantUpload = () => {
               loading={isLoading}
               onClick={() => {
                 if (!selectedEvent) {
-                  setEventError(true)
+                  set
+                  ror(true)
                 } else {
                   setEventError(false)
 
@@ -365,13 +391,6 @@ const ParticipantUpload = () => {
               <CloudUploadIcon /> Upload
             </Button>
           </Box>
-          {rows.length > 0 ? (
-            <Box sx={{ flexGrow: 1, minHeight: 0, width: '100%' }}>
-              <UploadPreviewTable rows={rows} theme={theme} />
-            </Box>
-          ) : (
-            'none'
-          )}
         </Box>
       </Box>
       <ConfirmDeleteDialog
