@@ -12,7 +12,7 @@ const UploadPreviewTable = ({ rows }) => {
   return (
     <TableContainer
       component={Paper}
-      sx={{ overflowY: 'auto' }}
+      sx={{ maxHeight: '100%', overflowY: 'auto' }}
     >
       <Table size='small' stickyHeader>
         <TableHead>

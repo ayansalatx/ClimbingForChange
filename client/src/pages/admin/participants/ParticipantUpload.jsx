@@ -190,7 +190,7 @@ const ParticipantUpload = () => {
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            height: '100%',
+            minHeight: 0,
             gap: 1,
             p: 2,
           }}
@@ -366,7 +366,9 @@ const ParticipantUpload = () => {
             </Button>
           </Box>
           {rows.length > 0 ? (
-            <UploadPreviewTable rows={rows} theme={theme} />
+            <Box sx={{ flexGrow: 1, minHeight: 0, width: '100%' }}>
+              <UploadPreviewTable rows={rows} theme={theme} />
+            </Box>
           ) : (
             'none'
           )}
