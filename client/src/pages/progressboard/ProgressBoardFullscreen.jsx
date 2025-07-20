@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import C4CFavicon from '../../assets/C4C-branding/Favicon.png'
+import WarningDialog from '../../components/admin/modals/WarningDialog'
 import AutoScrollTable from '../../components/progressboard/tables/auto-scroll/AutoScrollTable'
-import { getDisplayEventTeams } from '../../services/eventService'
+import { getLeaderboard } from '../../services/leaderboardService'
 import theme from '../../styles/theme'
 
 // Define columns for full width screen
@@ -71,26 +72,36 @@ const ProgressBoardFullscreen = () => {
   let columns
   if (isXLarge) {
     columns = xlColumns
-  } else if (isLarge) {
+  }
+  else if (isLarge) {
     columns = lgColumns
-  } else if (isMedium) {
+  }
+  else if (isMedium) {
     columns = mdColumns
-  } else if (isSmall) {
+  }
+  else if (isSmall) {
     columns = smColumns
-  } else {
+  }
+  else {
     columns = xsmColumns
   }
 
   const { eventId } = useParams()
+  const navigate = useNavigate()
+
   // State for teams
   const [teams, setTeams] = useState([])
+  const [warningOpen, setWarningOpen] = useState(false)
   const [loading, setLoading] = useState(true)
-  const navigate = useNavigate()
+
+  const showWarning = () => {
+    setWarningOpen(true)
+  }
 
   useEffect(() => {
     const handleSpace = (event) => {
       if (event.code === 'Space') {
-        navigate('/progress')
+        navigate('/progress', { replace: true })
       }
     }
 
@@ -100,19 +111,29 @@ const ProgressBoardFullscreen = () => {
 
   // Load Team data from server
   useEffect(() => {
-    async function loadData() {
+    const loadLeaderboard = async () => {
+      if (!eventId) return
       try {
-        const teamsList = await getDisplayEventTeams(eventId)
-        // const event = await getOneEvent(eventId)
+        const leaderboard = await getLeaderboard(eventId)
+        const teamsForDisplay = leaderboard.teams
 
-        setTeams(teamsList)
-      } catch (e) {
-        console.log('Failed to load progress data', e)
-      } finally {
+        setTeams(teamsForDisplay)
+      }
+      catch {
+        showWarning()
+      }
+      finally {
         setLoading(false)
       }
     }
-    loadData()
+
+    loadLeaderboard()
+
+    const intervalId = setInterval(loadLeaderboard, 2000)
+
+    return () => {
+      clearInterval(intervalId)
+    }
   }, [eventId])
 
   return (
@@ -126,7 +147,7 @@ const ProgressBoardFullscreen = () => {
     >
       {/* https://pixabay.com/videos/search/terrain%20blue%20gray%20mountain/ */}
       <video
-        src='/assets/progress-board-background.mp4'
+        src="/assets/progress-board-background.mp4"
         autoPlay
         loop
         muted
@@ -171,9 +192,9 @@ const ProgressBoardFullscreen = () => {
             }}
           >
             <Box
-              component='img'
+              component="img"
               src={C4CFavicon}
-              alt='Climbing for Change Logo'
+              alt="Climbing for Change Logo"
               sx={{
                 width: 'auto',
                 maxHeight: {
@@ -204,8 +225,8 @@ const ProgressBoardFullscreen = () => {
               }}
             >
               <Typography
-                variant='h1'
-                color='secondary.main'
+                variant="h1"
+                color="secondary.main"
                 fontWeight={'bold'}
                 textTransform={'uppercase'}
                 sx={{
@@ -249,6 +270,15 @@ const ProgressBoardFullscreen = () => {
           </Box>
         </Box>
       </Box>
+      <WarningDialog
+        open={warningOpen}
+        title={'Data Loading Error'}
+        message={'Data for event is not loading.'}
+        onCancel={() => {
+          setWarningOpen(false)
+          navigate('/progress', { replace: true })
+        }}
+      />
     </Box>
   )
 }

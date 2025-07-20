@@ -14,24 +14,24 @@ import {
 } from '../../../services/mountainService'
 
 const fullColumns = [
-  { 
-    id: 'name', 
-    label: 'Mountain Name', 
-    width: '40%', 
+  {
+    id: 'name',
+    label: 'Mountain Name',
+    width: '40%',
     align: 'left',
     format: (value) => value || 'Unnamed Mountain',
   },
-  { 
-    id: 'totalElevation', 
-    label: 'Elevation', 
-    width: '30%', 
+  {
+    id: 'totalElevation',
+    label: 'Elevation',
+    width: '30%',
     align: 'center',
-    format: (value) => value ? value.toString() : '0',
+    format: (value) => (value ? value.toString() : '0'),
   },
-  { 
-    id: 'elevationUnit', 
-    label: 'Unit', 
-    width: '30%', 
+  {
+    id: 'elevationUnit',
+    label: 'Unit',
+    width: '30%',
     align: 'center',
     format: (value) => value || 'FT',
   },
@@ -45,12 +45,12 @@ const MountainManager = () => {
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
   const [mountainToDelete, setMountainToDelete] = useState(null)
   const [editedMountain, setEditedMountain] = useState(null)
-  
+
   const displayAlert = useAlert()
   async function loadData() {
     try {
       const mountainsList = await getAllMountains()
-      
+
       const mountainsWithIds = mountainsList.map((mountain) => {
         // Ensure all required fields have default values
         const processedMountain = {
@@ -61,11 +61,12 @@ const MountainManager = () => {
           active: mountain.active !== undefined ? mountain.active : true,
           ...mountain, // Spread the rest of the properties
         }
-        
+
         return processedMountain
       })
       setMountains(mountainsWithIds)
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert(
         'Error',
         `Failed to Load Mountains: ${error.message}`,
@@ -80,7 +81,7 @@ const MountainManager = () => {
     async function loadMountains() {
       try {
         const mountainsList = await getAllMountains()
-        
+
         const mountainsWithIds = mountainsList.map((mountain) => {
           // Ensure all required fields have default values
           const processedMountain = {
@@ -91,7 +92,7 @@ const MountainManager = () => {
             active: mountain.active !== undefined ? mountain.active : true,
             ...mountain, // Spread the rest of the properties
           }
-          
+
           return processedMountain
         })
         setMountains(mountainsWithIds)
@@ -100,13 +101,15 @@ const MountainManager = () => {
           `Loaded ${mountainsWithIds.length} mountains from the backend.`,
           'success'
         )
-      } catch (error) {
+      }
+      catch (error) {
         displayAlert(
           'Error',
           `Failed to Load Mountains: ${error.message}`,
           'error'
         )
-      }finally {
+      }
+      finally {
         setLoading(false)
       }
     }
@@ -132,7 +135,6 @@ const MountainManager = () => {
       active: mountain.active !== undefined ? mountain.active : true,
     })
     setPopupOpen(true)
-  
   }
 
   const onDelete = (mountain) => {
@@ -144,25 +146,28 @@ const MountainManager = () => {
     if (!mountainToDelete) {
       return
     }
-    
+
     try {
       await deleteMountain(mountainToDelete.id)
-      
+
       // Update the UI by removing the deleted mountain
       setMountains((prev) => prev.filter((m) => m.id !== mountainToDelete.id))
-      
+
       displayAlert(
         'Success',
         `Mountain '${mountainToDelete.name}' has been deleted.`,
         'success'
       )
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert(
         'Error',
-        error.response?.data?.message || `Failed to delete mountain: ${error.message}`,
+        error.response?.data?.message
+        || `Failed to delete mountain: ${error.message}`,
         'error'
       )
-    } finally {
+    }
+    finally {
       setDeleteConfirmOpen(false)
       setMountainToDelete(null)
     }
@@ -176,31 +181,31 @@ const MountainManager = () => {
   const handleSave = async (mountainData) => {
     try {
       let savedMountain
-      
+
       // Check if we're updating an existing mountain
       if (editedMountain && editedMountain.id) {
         // Update existing mountain
         savedMountain = await updateMountain(editedMountain.id, mountainData)
-        
-        
-        setMountains((prev) => 
-          prev.map((mountain) => 
-            mountain.id === editedMountain.id 
+
+        setMountains((prev) =>
+          prev.map((mountain) =>
+            mountain.id === editedMountain.id
               ? { ...savedMountain, id: savedMountain._id || savedMountain.id }
               : mountain
           )
         )
-        
+
         displayAlert(
           'Success',
           `Mountain '${editedMountain.name}' has been updated.`,
           'success'
         )
         loadData()
-      } else {
+      }
+      else {
         const { ...newMountainData } = mountainData
         savedMountain = await createMountain(newMountainData)
-        
+
         setMountains((prev) => [
           ...prev,
           {
@@ -208,7 +213,7 @@ const MountainManager = () => {
             id: savedMountain._id || savedMountain.id,
           },
         ])
-        
+
         displayAlert(
           'Success',
           `Mountain '${savedMountain.name}' has been created.`,
@@ -216,10 +221,11 @@ const MountainManager = () => {
         )
         loadData()
       }
-      
+
       setPopupOpen(false)
       setEditedMountain(null)
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert(
         'Error',
         error.response?.data?.message || 'Failed to save mountain',
@@ -228,7 +234,6 @@ const MountainManager = () => {
     }
   }
 
-  
   return (
     <Box
       sx={{

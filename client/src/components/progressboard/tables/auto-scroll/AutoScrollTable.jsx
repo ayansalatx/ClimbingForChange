@@ -12,7 +12,6 @@ import ScrollingTableRow from './ScrollingTableRows'
 import TableHeaderRow from './TableHeaderRow'
 
 const AutoScrollTable = ({ teams, columns, loading }) => {
-
   return (
     <Paper
       sx={{
@@ -47,14 +46,11 @@ const AutoScrollTable = ({ teams, columns, loading }) => {
               fontSize: '2rem',
             }}
           >
-            <CircularProgress color='secondary' />
+            <CircularProgress color="secondary" />
           </Box>
         ) : (
-          <Table aria-label='auto scrolling table' size='small'>
-            <ScrollingTableRow
-              columns={columns}
-              teams={teams}
-            />
+          <Table aria-label="auto scrolling table" size="small">
+            <ScrollingTableRow columns={columns} teams={teams} />
           </Table>
         )}
       </TableContainer>

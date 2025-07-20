@@ -80,7 +80,6 @@ const ParticipantUpload = () => {
           event.target.value = ''
         },
         error: (err) => {
-          console.error(err)
           displayAlert(
             'Loading Error',
             `Error while loading file ${err.message}.`,
@@ -318,7 +317,15 @@ const ParticipantUpload = () => {
                 </FormGroup>
               </Box>
             </Box>
-            <Box sx={{ display: 'flex', flex: 1, height: '100%', alignItems: 'flex-start', justifyContent: 'center' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flex: 1,
+                height: '100%',
+                alignItems: 'flex-start',
+                justifyContent: 'center',
+              }}
+            >
               <Button variant="contained" component="label">
                 Select CSV File
                 <input type="file" hidden onChange={handleFileChange} />
@@ -358,7 +365,6 @@ const ParticipantUpload = () => {
               <CloudUploadIcon /> Upload
             </Button>
           </Box>
-
           {rows.length > 0 ? (
             <UploadPreviewTable rows={rows} theme={theme} />
           ) : (

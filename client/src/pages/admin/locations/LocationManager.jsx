@@ -42,13 +42,15 @@ const LocationManager = () => {
           'success'
         )
         setLocations(locationsList)
-      } catch (error) {
+      }
+      catch (error) {
         displayAlert(
           'Error',
           `Failed to Load Locations: ${error.message}`,
           'error'
         )
-      } finally {
+      }
+      finally {
         setLoading(false)
       }
     }
@@ -83,13 +85,15 @@ const LocationManager = () => {
         `Deleted ${deletedLocation.name} location.`,
         'success'
       )
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert(
         'Error',
         `Failed to delete ${deletedLocation.name}: ${error.message}`,
         'error'
       )
-    } finally {
+    }
+    finally {
       setLoading(false)
     }
   }
@@ -110,14 +114,16 @@ const LocationManager = () => {
           `Edited ${locationData.name} location.`,
           'success'
         )
-      } catch (error) {
+      }
+      catch (error) {
         displayAlert(
           'Error',
           `Failed to Edit ${locationData.name}: ${error.message}`,
           'error'
         )
       }
-    } else {
+    }
+    else {
       try {
         await addNewLocation(locationData)
         const newLocationList = await getAllLocations()
@@ -127,7 +133,8 @@ const LocationManager = () => {
           `Added ${locationData.name} location.`,
           'success'
         )
-      } catch (error) {
+      }
+      catch (error) {
         displayAlert(
           'Error',
           `Failed to Create ${locationData.name}: ${error.message}`,

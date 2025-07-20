@@ -57,7 +57,8 @@ const EventManager = () => {
     try {
       const locations = await getAllLocations()
       setLocations(locations)
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert('Locations Error', `${error.message}`, 'error')
     }
   }, [displayAlert])
@@ -88,7 +89,7 @@ const EventManager = () => {
           duration: durationInHours.toFixed(1),
           mountains: mountainNames.length ? mountainNames.join(', ') : 'None',
           active: isActive,
-          activeStatus: isActive ? 'Active' : 'Inactive', 
+          activeStatus: isActive ? 'Active' : 'Inactive',
         }
       })
 
@@ -98,8 +99,8 @@ const EventManager = () => {
         `Loaded ${events.length} events from the backend.`,
         'success'
       )
-
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert('Events Error', `${error.message}`, 'error')
     }
   }, [displayAlert])
@@ -114,7 +115,8 @@ const EventManager = () => {
         mountainMap[mountain.id] = mountain.name
       }
       setMountains(mountainMap)
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert('Mountains Error', error.message, 'error')
     }
   }, [displayAlert])
@@ -123,26 +125,35 @@ const EventManager = () => {
     fetchLocations()
     fetchMountains()
   }, [fetchLocations, fetchMountains])
-  
+
   useEffect(() => {
     if (Object.keys(mountains).length > 0) {
       fetchEvents()
     }
   }, [mountains, fetchEvents])
 
-
   const handleAddEvent = async (eventData) => {
     try {
       const response = await addEvent(eventData)
       if (response.status === 201 || response.status === 200) {
-        displayAlert('Event Created', 'The event has been successfully created.', 'success')
+        displayAlert(
+          'Event Created',
+          'The event has been successfully created.',
+          'success'
+        )
         fetchEvents()
         handleClosePopup()
-      } else {
+      }
+      else {
         throw new Error('Event was not created')
       }
-    } catch (error) {
-      displayAlert('Add Error', `Failed to add the event: ${error.message}`, 'error')
+    }
+    catch (error) {
+      displayAlert(
+        'Add Error',
+        `Failed to add the event: ${error.message}`,
+        'error'
+      )
     }
   }
 
@@ -150,14 +161,24 @@ const EventManager = () => {
     try {
       const response = await editEvent(id, eventData)
       if (response.status === 201 || response.status === 200) {
-        displayAlert('Event Edited', 'The event has been successfully edited.', 'success')
+        displayAlert(
+          'Event Edited',
+          'The event has been successfully edited.',
+          'success'
+        )
         fetchEvents()
         handleClosePopup()
-      } else {
+      }
+      else {
         throw new Error('Event was not edited')
       }
-    } catch (error) {
-      displayAlert('Edit Error', `Failed to edit the event: ${error.message}`, 'error')
+    }
+    catch (error) {
+      displayAlert(
+        'Edit Error',
+        `Failed to edit the event: ${error.message}`,
+        'error'
+      )
     }
   }
 
@@ -165,14 +186,28 @@ const EventManager = () => {
     try {
       const success = await deleteEvent(eventToDelete.id)
       if (success) {
-        displayAlert('Event Deleted', 'The event has been successfully deleted.', 'success')
+        displayAlert(
+          'Event Deleted',
+          'The event has been successfully deleted.',
+          'success'
+        )
         fetchEvents()
         setDeleteConfirmOpen(false)
-      } else {
-        displayAlert('Delete Error', 'Failed to delete the event. Please try again.', 'error')
       }
-    } catch (error) {
-      displayAlert('Delete Error', `Failed to delete the event: ${error.message}`, 'error')
+      else {
+        displayAlert(
+          'Delete Error',
+          'Failed to delete the event. Please try again.',
+          'error'
+        )
+      }
+    }
+    catch (error) {
+      displayAlert(
+        'Delete Error',
+        `Failed to delete the event: ${error.message}`,
+        'error'
+      )
     }
   }
 
@@ -215,7 +250,7 @@ const EventManager = () => {
       }}
     >
       <DataTable
-        tableTitle='Events'
+        tableTitle="Events"
         tableIcon={Event}
         tableColumns={fullColumns}
         tableData={events}

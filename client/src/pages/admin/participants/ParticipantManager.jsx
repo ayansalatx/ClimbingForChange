@@ -42,7 +42,7 @@ const ParticipantManager = () => {
         const participantList = participantListRaw.map((p) => ({
           ...p,
           teamName: p.team?.name || '—',
-          eventId: p.team?.event || null, 
+          eventId: p.team?.event || null,
         }))
         setParticipants(participantList)
 
@@ -51,21 +51,21 @@ const ParticipantManager = () => {
 
         const eventsList = await getAllEvents()
         setEvents(eventsList)
-        console.log('Selected Event:', selectedEvent)
-
 
         displayAlert(
           'Participants Loaded',
           `Loaded ${participantList.length} participants from the backend.`,
           'success'
         )
-      } catch (error) {
+      }
+      catch (error) {
         displayAlert(
           'Error',
           `Failed to Load Participants: ${error.message}`,
           'error'
         )
-      } finally {
+      }
+      finally {
         setLoading(false)
       }
     }
@@ -114,13 +114,15 @@ const ParticipantManager = () => {
         `Deleted ${deletedParticipant.firstName} ${deletedParticipant.lastName}.`,
         'success'
       )
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert(
         'Error',
         `Failed to delete ${deletedParticipant.firstName} ${deletedParticipant.lastName}: ${error.message}`,
         'error'
       )
-    } finally {
+    }
+    finally {
       setLoading(false)
     }
   }
@@ -136,7 +138,8 @@ const ParticipantManager = () => {
           `Edited ${participantData.firstName} ${participantData.lastName}.`,
           'success'
         )
-      } else {
+      }
+      else {
         await addNewParticipant(participantData)
         displayAlert(
           'New Participant Added',
@@ -150,13 +153,15 @@ const ParticipantManager = () => {
         teamName: p.teamId?.name || '—',
       }))
       setParticipants(formattedList)
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert(
         'Error',
         `Failed to save participant: ${error.message}`,
         'error'
       )
-    } finally {
+    }
+    finally {
       setLoading(false)
     }
     setPopupOpen(false)
@@ -180,7 +185,7 @@ const ParticipantManager = () => {
       }}
     >
       <DataTable
-        tableTitle='Participants'
+        tableTitle="Participants"
         tableIcon={PersonIcon}
         tableColumns={fullColumns}
         tableData={filteredParticipants}
@@ -197,7 +202,9 @@ const ParticipantManager = () => {
         onClose={() => setPopupOpen(false)}
         onAdd={handleSave}
         participantData={selectedParticipant}
-        teamNames={teams.filter((team) => String(team.event) === String(selectedEvent))}
+        teamNames={teams.filter(
+          (team) => String(team.event) === String(selectedEvent)
+        )}
       />
       <ConfirmDeleteDialog
         open={deleteConfirmOpen}

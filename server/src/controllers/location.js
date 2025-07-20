@@ -1,13 +1,12 @@
 import Location from '../models/location.js'
 
-export const getLocations = async(request, response) => {
-
+export const getLocations = async (request, response) => {
   const locations = await Location.find({})
 
   response.json(locations)
 }
 
-export const getLocationById = async(request, response) => {
+export const getLocationById = async (request, response) => {
   const id = request.params.id
 
   const location = await Location.findById(id)
@@ -16,7 +15,6 @@ export const getLocationById = async(request, response) => {
 }
 
 export const saveOneLocation = async (request, response) => {
-
   const body = request.body
 
   if (!body) {
@@ -39,7 +37,6 @@ export const saveOneLocation = async (request, response) => {
 }
 
 export const updateOneLocation = async (request, response) => {
-
   const body = request.body
   const id = request.params.id
 
@@ -61,23 +58,24 @@ export const updateOneLocation = async (request, response) => {
         country: body.country,
         lap: body.lap,
         active: body.active,
-      }
+      },
     },
     {
       new: true,
-      runValidators: true
-    }
+      runValidators: true,
+    },
   )
 
   response.status(200).json(updated)
 }
 
 export const deleteOneLocation = async (request, response) => {
-
   const id = request.params.id
 
   if (!id) {
-    return response.status(400).json({ error: 'Location id to delete is missing' })
+    return response
+      .status(400)
+      .json({ error: 'Location id to delete is missing' })
   }
 
   await Location.findByIdAndDelete(id)

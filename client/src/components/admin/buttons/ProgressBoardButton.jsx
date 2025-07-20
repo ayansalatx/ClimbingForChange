@@ -9,7 +9,7 @@ const ProgressBoardButton = ({ liveEventExists }) => {
   return (
     <Button
       onClick={() => navigate('/progress')}
-      variant='contained'
+      variant="contained"
       sx={{
         bgcolor: 'primary.main',
         display: 'flex',
@@ -45,11 +45,11 @@ const ProgressBoardButton = ({ liveEventExists }) => {
           />
           <Box sx={{ px: { xxs: 0.75, lg: 1 }, py: { xxs: 0.2, lg: 0.5 } }}>
             <Typography
-              variant='h6'
-              color='secondary.main'
-              textTransform='uppercase'
-              fontWeight='bold'
-              letterSpacing='0.1rem'
+              variant="h6"
+              color="secondary.main"
+              textTransform="uppercase"
+              fontWeight="bold"
+              letterSpacing="0.1rem"
               lineHeight={{
                 xxs: '1rem',
                 md: '1.3rem',
@@ -90,11 +90,11 @@ const ProgressBoardButton = ({ liveEventExists }) => {
         >
           <Box sx={{ px: { xxs: 0.75, lg: 1 }, py: { xxs: 0.2, lg: 0.5 } }}>
             <Typography
-              variant='h6'
-              color='background.paper'
-              textTransform='uppercase'
-              fontWeight='bold'
-              letterSpacing='0.1rem'
+              variant="h6"
+              color="background.paper"
+              textTransform="uppercase"
+              fontWeight="bold"
+              letterSpacing="0.1rem"
               lineHeight={{
                 xxs: '1rem',
                 md: '1.3rem',

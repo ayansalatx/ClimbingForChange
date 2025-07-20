@@ -8,11 +8,13 @@ import ProgressCard from './ProgressCard'
 
 const ProgressList = ({
   teams,
-  events,
+  activeEvents,
+  pastEvents,
   selectedEvent,
   setSelectedEvent,
   searchString,
   setSearchString,
+  teamsLength,
   loading,
 }) => {
   return (
@@ -25,10 +27,20 @@ const ProgressList = ({
         overflow: 'hidden',
       }}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', p: 1, backgroundColor: alpha(theme.palette.primary.main, .85), borderRadius: '4px' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
+          p: 1,
+          backgroundColor: alpha(theme.palette.primary.main, 0.85),
+          borderRadius: '4px',
+        }}
+      >
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, pb: 1 }}>
           <EventSelector
-            events={events}
+            activeEvents={activeEvents}
+            pastEvents={pastEvents}
             selectedEvent={selectedEvent}
             setSelectedEvent={setSelectedEvent}
           />
@@ -58,9 +70,9 @@ const ProgressList = ({
                 height: '100%',
               }}
             >
-              <CircularProgress color='secondary' />
+              <CircularProgress color="secondary" />
             </Box>
-          ) : teams.length > 0 ? (
+          ) : teamsLength && !loading > 0 ? (
             teams.map((team, index) => (
               <Box key={index}>
                 <ProgressCard team={team} />
@@ -82,10 +94,10 @@ const ProgressList = ({
                   color: 'secondary.main',
                 }}
               />
-              <Typography fontSize='1.5rem' color='background.paper'>
+              <Typography fontSize="1.5rem" color="background.paper">
                 No teams climbing yet...
               </Typography>
-              <Typography color='background.paper'>
+              <Typography color="background.paper">
                 Check back later!
               </Typography>
             </Box>

@@ -21,7 +21,7 @@ const TableDataRows = ({
           return (
             <TableRow
               hover
-              role='checkbox'
+              role="checkbox"
               tabIndex={-1}
               key={row.id || index}
               sx={{

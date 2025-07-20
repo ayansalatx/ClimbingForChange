@@ -3,10 +3,11 @@ import { useEffect, useState } from 'react'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import C4CHorizontalBlueLogo from '../../assets/C4C-branding/Climbing-For-Change-Horizontal_Green.png'
+import WarningDialog from '../../components/admin/modals/WarningDialog'
 import ProgressList from '../../components/progressboard/cards/ProgressCardList'
 import ProgressTable from '../../components/progressboard/tables/regular/ProgressTable'
-import { getAllEvents, getDisplayEventTeams } from '../../services/eventService'
-import { getLeaderboard } from '../../services/leaderboard'
+import { getActiveUpcomingEvents,
+  getLeaderboard, getPastEvents } from '../../services/leaderboardService'
 import theme from '../../styles/theme'
 
 // Define columns for full width screen
@@ -54,75 +55,83 @@ const ProgressBoard = () => {
   let columns
   if (isLarge || isXLarge) {
     columns = lgColumns
-  } else if (isMedium) {
+  }
+  else if (isMedium) {
     columns = mdColumns
-  } else if (isSmall) {
+  }
+  else if (isSmall) {
     columns = smColumns
-  } else {
+  }
+  else {
     columns = [] // no columns for mobile
   }
 
   // State for teams
+  const [warningOpen, setWarningOpen] = useState(false)
+  const [loading, setLoading] = useState(true)
+
   const [teams, setTeams] = useState([])
   const [teamsLength, setTeamsLength] = useState()
   // State for events
-  const [events, setEvents] = useState([])
+  const [activeEvents, setActiveEvents] = useState([])
+  const [pastEvents, setPastEvents] = useState([])
   const [selectedEvent, setSelectedEvent] = useState(null)
 
   // State to store current search input string
   const [searchString, setSearchString] = useState('')
   // State for teams filtered by the search input
   const [filteredTeams, setFilteredTeams] = useState([])
-  
-  const [leaderboard, setLeaderboard] = useState([])
-  console.log('🚀 ~ ProgressBoard ~ leaderboard:', leaderboard)
 
-
-  const [loading, setLoading] = useState(true)
+  const showWarning = () => {
+    setWarningOpen(true)
+  }
 
   // Load Participant data from server
   useEffect(() => {
-    async function loadData() {
+    async function loadEventData() {
       try {
-        const eventList = await getAllEvents()
-        setEvents(eventList)
-      } catch (e) {
-        console.log('Failed to load progress data', e)
+        const upcomingEventList = await getActiveUpcomingEvents()
+        const pastEventList = await getPastEvents()
+        setActiveEvents(upcomingEventList)
+        setPastEvents(pastEventList)
+      }
+      catch {
+        showWarning()
       }
     }
 
-    loadData()
+    loadEventData()
   }, [])
 
   // Set default event as the event that is ongoing or upcoming
+  // If no upcoming then set to last event
+  // If no events then null
   useEffect(() => {
-    if (events.length > 0 && !selectedEvent) {
-      const now = new Date()
-
-      const sorted = [...events].sort(
-        (a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)
-      )
-
-      const currentOrUpcoming = sorted.find((ev) => {
-        const start = new Date(ev.startDateTime)
-        const end = new Date(ev.endDateTime)
-        return (now >= start && now <= end) || now < start
-      })
-
-      if (currentOrUpcoming) {
-        setSelectedEvent(currentOrUpcoming.id)
-      }
+    if (activeEvents.length > 0 && !selectedEvent) {
+      setSelectedEvent(activeEvents[0].id)
     }
-  }, [events, selectedEvent])
+    else if (pastEvents.length > 0 && !selectedEvent) {
+      setSelectedEvent(pastEvents[0].id)
+    }
+    else if (activeEvents.length === 0 && pastEvents.length === 0) {
+      setSelectedEvent(null)
+    }
+  }, [activeEvents, pastEvents, selectedEvent])
 
   useEffect(() => {
     const loadLeaderboard = async () => {
       if (!selectedEvent) return
       try {
-        const leaderboard = await getLeaderboard(selectedEvent)
-        setLeaderboard(leaderboard)
-      } catch (error) {
-        console.error('Failed to load leaderboard:', error)
+        const teamsList = await getLeaderboard(selectedEvent)
+
+        setTeamsLength(teamsList.length)
+        setTeams(teamsList)
+      }
+      catch {
+        showWarning()
+      }
+      finally {
+        setLoading(false)
       }
     }
 
@@ -133,24 +142,6 @@ const ProgressBoard = () => {
     return () => {
       clearInterval(intervalId)
     }
-  }, [selectedEvent])
-
-  useEffect(() => {
-    const loadTeamsForEvent = async () => {
-      if (!selectedEvent) return
-      try {
-        const teamsForEvent = await getDisplayEventTeams(selectedEvent)
-
-        setTeamsLength(teamsForEvent.length)
-        setTeams(teamsForEvent)
-      } catch (e) {
-        console.log('Failed to load event teams', e)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    loadTeamsForEvent()
   }, [selectedEvent])
 
   useEffect(() => {
@@ -165,8 +156,8 @@ const ProgressBoard = () => {
 
       const participantMatch = team.participants.some((participant) => {
         return (
-          participant.firstName.toLowerCase().includes(search) ||
-          participant.lastName.toLowerCase().includes(search)
+          participant.firstName.toLowerCase().includes(search)
+          || participant.lastName.toLowerCase().includes(search)
         )
       })
 
@@ -188,9 +179,9 @@ const ProgressBoard = () => {
 
       {isXSmall ? (
         <Box
-          component='img'
-          src='/assets/mountain-range-illustration-2.jpeg'
-          alt='Mountain background'
+          component="img"
+          src="/assets/mountain-range-illustration-2.jpeg"
+          alt="Mountain background"
           sx={{
             position: 'absolute',
             top: 0,
@@ -203,7 +194,7 @@ const ProgressBoard = () => {
         />
       ) : (
         <video
-          src='/assets/progress-board-background.mp4'
+          src="/assets/progress-board-background.mp4"
           autoPlay
           loop
           muted
@@ -257,9 +248,9 @@ const ProgressBoard = () => {
             {/* Logo */}
             <Box sx={{ mb: { sm: 0.5 } }}>
               <Box
-                component='img'
+                component="img"
                 src={isXSmall ? C4CHorizontalBlueLogo : C4CHorizontalGreenLogo}
-                alt='Climbing for Change Logo'
+                alt="Climbing for Change Logo"
                 sx={{
                   maxWidth: {
                     xxs: '11rem',
@@ -293,11 +284,11 @@ const ProgressBoard = () => {
                 }}
               >
                 <Typography
-                  variant='h1'
-                  color='secondary.main'
-                  fontWeight='bold'
-                  textTransform='uppercase'
-                  letterSpacing='.05rem'
+                  variant="h1"
+                  color="secondary.main"
+                  fontWeight="bold"
+                  textTransform="uppercase"
+                  letterSpacing=".05rem"
                   sx={{
                     fontStyle: 'italic',
                     mr: {
@@ -329,11 +320,13 @@ const ProgressBoard = () => {
           {isXSmall ? (
             <ProgressList
               teams={filteredTeams}
-              events={events}
+              activeEvents={activeEvents}
+              pastEvents={pastEvents}
               selectedEvent={selectedEvent}
               setSelectedEvent={setSelectedEvent}
               searchString={searchString}
               setSearchString={setSearchString}
+              teamsLength={teamsLength}
               loading={loading}
             />
           ) : (
@@ -341,7 +334,8 @@ const ProgressBoard = () => {
               <ProgressTable
                 columns={columns}
                 teams={filteredTeams}
-                events={events}
+                activeEvents={activeEvents}
+                pastEvents={pastEvents}
                 selectedEvent={selectedEvent}
                 setSelectedEvent={setSelectedEvent}
                 searchString={searchString}
@@ -353,6 +347,13 @@ const ProgressBoard = () => {
           )}
         </Box>
       </Box>
+
+      <WarningDialog
+        open={warningOpen}
+        title={'Data Loading Error'}
+        message={'Data for event is not loading.'}
+        onCancel={() => setWarningOpen(false)}
+      />
     </Box>
   )
 }

@@ -13,7 +13,7 @@ const TableHeaderRow = ({ columns }) => {
             {column.label}
           </TableCell>
         ))}
-        <TableCell align='right' style={{ minWidth: 100 }}>
+        <TableCell align="right" style={{ minWidth: 100 }}>
           Actions
         </TableCell>
       </TableRow>

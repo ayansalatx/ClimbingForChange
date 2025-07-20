@@ -14,9 +14,9 @@ const ScrollingTableRow = ({ teams, columns }) => {
 
   const gradientBackground = `linear-gradient(to right, ${alpha(theme.palette.primary.main, 0.8)}, ${alpha(theme.palette.primary.main, 0.3)}, ${alpha(theme.palette.primary.main, 0.8)})`
   return (
-    <TableBody className='marquee__content'>
+    <TableBody className="marquee__content">
       {teams.map((team, index) => (
-        <Fragment key={team.id || index}>
+        <Fragment key={index}>
           <TableRow>
             <TableCell
               colSpan={columns.length}
@@ -29,29 +29,31 @@ const ScrollingTableRow = ({ teams, columns }) => {
             />
           </TableRow>
           <TableRow
-            key={team.id || index}
+            key={index}
             sx={{ background: gradientBackground }}
           >
             {columns.map((column, colIndex) => {
               let value = team[column.id] ?? 0
 
               if (
-                (team[column.id] === 0 &&
-                  column.id === 'currentElevation' &&
-                  isLarge) ||
-                (team[column.id] === 0 &&
-                  column.id === 'lapsCompleted' &&
-                  isLarge) ||
-                (team[column.id] === null && column.id === 'bestLap' && isLarge)
+                (team[column.id] === 0
+                  && column.id === 'currentElevation'
+                  && isLarge)
+                || (team[column.id] === 0
+                  && column.id === 'lapsCompleted'
+                  && isLarge)
+                || (team[column.id] === null && column.id === 'bestLap' && isLarge)
               ) {
                 value = '-'
               }
 
               if (column.id === 'elevation') {
                 value = `${team.currentElevation} / ${team.totalElevation}`
-              } else if (column.id === 'laps') {
+              }
+              else if (column.id === 'laps') {
                 value = `${team.lapsCompleted} / ${team.lapsRequired}`
-              } else {
+              }
+              else {
                 value = team[column.id] ?? '-'
               }
 
