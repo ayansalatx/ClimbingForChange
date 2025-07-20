@@ -1,11 +1,15 @@
-import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, Typography } from '@mui/material'
+import { Box, FormControl, InputLabel, MenuItem, Modal, Select, Typography } from '@mui/material'
+import Autocomplete from '@mui/material/Autocomplete'
+import TextField from '@mui/material/TextField'
 import { useEffect, useState } from 'react'
+
 import { getAllEvents } from '../../../services/eventService'
 import { getAllHills } from '../../../services/hillService'
 import { getAllMountains } from '../../../services/mountainService'
+import CancelButton from '../buttons/CancelButton'
+import SaveButton from '../buttons/SaveButton'
 import TextInput from '../forms/fields/TextInput'
-import Autocomplete from '@mui/material/Autocomplete'
-import TextField from '@mui/material/TextField'
+
 
 const style = {
   position: 'absolute',
@@ -87,7 +91,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
       isSoloTeam: false,
       lapsRequired: 1,
       totalDistanceRequired: 0,
-      startDateTime: "2025-07-12T03:46:43.305Z"
+      startDateTime: '2025-07-12T03:46:43.305Z',
     }
 
     try {
@@ -182,14 +186,10 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
               renderInput={(params) => <TextField {...params} label="RFID Tag" />}
             />
           </FormControl>
-
-          <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
-            <Button variant="outlined" onClick={onModalClose}>
-              Cancel
-            </Button>
-            <Button type="submit" variant="contained">
-              {teamToEdit ? 'Save' : 'Create'}
-            </Button>
+          
+          <Box mt={3} display='flex' justifyContent='space-between' gap={2}>
+            <CancelButton onClick={onClose} color='red' />
+            <SaveButton type='submit' label={teamToEdit ? 'Save' : 'Create'} />
           </Box>
         </form>
       </Box>

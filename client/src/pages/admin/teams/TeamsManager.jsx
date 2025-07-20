@@ -7,8 +7,8 @@ import AddTeamModal from '../../../components/admin/modals/TeamModal.jsx'
 import DataTable from '../../../components/admin/tables/DataTable.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
 import { getAllEvents } from '../../../services/eventService.js'
-import { addTeam, deleteTeam, editTeam, getAllTeams } from '../../../services/teamService.js'
 import { getRfidTags } from '../../../services/rfidService.js'
+import { addTeam, deleteTeam, editTeam, getAllTeams } from '../../../services/teamService.js'
 
 const fullColumns = [
   { id: 'name', label: 'Team Name', width: '40%', align: 'left' },
@@ -38,7 +38,8 @@ const TeamsManager = () => {
       hill: team.hill,
       hillId: team.hillId,
       eventId: team.event,
-      rfidTag: team.rfidTag
+      rfidTag: team.rfidTag,
+      active: true,
     }))
   }, [teams])
 
@@ -46,7 +47,7 @@ const TeamsManager = () => {
     const result = await getRfidTags()
     const formatted = result.map((tag) => ({
       id: tag.id,
-      label: tag.serialNumber
+      label: tag.serialNumber,
     }))
     setrfidTags(formatted)
     return formatted
@@ -98,7 +99,7 @@ const TeamsManager = () => {
           eventName: getEventName(formattedEvents, team.event),
           rfidTag: (() => {
             const tagId = team.rfidTag?._id || team.rfidTag?.id || team.rfidTag
-            const match = rfidList.find(tag => tag.id === tagId)
+            const match = rfidList.find((tag) => tag.id === tagId)
             return match?.label || ''
           })(),
 
