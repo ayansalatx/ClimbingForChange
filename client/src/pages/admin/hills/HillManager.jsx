@@ -15,7 +15,8 @@ import {
 import { getAllLocations } from '../../../services/locationService.js'
 
 const fullColumns = [
-  { id: 'name', label: 'Hill Name', width: '50%', align: 'left' },
+   { id: 'name', label: 'Hill Name', width: '35%', align: 'left' },
+  { id: 'locationName', label: 'Location', width: '15%', align: 'center' },
   { id: 'lapDistance', label: 'Lap Distance', width: '15%', align: 'center' },
   { id: 'distanceUnit', label: 'Distance Unit', width: '10%', align: 'center' },
   { id: 'lapElevationGain', label: 'Elevation Gain', width: '15%', align: 'center' },
@@ -140,14 +141,19 @@ const HillManager = () => {
         px: '1.5rem',
       }}
     >
-      <DataTable
+            <DataTable
         tableTitle='Hills'
         tableIcon={HikingIcon}
         tableColumns={fullColumns}
-        tableData={hills.map((hill) => ({
-          ...hill,
-          active: true,
-        }))}
+        tableData={hills.map((hill) => {
+          const locationObj = locations.find((loc) => loc.id === hill.location)
+          return {
+            id: hill.id,
+            ...hill,
+            locationName: locationObj?.name || '',
+          }
+        })}
+
         showInactive={true}
         setShowInactive={() => {}}
         eventsForDropdown={[]}
