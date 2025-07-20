@@ -1,4 +1,4 @@
-import { alpha, Link, TableBody, TableCell, TableRow, Switch } from '@mui/material'
+import { alpha, Link, TableBody, TableCell, TableRow } from '@mui/material'
 
 import theme from '../../../styles/theme'
 import DeactivateToggle from '../buttons/DeactivateToggle'
@@ -42,7 +42,7 @@ const TableDataRows = ({
                 if (column.id === 'activeStatus') {
                   return (
                     <TableCell key={column.id} align="center">
-                      <Switch
+                      <DeactivateToggle
                         checked={row.active}
                         onChange={() => activeOnChange(row)}
                         color="success"
