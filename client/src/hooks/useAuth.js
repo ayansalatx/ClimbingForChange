@@ -1,4 +1,4 @@
-import { useEffect,useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { isTokenValid } from '../utils/isTokenValid'
 
@@ -11,7 +11,7 @@ export const useAuth = () => {
     // check if the token is valid every minute
     const id = setInterval(() => {
       setIsAuthenticated(isTokenValid(localStorage.getItem('token')))
-    }, 60_000)                 
+    }, 60_000)
     return () => clearInterval(id)
   }, [])
 

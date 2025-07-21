@@ -20,8 +20,14 @@ export const getEventByID = async (request, response) => {
     .populate('mountains')
     .populate({
       path: 'teams',
-      populate: [{ path: 'participants' }, { path: 'laps' }, { path: 'mountain' }, { path: 'hill' }],
-    }).lean()
+      populate: [
+        { path: 'participants' },
+        { path: 'laps' },
+        { path: 'mountain' },
+        { path: 'hill' },
+      ],
+    })
+    .lean()
 
   response.json(event)
 }
@@ -78,7 +84,7 @@ export const updateOneEvent = async (request, response) => {
     {
       new: true,
       runValidators: true,
-    }
+    },
   )
 
   response.status(200).json(updated)

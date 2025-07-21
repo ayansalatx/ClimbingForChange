@@ -5,8 +5,8 @@ import TextField from '@mui/material/TextField'
 const SearchBar = ({ value, onChange }) => {
   return (
     <TextField
-      label='Search'
-      variant='outlined'
+      label="Search"
+      variant="outlined"
       value={value}
       onChange={(e) => onChange(e.target.value)}
       sx={{
@@ -41,7 +41,7 @@ const SearchBar = ({ value, onChange }) => {
       slotProps={{
         input: {
           endAdornment: (
-            <InputAdornment position='end'>
+            <InputAdornment position="end">
               <SearchIcon sx={{ color: 'white' }} />
             </InputAdornment>
           ),

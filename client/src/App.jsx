@@ -1,6 +1,6 @@
 import './App.css'
 
-import { CssBaseline,ThemeProvider } from '@mui/material'
+import { CssBaseline, ThemeProvider } from '@mui/material'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 import PrivateRoute from './components/admin/PrivateRoute'
@@ -27,17 +27,17 @@ function App() {
       <CssBaseline />
       <Router>
         <Routes>
-          <Route path='/' element={<Landing />} />
-          <Route path='/progress' element={<ProgressBoard />} />
+          <Route path="/" element={<Landing />} />
+          <Route path="/progress" element={<ProgressBoard />} />
           <Route
-            path='/progress/fullscreen/:eventId'
+            path="/progress/fullscreen/:eventId"
             element={<ProgressBoardFullscreen />}
           />
 
-          <Route path='/login'  element={<AdminLogin />} />
+          <Route path="/login" element={<AdminLogin />} />
 
           <Route
-            path='/admin'
+            path="/admin"
             element={
               <PrivateRoute>
                 <Layout />

@@ -1,14 +1,12 @@
 import Hill from '../models/hill.js'
 
 export const getHills = async (req, response) => {
-
   const mountains = await Hill.find({})
 
   response.json(mountains)
 }
 
 export const getHillById = async (req, response) => {
-
   const { id } = req.params
 
   const mountain = await Hill.findById(id)
@@ -17,7 +15,6 @@ export const getHillById = async (req, response) => {
 }
 
 export const saveOneHill = async (request, response) => {
-
   const body = request.body
 
   if (!body) {
@@ -40,7 +37,6 @@ export const saveOneHill = async (request, response) => {
 }
 
 export const updateOneHill = async (request, response) => {
-
   const body = request.body
   const id = request.params.id
 
@@ -54,7 +50,8 @@ export const updateOneHill = async (request, response) => {
     return response.status(400).json({ error: 'Hill doesnt exist' })
   }
 
-  const updated = await Hill.findByIdAndUpdate(id,
+  const updated = await Hill.findByIdAndUpdate(
+    id,
     {
       $set: {
         name: body.name,
@@ -63,23 +60,24 @@ export const updateOneHill = async (request, response) => {
         location: body.location,
         active: body.active,
         distanceUnit: body.distanceUnit,
-        elevationUnit: body.elevationUnit, 
-      }
+        elevationUnit: body.elevationUnit,
+      },
     },
     {
       new: true,
-    }
+    },
   )
 
   response.status(200).json(updated)
 }
 
 export const deleteOneHill = async (request, response) => {
-
   const id = request.params.id
 
   if (!id) {
-    return response.status(400).json({ error: 'Physical mountain id to delete is missing' })
+    return response
+      .status(400)
+      .json({ error: 'Physical mountain id to delete is missing' })
   }
 
   const hillToDelete = await Hill.findById(id)

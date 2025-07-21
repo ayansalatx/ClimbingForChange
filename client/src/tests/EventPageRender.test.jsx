@@ -14,7 +14,7 @@ jest.mock('../pages/admin/events/EventManager', () => {
         <div>Loading events...</div>
         <button>Add Event</button>
         <input placeholder="Search events" />
-        
+
         <table>
           <thead>
             <tr>
@@ -64,7 +64,9 @@ describe('EventManager', () => {
 
   it('displays the event manager heading', () => {
     render(<EventManager />)
-    expect(screen.getByRole('heading', { name: /event manager/i })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: /event manager/i })
+    ).toBeInTheDocument()
   })
 
   it('shows a loading state', () => {
@@ -74,7 +76,9 @@ describe('EventManager', () => {
 
   it('has an add event button', () => {
     render(<EventManager />)
-    expect(screen.getByRole('button', { name: /add event/i })).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: /add event/i })
+    ).toBeInTheDocument()
   })
 
   it('has a search input', () => {
