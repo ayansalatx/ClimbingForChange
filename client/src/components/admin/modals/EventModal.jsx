@@ -12,6 +12,7 @@ import {
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 
+import DeactivateToggle from '../buttons/DeactivateToggle'
 import TextInput from '../forms/fields/TextInput'
 
 const style = {
@@ -156,7 +157,7 @@ const AddEventModal = ({
             <FormControl>
               <Box display="flex" alignItems="center" gap={1}>
                 <Typography>Active</Typography>
-                <Switch
+                <DeactivateToggle
                   checked={isActive}
                   onChange={(e) => setIsActive(e.target.checked)}
                   color="success"

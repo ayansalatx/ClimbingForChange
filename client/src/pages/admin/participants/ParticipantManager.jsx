@@ -61,7 +61,6 @@ const ParticipantManager = () => {
     async function loadParticipantsAndTeams() {
       setLoading(true)
       try {
-
         const participantsList = await getParticipantsByEvent(selectedEvent)
         setParticipants(participantsList)
 
@@ -72,7 +71,6 @@ const ParticipantManager = () => {
           `Loaded ${participantsList.length} participants and ${filteredTeams.length} teams for selected event.`,
           'success'
         )
-        
       } catch (error) {
         displayAlert('Error', `Failed to load participants or teams: ${error.message}`, 'error')
       } finally {
@@ -93,7 +91,6 @@ const ParticipantManager = () => {
     if (loading) return
     setSelectedParticipant(participant)
     setPopupOpen(true)
-
   }
 
   const onDelete = (participant) => {
@@ -154,7 +151,6 @@ const ParticipantManager = () => {
       setLoading(false)
       setPopupOpen(false)
     }
-
   }
 
   const filteredParticipants = selectedEvent ? participants : []
