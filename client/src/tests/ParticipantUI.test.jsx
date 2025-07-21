@@ -50,7 +50,9 @@ describe('ParticipantManager', () => {
 
   it('displays the participant manager heading', () => {
     render(<ParticipantManager />)
-    expect(screen.getByRole('heading', { name: /participant manager/i })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: /participant manager/i })
+    ).toBeInTheDocument()
   })
 
   it('shows a loading state', () => {
@@ -60,12 +62,16 @@ describe('ParticipantManager', () => {
 
   it('has an add participant button', () => {
     render(<ParticipantManager />)
-    expect(screen.getByRole('button', { name: /add participant/i })).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: /add participant/i })
+    ).toBeInTheDocument()
   })
 
   it('has a search input', () => {
     render(<ParticipantManager />)
-    expect(screen.getByPlaceholderText(/search participants/i)).toBeInTheDocument()
+    expect(
+      screen.getByPlaceholderText(/search participants/i)
+    ).toBeInTheDocument()
   })
 
   it('displays participant data', () => {

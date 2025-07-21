@@ -12,7 +12,7 @@ const FullscreenToggleButton = ({ eventId }) => {
 
   return (
     <Tooltip
-      title='Fullscreen'
+      title="Fullscreen"
       slotProps={{
         tooltip: {
           sx: {

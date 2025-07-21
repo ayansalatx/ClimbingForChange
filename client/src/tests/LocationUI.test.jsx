@@ -26,7 +26,9 @@ describe('LocationManager', () => {
 
   it('displays the locations heading', () => {
     render(<LocationManager />)
-    expect(screen.getByRole('heading', { name: /locations/i })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: /locations/i })
+    ).toBeInTheDocument()
   })
 
   it('shows a loading state', () => {
@@ -36,6 +38,8 @@ describe('LocationManager', () => {
 
   it('has an add location button', () => {
     render(<LocationManager />)
-    expect(screen.getByRole('button', { name: /add location/i })).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: /add location/i })
+    ).toBeInTheDocument()
   })
 })

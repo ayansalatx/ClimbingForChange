@@ -34,7 +34,7 @@ const participantSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 )
 
 participantSchema.set('toJSON', {

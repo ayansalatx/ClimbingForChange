@@ -3,7 +3,7 @@ import { Button } from '@mui/material'
 const DeleteButton = ({ onClick }) => {
   return (
     <Button
-      variant='contained'
+      variant="contained"
       onClick={onClick}
       sx={{
         width: '6rem',
@@ -11,7 +11,7 @@ const DeleteButton = ({ onClick }) => {
         letterSpacing: '.075rem',
         backgroundColor: 'error.main',
         '&:hover': {
-          backgroundColor: 'error.dark' ,
+          backgroundColor: 'error.dark',
         },
       }}
     >

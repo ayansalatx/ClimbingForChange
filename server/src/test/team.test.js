@@ -11,7 +11,11 @@ import Event from '../models/event.js'
 import Team from '../models/team.js'
 import Participant from '../models/participant.js'
 import Lap from '../models/lap.js'
-import { closeDBConnection, connectToTestDB, loginAndGetToken } from './testHelper.js'
+import {
+  closeDBConnection,
+  connectToTestDB,
+  loginAndGetToken,
+} from './testHelper.js'
 
 const api = supertest(app)
 
@@ -41,13 +45,31 @@ beforeEach(async () => {
   ])
 
   // 1. Create all independent/prerequisite documents first
-  const location = await new Location({ name: 'Test Park', address: '1 Test St', city: 'Testville', provState: 'TS', country: 'Testland' }).save()
-  const mountain = await new Mountain({ name: 'Test Mountain', totalElevation: 1000 }).save()
-  const hill = await new Hill({ name: 'Test Hill', location: location._id, lapElevationGain: 100, lapDistance: 1 }).save()
+  const location = await new Location({
+    name: 'Test Park',
+    address: '1 Test St',
+    city: 'Testville',
+    provState: 'TS',
+    country: 'Testland',
+  }).save()
+  const mountain = await new Mountain({
+    name: 'Test Mountain',
+    totalElevation: 1000,
+  }).save()
+  const hill = await new Hill({
+    name: 'Test Hill',
+    location: location._id,
+    lapElevationGain: 100,
+    lapDistance: 1,
+  }).save()
   const rfidTag = await new RFIDTag({ serialNumber: 'TAG-INITIAL' }).save()
   const event = await new Event({
-    name: 'Test Event', location: location._id, startDateTime: new Date(), endDateTime: new Date(),
-    availableHills: [hill._id], availableMountains: [mountain._id]
+    name: 'Test Event',
+    location: location._id,
+    startDateTime: new Date(),
+    endDateTime: new Date(),
+    availableHills: [hill._id],
+    availableMountains: [mountain._id],
   }).save()
 
   // 2. Store IDs for use in tests
@@ -70,12 +92,14 @@ beforeEach(async () => {
   initialTeamId = initialTeam._id
 
   // 4. Create a participant and assign them to the team to test virtual population
-  await new Participant({ firstName: 'Alex', lastName: 'Jones', team: initialTeamId }).save()
+  await new Participant({
+    firstName: 'Alex',
+    lastName: 'Jones',
+    team: initialTeamId,
+  }).save()
 })
 
-
 describe('Teams API (/api/teams)', () => {
-
   test('teams are returned as json', async () => {
     await api
       .get('/api/teams')
@@ -85,20 +109,26 @@ describe('Teams API (/api/teams)', () => {
   })
 
   test('all teams are returned', async () => {
-    const response = await api.get('/api/teams').set('Authorization', `bearer ${authToken}`)
+    const response = await api
+      .get('/api/teams')
+      .set('Authorization', `bearer ${authToken}`)
     assert.strictEqual(response.body.length, 1)
   })
 
   test('a single team can be fetched and includes participants', async () => {
     const response = await api
-      .get(`/api/teams/${initialTeamId}`).set('Authorization', `bearer ${authToken}`)
+      .get(`/api/teams/${initialTeamId}`)
+      .set('Authorization', `bearer ${authToken}`)
       .expect(200)
 
     const team = response.body
     assert.strictEqual(team.name, 'The First Climbers')
 
     // Test that the virtual 'participants' field is populated
-    assert(Array.isArray(team.participants), 'Participants field should be an array')
+    assert(
+      Array.isArray(team.participants),
+      'Participants field should be an array',
+    )
     assert.strictEqual(team.participants.length, 1)
     assert.strictEqual(team.participants[0].firstName, 'Alex')
   })
@@ -123,7 +153,9 @@ describe('Teams API (/api/teams)', () => {
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
-    const response = await api.get('/api/teams').set('Authorization', `bearer ${authToken}`)
+    const response = await api
+      .get('/api/teams')
+      .set('Authorization', `bearer ${authToken}`)
     const teamNames = response.body.map(t => t.name)
 
     assert.strictEqual(response.body.length, 2)
@@ -149,7 +181,9 @@ describe('Teams API (/api/teams)', () => {
       .send(updatePayload)
       .expect(200)
 
-    const res = await api.get(`/api/teams/${initialTeamId}`).set('Authorization', `bearer ${authToken}`)
+    const res = await api
+      .get(`/api/teams/${initialTeamId}`)
+      .set('Authorization', `bearer ${authToken}`)
     assert.strictEqual(res.body.name, 'The First Climbers - Updated Name')
     assert.strictEqual(res.body.isSoloTeam, true)
   })
@@ -160,12 +194,12 @@ describe('Teams API (/api/teams)', () => {
       .set('Authorization', `bearer ${authToken}`)
       .expect(204)
 
-    const response = await api.get('/api/teams').set('Authorization', `bearer ${authToken}`)
+    const response = await api
+      .get('/api/teams')
+      .set('Authorization', `bearer ${authToken}`)
     assert.strictEqual(response.body.length, 0)
   })
-
 })
-
 
 after(async () => {
   await closeDBConnection()

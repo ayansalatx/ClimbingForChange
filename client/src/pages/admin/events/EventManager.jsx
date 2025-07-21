@@ -104,7 +104,6 @@ const EventManager = () => {
         `Loaded ${events.length} events from the backend.`,
         'success'
       )
-
     } catch (error) {
       displayAlert('Events Error', `${error.message}`, 'error')
     }
@@ -129,13 +128,12 @@ const EventManager = () => {
     fetchLocations()
     fetchMountains()
   }, [fetchLocations, fetchMountains])
-  
+
   useEffect(() => {
     if (Object.keys(mountains).length > 0) {
       fetchEvents()
     }
   }, [mountains, fetchEvents])
-
 
   const handleAddEvent = async (eventData) => {
     try {
@@ -145,14 +143,22 @@ const EventManager = () => {
       }
       const response = await addEvent(dataToSend)
       if (response.status === 201 || response.status === 200) {
-        displayAlert('Event Created', 'The event has been successfully created.', 'success')
+        displayAlert(
+          'Event Created',
+          'The event has been successfully created.',
+          'success'
+        )
         fetchEvents()
         handleClosePopup()
       } else {
         throw new Error('Event was not created')
       }
     } catch (error) {
-      displayAlert('Add Error', `Failed to add the event: ${error.message}`, 'error')
+      displayAlert(
+        'Add Error',
+        `Failed to add the event: ${error.message}`,
+        'error'
+      )
     }
   }
 
@@ -164,14 +170,22 @@ const EventManager = () => {
       }
       const response = await editEvent(id, dataToSend)
       if (response.status === 201 || response.status === 200) {
-        displayAlert('Event Edited', 'The event has been successfully edited.', 'success')
+        displayAlert(
+          'Event Edited',
+          'The event has been successfully edited.',
+          'success'
+        )
         fetchEvents()
         handleClosePopup()
       } else {
         throw new Error('Event was not edited')
       }
     } catch (error) {
-      displayAlert('Edit Error', `Failed to edit the event: ${error.message}`, 'error')
+      displayAlert(
+        'Edit Error',
+        `Failed to edit the event: ${error.message}`,
+        'error'
+      )
     }
   }
 
@@ -179,14 +193,26 @@ const EventManager = () => {
     try {
       const success = await deleteEvent(eventToDelete.id)
       if (success) {
-        displayAlert('Event Deleted', 'The event has been successfully deleted.', 'success')
+        displayAlert(
+          'Event Deleted',
+          'The event has been successfully deleted.',
+          'success'
+        )
         fetchEvents()
         setDeleteConfirmOpen(false)
       } else {
-        displayAlert('Delete Error', 'Failed to delete the event. Please try again.', 'error')
+        displayAlert(
+          'Delete Error',
+          'Failed to delete the event. Please try again.',
+          'error'
+        )
       }
     } catch (error) {
-      displayAlert('Delete Error', `Failed to delete the event: ${error.message}`, 'error')
+      displayAlert(
+        'Delete Error',
+        `Failed to delete the event: ${error.message}`,
+        'error'
+      )
     }
   }
 
@@ -260,7 +286,7 @@ const EventManager = () => {
       }}
     >
       <DataTable
-        tableTitle='Events'
+        tableTitle="Events"
         tableIcon={Event}
         tableColumns={fullColumns}
         tableData={events}

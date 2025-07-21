@@ -26,7 +26,7 @@ const ProgressCard = ({ team }) => {
         >
           <Tooltip
             title={team.name ?? ''}
-            placement='top'
+            placement="top"
             slotProps={{
               tooltip: {
                 sx: {
@@ -49,13 +49,13 @@ const ProgressCard = ({ team }) => {
             }}
           >
             <Typography
-              variant='body1'
+              variant="body1"
               fontSize={{ xxs: '1.05rem', xs: '1.15rem' }}
-              fontWeight='bold'
+              fontWeight="bold"
               textTransform={'uppercase'}
               letterSpacing={'.015rem'}
               color={'info.main'}
-              whiteSpace='nowrap'
+              whiteSpace="nowrap"
               sx={{ textOverflow: 'ellipsis', overflow: 'hidden' }}
             >
               {team.name ?? ''}
@@ -71,13 +71,13 @@ const ProgressCard = ({ team }) => {
           }}
         >
           <Typography
-            variant='body1'
+            variant="body1"
             fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
-            fontWeight='bold'
+            fontWeight="bold"
             textTransform={'uppercase'}
             letterSpacing={'0.015rem'}
-            color='secondary.dark'
-            whiteSpace='nowrap'
+            color="secondary.dark"
+            whiteSpace="nowrap"
           >
             {team.mountainName ?? ''}
           </Typography>
@@ -101,13 +101,13 @@ const ProgressCard = ({ team }) => {
           }}
         >
           <Typography
-            variant='body1'
+            variant="body1"
             fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
-            fontWeight='bold'
+            fontWeight="bold"
             textTransform={'uppercase'}
             letterSpacing={'0.015rem'}
             color={'primary.light'}
-            whiteSpace='nowrap'
+            whiteSpace="nowrap"
           >
             Laps
           </Typography>
@@ -128,7 +128,7 @@ const ProgressCard = ({ team }) => {
               }}
             >
               <Typography
-                variant='body1'
+                variant="body1"
                 fontSize={{ xxs: '0.9rem', xs: '1rem' }}
                 noWrap
               >
@@ -143,7 +143,7 @@ const ProgressCard = ({ team }) => {
               }}
             >
               <Typography
-                variant='body1'
+                variant="body1"
                 fontSize={{ xxs: '0.9rem', xs: '1rem' }}
                 noWrap
               >
@@ -158,7 +158,7 @@ const ProgressCard = ({ team }) => {
               }}
             >
               <Typography
-                variant='body1'
+                variant="body1"
                 fontSize={{ xxs: '0.9rem', xs: '1rem' }}
                 noWrap
               >
@@ -175,13 +175,13 @@ const ProgressCard = ({ team }) => {
           }}
         >
           <Typography
-            variant='body1'
+            variant="body1"
             fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
-            fontWeight='bold'
+            fontWeight="bold"
             textTransform={'uppercase'}
             letterSpacing={'.015rem'}
             color={'primary.light'}
-            whiteSpace='nowrap'
+            whiteSpace="nowrap"
           >
             Best Lap
           </Typography>
@@ -195,7 +195,7 @@ const ProgressCard = ({ team }) => {
             }}
           >
             <Typography
-              variant='body1'
+              variant="body1"
               fontSize={{ xxs: '0.9rem', xs: '1rem' }}
               noWrap
             >
@@ -221,12 +221,12 @@ const ProgressCard = ({ team }) => {
           }}
         >
           <Typography
-            variant='body1'
+            variant="body1"
             fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
-            fontWeight='bold'
+            fontWeight="bold"
             textTransform={'uppercase'}
             letterSpacing={'0.015rem'}
-            whiteSpace='nowrap'
+            whiteSpace="nowrap"
           >
             Elev.
           </Typography>
@@ -247,7 +247,7 @@ const ProgressCard = ({ team }) => {
               }}
             >
               <Typography
-                variant='body1'
+                variant="body1"
                 fontSize={{ xxs: '0.9rem', xs: '1rem' }}
                 noWrap
               >
@@ -263,7 +263,7 @@ const ProgressCard = ({ team }) => {
               }}
             >
               <Typography
-                variant='body1'
+                variant="body1"
                 fontSize={{ xxs: '0.9rem', xs: '1rem' }}
                 noWrap
               >
@@ -279,7 +279,7 @@ const ProgressCard = ({ team }) => {
               }}
             >
               <Typography
-                variant='body1'
+                variant="body1"
                 fontSize={{ xxs: '0.9rem', xs: '1rem' }}
                 noWrap
               >
@@ -297,13 +297,13 @@ const ProgressCard = ({ team }) => {
           }}
         >
           <Typography
-            variant='body1'
+            variant="body1"
             fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
-            fontWeight='bold'
+            fontWeight="bold"
             textTransform={'uppercase'}
             letterSpacing={'.015rem'}
             color={'primary.light'}
-            whiteSpace='nowrap'
+            whiteSpace="nowrap"
           >
             Time
           </Typography>
@@ -316,7 +316,7 @@ const ProgressCard = ({ team }) => {
             }}
           >
             <Typography
-              variant='body1'
+              variant="body1"
               fontSize={{ xxs: '0.9rem', xs: '1rem' }}
               noWrap
             >

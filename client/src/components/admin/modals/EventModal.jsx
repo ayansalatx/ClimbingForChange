@@ -1,4 +1,15 @@
-import { Box, Button, Checkbox, FormControl, InputLabel, MenuItem, Modal, Select, Switch, TextField, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  TextField,
+  Typography,
+} from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import TextInput from '../forms/fields/TextInput'
@@ -30,7 +41,15 @@ const getMountainIdsByName = (mountainNames, mountains) => {
     .filter((id) => id !== undefined)
 }
 
-const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, eventToEdit }) => {
+const AddEventModal = ({
+  open,
+  onClose,
+  onAdd,
+  onEdit,
+  onLocation,
+  onMountains,
+  eventToEdit,
+}) => {
   const [eventName, setEventName] = useState('')
   const [location, setLocation] = useState('')
   const [locations, setLocations] = useState([])
@@ -70,7 +89,8 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
       const start = new Date(eventToEdit.startDateTime)
       setStartDate(start.toISOString().slice(0, 10))
       setStartTime(start.toTimeString().slice(0, 5))
-      const durationHours = (new Date(eventToEdit.endDateTime) - start) / 3600000
+      const durationHours =
+        (new Date(eventToEdit.endDateTime) - start) / 3600000
       setDuration(durationHours)
       const mountainNames = parseMountainNames(eventToEdit.mountains)
       const selectedMountains = getMountainIdsByName(mountainNames, mountains)
@@ -99,15 +119,12 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
       active: isActive,
     }
 
-    try {
-      if (eventToEdit) {
-        await onEdit(eventToEdit.id, eventData)
-      } else {
-        await onAdd(eventData)
-      }
-    } catch (error) {
-      console.error('Error saving event:', error)
+    if (eventToEdit) {
+      await onEdit(eventToEdit.id, eventData)
+    } else {
+      await onAdd(eventData)
     }
+
     onModalClose()
   }
 
@@ -127,7 +144,7 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
     })
     return names.join(', ')
   }
-  
+
   return (
     <Modal open={open} onClose={onModalClose}>
       <Box sx={style}>
@@ -152,20 +169,20 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
         <form onSubmit={handleAdd}>
           <TextInput
             fullWidth
-            label='Event Name'
-            margin='normal'
+            label="Event Name"
+            margin="normal"
             value={eventName}
             onChange={(e) => setEventName(e.target.value)}
             required
           />
 
-          <FormControl fullWidth margin='normal'>
-            <InputLabel id='location-select-label'>Location</InputLabel>
+          <FormControl fullWidth margin="normal">
+            <InputLabel id="location-select-label">Location</InputLabel>
             <Select
-              labelId='location-select-label'
-              id='location-select'
+              labelId="location-select-label"
+              id="location-select"
               value={location}
-              label='Location'
+              label="Location"
               onChange={(e) => setLocation(e.target.value)}
               required
             >
@@ -177,20 +194,22 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
             </Select>
           </FormControl>
 
-          <FormControl fullWidth margin='normal'>
-            <InputLabel id='mountain-select-label'>Mountains</InputLabel>
+          <FormControl fullWidth margin="normal">
+            <InputLabel id="mountain-select-label">Mountains</InputLabel>
             <Select
-              labelId='mountain-select-label'
-              id='mountain-select'
+              labelId="mountain-select-label"
+              id="mountain-select"
               multiple
               value={mountainSelection}
               onChange={handleMountainChange}
-              label='Mountains'
+              label="Mountains"
               renderValue={getMountainNames}
             >
               {mountains.map((mountain) => (
                 <MenuItem key={mountain.id} value={mountain.id}>
-                  <Checkbox checked={mountainSelection.indexOf(mountain.id) > -1} />
+                  <Checkbox
+                    checked={mountainSelection.indexOf(mountain.id) > -1}
+                  />
                   {mountain.name}
                 </MenuItem>
               ))}
@@ -199,10 +218,10 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
 
           <TextField
             fullWidth
-            label='Start Date'
-            type='date'
-            variant='outlined'
-            margin='normal'
+            label="Start Date"
+            type="date"
+            variant="outlined"
+            margin="normal"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
             InputLabelProps={{ shrink: true }}
@@ -233,11 +252,11 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
             />
           </Box>
 
-          <Box mt={3} display='flex' justifyContent='space-between' gap={2}>
-            <Button variant='outlined' onClick={onModalClose}>
+          <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
+            <Button variant="outlined" onClick={onModalClose}>
               Cancel
             </Button>
-            <Button type='submit' variant='contained'>
+            <Button type="submit" variant="contained">
               {eventToEdit ? 'Save' : 'Create'}
             </Button>
           </Box>

@@ -1,4 +1,4 @@
-import { api } from './api'
+import { api, formatApiError } from './api'
 
 // Get all teams
 export const getAllTeams = async () => {
@@ -100,33 +100,27 @@ function formatTime(durationMs) {
   return `${String(hours).padStart(2, '00')}:${String(minutes).padStart(2, '00')}:${String(seconds).padStart(2, '00')}`
 }
 
-
 // Add
 export const addTeam = async (data) => {
-  console.log('Adding new team with data:', data)
   try {
     const response = await api.post('/teams', data)
     return response
   } catch (error) {
-    console.error('Failed to add team:', error)
-    throw error
+    throw formatApiError(error, 'Failed to create team.')
   }
 }
 
-// Edit 
+// Edit
 export const editTeam = async (id, data) => {
   try {
     const response = await api.put(`/teams/${id}`, data)
     if (response.status === 200) {
-      console.log('Team edited successfully:', response.data)
       return response
     } else {
-      console.error('Failed to edit team:', response.statusText)
+      throw new Error(`Unexpected response status: ${response.status}.`)
     }
-    throw new Error(`Unexpected response status: ${response.status}`)
   } catch (error) {
-    console.error('Failed to edit team:', error)
-    throw error
+    throw formatApiError(error, 'Failed to edit team.')
   }
 }
 
@@ -136,7 +130,6 @@ export const deleteTeam = async (id) => {
     await api.delete(`/teams/${id}`)
     return true
   } catch (error) {
-    console.error('Failed to delete team:', error)
-    throw error
+    throw formatApiError(error, 'Failed to delete team.')
   }
 }

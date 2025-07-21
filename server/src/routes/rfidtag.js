@@ -1,6 +1,13 @@
 import express from 'express'
 import asyncHandler from 'express-async-handler'
-import { deleteOneRFIDTag, getBySerialNumber, getRFIDTagByID, getRFIDTags, saveOneRFIDTag, updateOneRFIDTag } from '../controllers/rfidtag.js'
+import {
+  deleteOneRFIDTag,
+  getBySerialNumber,
+  getRFIDTagByID,
+  getRFIDTags,
+  saveOneRFIDTag,
+  updateOneRFIDTag,
+} from '../controllers/rfidtag.js'
 
 const rfidtagRoutes = express.Router()
 
