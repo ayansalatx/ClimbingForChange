@@ -236,8 +236,7 @@ const DataTable = ({
               toggleDisabled={(row) =>
                 tableTitle === 'Events' &&
                 !row.active &&
-                !row.canReactivate
-              }
+                !row.canReactivate}
             />
           </Table>
         ) : (

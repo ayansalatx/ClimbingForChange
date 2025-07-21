@@ -1,4 +1,4 @@
-import { alpha, Switch,TableBody, TableCell, TableRow  } from '@mui/material'
+import { alpha, Switch, TableBody, TableCell, TableRow } from '@mui/material'
 
 import theme from '../../../styles/theme'
 import RowActions from '../buttons/RowActions'
