@@ -12,7 +12,7 @@ const LoadingSpinner = () => {
         width: '100vw',
       }}
     >
-      <CircularProgress color='secondary'  />
+      <CircularProgress color="secondary" />
     </Box>
   )
 }

@@ -23,7 +23,7 @@ export const useAlert = () => {
           })
         )
 
-        const id =  setTimeout(() => {
+        const id = setTimeout(() => {
           dispatch({ type: 'SET_ALERT', payload: null })
         }, 5000)
 

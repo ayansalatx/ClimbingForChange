@@ -18,8 +18,18 @@ const fullColumns = [
   { id: 'name', label: 'Hill Name', width: '50%', align: 'left' },
   { id: 'lapDistance', label: 'Lap Distance', width: '15%', align: 'center' },
   { id: 'distanceUnit', label: 'Distance Unit', width: '10%', align: 'center' },
-  { id: 'lapElevationGain', label: 'Elevation Gain', width: '15%', align: 'center' },
-  { id: 'elevationUnit', label: 'Elevation Unit', width: '10%', align: 'center' },
+  {
+    id: 'lapElevationGain',
+    label: 'Elevation Gain',
+    width: '15%',
+    align: 'center',
+  },
+  {
+    id: 'elevationUnit',
+    label: 'Elevation Unit',
+    width: '10%',
+    align: 'center',
+  },
 ]
 
 const HillManager = () => {
@@ -39,7 +49,7 @@ const HillManager = () => {
       try {
         const hillList = await getAllHills()
         setHills(hillList)
-        const locationList = await getAllLocations() 
+        const locationList = await getAllLocations()
         setLocations(locationList)
         displayAlert(
           'Hills Loaded',
@@ -47,11 +57,7 @@ const HillManager = () => {
           'success'
         )
       } catch (error) {
-        displayAlert(
-          'Error',
-          `Failed to Load Hills: ${error.message}`,
-          'error'
-        )
+        displayAlert('Error', `Failed to Load Hills: ${error.message}`, 'error')
       } finally {
         setLoading(false)
       }
@@ -115,7 +121,11 @@ const HillManager = () => {
         displayAlert('Edited Hill', `Edited ${hillData.name} hill.`, 'success')
       } else {
         await addNewHill(hillData)
-        displayAlert('New Hill Added', `Added ${hillData.name} hill.`, 'success')
+        displayAlert(
+          'New Hill Added',
+          `Added ${hillData.name} hill.`,
+          'success'
+        )
       }
       const newHillList = await getAllHills()
       setHills(newHillList)
@@ -141,7 +151,7 @@ const HillManager = () => {
       }}
     >
       <DataTable
-        tableTitle='Hills'
+        tableTitle="Hills"
         tableIcon={HikingIcon}
         tableColumns={fullColumns}
         tableData={hills.map((hill) => ({

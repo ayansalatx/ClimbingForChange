@@ -1,6 +1,19 @@
-import { Box, Button, Checkbox, FormControl,FormControlLabel, InputLabel, MenuItem, Modal, Select, TextField, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  TextField,
+  Typography,
+} from '@mui/material'
 import { useEffect, useState } from 'react'
 
+import { useAlert } from '../../../hooks/useAlert'
 import { getAllEvents } from '../../../services/eventService'
 import { getAllHills } from '../../../services/hillService'
 import { getAllMountains } from '../../../services/mountainService'
@@ -30,6 +43,8 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
   const [hills, setHills] = useState([])
   const [events, setEvents] = useState([])
 
+  const displayAlert = useAlert()
+
   const onModalClose = () => {
     onClose()
     setName('')
@@ -55,12 +70,12 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
           setHills(hillData)
           setEvents(eventData)
         } catch (error) {
-          console.error('Error fetching data:', error)
+          displayAlert('Error', `Error while fetching data: ${error}`, 'error')
         }
       }
     }
     fetchData()
-  }, [open])
+  }, [open, displayAlert])
 
   useEffect(() => {
     if (teamToEdit) {
@@ -95,7 +110,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
         onAdd(teamData)
       }
     } catch (error) {
-      console.error('Error saving team:', error)
+      displayAlert('Error', `Error while saving team: ${error}`, 'error')
     }
 
     onModalClose()
@@ -104,15 +119,15 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
   return (
     <Modal open={open} onClose={onModalClose}>
       <Box sx={style}>
-        <Typography variant='h6' mb={2} sx={{ color: 'black' }}>
+        <Typography variant="h6" mb={2} sx={{ color: 'black' }}>
           {teamToEdit ? 'Edit Team' : 'Add New Team'}
         </Typography>
         <form onSubmit={handleSubmit}>
           <TextField
             fullWidth
-            label='Team Name'
-            variant='outlined'
-            margin='normal'
+            label="Team Name"
+            variant="outlined"
+            margin="normal"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
@@ -125,16 +140,16 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
                 onChange={(e) => setIsSoloTeam(e.target.checked)}
               />
             }
-            label='Solo Team'
+            label="Solo Team"
           />
 
-          <FormControl fullWidth margin='normal' required>
-            <InputLabel id='mountain-select-label'>Mountain</InputLabel>
+          <FormControl fullWidth margin="normal" required>
+            <InputLabel id="mountain-select-label">Mountain</InputLabel>
             <Select
-              labelId='mountain-select-label'
-              id='mountain-select'
+              labelId="mountain-select-label"
+              id="mountain-select"
               value={selectedMountain}
-              label='Mountain'
+              label="Mountain"
               onChange={(e) => setSelectedMountain(e.target.value)}
             >
               {mountains.map((mountain) => (
@@ -145,13 +160,13 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
             </Select>
           </FormControl>
 
-          <FormControl fullWidth margin='normal' required>
-            <InputLabel id='hill-select-label'>Hill</InputLabel>
+          <FormControl fullWidth margin="normal" required>
+            <InputLabel id="hill-select-label">Hill</InputLabel>
             <Select
-              labelId='hill-select-label'
-              id='hill-select'
+              labelId="hill-select-label"
+              id="hill-select"
               value={selectedHill}
-              label='Hill'
+              label="Hill"
               onChange={(e) => setSelectedHill(e.target.value)}
             >
               {hills.map((hill) => (
@@ -162,13 +177,13 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
             </Select>
           </FormControl>
 
-          <FormControl fullWidth margin='normal' required>
-            <InputLabel id='event-select-label'>Event</InputLabel>
+          <FormControl fullWidth margin="normal" required>
+            <InputLabel id="event-select-label">Event</InputLabel>
             <Select
-              labelId='event-select-label'
-              id='event-select'
+              labelId="event-select-label"
+              id="event-select"
               value={selectedEvent}
-              label='Event'
+              label="Event"
               onChange={(e) => setSelectedEvent(e.target.value)}
             >
               {events.map((event) => (
@@ -182,10 +197,10 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
           <TextField
             fullWidth
             required
-            label='Laps'
-            type='number'
-            variant='outlined'
-            margin='normal'
+            label="Laps"
+            type="number"
+            variant="outlined"
+            margin="normal"
             value={lapsRequired}
             onChange={(e) => setLapsRequired(e.target.value)}
             inputProps={{ min: 1 }}
@@ -194,31 +209,31 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
           <TextField
             fullWidth
             required
-            label='Total Distance'
-            type='number'
-            variant='outlined'
-            margin='normal'
+            label="Total Distance"
+            type="number"
+            variant="outlined"
+            margin="normal"
             value={distanceRequired}
             onChange={(e) => setDistanceRequired(e.target.value)}
             inputProps={{ min: 1 }}
           />
           <TextField
             fullWidth
-            label='Start Date & Time'
-            type='datetime-local'
-            variant='outlined'
-            margin='normal'
+            label="Start Date & Time"
+            type="datetime-local"
+            variant="outlined"
+            margin="normal"
             value={startDateTime}
             onChange={(e) => setStartDateTime(e.target.value)}
             InputLabelProps={{ shrink: true }}
             required
           />
 
-          <Box mt={3} display='flex' justifyContent='space-between' gap={2}>
-            <Button variant='outlined' onClick={onModalClose}>
+          <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
+            <Button variant="outlined" onClick={onModalClose}>
               Cancel
             </Button>
-            <Button type='submit' variant='contained'>
+            <Button type="submit" variant="contained">
               {teamToEdit ? 'Save' : 'Create'}
             </Button>
           </Box>
