@@ -3,7 +3,7 @@ import { Switch } from '@mui/material'
 const DeactivateToggle = (checked, onChange) => {
   return (
     <Switch
-      size='small'
+      size="small"
       checked={checked}
       onChange={onChange}
       sx={{

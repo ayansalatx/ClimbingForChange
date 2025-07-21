@@ -12,7 +12,11 @@ import Team from '../models/team.js'
 import Participant from '../models/participant.js'
 import Lap from '../models/lap.js'
 
-import { loginAndGetToken, closeDBConnection, connectToTestDB } from './testHelper.js'
+import {
+  loginAndGetToken,
+  closeDBConnection,
+  connectToTestDB,
+} from './testHelper.js'
 
 const api = supertest(app)
 
@@ -65,7 +69,9 @@ describe('Locations API (/api/locations)', () => {
   })
 
   test('all locations are returned', async () => {
-    const response = await api.get('/api/locations').set('Authorization', `bearer ${authToken}`)
+    const response = await api
+      .get('/api/locations')
+      .set('Authorization', `bearer ${authToken}`)
     assert.strictEqual(response.body.length, initialLocations.length)
   })
 
@@ -85,7 +91,9 @@ describe('Locations API (/api/locations)', () => {
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
-    const response = await api.get('/api/locations').set('Authorization', `bearer ${authToken}`)
+    const response = await api
+      .get('/api/locations')
+      .set('Authorization', `bearer ${authToken}`)
     const allLocationNames = response.body.map(l => l.name)
 
     assert.strictEqual(response.body.length, initialLocations.length + 1)
@@ -93,7 +101,9 @@ describe('Locations API (/api/locations)', () => {
   })
 
   test('an existing location can be updated', async () => {
-    const allLocationsAtStart = await api.get('/api/locations').set('Authorization', `bearer ${authToken}`)
+    const allLocationsAtStart = await api
+      .get('/api/locations')
+      .set('Authorization', `bearer ${authToken}`)
     const locationToUpdate = allLocationsAtStart.body[0]
 
     const updatePayload = {
@@ -107,7 +117,9 @@ describe('Locations API (/api/locations)', () => {
       .send(updatePayload)
       .expect(200)
 
-    const response = await api.get(`/api/locations/${locationToUpdate.id}`).set('Authorization', `bearer ${authToken}`)
+    const response = await api
+      .get(`/api/locations/${locationToUpdate.id}`)
+      .set('Authorization', `bearer ${authToken}`)
     const updatedLocation = response.body
 
     assert.strictEqual(updatedLocation.address, '123 NEW Mountain Road')
@@ -116,7 +128,9 @@ describe('Locations API (/api/locations)', () => {
   })
 
   test('a location can be deleted', async () => {
-    const allLocationsAtStart = await api.get('/api/locations').set('Authorization', `bearer ${authToken}`)
+    const allLocationsAtStart = await api
+      .get('/api/locations')
+      .set('Authorization', `bearer ${authToken}`)
     const locationToDelete = allLocationsAtStart.body[0]
     const initialCount = allLocationsAtStart.body.length
 
@@ -125,11 +139,16 @@ describe('Locations API (/api/locations)', () => {
       .set('Authorization', `bearer ${authToken}`)
       .expect(204)
 
-    const allLocationsAtEnd = await api.get('/api/locations').set('Authorization', `bearer ${authToken}`)
+    const allLocationsAtEnd = await api
+      .get('/api/locations')
+      .set('Authorization', `bearer ${authToken}`)
     assert.strictEqual(allLocationsAtEnd.body.length, initialCount - 1)
 
     const locationIds = allLocationsAtEnd.body.map(l => l.id)
-    assert(!locationIds.includes(locationToDelete.id), 'Deleted location ID should not exist')
+    assert(
+      !locationIds.includes(locationToDelete.id),
+      'Deleted location ID should not exist',
+    )
   })
 })
 

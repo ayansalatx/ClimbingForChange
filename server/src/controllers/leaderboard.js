@@ -15,54 +15,82 @@ async function processNewPassings(newPassings) {
     const teamId = bibToTeamMap.get(bib)
 
     if (!teamId) {
-      console.warn(`[Processing] Received passing for unmapped Bib: ${bib}. Skipping.`)
+      console.warn(
+        `[Processing] Received passing for unmapped Bib: ${bib}. Skipping.`,
+      )
       continue
     }
 
     try {
-      const existingPassing = await Passing.findOne({ Code: bib, LoopID: passingData.LoopID, PassingNo: passingData.PassingNo })
+      const existingPassing = await Passing.findOne({
+        Code: bib,
+        LoopID: passingData.LoopID,
+        PassingNo: passingData.PassingNo,
+      })
       if (existingPassing) {
         continue
       }
 
-      const savedPassing = await Passing.create({ ...passingData, team: teamId })
+      const savedPassing = await Passing.create({
+        ...passingData,
+        team: teamId,
+      })
 
       if (parseInt(savedPassing.LoopID) === LAP_POINT_LOOP_ID) {
         const lapJustCompleted = parseInt(savedPassing.PassingNo, 10)
-        
-        const existingLap = await Lap.findOne({ team: teamId, lapNumber: lapJustCompleted })
+
+        const existingLap = await Lap.findOne({
+          team: teamId,
+          lapNumber: lapJustCompleted,
+        })
         if (existingLap) {
           continue
         }
 
         let lapStartTime
         if (lapJustCompleted === 1) {
-          const startPassing = await Passing.findOne({ team: teamId, LoopID: START_LOOP_ID })
+          const startPassing = await Passing.findOne({
+            team: teamId,
+            LoopID: START_LOOP_ID,
+          })
           if (!startPassing) {
-            console.warn(`[Processing] Bib ${bib}: Start passing not found for lap 1, skipping.`)
+            console.warn(
+              `[Processing] Bib ${bib}: Start passing not found for lap 1, skipping.`,
+            )
             continue
           }
           lapStartTime = startPassing.RealTime
-        } else {
-          const previousLapPassing = await Passing.findOne({ team: teamId, LoopID: LAP_POINT_LOOP_ID, PassingNo: lapJustCompleted - 1 })
+        }
+        else {
+          const previousLapPassing = await Passing.findOne({
+            team: teamId,
+            LoopID: LAP_POINT_LOOP_ID,
+            PassingNo: lapJustCompleted - 1,
+          })
           if (!previousLapPassing) {
-            console.warn(`[Processing] Bib ${bib}: Previous lap passing not found for lap ${lapJustCompleted}, skipping.`)
+            console.warn(
+              `[Processing] Bib ${bib}: Previous lap passing not found for lap ${lapJustCompleted}, skipping.`,
+            )
             continue
           }
           lapStartTime = previousLapPassing.RealTime
         }
-        
+
         const lapEndTime = savedPassing.RealTime
         const lapDurationMs = lapEndTime.getTime() - lapStartTime.getTime()
 
         if (lapDurationMs < 0) {
-          console.error(`[Processing] Bib ${bib}: Negative lap duration detected, skipping.`)
+          console.error(
+            `[Processing] Bib ${bib}: Negative lap duration detected, skipping.`,
+          )
           continue
         }
 
         const team = await Team.findById(teamId)
         if (!team) {
-          console.warn(`[Processing] Bib ${bib}: Team not found, skipping lap creation.`)
+          console.warn(
+            `[Processing] Bib ${bib}: Team not found, skipping lap creation.`,
+          )
           continue
         }
 
@@ -72,13 +100,17 @@ async function processNewPassings(newPassings) {
           startDateTime: lapStartTime,
           endDateTime: lapEndTime,
           lapDuration: lapDurationMs,
-          lapNumber: lapJustCompleted
+          lapNumber: lapJustCompleted,
         })
-        
-        console.log(`✅ [Lap Recorded] Team ${team.name} (Bib: ${bib}) completed Lap ${lapJustCompleted} in ${(lapDurationMs / 1000).toFixed(1)}s`)
+
+        console.log(
+          `✅ [Lap Recorded] Team ${team.name} (Bib: ${bib}) completed Lap ${lapJustCompleted} in ${(lapDurationMs / 1000).toFixed(1)}s`,
+        )
       }
-    } catch (error) {
-      if (error.code !== 11000) console.error(`[Processing Error] Bib ${bib}:`, error)
+    }
+    catch (error) {
+      if (error.code !== 11000)
+        console.error(`[Processing Error] Bib ${bib}:`, error)
     }
   }
 }
@@ -90,23 +122,31 @@ async function generateLeaderboard() {
     .populate('laps')
 
   // Get elevation gain from the first team's hill (all teams use the same hill)
-  const elevationGainPerLap = teams.length > 0 && teams[0].hill ? teams[0].hill.lapElevationGain : 88.48
+  const elevationGainPerLap
+    = teams.length > 0 && teams[0].hill ? teams[0].hill.lapElevationGain : 88.48
 
-  const calculatedTeams = teams.map(team => {
+  const calculatedTeams = teams.map((team) => {
     const lapsCompleted = team.laps ? team.laps.length : 0
     const totalElevation = lapsCompleted * elevationGainPerLap
-    const progressPercentage = team.mountain ? (totalElevation / team.mountain.totalElevation) * 100 : 0
-    
+    const progressPercentage = team.mountain
+      ? (totalElevation / team.mountain.totalElevation) * 100
+      : 0
+
     let lastUpdateTime = team.startDateTime
     let bestLapTime = null
     let averageLapTime = null
     let totalTime = null
     if (lapsCompleted > 0) {
-      const sortedLaps = [...team.laps].sort((a, b) => a.lapNumber - b.lapNumber)
+      const sortedLaps = [...team.laps].sort(
+        (a, b) => a.lapNumber - b.lapNumber,
+      )
       const lapDurations = sortedLaps.map(lap => lap.lapDuration)
       bestLapTime = Math.min(...lapDurations)
-      averageLapTime = lapDurations.reduce((a, b) => a + b, 0) / lapDurations.length
-      totalTime = sortedLaps[sortedLaps.length - 1].endDateTime - sortedLaps[0].startDateTime
+      averageLapTime
+        = lapDurations.reduce((a, b) => a + b, 0) / lapDurations.length
+      totalTime
+        = sortedLaps[sortedLaps.length - 1].endDateTime
+          - sortedLaps[0].startDateTime
       const lastLap = sortedLaps[sortedLaps.length - 1]
       lastUpdateTime = lastLap.endDateTime
     }
@@ -118,17 +158,31 @@ async function generateLeaderboard() {
     // Log progress milestones
     if (lapsCompleted > 0 && progressPercentage > 0) {
       const prevLaps = lapsCompleted - 1
-      const prevProgress = prevLaps * elevationGainPerLap / (team.mountain ? team.mountain.totalElevation : 1) * 100
-      
+      const prevProgress
+        = ((prevLaps * elevationGainPerLap)
+          / (team.mountain ? team.mountain.totalElevation : 1))
+        * 100
+
       // Log milestone achievements (25%, 50%, 75%, 100%)
       if (progressPercentage >= 25 && prevProgress < 25) {
-        console.log(`🏔️ [Milestone] ${team.name} reached 25% of ${team.mountain?.name || 'mountain'} (${lapsCompleted}/${team.lapsRequired} laps)`)
-      } else if (progressPercentage >= 50 && prevProgress < 50) {
-        console.log(`🏔️ [Milestone] ${team.name} reached 50% of ${team.mountain?.name || 'mountain'} (${lapsCompleted}/${team.lapsRequired} laps)`)
-      } else if (progressPercentage >= 75 && prevProgress < 75) {
-        console.log(`🏔️ [Milestone] ${team.name} reached 75% of ${team.mountain?.name || 'mountain'} (${lapsCompleted}/${team.lapsRequired} laps)`)
-      } else if (progressPercentage >= 100 && prevProgress < 100) {
-        console.log(`🏆 [FINISHED] ${team.name} completed ${team.mountain?.name || 'mountain'}! (${lapsCompleted}/${team.lapsRequired} laps)`)
+        console.log(
+          `🏔️ [Milestone] ${team.name} reached 25% of ${team.mountain?.name || 'mountain'} (${lapsCompleted}/${team.lapsRequired} laps)`,
+        )
+      }
+      else if (progressPercentage >= 50 && prevProgress < 50) {
+        console.log(
+          `🏔️ [Milestone] ${team.name} reached 50% of ${team.mountain?.name || 'mountain'} (${lapsCompleted}/${team.lapsRequired} laps)`,
+        )
+      }
+      else if (progressPercentage >= 75 && prevProgress < 75) {
+        console.log(
+          `🏔️ [Milestone] ${team.name} reached 75% of ${team.mountain?.name || 'mountain'} (${lapsCompleted}/${team.lapsRequired} laps)`,
+        )
+      }
+      else if (progressPercentage >= 100 && prevProgress < 100) {
+        console.log(
+          `🏆 [FINISHED] ${team.name} completed ${team.mountain?.name || 'mountain'}! (${lapsCompleted}/${team.lapsRequired} laps)`,
+        )
       }
     }
 
@@ -152,15 +206,17 @@ async function generateLeaderboard() {
   calculatedTeams.sort((a, b) => {
     if (a.status === 'Finished' && b.status !== 'Finished') return -1
     if (b.status === 'Finished' && a.status !== 'Finished') return 1
-    if (a.status === 'Finished' && b.status === 'Finished') return new Date(a.lastUpdateTime) - new Date(b.lastUpdateTime)
+    if (a.status === 'Finished' && b.status === 'Finished')
+      return new Date(a.lastUpdateTime) - new Date(b.lastUpdateTime)
 
     if (a.status === 'Running' && b.status !== 'Running') return -1
     if (b.status === 'Running' && a.status !== 'Running') return 1
     if (a.status === 'Running' && b.status === 'Running') {
-      if (b.totalElevation !== a.totalElevation) return b.totalElevation - a.totalElevation
+      if (b.totalElevation !== a.totalElevation)
+        return b.totalElevation - a.totalElevation
       return new Date(a.lastUpdateTime) - new Date(b.lastUpdateTime)
     }
-    
+
     return 1
   })
 
@@ -173,17 +229,18 @@ export const getLeaderboard = async (req, res) => {
   try {
     const eventId = req.query.eventId
     const leaderboard = await generateLeaderboard(eventId)
-    
+
     res.json({
       eventId: eventId || 'current',
       lastUpdated: new Date().toISOString(),
-      teams: leaderboard
+      teams: leaderboard,
     })
-  } catch (error) {
+  }
+  catch (error) {
     console.error('Leaderboard API error:', error)
-    res.status(500).json({ 
+    res.status(500).json({
       error: 'Failed to generate leaderboard',
-      message: error.message 
+      message: error.message,
     })
   }
 }

@@ -1255,7 +1255,11 @@ components:
       properties:
         id: { type: string, description: Unique identifier for the hill. }
         name: { type: string }
-        location: { type: string, description: ID of the location where the hill exists. }
+        location:
+          {
+            type: string,
+            description: ID of the location where the hill exists.,
+          }
         lapElevationGain: { type: number, format: float }
         lapDistance: { type: number, format: float }
         elevationUnit: { type: string, enum: ['FT', 'M'] }
@@ -1265,7 +1269,11 @@ components:
     Mountain:
       type: object
       properties:
-        id: { type: string, description: Unique identifier for the virtual target mountain. }
+        id:
+          {
+            type: string,
+            description: Unique identifier for the virtual target mountain.,
+          }
         name: { type: string }
         totalElevation: { type: number, format: float }
         elevationUnit: { type: string, enum: ['FT', 'M'] }
@@ -1275,7 +1283,8 @@ components:
       type: object
       properties:
         id: { type: string, description: Unique identifier for the RFID tag. }
-        serialNumber: { type: string, description: The unique serial number of the tag. }
+        serialNumber:
+          { type: string, description: The unique serial number of the tag. }
       required: [serialNumber]
 
     Event:
@@ -1283,15 +1292,24 @@ components:
       properties:
         id: { type: string, description: Unique identifier for the event. }
         name: { type: string }
-        location: { type: string, description: ID of the location where the event is held. }
+        location:
+          {
+            type: string,
+            description: ID of the location where the event is held.,
+          }
         startDateTime: { type: string, format: date-time }
         endDateTime: { type: string, format: date-time }
         hills:
           type: array
-          items: { type: string, description: ID of a Hill available at this event. }
+          items:
+            { type: string, description: ID of a Hill available at this event. }
         mountains:
           type: array
-          items: { type: string, description: ID of a Mountain available to climb at this event. }
+          items:
+            {
+              type: string,
+              description: ID of a Mountain available to climb at this event.,
+            }
         active: { type: boolean }
       required: [name, location, startDateTime, endDateTime]
 
@@ -1300,23 +1318,52 @@ components:
       properties:
         id: { type: string, description: Unique identifier for the team. }
         name: { type: string }
-        event: { type: string, description: ID of the event the team participates in. }
-        hill: { type: string, description: ID of the hill the team is climbing. }
-        mountain: { type: string, description: ID of the virtual mountain the team chose. }
-        rfidTag: { type: string, nullable: true, description: ID of the RFID tag assigned to this team. }
+        event:
+          {
+            type: string,
+            description: ID of the event the team participates in.,
+          }
+        hill:
+          { type: string, description: ID of the hill the team is climbing. }
+        mountain:
+          {
+            type: string,
+            description: ID of the virtual mountain the team chose.,
+          }
+        rfidTag:
+          {
+            type: string,
+            nullable: true,
+            description: ID of the RFID tag assigned to this team.,
+          }
         isSoloTeam: { type: boolean }
         lapsRequired: { type: number }
         totalDistanceRequired: { type: number }
         startDateTime: { type: string, format: date-time }
-      required: [name, event, hill, mountain, lapsRequired, totalDistanceRequired, startDateTime]
+      required:
+        [
+          name,
+          event,
+          hill,
+          mountain,
+          lapsRequired,
+          totalDistanceRequired,
+          startDateTime,
+        ]
 
     Participant:
       type: object
       properties:
-        id: { type: string, description: Unique identifier for the participant. }
+        id:
+          { type: string, description: Unique identifier for the participant. }
         firstName: { type: string }
         lastName: { type: string }
-        team: { type: string, nullable: true, description: ID of the team the participant belongs to (can be null for a free agent). }
+        team:
+          {
+            type: string,
+            nullable: true,
+            description: ID of the team the participant belongs to (can be null for a free agent).,
+          }
         active: { type: boolean }
       required: [firstName, lastName]
 
@@ -1324,8 +1371,13 @@ components:
       type: object
       properties:
         id: { type: string, description: Unique identifier for the lap record. }
-        team: { type: string, description: ID of the team that completed the lap. }
-        rfidTag: { type: string, description: ID of the RFID tag that recorded the lap. }
+        team:
+          { type: string, description: ID of the team that completed the lap. }
+        rfidTag:
+          {
+            type: string,
+            description: ID of the RFID tag that recorded the lap.,
+          }
         startDateTime: { type: string, format: date-time }
         endDateTime: { type: string, format: date-time }
       required: [team, rfidTag, startDateTime, endDateTime]
@@ -1338,7 +1390,8 @@ components:
           properties:
             location: { $ref: '#/components/schemas/Location' }
             hills: { type: array, items: { $ref: '#/components/schemas/Hill' } }
-            mountains: { type: array, items: { $ref: '#/components/schemas/Mountain' } }
+            mountains:
+              { type: array, items: { $ref: '#/components/schemas/Mountain' } }
 
     TeamPopulated:
       allOf:
@@ -1347,7 +1400,11 @@ components:
           properties:
             hill: { $ref: '#/components/schemas/Hill' }
             mountain: { $ref: '#/components/schemas/Mountain' }
-            participants: { type: array, items: { $ref: '#/components/schemas/Participant' } }
+            participants:
+              {
+                type: array,
+                items: { $ref: '#/components/schemas/Participant' },
+              }
 
     ParticipantPopulated:
       allOf:
@@ -1370,7 +1427,7 @@ components:
         - type: object
           properties:
             location: { $ref: '#/components/schemas/Location' }
-            
+
     # --- Request Body Schemas (for POST/PUT) ---
     LocationRequest:
       type: object
@@ -1381,12 +1438,13 @@ components:
         provState: { type: string }
         country: { type: string }
       required: [name, address, city, provState, country]
-    
+
     HillRequest:
       type: object
       properties:
         name: { type: string }
-        location: { type: string, description: MongoDB ObjectId of the location. }
+        location:
+          { type: string, description: MongoDB ObjectId of the location. }
         lapElevationGain: { type: number }
         lapDistance: { type: number }
         elevationUnit: { type: string, enum: ['FT', 'M'] }
@@ -1410,7 +1468,8 @@ components:
       type: object
       properties:
         name: { type: string }
-        location: { type: string, description: MongoDB ObjectId of the location. }
+        location:
+          { type: string, description: MongoDB ObjectId of the location. }
         startDateTime: { type: string, format: date-time }
         endDateTime: { type: string, format: date-time }
         hills: { type: array, items: { type: string } }
@@ -1424,27 +1483,48 @@ components:
         name: { type: string }
         event: { type: string, description: MongoDB ObjectId of the event. }
         hill: { type: string, description: MongoDB ObjectId of the hill. }
-        mountain: { type: string, description: MongoDB ObjectId of the mountain. }
-        rfidTag: { type: string, nullable: true, description: MongoDB ObjectId of the RFID tag. }
+        mountain:
+          { type: string, description: MongoDB ObjectId of the mountain. }
+        rfidTag:
+          {
+            type: string,
+            nullable: true,
+            description: MongoDB ObjectId of the RFID tag.,
+          }
         isSoloTeam: { type: boolean, default: false }
         lapsRequired: { type: number, minimum: 1 }
         totalDistanceRequired: { type: number, minimum: 0 }
         startDateTime: { type: string, format: date-time }
-      required: [name, event, hill, mountain, lapsRequired, totalDistanceRequired, startDateTime]
+      required:
+        [
+          name,
+          event,
+          hill,
+          mountain,
+          lapsRequired,
+          totalDistanceRequired,
+          startDateTime,
+        ]
 
     ParticipantRequest:
       type: object
       properties:
         firstName: { type: string }
         lastName: { type: string }
-        team: { type: string, nullable: true, description: MongoDB ObjectId of the team. }
+        team:
+          {
+            type: string,
+            nullable: true,
+            description: MongoDB ObjectId of the team.,
+          }
       required: [firstName, lastName]
 
     LapRequest:
       type: object
       properties:
         team: { type: string, description: MongoDB ObjectId of the team. }
-        rfidTag: { type: string, description: MongoDB ObjectId of the RFID tag. }
+        rfidTag:
+          { type: string, description: MongoDB ObjectId of the RFID tag. }
         startDateTime: { type: string, format: date-time }
         endDateTime: { type: string, format: date-time }
       required: [team, rfidTag, startDateTime, endDateTime]
@@ -1453,9 +1533,18 @@ components:
     LeaderboardResponse:
       type: object
       properties:
-        eventId: { type: string, description: The ID of the event this leaderboard is for. }
-        lastUpdated: { type: string, format: date-time, description: When the leaderboard was last updated. }
-        teams: 
+        eventId:
+          {
+            type: string,
+            description: The ID of the event this leaderboard is for.,
+          }
+        lastUpdated:
+          {
+            type: string,
+            format: date-time,
+            description: When the leaderboard was last updated.,
+          }
+        teams:
           type: array
           items:
             $ref: '#/components/schemas/LeaderboardTeam'
@@ -1465,20 +1554,92 @@ components:
       type: object
       properties:
         id: { type: string, description: Unique identifier for the team. }
-        rank: { type: integer, minimum: 1, description: Current ranking position (1st, 2nd, etc.). }
+        rank:
+          {
+            type: integer,
+            minimum: 1,
+            description: Current ranking position (1st,
+            2nd,
+            etc.).,
+          }
         name: { type: string, description: Team name. }
-        mountainName: { type: string, description: Name of the mountain the team is climbing. }
-        hillName: { type: string, description: Name of the hill the team is using. }
-        lapsCompleted: { type: integer, minimum: 0, description: Number of laps completed so far. }
-        lapsRequired: { type: integer, minimum: 1, description: Total number of laps required to complete the mountain. }
-        totalElevation: { type: number, format: float, description: Total elevation gained so far (in feet or meters). }
-        progressPercentage: { type: number, format: float, minimum: 0, maximum: 100, description: Percentage of mountain completed. }
-        lastUpdateTime: { type: string, format: date-time, description: When the team last completed a lap. }
-        status: { type: string, enum: ['Not Started', 'Running', 'Finished'], description: Current status of the team. }
-        bestLapTime: { type: number, nullable: true, description: Best lap time in milliseconds (null if no laps completed). }
-        averageLapTime: { type: number, nullable: true, description: Average lap time in milliseconds (null if no laps completed). }
-        totalTime: { type: number, nullable: true, description: Total time from first to last lap in milliseconds (null if no laps completed). }
-      required: [id, rank, name, mountainName, hillName, lapsCompleted, lapsRequired, totalElevation, progressPercentage, lastUpdateTime, status]
+        mountainName:
+          {
+            type: string,
+            description: Name of the mountain the team is climbing.,
+          }
+        hillName:
+          { type: string, description: Name of the hill the team is using. }
+        lapsCompleted:
+          {
+            type: integer,
+            minimum: 0,
+            description: Number of laps completed so far.,
+          }
+        lapsRequired:
+          {
+            type: integer,
+            minimum: 1,
+            description: Total number of laps required to complete the mountain.,
+          }
+        totalElevation:
+          {
+            type: number,
+            format: float,
+            description: Total elevation gained so far (in feet or meters).,
+          }
+        progressPercentage:
+          {
+            type: number,
+            format: float,
+            minimum: 0,
+            maximum: 100,
+            description: Percentage of mountain completed.,
+          }
+        lastUpdateTime:
+          {
+            type: string,
+            format: date-time,
+            description: When the team last completed a lap.,
+          }
+        status:
+          {
+            type: string,
+            enum: ['Not Started', 'Running', 'Finished'],
+            description: Current status of the team.,
+          }
+        bestLapTime:
+          {
+            type: number,
+            nullable: true,
+            description: Best lap time in milliseconds (null if no laps completed).,
+          }
+        averageLapTime:
+          {
+            type: number,
+            nullable: true,
+            description: Average lap time in milliseconds (null if no laps completed).,
+          }
+        totalTime:
+          {
+            type: number,
+            nullable: true,
+            description: Total time from first to last lap in milliseconds (null if no laps completed).,
+          }
+      required:
+        [
+          id,
+          rank,
+          name,
+          mountainName,
+          hillName,
+          lapsCompleted,
+          lapsRequired,
+          totalElevation,
+          progressPercentage,
+          lastUpdateTime,
+          status,
+        ]
 
     # --- Authentication Schemas ---
     LoginRequest:
@@ -1501,7 +1662,7 @@ components:
       type: object
       properties: { error: { type: string } }
       required: [error]
-      example: { error: "Resource not found" }
+      example: { error: 'Resource not found' }
 
     ValidationErrorResponse:
       type: object

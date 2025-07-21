@@ -5,7 +5,7 @@ import theme from '../../../styles/theme'
 const CancelButton = ({ onClick, color }) => {
   return (
     <Button
-      variant='outlined'
+      variant="outlined"
       onClick={onClick}
       sx={{
         width: '6rem',
@@ -15,7 +15,10 @@ const CancelButton = ({ onClick, color }) => {
         color: color == 'red' ? 'error.main' : 'gray.main',
         '&:hover': {
           borderColor: color == 'red' ? 'error.main' : 'gray.main',
-          backgroundColor: color == 'red' ? alpha(theme.palette.error.main, 0.15) : alpha(theme.palette.gray.main, 0.20) ,
+          backgroundColor:
+            color == 'red'
+              ? alpha(theme.palette.error.main, 0.15)
+              : alpha(theme.palette.gray.main, 0.2),
         },
       }}
     >

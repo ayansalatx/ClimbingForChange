@@ -20,14 +20,14 @@ eventRoutes.post(
   '/',
   validateEvent,
   checkValidation,
-  asyncHandler(saveOneEvent)
+  asyncHandler(saveOneEvent),
 )
 
 eventRoutes.put(
   '/:id',
   validateEvent,
   checkValidation,
-  asyncHandler(updateOneEvent)
+  asyncHandler(updateOneEvent),
 )
 
 eventRoutes.delete('/:id', asyncHandler(deleteOneEvent))

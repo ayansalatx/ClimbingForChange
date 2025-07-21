@@ -9,13 +9,12 @@ import {
 import { forwardRef } from 'react'
 
 import CancelButton from '../buttons/CancelButton'
-import DeleteButton from '../buttons/DeleteButton'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
 })
 
-const ConfirmDeleteDialog = ({ open, onCancel, onConfirm }) => {
+const WarningDialog = ({ open, title, message, onCancel }) => {
   return (
     <Dialog
       open={open}
@@ -26,20 +25,19 @@ const ConfirmDeleteDialog = ({ open, onCancel, onConfirm }) => {
       onClose={onCancel}
       aria-describedby="confirm-delete-dialog"
     >
-      <DialogTitle>{'Confirm Delete'}</DialogTitle>
+      <DialogTitle>{title}</DialogTitle>
       <DialogContent sx={{ py: 0 }}>
         <DialogContentText id="alert-dialog-slide-description">
-          Are you sure you want to delete this item?
+          {message}
         </DialogContentText>
       </DialogContent>
       <DialogActions
         sx={{ display: 'flex', justifyContent: 'space-between', px: 3, py: 3 }}
       >
         <CancelButton onClick={onCancel} color={'gray'}></CancelButton>
-        <DeleteButton onClick={onConfirm}></DeleteButton>
       </DialogActions>
     </Dialog>
   )
 }
 
-export default ConfirmDeleteDialog
+export default WarningDialog

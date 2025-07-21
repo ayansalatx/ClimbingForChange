@@ -14,7 +14,7 @@ const ScrollingTableRow = ({ teams, columns }) => {
 
   const gradientBackground = `linear-gradient(to right, ${alpha(theme.palette.primary.main, 0.8)}, ${alpha(theme.palette.primary.main, 0.3)}, ${alpha(theme.palette.primary.main, 0.8)})`
   return (
-    <TableBody className='marquee__content'>
+    <TableBody className="marquee__content">
       {teams.map((team, index) => (
         <Fragment key={team.id || index}>
           <TableRow>

@@ -29,7 +29,7 @@ export const saveOneTeam = async (request, response) => {
     Event.findById(body.event),
     Hill.findById(body.hill),
     Mountain.findById(body.mountain),
-    body.rfidTagId ? RFIDTag.findById(body.rfidTagId) : null 
+    body.rfidTagId ? RFIDTag.findById(body.rfidTagId) : null,
   ])
 
   if (!event || !hill || !mountain) {
@@ -37,14 +37,18 @@ export const saveOneTeam = async (request, response) => {
       error: 'The specified Event, Hill, or Mountain does not exist.',
     })
   }
-  
+
   if (body.rfidTagId) {
     if (!rfidTag) {
-      return response.status(404).json({ error: 'The specified RFID Tag does not exist.' })
+      return response
+        .status(404)
+        .json({ error: 'The specified RFID Tag does not exist.' })
     }
     const teamWithThisTag = await Team.findOne({ rfidTagId: rfidTag._id })
     if (teamWithThisTag) {
-      return response.status(400).json({ error: 'This RFID Tag is already assigned to another team.' })
+      return response
+        .status(400)
+        .json({ error: 'This RFID Tag is already assigned to another team.' })
     }
   }
 
@@ -79,13 +83,15 @@ export const updateOneTeam = async (request, response) => {
     const teamWithThisTag = await Team.findOne({ rfidTagId: body.rfidTagId })
     // Check if a tag exists and is assigned to a different team
     if (teamWithThisTag && teamWithThisTag._id.toString() !== teamID) {
-      return response.status(400).json({ error: 'This RFID Tag is already assigned to another team.' })
+      return response
+        .status(400)
+        .json({ error: 'This RFID Tag is already assigned to another team.' })
     }
   }
 
   // 2. Prepare the update object with only the fields to be changed
   const updateData = {
-    ...body
+    ...body,
   }
 
   // 3. Perform the update
