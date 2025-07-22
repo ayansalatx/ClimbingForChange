@@ -503,7 +503,7 @@ const TeamProgress = () => {
       <WarningDialog
         open={warningOpen}
         title={'Data Loading Error'}
-        message={'Data for event is not loading.'}
+        message={'Data for team is not loading.'}
         onCancel={() => setWarningOpen(false)}
       />
     </Box>

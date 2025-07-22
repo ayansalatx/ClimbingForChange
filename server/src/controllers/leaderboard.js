@@ -116,8 +116,11 @@ async function processNewPassings(newPassings) {
   }
 }
 
-async function generateLeaderboard() {
-  const teams = await Team.find({})
+async function generateLeaderboard(eventId) {
+  if (!eventId) {
+    throw new Error('Event ID is required to generate leaderboard')
+  }
+  const teams = await Team.find({ event: eventId })
     .populate('participants')
     .populate('mountain')
     .populate('hill')
