@@ -521,7 +521,7 @@ const ParticipantUpload = () => {
                 gap: '0.25rem',
                 backgroundColor: 'background.paper',
               }}
-              disabled={rows.length === 0 ? true : false}
+              disabled={rows.length === 0 || !selectedEventId || !selectedHillId || isLoading}
               loading={isLoading}
               onClick={() => {
                 if (!selectedEventId || !selectedEventId) {
@@ -534,8 +534,7 @@ const ParticipantUpload = () => {
                   if (overwrite) {
                     setOverwriteConfirmOpen(true)
                   } else {
-                    // handleUpload()
-                    console.log(eventError, hillError)
+                    handleUpload()
                   }
                 }
               }}
