@@ -96,10 +96,12 @@ export const uploadCSV = async (request, response) => {
           event: eventid,
           mountain: mountain._id,
           hill: hill ? hill._id : null,
+          rfidTag: null,
           name: teamName ? teamName : `${firstName} ${lastName}`,
           lapsRequired: lapsRequired ?? 0,
           isSoloTeam: teamName ? false : true,
           isIncomplete: true,
+          active: true,
         })
     await Participant.create({
       team: team._id,
