@@ -152,7 +152,7 @@ export function updateTeamWithLaps(team, newLaps) {
 
 // Returns the lap with shortest duration, or null if no laps
 export function getBestLapTime(laps) {
-  if (duration == null || isNaN(duration)) return null
+  if (laps.length === 0) return null
   const completedLaps = laps.filter((lap) => lap.endDateTime)
   if (!completedLaps.length) return null
 
