@@ -1,5 +1,4 @@
 import { alpha, Link, TableBody, TableCell, TableRow } from '@mui/material'
-
 import theme from '../../../styles/theme'
 import DeactivateToggle from '../buttons/DeactivateToggle'
 import RowActions from '../buttons/RowActions'

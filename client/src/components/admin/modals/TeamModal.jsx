@@ -10,7 +10,6 @@ import CancelButton from '../buttons/CancelButton'
 import SaveButton from '../buttons/SaveButton'
 import TextInput from '../forms/fields/TextInput'
 
-
 const style = {
   position: 'absolute',
   top: '50%',
@@ -57,7 +56,6 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
           setEvents(eventData)
           setRfidTags(rfidTagList)
         } catch (error) {
-          console.error('Error fetching data:', error)
         }
       }
     }
@@ -98,7 +96,6 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
         onAdd(teamData)
       }
     } catch (error) {
-      console.error('Error saving team:', error)
     }
 
     onModalClose()
