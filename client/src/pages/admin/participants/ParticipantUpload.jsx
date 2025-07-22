@@ -112,7 +112,7 @@ const ParticipantUpload = () => {
       formData.append('file', selectedFile)
 
       setIsLoading(true)
-      await uploadCSV(formData, selectedEventId, overwrite)
+      await uploadCSV(formData, selectedEventId, selectedHillId, overwrite)
       setIsLoading(false)
       displayAlert(
         'Uploaded',
