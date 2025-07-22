@@ -157,7 +157,7 @@ const AddEventModal = ({
             <FormControl>
               <Box display="flex" alignItems="center" gap={1}>
                 <Typography>Active</Typography>
-                <DeactivateToggle
+                <Switch
                   checked={isActive}
                   onChange={(e) => setIsActive(e.target.checked)}
                   color="success"
