@@ -7,8 +7,6 @@ import {
   FormControl,
   FormControlLabel,
   FormGroup,
-  FormHelperText,
-  InputLabel,
   MenuItem,
   Select,
   Typography,
@@ -17,11 +15,11 @@ import Papa from 'papaparse'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import theme from '../../../styles/theme'
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog'
 import { useAlert } from '../../../hooks/useAlert'
 import { getAllEvents } from '../../../services/eventService'
 import { uploadCSV } from '../../../services/uploadcsv'
+import theme from '../../../styles/theme'
 import UploadPreviewTable from './UploadPreviewTable'
 
 const ParticipantUpload = () => {
@@ -191,6 +189,7 @@ const ParticipantUpload = () => {
             flexDirection: 'column',
             width: '100%',
             minHeight: 0,
+            flexGrow: 1,
             gap: 1,
             p: 2,
           }}
@@ -222,13 +221,16 @@ const ParticipantUpload = () => {
                     width: '60%',
                   }}
                 >
-                  <FormControl sx={{ width: '100%' }}>
+                  <FormControl error={eventError} sx={{ width: '100%' }}>
                     <Select
                       size="small"
                       variant="outlined"
                       id="event-select"
                       value={selectedEvent ?? ''}
-                      onChange={(e) => setSelectedEvent(e.target.value)}
+                      onChange={(event) => {
+                        setEventError(false)
+                        setSelectedEvent(event.target.value)
+                      }}
                       displayEmpty
                       required
                       sx={{
@@ -306,6 +308,7 @@ const ParticipantUpload = () => {
                 >
                   <FormGroup>
                     <FormControlLabel
+                      disabled={!selectedEvent}
                       sx={{ color: 'primary.main' }}
                       control={
                         <Checkbox
@@ -320,7 +323,7 @@ const ParticipantUpload = () => {
                         <Typography
                           sx={{
                             fontSize: '1rem',
-                            color: 'primary.main',
+                            color: selectedEvent ? 'primary.main' : 'gray.main',
                             textTransform: 'uppercase',
                             fontWeight: 'bold',
                             letterSpacing: '.01rem',
@@ -342,7 +345,11 @@ const ParticipantUpload = () => {
                     justifyContent: 'center',
                   }}
                 >
-                  <Button variant="contained" component="label">
+                  <Button
+                    variant="contained"
+                    component="label"
+                    disabled={!selectedEvent}
+                  >
                     Select CSV File
                     <input type="file" hidden onChange={handleFileChange} />
                   </Button>
@@ -355,7 +362,20 @@ const ParticipantUpload = () => {
               <UploadPreviewTable rows={rows} theme={theme} />
             </Box>
           ) : (
-            'none'
+            <Box
+              sx={{
+                flexGrow: 1,
+                minHeight: 0,
+                width: '100%',
+                alignContent: 'center',
+                borderRadius: '5px',
+                backgroundColor: 'background.paper',
+              }}
+            >
+              <Typography variant="h6" sx={{ color: 'gray.main' }}>
+                Please select {selectedEvent ? 'a CSV file' : 'an Event'}
+              </Typography>
+            </Box>
           )}
           <Box
             sx={{
@@ -375,8 +395,7 @@ const ParticipantUpload = () => {
               loading={isLoading}
               onClick={() => {
                 if (!selectedEvent) {
-                  set
-                  ror(true)
+                  setEventError(true)
                 } else {
                   setEventError(false)
 
