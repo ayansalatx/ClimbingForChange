@@ -1,4 +1,4 @@
-import { alpha, MenuItem, TableBody, TableCell, TableRow, Autocomplete, TextField } from '@mui/material'
+import { alpha, Autocomplete, TableBody, TableCell, TableRow, TextField } from '@mui/material'
 
 import theme from '../../../../styles/theme'
 
@@ -33,7 +33,7 @@ const TableDataRows = ({
             const value = row[column.id] ?? ''
 
             if (column.id === 'rfidTag') {
-              const selectedTag = rfidTags.find(tag => tag.id === row.rfidTag) || null
+              const selectedTag = rfidTags.find((tag) => tag.id === row.rfidTag) || null
               const availableTags = rfidTags.filter(
                 (tag) => !usedRfidIds.includes(tag.id) || tag.id === row.rfidTag
               )
