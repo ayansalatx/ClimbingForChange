@@ -72,17 +72,13 @@ const ProgressBoardFullscreen = () => {
   let columns
   if (isXLarge) {
     columns = xlColumns
-  }
-  else if (isLarge) {
+  } else if (isLarge) {
     columns = lgColumns
-  }
-  else if (isMedium) {
+  } else if (isMedium) {
     columns = mdColumns
-  }
-  else if (isSmall) {
+  } else if (isSmall) {
     columns = smColumns
-  }
-  else {
+  } else {
     columns = xsmColumns
   }
 
@@ -114,15 +110,12 @@ const ProgressBoardFullscreen = () => {
     const loadLeaderboard = async () => {
       if (!eventId) return
       try {
-        const leaderboard = await getLeaderboard(eventId)
-        const teamsForDisplay = leaderboard.teams
+        const teamsList = await getLeaderboard(eventId)
 
-        setTeams(teamsForDisplay)
-      }
-      catch {
+        setTeams(teamsList)
+      } catch {
         showWarning()
-      }
-      finally {
+      } finally {
         setLoading(false)
       }
     }
