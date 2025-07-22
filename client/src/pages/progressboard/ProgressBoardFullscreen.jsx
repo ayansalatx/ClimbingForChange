@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import C4CFavicon from '../../assets/C4C-branding/Favicon.png'
 import WarningDialog from '../../components/admin/modals/WarningDialog'
 import AutoScrollTable from '../../components/progressboard/tables/auto-scroll/AutoScrollTable'
-import { getDisplayEventTeams } from '../../services/eventService'
+import { getLeaderboard } from '../../services/leaderboardService'
 import theme from '../../styles/theme'
 
 // Define columns for full width screen
@@ -83,11 +83,12 @@ const ProgressBoardFullscreen = () => {
   }
 
   const { eventId } = useParams()
+  const navigate = useNavigate()
+
   // State for teams
   const [teams, setTeams] = useState([])
-  const [loading, setLoading] = useState(true)
   const [warningOpen, setWarningOpen] = useState(false)
-  const navigate = useNavigate()
+  const [loading, setLoading] = useState(true)
 
   const showWarning = () => {
     setWarningOpen(true)
@@ -106,10 +107,10 @@ const ProgressBoardFullscreen = () => {
 
   // Load Team data from server
   useEffect(() => {
-    async function loadData() {
+    const loadLeaderboard = async () => {
+      if (!eventId) return
       try {
-        const teamsList = await getDisplayEventTeams(eventId)
-        // const event = await getOneEvent(eventId)
+        const teamsList = await getLeaderboard(eventId)
 
         setTeams(teamsList)
       } catch {
@@ -118,7 +119,14 @@ const ProgressBoardFullscreen = () => {
         setLoading(false)
       }
     }
-    loadData()
+
+    loadLeaderboard()
+
+    const intervalId = setInterval(loadLeaderboard, 2000)
+
+    return () => {
+      clearInterval(intervalId)
+    }
   }, [eventId])
 
   return (

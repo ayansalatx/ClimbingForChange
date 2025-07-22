@@ -14,7 +14,8 @@ export const addNewLocation = async (data) => {
   try {
     const res = await api.post('/locations', data)
     return res.data
-  } catch (error) {
+  }
+  catch (error) {
     throw formatApiError(error, 'Failed to add location.')
   }
 }
@@ -23,7 +24,8 @@ export const editLocation = async (id, data) => {
   try {
     const res = await api.put(`/locations/${id}`, data)
     return res.data
-  } catch (error) {
+  }
+  catch (error) {
     throw formatApiError(error, 'Failed to edit location.')
   }
 }
@@ -33,7 +35,8 @@ export const removeLocation = async (id) => {
   try {
     await api.put(`/locations/${id}`, { active: false })
     return true
-  } catch (error) {
+  }
+  catch (error) {
     throw formatApiError(error, 'Failed to remove location.')
   }
 }

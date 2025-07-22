@@ -15,9 +15,11 @@ import MountainManager from './pages/admin/mountains/MountainManager'
 import ParticipantManager from './pages/admin/participants/ParticipantManager'
 import ParticipantUpload from './pages/admin/participants/ParticipantUpload'
 import RFIDManager from './pages/admin/rfid/RFIDManager'
-import TeamsManager from './pages/admin/teams/TeamsManager'
+import TeamsManager from './pages/admin/teams/TeamsManager' 
+import LapProgress from './pages/progressboard/LapProgress'
 import ProgressBoard from './pages/progressboard/ProgressBoard'
 import ProgressBoardFullscreen from './pages/progressboard/ProgressBoardFullscreen'
+import TeamProgress from './pages/progressboard/TeamProgress'
 import theme from './styles/theme'
 
 function App() {
@@ -32,6 +34,11 @@ function App() {
             path="/progress/fullscreen/:eventId"
             element={<ProgressBoardFullscreen />}
           />
+          <Route
+            path='/progress/team/:teamId'
+            element={<TeamProgress />}
+          />
+          <Route path='/progress/team/:teamId/laps' element={<LapProgress />} />
 
           <Route path="/login" element={<AdminLogin />} />
 

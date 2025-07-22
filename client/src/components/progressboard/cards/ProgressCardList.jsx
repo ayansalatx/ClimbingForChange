@@ -8,11 +8,13 @@ import ProgressCard from './ProgressCard'
 
 const ProgressList = ({
   teams,
-  events,
+  activeEvents,
+  pastEvents,
   selectedEvent,
   setSelectedEvent,
   searchString,
   setSearchString,
+  teamsLength,
   loading,
 }) => {
   return (
@@ -37,7 +39,8 @@ const ProgressList = ({
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, pb: 1 }}>
           <EventSelector
-            events={events}
+            activeEvents={activeEvents}
+            pastEvents={pastEvents}
             selectedEvent={selectedEvent}
             setSelectedEvent={setSelectedEvent}
           />
@@ -69,7 +72,7 @@ const ProgressList = ({
             >
               <CircularProgress color="secondary" />
             </Box>
-          ) : teams.length > 0 ? (
+          ) : teamsLength && !loading > 0 ? (
             teams.map((team, index) => (
               <Box key={index}>
                 <ProgressCard team={team} />

@@ -93,7 +93,8 @@ const ParticipantUpload = () => {
           )
         },
       })
-    } else {
+    }
+    else {
       displayAlert('Loading Error', 'Not a csv file.', 'error')
       event.target.value = ''
       return
@@ -117,7 +118,8 @@ const ParticipantUpload = () => {
       setRows([])
       setSelectedFile(selectedFile)
       navigate('/admin/participants')
-    } catch (error) {
+    }
+    catch (error) {
       setIsLoading(false)
       displayAlert('Error', `Upload fail ${error.message}.`, 'error')
     }
@@ -181,12 +183,14 @@ const ParticipantUpload = () => {
               onClick={() => {
                 if (!selectedEvent) {
                   setEventError(true)
-                } else {
+                }
+                else {
                   setEventError(false)
 
                   if (overwrite) {
                     setOverwriteConfirmOpen(true)
-                  } else {
+                  }
+                  else {
                     handleUpload()
                   }
                 }
@@ -215,8 +219,8 @@ const ParticipantUpload = () => {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                {allEvent &&
-                  allEvent.map((e) => {
+                {allEvent
+                  && allEvent.map((e) => {
                     return (
                       <MenuItem key={e.id} value={e}>
                         {e.name}

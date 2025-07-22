@@ -33,7 +33,8 @@ const LocationModal = ({ open, onClose, onSave, locationData }) => {
       setCity(locationData.city || '')
       setProvState(locationData.provState || '')
       setCountry(locationData.country || '')
-    } else if (!open) {
+    }
+    else if (!open) {
       setId('')
       setName('')
       setAddress('')
@@ -99,6 +100,7 @@ const LocationModal = ({ open, onClose, onSave, locationData }) => {
             onChange={handleLettersOnlyChange(setCity)}
             required={true}
           />
+
           <TextInput
             label={'Province/State'}
             value={provState}

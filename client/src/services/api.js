@@ -38,14 +38,16 @@ api.interceptors.response.use(
         return Promise.reject(new Error('Session expired. Please login again.'))
       }
 
-      errorMessage =
-        error.response.data.message ||
-        `Error ${error.response.status}: ${error.response.statusText}`
-    } else if (error.request) {
+      errorMessage
+        = error.response.data.message
+          || `Error ${error.response.status}: ${error.response.statusText}`
+    }
+    else if (error.request) {
       // Network error (server unreachable)
-      errorMessage =
-        'Cannot connect to the server. Please check your network connection.'
-    } else {
+      errorMessage
+        = 'Cannot connect to the server. Please check your network connection.'
+    }
+    else {
       // Other errors
       errorMessage = error.message
     }

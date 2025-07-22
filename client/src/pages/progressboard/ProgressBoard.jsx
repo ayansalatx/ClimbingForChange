@@ -6,8 +6,8 @@ import C4CHorizontalBlueLogo from '../../assets/C4C-branding/Climbing-For-Change
 import WarningDialog from '../../components/admin/modals/WarningDialog'
 import ProgressList from '../../components/progressboard/cards/ProgressCardList'
 import ProgressTable from '../../components/progressboard/tables/regular/ProgressTable'
-import { getAllEvents, getDisplayEventTeams } from '../../services/eventService'
-import { getLeaderboard } from '../../services/leaderboard'
+import { getActiveUpcomingEvents,
+  getLeaderboard, getPastEvents } from '../../services/leaderboardService'
 import theme from '../../styles/theme'
 
 // Define columns for full width screen
@@ -55,11 +55,14 @@ const ProgressBoard = () => {
   let columns
   if (isLarge || isXLarge) {
     columns = lgColumns
-  } else if (isMedium) {
+  }
+  else if (isMedium) {
     columns = mdColumns
-  } else if (isSmall) {
+  }
+  else if (isSmall) {
     columns = smColumns
-  } else {
+  }
+  else {
     columns = [] // no columns for mobile
   }
 
@@ -70,17 +73,14 @@ const ProgressBoard = () => {
   const [teams, setTeams] = useState([])
   const [teamsLength, setTeamsLength] = useState()
   // State for events
-  const [events, setEvents] = useState([])
+  const [activeEvents, setActiveEvents] = useState([])
+  const [pastEvents, setPastEvents] = useState([])
   const [selectedEvent, setSelectedEvent] = useState(null)
 
   // State to store current search input string
   const [searchString, setSearchString] = useState('')
   // State for teams filtered by the search input
   const [filteredTeams, setFilteredTeams] = useState([])
-
-  // const [leaderboard, setLeaderboard] = useState([])
-  //  for use in later refactoring
-  const [, setLeaderboard] = useState([]) // Obey lint rules for now
 
   const showWarning = () => {
     setWarningOpen(true)
@@ -90,9 +90,12 @@ const ProgressBoard = () => {
   useEffect(() => {
     async function loadEventData() {
       try {
-        const eventList = await getAllEvents()
-        setEvents(eventList)
-      } catch {
+        const upcomingEventList = await getActiveUpcomingEvents()
+        const pastEventList = await getPastEvents()
+        setActiveEvents(upcomingEventList)
+        setPastEvents(pastEventList)
+      }
+      catch {
         showWarning()
       }
     }
@@ -101,34 +104,34 @@ const ProgressBoard = () => {
   }, [])
 
   // Set default event as the event that is ongoing or upcoming
+  // If no upcoming then set to last event
+  // If no events then null
   useEffect(() => {
-    if (events.length > 0 && !selectedEvent) {
-      const now = new Date()
-
-      const sorted = [...events].sort(
-        (a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)
-      )
-
-      const currentOrUpcoming = sorted.find((ev) => {
-        const start = new Date(ev.startDateTime)
-        const end = new Date(ev.endDateTime)
-        return (now >= start && now <= end) || now < start
-      })
-
-      if (currentOrUpcoming) {
-        setSelectedEvent(currentOrUpcoming.id)
-      }
+    if (activeEvents.length > 0 && !selectedEvent) {
+      setSelectedEvent(activeEvents[0].id)
     }
-  }, [events, selectedEvent])
+    else if (pastEvents.length > 0 && !selectedEvent) {
+      setSelectedEvent(pastEvents[0].id)
+    }
+    else if (activeEvents.length === 0 && pastEvents.length === 0) {
+      setSelectedEvent(null)
+    }
+  }, [activeEvents, pastEvents, selectedEvent])
 
   useEffect(() => {
     const loadLeaderboard = async () => {
       if (!selectedEvent) return
       try {
-        const leaderboard = await getLeaderboard(selectedEvent)
-        setLeaderboard(leaderboard)
-      } catch {
+        const teamsList = await getLeaderboard(selectedEvent)
+
+        setTeamsLength(teamsList.length)
+        setTeams(teamsList)
+      }
+      catch {
         showWarning()
+      }
+      finally {
+        setLoading(false)
       }
     }
 
@@ -139,24 +142,6 @@ const ProgressBoard = () => {
     return () => {
       clearInterval(intervalId)
     }
-  }, [selectedEvent, setLeaderboard])
-
-  useEffect(() => {
-    const loadTeamsForEvent = async () => {
-      if (!selectedEvent) return
-      try {
-        const teamsForEvent = await getDisplayEventTeams(selectedEvent)
-
-        setTeamsLength(teamsForEvent.length)
-        setTeams(teamsForEvent)
-      } catch {
-        showWarning()
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    loadTeamsForEvent()
   }, [selectedEvent])
 
   useEffect(() => {
@@ -171,8 +156,8 @@ const ProgressBoard = () => {
 
       const participantMatch = team.participants.some((participant) => {
         return (
-          participant.firstName.toLowerCase().includes(search) ||
-          participant.lastName.toLowerCase().includes(search)
+          participant.firstName.toLowerCase().includes(search)
+          || participant.lastName.toLowerCase().includes(search)
         )
       })
 
@@ -335,11 +320,13 @@ const ProgressBoard = () => {
           {isXSmall ? (
             <ProgressList
               teams={filteredTeams}
-              events={events}
+              activeEvents={activeEvents}
+              pastEvents={pastEvents}
               selectedEvent={selectedEvent}
               setSelectedEvent={setSelectedEvent}
               searchString={searchString}
               setSearchString={setSearchString}
+              teamsLength={teamsLength}
               loading={loading}
             />
           ) : (
@@ -347,7 +334,8 @@ const ProgressBoard = () => {
               <ProgressTable
                 columns={columns}
                 teams={filteredTeams}
-                events={events}
+                activeEvents={activeEvents}
+                pastEvents={pastEvents}
                 selectedEvent={selectedEvent}
                 setSelectedEvent={setSelectedEvent}
                 searchString={searchString}

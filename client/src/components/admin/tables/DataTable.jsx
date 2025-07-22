@@ -59,7 +59,8 @@ const DataTable = ({
         if (!selectedEvent) return true
         return row.eventId === selectedEvent
       })
-  } else {
+  }
+  else {
     filteredRows = tableData
       .filter((row) => {
         const show = showInactive || row.active

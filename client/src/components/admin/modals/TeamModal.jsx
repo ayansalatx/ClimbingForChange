@@ -69,7 +69,8 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
           setMountains(mountainData)
           setHills(hillData)
           setEvents(eventData)
-        } catch (error) {
+        }
+        catch (error) {
           displayAlert('Error', `Error while fetching data: ${error}`, 'error')
         }
       }
@@ -106,10 +107,12 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
     try {
       if (teamToEdit) {
         onEdit(teamToEdit.id, teamData)
-      } else {
+      }
+      else {
         onAdd(teamData)
       }
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert('Error', `Error while saving team: ${error}`, 'error')
     }
 

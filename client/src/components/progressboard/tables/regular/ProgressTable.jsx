@@ -25,7 +25,8 @@ import TableHeaderRow from './TableHeaderRow'
 const ProgressTable = ({
   columns,
   teams = [],
-  events,
+  activeEvents,
+  pastEvents,
   selectedEvent,
   setSelectedEvent,
   searchString,
@@ -42,8 +43,8 @@ const ProgressTable = ({
     setPage(0)
   }, [isSmall])
   // State for number of rows per page
-  const defaultRowsPerPage =
-    teamsLength > 100 ? 100 : teamsLength > 25 ? 25 : 10
+  const defaultRowsPerPage
+    = teamsLength > 100 ? 100 : teamsLength > 25 ? 25 : 10
 
   const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage)
 
@@ -88,7 +89,8 @@ const ProgressTable = ({
         }}
       >
         <EventSelector
-          events={events}
+          activeEvents={activeEvents}
+          pastEvents={pastEvents}
           selectedEvent={selectedEvent}
           setSelectedEvent={setSelectedEvent}
         />

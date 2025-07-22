@@ -36,7 +36,8 @@ const MountainModal = ({ open, onClose, onSave, mountain }) => {
       setName(mountain.name || '')
       setTotalElevation(mountain.totalElevation?.toString() || '0')
       setElevationUnit(mountain.elevationUnit || 'FT')
-    } else if (!open) {
+    }
+    else if (!open) {
       // Reset form when closing
       setName('')
       setTotalElevation('0')

@@ -15,6 +15,7 @@ export const getAllTeams = async (req, response) => {
     .populate('participants')
     .populate('mountain')
     .populate('hill')
+    .populate('rfidTag')
 
   response.json(allTeams)
 }
@@ -22,7 +23,12 @@ export const getAllTeams = async (req, response) => {
 export const getTeamById = async (request, response) => {
   const id = request.params.id
 
-  const team = await Team.findById(id).populate('participants')
+  const team = await Team.findById(id)
+    .populate('participants')
+    .populate('mountain')
+    .populate('hill')
+    .populate('rfidTag')
+    .populate('laps')
 
   response.json(team)
 }
@@ -35,7 +41,8 @@ export const saveOneTeam = async (request, response) => {
     Event.findById(body.event),
     Hill.findById(body.hill),
     Mountain.findById(body.mountain),
-    body.rfidTagId ? RFIDTag.findById(body.rfidTagId) : null,
+    body.rfidTag ? RFIDTag.findById(body.rfidTag) : null,
+
   ])
 
   if (!event || !hill || !mountain) {
@@ -44,13 +51,13 @@ export const saveOneTeam = async (request, response) => {
     })
   }
 
-  if (body.rfidTagId) {
+  if (body.rfidTag) {
     if (!rfidTag) {
       return response
         .status(404)
         .json({ error: 'The specified RFID Tag does not exist.' })
     }
-    const teamWithThisTag = await Team.findOne({ rfidTagId: rfidTag._id })
+    const teamWithThisTag = await Team.findOne({ rfidTag: rfidTag._id })
     if (teamWithThisTag) {
       return response
         .status(400)
@@ -64,7 +71,7 @@ export const saveOneTeam = async (request, response) => {
     event: body.event,
     mountain: body.mountain,
     hill: body.hill,
-    rfidTagId: body.rfidTagId,
+    rfidTag: body.rfidTag,
     isSoloTeam: body.isSoloTeam,
     lapsRequired: body.lapsRequired,
     startDateTime: body.startDateTime,
@@ -98,6 +105,8 @@ export const updateOneTeam = async (request, response) => {
   // 2. Prepare the update object with only the fields to be changed
   const updateData = {
     ...body,
+    mountain: body.mountain.id,
+    hill: body.hill.id,
   }
 
   // 3. Perform the update

@@ -56,7 +56,8 @@ const HillModal = ({ open, onClose, onSave, hillData, onLocation }) => {
       setDistanceUnit(hillData.distanceUnit || 'KM')
       setElevationUnit(hillData.elevationUnit || 'FT')
       setLocation(hillData.location || '')
-    } else if (!open) {
+    }
+    else if (!open) {
       setId('')
       setName('')
       setLapDistance('')

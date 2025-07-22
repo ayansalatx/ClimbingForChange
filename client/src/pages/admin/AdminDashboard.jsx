@@ -108,13 +108,15 @@ const AdminDashboard = () => {
           'success'
         )
         setEvents(eventList)
-      } catch (error) {
+      }
+      catch (error) {
         displayAlert(
           'Error',
           `Failed to Load Locations: ${error.message}`,
           'error'
         )
-      } finally {
+      }
+      finally {
         setLoading(false)
       }
     }

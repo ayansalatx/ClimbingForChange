@@ -1,13 +1,26 @@
 import { Box, Card, Tooltip, Typography } from '@mui/material'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const ProgressCard = ({ team }) => {
+  const [clicked, setClicked] = useState(false)
+  const navigate = useNavigate()
+
+  const handleTap = () => {
+    setClicked(true)
+  }
+
   return (
     <Card
+      onClick={() => {
+        handleTap()
+        navigate(`team/${team?.id}`)
+      }}
       sx={{
         px: { xxs: 1, xs: 1 },
         py: { xxs: 0.5, xs: 0.5 },
         boxShadow: 3,
-        backgroundColor: 'background.default',
+        backgroundColor: clicked ? 'secondary.light' : 'background.default',
         color: 'primary.light',
         display: 'flex',
         flexDirection: 'column',

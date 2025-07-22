@@ -91,8 +91,8 @@ const AddEventModal = ({
       const start = new Date(eventToEdit.startDateTime)
       setStartDate(start.toISOString().slice(0, 10))
       setStartTime(start.toTimeString().slice(0, 5))
-      const durationHours =
-        (new Date(eventToEdit.endDateTime) - start) / 3600000
+      const durationHours
+        = (new Date(eventToEdit.endDateTime) - start) / 3600000
       setDuration(durationHours)
       const mountainNames = parseMountainNames(eventToEdit.mountains)
       const selectedMountains = getMountainIdsByName(mountainNames, mountains)
@@ -122,7 +122,8 @@ const AddEventModal = ({
 
     if (eventToEdit) {
       await onEdit(eventToEdit.id, eventData)
-    } else {
+    }
+    else {
       await onAdd(eventData)
     }
 
@@ -133,7 +134,8 @@ const AddEventModal = ({
     const value = e.target.value
     if (typeof value === 'string') {
       setMountainSelection(value.split(','))
-    } else {
+    }
+    else {
       setMountainSelection(value)
     }
   }
