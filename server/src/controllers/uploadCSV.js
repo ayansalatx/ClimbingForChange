@@ -12,7 +12,7 @@ export const uploadCSV = async (request, response) => {
   if (!request.file) {
     return response
       .status(400)
-      .json({ error: 'File to upload missing' })
+      .json({ message: 'File to upload missing' })
   }
 
   const filePath = request.file.path
@@ -20,16 +20,17 @@ export const uploadCSV = async (request, response) => {
 
   const event = await Event.findById(eventid).populate('mountains').populate('hills')
   if (!event) {
-    return response.status(400).json({ error: 'Event not found' })
+    return response.status(400).json({ message: 'Event not found' })
   }
 
   const mountains = event.mountains
 
-  let hills = []
-  if (event.hills && event.hills.length > 0) {
-    hills = await Hill.find({ _id: { $in: event.hills } })
+  const hill = await Hill.findById(hillid)
+
+  if (!hill) {
+    return response.status(400).json({ message: 'Selected hill not found' })
   }
-  const hill = hills.length > 0 ? hills[0] : null
+
 
   try {
     rows = await csv().fromFile(filePath)
@@ -41,7 +42,7 @@ export const uploadCSV = async (request, response) => {
     }
   }
   catch {
-    return response.status(400).json({ error: 'Invalid CSV format' })
+    return response.status(400).json({ message: 'Invalid CSV format' })
   }
 
   if (overwrite === 'true') {
@@ -64,6 +65,7 @@ export const uploadCSV = async (request, response) => {
     const subEventArray = row['Sub-event'].split(' ')
     const teamName = row['Team Name']
 
+
     let rawMountainName = subEventArray[subEventArray.length - 1] || ''
     let mountainName = rawMountainName
       .replace(/mount/gi, '')
@@ -85,6 +87,9 @@ export const uploadCSV = async (request, response) => {
         ? Math.round(mountain.totalElevation / hill.lapElevationGain)
         : null
 
+    
+
+
     // If team have already been created by previous row
     const existingTeam = await Team.findOne({ name: teamName, event: eventid })
     const team = existingTeam
@@ -92,7 +97,7 @@ export const uploadCSV = async (request, response) => {
       : await Team.create({
           event: eventid,
           mountain: mountain._id,
-          hill: hillid,
+          hill: hill._id,
           // rfidTag: null,
           name: teamName ? teamName : `${firstName} ${lastName}`,
           lapsRequired: lapsRequired ?? 0,
