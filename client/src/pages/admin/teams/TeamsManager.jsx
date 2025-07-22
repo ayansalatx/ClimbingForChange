@@ -65,32 +65,13 @@ const TeamsManager = () => {
   const handleOpenPopup = () => setOpenPopup(true)
   const handleClosePopup = () => setOpenPopup(false)
 
-  const fetchEvents = useCallback(async () => {
-    try {
-      const result = await getAllEvents()
-      const formattedEvents = result.map((event) => ({
-        id: event.id,
-        name: event.name || '',
-      }))
-      setEvents(formattedEvents)
-
-      const rfidList = await getRfidTagList()
-      await fetchTeams(formattedEvents, rfidList)
-
-    } catch (error) {
-      displayAlert('Events Error', `${error.message}`, 'error')
-    }
-  }, [displayAlert])
-
-  const fetchTeams = async (formattedEvents, rfidList) => {
+  const fetchTeams = useCallback(async (formattedEvents, rfidList) => {
     try {
       const teams = await getAllTeams()
-      //filter
       const usedRfidIds = teams
-        .map(team => team.rfidTag?._id || team.rfidTag?.id || team.rfidTag)
+        .map((team) => team.rfidTag?._id || team.rfidTag?.id || team.rfidTag)
         .filter(Boolean)
-      //filter
-      const availableRfidTags = rfidList.filter(tag => !usedRfidIds.includes(tag.id))
+      const availableRfidTags = rfidList.filter((tag) => !usedRfidIds.includes(tag.id))
       setrfidTags(availableRfidTags)
 
       const formattedTeams = teams.map((team) => {
@@ -108,7 +89,6 @@ const TeamsManager = () => {
             const match = rfidList.find((tag) => tag.id === tagId)
             return match?.label || ''
           })(),
-
         }
       })
 
@@ -117,7 +97,24 @@ const TeamsManager = () => {
     } catch (error) {
       displayAlert('Teams Error', `${error.message}`, 'error')
     }
-  }
+  }, [displayAlert])
+
+  const fetchEvents = useCallback(async () => {
+    try {
+      const result = await getAllEvents()
+      const formattedEvents = result.map((event) => ({
+        id: event.id,
+        name: event.name || '',
+      }))
+      setEvents(formattedEvents)
+
+      const rfidList = await getRfidTagList()
+      await fetchTeams(formattedEvents, rfidList)
+
+    } catch (error) {
+      displayAlert('Events Error', `${error.message}`, 'error')
+    }
+  }, [displayAlert, fetchTeams])
 
   useEffect(() => {
     fetchEvents()

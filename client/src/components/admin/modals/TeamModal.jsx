@@ -62,7 +62,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
       }
     }
     fetchData()
-  }, [open])
+  }, [open, rfidTagList])
 
   useEffect(() => {
     if (teamToEdit) {

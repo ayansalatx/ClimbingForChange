@@ -7,18 +7,6 @@ import React from 'react'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
 
-const formatDateTime = (dateString) => {
-  const date = new Date(dateString)
-  return date.toLocaleString([], {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: true,
-  })
-}
-
 const fullColumns = [
   { id: 'name', label: 'Team Name', minWidth: 170 },
 ]
