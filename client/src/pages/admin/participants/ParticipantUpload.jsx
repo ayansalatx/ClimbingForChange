@@ -25,6 +25,7 @@ import { useNavigate } from 'react-router-dom'
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog'
 import { useAlert } from '../../../hooks/useAlert'
 import { getActiveUpcomingEvents } from '../../../services/eventService'
+import { getAllHills } from '../../../services/hillService'
 import { uploadCSV } from '../../../services/uploadcsv'
 import theme from '../../../styles/theme'
 
@@ -32,9 +33,12 @@ const ParticipantUpload = () => {
   const [rows, setRows] = useState([])
   const [selectedFile, setSelectedFile] = useState()
   const [events, setEvents] = useState([])
+  const [hills, setHills] = useState([])
   const [selectedEventId, setSelectedEventId] = useState('')
+  const [selectedHillId, setSelectedHillId] = useState('')
   const [overwrite, setOverwrite] = useState(false)
   const [eventError, setEventError] = useState(false)
+  const [hillError, setHillError] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [deleteConfirmOpen, setOverwriteConfirmOpen] = useState(false)
 
@@ -43,12 +47,15 @@ const ParticipantUpload = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const loadEvents = async () => {
+    const loadEventsHills = async () => {
       const eventsList = await getActiveUpcomingEvents()
+      const hillsList = await getAllHills()
+
       setEvents(eventsList)
+      setHills(hillsList)
     }
 
-    loadEvents()
+    loadEventsHills()
   }, [])
 
   const handleFileChange = (event) => {
@@ -304,6 +311,83 @@ const ParticipantUpload = () => {
                       ))}
                     </Select>
                   </FormControl>
+                  <FormControl error={hillError} sx={{ width: '100%' }}>
+                    <Select
+                      size="small"
+                      variant="outlined"
+                      id="hill-select"
+                      value={selectedHillId}
+                      onChange={(event) => {
+                        setHillError(false);
+                        setSelectedHillId(event.target.value);
+                      }}
+                      displayEmpty
+                      required
+                      sx={{
+                        textAlign: 'left',
+                        borderRadius: '3px',
+                        border: `2px solid ${theme.palette.primary.main}`,
+                        color: 'primary.light',
+                        fontSize: '1rem',
+                        '&:before, &:after': {
+                          borderBottom: 'none !important',
+                        },
+                        '& .MuiSelect-select': {
+                          opacity: '100%',
+                          backgroundColor: 'background.paper',
+                          fontWeight: 'bold',
+                          textTransform: 'uppercase',
+                          letterSpacing: '.01rem',
+                          border: 'none',
+                        },
+                        '& .MuiSelect-select:hover': {
+                          background: alpha(theme.palette.primary.light, 0.1),
+                          border: 'none',
+                        },
+                        '.MuiSvgIcon-root': {
+                          color: 'primary.main',
+                        },
+                      }}
+                    >
+                      <MenuItem
+                        value=""
+                        disabled
+                        sx={{
+                          minHeight: { xxs: 'unset' },
+                          fontSize: '1.25rem',
+                          py: 0,
+                          color: 'primary.light',
+                        }}
+                      >
+                        Select a hill
+                      </MenuItem>
+                      {hills.map((hill) => (
+                        <MenuItem
+                          value={hill.id}
+                          key={hill.id}
+                          sx={{
+                            fontSize: '1.25rem',
+                            minHeight: { xxs: 'unset', xs: 'unset', sm: 0 },
+                            color: 'primary.main',
+                            '&:hover': {
+                              backgroundColor: alpha(
+                                theme.palette.secondary.main,
+                                0.7
+                              ),
+                            },
+                            '&:focus': {
+                              background: alpha(
+                                theme.palette.primary.light,
+                                0.1
+                              ),
+                            },
+                          }}
+                        >
+                          {hill.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                 </Box>
                 <Box
                   sx={{
@@ -440,15 +524,18 @@ const ParticipantUpload = () => {
               disabled={rows.length === 0 ? true : false}
               loading={isLoading}
               onClick={() => {
-                if (!selectedEventId) {
-                  setEventError(true)
+                if (!selectedEventId || !selectedEventId) {
+                  setEventError(!selectedEventId)
+                  setHillError(!selectedHillId)
                 } else {
                   setEventError(false)
+                  setHillError(false)
 
                   if (overwrite) {
                     setOverwriteConfirmOpen(true)
                   } else {
-                    handleUpload()
+                    // handleUpload()
+                    console.log(eventError, hillError)
                   }
                 }
               }}
