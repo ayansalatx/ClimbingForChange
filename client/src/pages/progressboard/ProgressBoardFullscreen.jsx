@@ -6,7 +6,10 @@ import { io } from 'socket.io-client'
 import C4CFavicon from '../../assets/C4C-branding/Favicon.png'
 import WarningDialog from '../../components/admin/modals/WarningDialog'
 import AutoScrollTable from '../../components/progressboard/tables/auto-scroll/AutoScrollTable'
-import { getLeaderboard, updateLeaderboardTeamLaps } from '../../services/leaderboardService'
+import {
+  getLeaderboard,
+  updateLeaderboardTeamLaps,
+} from '../../services/leaderboardService'
 import theme from '../../styles/theme'
 
 // Define columns for full width screen
@@ -73,17 +76,13 @@ const ProgressBoardFullscreen = () => {
   let columns
   if (isXLarge) {
     columns = xlColumns
-  }
-  else if (isLarge) {
+  } else if (isLarge) {
     columns = lgColumns
-  }
-  else if (isMedium) {
+  } else if (isMedium) {
     columns = mdColumns
-  }
-  else if (isSmall) {
+  } else if (isSmall) {
     columns = smColumns
-  }
-  else {
+  } else {
     columns = xsmColumns
   }
 
@@ -119,11 +118,9 @@ const ProgressBoardFullscreen = () => {
         const teamsForDisplay = await getLeaderboard(eventId)
 
         setTeams(teamsForDisplay)
-      }
-      catch {
+      } catch {
         showWarning()
-      }
-      finally {
+      } finally {
         setLoading(false)
       }
     }
@@ -139,7 +136,9 @@ const ProgressBoardFullscreen = () => {
 
   // Listen for lap updates on socket
   useEffect(() => {
-    socketRef.current = io('http://localhost:5001/')
+    const socketURL =
+      import.meta.env.VITE_SOCKET_SERVER_URL || 'http://localhost:5001'
+    socketRef.current = io(socketURL)
 
     const handleLapUpdate = (change) => {
       const updatedLap = change.fullDocument
@@ -150,7 +149,9 @@ const ProgressBoardFullscreen = () => {
 
       // Get teams and update for only the team with ID that matches
       setTeams((prevTeams) => {
-        const teamIndex = prevTeams.findIndex((team) => team.id?.toString() === updatedLap.teamId)
+        const teamIndex = prevTeams.findIndex(
+          (team) => team.id?.toString() === updatedLap.teamId
+        )
         if (teamIndex === -1) return prevTeams
 
         const team = prevTeams[teamIndex]

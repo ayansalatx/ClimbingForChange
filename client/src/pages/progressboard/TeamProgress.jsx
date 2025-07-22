@@ -487,7 +487,7 @@ const TeamProgress = () => {
                   </Box>
                 ) : (
                   <LapsViewButton
-                    label={"View Team's Laps Table"}
+                    label={'View Team\'s Laps Table'}
                     onClick={() => {
                       if (teamId) {
                         navigate(`/progress/team/${team.id}/laps`)

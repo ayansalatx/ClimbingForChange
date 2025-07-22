@@ -170,7 +170,8 @@ const ProgressBoard = () => {
 
   // Listen for lap updates on socket
   useEffect(() => {
-    socketRef.current = io('http://localhost:5001/')
+    const socketURL = import.meta.env.VITE_SOCKET_SERVER_URL || 'http://localhost:5001'
+    socketRef.current = io(socketURL)
 
     const handleLapUpdate = (change) => {
       const updatedLap = change.fullDocument

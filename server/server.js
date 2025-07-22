@@ -14,7 +14,11 @@ const startServer = async () => {
 
   const io = new Server(server, {
     cors: {
-      origin: 'http://localhost:5173',
+      origin:  [
+      'http://localhost:5173',
+      'https://two025-may-climbing-for-change-two-wa19.onrender.com',
+      'https://two025-may-climbing-for-change-two-ohal.onrender.com',
+    ],
       methods: ['GET'],
     },
   })
