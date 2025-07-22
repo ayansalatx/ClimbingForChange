@@ -8,7 +8,14 @@ import {
   FormControlLabel,
   FormGroup,
   MenuItem,
+  Paper,
   Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Typography,
 } from '@mui/material'
 import Papa from 'papaparse'
@@ -20,13 +27,12 @@ import { useAlert } from '../../../hooks/useAlert'
 import { getAllEvents } from '../../../services/eventService'
 import { uploadCSV } from '../../../services/uploadcsv'
 import theme from '../../../styles/theme'
-import UploadPreviewTable from './UploadPreviewTable'
 
 const ParticipantUpload = () => {
   const [rows, setRows] = useState([])
   const [selectedFile, setSelectedFile] = useState()
   const [events, setEvents] = useState([])
-  const [selectedEvent, setSelectedEvent] = useState(null)
+  const [selectedEventId, setSelectedEventId] = useState('')
   const [overwrite, setOverwrite] = useState(false)
   const [eventError, setEventError] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -99,7 +105,7 @@ const ParticipantUpload = () => {
       formData.append('file', selectedFile)
 
       setIsLoading(true)
-      await uploadCSV(formData, selectedEvent.id, overwrite)
+      await uploadCSV(formData, selectedEventId, overwrite)
       setIsLoading(false)
       displayAlert(
         'Uploaded',
@@ -226,10 +232,10 @@ const ParticipantUpload = () => {
                       size="small"
                       variant="outlined"
                       id="event-select"
-                      value={selectedEvent ?? ''}
+                      value={selectedEventId}
                       onChange={(event) => {
                         setEventError(false)
-                        setSelectedEvent(event.target.value)
+                        setSelectedEventId(event.target.value)
                       }}
                       displayEmpty
                       required
@@ -308,7 +314,7 @@ const ParticipantUpload = () => {
                 >
                   <FormGroup>
                     <FormControlLabel
-                      disabled={!selectedEvent}
+                      disabled={!selectedEventId}
                       sx={{ color: 'primary.main' }}
                       control={
                         <Checkbox
@@ -323,7 +329,7 @@ const ParticipantUpload = () => {
                         <Typography
                           sx={{
                             fontSize: '1rem',
-                            color: selectedEvent ? 'primary.main' : 'gray.main',
+                            color: selectedEventId ? 'primary.main' : 'gray.main',
                             textTransform: 'uppercase',
                             fontWeight: 'bold',
                             letterSpacing: '.01rem',
@@ -348,7 +354,7 @@ const ParticipantUpload = () => {
                   <Button
                     variant="contained"
                     component="label"
-                    disabled={!selectedEvent}
+                    disabled={!selectedEventId}
                   >
                     Select CSV File
                     <input type="file" hidden onChange={handleFileChange} />
@@ -359,7 +365,47 @@ const ParticipantUpload = () => {
           </Box>
           {rows.length > 0 ? (
             <Box sx={{ flexGrow: 1, minHeight: 0, width: '100%' }}>
-              <UploadPreviewTable rows={rows} theme={theme} />
+              <TableContainer
+                component={Paper}
+                sx={{ maxHeight: '100%', overflowY: 'auto' }}
+              >
+                <Table size="small" stickyHeader>
+                  <TableHead>
+                    <TableRow
+                      sx={{
+                        '& th': {
+                          backgroundColor: 'primary.light', // MUI blue
+                          color: 'background.paper', // white text
+                        },
+                      }}
+                    >
+                      <TableCell>Participant ID</TableCell>
+                      <TableCell>First Name</TableCell>
+                      <TableCell>Last Name</TableCell>
+                      <TableCell>Sub Event</TableCell>
+                      <TableCell>Team Name</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {rows.map((row) => (
+                      <TableRow
+                        key={row.participantId}
+                        sx={{
+                          '&:last-child td, &:last-child th': { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          {row.participantId}
+                        </TableCell>
+                        <TableCell>{row.firstName}</TableCell>
+                        <TableCell>{row.lastName}</TableCell>
+                        <TableCell>{row.subEvent}</TableCell>
+                        <TableCell>{row.teamName}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </Box>
           ) : (
             <Box
@@ -373,7 +419,7 @@ const ParticipantUpload = () => {
               }}
             >
               <Typography variant="h6" sx={{ color: 'gray.main' }}>
-                Please select {selectedEvent ? 'a CSV file' : 'an Event'}
+                Please select {selectedEventId ? 'a CSV file' : 'an Event'}
               </Typography>
             </Box>
           )}
@@ -394,7 +440,7 @@ const ParticipantUpload = () => {
               disabled={rows.length === 0 ? true : false}
               loading={isLoading}
               onClick={() => {
-                if (!selectedEvent) {
+                if (!selectedEventId) {
                   setEventError(true)
                 } else {
                   setEventError(false)

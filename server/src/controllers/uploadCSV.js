@@ -1,6 +1,7 @@
 import csv from 'csvtojson'
 import fs from 'fs'
 
+import Event from '../models/event.js'
 import Mountain from '../models/mountain.js'
 import Team from '../models/team.js'
 import Participant from '../models/participant.js'
@@ -19,66 +20,95 @@ export const uploadCSV = async (request, response) => {
   let rows
 
   if (overwrite === 'true') {
+    // Find teams for the event
+    const teamsToDelete = await Team.find({ event: eventid })
+
+    // Extract team IDs
+    const teamIds = teamsToDelete.map(team => team._id)
+
+    // Delete existing teams/participants
     await Promise.all([
-      Mountain.deleteMany({}),
-      Team.deleteMany({}),
-      Participant.deleteMany({}),
+      Team.deleteMany({ event: eventid }),
+      Participant.deleteMany({ team: { $in: teamIds } }),
     ])
-
-    try {
-      rows = await csv().fromFile(filePath)
-      try {
-        fs.unlinkSync(filePath)
-      }
-      catch (unlinkError) {
-        console.warn('⚠️ Failed to delete CSV file:', unlinkError.message)
-      }
-    }
-    catch {
-      return response.status(400).json({ error: 'Invalid CSV format' })
-    }
-
-    for (const row of rows) {
-      const firstName = row['First Name']
-      const lastName = row['Last Name']
-      const subEventArray = row['Sub-event'].split(' ')
-      const teamName = row['Team Name']
-
-      const mountainName = subEventArray[subEventArray.length - 1]
-
-      const existingMountain = await Mountain.findOne({ name: mountainName })
-
-      // If mountain have already been created
-      const mountain = existingMountain
-        ? existingMountain
-        : await Mountain.create({ name: mountainName, totalElevation: 0 })
-
-      const hill = await Hill.findOne({})
-
-      // If team have already been created by previous row
-      const existingTeam = await Team.findOne({ name: teamName })
-      const team = existingTeam
-        ? existingTeam
-        : await Team.create({
-            event: eventid,
-            mountain: mountain._id,
-            hill: hill._id,
-            name: teamName ? teamName : `${firstName} ${lastName}`,
-            isSoloTeam: teamName ? false : true,
-            isIncomplete: true,
-          })
-      await Participant.create({
-        team: team._id,
-        firstName: firstName,
-        lastName: lastName,
-      })
-    }
   }
   else {
     console.log('NOT overwriting')
   }
 
-  const allTeams = await Team.find({})
+  const event = await Event.findById(eventid)
+  if (!event) {
+    return response.status(400).json({ error: 'Event not found' })
+  }
+
+  const mountains = await Mountain.find({
+    _id: { $in: event.mountains },
+  }).lean()
+
+  let hills = []
+  if (event.hills && event.hills.length > 0) {
+    hills = await Hill.find({ _id: { $in: event.hills } })
+  }
+  const hill = hills.length > 0 ? hills[0] : null
+
+  try {
+    rows = await csv().fromFile(filePath)
+    try {
+      fs.unlinkSync(filePath)
+    }
+    catch (unlinkError) {
+      console.warn('⚠️ Failed to delete CSV file:', unlinkError.message)
+    }
+  }
+  catch {
+    return response.status(400).json({ error: 'Invalid CSV format' })
+  }
+
+  for (const row of rows) {
+    const firstName = row['First Name']
+    const lastName = row['Last Name']
+    const subEventArray = row['Sub-event'].split(' ')
+    const teamName = row['Team Name']
+
+    let mountainName = subEventArray[subEventArray.length - 1]
+
+    mountainName = mountainName
+      .replace(/mount/gi, '')
+      .replace(/climb/gi, '')
+      .trim()
+
+    let mountain = mountains.find(
+      m => m.name.toLowerCase() === mountainName.toLowerCase(),
+    )
+
+    if (!mountain) {
+      mountain = await Mountain.create({
+        name: mountainName,
+        totalElevation: 0,
+      })
+      mountains.push(mountain)
+    }
+
+    // If team have already been created by previous row
+    const existingTeam = await Team.findOne({ name: teamName, event: eventid })
+    const team = existingTeam
+      ? existingTeam
+      : await Team.create({
+          event: eventid,
+          mountain: mountain._id,
+          hill: hill ? hill._id : null,
+          name: teamName ? teamName : `${firstName} ${lastName}`,
+          isSoloTeam: teamName ? false : true,
+          isIncomplete: true,
+        })
+    await Participant.create({
+      team: team._id,
+      firstName: firstName,
+      lastName: lastName,
+    })
+  }
+
+  const allTeams = await Team.find({ event: eventid })
     .populate('participants')
     .populate('mountain')
     .populate('hill')
