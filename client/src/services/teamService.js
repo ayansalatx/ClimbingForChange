@@ -13,6 +13,11 @@ export const getTeamsByEvent = async (eventId) => {
   return res.data
 }
 
+export const getTeamById = async (teamId) => {
+  const res = await api.get(`/teams/${teamId}`)
+  return res.data
+}
+
 // Get all teams for the current event
 export const getTeamsForDisplay = async () => {
   const teamList = await getAllTeams()

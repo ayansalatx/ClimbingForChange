@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@mui/material'
 import { alpha } from '@mui/material/styles'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import theme from '../../../../styles/theme'
 import EventSelector from '../EventSelector'
@@ -158,7 +158,7 @@ const DataTable = ({
               <TableRow>
                 <TableCell colSpan={tableColumns.length + 1} align="center" sx={{ border: 'none' }}>
                   <Typography variant="h5" color="primary.main">
-                    No {tableTitle.toLowerCase()} to display
+                    No {tableTitle} to display
                   </Typography>
                 </TableCell>
               </TableRow>

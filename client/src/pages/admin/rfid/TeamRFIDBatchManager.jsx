@@ -6,8 +6,8 @@ import { useEffect, useState } from 'react'
 import DataTable from '../../../components/admin/tables/rfidbatch/DataTable.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
 import { getAllEvents } from '../../../services/eventService.js'
-import { getRfidTags, updateRfidTag } from '../../../services/rfidService.js'
-import { getTeamsByEvent } from '../../../services/teamService.js'
+import { getRfidTags } from '../../../services/rfidService.js'
+import { editTeam, getTeamById, getTeamsByEvent } from '../../../services/teamService.js'
 
 const fullColumns = [
   { id: 'name', label: 'Team Name', width: '75%', align: 'left' },
@@ -27,6 +27,7 @@ const TeamRFIDBatchManager = () => {
   const [events, setEvents] = useState([])
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [rfidTags, setrfidTags] = useState([])
+  const [updatedRfids, setUpdatedRfids] = useState({})
 
   const displayAlert = useAlert()
 
@@ -85,28 +86,58 @@ const TeamRFIDBatchManager = () => {
     name: team.name,
     rfidTag: typeof team.rfidTag === 'object' ? team.rfidTag.id : team.rfidTag || '',
     active: true,
+    isEdited: updatedRfids.hasOwnProperty(team.id),
   }))
 
-  const handleRfidChange = async (teamId, newRfidId) => {
+  const handleRfidChange = (teamId, newRfidId) => {
     setTeams((prevTeams) =>
       prevTeams.map((team) =>
         team.id === teamId ? { ...team, rfidTag: newRfidId } : team
       )
     )
-  
-    try {
-      await updateRfidTag(teamId, newRfidId)
-      displayAlert('Success', 'RFID tag updated successfully', 'success')
-    } catch (error) {
-      displayAlert('Error', `Failed to update RFID tag: ${error.message}`, 'error')
-    }
+
+    setUpdatedRfids((prev) => ({
+      ...prev,
+      [teamId]: newRfidId,
+    }))
   }
-  const usedRfidIds = []
-  for (const row of tableData) {
-    if (row.rfidTag && row.rfidTag !== '') {
-      usedRfidIds.push(row.rfidTag)
+
+  const handleSaveChanges = async () => {
+    const entries = Object.entries(updatedRfids)
+    if (entries.length === 0) return
+
+    let successCount = 0
+    let failureCount = 0
+
+    for (const [teamId, newRfidId] of entries) {
+      try {
+        const existingTeam = await getTeamById(teamId)
+
+        const updatedTeamData = {
+          ...existingTeam,
+          rfidTag: newRfidId,
+        }
+
+        await editTeam(teamId, updatedTeamData)
+        successCount++
+      } catch (error) {
+        failureCount++
+        displayAlert(`Failed to update team ${teamId}:`, error)
+      }
     }
+
+    if (successCount > 0) {
+      displayAlert('Success', `${successCount} RFID tag(s) updated successfully`, 'success')
+    }
+    if (failureCount > 0) {
+      displayAlert('Error', `${failureCount} update(s) failed. See console for details.`, 'error')
+    }
+
+    setUpdatedRfids({})
   }
+  const usedRfidIds = tableData
+    .filter((row) => row.rfidTag)
+    .map((row) => row.rfidTag)
 
   return (
     <Box
@@ -133,6 +164,7 @@ const TeamRFIDBatchManager = () => {
         rfidTags={rfidTags}
         onRfidChange={handleRfidChange}
         usedRfidIds={usedRfidIds}
+        onSave={handleSaveChanges}
       />
     </Box>
   )

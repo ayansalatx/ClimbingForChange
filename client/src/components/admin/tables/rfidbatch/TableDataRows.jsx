@@ -1,5 +1,4 @@
 import { alpha, MenuItem, Select, TableBody, TableCell, TableRow } from '@mui/material'
-import React from 'react'
 
 import theme from '../../../../styles/theme'
 
@@ -19,10 +18,15 @@ const TableDataRows = ({
           tabIndex={-1}
           key={row.id || index}
           sx={{
-            backgroundColor: index % 2 === 0 ? 'background.paper' : 'background.default',
+            backgroundColor: row.isEdited
+              ? alpha(theme.palette.gray.main, 0.5)
+              : index % 2 === 0
+              ? 'background.paper'
+              : 'background.default',
             '&:hover > *': {
               backgroundColor: alpha(theme.palette.secondary.light, 0.9),
             },
+            transition: 'background-color 0.3s ease',
           }}
         >
           {columns.map((column) => {
@@ -54,7 +58,7 @@ const TableDataRows = ({
                     }}
                   >
                     <MenuItem value="">
-                      <em>None</em>
+                      <em>Select</em>
                     </MenuItem>
                     {rfidTags
                       .filter((tag) => !usedRfidIds.includes(tag.id) || tag.id === row.rfidTag)
