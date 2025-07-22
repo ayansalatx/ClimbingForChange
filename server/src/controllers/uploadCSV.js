@@ -31,7 +31,6 @@ export const uploadCSV = async (request, response) => {
     return response.status(400).json({ message: 'Selected hill not found' })
   }
 
-
   try {
     rows = await csv().fromFile(filePath)
     try {
@@ -65,7 +64,6 @@ export const uploadCSV = async (request, response) => {
     const subEventArray = row['Sub-event'].split(' ')
     const teamName = row['Team Name']
 
-
     let rawMountainName = subEventArray[subEventArray.length - 1] || ''
     let mountainName = rawMountainName
       .replace(/mount/gi, '')
@@ -86,9 +84,6 @@ export const uploadCSV = async (request, response) => {
       = hill && mountain
         ? Math.round(mountain.totalElevation / hill.lapElevationGain)
         : null
-
-    
-
 
     // If team have already been created by previous row
     const existingTeam = await Team.findOne({ name: teamName, event: eventid })
