@@ -21,8 +21,8 @@ const TableDataRows = ({
             backgroundColor: row.isEdited
               ? alpha(theme.palette.gray.main, 0.5)
               : index % 2 === 0
-              ? 'background.paper'
-              : 'background.default',
+                ? 'background.paper'
+                : 'background.default',
             '&:hover > *': {
               backgroundColor: alpha(theme.palette.secondary.light, 0.9),
             },

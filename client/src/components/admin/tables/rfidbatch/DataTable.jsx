@@ -182,6 +182,7 @@ const DataTable = ({
           color="secondary"
           onClick={onSave}
           sx={{ textTransform: 'uppercase' }}
+          disabled={!selectedEvent}
         >
           Save
         </Button>

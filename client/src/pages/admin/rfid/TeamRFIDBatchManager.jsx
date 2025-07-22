@@ -3,6 +3,7 @@ import RfidIcon from '@mui/icons-material/Nfc'
 import { Box } from '@mui/material'
 import { useEffect, useState } from 'react'
 
+import ConfirmSaveDialog from '../../../components/admin/modals/ConfirmSaveDialog.jsx'
 import DataTable from '../../../components/admin/tables/rfidbatch/DataTable.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
 import { getAllEvents } from '../../../services/eventService.js'
@@ -28,6 +29,7 @@ const TeamRFIDBatchManager = () => {
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [rfidTags, setrfidTags] = useState([])
   const [updatedRfids, setUpdatedRfids] = useState({})
+  const [confirmSaveOpen, setConfirmSaveOpen] = useState(false)
 
   const displayAlert = useAlert()
 
@@ -86,7 +88,7 @@ const TeamRFIDBatchManager = () => {
     name: team.name,
     rfidTag: typeof team.rfidTag === 'object' ? team.rfidTag.id : team.rfidTag || '',
     active: true,
-    isEdited: updatedRfids.hasOwnProperty(team.id),
+    isEdited: Object.prototype.hasOwnProperty.call(updatedRfids, team.id),
   }))
 
   const handleRfidChange = (teamId, newRfidId) => {
@@ -102,9 +104,12 @@ const TeamRFIDBatchManager = () => {
     }))
   }
 
-  const handleSaveChanges = async () => {
+  const confirmSaveChanges = async () => {
     const entries = Object.entries(updatedRfids)
-    if (entries.length === 0) return
+    if (entries.length === 0) {
+      setConfirmSaveOpen(false)
+      return
+    }
 
     let successCount = 0
     let failureCount = 0
@@ -134,6 +139,7 @@ const TeamRFIDBatchManager = () => {
     }
 
     setUpdatedRfids({})
+    setConfirmSaveOpen(false)
   }
   const usedRfidIds = tableData
     .filter((row) => row.rfidTag)
@@ -164,7 +170,12 @@ const TeamRFIDBatchManager = () => {
         rfidTags={rfidTags}
         onRfidChange={handleRfidChange}
         usedRfidIds={usedRfidIds}
-        onSave={handleSaveChanges}
+        onSave={() => setConfirmSaveOpen(true)}
+      />
+      <ConfirmSaveDialog
+        open={confirmSaveOpen}
+        onCancel={() => setConfirmSaveOpen(false)}
+        onConfirm={confirmSaveChanges}
       />
     </Box>
   )
