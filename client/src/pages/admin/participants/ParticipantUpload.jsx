@@ -318,8 +318,8 @@ const ParticipantUpload = () => {
                       id="hill-select"
                       value={selectedHillId}
                       onChange={(event) => {
-                        setHillError(false);
-                        setSelectedHillId(event.target.value);
+                        setHillError(false)
+                        setSelectedHillId(event.target.value)
                       }}
                       displayEmpty
                       required
