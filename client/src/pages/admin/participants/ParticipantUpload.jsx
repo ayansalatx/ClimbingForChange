@@ -24,7 +24,7 @@ import { useNavigate } from 'react-router-dom'
 
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog'
 import { useAlert } from '../../../hooks/useAlert'
-import { getAllEvents } from '../../../services/eventService'
+import { getActiveUpcomingEvents } from '../../../services/eventService'
 import { uploadCSV } from '../../../services/uploadcsv'
 import theme from '../../../styles/theme'
 
@@ -44,7 +44,7 @@ const ParticipantUpload = () => {
 
   useEffect(() => {
     const loadEvents = async () => {
-      const eventsList = await getAllEvents()
+      const eventsList = await getActiveUpcomingEvents()
       setEvents(eventsList)
     }
 
