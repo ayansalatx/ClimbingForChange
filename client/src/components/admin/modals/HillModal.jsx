@@ -162,7 +162,7 @@ const HillModal = ({ open, onClose, onSave, hillData, onLocation }) => {
                 <MenuItem value="M">Meters</MenuItem>
               </Select>
             </FormControl>
-          </Box>
+         
           <FormControl fullWidth required margin="normal">
             <InputLabel id="location-select-label">Location</InputLabel>
             <Select

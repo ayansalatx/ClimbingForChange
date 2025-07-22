@@ -34,8 +34,6 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
   const [events, setEvents] = useState([])
   const [rfidTags, setRfidTags] = useState([])
 
-  const displayAlert = useAlert()
-
   const onModalClose = () => {
     onClose()
     setName('')
@@ -59,6 +57,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
           setEvents(eventData)
           setRfidTags(rfidTagList)
         } catch (error) {
+          setFetchError(error.message)
         }
       }
     }
@@ -100,6 +99,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
         onAdd(teamData)
       }
     } catch (error) {
+      setFetchError(error.message)
     }
 
     onModalClose()
@@ -184,7 +184,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
               renderInput={(params) => <TextField {...params} label="RFID Tag" />}
             />
           </FormControl>
-          
+
           <Box mt={3} display='flex' justifyContent='space-between' gap={2}>
             <CancelButton onClick={onClose} color='red' />
             <SaveButton type='submit' label={teamToEdit ? 'Save' : 'Create'} />

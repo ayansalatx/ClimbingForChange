@@ -1,5 +1,6 @@
-import { alpha, Link, Switch, TableBody, TableCell, TableRow } from '@mui/material'
+import { alpha, Link, TableBody, TableCell, TableRow } from '@mui/material'
 import theme from '../../../styles/theme'
+import DeactivateToggle from '../buttons/DeactivateToggle'
 import RowActions from '../buttons/RowActions'
 
 const TableDataRows = ({
@@ -10,12 +11,11 @@ const TableDataRows = ({
   activeOnChange,
   onEditClick,
   onDeleteClick,
-  toggleDisabled,
 }) => {
   const mountainsHref = '/admin/mountains'
   const hillsHref = '/admin/hills'
   const locationsHref = '/admin/locations'
-  const teamsHref = '/admin/teams'
+  const teamsHref = '/admin/teams' // added 
   return (
     <TableBody>
       {rows
@@ -24,7 +24,7 @@ const TableDataRows = ({
           return (
             <TableRow
               hover
-              role="checkbox"
+              role='checkbox'
               tabIndex={-1}
               key={row.id || index}
               sx={{
@@ -36,20 +36,18 @@ const TableDataRows = ({
               }}
             >
               {columns.map((column) => {
-                if (column.id === 'activeStatus') {
+                const value = row[column.id] ?? ''
+
+                if (column.id === 'activeToggle') {
                   return (
-                    <TableCell key={column.id} align="center">
-                      <Switch
+                    <TableCell key={column.id} align={column.align || 'left'}>
+                      <DeactivateToggle
                         checked={row.active}
-                        onChange={() => activeOnChange(row)}
-                        color="success"
-                        size="small"
-                        disabled={toggleDisabled?.(row)}
+                        onChange={activeOnChange}
                       />
                     </TableCell>
                   )
                 }
-
                 if (column.id === 'locationName') {
                   return (
                     <TableCell
@@ -72,6 +70,7 @@ const TableDataRows = ({
                   )
                 }
 
+
                 if (column.id === 'mountain' || column.id === 'hill' || column.id === 'location' || column.id === 'teamName') {
                   let href = null
                   if (column.id === 'mountain') {
@@ -90,7 +89,7 @@ const TableDataRows = ({
                       key={column.id}
                       align={column.align || 'left'}
                       sx={{
-                        fontSize: { sm: '1rem', md: '1.1rem', xl: '1.2rem' },
+                        fontSize: '1rem',
                         color: row.active ? 'primary.main' : 'gray.main',
                       }}
                     >
@@ -106,7 +105,6 @@ const TableDataRows = ({
                   )
                 }
 
-                const value = row[column.id] ?? ''
                 return (
                   <TableCell
                     key={column.id}
@@ -133,6 +131,7 @@ const TableDataRows = ({
                   onEditClick={() => onEditClick(row)}
                   onDeleteClick={() => onDeleteClick(row)}
                   active={row.active}
+
                 />
               </TableCell>
             </TableRow>
