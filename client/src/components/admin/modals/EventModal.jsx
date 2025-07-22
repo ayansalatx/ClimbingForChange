@@ -1,18 +1,19 @@
 import {
   Box,
-  Button,
   Checkbox,
   FormControl,
   InputLabel,
   MenuItem,
   Modal,
   Select,
+  Switch,
   TextField,
   Typography,
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 
-import DeactivateToggle from '../buttons/DeactivateToggle'
+import CancelButton from '../buttons/CancelButton'
+import SaveButton from '../buttons/SaveButton'
 import TextInput from '../forms/fields/TextInput'
 
 const style = {
@@ -116,7 +117,6 @@ const AddEventModal = ({
       startDateTime: start.toISOString(),
       endDateTime: end.toISOString(),
       hill: [],
-      //active: true,
       active: isActive,
     }
 
@@ -157,7 +157,7 @@ const AddEventModal = ({
             <FormControl>
               <Box display="flex" alignItems="center" gap={1}>
                 <Typography>Active</Typography>
-                <DeactivateToggle
+                <Switch
                   checked={isActive}
                   onChange={(e) => setIsActive(e.target.checked)}
                   color="success"
@@ -254,13 +254,10 @@ const AddEventModal = ({
           </Box>
 
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
-            <Button variant="outlined" onClick={onModalClose}>
-              Cancel
-            </Button>
-            <Button type="submit" variant="contained">
-              {eventToEdit ? 'Save' : 'Create'}
-            </Button>
+            <CancelButton onClick={onModalClose} color="red" />
+            <SaveButton type="submit" label={eventToEdit ? 'Save' : 'Create'} />
           </Box>
+          
         </form>
       </Box>
     </Modal>
