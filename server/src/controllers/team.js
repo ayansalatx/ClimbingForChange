@@ -5,7 +5,13 @@ import Mountain from '../models/mountain.js'
 import RFIDTag from '../models/rfidTag.js'
 
 export const getAllTeams = async (req, response) => {
-  const allTeams = await Team.find({})
+  const filter = {}
+
+  if (req.query.event) {
+    filter.event = req.query.event
+  }
+
+  const allTeams = await Team.find(filter)
     .populate('participants')
     .populate('mountain')
     .populate('hill')
