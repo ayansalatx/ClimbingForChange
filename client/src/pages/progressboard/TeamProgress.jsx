@@ -482,7 +482,7 @@ const TeamProgress = () => {
                         overflowY: 'hidden',
                       }}
                     >
-                      <LapTable tableColumns={columns} laps={team?.laps} />
+                      <LapTable tableColumns={columns} laps={team?.laps} exitVisible={isXSmall} />
                     </Box>
                   </Box>
                 ) : (
