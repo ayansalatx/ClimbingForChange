@@ -77,7 +77,7 @@ export const uploadCSV = async (request, response) => {
     )
 
     if (!mountain) {
-      return response.status(400).json({message: `The mountain "${mountainName}" does not exist for this event"`})
+      return response.status(400).json({ message: `The mountain "${mountainName}" does not exist for this event"` })
     }
 
     const lapsRequired
