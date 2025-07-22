@@ -19,7 +19,6 @@ export const getAllTeams = async (req, response) => {
   response.json(allTeams)
 }
 
-
 export const getTeamById = async (request, response) => {
   const id = request.params.id
 
