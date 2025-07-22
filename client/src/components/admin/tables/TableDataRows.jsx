@@ -79,7 +79,6 @@ const TableDataRows = ({
                         href={href}
                         underline='hover'
                         color='inherit'
-                        sx={{ fontSize: '1rem' }}
                       >
                         {value || 'N/A'}
                       </Link>

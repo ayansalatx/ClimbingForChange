@@ -62,12 +62,9 @@ const RFIDModal = ({ open, onClose, onSave, rfid }) => {
             required
             helperText="Enter the unique serial number of the RFID tag"
           />
-
-          <Box
-            sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, gap: 1 }}
-          >
-            <CancelButton onClick={onClose} />
-            <SaveButton type="submit" label={rfid?.id ? 'Update' : 'Add'} />
+          <Box mt={2} display="flex" justifyContent="space-between" gap={2}>
+            <CancelButton onClick={onClose} color="red" />
+            <SaveButton type="submit" label={rfid?.id ? 'Save' : 'Create'} />
           </Box>
         </form>
       </Box>
