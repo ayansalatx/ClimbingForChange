@@ -64,7 +64,7 @@ const TeamRFIDBatchManager = () => {
         const tags = await getRfidTags()
         const formattedTags = tags.map((tag) => ({
           id: tag.id,
-          label: tag.serialNumber || tag.label || tag.id || '',
+          label: tag.serialNumber || '',
         }))
         setrfidTags(formattedTags)
 
@@ -86,7 +86,7 @@ const TeamRFIDBatchManager = () => {
   const tableData = teams.map((team) => ({
     id: team.id,
     name: team.name,
-    rfidTag: typeof team.rfidTag === 'object' ? team.rfidTag.id : team.rfidTag || '',
+    rfidTag: team.rfidTag && typeof team.rfidTag === 'object' ? team.rfidTag.id : team.rfidTag || '',
     active: true,
     isEdited: Object.prototype.hasOwnProperty.call(updatedRfids, team.id),
   }))
@@ -120,7 +120,7 @@ const TeamRFIDBatchManager = () => {
 
         const updatedTeamData = {
           ...existingTeam,
-          rfidTag: newRfidId,
+          rfidTag: newRfidId || null,
         }
 
         await editTeam(teamId, updatedTeamData)

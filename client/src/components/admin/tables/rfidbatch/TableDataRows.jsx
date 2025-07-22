@@ -56,7 +56,7 @@ const TableDataRows = ({
                     isOptionEqualToValue={(option, value) => option.id === value.id}
                     size="small"
                     disableClearable={false}
-                    renderInput={(params) => <TextField {...params} label="Select RFID Tag" />}
+                    renderInput={(params) => <TextField {...params} />}
                     sx={{ width: '100%' }}
                     ListboxProps={{
                       style: { maxHeight: 200 },
