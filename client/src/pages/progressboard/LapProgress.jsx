@@ -220,7 +220,7 @@ const LapProgress = () => {
               <TeamHeader teamName={team?.name} />
 
               {/* Laps Table */}
-              <LapTable tableColumns={columns} laps={team?.laps} />
+              <LapTable tableColumns={columns} laps={team?.laps} exitVisible={true} />
             </Box>
           )}
         </Box>

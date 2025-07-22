@@ -2,6 +2,7 @@ import { Event } from '@mui/icons-material'
 import { Box } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
 
+import ConfirmActivateEvent from '../../../components/admin/modals/ConfirmActivateEvent.jsx'
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
 import ConfirmInactiveEvent from '../../../components/admin/modals/ConfirmInactiveEvent.jsx'
 import AddEventModal from '../../../components/admin/modals/EventModal.jsx'
@@ -49,6 +50,7 @@ const EventManager = () => {
   const [mountains, setMountains] = useState({})
   const [mountainsList, setMountainsList] = useState([])
   const [confirmInactiveOpen, setConfirmInactiveOpen] = useState(false)
+  const [confirmActivateOpen, setConfirmActivateOpen] = useState(false)
   const [eventToToggle, setEventToToggle] = useState(null)
 
   const handleOpenPopup = () => setOpenPopup(true)
@@ -225,7 +227,7 @@ const EventManager = () => {
     }
   }
 
-  const confirmToggleInactive = async () => {
+  const confirmToggleActiveStatus = async () => {
     if (!eventToToggle) return
 
     try {
@@ -235,16 +237,20 @@ const EventManager = () => {
         mountains: eventToToggle.mountainIds || [],
         location: eventToToggle.locationId || eventToToggle.location?.id || null,
       }
+
       await editEvent(eventToToggle.id, updated)
+
       displayAlert(
         'Event Updated',
         `Event "${eventToToggle.name}" is now ${updated.active ? 'active' : 'inactive'}.`,
         'success'
       )
+
       fetchEvents()
     } catch (error) {
       displayAlert('Toggle Error', `Failed to update active status: ${error.message}`, 'error')
     } finally {
+      setConfirmActivateOpen(false)
       setConfirmInactiveOpen(false)
       setEventToToggle(null)
     }
@@ -273,7 +279,11 @@ const EventManager = () => {
 
   const requestToggleActive = (event) => {
     setEventToToggle(event)
-    setConfirmInactiveOpen(true)
+    if (event.active) {
+      setConfirmInactiveOpen(true)
+    } else {
+      setConfirmActivateOpen(true)
+    }
   }
 
   const cancelToggleInactive = () => {
@@ -327,10 +337,17 @@ const EventManager = () => {
         onCancel={cancelDelete}
         onConfirm={handleDeleteEvent}
       />
+
       <ConfirmInactiveEvent
         open={confirmInactiveOpen}
         onCancel={cancelToggleInactive}
-        onConfirm={confirmToggleInactive}
+        onConfirm={confirmToggleActiveStatus}
+      />
+
+      <ConfirmActivateEvent
+        open={confirmActivateOpen}
+        onCancel={() => setConfirmActivateOpen(false)}
+        onConfirm={confirmToggleActiveStatus} 
       />
     </Box>
   )
