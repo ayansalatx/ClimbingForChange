@@ -11,9 +11,9 @@ import {
   addNewParticipant,
   deleteParticipant,
   editParticipant,
-  getAllParticipants,
+  getParticipantsByEvent,
 } from '../../../services/participantService'
-import { getAllTeams } from '../../../services/teamService.js'
+import { getTeamsByEvent } from '../../../services/teamService.js'
 
 const fullColumns = [
   { id: 'firstName', label: 'First Name', align: 'left', width: '30%' },
@@ -35,42 +35,51 @@ const ParticipantManager = () => {
   const displayAlert = useAlert()
 
   useEffect(() => {
-    async function loadData() {
+    async function loadEvents() {
       setLoading(true)
       try {
-        const participantListRaw = await getAllParticipants()
-        const participantList = participantListRaw.map((p) => ({
-          ...p,
-          teamName: p.team?.name || '—',
-          eventId: p.team?.event || null,
-        }))
-        setParticipants(participantList)
-
-        const teamsList = await getAllTeams()
-        setTeams(teamsList)
-
         const eventsList = await getAllEvents()
         setEvents(eventsList)
 
-        displayAlert(
-          'Participants Loaded',
-          `Loaded ${participantList.length} participants from the backend.`,
-          'success'
-        )
-      }
-      catch (error) {
-        displayAlert(
-          'Error',
-          `Failed to Load Participants: ${error.message}`,
-          'error'
-        )
-      }
-      finally {
+        displayAlert('Loaded Events', 'Successfully loaded event data.', 'success')
+      } catch (error) {
+        displayAlert('Error', `Failed to load events: ${error.message}`, 'error')
+      } finally {
         setLoading(false)
       }
     }
-    loadData()
-  }, [displayAlert, selectedEvent])
+    loadEvents()
+  }, [displayAlert])
+
+  useEffect(() => {
+    if (!selectedEvent) {
+      setParticipants([])
+      setTeams([])
+      return
+    }
+
+    async function loadParticipantsAndTeams() {
+      setLoading(true)
+      try {
+        const participantsList = await getParticipantsByEvent(selectedEvent)
+        setParticipants(participantsList)
+
+        const filteredTeams = await getTeamsByEvent(selectedEvent)
+        setTeams(filteredTeams)
+        displayAlert(
+          'Data Loaded',
+          `Loaded ${participantsList.length} participants and ${filteredTeams.length} teams for selected event.`,
+          'success'
+        )
+      } catch (error) {
+        displayAlert('Error', `Failed to load participants or teams: ${error.message}`, 'error')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadParticipantsAndTeams()
+  }, [selectedEvent, displayAlert])
 
   const onAdd = () => {
     if (loading) return
@@ -102,27 +111,18 @@ const ParticipantManager = () => {
     try {
       await deleteParticipant(deletedParticipant.id)
 
-      const newParticipantList = await getAllParticipants()
-      const formattedList = newParticipantList.map((p) => ({
-        ...p,
-        teamName: p.teamId?.name || '—',
-      }))
-      setParticipants(formattedList)
+      const updatedList = await getParticipantsByEvent(selectedEvent)
+      setParticipants(updatedList)
+
       setDeleteConfirmOpen(false)
       displayAlert(
         'Participant Deleted',
         `Deleted ${deletedParticipant.firstName} ${deletedParticipant.lastName}.`,
         'success'
       )
-    }
-    catch (error) {
-      displayAlert(
-        'Error',
-        `Failed to delete ${deletedParticipant.firstName} ${deletedParticipant.lastName}: ${error.message}`,
-        'error'
-      )
-    }
-    finally {
+    } catch (error) {
+      displayAlert('Error', `Failed to delete participant: ${error.message}`, 'error')
+    } finally {
       setLoading(false)
     }
   }
@@ -131,45 +131,35 @@ const ParticipantManager = () => {
     if (!participantData) return
     setLoading(true)
     try {
+      participantData.eventId = selectedEvent
+      if (participantData.team) {
+        participantData.teamId = participantData.team.id
+        delete participantData.team
+      }
       if (participantData.id) {
         await editParticipant(participantData.id, participantData)
-        displayAlert(
-          'Edited Participant',
-          `Edited ${participantData.firstName} ${participantData.lastName}.`,
-          'success'
-        )
-      }
-      else {
+        displayAlert('Edited Participant', `Edited ${participantData.firstName} ${participantData.lastName}.`, 'success')
+      } else {
         await addNewParticipant(participantData)
-        displayAlert(
-          'New Participant Added',
-          `Added ${participantData.firstName} ${participantData.lastName}.`,
-          'success'
-        )
+        displayAlert('New Participant Added', `Added ${participantData.firstName} ${participantData.lastName}.`, 'success')
       }
-      const newParticipantList = await getAllParticipants()
-      const formattedList = newParticipantList.map((p) => ({
-        ...p,
-        teamName: p.teamId?.name || '—',
-      }))
-      setParticipants(formattedList)
-    }
-    catch (error) {
-      displayAlert(
-        'Error',
-        `Failed to save participant: ${error.message}`,
-        'error'
-      )
-    }
-    finally {
+      const updatedList = await getParticipantsByEvent(selectedEvent)
+      setParticipants(updatedList)
+    } catch (error) {
+      displayAlert('Error', `Failed to save participant: ${error.message}`, 'error')
+    } finally {
       setLoading(false)
+      setPopupOpen(false)
     }
-    setPopupOpen(false)
   }
 
-  const filteredParticipants = selectedEvent
-    ? participants.filter((p) => String(p.team.event) === String(selectedEvent))
-    : []
+  const filteredParticipants = selectedEvent ? participants : []
+  const currentTeamId = selectedParticipant?.team?.id
+
+  const filteredTeams = teams.filter(
+    (team) =>
+      String(team.event) === String(selectedEvent) || String(team._id || team.id) === String(currentTeamId)
+  )
 
   return (
     <Box
@@ -202,9 +192,8 @@ const ParticipantManager = () => {
         onClose={() => setPopupOpen(false)}
         onAdd={handleSave}
         participantData={selectedParticipant}
-        teamNames={teams.filter(
-          (team) => String(team.event) === String(selectedEvent)
-        )}
+        teamNames={filteredTeams}
+        selectedEvent={selectedEvent} 
       />
       <ConfirmDeleteDialog
         open={deleteConfirmOpen}
