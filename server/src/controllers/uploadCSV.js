@@ -7,11 +7,12 @@ import Participant from '../models/participant.js'
 import Hill from '../models/hill.js'
 
 export const uploadCSV = async (request, response) => {
-
   const { eventid, overwrite } = request.query
 
   if (!request.file) {
-    return response.status(400).json({ error: 'File to upload missing missing' })
+    return response
+      .status(400)
+      .json({ error: 'File to upload missing missing' })
   }
 
   const filePath = request.file.path
@@ -28,11 +29,12 @@ export const uploadCSV = async (request, response) => {
       rows = await csv().fromFile(filePath)
       try {
         fs.unlinkSync(filePath)
-      } catch (unlinkError) {
+      }
+      catch (unlinkError) {
         console.warn('⚠️ Failed to delete CSV file:', unlinkError.message)
       }
-    } catch (err) {
-      console.log('🚀 ~ uploadCSV ~ err:', err)
+    }
+    catch {
       return response.status(400).json({ error: 'Invalid CSV format' })
     }
 
@@ -46,28 +48,33 @@ export const uploadCSV = async (request, response) => {
 
       const existingMountain = await Mountain.findOne({ name: mountainName })
 
-      // If mountain have already been created 
-      const mountain = existingMountain ? existingMountain : await Mountain.create({ name: mountainName, totalElevation: 0 })
+      // If mountain have already been created
+      const mountain = existingMountain
+        ? existingMountain
+        : await Mountain.create({ name: mountainName, totalElevation: 0 })
 
       const hill = await Hill.findOne({})
 
       // If team have already been created by previous row
       const existingTeam = await Team.findOne({ name: teamName })
-      const team = existingTeam ? existingTeam : await Team.create({
-        event: eventid,
-        mountain: mountain._id,
-        hill: hill._id,
-        name: teamName ? teamName : `${firstName} ${lastName}`,
-        isSoloTeam: teamName ? false : true,
-        isIncomplete: true
-      })
+      const team = existingTeam
+        ? existingTeam
+        : await Team.create({
+            event: eventid,
+            mountain: mountain._id,
+            hill: hill._id,
+            name: teamName ? teamName : `${firstName} ${lastName}`,
+            isSoloTeam: teamName ? false : true,
+            isIncomplete: true,
+          })
       await Participant.create({
         team: team._id,
         firstName: firstName,
-        lastName: lastName
+        lastName: lastName,
       })
     }
-  } else {
+  }
+  else {
     console.log('NOT overwriting')
   }
 

@@ -1,4 +1,12 @@
-import { Box, FormControl, InputLabel, MenuItem, Modal, Select, Typography } from '@mui/material'
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  Typography,
+} from '@mui/material'
 import React, { useEffect, useState } from 'react'
 
 import CancelButton from '../buttons/CancelButton'
@@ -36,15 +44,20 @@ const HillModal = ({ open, onClose, onSave, hillData, onLocation }) => {
       setId(hillData.id || '')
       setName(hillData.name || '')
       setLapDistance(
-        hillData.lapDistance !== undefined ? hillData.lapDistance.toString() : ''
+        hillData.lapDistance !== undefined
+          ? hillData.lapDistance.toString()
+          : ''
       )
       setLapElevationGain(
-        hillData.lapElevationGain !== undefined ? hillData.lapElevationGain.toString() : ''
+        hillData.lapElevationGain !== undefined
+          ? hillData.lapElevationGain.toString()
+          : ''
       )
       setDistanceUnit(hillData.distanceUnit || 'KM')
       setElevationUnit(hillData.elevationUnit || 'FT')
       setLocation(hillData.location || '')
-    } else if (!open) {
+    }
+    else if (!open) {
       setId('')
       setName('')
       setLapDistance('')
@@ -73,7 +86,7 @@ const HillModal = ({ open, onClose, onSave, hillData, onLocation }) => {
     <Modal open={open} onClose={onClose}>
       <Box sx={style}>
         <Typography
-          variant='h5'
+          variant="h5"
           mb={2}
           sx={{ textTransform: 'uppercase', color: 'primary.main' }}
         >
@@ -83,7 +96,7 @@ const HillModal = ({ open, onClose, onSave, hillData, onLocation }) => {
         <form onSubmit={handleSave}>
           <TextInput
             fullWidth
-            label='Hill Name'
+            label="Hill Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
@@ -137,13 +150,26 @@ const HillModal = ({ open, onClose, onSave, hillData, onLocation }) => {
             </FormControl>
           </Box>
 
-          <FormControl fullWidth required margin='normal'>
-            <InputLabel id='location-select-label'>Location</InputLabel>
+            <FormControl fullWidth margin="dense">
+              <InputLabel>Elevation Unit</InputLabel>
+              <Select
+                value={elevationUnit}
+                label="Elevation Unit"
+                onChange={(e) => setElevationUnit(e.target.value)}
+                required
+              >
+                <MenuItem value="FT">Feet</MenuItem>
+                <MenuItem value="M">Meters</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+          <FormControl fullWidth required margin="normal">
+            <InputLabel id="location-select-label">Location</InputLabel>
             <Select
-              labelId='location-select-label'
-              id='location-select'
+              labelId="location-select-label"
+              id="location-select"
               value={location}
-              label='Location'
+              label="Location"
               onChange={(e) => setLocation(e.target.value)}
             >
               {locations.map((loc) => (
@@ -154,9 +180,9 @@ const HillModal = ({ open, onClose, onSave, hillData, onLocation }) => {
             </Select>
           </FormControl>
 
-          <Box mt={3} display='flex' justifyContent='space-between' gap={2}>
-            <CancelButton onClick={onClose} color='red' />
-            <SaveButton type='submit' label={hillData ? 'Save' : 'Create'} />
+          <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
+            <CancelButton onClick={onClose} color="red" />
+            <SaveButton type="submit" label={hillData ? 'Save' : 'Create'} />
           </Box>
         </form>
       </Box>

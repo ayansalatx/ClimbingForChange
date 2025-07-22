@@ -14,24 +14,24 @@ import {
 } from '../../../services/rfidService'
 
 const tableColumns = [
-  { 
-    id: 'serialNumber', 
-    label: 'Serial Number', 
-    width: '40%', 
+  {
+    id: 'serialNumber',
+    label: 'Serial Number',
+    width: '40%',
     align: 'left',
     format: (value) => value || 'N/A',
   },
-  { 
-    id: 'createdAt', 
-    label: 'Created At', 
-    width: '30%', 
+  {
+    id: 'createdAt',
+    label: 'Created At',
+    width: '30%',
     align: 'center',
     format: (value) => value || 'N/A',
   },
-  { 
-    id: 'updatedAt', 
-    label: 'Last Updated', 
-    width: '30%', 
+  {
+    id: 'updatedAt',
+    label: 'Last Updated',
+    width: '30%',
     align: 'center',
     format: (value) => value || 'N/A',
   },
@@ -44,7 +44,7 @@ const RFIDManager = () => {
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
   const [rfidToDelete, setRfidToDelete] = useState(null)
   const [editingRfid, setEditingRfid] = useState(null)
-  
+
   const displayAlert = useAlert()
 
   // Fetch RFID data
@@ -59,9 +59,10 @@ const RFIDManager = () => {
         active: true,
       }))
       setRfidData(processedTags)
-    } catch (err) {
-      const errorMessage =
-        err.response?.data?.message || err.message || 'Failed to load RFID tags'
+    }
+    catch (err) {
+      const errorMessage
+        = err.response?.data?.message || err.message || 'Failed to load RFID tags'
       displayAlert('Error', errorMessage, 'error')
     }
   }, [displayAlert])
@@ -79,16 +80,19 @@ const RFIDManager = () => {
       if (editingRfid) {
         await updateRfidTag(editingRfid.id, tagPayload)
         displayAlert('Success', 'RFID tag updated successfully', 'success')
-      } else {
+      }
+      else {
         await createRfidTag(tagPayload)
         displayAlert('Success', 'RFID tag created successfully', 'success')
       }
-      
+
       setIsModalOpen(false)
       setEditingRfid(null)
       loadData()
-    } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Failed to save RFID tag'
+    }
+    catch (error) {
+      const errorMessage
+        = error.response?.data?.message || 'Failed to save RFID tag'
       displayAlert('Error', errorMessage, 'error')
     }
   }
@@ -110,18 +114,20 @@ const RFIDManager = () => {
 
   const confirmedDelete = async () => {
     if (!rfidToDelete) return
-    
+
     try {
       await deleteRfidTag(rfidToDelete.id)
       displayAlert('Success', 'RFID tag deleted successfully', 'success')
       loadData()
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert(
         'Error',
         error.response?.data?.message || 'Failed to delete RFID tag',
         'error'
       )
-    } finally {
+    }
+    finally {
       setDeleteConfirmOpen(false)
       setRfidToDelete(null)
     }
@@ -131,7 +137,6 @@ const RFIDManager = () => {
     setDeleteConfirmOpen(false)
     setRfidToDelete(null)
   }
-
 
   return (
     <Box
@@ -146,9 +151,8 @@ const RFIDManager = () => {
         px: '1.5rem',
       }}
     >
-
       <DataTable
-        tableTitle='RFID Tags'
+        tableTitle="RFID Tags"
         tableIcon={RfidIcon}
         tableColumns={tableColumns}
         tableData={rfidData}

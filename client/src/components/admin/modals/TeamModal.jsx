@@ -3,6 +3,7 @@ import Autocomplete from '@mui/material/Autocomplete'
 import TextField from '@mui/material/TextField'
 import { useEffect, useState } from 'react'
 
+import { useAlert } from '../../../hooks/useAlert'
 import { getAllEvents } from '../../../services/eventService'
 import { getAllHills } from '../../../services/hillService'
 import { getAllMountains } from '../../../services/mountainService'
@@ -33,6 +34,8 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
   const [hills, setHills] = useState([])
   const [events, setEvents] = useState([])
   const [rfidTags, setRfidTags] = useState([])
+
+  const displayAlert = useAlert()
 
   const onModalClose = () => {
     onClose()
@@ -94,11 +97,13 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
     try {
       if (teamToEdit) {
         onEdit(teamToEdit.id, teamData)
-      } else {
+      }
+      else {
         onAdd(teamData)
       }
-    } catch (error) {
-      console.error('Error saving team:', error)
+    }
+    catch (error) {
+      displayAlert('Error', `Error while saving team: ${error}`, 'error')
     }
 
     onModalClose()
@@ -107,16 +112,16 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
   return (
     <Modal open={open} onClose={onModalClose}>
       <Box sx={style}>
-        <Typography variant='h6' mb={2} sx={{ color: 'black' }}>
+        <Typography variant="h6" mb={2} sx={{ color: 'black' }}>
           {teamToEdit ? 'Edit Team' : 'Add New Team'}
         </Typography>
         <form onSubmit={handleSubmit}>
 
           <TextInput
             fullWidth
-            label='Team Name'
-            variant='outlined'
-            margin='normal'
+            label="Team Name"
+            variant="outlined"
+            margin="normal"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
@@ -156,12 +161,12 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
             </FormControl>
           </Box>
 
-          <FormControl fullWidth margin='normal' required>
-            <InputLabel id='event-select-label'>Event</InputLabel>
+          <FormControl fullWidth margin="normal" required>
+            <InputLabel id="event-select-label">Event</InputLabel>
             <Select
               labelId='event-select-label'
               value={selectedEvent}
-              label='Event'
+              label="Event"
               onChange={(e) => setSelectedEvent(e.target.value)}
             >
               {events.map((event) => (

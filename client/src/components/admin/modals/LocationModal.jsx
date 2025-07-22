@@ -33,7 +33,8 @@ const LocationModal = ({ open, onClose, onSave, locationData }) => {
       setCity(locationData.city || '')
       setProvState(locationData.provState || '')
       setCountry(locationData.country || '')
-    } else if (!open) {
+    }
+    else if (!open) {
       setId('')
       setName('')
       setAddress('')
@@ -62,7 +63,10 @@ const LocationModal = ({ open, onClose, onSave, locationData }) => {
   }
 
   const handleProvStateChange = (e) => {
-    const lettersOnly = e.target.value.replace(/[^a-zA-Z]/g, '').toUpperCase().slice(0, 2)
+    const lettersOnly = e.target.value
+      .replace(/[^a-zA-Z]/g, '')
+      .toUpperCase()
+      .slice(0, 2)
     setProvState(lettersOnly)
   }
 
@@ -70,7 +74,7 @@ const LocationModal = ({ open, onClose, onSave, locationData }) => {
     <Modal open={open} onClose={onClose}>
       <Box sx={style}>
         <Typography
-          variant='h5'
+          variant="h5"
           mb={2}
           sx={{ textTransform: 'uppercase', color: 'primary.main' }}
         >
@@ -90,28 +94,31 @@ const LocationModal = ({ open, onClose, onSave, locationData }) => {
             onChange={(e) => setAddress(e.target.value)}
             required={true}
           />
-          <TextInput
-            label={'City'}
-            value={city}
-            onChange={handleLettersOnlyChange(setCity)}
-            required={true}
-          />
-          <TextInput
-            label={'Province/State'}
-            value={provState}
-            onChange={handleProvStateChange}
-            required={true}
-          />
+          <Box display="flex" gap={2}>
+            <TextInput
+              label={'City'}
+              value={city}
+              onChange={handleLettersOnlyChange(setCity)}
+              required={true}
+            />
+
+            <TextInput
+              label={'Province'}
+              value={provState}
+              onChange={handleProvStateChange}
+              required={true}
+            />
+          </Box>
           <TextInput
             label={'Country'}
             value={country}
             onChange={handleLettersOnlyChange(setCountry)}
             required={true}
           />
-          <Box mt={3} display='flex' justifyContent='space-between' gap={2}>
+          <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
             <CancelButton onClick={onClose} color={'red'} />
             <SaveButton
-              type='submit'
+              type="submit"
               label={locationData ? 'Save' : 'Create'}
             />
           </Box>

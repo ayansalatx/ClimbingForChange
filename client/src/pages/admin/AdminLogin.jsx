@@ -19,7 +19,7 @@ const AdminLogin = () => {
     const result = await login({ username, password })
 
     if (result.status != 200) {
-      displayAlert('Failed', result.error.message, 'error')
+      displayAlert('Error', result.error.message, 'error')
       return
     }
 
@@ -30,18 +30,18 @@ const AdminLogin = () => {
 
   return (
     <Box
-      display='flex'
-      justifyContent='center'
-      alignItems='center'
-      minHeight='100vh'
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="100vh"
       px={2}
     >
       <AlertDisplay />
       <Paper elevation={3} sx={{ paddingTop: 0, width: '100%', maxWidth: 500 }}>
         <Box
-          display='flex'
-          justifyContent='center'
-          alignItems='center'
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
           sx={{
             backgroundColor: 'primary.main',
             width: '100%',
@@ -52,51 +52,59 @@ const AdminLogin = () => {
           }}
         >
           <a
-            href='https://www.climbingforchange.ca/'
-            target='_blank'
-            rel='noreferrer'
+            href="https://www.climbingforchange.ca/"
+            target="_blank"
+            rel="noreferrer"
           >
             <img
               src={C4CHorizontalGreenLogo}
-              alt='Climbing for Change Logo'
+              alt="Climbing for Change Logo"
               style={{ maxWidth: '15rem', width: 'auto' }}
             />
           </a>
         </Box>
 
         <Box
-          display='flex'
-          flexDirection='column'
-          alignItems='center'
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
           gap={2}
           sx={{ p: 4, pt: 4 }}
         >
-          <Typography variant='h4' textTransform='uppercase' fontWeight='bold' fontStyle='italic' color='primary.main' textAlign='center' marginBottom={2}>
+          <Typography
+            variant="h4"
+            textTransform="uppercase"
+            fontWeight="bold"
+            fontStyle="italic"
+            color="primary.main"
+            textAlign="center"
+            marginBottom={2}
+          >
             Admin Login
           </Typography>
           <form onSubmit={handleLogin}>
             <TextField
               fullWidth
-              label='Username'
+              label="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              margin='normal'
+              margin="normal"
               required
             />
             <TextField
               fullWidth
-              autoComplete=''
-              label='Password'
-              type='password'
+              autoComplete=""
+              label="Password"
+              type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              margin='normal'
+              margin="normal"
               required
             />
             <Button
-              type='submit'
+              type="submit"
               fullWidth
-              variant='contained'
+              variant="contained"
               sx={{ marginTop: 4, letterSpacing: '0.05rem', maxWidth: '50%' }}
             >
               Login

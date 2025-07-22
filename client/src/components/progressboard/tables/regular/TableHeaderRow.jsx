@@ -10,12 +10,12 @@ const TableHeaderRow = ({ columns }) => {
           sx={{
             backgroundColor: 'info.main',
             border: 'none',
-            p: { sm: .5, md: 1, lg: 1.25, xl: 1.5 },
+            p: { sm: 0.5, md: 1, lg: 1.25, xl: 1.5 },
             pr: 0,
           }}
         >
           <IconButton
-            size='small'
+            size="small"
             disableRipple
             sx={{
               visibility: 'hidden',

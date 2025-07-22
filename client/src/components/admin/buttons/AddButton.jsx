@@ -4,7 +4,7 @@ import { Button } from '@mui/material'
 const AddButton = ({ onAddClick, disabled }) => {
   return (
     <Button
-      variant='contained'
+      variant="contained"
       sx={{
         minWidth: 0,
         px: '.5rem',

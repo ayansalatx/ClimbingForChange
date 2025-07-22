@@ -6,7 +6,7 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #191447;
-/* C4C Brand Colors */
+  /* C4C Brand Colors */
   --c4c-purple: #191447;
   --c4c-teal: #3db7c6;
   --c4c-light-blue: #8bd4e0;
@@ -14,9 +14,9 @@
   /* Additional Colors & Shades */
   --dark-purple: #100d2d;
   --med-purple: #242958;
-  --lt-purple: #423C6F;
+  --lt-purple: #423c6f;
   --med-green: #b3c623;
-  --dark-teal: #1BA2A3;
+  --dark-teal: #1ba2a3;
   --dark-blue: #146887;
   --med-coral: #d56d6d;
   --light-coral: #d97474;
@@ -24,7 +24,6 @@
   --light-gray: #dddbdb;
   --black: #000000;
   --white: #ffffff;
-
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -97,5 +96,5 @@ button:focus-visible {
 }
 
 .marquee__content {
-  animation: scroll-vertical 28s linear infinite;
+  animation: scroll-vertical var(--scroll-duration) linear infinite;
 }
