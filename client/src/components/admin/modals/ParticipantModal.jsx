@@ -23,23 +23,24 @@ const AddParticipantModal = ({
   onAdd,
   participantData,
   teamNames = [],
+  selectedEvent, 
 }) => {
   const [id, setId] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-  const [teamId, setTeamId] = useState('')
+  const [selectedTeam, setSelectedTeam] = useState(null)
 
   useEffect(() => {
     if (open && participantData) {
       setId(participantData.id || '')
       setFirstName(participantData.firstName || '')
       setLastName(participantData.lastName || '')
-      setTeamId(participantData.teamId?.id || participantData.teamId || '')
+      setSelectedTeam(participantData.team || null)
     } else if (!open) {
       setId('')
       setFirstName('')
       setLastName('')
-      setTeamId('')
+      setSelectedTeam(null)
     }
   }, [open, participantData])
 
@@ -50,12 +51,15 @@ const AddParticipantModal = ({
       id: id || undefined,
       firstName: firstName.trim(),
       lastName: lastName.trim(),
-      teamId: teamId || null,
+      team: selectedTeam || null,
+      eventId: selectedEvent || null, 
     }
-
     onAdd(newParticipant)
     onClose()
   }
+  useEffect(() => {
+
+  }, [selectedEvent])
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -88,18 +92,20 @@ const AddParticipantModal = ({
           <TextField
             select
             fullWidth
-            label="Team"
-            variant="outlined"
-            margin="normal"
-            value={teamId}
-            onChange={(e) => setTeamId(e.target.value)}
+            label='Team'
+            variant='outlined'
+            margin='normal'
+            value={selectedTeam?.id || ''}
+            onChange={(e) => {
+              const selected = teamNames.find((t) => (t.id) === e.target.value)
+              setSelectedTeam(selected || null)
+            }}
             required
           >
             <MenuItem disabled value="">
               -- Select a team --
             </MenuItem>
             {teamNames
-              .filter((team) => !team.isSoloTeam)
               .map((team) => (
                 <MenuItem key={team.id} value={team.id}>
                   {team.name}
@@ -108,7 +114,7 @@ const AddParticipantModal = ({
           </TextField>
 
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
-            <CancelButton onClick={onClose} />
+            <CancelButton onClick={onClose} color="red" />
             <SaveButton
               type="submit"
               label={participantData ? 'Save' : 'Create'}
