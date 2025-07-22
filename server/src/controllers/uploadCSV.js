@@ -57,9 +57,6 @@ export const uploadCSV = async (request, response) => {
       Participant.deleteMany({ team: { $in: teamIds } }),
     ])
   }
-  else {
-    console.log('NOT overwriting')
-  }
 
   for (const row of rows) {
     const firstName = row['First Name']
@@ -80,7 +77,7 @@ export const uploadCSV = async (request, response) => {
     )
 
     if (!mountain) {
-      console.log(`Mountain not found for name: "${mountainName}"`)
+      return response.status(400).json({message: `"${mountainName}" does not exist for this event"`})
     }
 
     const lapsRequired
