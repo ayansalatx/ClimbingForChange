@@ -12,7 +12,7 @@ export const uploadCSV = async (request, response) => {
   if (!request.file) {
     return response
       .status(400)
-      .json({ error: 'File to upload missing missing' })
+      .json({ error: 'File to upload missing' })
   }
 
   const filePath = request.file.path
