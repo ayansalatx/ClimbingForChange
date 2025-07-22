@@ -143,7 +143,6 @@ const ParticipantManager = () => {
         await addNewParticipant(participantData)
         displayAlert('New Participant Added', `Added ${participantData.firstName} ${participantData.lastName}.`, 'success')
       }
-
       const updatedList = await getParticipantsByEvent(selectedEvent)
       setParticipants(updatedList)
     } catch (error) {
