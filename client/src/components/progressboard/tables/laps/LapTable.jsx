@@ -20,7 +20,7 @@ import ExitButton from '../../shared/ExitButton'
 import LapDataRows from './LapDataRows'
 import LapHeaderRow from './LapHeaderRow'
 
-const LapTable = ({ tableColumns, laps = [], loading }) => {
+const LapTable = ({ tableColumns, laps = [], loading, exitVisible }) => {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(15)
 
@@ -193,7 +193,7 @@ const LapTable = ({ tableColumns, laps = [], loading }) => {
           backgroundColor: alpha(theme.palette.background.paper, 0.75),
         }}
       >
-        <ExitButton teamId={teamId} color={'primary.main'} />
+        {exitVisible && <ExitButton teamId={teamId} color={'primary.main'} />}
         <TablePagination
           rowsPerPageOptions={[15, 25, 100]}
           component="div"
