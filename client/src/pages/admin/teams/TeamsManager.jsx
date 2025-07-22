@@ -84,9 +84,15 @@ const TeamsManager = () => {
   const fetchTeams = async (formattedEvents, rfidList) => {
     try {
       const teams = await getAllTeams()
+      //filter
+      const usedRfidIds = teams
+        .map(team => team.rfidTag?._id || team.rfidTag?.id || team.rfidTag)
+        .filter(Boolean)
+      //filter
+      const availableRfidTags = rfidList.filter(tag => !usedRfidIds.includes(tag.id))
+      setrfidTags(availableRfidTags)
 
       const formattedTeams = teams.map((team) => {
-
         return {
           id: team.id,
           name: team.name,
