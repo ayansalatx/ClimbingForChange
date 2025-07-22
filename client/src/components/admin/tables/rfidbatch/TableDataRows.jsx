@@ -1,4 +1,4 @@
-import { alpha, MenuItem, Select, TableBody, TableCell, TableRow } from '@mui/material'
+import { alpha, MenuItem, TableBody, TableCell, TableRow, Autocomplete, TextField } from '@mui/material'
 
 import theme from '../../../../styles/theme'
 
@@ -33,6 +33,11 @@ const TableDataRows = ({
             const value = row[column.id] ?? ''
 
             if (column.id === 'rfidTag') {
+              const selectedTag = rfidTags.find(tag => tag.id === row.rfidTag) || null
+              const availableTags = rfidTags.filter(
+                (tag) => !usedRfidIds.includes(tag.id) || tag.id === row.rfidTag
+              )
+
               return (
                 <TableCell
                   key={column.id}
@@ -43,31 +48,20 @@ const TableDataRows = ({
                     minWidth: 240,
                   }}
                 >
-                  <Select
-                    value={row.rfidTag || ''}
-                    onChange={(e) => onRfidChange(row.id, e.target.value)}
-                    displayEmpty
+                  <Autocomplete
+                    options={availableTags}
+                    getOptionLabel={(option) => option.serialNumber || option.label || option.id}
+                    value={selectedTag}
+                    onChange={(_, newValue) => onRfidChange(row.id, newValue ? newValue.id : '')}
+                    isOptionEqualToValue={(option, value) => option.id === value.id}
                     size="small"
+                    disableClearable={false}
+                    renderInput={(params) => <TextField {...params} label="Select RFID Tag" />}
                     sx={{ width: '100%' }}
-                    MenuProps={{
-                      PaperProps: {
-                        style: {
-                          maxHeight: 200,
-                        },
-                      },
+                    ListboxProps={{
+                      style: { maxHeight: 200 },
                     }}
-                  >
-                    <MenuItem value="">
-                      <em>Select</em>
-                    </MenuItem>
-                    {rfidTags
-                      .filter((tag) => !usedRfidIds.includes(tag.id) || tag.id === row.rfidTag)
-                      .map((tag) => (
-                        <MenuItem key={tag.id} value={tag.id}>
-                          {tag.serialNumber || tag.label || tag.id}
-                        </MenuItem>
-                      ))}
-                  </Select>
+                  />
                 </TableCell>
               )
             }
