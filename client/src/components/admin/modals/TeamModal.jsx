@@ -66,10 +66,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
       setSelectedMountain(teamToEdit.mountainId || '')
       setSelectedHill(teamToEdit.hillId || '')
       setSelectedEvent(teamToEdit.event || '')
-
-      const foundRfid = rfidTagList.find((tag) => 
-        tag.id === teamToEdit.rfidTag)
-      setSelectedRfidTag(foundRfid || '')
+      setSelectedRfidTag(teamToEdit.rfidTag || '')
     }
   }, [teamToEdit, rfidTagList])
 
