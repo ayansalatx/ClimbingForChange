@@ -242,7 +242,7 @@ const ProgressBoardFullscreen = () => {
                   fontStyle: 'italic',
                 }}
               >
-                Climb Progress
+                Team Progress
               </Typography>
             </Box>
           </Box>
