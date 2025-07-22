@@ -1,6 +1,5 @@
-import { alpha, Link, TableBody, TableCell, TableRow } from '@mui/material'
+import { alpha, Link, Switch, TableBody, TableCell, TableRow } from '@mui/material'
 import theme from '../../../styles/theme'
-import DeactivateToggle from '../buttons/DeactivateToggle'
 import RowActions from '../buttons/RowActions'
 
 const TableDataRows = ({
@@ -11,11 +10,12 @@ const TableDataRows = ({
   activeOnChange,
   onEditClick,
   onDeleteClick,
+  toggleDisabled,
 }) => {
   const mountainsHref = '/admin/mountains'
   const hillsHref = '/admin/hills'
   const locationsHref = '/admin/locations'
-  const teamsHref = '/admin/teams' // added 
+  const teamsHref = '/admin/teams'
   return (
     <TableBody>
       {rows
@@ -24,7 +24,7 @@ const TableDataRows = ({
           return (
             <TableRow
               hover
-              role='checkbox'
+              role="checkbox"
               tabIndex={-1}
               key={row.id || index}
               sx={{
@@ -36,14 +36,15 @@ const TableDataRows = ({
               }}
             >
               {columns.map((column) => {
-                const value = row[column.id] ?? ''
-
-                if (column.id === 'activeToggle') {
+                if (column.id === 'activeStatus') {
                   return (
-                    <TableCell key={column.id} align={column.align || 'left'}>
-                      <DeactivateToggle
+                    <TableCell key={column.id} align="center">
+                      <Switch
                         checked={row.active}
-                        onChange={activeOnChange}
+                        onChange={() => activeOnChange(row)}
+                        color="success"
+                        size="small"
+                        disabled={toggleDisabled?.(row)}
                       />
                     </TableCell>
                   )
@@ -89,7 +90,7 @@ const TableDataRows = ({
                       key={column.id}
                       align={column.align || 'left'}
                       sx={{
-                        fontSize: '1rem',
+                        fontSize: { sm: '1rem', md: '1.1rem', xl: '1.2rem' },
                         color: row.active ? 'primary.main' : 'gray.main',
                       }}
                     >
@@ -105,6 +106,7 @@ const TableDataRows = ({
                   )
                 }
 
+                const value = row[column.id] ?? ''
                 return (
                   <TableCell
                     key={column.id}

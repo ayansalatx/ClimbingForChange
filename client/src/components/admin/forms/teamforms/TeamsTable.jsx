@@ -11,7 +11,12 @@ const fullColumns = [
   { id: 'name', label: 'Team Name', minWidth: 170 },
 ]
 
-const TeamsTable = ({ searchTerm = '', teams = [], onTeamDelete, onTeamEdit }) => {
+const TeamsTable = ({
+  searchTerm = '',
+  teams = [],
+  onTeamDelete,
+  onTeamEdit,
+}) => {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
@@ -37,7 +42,7 @@ const TeamsTable = ({ searchTerm = '', teams = [], onTeamDelete, onTeamEdit }) =
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer sx={{ width: 1400 }}>
-        <Table stickyHeader aria-label='sticky table'>
+        <Table stickyHeader aria-label="sticky table">
           <TableHeaderRow columns={fullColumns} />
           <TableDataRows
             onDelete={onTeamDelete}
@@ -51,7 +56,7 @@ const TeamsTable = ({ searchTerm = '', teams = [], onTeamDelete, onTeamEdit }) =
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
-        component='div'
+        component="div"
         count={filteredRows.length}
         rowsPerPage={rowsPerPage}
         page={page}

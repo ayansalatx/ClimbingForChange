@@ -18,9 +18,23 @@ const Layout = () => {
   }
 
   const logout = async () => {
-    displayAlert('Success', 'You have been logged out', 'success')
-    localStorage.removeItem('token')
-    navigate('/login')
+    try {
+      localStorage.removeItem('token')
+
+      localStorage.removeItem('user')
+
+      displayAlert(
+        'Success',
+        'You have been logged out successfully',
+        'success'
+      )
+
+      navigate('/login', { replace: true })
+    }
+    catch (error) {
+      displayAlert('Error', 'An error occurred during logout', error.message)
+      navigate('/login', { replace: true })
+    }
   }
 
   return (
@@ -33,7 +47,7 @@ const Layout = () => {
       </nav>
       <main>
         <Box
-          component='section'
+          component="section"
           sx={{
             width: '100vw',
             height: '100vh',

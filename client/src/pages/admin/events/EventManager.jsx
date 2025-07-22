@@ -2,7 +2,9 @@ import { Event } from '@mui/icons-material'
 import { Box } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
 
+import ConfirmActivateEvent from '../../../components/admin/modals/ConfirmActivateEvent.jsx'
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
+import ConfirmInactiveEvent from '../../../components/admin/modals/ConfirmInactiveEvent.jsx'
 import AddEventModal from '../../../components/admin/modals/EventModal.jsx'
 import DataTable from '../../../components/admin/tables/DataTable.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
@@ -47,6 +49,9 @@ const EventManager = () => {
   const [eventToEdit, setEventToEdit] = useState(null)
   const [mountains, setMountains] = useState({})
   const [mountainsList, setMountainsList] = useState([])
+  const [confirmInactiveOpen, setConfirmInactiveOpen] = useState(false)
+  const [confirmActivateOpen, setConfirmActivateOpen] = useState(false)
+  const [eventToToggle, setEventToToggle] = useState(null)
 
   const handleOpenPopup = () => setOpenPopup(true)
   const handleClosePopup = () => setOpenPopup(false)
@@ -57,7 +62,8 @@ const EventManager = () => {
     try {
       const locations = await getAllLocations()
       setLocations(locations)
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert('Locations Error', `${error.message}`, 'error')
     }
   }, [displayAlert])
@@ -76,6 +82,7 @@ const EventManager = () => {
         const mountainNames = (event.mountains || [])
           .map((m) => m.name)
           .filter((name) => name !== null && name !== undefined && name !== '')
+        const mountainIds = (event.mountains || []).map((m) => m.id || m._id)
 
         return {
           id: event.id,
@@ -87,8 +94,10 @@ const EventManager = () => {
           locationId: event.location?.id,
           duration: durationInHours.toFixed(1),
           mountains: mountainNames.length ? mountainNames.join(', ') : 'None',
+          mountainIds,
           active: isActive,
           activeStatus: isActive ? 'Active' : 'Inactive', 
+          canReactivate: !isActive && !isPast,
         }
       })
 
@@ -98,8 +107,8 @@ const EventManager = () => {
         `Loaded ${events.length} events from the backend.`,
         'success'
       )
-
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert('Events Error', `${error.message}`, 'error')
     }
   }, [displayAlert])
@@ -114,7 +123,8 @@ const EventManager = () => {
         mountainMap[mountain.id] = mountain.name
       }
       setMountains(mountainMap)
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert('Mountains Error', error.message, 'error')
     }
   }, [displayAlert])
@@ -123,41 +133,68 @@ const EventManager = () => {
     fetchLocations()
     fetchMountains()
   }, [fetchLocations, fetchMountains])
-  
+
   useEffect(() => {
     if (Object.keys(mountains).length > 0) {
       fetchEvents()
     }
   }, [mountains, fetchEvents])
 
-
   const handleAddEvent = async (eventData) => {
     try {
-      const response = await addEvent(eventData)
+      const dataToSend = {
+        ...eventData,
+        mountains: eventData.mountains?.map((m) => typeof m === 'object' ? m.id || m._id : m) || [],
+      }
+      const response = await addEvent(dataToSend)
       if (response.status === 201 || response.status === 200) {
-        displayAlert('Event Created', 'The event has been successfully created.', 'success')
+        displayAlert(
+          'Event Created',
+          'The event has been successfully created.',
+          'success'
+        )
         fetchEvents()
         handleClosePopup()
-      } else {
+      }
+      else {
         throw new Error('Event was not created')
       }
-    } catch (error) {
-      displayAlert('Add Error', `Failed to add the event: ${error.message}`, 'error')
+    }
+    catch (error) {
+      displayAlert(
+        'Add Error',
+        `Failed to add the event: ${error.message}`,
+        'error'
+      )
     }
   }
 
   const handleEditEvent = async (id, eventData) => {
     try {
-      const response = await editEvent(id, eventData)
+      const dataToSend = {
+        ...eventData,
+        mountains: eventData.mountains?.map((m) => typeof m === 'object' ? m.id || m._id : m) || [],
+      }
+      const response = await editEvent(id, dataToSend)
       if (response.status === 201 || response.status === 200) {
-        displayAlert('Event Edited', 'The event has been successfully edited.', 'success')
+        displayAlert(
+          'Event Edited',
+          'The event has been successfully edited.',
+          'success'
+        )
         fetchEvents()
         handleClosePopup()
-      } else {
+      }
+      else {
         throw new Error('Event was not edited')
       }
-    } catch (error) {
-      displayAlert('Edit Error', `Failed to edit the event: ${error.message}`, 'error')
+    }
+    catch (error) {
+      displayAlert(
+        'Edit Error',
+        `Failed to edit the event: ${error.message}`,
+        'error'
+      )
     }
   }
 
@@ -165,14 +202,57 @@ const EventManager = () => {
     try {
       const success = await deleteEvent(eventToDelete.id)
       if (success) {
-        displayAlert('Event Deleted', 'The event has been successfully deleted.', 'success')
+        displayAlert(
+          'Event Deleted',
+          'The event has been successfully deleted.',
+          'success'
+        )
         fetchEvents()
         setDeleteConfirmOpen(false)
-      } else {
-        displayAlert('Delete Error', 'Failed to delete the event. Please try again.', 'error')
       }
+      else {
+        displayAlert(
+          'Delete Error',
+          'Failed to delete the event. Please try again.',
+          'error'
+        )
+      }
+    }
+    catch (error) {
+      displayAlert(
+        'Delete Error',
+        `Failed to delete the event: ${error.message}`,
+        'error'
+      )
+    }
+  }
+
+  const confirmToggleActiveStatus = async () => {
+    if (!eventToToggle) return
+
+    try {
+      const updated = {
+        ...eventToToggle,
+        active: !eventToToggle.active,
+        mountains: eventToToggle.mountainIds || [],
+        location: eventToToggle.locationId || eventToToggle.location?.id || null,
+      }
+
+      await editEvent(eventToToggle.id, updated)
+
+      displayAlert(
+        'Event Updated',
+        `Event "${eventToToggle.name}" is now ${updated.active ? 'active' : 'inactive'}.`,
+        'success'
+      )
+
+      fetchEvents()
     } catch (error) {
-      displayAlert('Delete Error', `Failed to delete the event: ${error.message}`, 'error')
+      displayAlert('Toggle Error', `Failed to update active status: ${error.message}`, 'error')
+    } finally {
+      setConfirmActivateOpen(false)
+      setConfirmInactiveOpen(false)
+      setEventToToggle(null)
     }
   }
 
@@ -197,8 +277,18 @@ const EventManager = () => {
     setEventToDelete(null)
   }
 
-  const handleActiveToggle = (newValue) => {
-    setShowInactive(newValue)
+  const requestToggleActive = (event) => {
+    setEventToToggle(event)
+    if (event.active) {
+      setConfirmInactiveOpen(true)
+    } else {
+      setConfirmActivateOpen(true)
+    }
+  }
+
+  const cancelToggleInactive = () => {
+    setConfirmInactiveOpen(false)
+    setEventToToggle(null)
   }
 
   return (
@@ -215,13 +305,14 @@ const EventManager = () => {
       }}
     >
       <DataTable
-        tableTitle='Events'
+        tableTitle="Events"
         tableIcon={Event}
         tableColumns={fullColumns}
         tableData={events}
         showInactive={showInactive}
         setShowInactive={setShowInactive}
-        activeOnChange={handleActiveToggle}
+        activeOnChange={requestToggleActive}
+        toggleDisabled={(row) => !row.active && !row.canReactivate}
         eventsForDropdown={[]}
         onAddClick={onAdd}
         onEditClick={onEdit}
@@ -245,6 +336,18 @@ const EventManager = () => {
         open={deleteConfirmOpen}
         onCancel={cancelDelete}
         onConfirm={handleDeleteEvent}
+      />
+
+      <ConfirmInactiveEvent
+        open={confirmInactiveOpen}
+        onCancel={cancelToggleInactive}
+        onConfirm={confirmToggleActiveStatus}
+      />
+
+      <ConfirmActivateEvent
+        open={confirmActivateOpen}
+        onCancel={() => setConfirmActivateOpen(false)}
+        onConfirm={confirmToggleActiveStatus} 
       />
     </Box>
   )

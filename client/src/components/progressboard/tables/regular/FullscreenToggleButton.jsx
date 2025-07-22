@@ -1,5 +1,6 @@
 import { Fullscreen } from '@mui/icons-material'
-import { IconButton, Tooltip } from '@mui/material'
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
+import { Box, IconButton, Tooltip, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 
 const FullscreenToggleButton = ({ eventId }) => {
@@ -7,12 +8,23 @@ const FullscreenToggleButton = ({ eventId }) => {
 
   // Navigate to fullscreen page for large onsite display
   const handleClick = () => {
-    navigate(`/progress/fullscreen/${eventId}`)
+    if (eventId) {
+      navigate(`/progress/fullscreen/${eventId}`)
+    }
   }
 
   return (
     <Tooltip
-      title='Fullscreen'
+      title={
+        eventId ? (
+          'Fullscreen'
+        ) : (
+          <Box display="flex" alignItems="center" gap={0.5}>
+            <ErrorOutlineIcon sx={{ fontSize: '1.15rem' }} />
+            <Typography>Select Event</Typography>
+          </Box>
+        )
+      }
       slotProps={{
         tooltip: {
           sx: {

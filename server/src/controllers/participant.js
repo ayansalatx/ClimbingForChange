@@ -3,8 +3,7 @@ import '../models/team.js' // registring the Team model for the populate to work
 import Team from '../models/team.js'
 
 export const getParticipants = async (req, response) => {
-  const participants = await Participant.find({})
-    .populate('team')
+  const participants = await Participant.find({}).populate('team')
 
   response.json(participants)
 }
@@ -16,8 +15,7 @@ export const getParticipantById = async (request, response) => {
     return response.status(400).json({ error: 'Participant id is missing' })
   }
 
-  const participant = await Participant.findById(id)
-    .populate('team')
+  const participant = await Participant.findById(id).populate('team')
 
   response.json(participant)
 }
@@ -26,10 +24,11 @@ export const uploadParticipants = async (request, response) => {
   const body = request.body
 
   if (!body) {
-    return response.status(400).json({ error: 'Participants to upload missing missing' })
+    return response
+      .status(400)
+      .json({ error: 'Participants to upload missing missing' })
   }
-  
-  console.log('🚀 ~ uploadParticipants ~ body:', body.length)
+
   response.status(200).send()
 }
 
@@ -85,24 +84,25 @@ export const updateOneParticipant = async (request, response) => {
   // Attach the team id to this participant to assign them to that team.
   if (existingTeam) {
     participantObjectToUpdate.teamId = existingTeam.id
-  } else {
+  }
+  else {
     // Remove them from that team as it doesn't exist anymore
     delete participantObjectToUpdate.teamId
   }
 
   const updated = await Participant.findByIdAndUpdate(
-    participantObjectToUpdate.id,
+    id,
     {
       $set: {
         firstName: participantObjectToUpdate.firstName,
         lastName: participantObjectToUpdate.lastName,
-        teamId: participantObjectToUpdate.teamId,
+        team: participantObjectToUpdate.teamId,
         rfidTagId: participantObjectToUpdate.rfidTagId,
       },
     },
     {
       new: true,
-    }
+    },
   )
 
   response.status(201).json(updated)
@@ -128,5 +128,5 @@ export const deleteOneParticipant = async (request, response) => {
   // response.status(200).json(updated)
   await Participant.findByIdAndDelete(id)
 
-  response.status(204).end() 
+  response.status(204).end()
 }

@@ -1,8 +1,18 @@
-import { alpha, FormControl, MenuItem, Select } from '@mui/material'
+import {
+  alpha,
+  FormControl,
+  MenuItem,
+  Select,
+} from '@mui/material'
 
 import theme from '../../../styles/theme'
 
-const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
+const EventSelector = ({
+  activeEvents = [],
+  pastEvents = [],
+  selectedEvent,
+  setSelectedEvent,
+}) => {
   return (
     <FormControl
       sx={{
@@ -18,8 +28,8 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
       }}
     >
       <Select
-        variant='filled'
-        id='event-select'
+        variant="filled"
+        id="event-select"
         value={selectedEvent ?? ''}
         onChange={(e) => setSelectedEvent(e.target.value)}
         displayEmpty
@@ -43,6 +53,14 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
             backgroundColor: {
               xxs: 'background.paper',
               sm: alpha(theme.palette.background.paper, 0.4),
+            },
+          },
+          '& .MuiSelect-filled.MuiSelect-select': {
+            fontSize: {
+              xxs: '1rem',
+              xs: '1rem',
+              sm: '1rem',
+              md: '1.1rem',
             },
           },
           '& .MuiSelect-select': {
@@ -90,7 +108,7 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
         }}
       >
         <MenuItem
-          value=''
+          value=""
           disabled
           sx={{
             minHeight: { xxs: 'unset' },
@@ -102,37 +120,101 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
             },
             py: 0,
             color: 'primary.light',
+            textTransform: 'uppercase',
+            fontWeight: 'bold',
+            letterSpacing: '0.01rem',
           }}
         >
           Select an Event
         </MenuItem>
-        {events.map((event) => (
+
+        {activeEvents.length > 0 && [
+          ...activeEvents.map((event, eventsIndex) => (
+            <MenuItem
+              key={event.id || eventsIndex}
+              value={event.id}
+              sx={{
+                mx: 0.75,
+                borderRadius: '3px',
+                minHeight: { xxs: 'unset', xs: 'unset', sm: 0 },
+                color: 'primary.main',
+                fontSize: {
+                  xxs: '0.9rem',
+                  xs: '0.9rem',
+                  sm: '0.9rem',
+                  md: '1rem',
+                },
+                '&:hover': {
+                  borderRadius: '3px',
+                  background: alpha(theme.palette.secondary.main, 0.7),
+                },
+                '&.Mui-selected:hover': {
+                  backgroundColor: alpha(theme.palette.secondary.main, 0.7),
+                },
+                ...(selectedEvent !== event.id && {
+                  '&:focus': {
+                    borderRadius: '3px',
+                    backgroundColor: alpha(theme.palette.secondary.main, 0.7),
+                  },
+                }),
+              }}
+            >
+              {event.name}
+            </MenuItem>
+          )),
+        ]}
+
+        {pastEvents.length > 0 && [
           <MenuItem
-            value={event.id}
-            key={event.id}
+            key={0}
+            value=''
+            disabled
             sx={{
-              borderRadius: '3px',
-              minHeight: { xxs: 'unset', xs: 'unset', sm: 0 },
-              color: 'primary.main',
+              minHeight: { xxs: 'unset' },
               fontSize: {
                 xxs: '0.9rem',
                 xs: '0.9rem',
                 sm: '0.9rem',
                 md: '1rem',
               },
-              '&:hover': {
-                borderRadius: '3px',
-                background: alpha(theme.palette.secondary.main, 0.7),
-              },
-              '&:focus': {
-                borderRadius: '3px',
-                backgroundColor: alpha(theme.palette.secondary.main, 0.7),
-              },
+              py: 0,
+              color: 'primary.light',
+              textTransform: 'uppercase',
+              fontWeight: 'bold',
+              letterSpacing: '0.01rem',
             }}
           >
-            {event.name}
-          </MenuItem>
-        ))}
+            Past Events
+          </MenuItem>,
+          ...pastEvents.map((event, pastEventsIndex) => (
+            <MenuItem
+              key={event.id || pastEventsIndex}
+              value={event.id}
+              sx={{
+                mx: 0.75,
+                borderRadius: '3px',
+                minHeight: { xxs: 'unset', xs: 'unset', sm: 0 },
+                color: 'primary.main',
+                fontSize: {
+                  xxs: '0.9rem',
+                  xs: '0.9rem',
+                  sm: '0.9rem',
+                  md: '1rem',
+                },
+                '&:hover': {
+                  borderRadius: '3px',
+                  background: alpha(theme.palette.secondary.main, 0.7),
+                },
+                '&:focus': {
+                  borderRadius: '3px',
+                  backgroundColor: alpha(theme.palette.secondary.main, 0.7),
+                },
+              }}
+            >
+              {event.name}
+            </MenuItem>
+          )),
+        ]}
       </Select>
     </FormControl>
   )

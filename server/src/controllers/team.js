@@ -5,7 +5,13 @@ import Mountain from '../models/mountain.js'
 import RFIDTag from '../models/rfidTag.js'
 
 export const getAllTeams = async (req, response) => {
-  const allTeams = await Team.find({})
+  const filter = {}
+
+  if (req.query.event) {
+    filter.event = req.query.event
+  }
+
+  const allTeams = await Team.find(filter)
     .populate('participants')
     .populate('mountain')
     .populate('hill')
@@ -22,7 +28,6 @@ export const getTeamById = async (request, response) => {
     .populate('mountain')
     .populate('hill')
     .populate('rfidTag')
-
   response.json(team)
 }
 
@@ -49,6 +54,7 @@ export const saveOneTeam = async (request, response) => {
         .status(404)
         .json({ error: 'The specified RFID Tag does not exist.' })
     }
+
     const teamWithThisTag = await Team.findOne({ rfidTag: rfidTag._id })  //deleted id
     if (teamWithThisTag) {
       return response
@@ -97,6 +103,8 @@ export const updateOneTeam = async (request, response) => {
   // 2. Prepare the update object with only the fields to be changed
   const updateData = {
     ...body,
+    mountain: body.mountain.id,
+    hill: body.hill.id,
   }
 
   // 3. Perform the update
