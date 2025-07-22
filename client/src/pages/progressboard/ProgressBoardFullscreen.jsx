@@ -257,7 +257,7 @@ const ProgressBoardFullscreen = () => {
           >
             <AutoScrollTable
               columns={columns}
-              teams={[...teams, ...teams]}
+              teams={teams}
               loading={loading}
             />
           </Box>

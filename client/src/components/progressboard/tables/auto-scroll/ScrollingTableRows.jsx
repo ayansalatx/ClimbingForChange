@@ -9,12 +9,12 @@ import { Fragment } from 'react'
 
 import theme from '../../../../styles/theme'
 
-const ScrollingTableRow = ({ teams, columns }) => {
+const ScrollingTableRow = ({ teams, columns, shouldScroll }) => {
   const isLarge = useMediaQuery(theme.breakpoints.up('lg'))
 
   const gradientBackground = `linear-gradient(to right, ${alpha(theme.palette.primary.main, 0.8)}, ${alpha(theme.palette.primary.main, 0.3)}, ${alpha(theme.palette.primary.main, 0.8)})`
   return (
-    <TableBody className="marquee__content">
+    <TableBody className="marquee__content" sx={{ '--scroll-duration': `${shouldScroll ? teams.length * 0.8 : 0}s` }}>
       {teams.map((team, index) => (
         <Fragment key={index}>
           <TableRow>
