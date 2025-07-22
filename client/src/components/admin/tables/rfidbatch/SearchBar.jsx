@@ -1,6 +1,6 @@
 import SearchIcon from '@mui/icons-material/Search'
 import InputBase from '@mui/material/InputBase'
-import { alpha,styled } from '@mui/material/styles'
+import { alpha, styled } from '@mui/material/styles'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -31,7 +31,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 }))
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color:  alpha(theme.palette.background.paper, 1),
+  color: alpha(theme.palette.background.paper, 1),
   width: '100%',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),

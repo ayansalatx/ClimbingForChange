@@ -1,12 +1,12 @@
 import {
   Box,
+  Button,
   CircularProgress,
   Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
-  TablePagination,
   TableRow,
   Typography,
 } from '@mui/material'
@@ -14,6 +14,7 @@ import { alpha } from '@mui/material/styles'
 import React, { useState } from 'react'
 
 import theme from '../../../../styles/theme'
+import EventSelector from '../EventSelector'
 import SearchBar from './SearchBar'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
@@ -23,26 +24,20 @@ const DataTable = ({
   tableIcon: TableIcon,
   tableColumns,
   tableData = [],
+  eventsForDropdown = [],
+  selectedEvent,
+  setSelectedEvent,
+  rfidTags = [],
+  onRfidChange,
+  usedRfidIds = [],
   loading,
-  onAddClick,
-  onEditClick,
-  onDeleteClick,
-  activeOnChange,
+  onSave,
 }) => {
   const [searchTerm, setSearchTerm] = useState('')
-  const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(10)
 
-  const filteredRows = tableData.filter((row) => {
-    const searchableText = Object.values(row).join(' ').toLowerCase()
-    return searchableText.includes(searchTerm.toLowerCase())
-  })
-
-  const handleChangePage = (event, newPage) => setPage(newPage)
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value)
-    setPage(0)
-  }
+  let filteredRows = tableData.filter((row) =>
+    Object.values(row).join(' ').toLowerCase().includes(searchTerm.toLowerCase())
+  )
 
   return (
     <Paper
@@ -64,18 +59,8 @@ const DataTable = ({
           padding: '.5rem',
         }}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            py: '.5rem',
-          }}
-        >
-          <TableIcon
-            fontSize="large"
-            sx={{ color: 'secondary.main' }}
-          />
+        <Box sx={{ display: 'flex', alignItems: 'center', py: '.5rem' }}>
+          <TableIcon fontSize="large" sx={{ color: 'secondary.main' }} />
           <Typography
             variant="h1"
             sx={{
@@ -91,18 +76,49 @@ const DataTable = ({
             {tableTitle}
           </Typography>
         </Box>
-
         <SearchBar value={searchTerm} onChange={setSearchTerm} />
       </Box>
+
+      {tableTitle === 'Team RFID Batch Edit' && (
+        <Box sx={{ px: 1, pt: 1, bgcolor: 'info.main' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              px: 1,
+              bgcolor: 'info.light',
+              borderRadius: '3px',
+              fontSize: { xxs: '0.9rem', sm: '0.9rem', md: '1.1rem' },
+            }}
+          >
+            <Typography
+              variant="body1"
+              component="span"
+              color="primary.light"
+              textTransform="uppercase"
+              fontWeight="bold"
+              letterSpacing=".05rem"
+              paddingRight={1}
+            >
+              Event:
+            </Typography>
+            <EventSelector
+              events={eventsForDropdown}
+              selectedEvent={selectedEvent}
+              setSelectedEvent={setSelectedEvent}
+            />
+          </Box>
+        </Box>
+      )}
 
       <TableContainer
         sx={(theme) => ({
           width: '100%',
-          height: '100%',
           flexGrow: 1,
           overflowX: 'auto',
           overflowY: 'auto',
           position: 'relative',
+          maxHeight: '600px', // or adjust as needed
           scrollbarWidth: 'thin',
           scrollbarColor: `${theme.palette.primary.light} ${theme.palette.background.default}`,
         })}
@@ -119,26 +135,25 @@ const DataTable = ({
             </TableBody>
           </Table>
         ) : filteredRows.length > 0 ? (
-          <Table stickyHeader
+          <Table
+            stickyHeader
             sx={{
               width: '100%',
               '&:hover': { bgcolor: alpha(theme.palette.primary.light, 0.05) },
             }}
           >
-            <TableHeaderRow columns={tableColumns} onAddClick={onAddClick} />
+            <TableHeaderRow columns={tableColumns} />
             <TableDataRows
               rows={filteredRows}
               columns={tableColumns}
-              page={page}
-              rowsPerPage={rowsPerPage}
-              onEditClick={onEditClick}
-              onDeleteClick={onDeleteClick}
-              activeOnChange={activeOnChange}
+              rfidTags={rfidTags}
+              onRfidChange={onRfidChange}
+              usedRfidIds={usedRfidIds}
             />
           </Table>
         ) : (
           <Table stickyHeader>
-            <TableHeaderRow columns={tableColumns} onAddClick={onAddClick} />
+            <TableHeaderRow columns={tableColumns} />
             <TableBody>
               <TableRow>
                 <TableCell colSpan={tableColumns.length + 1} align="center" sx={{ border: 'none' }}>
@@ -158,27 +173,18 @@ const DataTable = ({
           alignItems: 'center',
           justifyContent: 'flex-end',
           backgroundColor: 'primary.main',
+          px: 3,
+          py: 1,
         }}
       >
-        <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
-          component="div"
-          count={filteredRows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          sx={{
-            minHeight: '3.25rem',
-            bgcolor: 'primary.main',
-            color: 'background.paper',
-            '& .MuiSvgIcon-root': {
-              fontSize: '1.25rem',
-              color: 'background.paper',
-            },
-          }}
-          labelRowsPerPage=""
-        />
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={onSave}
+          sx={{ textTransform: 'uppercase' }}
+        >
+          Save
+        </Button>
       </Box>
     </Paper>
   )

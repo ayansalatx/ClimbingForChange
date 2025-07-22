@@ -90,7 +90,7 @@ const SideBar = ({ open, toggleDrawer }) => {
     {
       text: 'Team RFID Batch Edit',
       path: '/admin/team-rfid-batch',
-      icon: <CombinedRfidEditIcon  />,
+      icon: <CombinedRfidEditIcon />,
       onClick: () => navigate('/admin/team-rfid-batch'),
     },
   ]

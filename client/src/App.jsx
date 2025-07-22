@@ -53,7 +53,7 @@ function App() {
             <Route path='teams' element={<TeamsManager />} />              
             <Route path='hills' element={<HillManager />} />
             <Route path='rfid' element={<RFIDManager />} />
-            <Route path='team-rfid-batch' element={<TeamRFIDBatchManager/>} />
+            <Route path='team-rfid-batch' element={<TeamRFIDBatchManager />} />
           </Route>
         </Routes>
       </Router>
