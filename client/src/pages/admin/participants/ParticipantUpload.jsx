@@ -311,7 +311,7 @@ const ParticipantUpload = () => {
                       ))}
                     </Select>
                   </FormControl>
-                  <FormControl error={hillError} sx={{ width: '100%' }}>
+                  <FormControl error={hillError} sx={{ width: '100%', pt: 1 }}>
                     <Select
                       size="small"
                       variant="outlined"
@@ -359,7 +359,7 @@ const ParticipantUpload = () => {
                           color: 'primary.light',
                         }}
                       >
-                        Select a hill
+                        Select a Hill
                       </MenuItem>
                       {hills.map((hill) => (
                         <MenuItem
