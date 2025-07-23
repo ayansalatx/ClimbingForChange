@@ -1,6 +1,6 @@
 import HikingIcon from '@mui/icons-material/Hiking'
 import { Box } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
 import HillModal from '../../../components/admin/modals/HillModal.jsx'
@@ -15,7 +15,8 @@ import {
 import { getAllLocations } from '../../../services/locationService.js'
 
 const fullColumns = [
-  { id: 'name', label: 'Hill Name', width: '50%', align: 'left' },
+  { id: 'name', label: 'Hill Name', width: '35%', align: 'left' },
+  { id: 'locationName', label: 'Location', width: '15%', align: 'center' },
   { id: 'lapDistance', label: 'Lap Distance', width: '15%', align: 'center' },
   { id: 'distanceUnit', label: 'Distance Unit', width: '10%', align: 'center' },
   {
@@ -66,6 +67,18 @@ const HillManager = () => {
     }
     loadData()
   }, [displayAlert])
+
+  const hillData = useMemo(() => {
+    return hills.map((hill) => {
+      const locationObj = locations.find((loc) => loc.id === hill.location)
+      return {
+        id: hill.id,
+        ...hill,
+        locationName: locationObj?.name || '',
+        active: true,
+      }
+    })
+  }, [hills, locations])
 
   const onAdd = () => {
     if (loading) return
@@ -161,10 +174,7 @@ const HillManager = () => {
         tableTitle="Hills"
         tableIcon={HikingIcon}
         tableColumns={fullColumns}
-        tableData={hills.map((hill) => ({
-          ...hill,
-          active: true,
-        }))}
+        tableData={hillData}
         showInactive={true}
         setShowInactive={() => {}}
         eventsForDropdown={[]}

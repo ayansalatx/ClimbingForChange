@@ -91,12 +91,12 @@ export const updateOneParticipant = async (request, response) => {
   }
 
   const updated = await Participant.findByIdAndUpdate(
-    participantObjectToUpdate.id,
+    id,
     {
       $set: {
         firstName: participantObjectToUpdate.firstName,
         lastName: participantObjectToUpdate.lastName,
-        teamId: participantObjectToUpdate.teamId,
+        team: participantObjectToUpdate.teamId,
         rfidTagId: participantObjectToUpdate.rfidTagId,
       },
     },

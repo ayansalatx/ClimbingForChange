@@ -102,40 +102,53 @@ const HillModal = ({ open, onClose, onSave, hillData, onLocation }) => {
             required
           />
 
-          <TextInput
-            fullWidth
-            label="Lap Distance"
-            type="number"
-            inputProps={{ step: 'any', min: 0 }}
-            value={lapDistance}
-            onChange={(e) => setLapDistance(e.target.value)}
-            required
-            margin="normal"
-          />
-
-          <FormControl fullWidth margin="dense">
-            <InputLabel>Distance Unit</InputLabel>
-            <Select
-              value={distanceUnit}
-              label="Distance Unit"
-              onChange={(e) => setDistanceUnit(e.target.value)}
+          <Box display="flex" gap={2} alignItems="baseline">
+            <TextInput
+              fullWidth
+              label='Lap Distance'
+              type='number'
+              inputProps={{ step: 'any', min: 0 }}
+              value={lapDistance}
+              onChange={(e) => setLapDistance(e.target.value)}
               required
-            >
-              <MenuItem value="KM">Kilometers</MenuItem>
-              <MenuItem value="MI">Miles</MenuItem>
-            </Select>
-          </FormControl>
+            />
+            <FormControl fullWidth>
+              <InputLabel>Distance Unit</InputLabel>
+              <Select
+                value={distanceUnit}
+                label='Distance Unit'
+                onChange={(e) => setDistanceUnit(e.target.value)}
+                required
+              >
+                <MenuItem value='KM'>Kilometers</MenuItem>
+                <MenuItem value='MI'>Miles</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
 
-          <TextInput
-            fullWidth
-            label="Lap Elevation Gain"
-            type="number"
-            inputProps={{ step: 'any', min: 0 }}
-            value={lapElevationGain}
-            onChange={(e) => setLapElevationGain(e.target.value)}
-            required
-            margin="normal"
-          />
+          <Box display="flex" gap={2} alignItems="baseline">
+            <TextInput
+              fullWidth
+              label='Lap Elevation Gain'
+              type='number'
+              inputProps={{ step: 'any', min: 0 }}
+              value={lapElevationGain}
+              onChange={(e) => setLapElevationGain(e.target.value)}
+              required
+            />
+            <FormControl fullWidth>
+              <InputLabel>Elevation Unit</InputLabel>
+              <Select
+                value={elevationUnit}
+                label='Elevation Unit'
+                onChange={(e) => setElevationUnit(e.target.value)}
+                required
+              >
+                <MenuItem value='FT'>Feet</MenuItem>
+                <MenuItem value='M'>Meters</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
 
           <FormControl fullWidth margin="dense">
             <InputLabel>Elevation Unit</InputLabel>

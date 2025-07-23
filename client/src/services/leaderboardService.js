@@ -55,7 +55,7 @@ export const getLeaderboard = async (eventId) => {
     lapsRequired: formatNumber(team.lapsRequired) || 0,
     lapsCompleted: team.lapsCompleted ? formatNumber(team.lapsCompleted) : '-',
 
-    bestLap: formatDurationTimeMinutes(team.bestLap) ?? '-',
+    bestLap: !team.lapsCompleted || team.bestLap === 0 ? '-' : formatDurationTimeMinutes(team.bestLap),
     averageLapTime: formatDurationTimeMinutes(team.averageLapTime) ?? '-',
     timeElapsed: formatDurationTimeHours(team.timeElapsed),
   }))
@@ -78,7 +78,7 @@ export const getLeaderboardTeam = async (teamId) => {
     lapsCompleted: team.lapsCompleted ? formatNumber(team.lapsCompleted) : '-',
     lapsToGo: team.lapsToGo ? formatNumber(team.lapsToGo) : '-',
 
-    bestLap: formatDurationTimeMinutes(team.bestLap) ?? '-',
+    bestLap: !team.lapsCompleted || team.bestLap === 0 ? '-' : formatDurationTimeMinutes(team.bestLap),
     averageLapTime: formatDurationTimeMinutes(team.averageLapTime) ?? '-',
     timeElapsed: formatDurationTimeHours(team.timeElapsed),
 
@@ -152,6 +152,7 @@ export function updateTeamWithLaps(team, newLaps) {
 
 // Returns the lap with shortest duration, or null if no laps
 export function getBestLapTime(laps) {
+  if (laps.length === 0) return null
   const completedLaps = laps.filter((lap) => lap.endDateTime)
   if (!completedLaps.length) return null
 
