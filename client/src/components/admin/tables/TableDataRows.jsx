@@ -1,7 +1,7 @@
 import { alpha, Link, TableBody, TableCell, TableRow } from '@mui/material'
-import theme from '../../../styles/theme'
 import DeactivateToggle from '../buttons/DeactivateToggle'
 import RowActions from '../buttons/RowActions'
+import theme from '../../../styles/theme'
 
 const TableDataRows = ({
   rows = [],
@@ -15,7 +15,7 @@ const TableDataRows = ({
   const mountainsHref = '/admin/mountains'
   const hillsHref = '/admin/hills'
   const locationsHref = '/admin/locations'
-  const teamsHref = '/admin/teams' // added 
+  const teamsHref = '/admin/teams' 
   return (
     <TableBody>
       {rows
@@ -69,7 +69,6 @@ const TableDataRows = ({
                     </TableCell>
                   )
                 }
-
 
                 if (column.id === 'mountain' || column.id === 'hill' || column.id === 'location' || column.id === 'teamName') {
                   let href = null

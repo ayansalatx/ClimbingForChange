@@ -150,19 +150,19 @@ const HillModal = ({ open, onClose, onSave, hillData, onLocation }) => {
             </FormControl>
           </Box>
 
-            <FormControl fullWidth margin="dense">
-              <InputLabel>Elevation Unit</InputLabel>
-              <Select
-                value={elevationUnit}
-                label="Elevation Unit"
-                onChange={(e) => setElevationUnit(e.target.value)}
-                required
-              >
-                <MenuItem value="FT">Feet</MenuItem>
-                <MenuItem value="M">Meters</MenuItem>
-              </Select>
-            </FormControl>
-         
+          <FormControl fullWidth margin="dense">
+            <InputLabel>Elevation Unit</InputLabel>
+            <Select
+              value={elevationUnit}
+              label="Elevation Unit"
+              onChange={(e) => setElevationUnit(e.target.value)}
+              required
+            >
+              <MenuItem value="FT">Feet</MenuItem>
+              <MenuItem value="M">Meters</MenuItem>
+            </Select>
+          </FormControl>
+
           <FormControl fullWidth required margin="normal">
             <InputLabel id="location-select-label">Location</InputLabel>
             <Select
