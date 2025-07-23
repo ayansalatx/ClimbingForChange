@@ -8,7 +8,14 @@ import {
   FormControlLabel,
   FormGroup,
   MenuItem,
+  Paper,
   Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Typography,
 } from '@mui/material'
 import Papa from 'papaparse'
@@ -17,18 +24,21 @@ import { useNavigate } from 'react-router-dom'
 
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog'
 import { useAlert } from '../../../hooks/useAlert'
-import { getAllEvents } from '../../../services/eventService'
+import { getActiveUpcomingEvents } from '../../../services/eventService'
+import { getAllHills } from '../../../services/hillService'
 import { uploadCSV } from '../../../services/uploadcsv'
 import theme from '../../../styles/theme'
-import UploadPreviewTable from './UploadPreviewTable'
 
 const ParticipantUpload = () => {
   const [rows, setRows] = useState([])
   const [selectedFile, setSelectedFile] = useState()
   const [events, setEvents] = useState([])
-  const [selectedEvent, setSelectedEvent] = useState(null)
+  const [hills, setHills] = useState([])
+  const [selectedEventId, setSelectedEventId] = useState('')
+  const [selectedHillId, setSelectedHillId] = useState('')
   const [overwrite, setOverwrite] = useState(false)
   const [eventError, setEventError] = useState(false)
+  const [hillError, setHillError] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [deleteConfirmOpen, setOverwriteConfirmOpen] = useState(false)
 
@@ -37,12 +47,15 @@ const ParticipantUpload = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const loadEvents = async () => {
-      const eventsList = await getAllEvents()
+    const loadEventsHills = async () => {
+      const eventsList = await getActiveUpcomingEvents()
+      const hillsList = await getAllHills()
+
       setEvents(eventsList)
+      setHills(hillsList)
     }
 
-    loadEvents()
+    loadEventsHills()
   }, [])
 
   const handleFileChange = (event) => {
@@ -99,7 +112,7 @@ const ParticipantUpload = () => {
       formData.append('file', selectedFile)
 
       setIsLoading(true)
-      await uploadCSV(formData, selectedEvent.id, overwrite)
+      await uploadCSV(formData, selectedEventId, selectedHillId, overwrite)
       setIsLoading(false)
       displayAlert(
         'Uploaded',
@@ -226,10 +239,10 @@ const ParticipantUpload = () => {
                       size="small"
                       variant="outlined"
                       id="event-select"
-                      value={selectedEvent ?? ''}
+                      value={selectedEventId}
                       onChange={(event) => {
                         setEventError(false)
-                        setSelectedEvent(event.target.value)
+                        setSelectedEventId(event.target.value)
                       }}
                       displayEmpty
                       required
@@ -298,6 +311,83 @@ const ParticipantUpload = () => {
                       ))}
                     </Select>
                   </FormControl>
+                  <FormControl error={hillError} sx={{ width: '100%', pt: 1 }}>
+                    <Select
+                      size="small"
+                      variant="outlined"
+                      id="hill-select"
+                      value={selectedHillId}
+                      onChange={(event) => {
+                        setHillError(false)
+                        setSelectedHillId(event.target.value)
+                      }}
+                      displayEmpty
+                      required
+                      sx={{
+                        textAlign: 'left',
+                        borderRadius: '3px',
+                        border: `2px solid ${theme.palette.primary.main}`,
+                        color: 'primary.light',
+                        fontSize: '1rem',
+                        '&:before, &:after': {
+                          borderBottom: 'none !important',
+                        },
+                        '& .MuiSelect-select': {
+                          opacity: '100%',
+                          backgroundColor: 'background.paper',
+                          fontWeight: 'bold',
+                          textTransform: 'uppercase',
+                          letterSpacing: '.01rem',
+                          border: 'none',
+                        },
+                        '& .MuiSelect-select:hover': {
+                          background: alpha(theme.palette.primary.light, 0.1),
+                          border: 'none',
+                        },
+                        '.MuiSvgIcon-root': {
+                          color: 'primary.main',
+                        },
+                      }}
+                    >
+                      <MenuItem
+                        value=""
+                        disabled
+                        sx={{
+                          minHeight: { xxs: 'unset' },
+                          fontSize: '1.25rem',
+                          py: 0,
+                          color: 'primary.light',
+                        }}
+                      >
+                        Select a Hill
+                      </MenuItem>
+                      {hills.map((hill) => (
+                        <MenuItem
+                          value={hill.id}
+                          key={hill.id}
+                          sx={{
+                            fontSize: '1.25rem',
+                            minHeight: { xxs: 'unset', xs: 'unset', sm: 0 },
+                            color: 'primary.main',
+                            '&:hover': {
+                              backgroundColor: alpha(
+                                theme.palette.secondary.main,
+                                0.7
+                              ),
+                            },
+                            '&:focus': {
+                              background: alpha(
+                                theme.palette.primary.light,
+                                0.1
+                              ),
+                            },
+                          }}
+                        >
+                          {hill.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                 </Box>
                 <Box
                   sx={{
@@ -308,7 +398,7 @@ const ParticipantUpload = () => {
                 >
                   <FormGroup>
                     <FormControlLabel
-                      disabled={!selectedEvent}
+                      disabled={!selectedEventId}
                       sx={{ color: 'primary.main' }}
                       control={
                         <Checkbox
@@ -323,7 +413,7 @@ const ParticipantUpload = () => {
                         <Typography
                           sx={{
                             fontSize: '1rem',
-                            color: selectedEvent ? 'primary.main' : 'gray.main',
+                            color: selectedEventId ? 'primary.main' : 'gray.main',
                             textTransform: 'uppercase',
                             fontWeight: 'bold',
                             letterSpacing: '.01rem',
@@ -348,7 +438,7 @@ const ParticipantUpload = () => {
                   <Button
                     variant="contained"
                     component="label"
-                    disabled={!selectedEvent}
+                    disabled={!selectedEventId}
                   >
                     Select CSV File
                     <input type="file" hidden onChange={handleFileChange} />
@@ -359,7 +449,47 @@ const ParticipantUpload = () => {
           </Box>
           {rows.length > 0 ? (
             <Box sx={{ flexGrow: 1, minHeight: 0, width: '100%' }}>
-              <UploadPreviewTable rows={rows} theme={theme} />
+              <TableContainer
+                component={Paper}
+                sx={{ maxHeight: '100%', overflowY: 'auto' }}
+              >
+                <Table size="small" stickyHeader>
+                  <TableHead>
+                    <TableRow
+                      sx={{
+                        '& th': {
+                          backgroundColor: 'primary.light', // MUI blue
+                          color: 'background.paper', // white text
+                        },
+                      }}
+                    >
+                      <TableCell>Participant ID</TableCell>
+                      <TableCell>First Name</TableCell>
+                      <TableCell>Last Name</TableCell>
+                      <TableCell>Sub Event</TableCell>
+                      <TableCell>Team Name</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {rows.map((row) => (
+                      <TableRow
+                        key={row.participantId}
+                        sx={{
+                          '&:last-child td, &:last-child th': { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          {row.participantId}
+                        </TableCell>
+                        <TableCell>{row.firstName}</TableCell>
+                        <TableCell>{row.lastName}</TableCell>
+                        <TableCell>{row.subEvent}</TableCell>
+                        <TableCell>{row.teamName}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </Box>
           ) : (
             <Box
@@ -373,7 +503,7 @@ const ParticipantUpload = () => {
               }}
             >
               <Typography variant="h6" sx={{ color: 'gray.main' }}>
-                Please select {selectedEvent ? 'a CSV file' : 'an Event'}
+                Please select {selectedEventId ? 'a CSV file' : 'an Event'}
               </Typography>
             </Box>
           )}
@@ -391,13 +521,15 @@ const ParticipantUpload = () => {
                 gap: '0.25rem',
                 backgroundColor: 'background.paper',
               }}
-              disabled={rows.length === 0 ? true : false}
+              disabled={rows.length === 0 || !selectedEventId || !selectedHillId || isLoading}
               loading={isLoading}
               onClick={() => {
-                if (!selectedEvent) {
-                  setEventError(true)
+                if (!selectedEventId || !selectedEventId) {
+                  setEventError(!selectedEventId)
+                  setHillError(!selectedHillId)
                 } else {
                   setEventError(false)
+                  setHillError(false)
 
                   if (overwrite) {
                     setOverwriteConfirmOpen(true)

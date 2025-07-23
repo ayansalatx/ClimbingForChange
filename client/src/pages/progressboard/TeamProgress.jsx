@@ -26,16 +26,16 @@ const columns = [
 ]
 
 const TeamProgress = () => {
+  const { teamId } = useParams()
+  const [warningOpen, setWarningOpen] = useState(false)
+  const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
+
   const isSmall = useMediaQuery(theme.breakpoints.down('md'))
   const isXSmall = useMediaQuery(theme.breakpoints.down('sm'))
   const isXXSmall = useMediaQuery(theme.breakpoints.down('xs'))
 
   const [team, setTeam] = useState()
-  const [warningOpen, setWarningOpen] = useState(false)
-  const [loading, setLoading] = useState(true)
-
-  const { teamId } = useParams()
 
   const showWarning = () => {
     setWarningOpen(true)
@@ -43,6 +43,11 @@ const TeamProgress = () => {
 
   // Load Team data from server
   useEffect(() => {
+    if (!teamId) {
+      return
+    }
+    // socketRef.current = io('http://localhost:5001/')
+
     async function loadData() {
       try {
         const teamForDisplay = await getLeaderboardTeam(teamId)
@@ -55,6 +60,12 @@ const TeamProgress = () => {
     }
 
     loadData()
+
+    const intervalId = setInterval(loadData, 15000)
+
+    return () => {
+      clearInterval(intervalId)
+    }
   }, [teamId])
 
   const lgTeamStats = [
@@ -64,7 +75,10 @@ const TeamProgress = () => {
       value: `${team?.totalElevation} ${team?.elevationUnit}`,
     },
     { label: 'Total Laps:', value: team?.lapsRequired },
-    { label: 'Lap Elevation:', value: `${team?.lapElevation} ${team?.lapElevationUnit}` },
+    {
+      label: 'Lap Elevation:',
+      value: `${team?.lapElevation} ${team?.lapElevationUnit}`,
+    },
     { label: 'Best Lap Time:', value: team?.bestLap },
     { label: 'Time Elapsed:', value: team?.timeElapsed },
   ]
