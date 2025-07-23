@@ -110,7 +110,6 @@ const TeamsManager = () => {
 
       const rfidList = await getRfidTagList()
       await fetchTeams(formattedEvents, rfidList)
-
     } catch (error) {
       displayAlert('Events Error', `${error.message}`, 'error')
     }
@@ -204,7 +203,8 @@ const TeamsManager = () => {
       justifyContent: 'center',
       py: '4rem',
       px: '1.5rem',
-    }}>
+    }}
+    >
       
       <DataTable
         tableTitle='Teams'

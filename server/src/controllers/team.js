@@ -39,7 +39,7 @@ export const saveOneTeam = async (request, response) => {
     Event.findById(body.event),
     Hill.findById(body.hill),
     Mountain.findById(body.mountain),
-    body.rfidTag ? RFIDTag.findById(body.rfidTag) : null, //deleted id
+    body.rfidTag ? RFIDTag.findById(body.rfidTag) : null, // deleted id
   ])
 
   if (!event || !hill || !mountain) {
@@ -48,14 +48,14 @@ export const saveOneTeam = async (request, response) => {
     })
   }
 
-  if (body.rfidTag) {//delete id
+  if (body.rfidTag) { // delete id
     if (!rfidTag) {
       return response
         .status(404)
         .json({ error: 'The specified RFID Tag does not exist.' })
     }
 
-    const teamWithThisTag = await Team.findOne({ rfidTag: rfidTag._id })  //deleted id
+    const teamWithThisTag = await Team.findOne({ rfidTag: rfidTag._id }) // deleted id
     if (teamWithThisTag) {
       return response
         .status(400)
@@ -69,7 +69,7 @@ export const saveOneTeam = async (request, response) => {
     event: body.event,
     mountain: body.mountain,
     hill: body.hill,
-    rfidTag: body.rfidTag,  //deleted id
+    rfidTag: body.rfidTag, // deleted id
     isSoloTeam: body.isSoloTeam,
     lapsRequired: body.lapsRequired,
     startDateTime: body.startDateTime,
@@ -90,8 +90,8 @@ export const updateOneTeam = async (request, response) => {
   }
 
   // 1. If an RFID tag is being updated, validate it
-  if (body.rfidTag) {  //deleted id
-    const teamWithThisTag = await Team.findOne({ rfidTag: body.rfidTag })  //deleted id
+  if (body.rfidTag) { // deleted id
+    const teamWithThisTag = await Team.findOne({ rfidTag: body.rfidTag }) // deleted id
     // Check if a tag exists and is assigned to a different team
     if (teamWithThisTag && teamWithThisTag._id.toString() !== teamID) {
       return response
