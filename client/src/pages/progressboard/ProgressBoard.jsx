@@ -9,7 +9,6 @@ import ProgressList from '../../components/progressboard/cards/ProgressCardList'
 import ProgressTable from '../../components/progressboard/tables/regular/ProgressTable'
 import { getActiveUpcomingEvents,
   getLeaderboard, getPastEvents, updateLeaderboardTeamLaps } from '../../services/leaderboardService'
-
 import theme from '../../styles/theme'
 
 // Define columns for full width screen
