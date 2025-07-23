@@ -2,6 +2,7 @@ import { Box, FormControl, InputLabel, MenuItem, Modal, Select, Typography } fro
 import Autocomplete from '@mui/material/Autocomplete'
 import TextField from '@mui/material/TextField'
 import { useEffect, useState } from 'react'
+
 import { getAllEvents } from '../../../services/eventService'
 import { getAllHills } from '../../../services/hillService'
 import { getAllMountains } from '../../../services/mountainService'
@@ -55,6 +56,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
           setEvents(eventData)
           setRfidTags(rfidTagList)
         } catch {
+          //fix
         }
       }
     }
@@ -95,6 +97,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
         onAdd(teamData)
       }
     } catch {
+      //fix
     }
 
     onModalClose()

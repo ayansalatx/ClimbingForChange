@@ -204,8 +204,8 @@ const TeamsManager = () => {
       justifyContent: 'center',
       py: '4rem',
       px: '1.5rem',
-    }}
-    >
+    }}>
+      
       <DataTable
         tableTitle='Teams'
         tableIcon={People}
