@@ -228,9 +228,8 @@ async function generateLeaderboard(eventId) {
     return 0
   })
 
-  return calculatedTeams.map((team, index) => ({
-    ...team,
-    rank: index + 1,
+  return calculatedTeams.map((team) => ({
+    ...team
   }))
 }
 
