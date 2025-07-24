@@ -1,5 +1,4 @@
 import Lap from '../models/lap.js'
-import Team from '../models/team.js'
 import { createLapAndEmitStats } from '../services/lapService.js'
 
 export const getLaps = async (req, response) => {
@@ -17,7 +16,8 @@ export const saveOneLap = async (request, response) => {
     const io = request.app.get('io')
     const savedLap = await createLapAndEmitStats(body, io)
     response.status(201).json(savedLap)
-  } catch (err) {
+  }
+  catch (err) {
     response.status(400).json({ error: err.message })
   }
 }

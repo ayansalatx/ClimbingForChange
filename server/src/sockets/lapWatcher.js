@@ -1,9 +1,3 @@
-import mongoose from 'mongoose'
-import Lap from '../models/lap.js'
-import Team from '../models/team.js'
-import Mountain from '../models/mountain.js'
-import Hill from '../models/hill.js'
-
 export default function LapChangeWatcher(io, db) {
   const lapsConnection = db.collection('laps')
 

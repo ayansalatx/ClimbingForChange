@@ -5,11 +5,11 @@ import {
   TableRow,
   useMediaQuery,
 } from '@mui/material'
+import LinearProgress from '@mui/material/LinearProgress'
 import { Fragment } from 'react'
 
 import theme from '../../../../styles/theme'
 import { formatDurationTimeHours, formatDurationTimeMinutes } from '../../../../utils/formatDurationTime'
-import LinearProgress from '@mui/material/LinearProgress'
 
 const ScrollingTableRow = ({ teams, columns, shouldScroll }) => {
   const isLarge = useMediaQuery(theme.breakpoints.up('lg'))
@@ -60,7 +60,7 @@ const ScrollingTableRow = ({ teams, columns, shouldScroll }) => {
                         <LinearProgress
                           variant="determinate"
                           value={Math.min(percent, 100)}
-                          sx={{ height: 6, borderRadius: 3, mt: 0.5, background: alpha(theme.palette.primary.main, 0.15), '& .MuiLinearProgress-bar': { backgroundColor: theme.palette.secondary.main } }}
+                          sx={{ 'height': 6, 'borderRadius': 3, 'mt': 0.5, 'background': alpha(theme.palette.primary.main, 0.15), '& .MuiLinearProgress-bar': { backgroundColor: theme.palette.secondary.main } }}
                         />
                       </>
                     )}

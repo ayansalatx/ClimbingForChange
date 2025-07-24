@@ -1,5 +1,5 @@
 import { alpha, Box, Typography, useMediaQuery } from '@mui/material'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { io } from 'socket.io-client'
 
@@ -8,7 +8,6 @@ import WarningDialog from '../../components/admin/modals/WarningDialog'
 import AutoScrollTable from '../../components/progressboard/tables/auto-scroll/AutoScrollTable'
 import {
   getLeaderboard,
-  updateLeaderboardTeamLaps,
 } from '../../services/leaderboardService'
 import theme from '../../styles/theme'
 
@@ -92,7 +91,7 @@ const ProgressBoardFullscreen = () => {
 
   const { eventId } = useParams()
   const navigate = useNavigate()
-  const socketRef = useRef(null)
+  // const socketRef = useRef(null)
 
   // State for teams
   const [teams, setTeams] = useState([])
@@ -144,13 +143,13 @@ const ProgressBoardFullscreen = () => {
         const updatedTeams = prevTeams.map((team) =>
           team.id === stats.teamId
             ? {
-                ...team,
-                ...stats,
-                lapsCompleted: stats.totalLaps, // for xl/lg columns
-                laps: stats.totalLaps,          // for md/sm/xsm columns
-                elevation: stats.totalElevation, // for md/sm/xsm columns
-                currentElevation: stats.currentElevation, // for Current Elevation column
-              }
+              ...team,
+              ...stats,
+              lapsCompleted: stats.totalLaps, // for xl/lg columns
+              laps: stats.totalLaps, // for md/sm/xsm columns
+              elevation: stats.totalElevation, // for md/sm/xsm columns
+              currentElevation: stats.currentElevation, // for Current Elevation column
+            }
             : team
         )
         return updatedTeams

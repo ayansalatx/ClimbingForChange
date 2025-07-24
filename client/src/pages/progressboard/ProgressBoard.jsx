@@ -8,9 +8,8 @@ import WarningDialog from '../../components/admin/modals/WarningDialog'
 import ProgressList from '../../components/progressboard/cards/ProgressCardList'
 import ProgressTable from '../../components/progressboard/tables/regular/ProgressTable'
 import { getActiveUpcomingEvents,
-  getLeaderboard, getPastEvents, updateLeaderboardTeamLaps } from '../../services/leaderboardService'
+  getLeaderboard, getPastEvents } from '../../services/leaderboardService'
 import theme from '../../styles/theme'
-import { formatDurationTimeHours, formatDurationTimeMinutes } from '../../utils/formatDurationTime'
 
 // Define columns for full width screen
 const lgColumns = [
@@ -171,13 +170,13 @@ const ProgressBoard = () => {
         prevTeams.map((team) =>
           team.id === stats.teamId
             ? {
-                ...team,
-                ...stats,
-                lapsCompleted: stats.totalLaps,
-                laps: stats.totalLaps,
-                elevation: stats.totalElevation,
-                currentElevation: stats.currentElevation,
-              }
+              ...team,
+              ...stats,
+              lapsCompleted: stats.totalLaps,
+              laps: stats.totalLaps,
+              elevation: stats.totalElevation,
+              currentElevation: stats.currentElevation,
+            }
             : team
         )
       )

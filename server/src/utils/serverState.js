@@ -6,12 +6,12 @@ import { initializeMockData } from '../mock/mock.router.js'
 import { processNewPassings } from '../controllers/leaderboard.js'
 let ioInstance = null
 export function setServerIO(io) {
-  ioInstance = io;
+  ioInstance = io
 }
 
 export const bibToTeamMap = new Map()
 export const initializeServerState = async () => {
-  console.log('[ServerState] initializeServerState called, ioInstance:', !!ioInstance);
+  console.log('[ServerState] initializeServerState called, ioInstance:', !!ioInstance)
   console.log('Initializing server state...')
 
   // Delete all passings and laps on server start
@@ -59,11 +59,11 @@ export const initializeServerState = async () => {
 // Add a function to reset laps/passings and reprocess all simulated passings (for dev trigger)
 export const triggerLapSimulation = async (eventId) => {
   // Always fetch the latest ioInstance at call time
-  const currentIO = ioInstance;
-  console.log('[ServerState] triggerLapSimulation using ioInstance:', !!currentIO);
+  const currentIO = ioInstance
+  console.log('[ServerState] triggerLapSimulation using ioInstance:', !!currentIO)
   console.log('[Dev Trigger] Resetting all laps and passings, and reprocessing simulated passings...')
   let lastFileNo = 1
-  let lastPassingNo = 1
+  // let lastPassingNo = 1
   try {
     await Passing.deleteMany({})
     await Lap.deleteMany({})
@@ -78,14 +78,16 @@ export const triggerLapSimulation = async (eventId) => {
         await processNewPassings(data.passings, currentIO)
         const last = data.passings[data.passings.length - 1]
         lastFileNo = last.FileNo
-        lastPassingNo = last.PassingNo + 1
+        // lastPassingNo = last.PassingNo + 1
       }
       console.log(`[Dev Trigger] Processed ${data.passings?.length || 0} simulated passings.`)
-    } else {
+    }
+    else {
       console.warn('[Dev Trigger] Not in mock mode, skipping simulated passings processing.')
     }
     return { success: true, processed: lastFileNo }
-  } catch (err) {
+  }
+  catch (err) {
     console.error('[Dev Trigger] Failed to reset and process simulated passings:', err)
     return { success: false, error: err.message }
   }

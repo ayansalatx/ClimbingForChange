@@ -10,12 +10,12 @@ import {
   TableCell,
   TableRow,
 } from '@mui/material'
+import LinearProgress from '@mui/material/LinearProgress'
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import theme from '../../../../styles/theme'
 import { formatDurationTimeHours, formatDurationTimeMinutes } from '../../../../utils/formatDurationTime'
-import LinearProgress from '@mui/material/LinearProgress'
 
 const CollapsibleRow = ({ team, index, columns, participants }) => {
   const navigate = useNavigate()
@@ -140,8 +140,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
           // Small screen columns
           let value
           switch (column.id) {
-            case 'currentElevation':
-              // Show current elevation, total elevation, and progress percent
+            case 'currentElevation': {
               const percent = team.progressPercent !== undefined ? team.progressPercent : (totalElevation ? Math.round((currentElevation / totalElevation) * 1000) / 10 : 0)
               value = (
                 <Box sx={{ minWidth: 80 }}>
@@ -154,11 +153,12 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
                   <LinearProgress
                     variant="determinate"
                     value={Math.min(percent, 100)}
-                    sx={{ height: 6, borderRadius: 3, mt: 0.5, background: alpha(theme.palette.primary.main, 0.15), '& .MuiLinearProgress-bar': { backgroundColor: theme.palette.secondary.main } }}
+                    sx={{ 'height': 6, 'borderRadius': 3, 'mt': 0.5, 'background': alpha(theme.palette.primary.main, 0.15), '& .MuiLinearProgress-bar': { backgroundColor: theme.palette.secondary.main } }}
                   />
                 </Box>
               )
               break
+            }
             case 'laps':
               value = `${lapsCompleted} / ${lapsRequired}`
               break

@@ -1,10 +1,9 @@
-import { bibToTeamMap, triggerLapSimulation } from '../utils/serverState.js'
+import { bibToTeamMap } from '../utils/serverState.js'
 
 import Passing from '../models/passing.js'
 import Lap from '../models/lap.js'
 import Team from '../models/team.js'
 import Event from '../models/event.js'
-import config from '../utils/config.js'
 import { createLapAndEmitStats } from '../services/lapService.js'
 
 async function processNewPassings(newPassings, io) {
@@ -410,7 +409,7 @@ export const runSimulation = async (req, res) => {
   try {
     const { eventId } = req.params
     const io = req.app.get('io')
-    console.log("🚀 ~ runSimulation ~ eventId:", eventId)
+    console.log('🚀 ~ runSimulation ~ eventId:', eventId)
     if (!eventId) {
       return res.status(400).json({ error: 'Missing eventId' })
     }
@@ -455,7 +454,8 @@ export const runSimulation = async (req, res) => {
     }
     await processNewPassings(passings, io)
     return res.json({ message: `Simulated laps created for event ${eventId}`, teams: teams.length, lapsPerTeam: teams.map(t => t.lapsRequired || 1) })
-  } catch (err) {
+  }
+  catch (err) {
     console.error('[Simulation Error]', err)
     return res.status(500).json({ error: err.message })
   }

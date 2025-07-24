@@ -4,7 +4,6 @@ import csv from 'csvtojson'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
 import Team from '../models/team.js'
-import mongoose from 'mongoose'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -199,7 +198,6 @@ const initializeMockData = async () => {
 }
 
 router.get('/getpassings', (req, res) => {
-  const all = req.query.all === 'true'
   const eventId = req.query.eventId
   let filteredPassings = allSimulatedPassings
 
@@ -207,7 +205,7 @@ router.get('/getpassings', (req, res) => {
   if (eventId) {
     // const Team = require('../models/team.js').default
     // const mongoose = require('mongoose')
-    Team.find({ event: eventId }).populate('rfidTag').then(teams => {
+    Team.find({ event: eventId }).populate('rfidTag').then((teams) => {
       const bibs = teams.map(t => t.rfidTag && t.rfidTag.serialNumber).filter(Boolean)
       filteredPassings = allSimulatedPassings.filter(p => bibs.includes(p.Code))
       return sendFilteredPassings(req, res, filteredPassings)
@@ -228,7 +226,7 @@ function sendFilteredPassings(req, res, filteredPassings) {
   const fromFile = req.query.fromFile ? parseInt(req.query.fromFile, 10) : 1
   const fromDetection = req.query.fromDetection ? parseInt(req.query.fromDetection, 10) : 1
   const amount = req.query.amount ? parseInt(req.query.amount, 10) : 1000
-  let filtered = filteredPassings.filter(p => {
+  let filtered = filteredPassings.filter((p) => {
     if (p.FileNo > fromFile) return true
     if (p.FileNo === fromFile && p.PassingNo >= fromDetection) return true
     return false

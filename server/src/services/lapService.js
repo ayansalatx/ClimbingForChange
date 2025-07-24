@@ -44,7 +44,8 @@ async function calculateLapStats(teamId) {
       progressPercent,
     }
     return stats
-  } catch (err) {
+  }
+  catch (err) {
     console.error('[lapStatsUpdate] Error calculating stats for team', teamId, err)
     return null
   }
@@ -85,12 +86,14 @@ export async function createLapAndEmitStats(lapData, io) {
     const stats = await calculateLapStats(teamId)
     if (stats) {
       io.emit('lapStatsUpdate', stats)
-    } else {
+    }
+    else {
       console.log('[lapStatsUpdate] No stats to emit for team:', teamId)
     }
     return savedLap
-  } catch (err) {
+  }
+  catch (err) {
     console.error('[lapStatsUpdate] Error in createLapAndEmitStats:', err)
     throw err
   }
-} 
+}

@@ -16,13 +16,13 @@ import {
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 
+import { runSimulatedPassings } from '../../../../services/leaderboardService'
 import theme from '../../../../styles/theme'
 import EventSelector from '../../shared/EventSelector'
 import ProgressSearch from '../../shared/ProgressSearch'
 import FullscreenToggleButton from './FullscreenToggleButton'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
-import { runSimulatedPassings } from '../../../../services/leaderboardService'
 
 const ProgressTable = ({
   columns,
