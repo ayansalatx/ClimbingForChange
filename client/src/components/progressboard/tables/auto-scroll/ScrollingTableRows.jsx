@@ -9,6 +9,7 @@ import { Fragment } from 'react'
 
 import theme from '../../../../styles/theme'
 import { formatDurationTimeHours, formatDurationTimeMinutes } from '../../../../utils/formatDurationTime'
+import LinearProgress from '@mui/material/LinearProgress'
 
 const ScrollingTableRow = ({ teams, columns, shouldScroll }) => {
   const isLarge = useMediaQuery(theme.breakpoints.up('lg'))
@@ -48,8 +49,23 @@ const ScrollingTableRow = ({ teams, columns, shouldScroll }) => {
                 value = '-'
               }
 
-              if (column.id === 'elevation') {
-                value = `${team.currentElevation} / ${team.totalElevation}`
+              if (column.id === 'elevation' || column.id === 'currentElevation') {
+                const percent = team.progressPercent !== undefined ? team.progressPercent : (team.totalElevation ? Math.round((team.currentElevation / team.totalElevation) * 1000) / 10 : 0)
+                value = (
+                  <div>
+                    <span>{team.currentElevation}</span>
+                    {team.totalElevation > 0 && Number.isFinite(percent) && team.lapsCompleted > 1 && (
+                      <>
+                        <span style={{ color: 'inherit', fontWeight: 'bold', marginLeft: 4 }}>{`(${percent}%)`}</span>
+                        <LinearProgress
+                          variant="determinate"
+                          value={Math.min(percent, 100)}
+                          sx={{ height: 6, borderRadius: 3, mt: 0.5, background: alpha(theme.palette.primary.main, 0.15), '& .MuiLinearProgress-bar': { backgroundColor: theme.palette.secondary.main } }}
+                        />
+                      </>
+                    )}
+                  </div>
+                )
               }
               else if (column.id === 'laps') {
                 value = `${team.lapsCompleted} / ${team.lapsRequired}`

@@ -40,7 +40,7 @@ const lgColumns = [
 const mdColumns = [
   { id: 'name', label: 'Team', width: '29%' },
   { id: 'mountainName', label: 'Mount.', width: '12%' },
-  { id: 'elevation', label: 'Elev.', width: '18%' },
+  { id: 'currentElevation', label: 'Elev.', width: '18%' },
   { id: 'laps', label: 'Laps', width: '12%' },
   { id: 'lapsToGo', label: 'To Go', width: '7%' },
   { id: 'bestLap', label: 'Best Lap', width: '10%' },
@@ -50,7 +50,7 @@ const mdColumns = [
 const smColumns = [
   { id: 'name', label: 'Team', width: '33%' },
   { id: 'mountainName', label: 'Mount.', width: '14%' },
-  { id: 'elevation', label: 'Elevation', width: '20%' },
+  { id: 'currentElevation', label: 'Elevation', width: '20%' },
   { id: 'laps', label: 'Laps', width: '13%' },
   { id: 'lapsToGo', label: 'To Go', width: '10%' },
   { id: 'timeElapsed', label: 'Time', width: '10%' },
@@ -59,7 +59,7 @@ const smColumns = [
 const xsmColumns = [
   { id: 'name', label: 'Team', width: '33%' },
   { id: 'mountainName', label: 'Mount.', width: '14%' },
-  { id: 'elevation', label: 'Elev.', width: '20%' },
+  { id: 'currentElevation', label: 'Elev.', width: '20%' },
   { id: 'laps', label: 'Laps', width: '13%' },
   { id: 'lapsToGo', label: 'To Go', width: '10%' },
   { id: 'timeElapsed', label: 'Time', width: '10%' },

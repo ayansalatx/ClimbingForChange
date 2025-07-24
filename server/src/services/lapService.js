@@ -19,7 +19,7 @@ async function calculateLapStats(teamId) {
       if (!best || (lap.lapDuration < best.lapDuration)) return lap
       return best
     }, null)
-    const lapsRequired = team.lapsRequired || (mountain && hill ? Math.ceil(mountain.totalElevation / hill.lapElevationGain) : null)
+    const lapsRequired = team.lapsRequired || (mountain && hill ? Math.floor(mountain.totalElevation / hill.lapElevationGain) : null)
     const lapsToGo = lapsRequired !== null ? Math.max(0, lapsRequired - totalLaps) : null
     let timeElapsed = null
     if (laps.length > 0) {
@@ -28,7 +28,9 @@ async function calculateLapStats(teamId) {
       const end = sortedLaps[sortedLaps.length - 1].endDateTime
       timeElapsed = end - start
     }
-    const currentElevation = hill && totalLaps ? totalLaps * (hill.lapElevationGain || 0) : 0
+    const currentElevationRaw = hill && totalLaps ? totalLaps * (hill.lapElevationGain || 0) : 0
+    const currentElevation = mountain && mountain.totalElevation ? Math.min(currentElevationRaw, mountain.totalElevation) : currentElevationRaw
+    const progressPercent = mountain && mountain.totalElevation ? Math.round((currentElevation / mountain.totalElevation) * 1000) / 10 : 0
     const stats = {
       teamId: teamId.toString(),
       eventId,
@@ -39,6 +41,7 @@ async function calculateLapStats(teamId) {
       lapsToGo,
       timeElapsed,
       currentElevation,
+      progressPercent,
     }
     return stats
   } catch (err) {

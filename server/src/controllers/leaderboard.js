@@ -418,6 +418,9 @@ export const runSimulation = async (req, res) => {
     if (!teams.length) {
       return res.status(404).json({ error: 'No teams found for event' })
     }
+    // Reset all laps for these teams before simulating
+    const teamIds = teams.map(t => t._id)
+    await Lap.deleteMany({ team: { $in: teamIds } })
     const passings = []
     const now = Date.now()
     const LAP_INTERVAL_MS = 1000 * 60 * 10
