@@ -105,3 +105,29 @@ export async function pollForNewData() {
     isPolling = false
   }
 }
+
+// Add a function to reset laps/passings and reprocess all simulated passings (for dev trigger)
+export const triggerLapSimulation = async () => {
+  console.log('[Dev Trigger] Resetting all laps and passings, and reprocessing simulated passings...')
+  try {
+    await Passing.deleteMany({})
+    await Lap.deleteMany({})
+    lastReceivedIndex = 0 
+    if (process.env.API_MODE === 'mock') {
+      const mockApiUrl = `http://localhost:${config.PORT}/mock-api/getpassings?fromIndex=0&all=true`
+      const response = await fetch(mockApiUrl)
+      const data = await response.json()
+      if (data.passings && data.passings.length > 0) {
+        await processNewPassings(data.passings)
+        lastReceivedIndex = data.lastIndex || data.passings.length
+      }
+      console.log(`[Dev Trigger] Processed ${data.passings?.length || 0} simulated passings.`)
+    } else {
+      console.warn('[Dev Trigger] Not in mock mode, skipping simulated passings processing.')
+    }
+    return { success: true, processed: lastReceivedIndex }
+  } catch (err) {
+    console.error('[Dev Trigger] Failed to reset and process simulated passings:', err)
+    return { success: false, error: err.message }
+  }
+}

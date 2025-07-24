@@ -199,11 +199,18 @@ const initializeMockData = async () => {
 
 router.get('/getpassings', (req, res) => {
   const fromIndex = req.query.fromIndex ? parseInt(req.query.fromIndex, 10) : 0
-  const newPassings = allSimulatedPassings.slice(fromIndex, nextPassingIndex)
-
+  const all = req.query.all === 'true'
+  let newPassings, lastIndex
+  if (all) {
+    newPassings = allSimulatedPassings
+    lastIndex = allSimulatedPassings.length
+  } else {
+    newPassings = allSimulatedPassings.slice(fromIndex, nextPassingIndex)
+    lastIndex = nextPassingIndex
+  }
   res.json({
     passings: newPassings,
-    lastIndex: nextPassingIndex,
+    lastIndex: lastIndex,
   })
 })
 
