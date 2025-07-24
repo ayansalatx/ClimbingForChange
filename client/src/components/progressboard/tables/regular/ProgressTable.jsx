@@ -112,81 +112,85 @@ const ProgressTable = ({
           scrollbarColor: `${alpha(theme.palette.background.paper, 0.7)} ${alpha(theme.palette.primary.main, 0.3)}`,
         }}
       >
-        {loading ? (
-          <Table stickyHeader sx={{ height: '100%' }}>
-            <TableHeaderRow columns={columns} />
-            <TableBody
-              sx={{
-                height: '100%',
-                background: `linear-gradient(to right, ${alpha(theme.palette.background.paper, 0.6)}, ${alpha(theme.palette.background.paper, 0.2)}, ${alpha(theme.palette.background.paper, 0.6)})`,
-              }}
-            >
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length + 1}
-                  align="center"
-                  sx={{ border: 'none' }}
-                >
-                  <CircularProgress color="primary" />
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        ) : teamsLength > 0 ? (
-          <Table
-            stickyHeader
-            aria-label="team/participant progress table"
-            sx={{
-              '& td, & th': {
-                border: 'none',
-              },
-            }}
-          >
-            <TableHeaderRow columns={columns} />
-            <TableDataRows
-              eventId={selectedEvent}
-              columns={columns}
-              teams={teams}
-              page={page}
-              rowsPerPage={displayedRowsPerPage}
-            />
-          </Table>
-        ) : (
-          <Table stickyHeader sx={{ height: '100%' }}>
-            <TableHeaderRow columns={columns} />
-            <TableBody
-              sx={{
-                height: '100%',
-                background: `linear-gradient(to right, ${alpha(theme.palette.background.paper, 0.6)}, ${alpha(theme.palette.background.paper, 0.2)}, ${alpha(theme.palette.background.paper, 0.6)})`,
-              }}
-            >
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length + 1}
-                  align="center"
-                  sx={{ border: 'none' }}
-                >
-                  <HikingIcon
-                    sx={{
-                      fontSize: '6rem',
-                      color: 'secondary.main',
-                    }}
-                  />
-                  <Typography fontSize="2rem" color="background.paper">
-                    No teams climbing yet...
-                  </Typography>
-                  <Typography
-                    fontSize="1.4rem"
-                    lineHeight="1.5rem"
-                    color="background.paper"
+        {loading
+          ? (
+            <Table stickyHeader sx={{ height: '100%' }}>
+              <TableHeaderRow columns={columns} />
+              <TableBody
+                sx={{
+                  height: '100%',
+                  background: `linear-gradient(to right, ${alpha(theme.palette.background.paper, 0.6)}, ${alpha(theme.palette.background.paper, 0.2)}, ${alpha(theme.palette.background.paper, 0.6)})`,
+                }}
+              >
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length + 1}
+                    align="center"
+                    sx={{ border: 'none' }}
                   >
-                    Check back later!
-                  </Typography>
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        )}
+                    <CircularProgress color="primary" />
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          )
+          : teamsLength > 0
+            ? (
+              <Table
+                stickyHeader
+                aria-label="team/participant progress table"
+                sx={{
+                  '& td, & th': {
+                    border: 'none',
+                  },
+                }}
+              >
+                <TableHeaderRow columns={columns} />
+                <TableDataRows
+                  eventId={selectedEvent}
+                  columns={columns}
+                  teams={teams}
+                  page={page}
+                  rowsPerPage={displayedRowsPerPage}
+                />
+              </Table>
+            )
+            : (
+              <Table stickyHeader sx={{ height: '100%' }}>
+                <TableHeaderRow columns={columns} />
+                <TableBody
+                  sx={{
+                    height: '100%',
+                    background: `linear-gradient(to right, ${alpha(theme.palette.background.paper, 0.6)}, ${alpha(theme.palette.background.paper, 0.2)}, ${alpha(theme.palette.background.paper, 0.6)})`,
+                  }}
+                >
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length + 1}
+                      align="center"
+                      sx={{ border: 'none' }}
+                    >
+                      <HikingIcon
+                        sx={{
+                          fontSize: '6rem',
+                          color: 'secondary.main',
+                        }}
+                      />
+                      <Typography fontSize="2rem" color="background.paper">
+                        No teams climbing yet...
+                      </Typography>
+                      <Typography
+                        fontSize="1.4rem"
+                        lineHeight="1.5rem"
+                        color="background.paper"
+                      >
+                        Check back later!
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            )}
       </TableContainer>
       <Box
         sx={{
@@ -209,14 +213,14 @@ const ProgressTable = ({
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
             sx={{
-              minHeight: {
+              'minHeight': {
                 sm: '2.5rem',
                 md: '2.75rem',
                 lg: '3rem',
                 xl: '3.25rem',
               },
-              background: 'transparent',
-              color: 'background.paper',
+              'background': 'transparent',
+              'color': 'background.paper',
               '& .MuiSvgIcon-root': {
                 fontSize: {
                   sm: '1rem',

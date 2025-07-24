@@ -42,7 +42,7 @@ const ProgressIndicator = ({ progress, label, color, shadow }) => {
             variant="determinate"
             value={100}
             thickness={5}
-            size={'100%'}
+            size="100%"
             sx={{
               width: '100%',
               height: '100%',
@@ -54,15 +54,15 @@ const ProgressIndicator = ({ progress, label, color, shadow }) => {
             variant="determinate"
             value={progress}
             thickness={5}
-            size={'100%'}
+            size="100%"
             sx={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              color: color,
-              filter: shadow,
+              'position': 'absolute',
+              'top': 0,
+              'left': 0,
+              'width': '100%',
+              'height': '100%',
+              'color': color,
+              'filter': shadow,
               '& .MuiCircularProgress-circle': {
                 strokeLinecap: 'round',
               },

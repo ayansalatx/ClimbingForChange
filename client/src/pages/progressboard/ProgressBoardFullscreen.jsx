@@ -76,13 +76,17 @@ const ProgressBoardFullscreen = () => {
   let columns
   if (isXLarge) {
     columns = xlColumns
-  } else if (isLarge) {
+  }
+  else if (isLarge) {
     columns = lgColumns
-  } else if (isMedium) {
+  }
+  else if (isMedium) {
     columns = mdColumns
-  } else if (isSmall) {
+  }
+  else if (isSmall) {
     columns = smColumns
-  } else {
+  }
+  else {
     columns = xsmColumns
   }
 
@@ -118,9 +122,11 @@ const ProgressBoardFullscreen = () => {
         const teamsForDisplay = await getLeaderboard(eventId)
 
         setTeams(teamsForDisplay)
-      } catch {
+      }
+      catch {
         showWarning()
-      } finally {
+      }
+      finally {
         setLoading(false)
       }
     }
@@ -136,8 +142,8 @@ const ProgressBoardFullscreen = () => {
 
   // Listen for lap updates on socket
   useEffect(() => {
-    const socketURL =
-      import.meta.env.VITE_SOCKET_SERVER_URL || 'http://localhost:5001'
+    const socketURL
+      = import.meta.env.VITE_SOCKET_SERVER_URL || 'http://localhost:5001'
     socketRef.current = io(socketURL)
 
     const handleLapUpdate = (change) => {
@@ -171,7 +177,8 @@ const ProgressBoardFullscreen = () => {
             updatedLap,
             ...laps.slice(lapIndex + 1),
           ]
-        } else {
+        }
+        else {
           newLaps = [...laps, updatedLap]
         }
 
@@ -285,8 +292,8 @@ const ProgressBoardFullscreen = () => {
               <Typography
                 variant="h1"
                 color="secondary.main"
-                fontWeight={'bold'}
-                textTransform={'uppercase'}
+                fontWeight="bold"
+                textTransform="uppercase"
                 sx={{
                   fontSize: {
                     xxs: '1.3rem',
@@ -330,8 +337,8 @@ const ProgressBoardFullscreen = () => {
       </Box>
       <WarningDialog
         open={warningOpen}
-        title={'Data Loading Error'}
-        message={'Data for event is not loading.'}
+        title="Data Loading Error"
+        message="Data for event is not loading."
         onCancel={() => {
           setWarningOpen(false)
           navigate('/progress', { replace: true })

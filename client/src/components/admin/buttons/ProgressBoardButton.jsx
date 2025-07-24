@@ -21,109 +21,111 @@ const ProgressBoardButton = ({ liveEventExists }) => {
         borderRadius: '5px',
       }}
     >
-      {liveEventExists ? (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            px: 1,
-            gap: 1,
-          }}
-        >
-          <WifiIcon
+      {liveEventExists
+        ? (
+          <Box
             sx={{
-              color: 'secondary.main',
-              fontSize: {
-                xxs: '1.2rem',
-                md: '1.4rem',
-                lg: '1.5rem',
-                xl: '2rem',
-              },
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              px: 1,
+              gap: 1,
             }}
-          />
-          <Box sx={{ px: { xxs: 0.75, lg: 1 }, py: { xxs: 0.2, lg: 0.5 } }}>
-            <Typography
-              variant="h6"
-              color="secondary.main"
-              textTransform="uppercase"
-              fontWeight="bold"
-              letterSpacing="0.1rem"
-              lineHeight={{
-                xxs: '1rem',
-                md: '1.3rem',
-                lg: '1.45rem',
-                xl: '1.75rem',
+          >
+            <WifiIcon
+              sx={{
+                color: 'secondary.main',
+                fontSize: {
+                  xxs: '1.2rem',
+                  md: '1.4rem',
+                  lg: '1.5rem',
+                  xl: '2rem',
+                },
               }}
-              fontSize={{
-                xxs: '1rem',
-                md: '1.3rem',
-                lg: '1.45rem',
-                xl: '1.75rem',
-              }}
-            >
-              Live Event
-            </Typography>
-          </Box>
+            />
+            <Box sx={{ px: { xxs: 0.75, lg: 1 }, py: { xxs: 0.2, lg: 0.5 } }}>
+              <Typography
+                variant="h6"
+                color="secondary.main"
+                textTransform="uppercase"
+                fontWeight="bold"
+                letterSpacing="0.1rem"
+                lineHeight={{
+                  xxs: '1rem',
+                  md: '1.3rem',
+                  lg: '1.45rem',
+                  xl: '1.75rem',
+                }}
+                fontSize={{
+                  xxs: '1rem',
+                  md: '1.3rem',
+                  lg: '1.45rem',
+                  xl: '1.75rem',
+                }}
+              >
+                Live Event
+              </Typography>
+            </Box>
 
-          <ExitToAppIcon
-            sx={{
-              color: 'background.paper',
-              fontSize: {
-                xxs: '1.2rem',
-                md: '1.4rem',
-                lg: '1.5rem',
-                xl: '1.6rem',
-              },
-            }}
-          />
-        </Box>
-      ) : (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Box sx={{ px: { xxs: 0.75, lg: 1 }, py: { xxs: 0.2, lg: 0.5 } }}>
-            <Typography
-              variant="h6"
-              color="background.paper"
-              textTransform="uppercase"
-              fontWeight="bold"
-              letterSpacing="0.1rem"
-              lineHeight={{
-                xxs: '1rem',
-                md: '1.3rem',
-                lg: '1.45rem',
-                xl: '1.75rem',
+            <ExitToAppIcon
+              sx={{
+                color: 'background.paper',
+                fontSize: {
+                  xxs: '1.2rem',
+                  md: '1.4rem',
+                  lg: '1.5rem',
+                  xl: '1.6rem',
+                },
               }}
-              fontSize={{
-                xxs: '1rem',
-                md: '1.3rem',
-                lg: '1.45rem',
-                xl: '1.75rem',
-              }}
-            >
-              Progress Board
-            </Typography>
+            />
           </Box>
-          <HikingIcon
+        )
+        : (
+          <Box
             sx={{
-              color: 'secondary.main',
-              fontSize: {
-                xxs: '1.2rem',
-                md: '1.4rem',
-                lg: '1.5rem',
-                xl: '1.75rem',
-              },
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
-          />
-        </Box>
-      )}
+          >
+            <Box sx={{ px: { xxs: 0.75, lg: 1 }, py: { xxs: 0.2, lg: 0.5 } }}>
+              <Typography
+                variant="h6"
+                color="background.paper"
+                textTransform="uppercase"
+                fontWeight="bold"
+                letterSpacing="0.1rem"
+                lineHeight={{
+                  xxs: '1rem',
+                  md: '1.3rem',
+                  lg: '1.45rem',
+                  xl: '1.75rem',
+                }}
+                fontSize={{
+                  xxs: '1rem',
+                  md: '1.3rem',
+                  lg: '1.45rem',
+                  xl: '1.75rem',
+                }}
+              >
+                Progress Board
+              </Typography>
+            </Box>
+            <HikingIcon
+              sx={{
+                color: 'secondary.main',
+                fontSize: {
+                  xxs: '1.2rem',
+                  md: '1.4rem',
+                  lg: '1.5rem',
+                  xl: '1.75rem',
+                },
+              }}
+            />
+          </Box>
+        )}
     </Button>
   )
 }

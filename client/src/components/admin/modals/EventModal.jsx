@@ -98,7 +98,8 @@ const AddEventModal = ({
       const selectedMountains = getMountainIdsByName(mountainNames, mountains)
       setMountainSelection(selectedMountains)
       setIsActive(eventToEdit.active)
-    } else {
+    }
+    else {
       setIsActive(true)
       setMountainSelection([])
     }
@@ -234,10 +235,10 @@ const AddEventModal = ({
           <Box sx={{ display: 'flex', gap: 2 }}>
             <TextField
               fullWidth
-              label='Start Time'
-              type='time'
-              variant='outlined'
-              margin='normal'
+              label="Start Time"
+              type="time"
+              variant="outlined"
+              margin="normal"
               value={startTime}
               onChange={(e) => setStartTime(e.target.value)}
               InputLabelProps={{ shrink: true }}
@@ -246,9 +247,9 @@ const AddEventModal = ({
 
             <TextInput
               fullWidth
-              label='Duration (hours)'
-              type='number'
-              margin='normal'
+              label="Duration (hours)"
+              type="number"
+              margin="normal"
               value={duration}
               onChange={(e) => setDuration(e.target.value)}
               required
@@ -259,7 +260,7 @@ const AddEventModal = ({
             <CancelButton onClick={onModalClose} color="red" />
             <SaveButton type="submit" label={eventToEdit ? 'Save' : 'Create'} />
           </Box>
-          
+
         </form>
       </Box>
     </Modal>

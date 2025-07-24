@@ -25,12 +25,12 @@ const CarouselLeftArrow = ({ onClick }) => (
       onClick()
     }}
     sx={{
-      position: 'absolute',
-      left: 0,
-      top: '40%',
-      zIndex: 10,
-      p: 0.25,
-      color: 'background.paper',
+      'position': 'absolute',
+      'left': 0,
+      'top': '40%',
+      'zIndex': 10,
+      'p': 0.25,
+      'color': 'background.paper',
       '&:hover': {
         color: 'secondary.main',
       },
@@ -51,12 +51,12 @@ const CarouselRightArrow = ({ onClick }) => (
       onClick()
     }}
     sx={{
-      position: 'absolute',
-      right: 0,
-      top: '40%',
-      zIndex: 10,
-      p: 0.25,
-      color: 'background.paper',
+      'position': 'absolute',
+      'right': 0,
+      'top': '40%',
+      'zIndex': 10,
+      'p': 0.25,
+      'color': 'background.paper',
       '&:hover': {
         color: 'secondary.main',
       },

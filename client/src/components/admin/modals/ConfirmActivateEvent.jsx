@@ -26,15 +26,15 @@ const ConfirmActivateEvent = ({ open, onCancel, onConfirm }) => {
       onClose={onCancel}
       aria-describedby="confirm-activate-dialog"
     >
-      <DialogTitle>{'Confirm Activation'}</DialogTitle>
+      <DialogTitle>Confirm Activation</DialogTitle>
       <DialogContent sx={{ py: 0 }}>
         <DialogContentText id="confirm-activate-dialog-description">
           Are you sure you want to activate this event?
         </DialogContentText>
       </DialogContent>
       <DialogActions sx={{ display: 'flex', justifyContent: 'space-between', px: 3, py: 3 }}>
-        <CancelButton onClick={onCancel} color={'gray'} />
-        <SaveButton onClick={onConfirm} label={'Activate'} />
+        <CancelButton onClick={onCancel} color="gray" />
+        <SaveButton onClick={onConfirm} label="Activate" />
       </DialogActions>
     </Dialog>
   )

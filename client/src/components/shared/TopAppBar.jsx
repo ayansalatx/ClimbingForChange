@@ -55,10 +55,10 @@ const TopAppBar = ({ onMenuClick, onLogout }) => (
           variant="outlined"
           size="med"
           sx={{
-            px: '1.5rem',
-            py: '.25rem',
-            letterSpacing: '.075rem',
-            borderWidth: '2px',
+            'px': '1.5rem',
+            'py': '.25rem',
+            'letterSpacing': '.075rem',
+            'borderWidth': '2px',
             '&:hover': {
               color: 'info.main',
               borderColor: 'info.main',

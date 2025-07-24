@@ -13,11 +13,11 @@ const LapDataRows = ({ rows = [], columns = [], page, rowsPerPage }) => {
           return (
             <TableRow
               hover
-              role='checkbox'
+              role="checkbox"
               tabIndex={-1}
               key={row.id || index}
               sx={{
-                backgroundColor: isEven
+                'backgroundColor': isEven
                   ? alpha(theme.palette.background.paper, 0.05)
                   : alpha(theme.palette.background.paper, 0.15),
                 '&:hover > *': {
@@ -39,19 +39,25 @@ const LapDataRows = ({ rows = [], columns = [], page, rowsPerPage }) => {
                       color: 'background.paper',
                     }}
                   >
-                    {column.id === 'completed' ? (
-                      row.completed ? (
-                        <LapCompletedIcon
-                          sx={{
-                            color: 'secondary.main',
-                          }}
-                        />
-                      ) : null
-                    ) : column.format && typeof value === 'number' ? (
-                      column.format(value)
-                    ) : (
-                      value
-                    )}
+                    {column.id === 'completed'
+                      ? (
+                        row.completed
+                          ? (
+                            <LapCompletedIcon
+                              sx={{
+                                color: 'secondary.main',
+                              }}
+                            />
+                          )
+                          : null
+                      )
+                      : column.format && typeof value === 'number'
+                        ? (
+                          column.format(value)
+                        )
+                        : (
+                          value
+                        )}
                   </TableCell>
                 )
               })}

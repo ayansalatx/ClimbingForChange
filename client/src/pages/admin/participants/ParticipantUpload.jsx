@@ -98,7 +98,8 @@ const ParticipantUpload = () => {
           )
         },
       })
-    } else {
+    }
+    else {
       displayAlert('Loading Error', 'Not a csv file.', 'error')
       event.target.value = ''
       return
@@ -122,7 +123,8 @@ const ParticipantUpload = () => {
       setRows([])
       setSelectedFile(selectedFile)
       navigate('/admin/participants')
-    } catch (error) {
+    }
+    catch (error) {
       setIsLoading(false)
       displayAlert('Error', `Upload fail ${error.message}.`, 'error')
     }
@@ -247,11 +249,11 @@ const ParticipantUpload = () => {
                       displayEmpty
                       required
                       sx={{
-                        textAlign: 'left',
-                        borderRadius: '3px',
-                        border: `2px solid ${theme.palette.primary.main}`,
-                        color: 'primary.light',
-                        fontSize: '1rem',
+                        'textAlign': 'left',
+                        'borderRadius': '3px',
+                        'border': `2px solid ${theme.palette.primary.main}`,
+                        'color': 'primary.light',
+                        'fontSize': '1rem',
                         '&:before, &:after': {
                           borderBottom: 'none !important',
                         },
@@ -289,9 +291,9 @@ const ParticipantUpload = () => {
                           value={event.id}
                           key={event.id}
                           sx={{
-                            fontSize: '1.25rem',
-                            minHeight: { xxs: 'unset', xs: 'unset', sm: 0 },
-                            color: 'primary.main',
+                            'fontSize': '1.25rem',
+                            'minHeight': { xxs: 'unset', xs: 'unset', sm: 0 },
+                            'color': 'primary.main',
                             '&:hover': {
                               backgroundColor: alpha(
                                 theme.palette.secondary.main,
@@ -324,11 +326,11 @@ const ParticipantUpload = () => {
                       displayEmpty
                       required
                       sx={{
-                        textAlign: 'left',
-                        borderRadius: '3px',
-                        border: `2px solid ${theme.palette.primary.main}`,
-                        color: 'primary.light',
-                        fontSize: '1rem',
+                        'textAlign': 'left',
+                        'borderRadius': '3px',
+                        'border': `2px solid ${theme.palette.primary.main}`,
+                        'color': 'primary.light',
+                        'fontSize': '1rem',
                         '&:before, &:after': {
                           borderBottom: 'none !important',
                         },
@@ -366,9 +368,9 @@ const ParticipantUpload = () => {
                           value={hill.id}
                           key={hill.id}
                           sx={{
-                            fontSize: '1.25rem',
-                            minHeight: { xxs: 'unset', xs: 'unset', sm: 0 },
-                            color: 'primary.main',
+                            'fontSize': '1.25rem',
+                            'minHeight': { xxs: 'unset', xs: 'unset', sm: 0 },
+                            'color': 'primary.main',
                             '&:hover': {
                               backgroundColor: alpha(
                                 theme.palette.secondary.main,
@@ -400,7 +402,7 @@ const ParticipantUpload = () => {
                     <FormControlLabel
                       disabled={!selectedEventId}
                       sx={{ color: 'primary.main' }}
-                      control={
+                      control={(
                         <Checkbox
                           value={overwrite}
                           onChange={(event) => {
@@ -408,8 +410,8 @@ const ParticipantUpload = () => {
                           }}
                           sx={{ color: 'primary.main', borderRadius: '4px' }}
                         />
-                      }
-                      label={
+                      )}
+                      label={(
                         <Typography
                           sx={{
                             fontSize: '1rem',
@@ -421,7 +423,7 @@ const ParticipantUpload = () => {
                         >
                           Overwrite
                         </Typography>
-                      }
+                      )}
                     />
                   </FormGroup>
                 </Box>
@@ -447,66 +449,70 @@ const ParticipantUpload = () => {
               </Box>
             </Box>
           </Box>
-          {rows.length > 0 ? (
-            <Box sx={{ flexGrow: 1, minHeight: 0, width: '100%' }}>
-              <TableContainer
-                component={Paper}
-                sx={{ maxHeight: '100%', overflowY: 'auto' }}
-              >
-                <Table size="small" stickyHeader>
-                  <TableHead>
-                    <TableRow
-                      sx={{
-                        '& th': {
-                          backgroundColor: 'primary.light', // MUI blue
-                          color: 'background.paper', // white text
-                        },
-                      }}
-                    >
-                      <TableCell>Participant ID</TableCell>
-                      <TableCell>First Name</TableCell>
-                      <TableCell>Last Name</TableCell>
-                      <TableCell>Sub Event</TableCell>
-                      <TableCell>Team Name</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {rows.map((row) => (
+          {rows.length > 0
+            ? (
+              <Box sx={{ flexGrow: 1, minHeight: 0, width: '100%' }}>
+                <TableContainer
+                  component={Paper}
+                  sx={{ maxHeight: '100%', overflowY: 'auto' }}
+                >
+                  <Table size="small" stickyHeader>
+                    <TableHead>
                       <TableRow
-                        key={row.participantId}
                         sx={{
-                          '&:last-child td, &:last-child th': { border: 0 },
+                          '& th': {
+                            backgroundColor: 'primary.light', // MUI blue
+                            color: 'background.paper', // white text
+                          },
                         }}
                       >
-                        <TableCell component="th" scope="row">
-                          {row.participantId}
-                        </TableCell>
-                        <TableCell>{row.firstName}</TableCell>
-                        <TableCell>{row.lastName}</TableCell>
-                        <TableCell>{row.subEvent}</TableCell>
-                        <TableCell>{row.teamName}</TableCell>
+                        <TableCell>Participant ID</TableCell>
+                        <TableCell>First Name</TableCell>
+                        <TableCell>Last Name</TableCell>
+                        <TableCell>Sub Event</TableCell>
+                        <TableCell>Team Name</TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Box>
-          ) : (
-            <Box
-              sx={{
-                flexGrow: 1,
-                minHeight: 0,
-                width: '100%',
-                alignContent: 'center',
-                borderRadius: '5px',
-                backgroundColor: 'background.paper',
-              }}
-            >
-              <Typography variant="h6" sx={{ color: 'gray.main' }}>
-                Please select {selectedEventId ? 'a CSV file' : 'an Event'}
-              </Typography>
-            </Box>
-          )}
+                    </TableHead>
+                    <TableBody>
+                      {rows.map((row) => (
+                        <TableRow
+                          key={row.participantId}
+                          sx={{
+                            '&:last-child td, &:last-child th': { border: 0 },
+                          }}
+                        >
+                          <TableCell component="th" scope="row">
+                            {row.participantId}
+                          </TableCell>
+                          <TableCell>{row.firstName}</TableCell>
+                          <TableCell>{row.lastName}</TableCell>
+                          <TableCell>{row.subEvent}</TableCell>
+                          <TableCell>{row.teamName}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Box>
+            )
+            : (
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  minHeight: 0,
+                  width: '100%',
+                  alignContent: 'center',
+                  borderRadius: '5px',
+                  backgroundColor: 'background.paper',
+                }}
+              >
+                <Typography variant="h6" sx={{ color: 'gray.main' }}>
+                  Please select
+                  {' '}
+                  {selectedEventId ? 'a CSV file' : 'an Event'}
+                </Typography>
+              </Box>
+            )}
           <Box
             sx={{
               display: 'flex',
@@ -527,19 +533,23 @@ const ParticipantUpload = () => {
                 if (!selectedEventId || !selectedEventId) {
                   setEventError(!selectedEventId)
                   setHillError(!selectedHillId)
-                } else {
+                }
+                else {
                   setEventError(false)
                   setHillError(false)
 
                   if (overwrite) {
                     setOverwriteConfirmOpen(true)
-                  } else {
+                  }
+                  else {
                     handleUpload()
                   }
                 }
               }}
             >
-              <CloudUploadIcon /> Upload
+              <CloudUploadIcon />
+              {' '}
+              Upload
             </Button>
           </Box>
         </Box>

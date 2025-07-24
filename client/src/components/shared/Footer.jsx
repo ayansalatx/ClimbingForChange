@@ -34,7 +34,11 @@ const Footer = () => {
             align="center"
             sx={{ textAlign: { xs: 'center', sm: 'right' } }}
           >
-            © {new Date().getFullYear()} Climbing for Change.
+            ©
+            {' '}
+            {new Date().getFullYear()}
+            {' '}
+            Climbing for Change.
           </Typography>
           <Typography
             variant="body2"
