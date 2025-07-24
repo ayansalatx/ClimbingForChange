@@ -56,7 +56,7 @@ const RFIDManager = () => {
         serialNumber: tag.serialNumber,
         createdAt: new Date(tag.createdAt).toLocaleString(),
         updatedAt: new Date(tag.updatedAt).toLocaleString(),
-        active: true,
+        active: tag.active !== false, // Handle potential undefined active status
       }))
       setRfidData(processedTags)
     }
@@ -158,6 +158,9 @@ const RFIDManager = () => {
         tableData={rfidData}
         showInactive={showInactive}
         setShowInactive={setShowInactive}
+        eventsForDropdown={[]}
+        selectedEvent={null}
+        setSelectedEvent={() => {}}
         onAddClick={onAdd}
         onEditClick={onEdit}
         onDeleteClick={onDelete}

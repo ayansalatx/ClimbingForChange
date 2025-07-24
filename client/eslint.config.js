@@ -27,9 +27,9 @@ const stylisticRules = stylistic.configs.customize({
 })
 
 export default [
-  {
-    ignores: ['public', 'dist'],
-  },
+  { ignores: ['public', 'dist'] },
+
+  // Main app (browser environment)
   {
     files: ['**/*.{js,jsx}'],
     languageOptions: {
@@ -81,7 +81,6 @@ export default [
       
       //Don't lint
       '@stylistic/no-trailing-spaces': 'off',
-
       '@stylistic/multiline-ternary': 'off',
       '@stylistic/jsx-one-expression-per-line': 'off',
       '@stylistic/jsx-quotes': 'off',
@@ -93,5 +92,18 @@ export default [
       '@stylistic/jsx-wrap-multilines': 'off',
       '@stylistic/spaced-comment': 'off',
     },
+    
+  },
+
+  // Test files (Node environment)
+  {
+    files: ['src/tests/setupTests.js', '**/*.test.js', '**/*.spec.js'],
+    languageOptions: {
+      globals: {
+        ...globals.node, // Enable Node.js globals like `global`
+        ...globals.browser, // Also allow browser globals if needed
+      },
+    },
+    
   },
 ]
