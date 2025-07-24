@@ -12,6 +12,7 @@ const TableDataRows = ({
   activeOnChange,
   onEditClick,
   onDeleteClick,
+  toggleDisabled,
 }) => {
   const mountainsHref = '/admin/mountains'
   const hillsHref = '/admin/hills'
@@ -39,12 +40,13 @@ const TableDataRows = ({
               {columns.map((column) => {
                 const value = row[column.id] ?? ''
 
-                if (column.id === 'activeToggle') {
+                if (column.id === 'activeStatus') {
                   return (
                     <TableCell key={column.id} align={column.align || 'left'}>
                       <DeactivateToggle
                         checked={row.active}
-                        onChange={activeOnChange}
+                        onChange={() => activeOnChange(row)}
+                        disabled={toggleDisabled?.(row)}
                       />
                     </TableCell>
                   )

@@ -2,9 +2,9 @@ import { Event } from '@mui/icons-material'
 import { Box } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
 
-import ConfirmActivateEvent from '../../../components/admin/modals/ConfirmActivateEvent.jsx'
+import ConfirmActivateEvent from '../../../components/admin/modals/ConfirmActivateEvent'
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
-import ConfirmInactiveEvent from '../../../components/admin/modals/ConfirmInactiveEvent.jsx'
+import ConfirmInactiveEvent from '../../../components/admin/modals/ConfirmInactiveEvent'
 import AddEventModal from '../../../components/admin/modals/EventModal.jsx'
 import DataTable from '../../../components/admin/tables/DataTable.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
@@ -14,47 +14,40 @@ import {
   editEvent,
   getAllEvents,
 } from '../../../services/eventService.js'
+import { getAllHills } from '../../../services/hillService.js' 
 import { getAllLocations } from '../../../services/locationService.js'
 import { getAllMountains } from '../../../services/mountainService.js'
+import { formatDateTimeShortNoSec } from '../../../utils/formatDateTime.js' 
 
 const fullColumns = [
-  { id: 'eventName', label: 'Event', width: '34%', align: 'left' },
-  { id: 'location', label: 'Location', width: '12%', align: 'left' },
-  { id: 'start', label: 'Start-Time', width: '15%', align: 'left' },
-  { id: 'end', label: 'End-Time', width: '15%', align: 'left' },
-  { id: 'duration', label: 'Duration (hrs)', width: '12%', align: 'left' },
-  { id: 'mountains', label: 'Mountains', width: '14%', align: 'left' },
-  { id: 'activeStatus', label: 'Active', width: '12%', align: 'left' },
+  { id: 'eventName', label: 'Event', width: '30%', align: 'left' },
+  { id: 'location', label: 'Location', width: '12%', align: 'center' },
+  { id: 'start', label: 'Start-Time', width: '10%', align: 'center' },
+  { id: 'end', label: 'End-Time', width: '10%', align: 'center' },
+  { id: 'duration', label: 'Length (hrs)', width: '10%', align: 'center' },
+  { id: 'hills', label: 'Hls', width: '9%', align: 'center' },
+  { id: 'mountains', label: 'Mts', width: '9%', align: 'center' },
+  { id: 'activeStatus', label: 'Active', width: '10%', align: 'center' },
 ]
-
-const formatDateTime = (dateString) => {
-  const date = new Date(dateString)
-  return date.toLocaleString([], {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: true,
-  })
-}
 
 const EventManager = () => {
   const [openPopup, setOpenPopup] = useState(false)
-  const [events, setEvents] = useState([])
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
-  const [eventToDelete, setEventToDelete] = useState(null)
-  const [showInactive, setShowInactive] = useState(false)
+  const [confirmDialog, setConfirmDialog] = useState(null)
+
+  const [events, setEvents] = useState([])
   const [locations, setLocations] = useState([])
-  const [eventToEdit, setEventToEdit] = useState(null)
-  const [mountains, setMountains] = useState({})
   const [mountainsList, setMountainsList] = useState([])
-  const [confirmInactiveOpen, setConfirmInactiveOpen] = useState(false)
-  const [confirmActivateOpen, setConfirmActivateOpen] = useState(false)
+  const [mountains, setMountains] = useState({})
+  const [hillsList, setHillsList] = useState([])
+  const [hills, setHills] = useState({})
+
+  const [eventToDelete, setEventToDelete] = useState(null)
+  const [eventToEdit, setEventToEdit] = useState(null)
   const [eventToToggle, setEventToToggle] = useState(null)
 
-  const handleOpenPopup = () => setOpenPopup(true)
-  const handleClosePopup = () => setOpenPopup(false)
+  const [showInactive, setShowInactive] = useState(false)
+  const [hasLoadedEvents, setHasLoadedEvents] = useState(false)
 
   const displayAlert = useAlert()
 
@@ -79,39 +72,45 @@ const EventManager = () => {
         const isPast = endTime < new Date()
         const isActive = event.active && !isPast
 
-        const mountainNames = (event.mountains || [])
-          .map((m) => m.name)
-          .filter((name) => name !== null && name !== undefined && name !== '')
-        const mountainIds = (event.mountains || []).map((m) => m.id || m._id)
+        const mountainIds = (event.mountains || []).map((m) => typeof m === 'object' ? m.id : m)
+        const mountainNames = mountainIds.map((id) => mountains[id]).filter((name) => name)
+        const hillIds = (event.hills || []).map((h) => typeof h === 'object' ? h.id : h)
+        const hillNames = hillIds.map((id) => hills[id]).filter((name) => name)
 
         return {
           id: event.id,
           ...event,
-          start: formatDateTime(startTime),
-          end: formatDateTime(endTime),
+          start: formatDateTimeShortNoSec(startTime),
+          end: formatDateTimeShortNoSec(endTime),
           eventName: event.name || '',
           location: event.location?.name || '',
           locationId: event.location?.id,
           duration: durationInHours.toFixed(1),
           mountains: mountainNames.length ? mountainNames.join(', ') : 'None',
           mountainIds,
+          hills: hillNames.length ? hillNames.join(', ') : 'None',
+          hillIds,
           active: isActive,
-          activeStatus: isActive ? 'Active' : 'Inactive', 
+          activeStatus: isActive ? 'Active' : 'Inactive',
           canReactivate: !isActive && !isPast,
         }
       })
 
       setEvents(formattedEvents)
-      displayAlert(
-        'Fresh backend data',
-        `Loaded ${events.length} events from the backend.`,
-        'success'
-      )
+
+      if (!hasLoadedEvents) {
+        displayAlert(
+          'Fresh backend data',
+          `Loaded ${events.length} events from the backend.`,
+          'success'
+        )
+        setHasLoadedEvents(true)
+      }
     }
     catch (error) {
       displayAlert('Events Error', `${error.message}`, 'error')
     }
-  }, [displayAlert])
+  }, [displayAlert, hills, mountains, hasLoadedEvents])
 
   const fetchMountains = useCallback(async () => {
     try {
@@ -129,22 +128,54 @@ const EventManager = () => {
     }
   }, [displayAlert])
 
+  const fetchHills = useCallback(async () => {
+    try {
+      const hillsData = await getAllHills()
+      setHillsList(hillsData)
+
+      const hillMap = {}
+      for (let i = 0; i < hillsData.length; i++) {
+        const hill = hillsData[i]
+        hillMap[hill.id] = hill.name
+      }
+      setHills(hillMap)
+    } catch (error) {
+      displayAlert('Hills Error', error.message, 'error')
+    }
+  }, [displayAlert])
+
   useEffect(() => {
     fetchLocations()
     fetchMountains()
-  }, [fetchLocations, fetchMountains])
+    fetchHills()
+  }, [fetchLocations, fetchMountains, fetchHills])
 
   useEffect(() => {
-    if (Object.keys(mountains).length > 0) {
+    if (Object.keys(mountains).length > 0 && Object.keys(hills).length > 0) {
       fetchEvents()
     }
-  }, [mountains, fetchEvents])
+  }, [mountains, hills, fetchEvents])
+
+  function getIds(items) {
+    if (!Array.isArray(items)) {
+      return []
+    }
+
+    return items.map(function (item) {
+      if (typeof item === 'object' && item !== null && 'id' in item) {
+        return item.id
+      } else {
+        return item
+      }
+    })
+  }
 
   const handleAddEvent = async (eventData) => {
     try {
       const dataToSend = {
         ...eventData,
-        mountains: eventData.mountains?.map((m) => typeof m === 'object' ? m.id || m._id : m) || [],
+        mountains: getIds(eventData.mountains),
+        hills: getIds(eventData.hills),
       }
       const response = await addEvent(dataToSend)
       if (response.status === 201 || response.status === 200) {
@@ -154,7 +185,7 @@ const EventManager = () => {
           'success'
         )
         fetchEvents()
-        handleClosePopup()
+        setOpenPopup(false)
       }
       else {
         throw new Error('Event was not created')
@@ -173,7 +204,8 @@ const EventManager = () => {
     try {
       const dataToSend = {
         ...eventData,
-        mountains: eventData.mountains?.map((m) => typeof m === 'object' ? m.id || m._id : m) || [],
+        mountains: getIds(eventData.mountains),
+        hills: getIds(eventData.hills),
       }
       const response = await editEvent(id, dataToSend)
       if (response.status === 201 || response.status === 200) {
@@ -183,7 +215,7 @@ const EventManager = () => {
           'success'
         )
         fetchEvents()
-        handleClosePopup()
+        setOpenPopup(false)
       }
       else {
         throw new Error('Event was not edited')
@@ -235,6 +267,7 @@ const EventManager = () => {
         ...eventToToggle,
         active: !eventToToggle.active,
         mountains: eventToToggle.mountainIds || [],
+        hills: eventToToggle.hillIds || [],
         location: eventToToggle.locationId || eventToToggle.location?.id || null,
       }
 
@@ -250,20 +283,19 @@ const EventManager = () => {
     } catch (error) {
       displayAlert('Toggle Error', `Failed to update active status: ${error.message}`, 'error')
     } finally {
-      setConfirmActivateOpen(false)
-      setConfirmInactiveOpen(false)
+      setConfirmDialog(null)
       setEventToToggle(null)
     }
   }
 
   const onAdd = () => {
     setEventToEdit(null)
-    handleOpenPopup()
+    setOpenPopup(true)
   }
 
   const onEdit = (event) => {
     setEventToEdit(event)
-    handleOpenPopup()
+    setOpenPopup(true)
   }
 
   const onDelete = (event) => {
@@ -280,16 +312,20 @@ const EventManager = () => {
   const requestToggleActive = (event) => {
     setEventToToggle(event)
     if (event.active) {
-      setConfirmInactiveOpen(true)
+      setConfirmDialog('inactive')
     } else {
-      setConfirmActivateOpen(true)
+      setConfirmDialog('activate')
     }
   }
 
-  const cancelToggleInactive = () => {
-    setConfirmInactiveOpen(false)
+  const cancelConfirmDialog = () => {
+    setConfirmDialog(null)
     setEventToToggle(null)
   }
+
+  const filteredHills = eventToEdit?.locationId
+    ? hillsList.filter((h) => h.location === eventToEdit.locationId)
+    : hillsList
 
   return (
     <Box
@@ -322,13 +358,14 @@ const EventManager = () => {
       <AddEventModal
         open={openPopup}
         onClose={() => {
-          handleClosePopup()
+          setOpenPopup(false)
           setEventToEdit(null)
         }}
         onAdd={handleAddEvent}
         onEdit={handleEditEvent}
         onLocation={locations}
         onMountains={mountainsList}
+        onHills={filteredHills}
         eventToEdit={eventToEdit}
       />
 
@@ -339,15 +376,15 @@ const EventManager = () => {
       />
 
       <ConfirmInactiveEvent
-        open={confirmInactiveOpen}
-        onCancel={cancelToggleInactive}
+        open={confirmDialog === 'inactive'}
+        onCancel={cancelConfirmDialog}
         onConfirm={confirmToggleActiveStatus}
       />
 
       <ConfirmActivateEvent
-        open={confirmActivateOpen}
-        onCancel={() => setConfirmActivateOpen(false)}
-        onConfirm={confirmToggleActiveStatus} 
+        open={confirmDialog === 'activate'}
+        onCancel={cancelConfirmDialog}
+        onConfirm={confirmToggleActiveStatus}
       />
     </Box>
   )
