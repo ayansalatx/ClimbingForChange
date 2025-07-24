@@ -46,8 +46,8 @@ export const initializeServerState = async () => {
       await initializeMockData()
     }
 
-    console.log('Initialization complete. Starting continuous data polling...')
-    setInterval(pollForNewData, 2000) // Poll every 5 seconds
+    // console.log('Initialization complete. Starting continuous data polling...')
+    // setInterval(pollForNewData, 2000) // Poll every 5 seconds
   }
   catch (error) {
     console.error(
@@ -107,7 +107,7 @@ export async function pollForNewData() {
 }
 
 // Add a function to reset laps/passings and reprocess all simulated passings (for dev trigger)
-export const triggerLapSimulation = async (teamId) => {
+export const triggerLapSimulation = async (eventId) => {
   console.log('[Dev Trigger] Resetting all laps and passings, and reprocessing simulated passings...')
   try {
     await Passing.deleteMany({})
@@ -116,8 +116,8 @@ export const triggerLapSimulation = async (teamId) => {
     lastPassingNo = 1
     if (process.env.API_MODE === 'mock') {
       let mockApiUrl = `http://localhost:${config.PORT}/mock-api/getpassings?fromFile=1&fromDetection=1&amount=1000000`
-      if (teamId) {
-        mockApiUrl += `&teamId=${teamId}`
+      if (eventId) {
+        mockApiUrl += `&eventId=${eventId}`
       }
       const response = await fetch(mockApiUrl)
       const data = await response.json()

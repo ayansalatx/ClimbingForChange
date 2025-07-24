@@ -1,9 +1,10 @@
-import { bibToTeamMap } from '../utils/serverState.js'
+import { bibToTeamMap, triggerLapSimulation } from '../utils/serverState.js'
 
 import Passing from '../models/passing.js'
 import Lap from '../models/lap.js'
 import Team from '../models/team.js'
 import Event from '../models/event.js'
+import config from '../utils/config.js'
 
 async function processNewPassings(newPassings) {
   const START_LOOP_ID = 1
@@ -401,4 +402,49 @@ export const getLeaderboardEvents = async (request, response) => {
     })
 
   response.json(events)
+}
+
+export const runSimulation = async (req, res) => {
+  try {
+    const { eventId } = req.params
+    console.log("🚀 ~ runSimulation ~ eventId:", eventId)
+    if (!eventId) {
+      return res.status(400).json({ error: 'Missing eventId' })
+    }
+    const teams = await Team.find({ event: eventId }).populate('rfidTag')
+    if (!teams.length) {
+      return res.status(404).json({ error: 'No teams found for event' })
+    }
+    const passings = []
+    const now = Date.now()
+    const LAP_INTERVAL_MS = 1000 * 60 * 10
+    for (const team of teams) {
+      if (!team.rfidTag || !team.rfidTag.serialNumber) continue
+      const bib = team.rfidTag.serialNumber
+      const numLaps = team.lapsRequired || 1
+      passings.push({
+        Code: bib,
+        LoopID: 1,
+        RealTime: new Date(now).toISOString(),
+        PassingNo: 1,
+        RunTime: 0,
+        FileNo: 1,
+      })
+      for (let lapNum = 1; lapNum <= numLaps; lapNum++) {
+        passings.push({
+          Code: bib,
+          LoopID: 2,
+          RealTime: new Date(now + lapNum * LAP_INTERVAL_MS).toISOString(),
+          PassingNo: lapNum,
+          RunTime: lapNum * LAP_INTERVAL_MS,
+          FileNo: 1,
+        })
+      }
+    }
+    await processNewPassings(passings)
+    return res.json({ message: `Simulated laps created for event ${eventId}`, teams: teams.length, lapsPerTeam: teams.map(t => t.lapsRequired || 1) })
+  } catch (err) {
+    console.error('[Simulation Error]', err)
+    return res.status(500).json({ error: err.message })
+  }
 }

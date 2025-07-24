@@ -4,6 +4,7 @@ import csv from 'csvtojson'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
 import Team from '../models/team.js'
+import mongoose from 'mongoose'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -199,28 +200,16 @@ const initializeMockData = async () => {
 
 router.get('/getpassings', (req, res) => {
   const all = req.query.all === 'true'
-  const teamId = req.query.teamId
+  const eventId = req.query.eventId
   let filteredPassings = allSimulatedPassings
 
-  // If teamId is provided, filter passings for that team only
-  if (teamId) {
-    // Find the team and its bib (rfidTag.serialNumber)
-    // We need to get the bib for this team
-    // For this, we need to look up the team in the DB
-    // For performance, we assume bib is the same as the rfidTag.serialNumber
-    // and that allSimulatedPassings use Code = bib
-    // So, filter by Code matching the bib for the teamId
-    // But we need to get the bib for the teamId
-    // We'll use a synchronous require to avoid making this route async
-    // (in real code, refactor to async if needed)
-    const Team = require('../models/team.js').default
-    const mongoose = require('mongoose')
-    Team.findById(teamId).populate('rfidTag').then(team => {
-      if (!team || !team.rfidTag || !team.rfidTag.serialNumber) {
-        return res.json({ passings: [], lastIndex: 0 })
-      }
-      const bib = team.rfidTag.serialNumber
-      filteredPassings = allSimulatedPassings.filter(p => p.Code == bib)
+  // If eventId is provided, filter passings for teams in that event
+  if (eventId) {
+    // const Team = require('../models/team.js').default
+    // const mongoose = require('mongoose')
+    Team.find({ event: eventId }).populate('rfidTag').then(teams => {
+      const bibs = teams.map(t => t.rfidTag && t.rfidTag.serialNumber).filter(Boolean)
+      filteredPassings = allSimulatedPassings.filter(p => bibs.includes(p.Code))
       return sendFilteredPassings(req, res, filteredPassings)
     })
     return

@@ -71,7 +71,7 @@ export const saveOneTeam = async (request, response) => {
     hill: body.hill,
     rfidTag: body.rfidTag, // deleted id
     isSoloTeam: body.isSoloTeam,
-    lapsRequired: body.lapsRequired,
+    lapsRequired: Math.ceil(mountain.totalElevation / hill.lapElevationGain),
     startDateTime: body.startDateTime,
     totalDistanceRequired: body.totalDistanceRequired,
   })
@@ -83,6 +83,15 @@ export const saveOneTeam = async (request, response) => {
 export const updateOneTeam = async (request, response) => {
   const teamID = request.params.id
   const body = request.body
+  let rfidTag
+  if (body.rfidTag && typeof body.rfidTag === 'object' && body.rfidTag.id) {
+    rfidTag = await RFIDTag.findById(body.rfidTag.id)
+  } else {
+    rfidTag = await RFIDTag.findOne({ serialNumber: body.rfidTag })
+  }
+
+  const hill = await Hill.findById(body.hill)
+  const mountain = await Mountain.findById(body.mountain)
 
   const teamToUpdate = await Team.findById(teamID)
   if (!teamToUpdate) {
@@ -91,7 +100,7 @@ export const updateOneTeam = async (request, response) => {
 
   // 1. If an RFID tag is being updated, validate it
   if (body.rfidTag) { // deleted id
-    const teamWithThisTag = await Team.findOne({ rfidTag: body.rfidTag }) // deleted id
+    const teamWithThisTag = await Team.findOne({ serialNumber: body.rfidTag }) // deleted id
     // Check if a tag exists and is assigned to a different team
     if (teamWithThisTag && teamWithThisTag._id.toString() !== teamID) {
       return response
@@ -103,8 +112,10 @@ export const updateOneTeam = async (request, response) => {
   // 2. Prepare the update object with only the fields to be changed
   const updateData = {
     ...body,
+    rfidTag: rfidTag._id,
     mountain: body.mountain.id,
     hill: body.hill.id,
+    lapsRequired: Math.ceil(mountain.totalElevation / hill.lapElevationGain),
   }
 
   // 3. Perform the update

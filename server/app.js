@@ -61,10 +61,4 @@ app.use('/api', authenticatedApiRouter)
 
 app.use(errorHandler)
 
-if (process.env.NODE_ENV !== 'test') {
-  setTimeout(() => {
-    setInterval(pollForNewData, 5000)
-  }, 2000)
-}
-
 export default app

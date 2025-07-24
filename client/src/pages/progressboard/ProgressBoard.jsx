@@ -131,10 +131,10 @@ const ProgressBoard = () => {
 
     loadLeaderboard()
 
-    const intervalId = setInterval(loadLeaderboard, 2000)
+    // const intervalId = setInterval(loadLeaderboard, 2000)
 
     return () => {
-      clearInterval(intervalId)
+      // clearInterval(intervalId)
     }
   }, [selectedEvent])
 

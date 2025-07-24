@@ -176,3 +176,9 @@ export function getTimeElapsed(laps) {
   const end = new Date(completedLaps[completedLaps.length - 1].endDateTime)
   return end - start
 }
+
+export const runSimulatedPassings = async (eventId) => {
+  const res = await api.get(`/leaderboard/simulate/${eventId}`)
+  const passings = res.data
+  return passings
+}
