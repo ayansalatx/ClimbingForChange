@@ -24,4 +24,21 @@ router.post('/simulate/reload-passings', async (req, res) => {
   }
 })
 
+// POST /simulate/reload-passings-for-team
+router.post('/simulate/reload-passings-for-team', async (req, res) => {
+  if (config.API_MODE !== 'mock') {
+    return res.status(403).json({ error: 'Not allowed in production.' })
+  }
+  const { teamId } = req.body
+  if (!teamId) {
+    return res.status(400).json({ error: 'Missing teamId in request body.' })
+  }
+  const result = await triggerLapSimulation(teamId)
+  if (result.success) {
+    res.json({ message: 'Simulated passings reloaded and processed for team.', processed: result.processed })
+  } else {
+    res.status(500).json({ error: result.error })
+  }
+})
+
 export default router

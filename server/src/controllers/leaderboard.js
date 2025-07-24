@@ -9,6 +9,14 @@ async function processNewPassings(newPassings) {
   const START_LOOP_ID = 1
   const LAP_POINT_LOOP_ID = 2
 
+  if (!newPassings || newPassings.length === 0) return
+
+  // Sort passings by FileNo, then PassingNo (as Race Result API delivers)
+  newPassings.sort((a, b) => {
+    if (a.FileNo !== b.FileNo) return a.FileNo - b.FileNo
+    return a.PassingNo - b.PassingNo
+  })
+
   console.log(`[Processing] Processing ${newPassings.length} new passings...`)
 
   for (const passingData of newPassings) {
@@ -27,6 +35,7 @@ async function processNewPassings(newPassings) {
         Code: bib,
         LoopID: passingData.LoopID,
         PassingNo: passingData.PassingNo,
+        FileNo: passingData.FileNo,
       })
       if (existingPassing) {
         continue
@@ -39,6 +48,7 @@ async function processNewPassings(newPassings) {
 
       if (parseInt(savedPassing.LoopID) === LAP_POINT_LOOP_ID) {
         const lapJustCompleted = parseInt(savedPassing.PassingNo, 10)
+        const fileNo = parseInt(savedPassing.FileNo, 10)
 
         const existingLap = await Lap.findOne({
           team: teamId,
@@ -50,10 +60,12 @@ async function processNewPassings(newPassings) {
 
         let lapStartTime
         if (lapJustCompleted === 1) {
+          // Find the first start passing in this file or previous files
           const startPassing = await Passing.findOne({
             team: teamId,
             LoopID: START_LOOP_ID,
-          })
+            FileNo: { $lte: fileNo },
+          }).sort({ FileNo: -1, PassingNo: -1 })
           if (!startPassing) {
             console.warn(
               `[Processing] Bib ${bib}: Start passing not found for lap 1, skipping.`,
@@ -63,11 +75,13 @@ async function processNewPassings(newPassings) {
           lapStartTime = startPassing.RealTime
         }
         else {
+          // Find the previous lap passing in this file or previous files
           const previousLapPassing = await Passing.findOne({
             team: teamId,
             LoopID: LAP_POINT_LOOP_ID,
+            FileNo: { $lte: fileNo },
             PassingNo: lapJustCompleted - 1,
-          })
+          }).sort({ FileNo: -1, PassingNo: -1 })
           if (!previousLapPassing) {
             console.warn(
               `[Processing] Bib ${bib}: Previous lap passing not found for lap ${lapJustCompleted}, skipping.`,
@@ -78,7 +92,7 @@ async function processNewPassings(newPassings) {
         }
 
         const lapEndTime = savedPassing.RealTime
-        const lapDurationMs = lapEndTime.getTime() - lapStartTime.getTime()
+        const lapDurationMs = new Date(lapEndTime).getTime() - new Date(lapStartTime).getTime()
 
         if (lapDurationMs < 0) {
           console.error(

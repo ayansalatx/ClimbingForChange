@@ -8,6 +8,8 @@ import { processNewPassings } from '../controllers/leaderboard.js'
 export const bibToTeamMap = new Map()
 let lastReceivedIndex = 0
 let isPolling = false
+let lastFileNo = 1
+let lastPassingNo = 1
 export const initializeServerState = async () => {
   console.log('Initializing server state...')
 
@@ -71,16 +73,15 @@ export async function pollForNewData() {
   try {
     if (process.env.API_MODE === 'mock') {
       console.log(
-        `[Polling] Fetching passings from index ${lastReceivedIndex}...`,
+        `[Polling] Fetching passings from fileNo ${lastFileNo}, passingNo ${lastPassingNo}...`,
       )
 
-      // Check if we have a valid port configuration
       if (!config.PORT) {
         console.warn('[Polling] PORT is undefined, skipping HTTP polling.')
         return
       }
 
-      const mockApiUrl = `http://localhost:${config.PORT}/mock-api/getpassings?fromIndex=${lastReceivedIndex}`
+      const mockApiUrl = `http://localhost:${config.PORT}/mock-api/getpassings?fromFile=${lastFileNo}&fromDetection=${lastPassingNo}`
       const response = await fetch(mockApiUrl)
       const data = await response.json()
 
@@ -89,43 +90,48 @@ export async function pollForNewData() {
           `[Polling] Received ${data.passings.length} new passings. Processing...`,
         )
         await processNewPassings(data.passings)
+        // Update cursor to the last passing returned
+        const last = data.passings[data.passings.length - 1]
+        lastFileNo = last.FileNo
+        lastPassingNo = last.PassingNo + 1
       }
       else {
         console.log(
           `[Polling] No new passings available (lastIndex: ${data.lastIndex})`,
         )
       }
-      lastReceivedIndex = data.lastIndex
     }
-  }
-  catch (error) {
-    console.error('[Polling] Error during poll cycle:', error)
-  }
-  finally {
+  } finally {
     isPolling = false
   }
 }
 
 // Add a function to reset laps/passings and reprocess all simulated passings (for dev trigger)
-export const triggerLapSimulation = async () => {
+export const triggerLapSimulation = async (teamId) => {
   console.log('[Dev Trigger] Resetting all laps and passings, and reprocessing simulated passings...')
   try {
     await Passing.deleteMany({})
     await Lap.deleteMany({})
-    lastReceivedIndex = 0 
+    lastFileNo = 1
+    lastPassingNo = 1
     if (process.env.API_MODE === 'mock') {
-      const mockApiUrl = `http://localhost:${config.PORT}/mock-api/getpassings?fromIndex=0&all=true`
+      let mockApiUrl = `http://localhost:${config.PORT}/mock-api/getpassings?fromFile=1&fromDetection=1&amount=1000000`
+      if (teamId) {
+        mockApiUrl += `&teamId=${teamId}`
+      }
       const response = await fetch(mockApiUrl)
       const data = await response.json()
       if (data.passings && data.passings.length > 0) {
         await processNewPassings(data.passings)
-        lastReceivedIndex = data.lastIndex || data.passings.length
+        const last = data.passings[data.passings.length - 1]
+        lastFileNo = last.FileNo
+        lastPassingNo = last.PassingNo + 1
       }
       console.log(`[Dev Trigger] Processed ${data.passings?.length || 0} simulated passings.`)
     } else {
       console.warn('[Dev Trigger] Not in mock mode, skipping simulated passings processing.')
     }
-    return { success: true, processed: lastReceivedIndex }
+    return { success: true, processed: lastFileNo }
   } catch (err) {
     console.error('[Dev Trigger] Failed to reset and process simulated passings:', err)
     return { success: false, error: err.message }

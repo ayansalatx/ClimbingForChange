@@ -198,20 +198,58 @@ const initializeMockData = async () => {
 }
 
 router.get('/getpassings', (req, res) => {
-  const fromIndex = req.query.fromIndex ? parseInt(req.query.fromIndex, 10) : 0
   const all = req.query.all === 'true'
-  let newPassings, lastIndex
-  if (all) {
-    newPassings = allSimulatedPassings
-    lastIndex = allSimulatedPassings.length
-  } else {
-    newPassings = allSimulatedPassings.slice(fromIndex, nextPassingIndex)
-    lastIndex = nextPassingIndex
+  const teamId = req.query.teamId
+  let filteredPassings = allSimulatedPassings
+
+  // If teamId is provided, filter passings for that team only
+  if (teamId) {
+    // Find the team and its bib (rfidTag.serialNumber)
+    // We need to get the bib for this team
+    // For this, we need to look up the team in the DB
+    // For performance, we assume bib is the same as the rfidTag.serialNumber
+    // and that allSimulatedPassings use Code = bib
+    // So, filter by Code matching the bib for the teamId
+    // But we need to get the bib for the teamId
+    // We'll use a synchronous require to avoid making this route async
+    // (in real code, refactor to async if needed)
+    const Team = require('../models/team.js').default
+    const mongoose = require('mongoose')
+    Team.findById(teamId).populate('rfidTag').then(team => {
+      if (!team || !team.rfidTag || !team.rfidTag.serialNumber) {
+        return res.json({ passings: [], lastIndex: 0 })
+      }
+      const bib = team.rfidTag.serialNumber
+      filteredPassings = allSimulatedPassings.filter(p => p.Code == bib)
+      return sendFilteredPassings(req, res, filteredPassings)
+    })
+    return
   }
+  return sendFilteredPassings(req, res, filteredPassings)
+})
+
+function sendFilteredPassings(req, res, filteredPassings) {
+  const all = req.query.all === 'true'
+  if (all) {
+    return res.json({
+      passings: filteredPassings,
+      lastIndex: filteredPassings.length,
+    })
+  }
+  const fromFile = req.query.fromFile ? parseInt(req.query.fromFile, 10) : 1
+  const fromDetection = req.query.fromDetection ? parseInt(req.query.fromDetection, 10) : 1
+  const amount = req.query.amount ? parseInt(req.query.amount, 10) : 1000
+  let filtered = filteredPassings.filter(p => {
+    if (p.FileNo > fromFile) return true
+    if (p.FileNo === fromFile && p.PassingNo >= fromDetection) return true
+    return false
+  })
+  filtered = filtered.slice(0, amount)
+  const lastIndex = filtered.length > 0 ? allSimulatedPassings.indexOf(filtered[filtered.length - 1]) + 1 : 0
   res.json({
-    passings: newPassings,
+    passings: filtered,
     lastIndex: lastIndex,
   })
-})
+}
 
 export { router as mockRouter, initializeMockData }
