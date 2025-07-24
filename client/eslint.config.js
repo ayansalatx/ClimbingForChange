@@ -100,7 +100,7 @@ export default [
     files: ['src/tests/setupTests.js', '**/*.test.js', '**/*.spec.js'],
     languageOptions: {
       globals: {
-        ...globals.node,  // Enable Node.js globals like `global`
+        ...globals.node, // Enable Node.js globals like `global`
         ...globals.browser, // Also allow browser globals if needed
       },
     },
