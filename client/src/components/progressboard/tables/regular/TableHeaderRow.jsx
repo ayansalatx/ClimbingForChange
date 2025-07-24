@@ -10,12 +10,12 @@ const TableHeaderRow = ({ columns }) => {
           sx={{
             backgroundColor: 'info.main',
             border: 'none',
-            p: { sm: .5, md: 1, lg: 1.25, xl: 1.5 },
+            p: { sm: 0.5, md: 1, lg: 1.25, xl: 1.5 },
             pr: 0,
           }}
         >
           <IconButton
-            size='small'
+            size="small"
             disableRipple
             sx={{
               visibility: 'hidden',
@@ -68,11 +68,11 @@ const TableHeaderRow = ({ columns }) => {
               textTransform: 'uppercase',
               letterSpacing: '0.075em',
               fontSize: {
-                xs: '0.9rem',
-                sm: '1rem',
-                md: '1.15rem',
-                lg: '1.25rem',
-                xl: '1.35rem',
+                xs: '1rem',
+                sm: '1.1rem',
+                md: '1.2rem',
+                lg: '1.3rem',
+                xl: '1.4rem',
               },
               fontWeight: 'bold',
               color: 'background.paper',

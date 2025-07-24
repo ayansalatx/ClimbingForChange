@@ -52,13 +52,9 @@ export const validateHill = [
     .notEmpty()
     .withMessage('lapElevationGain per lap is required'),
 
-  body('lapDistance')
-    .notEmpty()
-    .withMessage('lapDistance per lap is required'),
+  body('lapDistance').notEmpty().withMessage('lapDistance per lap is required'),
 
-  body('location')
-    .notEmpty()
-    .withMessage('Location per lap is required'),
+  body('location').notEmpty().withMessage('Location per lap is required'),
 
   body('active')
     .optional()
@@ -67,25 +63,30 @@ export const validateHill = [
 ]
 
 export const validateLap = [
-  body('teamId')
-    .trim()
-    .notEmpty().withMessage('Team is required'),
+  body('teamId').trim().notEmpty().withMessage('Team is required'),
 
   body('participantId')
-    .notEmpty().withMessage('Participant mountain or hill is required'),
+    .notEmpty()
+    .withMessage('Participant mountain or hill is required'),
 
   body('rfidTagId')
     .trim()
-    .notEmpty().withMessage('RFIDTag is required')
-    .isLength({ min: 3 }).withMessage('eventName must be at least 3 characters'),
+    .notEmpty()
+    .withMessage('RFIDTag is required')
+    .isLength({ min: 3 })
+    .withMessage('eventName must be at least 3 characters'),
 
   body('startDateTime')
-    .notEmpty().withMessage('startDateTime is required')
-    .isISO8601().withMessage('startDateTime must be a valid ISO 8601 date'),
+    .notEmpty()
+    .withMessage('startDateTime is required')
+    .isISO8601()
+    .withMessage('startDateTime must be a valid ISO 8601 date'),
 
   body('endDateTime')
-    .notEmpty().withMessage('endDateTime is required')
-    .isISO8601().withMessage('endDate must be a valid ISO 8601 date')
+    .notEmpty()
+    .withMessage('endDateTime is required')
+    .isISO8601()
+    .withMessage('endDate must be a valid ISO 8601 date')
     .custom((value, { req }) => {
       // Ensure endDate ≥ startDate
       const startTime = new Date(req.body.startDateTime)
@@ -105,8 +106,10 @@ export const validateParticipant = [
 export const validateTeam = [
   body('name')
     .trim()
-    .notEmpty().withMessage('Team name is required')
-    .isLength({ min: 3 }).withMessage('Team name must be at least 3 characters'),
+    .notEmpty()
+    .withMessage('Team name is required')
+    .isLength({ min: 3 })
+    .withMessage('Team name must be at least 3 characters'),
 
   // body('lapsRequired')
   //   .isInt({ min: 1})
@@ -116,29 +119,26 @@ export const validateTeam = [
   //   .isInt({ min: 1})
   //   .withMessage('Lap must be a valid with a minimum of 1'),
 
-  body('event')
-    .trim()
-    .notEmpty().withMessage('Event is required'),
+  body('event').trim().notEmpty().withMessage('Event is required'),
 
-  body('isSoloTeam')
-    .isBoolean()
-    .notEmpty().withMessage('Event is required'),
+  body('isSoloTeam').isBoolean().notEmpty().withMessage('Event is required'),
 
-  body('hill')
-    .trim()
-    .notEmpty().withMessage('Hill is required'),
+  body('hill').trim().notEmpty().withMessage('Hill is required'),
 
-  body('mountain')
-    .trim()
-    .notEmpty().withMessage('Mountain is required'),
+  body('mountain').trim().notEmpty().withMessage('Mountain is required'),
 
   body('startDateTime')
-    .notEmpty().withMessage('startDateTime is required')
-    .isISO8601().withMessage('startDateTime must be a valid ISO 8601 date'),
+    .notEmpty()
+    .withMessage('startDateTime is required')
+    .isISO8601()
+    .withMessage('startDateTime must be a valid ISO 8601 date'),
 ]
 
 export const validateMountain = [
-  body('name').trim().notEmpty().withMessage('Physical mountain name is required'),
+  body('name')
+    .trim()
+    .notEmpty()
+    .withMessage('Physical mountain name is required'),
 
   body('totalElevation')
     .notEmpty()

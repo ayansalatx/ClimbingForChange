@@ -1,8 +1,46 @@
-import { api } from './api'
+import { getBestLapTime } from '../utils/calcBestLap'
+import { getTimeElapsed } from '../utils/calcDuration'
+import { formatDateLong, formatTime } from '../utils/formatDateTime'
+import {
+  formatDurationTimeHours,
+  formatDurationTimeMinutes,
+} from '../utils/formatDurationTime'
+import { formatNumber } from '../utils/formatNumber'
+import { api, formatApiError } from './api'
 
 export const getAllEvents = async () => {
   const res = await api.get('/events')
   return res.data
+}
+
+export const getActiveUpcomingEvents = async () => {
+  const res = await api.get('/events')
+  const eventList = res.data
+  const now = new Date()
+
+  const activeUpcomingEvents = eventList
+    .filter((event) => {
+      const end = new Date(event.endDateTime)
+      return event.active === true && end >= now
+    })
+    .sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime))
+
+  return activeUpcomingEvents
+}
+
+export const getPastEvents = async () => {
+  const res = await api.get('/events')
+  const eventList = res.data
+  const now = new Date()
+
+  const pastEvents = eventList
+    .filter((event) => {
+      const end = new Date(event.endDateTime)
+      return end < now
+    })
+    .sort((a, b) => new Date(b.startDateTime) - new Date(a.startDateTime))
+
+  return pastEvents
 }
 
 export const getDisplayEventTeams = async (id) => {
@@ -12,7 +50,8 @@ export const getDisplayEventTeams = async (id) => {
 
   const teamsForDisplay = teamList.map((team) => {
     // Get laps
-    const laps = team.laps || []
+    const laps = (team.laps || []).filter((lap) => lap.endDateTime)
+
     // Get best lap
     const teamBestLap = getBestLapTime(laps)
     // Get time elapsed
@@ -21,14 +60,25 @@ export const getDisplayEventTeams = async (id) => {
     return {
       ...team,
       mountainName: team.mountain?.name,
-      totalElevation: team.mountain?.totalElevation,
-      currentElevation: laps.length * (team.hill?.lapElevationGain ?? 0),
-
+      totalElevation: formatNumber(team.mountain?.totalElevation),
+      currentElevation: formatNumber(
+        laps.length * (team.hill?.lapElevationGain ?? 0)
+      ),
+      lapsRequired: Math.round(
+        (team.mountain?.totalElevation ?? 0)
+        / (team.hill?.lapElevationGain ?? 0)
+      ),
       lapsCompleted: laps.length,
-      lapsToGo: Math.max((team.lapsRequired || 0) - laps.length, 0),
-      bestLap: laps.length ? formatBestTime(teamBestLap) : null,
+      lapsToGo: Math.max(
+        Math.round(
+          (team.mountain?.totalElevation ?? 0)
+          / (team.hill?.lapElevationGain ?? 0)
+        ) - laps.length,
+        0
+      ),
+      bestLap: laps.length ? formatDurationTimeMinutes(teamBestLap) : null,
       timeElapsed: laps.length
-        ? formatTimeElapsed(teamTimeElapsed)
+        ? formatDurationTimeHours(teamTimeElapsed)
         : '00:00:00',
       participants: team.participants?.map((participant) => ({
         id: participant.id,
@@ -81,31 +131,15 @@ export const getUpcomingEventsSummary = async () => {
       (team) => team.participants || []
     ).length
 
-    const startDate = start.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    })
+    const startDate = formatDateLong(start)
 
     // Format time: 3:20 PM
-    const startTime = start.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true,
-    })
+    const startTime = formatTime(start)
 
-    const endDate = end.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    })
+    const endDate = formatDateLong(end)
 
     // Format time: 3:20 PM
-    const endTime = end.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true,
-    })
+    const endTime = formatTime(end)
 
     return {
       name: event.name,
@@ -129,13 +163,12 @@ export const getOneEvent = async (id) => {
 }
 
 export const addEvent = async (data) => {
-  console.log('Adding new event with data:', data)
   try {
     const response = await api.post('/events', data)
     return response
-  } catch (error) {
-    console.error('Failed to edit event:', error)
-    throw error
+  }
+  catch (error) {
+    throw formatApiError(error, 'Failed to create event.')
   }
 }
 
@@ -143,15 +176,14 @@ export const editEvent = async (id, data) => {
   try {
     const response = await api.put(`/events/${id}`, data)
     if (response.status === 200) {
-      console.log('Event edited successfully:', response.data)
       return response
-    } else {
-      console.error('Failed to edit event:', response.statusText)
     }
-    throw new Error(`Unexpected response status: ${response.status}`)
-  } catch (error) {
-    console.error('Failed to edit event:', error)
-    throw error
+    else {
+      throw new Error(`Unexpected response status: ${response.status}`)
+    }
+  }
+  catch (error) {
+    throw formatApiError(error, 'Failed to edit event.')
   }
 }
 
@@ -159,49 +191,8 @@ export const deleteEvent = async (id) => {
   try {
     await api.delete(`/events/${id}`)
     return true
-  } catch (error) {
-    console.error('Failed to delete event:', error)
-    throw error
   }
-}
-
-// Returns the lap with shortest duration, or null if no laps
-export function getBestLapTime(laps) {
-  if (!laps.length) return null
-  const bestLap = laps.reduce((best, current) => {
-    const bestDuration =
-      new Date(best.endDateTime) - new Date(best.startDateTime)
-    const currentDuration =
-      new Date(current.endDateTime) - new Date(current.startDateTime)
-    return currentDuration < bestDuration ? current : best
-  }, laps[0])
-
-  return new Date(bestLap.endDateTime) - new Date(bestLap.startDateTime)
-}
-
-// Calculate total elapsed time between first lap start and last lap end
-export function getTimeElapsed(laps) {
-  if (!laps.length) return null
-  const start = new Date(laps[0].startDateTime)
-  const end = new Date(laps[laps.length - 1].endDateTime)
-  return end - start
-}
-
-// Format time to display
-function formatTimeElapsed(durationMs) {
-  const totalSeconds = Math.floor(durationMs / 1000)
-  const seconds = totalSeconds % 60
-  const totalMinutes = Math.floor(totalSeconds / 60)
-  const minutes = totalMinutes % 60
-  const hours = Math.floor(totalMinutes / 60)
-
-  return `${String(hours).padStart(2, '00')}:${String(minutes).padStart(2, '00')}:${String(seconds).padStart(2, '00')}`
-}
-
-function formatBestTime(durationMs) {
-  const totalSeconds = Math.floor(durationMs / 1000)
-  const seconds = totalSeconds % 60
-  const totalMinutes = Math.floor(totalSeconds / 60)
-
-  return `${String(totalMinutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
+  catch (error) {
+    throw formatApiError(error, 'Failed to delete event.')
+  }
 }

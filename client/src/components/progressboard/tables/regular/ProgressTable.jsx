@@ -25,7 +25,8 @@ import TableHeaderRow from './TableHeaderRow'
 const ProgressTable = ({
   columns,
   teams = [],
-  events,
+  activeEvents,
+  pastEvents,
   selectedEvent,
   setSelectedEvent,
   searchString,
@@ -42,8 +43,8 @@ const ProgressTable = ({
     setPage(0)
   }, [isSmall])
   // State for number of rows per page
-  const defaultRowsPerPage =
-    teamsLength > 100 ? 100 : teamsLength > 25 ? 25 : 10
+  const defaultRowsPerPage
+    = teamsLength > 100 ? 100 : teamsLength > 25 ? 25 : 10
 
   const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage)
 
@@ -88,7 +89,8 @@ const ProgressTable = ({
         }}
       >
         <EventSelector
-          events={events}
+          activeEvents={activeEvents}
+          pastEvents={pastEvents}
           selectedEvent={selectedEvent}
           setSelectedEvent={setSelectedEvent}
         />
@@ -106,7 +108,7 @@ const ProgressTable = ({
           height: '100%',
           overflowX: 'hidden',
           scrollbarWidth: 'thin',
-          backgroundColor: alpha(theme.palette.background.paper, 0.3),
+          backgroundColor: alpha(theme.palette.background.paper, 0.2),
           scrollbarColor: `${alpha(theme.palette.background.paper, 0.7)} ${alpha(theme.palette.primary.main, 0.3)}`,
         }}
       >
@@ -131,9 +133,18 @@ const ProgressTable = ({
             </TableBody>
           </Table>
         ) : teamsLength > 0 ? (
-          <Table stickyHeader aria-label="team/participant progress table">
+          <Table
+            stickyHeader
+            aria-label="team/participant progress table"
+            sx={{
+              '& td, & th': {
+                border: 'none',
+              },
+            }}
+          >
             <TableHeaderRow columns={columns} />
             <TableDataRows
+              eventId={selectedEvent}
               columns={columns}
               teams={teams}
               page={page}

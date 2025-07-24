@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom'
 
-import { afterEach,beforeEach, describe, expect, it, jest } from '@jest/globals'
+import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 
 import EventManager from '../pages/admin/events/EventManager'
@@ -75,7 +75,7 @@ describe('EventManager CRUD operations', () => {
     fireEvent.mouseDown(locationSelect) // Open the dropdown
     const option = await screen.findByRole('option', { name: 'Location 1' })
 
-    fireEvent.click(option)             // Select option
+    fireEvent.click(option) // Select option
 
     fireEvent.change(startDateInput, { target: { value: '2025-09-01' } })
     fireEvent.change(startTimeInput, { target: { value: '10:00' } })
@@ -97,7 +97,6 @@ describe('EventManager CRUD operations', () => {
     const editButton = iconButtons.find((btn) => btn.querySelector('svg[data-testid="EditIcon"]'))
     fireEvent.click(editButton)
     await waitFor(() => screen.getByText(/edit event/i))
-
 
     const nameInput = screen.getByRole('textbox', { name: /event name/i })
     const submitButton = screen.getByRole('button', { name: /add/i })

@@ -33,7 +33,8 @@ const LocationModal = ({ open, onClose, onSave, locationData }) => {
       setCity(locationData.city || '')
       setProvState(locationData.provState || '')
       setCountry(locationData.country || '')
-    } else if (!open) {
+    }
+    else if (!open) {
       setId('')
       setName('')
       setAddress('')
@@ -62,7 +63,10 @@ const LocationModal = ({ open, onClose, onSave, locationData }) => {
   }
 
   const handleProvStateChange = (e) => {
-    const lettersOnly = e.target.value.replace(/[^a-zA-Z]/g, '').toUpperCase().slice(0, 2)
+    const lettersOnly = e.target.value
+      .replace(/[^a-zA-Z]/g, '')
+      .toUpperCase()
+      .slice(0, 2)
     setProvState(lettersOnly)
   }
 
@@ -90,26 +94,27 @@ const LocationModal = ({ open, onClose, onSave, locationData }) => {
             onChange={(e) => setAddress(e.target.value)}
             required={true}
           />
-          <TextInput
-            label={'City'}
-            value={city}
-            onChange={handleLettersOnlyChange(setCity)}
-            required={true}
-          />
           <Box display="flex" gap={2}>
             <TextInput
-              label={'Province/State'}
+              label={'City'}
+              value={city}
+              onChange={handleLettersOnlyChange(setCity)}
+              required={true}
+            />
+
+            <TextInput
+              label={'Province'}
               value={provState}
               onChange={handleProvStateChange}
               required={true}
             />
-            <TextInput
-              label={'Country'}
-              value={country}
-              onChange={handleLettersOnlyChange(setCountry)}
-              required={true}
-            />
           </Box>
+          <TextInput
+            label={'Country'}
+            value={country}
+            onChange={handleLettersOnlyChange(setCountry)}
+            required={true}
+          />
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
             <CancelButton onClick={onClose} color={'red'} />
             <SaveButton

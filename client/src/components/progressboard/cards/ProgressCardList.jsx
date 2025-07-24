@@ -1,17 +1,20 @@
 import HikingIcon from '@mui/icons-material/Hiking'
-import { Box, CircularProgress, Typography } from '@mui/material'
+import { alpha, Box, CircularProgress, Typography } from '@mui/material'
 
+import theme from '../../../styles/theme'
 import EventSelector from '../shared/EventSelector'
 import ProgressSearch from '../shared/ProgressSearch'
 import ProgressCard from './ProgressCard'
 
 const ProgressList = ({
   teams,
-  events,
+  activeEvents,
+  pastEvents,
   selectedEvent,
   setSelectedEvent,
   searchString,
   setSearchString,
+  teamsLength,
   loading,
 }) => {
   return (
@@ -24,10 +27,20 @@ const ProgressList = ({
         overflow: 'hidden',
       }}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', p: 1, backgroundColor: 'primary.light', borderRadius: '4px' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
+          p: 1,
+          backgroundColor: alpha(theme.palette.primary.main, 0.85),
+          borderRadius: '4px',
+        }}
+      >
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, pb: 1 }}>
           <EventSelector
-            events={events}
+            activeEvents={activeEvents}
+            pastEvents={pastEvents}
             selectedEvent={selectedEvent}
             setSelectedEvent={setSelectedEvent}
           />
@@ -59,7 +72,7 @@ const ProgressList = ({
             >
               <CircularProgress color="secondary" />
             </Box>
-          ) : teams.length > 0 ? (
+          ) : teamsLength && !loading > 0 ? (
             teams.map((team, index) => (
               <Box key={index}>
                 <ProgressCard team={team} />

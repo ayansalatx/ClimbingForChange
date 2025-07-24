@@ -1,4 +1,12 @@
-import { Box, FormControl, InputLabel, MenuItem, Modal, Select, Typography } from '@mui/material'
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  Typography,
+} from '@mui/material'
 import React, { useEffect, useState } from 'react'
 
 import CancelButton from '../buttons/CancelButton'
@@ -36,15 +44,20 @@ const HillModal = ({ open, onClose, onSave, hillData, onLocation }) => {
       setId(hillData.id || '')
       setName(hillData.name || '')
       setLapDistance(
-        hillData.lapDistance !== undefined ? hillData.lapDistance.toString() : ''
+        hillData.lapDistance !== undefined
+          ? hillData.lapDistance.toString()
+          : ''
       )
       setLapElevationGain(
-        hillData.lapElevationGain !== undefined ? hillData.lapElevationGain.toString() : ''
+        hillData.lapElevationGain !== undefined
+          ? hillData.lapElevationGain.toString()
+          : ''
       )
       setDistanceUnit(hillData.distanceUnit || 'KM')
       setElevationUnit(hillData.elevationUnit || 'FT')
       setLocation(hillData.location || '')
-    } else if (!open) {
+    }
+    else if (!open) {
       setId('')
       setName('')
       setLapDistance('')
@@ -88,53 +101,68 @@ const HillModal = ({ open, onClose, onSave, hillData, onLocation }) => {
             onChange={(e) => setName(e.target.value)}
             required
           />
-          <Box display="flex" gap={2} alignItems="baseline" >
+
+          <Box display="flex" gap={2} alignItems="baseline">
             <TextInput
-              label="Lap Distance"
-              type="number"
-              inputMode="decimal"
+              fullWidth
+              label='Lap Distance'
+              type='number'
               inputProps={{ step: 'any', min: 0 }}
               value={lapDistance}
               onChange={(e) => setLapDistance(e.target.value)}
               required
-              fullWidth
-
             />
-            <FormControl required variant="outlined" sx={{ minWidth: 100 }}>
-              <InputLabel>Unit</InputLabel>
+            <FormControl fullWidth>
+              <InputLabel>Distance Unit</InputLabel>
               <Select
-                label="Unit"
                 value={distanceUnit}
+                label='Distance Unit'
                 onChange={(e) => setDistanceUnit(e.target.value)}
+                required
               >
-                <MenuItem value="KM">KM</MenuItem>
-                <MenuItem value="MI">MI</MenuItem>
+                <MenuItem value='KM'>Kilometers</MenuItem>
+                <MenuItem value='MI'>Miles</MenuItem>
               </Select>
             </FormControl>
           </Box>
+
           <Box display="flex" gap={2} alignItems="baseline">
             <TextInput
-              label="Elevation Gain"
-              type="number"
-              inputMode="decimal"
+              fullWidth
+              label='Lap Elevation Gain'
+              type='number'
               inputProps={{ step: 'any', min: 0 }}
               value={lapElevationGain}
               onChange={(e) => setLapElevationGain(e.target.value)}
               required
-              fullWidth
             />
-            <FormControl required variant="outlined" sx={{ minWidth: 100 }}>
-              <InputLabel>Unit</InputLabel>
+            <FormControl fullWidth>
+              <InputLabel>Elevation Unit</InputLabel>
               <Select
-                label="Unit"
                 value={elevationUnit}
+                label='Elevation Unit'
                 onChange={(e) => setElevationUnit(e.target.value)}
+                required
               >
-                <MenuItem value="FT">FT</MenuItem>
-                <MenuItem value="M">M</MenuItem>
+                <MenuItem value='FT'>Feet</MenuItem>
+                <MenuItem value='M'>Meters</MenuItem>
               </Select>
             </FormControl>
           </Box>
+
+          <FormControl fullWidth margin="dense">
+            <InputLabel>Elevation Unit</InputLabel>
+            <Select
+              value={elevationUnit}
+              label="Elevation Unit"
+              onChange={(e) => setElevationUnit(e.target.value)}
+              required
+            >
+              <MenuItem value="FT">Feet</MenuItem>
+              <MenuItem value="M">Meters</MenuItem>
+            </Select>
+          </FormControl>
+
           <FormControl fullWidth required margin="normal">
             <InputLabel id="location-select-label">Location</InputLabel>
             <Select

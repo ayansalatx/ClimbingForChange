@@ -153,7 +153,7 @@ const SideBar = ({ open, toggleDrawer }) => {
 
         <Divider sx={{ backgroundColor: 'background.paper', opacity: 0.2 }} />
 
-        <Box sx={{ pl: 3.5, pt: 2, pb: .5 }}>
+        <Box sx={{ pl: 3.5, pt: 2, pb: 0.5 }}>
           <Typography
             variant="subtitle2"
             sx={{
@@ -194,7 +194,7 @@ const SideBar = ({ open, toggleDrawer }) => {
           ))}
         </List>
 
-        <Box sx={{ pl: 3.5, pt: 1, pb: .5 }}>
+        <Box sx={{ pl: 3.5, pt: 1, pb: 0.5 }}>
           <Typography
             variant="subtitle2"
             sx={{

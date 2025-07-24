@@ -5,9 +5,9 @@
 
 import '@testing-library/jest-dom'
 
-import { afterEach,jest } from '@jest/globals'
+import { afterEach, jest } from '@jest/globals'
 import { configure } from '@testing-library/react'
-import { TextDecoder,TextEncoder } from 'util'
+import { TextDecoder, TextEncoder } from 'util'
 
 if (!global.TextEncoder) {
   global.TextEncoder = TextEncoder
@@ -50,9 +50,6 @@ Object.defineProperty(window, 'matchMedia', {
     dispatchEvent: jest.fn(),
   })),
 })
-
-
-
 // Suppress console output in tests
 global.console = {
   ...console,

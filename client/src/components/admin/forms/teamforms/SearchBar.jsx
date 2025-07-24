@@ -7,7 +7,7 @@ const SearchBar = ({ setSearchTerm }) => {
     <TextField
       label="Search"
       variant="outlined"
-      onChange={(e) => setSearchTerm(e.target.value)} 
+      onChange={(e) => setSearchTerm(e.target.value)}
       sx={{
         width: 500,
         input: { color: 'white' },

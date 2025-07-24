@@ -10,9 +10,24 @@ import unicorn from 'eslint-plugin-unicorn'
 import unusedImports from 'eslint-plugin-unused-imports'
 import globals from 'globals'
 
+const stylisticRules = stylistic.configs.customize({
+  indent: 2,
+  semi: false,
+  quotes: 'single',
+  linebreakStyle: 'unix',
+  arrowParens: 'always',
+  objectCurlySpacing: true,
+  commaDangle: {
+    arrays: 'always-multiline',
+    objects: 'always-multiline',
+    imports: 'always-multiline',
+    exports: 'always-multiline',
+    functions: 'never',
+  },
+})
+
 export default [
   { ignores: ['public', 'dist'] },
-
   // Main app (browser environment)
   {
     files: ['**/*.{js,jsx}'],
@@ -34,7 +49,7 @@ export default [
       import: importPlugin,
       'simple-import-sort': simpleImportSort,
       'unused-imports': unusedImports,
-      unicorn,
+      unicorn: unicorn,
     },
     settings: {
       react: {
@@ -50,11 +65,12 @@ export default [
       ...js.configs.recommended.rules,
       ...reactPlugin.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
+      ...stylisticRules.rules,
+
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'react/react-in-jsx-scope': 'off',
+      'react/prop-types': 'off',
+
       'unused-imports/no-unused-imports': 'error',
       'import/no-unresolved': ['error', { caseSensitive: true }],
       'import/no-duplicates': 'error',
@@ -77,18 +93,6 @@ export default [
         },
       ],
       'react/prop-types': 'off',
-    },
-    
-  },
-
-  // Test files (Node environment)
-  {
-    files: ['src/tests/setupTests.js', '**/*.test.js', '**/*.spec.js'],
-    languageOptions: {
-      globals: {
-        ...globals.node,  // Enable Node.js globals like `global`
-        ...globals.browser, // Also allow browser globals if needed
-      },
     },
   },
 ]

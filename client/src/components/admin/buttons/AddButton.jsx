@@ -5,7 +5,6 @@ const AddButton = ({ onAddClick, disabled }) => {
   return (
     <Button
       variant="contained"
-
       sx={{
         minWidth: 0,
         px: '.5rem',

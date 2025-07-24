@@ -11,7 +11,7 @@ const DeleteButton = ({ onClick }) => {
         letterSpacing: '.075rem',
         backgroundColor: 'error.main',
         '&:hover': {
-          backgroundColor: 'error.dark' ,
+          backgroundColor: 'error.dark',
         },
       }}
     >

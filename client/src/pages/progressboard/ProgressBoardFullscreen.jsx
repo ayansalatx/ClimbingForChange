@@ -1,10 +1,15 @@
 import { alpha, Box, Typography, useMediaQuery } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { io } from 'socket.io-client'
 
 import C4CFavicon from '../../assets/C4C-branding/Favicon.png'
+import WarningDialog from '../../components/admin/modals/WarningDialog'
 import AutoScrollTable from '../../components/progressboard/tables/auto-scroll/AutoScrollTable'
-import { getDisplayEventTeams } from '../../services/eventService'
+import {
+  getLeaderboard,
+  updateLeaderboardTeamLaps,
+} from '../../services/leaderboardService'
 import theme from '../../styles/theme'
 
 // Define columns for full width screen
@@ -82,15 +87,22 @@ const ProgressBoardFullscreen = () => {
   }
 
   const { eventId } = useParams()
+  const navigate = useNavigate()
+  const socketRef = useRef(null)
+
   // State for teams
   const [teams, setTeams] = useState([])
+  const [warningOpen, setWarningOpen] = useState(false)
   const [loading, setLoading] = useState(true)
-  const navigate = useNavigate()
+
+  const showWarning = () => {
+    setWarningOpen(true)
+  }
 
   useEffect(() => {
     const handleSpace = (event) => {
       if (event.code === 'Space') {
-        navigate('/progress')
+        navigate('/progress', { replace: true })
       }
     }
 
@@ -100,20 +112,87 @@ const ProgressBoardFullscreen = () => {
 
   // Load Team data from server
   useEffect(() => {
-    async function loadData() {
+    const loadLeaderboard = async () => {
+      if (!eventId) return
       try {
-        const teamsList = await getDisplayEventTeams(eventId)
-        // const event = await getOneEvent(eventId)
+        const teamsForDisplay = await getLeaderboard(eventId)
 
-        setTeams(teamsList)
-      } catch (e) {
-        console.log('Failed to load progress data', e)
+        setTeams(teamsForDisplay)
+      } catch {
+        showWarning()
       } finally {
         setLoading(false)
       }
     }
-    loadData()
+
+    loadLeaderboard()
+
+    const intervalId = setInterval(loadLeaderboard, 2000)
+
+    return () => {
+      clearInterval(intervalId)
+    }
   }, [eventId])
+
+  // Listen for lap updates on socket
+  useEffect(() => {
+    const socketURL =
+      import.meta.env.VITE_SOCKET_SERVER_URL || 'http://localhost:5001'
+    socketRef.current = io(socketURL)
+
+    const handleLapUpdate = (change) => {
+      const updatedLap = change.fullDocument
+      // Don't update for laps without an end time
+      if (!updatedLap || !updatedLap.endDateTime) {
+        return
+      }
+
+      // Get teams and update for only the team with ID that matches
+      setTeams((prevTeams) => {
+        const teamIndex = prevTeams.findIndex(
+          (team) => team.id?.toString() === updatedLap.teamId
+        )
+        if (teamIndex === -1) return prevTeams
+
+        const team = prevTeams[teamIndex]
+        const laps = team.laps ?? []
+
+        // Update existing lap
+        const lapIndex = laps.findIndex(
+          (lap) => lap.id === updatedLap._id || lap._id === updatedLap._id
+        )
+
+        let newLaps
+
+        // Create new lap
+        if (lapIndex !== -1) {
+          newLaps = [
+            ...laps.slice(0, lapIndex),
+            updatedLap,
+            ...laps.slice(lapIndex + 1),
+          ]
+        } else {
+          newLaps = [...laps, updatedLap]
+        }
+
+        const updatedTeam = updateLeaderboardTeamLaps(team, newLaps)
+
+        // Update display for only team with lap update
+        return [
+          ...prevTeams.slice(0, teamIndex),
+          updatedTeam,
+          ...prevTeams.slice(teamIndex + 1),
+        ]
+      })
+    }
+
+    socketRef.current.on('lapUpdate', handleLapUpdate)
+
+    return () => {
+      socketRef.current.off('lapUpdate', handleLapUpdate)
+      socketRef.current.disconnect()
+    }
+  }, [])
 
   return (
     <Box
@@ -126,7 +205,7 @@ const ProgressBoardFullscreen = () => {
     >
       {/* https://pixabay.com/videos/search/terrain%20blue%20gray%20mountain/ */}
       <video
-        src="/assets/mountain-with-way-points-full.mp4"
+        src="/assets/progress-board-background.mp4"
         autoPlay
         loop
         muted
@@ -228,7 +307,7 @@ const ProgressBoardFullscreen = () => {
                   fontStyle: 'italic',
                 }}
               >
-                Climb Progress
+                Team Progress
               </Typography>
             </Box>
           </Box>
@@ -243,12 +322,21 @@ const ProgressBoardFullscreen = () => {
           >
             <AutoScrollTable
               columns={columns}
-              teams={[...teams, ...teams]}
+              teams={teams}
               loading={loading}
             />
           </Box>
         </Box>
       </Box>
+      <WarningDialog
+        open={warningOpen}
+        title={'Data Loading Error'}
+        message={'Data for event is not loading.'}
+        onCancel={() => {
+          setWarningOpen(false)
+          navigate('/progress', { replace: true })
+        }}
+      />
     </Box>
   )
 }

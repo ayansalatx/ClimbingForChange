@@ -1,4 +1,15 @@
-import { Box, Checkbox, FormControl, InputLabel, MenuItem, Modal, Select, TextField, Typography } from '@mui/material'
+import {
+  Box,
+  Checkbox,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  Switch,
+  TextField,
+  Typography,
+} from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import CancelButton from '../buttons/CancelButton'
@@ -32,7 +43,15 @@ const getMountainIdsByName = (mountainNames, mountains) => {
     .filter((id) => id !== undefined)
 }
 
-const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, eventToEdit }) => {
+const AddEventModal = ({
+  open,
+  onClose,
+  onAdd,
+  onEdit,
+  onLocation,
+  onMountains,
+  eventToEdit,
+}) => {
   const [eventName, setEventName] = useState('')
   const [location, setLocation] = useState('')
   const [locations, setLocations] = useState([])
@@ -41,6 +60,11 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
   const [duration, setDuration] = useState('')
   const [mountains, setMountains] = useState([])
   const [mountainSelection, setMountainSelection] = useState([])
+  const [isActive, setIsActive] = useState(true)
+
+  const isPastEvent = eventToEdit
+    ? new Date(eventToEdit.startDateTime) < new Date()
+    : false
 
   const onModalClose = () => {
     onClose()
@@ -67,12 +91,15 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
       const start = new Date(eventToEdit.startDateTime)
       setStartDate(start.toISOString().slice(0, 10))
       setStartTime(start.toTimeString().slice(0, 5))
-      const durationHours = (new Date(eventToEdit.endDateTime) - start) / 3600000
+      const durationHours
+        = (new Date(eventToEdit.endDateTime) - start) / 3600000
       setDuration(durationHours)
       const mountainNames = parseMountainNames(eventToEdit.mountains)
       const selectedMountains = getMountainIdsByName(mountainNames, mountains)
       setMountainSelection(selectedMountains)
+      setIsActive(eventToEdit.active)
     } else {
+      setIsActive(true)
       setMountainSelection([])
     }
   }, [eventToEdit, mountains])
@@ -90,18 +117,16 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
       startDateTime: start.toISOString(),
       endDateTime: end.toISOString(),
       hill: [],
-      active: true,
+      active: isActive,
     }
 
-    try {
-      if (eventToEdit) {
-        await onEdit(eventToEdit.id, eventData)
-      } else {
-        await onAdd(eventData)
-      }
-    } catch (error) {
-      console.error('Error saving event:', error)
+    if (eventToEdit) {
+      await onEdit(eventToEdit.id, eventData)
     }
+    else {
+      await onAdd(eventData)
+    }
+
     onModalClose()
   }
 
@@ -109,7 +134,8 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
     const value = e.target.value
     if (typeof value === 'string') {
       setMountainSelection(value.split(','))
-    } else {
+    }
+    else {
       setMountainSelection(value)
     }
   }
@@ -121,13 +147,28 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
     })
     return names.join(', ')
   }
-  
+
   return (
     <Modal open={open} onClose={onModalClose}>
       <Box sx={style}>
-        <Typography variant="h6" mb={2} sx={{ color: 'black' }}>
-          {eventToEdit ? 'Edit Event' : 'Add New Event'}
-        </Typography>
+        <Box mb={1} display="flex" alignItems="center" justifyContent="space-between">
+          <Typography variant="h6" sx={{ color: 'black' }}>
+            {eventToEdit ? 'Edit Event' : 'Add New Event'}
+          </Typography>
+          {eventToEdit && (
+            <FormControl>
+              <Box display="flex" alignItems="center" gap={1}>
+                <Typography>Active</Typography>
+                <Switch
+                  checked={isActive}
+                  onChange={(e) => setIsActive(e.target.checked)}
+                  color="success"
+                  disabled={isPastEvent}
+                />
+              </Box>
+            </FormControl>
+          )}
+        </Box>
         <form onSubmit={handleAdd}>
           <TextInput
             fullWidth
@@ -169,7 +210,9 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
             >
               {mountains.map((mountain) => (
                 <MenuItem key={mountain.id} value={mountain.id}>
-                  <Checkbox checked={mountainSelection.indexOf(mountain.id) > -1} />
+                  <Checkbox
+                    checked={mountainSelection.indexOf(mountain.id) > -1}
+                  />
                   {mountain.name}
                 </MenuItem>
               ))}
@@ -187,13 +230,14 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
             InputLabelProps={{ shrink: true }}
             required
           />
-          <Box display="flex" gap={2}>
+
+          <Box sx={{ display: 'flex', gap: 2 }}>
             <TextField
               fullWidth
-              label="Start Time"
-              type="time"
-              variant="outlined"
-              margin="normal"
+              label='Start Time'
+              type='time'
+              variant='outlined'
+              margin='normal'
               value={startTime}
               onChange={(e) => setStartTime(e.target.value)}
               InputLabelProps={{ shrink: true }}
@@ -202,18 +246,20 @@ const AddEventModal = ({ open, onClose, onAdd, onEdit, onLocation, onMountains, 
 
             <TextInput
               fullWidth
-              label="Duration (hours)"
-              type="number"
-              margin="normal"
+              label='Duration (hours)'
+              type='number'
+              margin='normal'
               value={duration}
               onChange={(e) => setDuration(e.target.value)}
               required
             />
           </Box>
-          <Box mt={2} display="flex" justifyContent="space-between" gap={2}>
+
+          <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
             <CancelButton onClick={onModalClose} color="red" />
-            <SaveButton type="submit" label={eventToEdit? 'Save' : 'Create'} />
+            <SaveButton type="submit" label={eventToEdit ? 'Save' : 'Create'} />
           </Box>
+          
         </form>
       </Box>
     </Modal>

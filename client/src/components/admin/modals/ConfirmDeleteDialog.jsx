@@ -32,7 +32,9 @@ const ConfirmDeleteDialog = ({ open, onCancel, onConfirm }) => {
           Are you sure you want to delete this item?
         </DialogContentText>
       </DialogContent>
-      <DialogActions sx={{ display: 'flex', justifyContent: 'space-between', px: 3, py: 3 }}>
+      <DialogActions
+        sx={{ display: 'flex', justifyContent: 'space-between', px: 3, py: 3 }}
+      >
         <CancelButton onClick={onCancel} color={'gray'}></CancelButton>
         <DeleteButton onClick={onConfirm}></DeleteButton>
       </DialogActions>

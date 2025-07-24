@@ -1,4 +1,13 @@
-import { Box, FormControl, InputLabel, MenuItem, Modal, Select, TextField, Typography } from '@mui/material'
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  TextField,
+  Typography,
+} from '@mui/material'
 import React, { useEffect, useState } from 'react'
 
 import CancelButton from '../buttons/CancelButton'
@@ -21,44 +30,43 @@ const MountainModal = ({ open, onClose, onSave, mountain }) => {
   const [name, setName] = useState('')
   const [totalElevation, setTotalElevation] = useState('')
   const [elevationUnit, setElevationUnit] = useState('FT')
-  const [imageURL, setImageURL] = useState('')
 
   useEffect(() => {
     if (open && mountain) {
-      console.log('Setting form values from mountain:', mountain)
       setName(mountain.name || '')
       setTotalElevation(mountain.totalElevation?.toString() || '0')
       setElevationUnit(mountain.elevationUnit || 'FT')
-      setImageURL(mountain.imageURL || '')
-    } else if (!open) {
+    }
+    else if (!open) {
       // Reset form when closing
       setName('')
       setTotalElevation('0')
       setElevationUnit('FT')
-      setImageURL('')
     }
   }, [open, mountain])
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    
+
     // Prepare the mountain data
     const mountainData = {
       name: name.trim(),
       totalElevation: parseFloat(totalElevation) || 0,
       elevationUnit,
-      imageURL: imageURL || '',
       active: true,
     }
-    
-    console.log('Submitting mountain data:', mountainData)
+
     onSave(mountainData)
   }
 
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={style}>
-        <Typography variant="h5" mb={2} sx={{ textTransform: 'uppercase', color: 'primary.main' }}>
+        <Typography
+          variant="h5"
+          mb={2}
+          sx={{ textTransform: 'uppercase', color: 'primary.main' }}
+        >
           {mountain?.id ? 'Edit Mountain' : 'Add New Mountain'}
         </Typography>
 
@@ -71,19 +79,18 @@ const MountainModal = ({ open, onClose, onSave, mountain }) => {
             margin="dense"
             required
           />
-          
-          <Box display="flex" gap={2} alignItems="baseline" >
+          <Box display="flex" gap={2} alignItems="baseline">
             <TextField
+              fullWidth
               label="Elevation"
               type="number"
               value={totalElevation}
               onChange={(e) => setTotalElevation(e.target.value)}
-              required
-              fullWidth
               margin="dense"
+              required
             />
 
-            <FormControl fullWidth margin="dense" sx={{ minWidth: 120 }}>
+            <FormControl fullWidth margin="dense">
               <InputLabel>Unit</InputLabel>
               <Select
                 value={elevationUnit}
@@ -96,15 +103,7 @@ const MountainModal = ({ open, onClose, onSave, mountain }) => {
               </Select>
             </FormControl>
           </Box>
-
-          <TextField
-            fullWidth
-            label="Image URL (Optional)"
-            value={imageURL}
-            onChange={(e) => setImageURL(e.target.value)}
-            margin="dense"
-          />
-          <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
+          <Box mt={2} display="flex" justifyContent="space-between" gap={2}>
             <CancelButton onClick={onClose} color="red" />
             <SaveButton type="submit" label={mountain?.id ? 'Save' : 'Create'} />
           </Box>
