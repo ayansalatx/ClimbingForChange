@@ -449,68 +449,70 @@ const ParticipantUpload = () => {
               </Box>
             </Box>
           </Box>
-          {rows.length > 0 ? (
-            <Box sx={{ flexGrow: 1, minHeight: 0, width: '100%' }}>
-              <TableContainer
-                component={Paper}
-                sx={{ maxHeight: '100%', overflowY: 'auto' }}
-              >
-                <Table size="small" stickyHeader>
-                  <TableHead>
-                    <TableRow
-                      sx={{
-                        '& th': {
-                          backgroundColor: 'primary.light', // MUI blue
-                          color: 'background.paper', // white text
-                        },
-                      }}
-                    >
-                      <TableCell>Participant ID</TableCell>
-                      <TableCell>First Name</TableCell>
-                      <TableCell>Last Name</TableCell>
-                      <TableCell>Sub Event</TableCell>
-                      <TableCell>Team Name</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {rows.map((row) => (
+          {rows.length > 0
+            ? (
+              <Box sx={{ flexGrow: 1, minHeight: 0, width: '100%' }}>
+                <TableContainer
+                  component={Paper}
+                  sx={{ maxHeight: '100%', overflowY: 'auto' }}
+                >
+                  <Table size="small" stickyHeader>
+                    <TableHead>
                       <TableRow
-                        key={row.participantId}
                         sx={{
-                          '&:last-child td, &:last-child th': { border: 0 },
+                          '& th': {
+                            backgroundColor: 'primary.light', // MUI blue
+                            color: 'background.paper', // white text
+                          },
                         }}
                       >
-                        <TableCell component="th" scope="row">
-                          {row.participantId}
-                        </TableCell>
-                        <TableCell>{row.firstName}</TableCell>
-                        <TableCell>{row.lastName}</TableCell>
-                        <TableCell>{row.subEvent}</TableCell>
-                        <TableCell>{row.teamName}</TableCell>
+                        <TableCell>Participant ID</TableCell>
+                        <TableCell>First Name</TableCell>
+                        <TableCell>Last Name</TableCell>
+                        <TableCell>Sub Event</TableCell>
+                        <TableCell>Team Name</TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Box>
-          ) : (
-            <Box
-              sx={{
-                flexGrow: 1,
-                minHeight: 0,
-                width: '100%',
-                alignContent: 'center',
-                borderRadius: '5px',
-                backgroundColor: 'background.paper',
-              }}
-            >
-              <Typography variant="h6" sx={{ color: 'gray.main' }}>
-                Please select
-                {' '}
-                {selectedEventId ? 'a CSV file' : 'an Event'}
-              </Typography>
-            </Box>
-          )}
+                    </TableHead>
+                    <TableBody>
+                      {rows.map((row) => (
+                        <TableRow
+                          key={row.participantId}
+                          sx={{
+                            '&:last-child td, &:last-child th': { border: 0 },
+                          }}
+                        >
+                          <TableCell component="th" scope="row">
+                            {row.participantId}
+                          </TableCell>
+                          <TableCell>{row.firstName}</TableCell>
+                          <TableCell>{row.lastName}</TableCell>
+                          <TableCell>{row.subEvent}</TableCell>
+                          <TableCell>{row.teamName}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Box>
+            )
+            : (
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  minHeight: 0,
+                  width: '100%',
+                  alignContent: 'center',
+                  borderRadius: '5px',
+                  backgroundColor: 'background.paper',
+                }}
+              >
+                <Typography variant="h6" sx={{ color: 'gray.main' }}>
+                  Please select
+                  {' '}
+                  {selectedEventId ? 'a CSV file' : 'an Event'}
+                </Typography>
+              </Box>
+            )}
           <Box
             sx={{
               display: 'flex',
