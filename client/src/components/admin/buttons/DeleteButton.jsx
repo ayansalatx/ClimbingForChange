@@ -6,10 +6,10 @@ const DeleteButton = ({ onClick }) => {
       variant="contained"
       onClick={onClick}
       sx={{
-        width: '6rem',
-        borderWidth: '2px',
-        letterSpacing: '.075rem',
-        backgroundColor: 'error.main',
+        'width': '6rem',
+        'borderWidth': '2px',
+        'letterSpacing': '.075rem',
+        'backgroundColor': 'error.main',
         '&:hover': {
           backgroundColor: 'error.dark',
         },

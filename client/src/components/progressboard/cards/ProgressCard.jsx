@@ -65,9 +65,9 @@ const ProgressCard = ({ team }) => {
               variant="body1"
               fontSize={{ xxs: '1.05rem', xs: '1.15rem' }}
               fontWeight="bold"
-              textTransform={'uppercase'}
-              letterSpacing={'.015rem'}
-              color={'info.main'}
+              textTransform="uppercase"
+              letterSpacing=".015rem"
+              color="info.main"
               whiteSpace="nowrap"
               sx={{ textOverflow: 'ellipsis', overflow: 'hidden' }}
             >
@@ -87,8 +87,8 @@ const ProgressCard = ({ team }) => {
             variant="body1"
             fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
             fontWeight="bold"
-            textTransform={'uppercase'}
-            letterSpacing={'0.015rem'}
+            textTransform="uppercase"
+            letterSpacing="0.015rem"
             color="secondary.dark"
             whiteSpace="nowrap"
           >
@@ -117,9 +117,9 @@ const ProgressCard = ({ team }) => {
             variant="body1"
             fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
             fontWeight="bold"
-            textTransform={'uppercase'}
-            letterSpacing={'0.015rem'}
-            color={'primary.light'}
+            textTransform="uppercase"
+            letterSpacing="0.015rem"
+            color="primary.light"
             whiteSpace="nowrap"
           >
             Laps
@@ -191,9 +191,9 @@ const ProgressCard = ({ team }) => {
             variant="body1"
             fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
             fontWeight="bold"
-            textTransform={'uppercase'}
-            letterSpacing={'.015rem'}
-            color={'primary.light'}
+            textTransform="uppercase"
+            letterSpacing=".015rem"
+            color="primary.light"
             whiteSpace="nowrap"
           >
             Best Lap
@@ -237,8 +237,8 @@ const ProgressCard = ({ team }) => {
             variant="body1"
             fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
             fontWeight="bold"
-            textTransform={'uppercase'}
-            letterSpacing={'0.015rem'}
+            textTransform="uppercase"
+            letterSpacing="0.015rem"
             whiteSpace="nowrap"
           >
             Elev.
@@ -313,9 +313,9 @@ const ProgressCard = ({ team }) => {
             variant="body1"
             fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
             fontWeight="bold"
-            textTransform={'uppercase'}
-            letterSpacing={'.015rem'}
-            color={'primary.light'}
+            textTransform="uppercase"
+            letterSpacing=".015rem"
+            color="primary.light"
             whiteSpace="nowrap"
           >
             Time

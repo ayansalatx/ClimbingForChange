@@ -13,18 +13,18 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
         displayEmpty
         required
         sx={{
-          textAlign: 'left',
-          bgcolor: 'info.light',
-          color: 'primary.light',
-          fontSize: {
+          'textAlign': 'left',
+          'bgcolor': 'info.light',
+          'color': 'primary.light',
+          'fontSize': {
             xxs: '0.9rem',
             xs: '0.9rem',
             sm: '0.9rem',
             md: '1.1rem',
           },
-          textTransform: 'uppercase',
-          fontWeight: 'bold',
-          letterSpacing: '.005rem',
+          'textTransform': 'uppercase',
+          'fontWeight': 'bold',
+          'letterSpacing': '.005rem',
           '&:before, &:after': {
             borderBottom: 'none !important',
           },
@@ -58,10 +58,10 @@ const EventSelector = ({ events = [], selectedEvent, setSelectedEvent }) => {
             value={event.id}
             key={event.id}
             sx={{
-              borderRadius: '3px',
-              minHeight: { xxs: 'unset', xs: 'unset', sm: 0 },
-              color: 'primary.main',
-              fontSize: {
+              'borderRadius': '3px',
+              'minHeight': { xxs: 'unset', xs: 'unset', sm: 0 },
+              'color': 'primary.main',
+              'fontSize': {
                 xxs: '0.9rem',
                 xs: '0.9rem',
                 sm: '0.9rem',

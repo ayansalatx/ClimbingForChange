@@ -14,7 +14,7 @@ const UploadPreviewTable = ({ rows }) => {
       component={Paper}
       sx={{ maxHeight: '100%', overflowY: 'auto' }}
     >
-      <Table size='small' stickyHeader>
+      <Table size="small" stickyHeader>
         <TableHead>
           <TableRow
             sx={{

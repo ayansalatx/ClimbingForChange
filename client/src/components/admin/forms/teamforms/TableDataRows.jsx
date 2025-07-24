@@ -25,13 +25,17 @@ const TableDataRows = ({
                     key={`${rowKey}-${column.id}`}
                     align={column.align}
                   >
-                    {column.format && typeof value === 'number' ? (
-                      column.format(value)
-                    ) : typeof value === 'boolean' ? (
-                      <Switch disabled defaultChecked={value} />
-                    ) : (
-                      value
-                    )}
+                    {column.format && typeof value === 'number'
+                      ? (
+                        column.format(value)
+                      )
+                      : typeof value === 'boolean'
+                        ? (
+                          <Switch disabled defaultChecked={value} />
+                        )
+                        : (
+                          value
+                        )}
                   </TableCell>
                 )
               })}

@@ -42,17 +42,17 @@ export default [
     },
     plugins: {
       '@stylistic': stylistic,
-      react: reactPlugin,
+      'react': reactPlugin,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
       'jsx-a11y': jsxA11y,
-      import: importPlugin,
+      'import': importPlugin,
       'simple-import-sort': simpleImportSort,
       'unused-imports': unusedImports,
-      unicorn: unicorn,
+      'unicorn': unicorn,
     },
     settings: {
-      react: {
+      'react': {
         version: 'detect',
       },
       'import/resolver': {
@@ -92,7 +92,6 @@ export default [
           functions: 'never',
         },
       ],
-      'react/prop-types': 'off',
     },
   },
 ]

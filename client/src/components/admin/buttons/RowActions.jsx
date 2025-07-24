@@ -5,10 +5,10 @@ import { alpha } from '@mui/material/styles'
 const RowActions = ({ row, onEditClick, onDeleteClick, active }) => {
   return (
     <Box
-      width={'100%'}
-      height={'100%'}
-      display={'flex'}
-      justifyContent={'space-evenly'}
+      width="100%"
+      height="100%"
+      display="flex"
+      justifyContent="space-evenly"
     >
       <IconButton
         onClick={(e) => {
@@ -16,8 +16,8 @@ const RowActions = ({ row, onEditClick, onDeleteClick, active }) => {
           onEditClick(row)
         }}
         sx={(theme) => ({
-          p: 0.35,
-          borderRadius: 2,
+          'p': 0.35,
+          'borderRadius': 2,
           '&:hover': {
             bgcolor: alpha(theme.palette.primary.main, 0.15),
           },
@@ -41,8 +41,8 @@ const RowActions = ({ row, onEditClick, onDeleteClick, active }) => {
           onDeleteClick(row)
         }}
         sx={(theme) => ({
-          p: 0.25,
-          borderRadius: 2,
+          'p': 0.25,
+          'borderRadius': 2,
           '&:hover': {
             bgcolor: alpha(theme.palette.primary.main, 0.15),
           },

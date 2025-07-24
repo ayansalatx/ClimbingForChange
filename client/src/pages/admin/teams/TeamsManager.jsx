@@ -94,7 +94,8 @@ const TeamsManager = () => {
 
       setTeams(formattedTeams)
       displayAlert('Loaded', `Loaded ${teams.length} teams from the backend.`, 'success')
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert('Teams Error', `${error.message}`, 'error')
     }
   }, [displayAlert])
@@ -110,7 +111,8 @@ const TeamsManager = () => {
 
       const rfidList = await getRfidTagList()
       await fetchTeams(formattedEvents, rfidList)
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert('Events Error', `${error.message}`, 'error')
     }
   }, [displayAlert, fetchTeams])
@@ -127,10 +129,12 @@ const TeamsManager = () => {
         const rfidList = await getRfidTagList()
         fetchTeams(events, rfidList)
         handleClosePopup()
-      } else {
+      }
+      else {
         throw new Error('Team was not created')
       }
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert('Add Error', `Failed to add the team: ${error.message}`, 'error')
     }
   }
@@ -143,10 +147,12 @@ const TeamsManager = () => {
         const rfidList = await getRfidTagList()
         fetchTeams(events, rfidList)
         handleClosePopup()
-      } else {
+      }
+      else {
         throw new Error('Team was not edited')
       }
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert('Edit Error', `Failed to edit the team: ${error.message}`, 'error')
     }
   }
@@ -159,10 +165,12 @@ const TeamsManager = () => {
         const rfidList = await getRfidTagList()
         fetchTeams(events, rfidList)
         setDeleteConfirmOpen(false)
-      } else {
+      }
+      else {
         displayAlert('Delete Error', 'Failed to delete the team. Please try again.', 'error')
       }
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert('Delete Error', `Failed to delete the team: ${error.message}`, 'error')
     }
   }
@@ -205,9 +213,9 @@ const TeamsManager = () => {
       px: '1.5rem',
     }}
     >
-      
+
       <DataTable
-        tableTitle='Teams'
+        tableTitle="Teams"
         tableIcon={People}
         tableColumns={fullColumns}
         tableData={(selectedEvent === null || selectedEvent.toString() === '') ? [] : teamsDataForDisplay}

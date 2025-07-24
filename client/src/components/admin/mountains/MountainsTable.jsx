@@ -70,7 +70,9 @@ const MountainsTable = ({
             <TableRow key={mountain.id}>
               <TableCell>{mountain.name}</TableCell>
               <TableCell>
-                {mountain.totalElevation} {mountain.elevationUnit}
+                {mountain.totalElevation}
+                {' '}
+                {mountain.elevationUnit}
               </TableCell>
               <TableCell align="center">
                 <IconButton size="small" onClick={() => onEdit(mountain)}>

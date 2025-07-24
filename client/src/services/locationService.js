@@ -30,7 +30,7 @@ export const editLocation = async (id, data) => {
   }
 }
 
-//Deactivate location (Soft Delete)
+// Deactivate location (Soft Delete)
 export const removeLocation = async (id) => {
   try {
     await api.put(`/locations/${id}`, { active: false })

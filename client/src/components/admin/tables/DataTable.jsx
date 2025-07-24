@@ -166,9 +166,9 @@ const DataTable = ({
               variant="body1"
               component="span"
               color="primary.light"
-              textTransform={'uppercase'}
-              fontWeight={'bold'}
-              letterSpacing={'.05rem'}
+              textTransform="uppercase"
+              fontWeight="bold"
+              letterSpacing=".05rem"
               paddingRight={1}
             >
               Event:
@@ -194,78 +194,86 @@ const DataTable = ({
           scrollbarColor: `${theme.palette.primary.light} ${theme.palette.background.default}`,
         })}
       >
-        {loading ? (
-          <Table stickyHeader height="100%">
-            <TableHeaderRow columns={tableColumns} />
-            <TableBody
-              sx={{
-                backgroundColor: 'background.paper',
-              }}
-            >
-              <TableRow>
-                <TableCell
-                  colSpan={tableColumns.length + 1}
-                  align="center"
-                  sx={{ border: 'none' }}
+        {loading
+          ? (
+            <Table stickyHeader height="100%">
+              <TableHeaderRow columns={tableColumns} />
+              <TableBody
+                sx={{
+                  backgroundColor: 'background.paper',
+                }}
+              >
+                <TableRow>
+                  <TableCell
+                    colSpan={tableColumns.length + 1}
+                    align="center"
+                    sx={{ border: 'none' }}
+                  >
+                    <CircularProgress color="info" />
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          )
+          : filteredRows.length > 0
+            ? (
+              <Table
+                stickyHeader
+                sx={{
+                  'width': '100%',
+                  '&:hover': { bgcolor: alpha(theme.palette.primary.light, 0.05) },
+                }}
+              >
+                <TableHeaderRow
+                  columns={tableColumns}
+                  onAddClick={onAddClick}
+                  disabled={disableAdd}
+                />
+                <TableDataRows
+                  rows={filteredRows}
+                  columns={tableColumns}
+                  page={page}
+                  rowsPerPage={rowsPerPage}
+                  onEditClick={onEditClick}
+                  onDeleteClick={onDeleteClick}
+                  activeOnChange={activeOnChange}
+                  toggleDisabled={(row) =>
+                    tableTitle === 'Events'
+                    && !row.active
+                    && !row.canReactivate}
+                />
+              </Table>
+            )
+            : (
+              <Table height="100%" stickyHeader>
+                <TableHeaderRow
+                  columns={tableColumns}
+                  onAddClick={onAddClick}
+                  disabled={disableAdd}
+                />
+                <TableBody
+                  sx={{
+                    backgroundColor: 'background.paper',
+                  }}
                 >
-                  <CircularProgress color="info" />
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        ) : filteredRows.length > 0 ? (
-          <Table
-            stickyHeader
-            sx={{
-              width: '100%',
-              '&:hover': { bgcolor: alpha(theme.palette.primary.light, 0.05) },
-            }}
-          >
-            <TableHeaderRow
-              columns={tableColumns}
-              onAddClick={onAddClick}
-              disabled={disableAdd}
-            />
-            <TableDataRows
-              rows={filteredRows}
-              columns={tableColumns}
-              page={page}
-              rowsPerPage={rowsPerPage}
-              onEditClick={onEditClick}
-              onDeleteClick={onDeleteClick}
-              activeOnChange={activeOnChange}
-              toggleDisabled={(row) =>
-                tableTitle === 'Events' &&
-                !row.active &&
-                !row.canReactivate}
-            />
-          </Table>
-        ) : (
-          <Table height="100%" stickyHeader>
-            <TableHeaderRow
-              columns={tableColumns}
-              onAddClick={onAddClick}
-              disabled={disableAdd}
-            />
-            <TableBody
-              sx={{
-                backgroundColor: 'background.paper',
-              }}
-            >
-              <TableRow>
-                <TableCell
-                  colSpan={tableColumns.length + 1}
-                  align="center"
-                  sx={{ border: 'none' }}
-                >
-                  <Typography variant="h5" color="primary.main">
-                    No {tableTitle.toLowerCase()} to display
-                  </Typography>
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        )}
+                  <TableRow>
+                    <TableCell
+                      colSpan={tableColumns.length + 1}
+                      align="center"
+                      sx={{ border: 'none' }}
+                    >
+                      <Typography variant="h5" color="primary.main">
+                        No
+                        {' '}
+                        {tableTitle.toLowerCase()}
+                        {' '}
+                        to display
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            )}
       </TableContainer>
       <Box
         sx={{
@@ -290,9 +298,9 @@ const DataTable = ({
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
           sx={{
-            minHeight: '3.25rem',
-            bgcolor: 'primary.main',
-            color: 'background.paper',
+            'minHeight': '3.25rem',
+            'bgcolor': 'primary.main',
+            'color': 'background.paper',
             '& .MuiSvgIcon-root': {
               fontSize: '1.25rem',
               color: 'background.paper',

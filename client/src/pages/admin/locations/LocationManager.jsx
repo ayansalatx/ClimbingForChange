@@ -161,15 +161,15 @@ const LocationManager = () => {
       }}
     >
       <DataTable
-        tableTitle={'Locations'}
+        tableTitle="Locations"
         tableIcon={PlaceIcon}
         tableColumns={fullColumns}
         tableData={locations}
         showInactive={showInactive}
         setShowInactive={setShowInactive}
-        eventsForDropdown={''}
-        selectedEvent={''}
-        setSelectedEvent={''}
+        eventsForDropdown=""
+        selectedEvent=""
+        setSelectedEvent=""
         onAddClick={onAdd}
         onEditClick={onEdit}
         onDeleteClick={onDelete}

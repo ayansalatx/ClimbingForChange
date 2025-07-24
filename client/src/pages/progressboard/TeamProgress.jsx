@@ -52,9 +52,11 @@ const TeamProgress = () => {
       try {
         const teamForDisplay = await getLeaderboardTeam(teamId)
         setTeam(teamForDisplay)
-      } catch {
+      }
+      catch {
         showWarning()
-      } finally {
+      }
+      finally {
         setLoading(false)
       }
     }
@@ -125,9 +127,11 @@ const TeamProgress = () => {
   let teamStats
   if (isXXSmall) {
     teamStats = xSmTeamStats
-  } else if (isXSmall) {
+  }
+  else if (isXSmall) {
     teamStats = smTeamStats
-  } else {
+  }
+  else {
     teamStats = lgTeamStats
   }
 
@@ -142,38 +146,40 @@ const TeamProgress = () => {
     >
       {/* https://pixabay.com/videos/search/terrain%20blue%20gray%20mountain/ */}
 
-      {isXSmall ? (
-        <Box
-          component="img"
-          src="/assets/mountain-range-illustration-2.jpeg"
-          alt="Mountain background"
-          sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            zIndex: 0,
-          }}
-        />
-      ) : (
-        <video
-          src="/assets/progress-board-background.mp4"
-          autoPlay
-          loop
-          muted
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            zIndex: 0,
-          }}
-        />
-      )}
+      {isXSmall
+        ? (
+          <Box
+            component="img"
+            src="/assets/mountain-range-illustration-2.jpeg"
+            alt="Mountain background"
+            sx={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              zIndex: 0,
+            }}
+          />
+        )
+        : (
+          <video
+            src="/assets/progress-board-background.mp4"
+            autoPlay
+            loop
+            muted
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              zIndex: 0,
+            }}
+          />
+        )}
 
       <Box
         sx={{
@@ -243,7 +249,7 @@ const TeamProgress = () => {
                 />
               </Box>
             </Box>
-            <ExitButton color={'background.paper'} />
+            <ExitButton color="background.paper" />
           </Box>
           {loading ? (
             <Box
@@ -442,59 +448,61 @@ const TeamProgress = () => {
                   <ProgressIndicator
                     progress={team?.progressPercentage}
                     label={`${team?.lapsCompleted} Laps`}
-                    color={'secondary.main'}
-                    shadow={'drop-shadow(0 0 4px rgba(48, 51, 31, 0.3))'}
+                    color="secondary.main"
+                    shadow="drop-shadow(0 0 4px rgba(48, 51, 31, 0.3))"
                   />
 
                   {/* Elevation Progress Indicator */}
                   <ProgressIndicator
                     progress={team?.progressPercentage}
                     label={`${team?.currentElevation} ${team?.elevationUnit}`}
-                    color={'info.main'}
-                    shadow={'drop-shadow(0 0 4px rgba(31, 47, 51, 0.3))'}
+                    color="info.main"
+                    shadow="drop-shadow(0 0 4px rgba(31, 47, 51, 0.3))"
                   />
                 </Box>
 
                 {/* Laps Table */}
-                {!isSmall ? (
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flex: 1,
-                      height: '100%',
-                      minWidth: '40%',
-                      flexDirection: 'column',
-                      borderRadius: '4px',
-                      gap: 2,
-                      overflowY: 'hidden',
-                      minHeight: 0,
-                      boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
-                    }}
-                  >
+                {!isSmall
+                  ? (
                     <Box
                       sx={{
-                        height: '100%',
-                        borderRadius: '4px',
                         display: 'flex',
+                        flex: 1,
+                        height: '100%',
+                        minWidth: '40%',
                         flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'flex-start',
+                        borderRadius: '4px',
+                        gap: 2,
                         overflowY: 'hidden',
+                        minHeight: 0,
+                        boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
                       }}
                     >
-                      <LapTable tableColumns={columns} laps={team?.laps} exitVisible={isXSmall} />
+                      <Box
+                        sx={{
+                          height: '100%',
+                          borderRadius: '4px',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          justifyContent: 'flex-start',
+                          overflowY: 'hidden',
+                        }}
+                      >
+                        <LapTable tableColumns={columns} laps={team?.laps} exitVisible={isXSmall} />
+                      </Box>
                     </Box>
-                  </Box>
-                ) : (
-                  <LapsViewButton
-                    label={'View Team\'s Laps Table'}
-                    onClick={() => {
-                      if (teamId) {
-                        navigate(`/progress/team/${team.id}/laps`)
-                      }
-                    }}
-                  />
-                )}
+                  )
+                  : (
+                    <LapsViewButton
+                      label={'View Team\'s Laps Table'}
+                      onClick={() => {
+                        if (teamId) {
+                          navigate(`/progress/team/${team.id}/laps`)
+                        }
+                      }}
+                    />
+                  )}
               </Box>
             </Box>
           )}
@@ -502,8 +510,8 @@ const TeamProgress = () => {
       </Box>
       <WarningDialog
         open={warningOpen}
-        title={'Data Loading Error'}
-        message={'Data for team is not loading.'}
+        title="Data Loading Error"
+        message="Data for team is not loading."
         onCancel={() => setWarningOpen(false)}
       />
     </Box>
