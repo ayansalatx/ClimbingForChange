@@ -123,48 +123,56 @@ const DataTable = ({
           scrollbarColor: `${theme.palette.primary.light} ${theme.palette.background.default}`,
         })}
       >
-        {loading ? (
-          <Table stickyHeader>
-            <TableHeaderRow columns={tableColumns} />
-            <TableBody>
-              <TableRow>
-                <TableCell colSpan={tableColumns.length + 1} align="center" sx={{ border: 'none' }}>
-                  <CircularProgress color="info" />
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        ) : filteredRows.length > 0 ? (
-          <Table
-            stickyHeader
-            sx={{
-              width: '100%',
-              '&:hover': { bgcolor: alpha(theme.palette.primary.light, 0.05) },
-            }}
-          >
-            <TableHeaderRow columns={tableColumns} />
-            <TableDataRows
-              rows={filteredRows}
-              columns={tableColumns}
-              rfidTags={rfidTags}
-              onRfidChange={onRfidChange}
-              usedRfidIds={usedRfidIds}
-            />
-          </Table>
-        ) : (
-          <Table stickyHeader>
-            <TableHeaderRow columns={tableColumns} />
-            <TableBody>
-              <TableRow>
-                <TableCell colSpan={tableColumns.length + 1} align="center" sx={{ border: 'none' }}>
-                  <Typography variant="h5" color="primary.main">
-                    No {tableTitle} to display
-                  </Typography>
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        )}
+        {loading
+          ? (
+            <Table stickyHeader>
+              <TableHeaderRow columns={tableColumns} />
+              <TableBody>
+                <TableRow>
+                  <TableCell colSpan={tableColumns.length + 1} align="center" sx={{ border: 'none' }}>
+                    <CircularProgress color="info" />
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          )
+          : filteredRows.length > 0
+            ? (
+              <Table
+                stickyHeader
+                sx={{
+                  'width': '100%',
+                  '&:hover': { bgcolor: alpha(theme.palette.primary.light, 0.05) },
+                }}
+              >
+                <TableHeaderRow columns={tableColumns} />
+                <TableDataRows
+                  rows={filteredRows}
+                  columns={tableColumns}
+                  rfidTags={rfidTags}
+                  onRfidChange={onRfidChange}
+                  usedRfidIds={usedRfidIds}
+                />
+              </Table>
+            )
+            : (
+              <Table stickyHeader>
+                <TableHeaderRow columns={tableColumns} />
+                <TableBody>
+                  <TableRow>
+                    <TableCell colSpan={tableColumns.length + 1} align="center" sx={{ border: 'none' }}>
+                      <Typography variant="h5" color="primary.main">
+                        No
+                        {' '}
+                        {tableTitle}
+                        {' '}
+                        to display
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            )}
       </TableContainer>
 
       <Box

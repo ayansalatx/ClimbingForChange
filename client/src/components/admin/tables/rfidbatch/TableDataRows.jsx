@@ -18,7 +18,7 @@ const TableDataRows = ({
           tabIndex={-1}
           key={row.id || index}
           sx={{
-            backgroundColor: row.isEdited
+            'backgroundColor': row.isEdited
               ? alpha(theme.palette.gray.main, 0.5)
               : index % 2 === 0
                 ? 'background.paper'
@@ -26,7 +26,7 @@ const TableDataRows = ({
             '&:hover > *': {
               backgroundColor: alpha(theme.palette.secondary.light, 0.9),
             },
-            transition: 'background-color 0.3s ease',
+            'transition': 'background-color 0.3s ease',
           }}
         >
           {columns.map((column) => {

@@ -52,15 +52,15 @@ function App() {
             )}
           >
             <Route index element={<AdminDashboard />} />
-            <Route path='events' element={<EventManager />} />
-            <Route path='participants' element={<ParticipantManager />} />
-            <Route path='upload' element={<ParticipantUpload />} />
-            <Route path='mountains' element={<MountainManager />} />
-            <Route path='locations' element={<LocationManager />} />  
-            <Route path='teams' element={<TeamsManager />} />              
-            <Route path='hills' element={<HillManager />} />
-            <Route path='rfid' element={<RFIDManager />} />
-            <Route path='team-rfid-batch' element={<TeamRFIDBatchManager />} />
+            <Route path="events" element={<EventManager />} />
+            <Route path="participants" element={<ParticipantManager />} />
+            <Route path="upload" element={<ParticipantUpload />} />
+            <Route path="mountains" element={<MountainManager />} />
+            <Route path="locations" element={<LocationManager />} />
+            <Route path="teams" element={<TeamsManager />} />
+            <Route path="hills" element={<HillManager />} />
+            <Route path="rfid" element={<RFIDManager />} />
+            <Route path="team-rfid-batch" element={<TeamRFIDBatchManager />} />
           </Route>
         </Routes>
       </Router>

@@ -40,9 +40,11 @@ const TeamRFIDBatchManager = () => {
         const eventsList = await getAllEvents()
         setEvents(eventsList)
         displayAlert('Success', 'Successfully loaded event data.', 'success')
-      } catch (error) {
+      }
+      catch (error) {
         displayAlert('Error', `Failed to load events: ${error.message}`, 'error')
-      } finally {
+      }
+      finally {
         setLoading(false)
       }
     }
@@ -73,9 +75,11 @@ const TeamRFIDBatchManager = () => {
           `Loaded ${filteredTeams.length} teams and ${formattedTags.length} RFID tags.`,
           'success'
         )
-      } catch (error) {
+      }
+      catch (error) {
         displayAlert('Error', `Failed to load teams or RFID tags: ${error.message}`, 'error')
-      } finally {
+      }
+      finally {
         setLoading(false)
       }
     }
@@ -125,7 +129,8 @@ const TeamRFIDBatchManager = () => {
 
         await editTeam(teamId, updatedTeamData)
         successCount++
-      } catch (error) {
+      }
+      catch (error) {
         failureCount++
         displayAlert(`Failed to update team ${teamId}:`, error)
       }

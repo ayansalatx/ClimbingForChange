@@ -26,7 +26,7 @@ const ConfirmSaveDialog = ({ open, onCancel, onConfirm }) => {
       onClose={onCancel}
       aria-describedby="confirm-save-dialog"
     >
-      <DialogTitle>{'Confirm Save'}</DialogTitle>
+      <DialogTitle>Confirm Save</DialogTitle>
       <DialogContent sx={{ py: 0 }}>
         <DialogContentText id="confirm-save-dialog">
           Are you sure you want to save these changes?
@@ -35,8 +35,8 @@ const ConfirmSaveDialog = ({ open, onCancel, onConfirm }) => {
       <DialogActions
         sx={{ display: 'flex', justifyContent: 'space-between', px: 3, py: 3 }}
       >
-        <CancelButton onClick={onCancel} color={'gray'} />
-        <SaveButton onClick={onConfirm} label={'Save'} />
+        <CancelButton onClick={onCancel} color="gray" />
+        <SaveButton onClick={onConfirm} label="Save" />
       </DialogActions>
     </Dialog>
   )
