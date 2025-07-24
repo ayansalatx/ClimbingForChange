@@ -422,6 +422,8 @@ export const runSimulation = async (req, res) => {
       if (!team.rfidTag || !team.rfidTag.serialNumber) continue
       const bib = team.rfidTag.serialNumber
       const numLaps = team.lapsRequired || 1
+      let cumulativeTime = 0
+      // Start passing
       passings.push({
         Code: bib,
         LoopID: 1,
@@ -431,12 +433,16 @@ export const runSimulation = async (req, res) => {
         FileNo: 1,
       })
       for (let lapNum = 1; lapNum <= numLaps; lapNum++) {
+        // Random variation: ±2 minutes
+        const variation = (Math.random() - 0.5) * 2 * 60 * 1000 // ±2 min
+        const lapTime = LAP_INTERVAL_MS + variation
+        cumulativeTime += lapTime
         passings.push({
           Code: bib,
           LoopID: 2,
-          RealTime: new Date(now + lapNum * LAP_INTERVAL_MS).toISOString(),
+          RealTime: new Date(now + cumulativeTime).toISOString(),
           PassingNo: lapNum,
-          RunTime: lapNum * LAP_INTERVAL_MS,
+          RunTime: cumulativeTime,
           FileNo: 1,
         })
       }
