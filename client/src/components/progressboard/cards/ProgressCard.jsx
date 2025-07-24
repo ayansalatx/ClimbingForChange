@@ -1,13 +1,26 @@
 import { Box, Card, Tooltip, Typography } from '@mui/material'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const ProgressCard = ({ team }) => {
+  const [clicked, setClicked] = useState(false)
+  const navigate = useNavigate()
+
+  const handleTap = () => {
+    setClicked(true)
+  }
+
   return (
     <Card
+      onClick={() => {
+        handleTap()
+        navigate(`team/${team?.id}`)
+      }}
       sx={{
         px: { xxs: 1, xs: 1 },
         py: { xxs: 0.5, xs: 0.5 },
         boxShadow: 3,
-        backgroundColor: 'background.default',
+        backgroundColor: clicked ? 'secondary.light' : 'background.default',
         color: 'primary.light',
         display: 'flex',
         flexDirection: 'column',
@@ -52,9 +65,9 @@ const ProgressCard = ({ team }) => {
               variant="body1"
               fontSize={{ xxs: '1.05rem', xs: '1.15rem' }}
               fontWeight="bold"
-              textTransform={'uppercase'}
-              letterSpacing={'.015rem'}
-              color={'info.main'}
+              textTransform="uppercase"
+              letterSpacing=".015rem"
+              color="info.main"
               whiteSpace="nowrap"
               sx={{ textOverflow: 'ellipsis', overflow: 'hidden' }}
             >
@@ -74,8 +87,8 @@ const ProgressCard = ({ team }) => {
             variant="body1"
             fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
             fontWeight="bold"
-            textTransform={'uppercase'}
-            letterSpacing={'0.015rem'}
+            textTransform="uppercase"
+            letterSpacing="0.015rem"
             color="secondary.dark"
             whiteSpace="nowrap"
           >
@@ -104,9 +117,9 @@ const ProgressCard = ({ team }) => {
             variant="body1"
             fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
             fontWeight="bold"
-            textTransform={'uppercase'}
-            letterSpacing={'0.015rem'}
-            color={'primary.light'}
+            textTransform="uppercase"
+            letterSpacing="0.015rem"
+            color="primary.light"
             whiteSpace="nowrap"
           >
             Laps
@@ -178,9 +191,9 @@ const ProgressCard = ({ team }) => {
             variant="body1"
             fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
             fontWeight="bold"
-            textTransform={'uppercase'}
-            letterSpacing={'.015rem'}
-            color={'primary.light'}
+            textTransform="uppercase"
+            letterSpacing=".015rem"
+            color="primary.light"
             whiteSpace="nowrap"
           >
             Best Lap
@@ -224,8 +237,8 @@ const ProgressCard = ({ team }) => {
             variant="body1"
             fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
             fontWeight="bold"
-            textTransform={'uppercase'}
-            letterSpacing={'0.015rem'}
+            textTransform="uppercase"
+            letterSpacing="0.015rem"
             whiteSpace="nowrap"
           >
             Elev.
@@ -300,9 +313,9 @@ const ProgressCard = ({ team }) => {
             variant="body1"
             fontSize={{ xxs: '0.95rem', xs: '1.05rem' }}
             fontWeight="bold"
-            textTransform={'uppercase'}
-            letterSpacing={'.015rem'}
-            color={'primary.light'}
+            textTransform="uppercase"
+            letterSpacing=".015rem"
+            color="primary.light"
             whiteSpace="nowrap"
           >
             Time

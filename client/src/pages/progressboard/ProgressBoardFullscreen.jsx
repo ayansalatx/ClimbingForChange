@@ -1,11 +1,15 @@
 import { alpha, Box, Typography, useMediaQuery } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { io } from 'socket.io-client'
 
 import C4CFavicon from '../../assets/C4C-branding/Favicon.png'
 import WarningDialog from '../../components/admin/modals/WarningDialog'
 import AutoScrollTable from '../../components/progressboard/tables/auto-scroll/AutoScrollTable'
-import { getDisplayEventTeams } from '../../services/eventService'
+import {
+  getLeaderboard,
+  updateLeaderboardTeamLaps,
+} from '../../services/leaderboardService'
 import theme from '../../styles/theme'
 
 // Define columns for full width screen
@@ -72,22 +76,28 @@ const ProgressBoardFullscreen = () => {
   let columns
   if (isXLarge) {
     columns = xlColumns
-  } else if (isLarge) {
+  }
+  else if (isLarge) {
     columns = lgColumns
-  } else if (isMedium) {
+  }
+  else if (isMedium) {
     columns = mdColumns
-  } else if (isSmall) {
+  }
+  else if (isSmall) {
     columns = smColumns
-  } else {
+  }
+  else {
     columns = xsmColumns
   }
 
   const { eventId } = useParams()
+  const navigate = useNavigate()
+  const socketRef = useRef(null)
+
   // State for teams
   const [teams, setTeams] = useState([])
-  const [loading, setLoading] = useState(true)
   const [warningOpen, setWarningOpen] = useState(false)
-  const navigate = useNavigate()
+  const [loading, setLoading] = useState(true)
 
   const showWarning = () => {
     setWarningOpen(true)
@@ -106,20 +116,90 @@ const ProgressBoardFullscreen = () => {
 
   // Load Team data from server
   useEffect(() => {
-    async function loadData() {
+    const loadLeaderboard = async () => {
+      if (!eventId) return
       try {
-        const teamsList = await getDisplayEventTeams(eventId)
-        // const event = await getOneEvent(eventId)
+        const teamsForDisplay = await getLeaderboard(eventId)
 
-        setTeams(teamsList)
-      } catch {
+        setTeams(teamsForDisplay)
+      }
+      catch {
         showWarning()
-      } finally {
+      }
+      finally {
         setLoading(false)
       }
     }
-    loadData()
+
+    loadLeaderboard()
+
+    const intervalId = setInterval(loadLeaderboard, 2000)
+
+    return () => {
+      clearInterval(intervalId)
+    }
   }, [eventId])
+
+  // Listen for lap updates on socket
+  useEffect(() => {
+    const socketURL
+      = import.meta.env.VITE_SOCKET_SERVER_URL || 'http://localhost:5001'
+    socketRef.current = io(socketURL)
+
+    const handleLapUpdate = (change) => {
+      const updatedLap = change.fullDocument
+      // Don't update for laps without an end time
+      if (!updatedLap || !updatedLap.endDateTime) {
+        return
+      }
+
+      // Get teams and update for only the team with ID that matches
+      setTeams((prevTeams) => {
+        const teamIndex = prevTeams.findIndex(
+          (team) => team.id?.toString() === updatedLap.teamId
+        )
+        if (teamIndex === -1) return prevTeams
+
+        const team = prevTeams[teamIndex]
+        const laps = team.laps ?? []
+
+        // Update existing lap
+        const lapIndex = laps.findIndex(
+          (lap) => lap.id === updatedLap._id || lap._id === updatedLap._id
+        )
+
+        let newLaps
+
+        // Create new lap
+        if (lapIndex !== -1) {
+          newLaps = [
+            ...laps.slice(0, lapIndex),
+            updatedLap,
+            ...laps.slice(lapIndex + 1),
+          ]
+        }
+        else {
+          newLaps = [...laps, updatedLap]
+        }
+
+        const updatedTeam = updateLeaderboardTeamLaps(team, newLaps)
+
+        // Update display for only team with lap update
+        return [
+          ...prevTeams.slice(0, teamIndex),
+          updatedTeam,
+          ...prevTeams.slice(teamIndex + 1),
+        ]
+      })
+    }
+
+    socketRef.current.on('lapUpdate', handleLapUpdate)
+
+    return () => {
+      socketRef.current.off('lapUpdate', handleLapUpdate)
+      socketRef.current.disconnect()
+    }
+  }, [])
 
   return (
     <Box
@@ -212,8 +292,8 @@ const ProgressBoardFullscreen = () => {
               <Typography
                 variant="h1"
                 color="secondary.main"
-                fontWeight={'bold'}
-                textTransform={'uppercase'}
+                fontWeight="bold"
+                textTransform="uppercase"
                 sx={{
                   fontSize: {
                     xxs: '1.3rem',
@@ -234,7 +314,7 @@ const ProgressBoardFullscreen = () => {
                   fontStyle: 'italic',
                 }}
               >
-                Climb Progress
+                Team Progress
               </Typography>
             </Box>
           </Box>
@@ -249,7 +329,7 @@ const ProgressBoardFullscreen = () => {
           >
             <AutoScrollTable
               columns={columns}
-              teams={[...teams, ...teams]}
+              teams={teams}
               loading={loading}
             />
           </Box>
@@ -257,8 +337,8 @@ const ProgressBoardFullscreen = () => {
       </Box>
       <WarningDialog
         open={warningOpen}
-        title={'Data Loading Error'}
-        message={'Data for event is not loading.'}
+        title="Data Loading Error"
+        message="Data for event is not loading."
         onCancel={() => {
           setWarningOpen(false)
           navigate('/progress', { replace: true })

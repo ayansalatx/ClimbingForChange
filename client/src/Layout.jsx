@@ -30,7 +30,8 @@ const Layout = () => {
       )
 
       navigate('/login', { replace: true })
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert('Error', 'An error occurred during logout', error.message)
       navigate('/login', { replace: true })
     }
@@ -58,7 +59,7 @@ const Layout = () => {
           }}
         >
           <Suspense
-            fallback={
+            fallback={(
               <Box
                 sx={{
                   display: 'flex',
@@ -69,7 +70,7 @@ const Layout = () => {
               >
                 <CircularProgress />
               </Box>
-            }
+            )}
           >
             <AlertDisplay />
             <Outlet sx={{ padding: 0, margin: 0 }} />

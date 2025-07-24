@@ -8,11 +8,11 @@ const CancelButton = ({ onClick, color }) => {
       variant="outlined"
       onClick={onClick}
       sx={{
-        width: '6rem',
-        borderWidth: '2px',
-        letterSpacing: '.05rem',
-        borderColor: color == 'red' ? 'error.main' : 'gray.main',
-        color: color == 'red' ? 'error.main' : 'gray.main',
+        'width': '6rem',
+        'borderWidth': '2px',
+        'letterSpacing': '.05rem',
+        'borderColor': color == 'red' ? 'error.main' : 'gray.main',
+        'color': color == 'red' ? 'error.main' : 'gray.main',
         '&:hover': {
           borderColor: color == 'red' ? 'error.main' : 'gray.main',
           backgroundColor:

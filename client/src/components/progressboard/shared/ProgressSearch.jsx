@@ -6,7 +6,7 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
   return (
     <Box
       sx={{
-        width: {
+        'width': {
           xxs: '100%',
           xs: '100%',
           sm: '100%',
@@ -14,13 +14,13 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
           lg: '40%',
           xl: '35%',
         },
-        textAlign: 'left',
-        backgroundColor: {
+        'textAlign': 'left',
+        'backgroundColor': {
           xxs: 'gray.light',
           sm: alpha(theme.palette.background.paper, 0.4),
         },
-        color: 'primary.main',
-        borderRadius: '3px',
+        'color': 'primary.main',
+        'borderRadius': '3px',
         '&:hover': {
           backgroundColor: {
             xxs: 'info.main',
@@ -44,27 +44,32 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
         slotProps={{
           paper: {
             sx: {
-              minHeight: { xxs: 'unset', xs: 'unset', sm: 0 },
-              borderRadius: '3px',
-              backgroundColor: 'background.paper',
-              color: 'primary.main',
-              fontSize: { xxs: '.9rem', md: '1rem', xl: '1.05rem' },
+              'minHeight': { xxs: 'unset', xs: 'unset', sm: 0 },
+              'borderRadius': '3px',
+              'backgroundColor': 'background.paper',
+              'color': 'primary.main',
+              'fontSize': { xxs: '.9rem', md: '1rem', xl: '1.05rem' },
+              'mx': 0.75,
+              'transition': 'background-color 0.2s ease',
               '& .MuiAutocomplete-option': {
-                minHeight: { xxs: 'unset', xs: 'unset' },
-                py: 0.5,
-                borderRadius: '3px',
-                color: 'primary.main',
-                transition: 'background-color 0.2s ease',
+                'minHeight': { xxs: 'unset', xs: 'unset' },
+                'fontSize': {
+                  xxs: '0.9rem',
+                  xs: '0.9rem',
+                  sm: '0.9rem',
+                  md: '1rem',
+                },
                 '&:hover': {
-                  borderRadius: '3px',
-                  backgroundColor: {
-                    backgroundColor: alpha(theme.palette.secondary.main, 0.7),
-                  },
+                  'borderRadius': '3px',
+                  'backgroundColor': alpha(theme.palette.secondary.main, 0.7),
                   '&:focus': {
                     borderRadius: '3px',
                     backgroundColor: alpha(theme.palette.secondary.main, 0.7),
                   },
                 },
+              },
+              '&.Mui-selected:hover': {
+                backgroundColor: alpha(theme.palette.secondary.main, 0.7),
               },
             },
           },
@@ -72,7 +77,7 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
         renderInput={(params) => (
           <TextField
             {...params}
-            placeholder={'Search...'}
+            placeholder="Search..."
             slotProps={{
               input: {
                 ...params.InputProps,
@@ -85,8 +90,13 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
                 textTransform: 'uppercase',
                 letterSpacing: '.01rem',
                 color: 'primary.light',
+                fontSize: {
+                  xxs: '1rem',
+                  xs: '1rem',
+                  sm: '1rem',
+                  md: '1.1rem',
+                },
               },
-
               '& input::placeholder': {
                 textTransform: 'capitalize',
                 fontWeight: 'regular',
@@ -94,7 +104,7 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
                 color: 'primary.main',
                 opacity: 0.85,
                 fontSize: {
-                  xxs: '.75rem',
+                  xxs: '.85rem',
                   sm: '0.85rem',
                   md: '0.95rem',
                   xl: '1rem',

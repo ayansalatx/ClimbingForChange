@@ -5,15 +5,15 @@ import CancelButton from '../buttons/CancelButton'
 import SaveButton from '../buttons/SaveButton'
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  boxShadow: 24,
-  p: 4,
-  borderRadius: 2,
+  'position': 'absolute',
+  'top': '50%',
+  'left': '50%',
+  'transform': 'translate(-50%, -50%)',
+  'width': 400,
+  'bgcolor': 'background.paper',
+  'boxShadow': 24,
+  'p': 4,
+  'borderRadius': 2,
   '& .MuiTextField-root': { mb: 2 },
 }
 
@@ -23,7 +23,8 @@ const RFIDModal = ({ open, onClose, onSave, rfid }) => {
   useEffect(() => {
     if (open && rfid) {
       setSerialNumber(rfid.serialNumber || '')
-    } else if (!open) {
+    }
+    else if (!open) {
       // Reset form when closing
       setSerialNumber('')
     }
@@ -61,12 +62,9 @@ const RFIDModal = ({ open, onClose, onSave, rfid }) => {
             required
             helperText="Enter the unique serial number of the RFID tag"
           />
-
-          <Box
-            sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, gap: 1 }}
-          >
-            <CancelButton onClick={onClose} />
-            <SaveButton type="submit" label={rfid?.id ? 'Update' : 'Add'} />
+          <Box mt={2} display="flex" justifyContent="space-between" gap={2}>
+            <CancelButton onClick={onClose} color="red" />
+            <SaveButton type="submit" label={rfid?.id ? 'Save' : 'Create'} />
           </Box>
         </form>
       </Box>

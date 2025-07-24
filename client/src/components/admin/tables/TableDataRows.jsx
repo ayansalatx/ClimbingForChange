@@ -12,13 +12,11 @@ const TableDataRows = ({
   activeOnChange,
   onEditClick,
   onDeleteClick,
-  toggleDisabled,
 }) => {
   const mountainsHref = '/admin/mountains'
   const hillsHref = '/admin/hills'
   const locationsHref = '/admin/locations'
   const teamsHref = '/admin/teams'
-
   return (
     <TableBody>
       {rows
@@ -31,7 +29,7 @@ const TableDataRows = ({
               tabIndex={-1}
               key={row.id || index}
               sx={{
-                backgroundColor:
+                'backgroundColor':
                   index % 2 === 0 ? 'background.paper' : 'background.default',
                 '&:hover > *': {
                   backgroundColor: alpha(theme.palette.secondary.light, 0.9),
@@ -39,47 +37,32 @@ const TableDataRows = ({
               }}
             >
               {columns.map((column) => {
-                if (column.id === 'activeStatus') {
+                const value = row[column.id] ?? ''
+
+                if (column.id === 'activeToggle') {
                   return (
-                    <TableCell key={column.id} align="center">
+                    <TableCell key={column.id} align={column.align || 'left'}>
                       <DeactivateToggle
                         checked={row.active}
-                        onChange={() => activeOnChange(row)}
-                        color="success"
-                        size="small"
-                        disabled={toggleDisabled?.(row)}
+                        onChange={activeOnChange}
                       />
                     </TableCell>
                   )
                 }
-
-                if (
-                  column.id === 'mountain' ||
-                  column.id === 'hill' ||
-                  column.id === 'location' ||
-                  column.id === 'teamName'
-                ) {
-                  let href = null
-                  if (column.id === 'mountain') href = mountainsHref
-                  else if (column.id === 'hill') href = hillsHref
-                  else if (column.id === 'location') href = locationsHref
-                  else if (column.id === 'teamName') href = teamsHref
-
-                  const value = row[column.id] ?? ''
-
+                if (column.id === 'locationName') {
                   return (
                     <TableCell
                       key={column.id}
                       align={column.align || 'left'}
                       sx={{
-                        fontSize: { sm: '1rem', md: '1.1rem', xl: '1.2rem' },
+                        fontSize: '1rem',
                         color: row.active ? 'primary.main' : 'gray.main',
                       }}
                     >
                       <Link
-                        href={href}
-                        underline='hover'
-                        color='inherit'
+                        href={locationsHref}
+                        underline="hover"
+                        color="inherit"
                         sx={{ fontSize: '1rem' }}
                       >
                         {value || 'N/A'}
@@ -88,13 +71,48 @@ const TableDataRows = ({
                   )
                 }
 
-                const value = row[column.id] ?? ''
+                if (column.id === 'mountain' || column.id === 'hill' || column.id === 'location' || column.id === 'teamName') {
+                  let href = null
+                  if (column.id === 'mountain') {
+                    href = mountainsHref
+                  }
+                  else if (column.id === 'hill') {
+                    href = hillsHref
+                  }
+                  else if (column.id === 'location') {
+                    href = locationsHref
+                  }
+                  else if (column.id === 'teamName') {
+                    href = teamsHref
+                  }
+
+                  return (
+                    <TableCell
+                      key={column.id}
+                      align={column.align || 'left'}
+                      sx={{
+                        fontSize: '1rem',
+                        color: row.active ? 'primary.main' : 'gray.main',
+                      }}
+                    >
+                      <Link
+                        href={href}
+                        underline="hover"
+                        color="inherit"
+                        sx={{ fontSize: '1rem' }}
+                      >
+                        {value || 'N/A'}
+                      </Link>
+                    </TableCell>
+                  )
+                }
+
                 return (
                   <TableCell
                     key={column.id}
                     align={column.align || 'left'}
                     sx={{
-                      fontSize: { sm: '1rem', md: '1.1rem', xl: '1.2rem' },
+                      fontSize: '1rem',
                       color: row.active ? 'primary.main' : 'gray.main',
                     }}
                   >
@@ -107,7 +125,7 @@ const TableDataRows = ({
 
               <TableCell
                 key={row.id}
-                align={'center'}
+                align="center"
                 sx={{ py: 0, minWidth: '5rem' }}
               >
                 <RowActions
@@ -115,6 +133,7 @@ const TableDataRows = ({
                   onEditClick={() => onEditClick(row)}
                   onDeleteClick={() => onDeleteClick(row)}
                   active={row.active}
+
                 />
               </TableCell>
             </TableRow>

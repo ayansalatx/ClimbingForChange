@@ -7,7 +7,8 @@ export const login = async (data) => {
       password: data.password,
     })
     return response
-  } catch (error) {
+  }
+  catch (error) {
     return { error: error }
   }
 }

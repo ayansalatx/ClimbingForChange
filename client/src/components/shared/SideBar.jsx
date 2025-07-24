@@ -189,8 +189,8 @@ const SideBar = ({ open, toggleDrawer }) => {
                   toggleDrawer(false)
                 }}
                 sx={{
-                  pl: 3,
-                  py: 0.5,
+                  'pl': 3,
+                  'py': 0.5,
                   '&.Mui-selected': {
                     color: 'secondary.main',
                   },
@@ -230,8 +230,8 @@ const SideBar = ({ open, toggleDrawer }) => {
                   toggleDrawer(false)
                 }}
                 sx={{
-                  pl: 3,
-                  py: 0.5,
+                  'pl': 3,
+                  'py': 0.5,
                   '&.Mui-selected': {
                     color: 'secondary.main',
                   },

@@ -8,11 +8,13 @@ import ProgressCard from './ProgressCard'
 
 const ProgressList = ({
   teams,
-  events,
+  activeEvents,
+  pastEvents,
   selectedEvent,
   setSelectedEvent,
   searchString,
   setSearchString,
+  teamsLength,
   loading,
 }) => {
   return (
@@ -37,7 +39,8 @@ const ProgressList = ({
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, pb: 1 }}>
           <EventSelector
-            events={events}
+            activeEvents={activeEvents}
+            pastEvents={pastEvents}
             selectedEvent={selectedEvent}
             setSelectedEvent={setSelectedEvent}
           />
@@ -57,48 +60,52 @@ const ProgressList = ({
             gap: 1,
           }}
         >
-          {loading ? (
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '100%',
-              }}
-            >
-              <CircularProgress color="secondary" />
-            </Box>
-          ) : teams.length > 0 ? (
-            teams.map((team, index) => (
-              <Box key={index}>
-                <ProgressCard team={team} />
-              </Box>
-            ))
-          ) : (
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '100%',
-              }}
-            >
-              <HikingIcon
+          {loading
+            ? (
+              <Box
                 sx={{
-                  fontSize: '5rem',
-                  color: 'secondary.main',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '100%',
                 }}
-              />
-              <Typography fontSize="1.5rem" color="background.paper">
-                No teams climbing yet...
-              </Typography>
-              <Typography color="background.paper">
-                Check back later!
-              </Typography>
-            </Box>
-          )}
+              >
+                <CircularProgress color="secondary" />
+              </Box>
+            )
+            : teamsLength && !loading > 0
+              ? (
+                teams.map((team, index) => (
+                  <Box key={index}>
+                    <ProgressCard team={team} />
+                  </Box>
+                ))
+              )
+              : (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: '100%',
+                  }}
+                >
+                  <HikingIcon
+                    sx={{
+                      fontSize: '5rem',
+                      color: 'secondary.main',
+                    }}
+                  />
+                  <Typography fontSize="1.5rem" color="background.paper">
+                    No teams climbing yet...
+                  </Typography>
+                  <Typography color="background.paper">
+                    Check back later!
+                  </Typography>
+                </Box>
+              )}
         </Box>
       </Box>
     </Box>

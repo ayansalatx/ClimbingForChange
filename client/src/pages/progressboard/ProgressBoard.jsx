@@ -1,13 +1,14 @@
 import { alpha, Box, Typography, useMediaQuery } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { io } from 'socket.io-client'
 
 import C4CHorizontalGreenLogo from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
 import C4CHorizontalBlueLogo from '../../assets/C4C-branding/Climbing-For-Change-Horizontal_Green.png'
 import WarningDialog from '../../components/admin/modals/WarningDialog'
 import ProgressList from '../../components/progressboard/cards/ProgressCardList'
 import ProgressTable from '../../components/progressboard/tables/regular/ProgressTable'
-import { getAllEvents, getDisplayEventTeams } from '../../services/eventService'
-import { getLeaderboard } from '../../services/leaderboard'
+import { getActiveUpcomingEvents,
+  getLeaderboard, getPastEvents, updateLeaderboardTeamLaps } from '../../services/leaderboardService'
 import theme from '../../styles/theme'
 
 // Define columns for full width screen
@@ -55,32 +56,33 @@ const ProgressBoard = () => {
   let columns
   if (isLarge || isXLarge) {
     columns = lgColumns
-  } else if (isMedium) {
+  }
+  else if (isMedium) {
     columns = mdColumns
-  } else if (isSmall) {
+  }
+  else if (isSmall) {
     columns = smColumns
-  } else {
+  }
+  else {
     columns = [] // no columns for mobile
   }
 
   // State for teams
   const [warningOpen, setWarningOpen] = useState(false)
   const [loading, setLoading] = useState(true)
+  const socketRef = useRef(null)
 
   const [teams, setTeams] = useState([])
   const [teamsLength, setTeamsLength] = useState()
   // State for events
-  const [events, setEvents] = useState([])
+  const [activeEvents, setActiveEvents] = useState([])
+  const [pastEvents, setPastEvents] = useState([])
   const [selectedEvent, setSelectedEvent] = useState(null)
 
   // State to store current search input string
   const [searchString, setSearchString] = useState('')
   // State for teams filtered by the search input
   const [filteredTeams, setFilteredTeams] = useState([])
-
-  // const [leaderboard, setLeaderboard] = useState([])
-  //  for use in later refactoring
-  const [, setLeaderboard] = useState([]) // Obey lint rules for now
 
   const showWarning = () => {
     setWarningOpen(true)
@@ -90,9 +92,12 @@ const ProgressBoard = () => {
   useEffect(() => {
     async function loadEventData() {
       try {
-        const eventList = await getAllEvents()
-        setEvents(eventList)
-      } catch {
+        const upcomingEventList = await getActiveUpcomingEvents()
+        const pastEventList = await getPastEvents()
+        setActiveEvents(upcomingEventList)
+        setPastEvents(pastEventList)
+      }
+      catch {
         showWarning()
       }
     }
@@ -101,34 +106,34 @@ const ProgressBoard = () => {
   }, [])
 
   // Set default event as the event that is ongoing or upcoming
+  // If no upcoming then set to last event
+  // If no events then null
   useEffect(() => {
-    if (events.length > 0 && !selectedEvent) {
-      const now = new Date()
-
-      const sorted = [...events].sort(
-        (a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)
-      )
-
-      const currentOrUpcoming = sorted.find((ev) => {
-        const start = new Date(ev.startDateTime)
-        const end = new Date(ev.endDateTime)
-        return (now >= start && now <= end) || now < start
-      })
-
-      if (currentOrUpcoming) {
-        setSelectedEvent(currentOrUpcoming.id)
-      }
+    if (activeEvents.length > 0 && !selectedEvent) {
+      setSelectedEvent(activeEvents[0].id)
     }
-  }, [events, selectedEvent])
+    else if (pastEvents.length > 0 && !selectedEvent) {
+      setSelectedEvent(pastEvents[0].id)
+    }
+    else if (activeEvents.length === 0 && pastEvents.length === 0) {
+      setSelectedEvent(null)
+    }
+  }, [activeEvents, pastEvents, selectedEvent])
 
   useEffect(() => {
     const loadLeaderboard = async () => {
       if (!selectedEvent) return
       try {
-        const leaderboard = await getLeaderboard(selectedEvent)
-        setLeaderboard(leaderboard)
-      } catch {
+        const teamsList = await getLeaderboard(selectedEvent)
+
+        setTeamsLength(teamsList.length)
+        setTeams(teamsList)
+      }
+      catch {
         showWarning()
+      }
+      finally {
+        setLoading(false)
       }
     }
 
@@ -139,24 +144,6 @@ const ProgressBoard = () => {
     return () => {
       clearInterval(intervalId)
     }
-  }, [selectedEvent, setLeaderboard])
-
-  useEffect(() => {
-    const loadTeamsForEvent = async () => {
-      if (!selectedEvent) return
-      try {
-        const teamsForEvent = await getDisplayEventTeams(selectedEvent)
-
-        setTeamsLength(teamsForEvent.length)
-        setTeams(teamsForEvent)
-      } catch {
-        showWarning()
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    loadTeamsForEvent()
   }, [selectedEvent])
 
   useEffect(() => {
@@ -171,8 +158,8 @@ const ProgressBoard = () => {
 
       const participantMatch = team.participants.some((participant) => {
         return (
-          participant.firstName.toLowerCase().includes(search) ||
-          participant.lastName.toLowerCase().includes(search)
+          participant.firstName.toLowerCase().includes(search)
+          || participant.lastName.toLowerCase().includes(search)
         )
       })
 
@@ -180,6 +167,64 @@ const ProgressBoard = () => {
     })
     setFilteredTeams(filteredTeams)
   }, [searchString, teams])
+
+  // Listen for lap updates on socket
+  useEffect(() => {
+    const socketURL = import.meta.env.VITE_SOCKET_SERVER_URL || 'http://localhost:5001'
+    socketRef.current = io(socketURL)
+
+    const handleLapUpdate = (change) => {
+      const updatedLap = change.fullDocument
+      // Don't update for laps without an end time
+      if (!updatedLap || !updatedLap.endDateTime) {
+        return
+      }
+
+      // Get teams and update for only the team with ID that matches
+      setTeams((prevTeams) => {
+        const teamIndex = prevTeams.findIndex((team) => team.id?.toString() === updatedLap.teamId)
+        if (teamIndex === -1) return prevTeams
+
+        const team = prevTeams[teamIndex]
+        const laps = team.laps ?? []
+
+        // Update existing lap
+        const lapIndex = laps.findIndex(
+          (lap) => lap.id === updatedLap._id || lap._id === updatedLap._id
+        )
+
+        let newLaps
+
+        // Create new lap
+        if (lapIndex !== -1) {
+          newLaps = [
+            ...laps.slice(0, lapIndex),
+            updatedLap,
+            ...laps.slice(lapIndex + 1),
+          ]
+        }
+        else {
+          newLaps = [...laps, updatedLap]
+        }
+
+        const updatedTeam = updateLeaderboardTeamLaps(team, newLaps)
+
+        // Update display for only team with lap update
+        return [
+          ...prevTeams.slice(0, teamIndex),
+          updatedTeam,
+          ...prevTeams.slice(teamIndex + 1),
+        ]
+      })
+    }
+
+    socketRef.current.on('lapUpdate', handleLapUpdate)
+
+    return () => {
+      socketRef.current.off('lapUpdate', handleLapUpdate)
+      socketRef.current.disconnect()
+    }
+  }, [])
 
   return (
     <Box
@@ -192,38 +237,40 @@ const ProgressBoard = () => {
     >
       {/* https://pixabay.com/videos/search/terrain%20blue%20gray%20mountain/ */}
 
-      {isXSmall ? (
-        <Box
-          component="img"
-          src="/assets/mountain-range-illustration-2.jpeg"
-          alt="Mountain background"
-          sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            zIndex: 0,
-          }}
-        />
-      ) : (
-        <video
-          src="/assets/progress-board-background.mp4"
-          autoPlay
-          loop
-          muted
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            zIndex: 0,
-          }}
-        />
-      )}
+      {isXSmall
+        ? (
+          <Box
+            component="img"
+            src="/assets/mountain-range-illustration-2.jpeg"
+            alt="Mountain background"
+            sx={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              zIndex: 0,
+            }}
+          />
+        )
+        : (
+          <video
+            src="/assets/progress-board-background.mp4"
+            autoPlay
+            loop
+            muted
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              zIndex: 0,
+            }}
+          />
+        )}
 
       <Box
         sx={{
@@ -326,28 +373,18 @@ const ProgressBoard = () => {
                     textAlign: 'center',
                   }}
                 >
-                  Climb Progress
+                  Team Progress
                 </Typography>
               </Box>
             )}
           </Box>
 
-          {isXSmall ? (
-            <ProgressList
-              teams={filteredTeams}
-              events={events}
-              selectedEvent={selectedEvent}
-              setSelectedEvent={setSelectedEvent}
-              searchString={searchString}
-              setSearchString={setSearchString}
-              loading={loading}
-            />
-          ) : (
-            <Box sx={{ flexGrow: 1, width: '100%', overflowX: 'hidden' }}>
-              <ProgressTable
-                columns={columns}
+          {isXSmall
+            ? (
+              <ProgressList
                 teams={filteredTeams}
-                events={events}
+                activeEvents={activeEvents}
+                pastEvents={pastEvents}
                 selectedEvent={selectedEvent}
                 setSelectedEvent={setSelectedEvent}
                 searchString={searchString}
@@ -355,15 +392,30 @@ const ProgressBoard = () => {
                 teamsLength={teamsLength}
                 loading={loading}
               />
-            </Box>
-          )}
+            )
+            : (
+              <Box sx={{ flexGrow: 1, width: '100%', overflowX: 'hidden' }}>
+                <ProgressTable
+                  columns={columns}
+                  teams={filteredTeams}
+                  activeEvents={activeEvents}
+                  pastEvents={pastEvents}
+                  selectedEvent={selectedEvent}
+                  setSelectedEvent={setSelectedEvent}
+                  searchString={searchString}
+                  setSearchString={setSearchString}
+                  teamsLength={teamsLength}
+                  loading={loading}
+                />
+              </Box>
+            )}
         </Box>
       </Box>
 
       <WarningDialog
         open={warningOpen}
-        title={'Data Loading Error'}
-        message={'Data for event is not loading.'}
+        title="Data Loading Error"
+        message="Data for event is not loading."
         onCancel={() => setWarningOpen(false)}
       />
     </Box>

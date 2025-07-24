@@ -42,9 +42,11 @@ const ParticipantManager = () => {
         setEvents(eventsList)
 
         displayAlert('Loaded Events', 'Successfully loaded event data.', 'success')
-      } catch (error) {
+      }
+      catch (error) {
         displayAlert('Error', `Failed to load events: ${error.message}`, 'error')
-      } finally {
+      }
+      finally {
         setLoading(false)
       }
     }
@@ -71,9 +73,11 @@ const ParticipantManager = () => {
           `Loaded ${participantsList.length} participants and ${filteredTeams.length} teams for selected event.`,
           'success'
         )
-      } catch (error) {
+      }
+      catch (error) {
         displayAlert('Error', `Failed to load participants or teams: ${error.message}`, 'error')
-      } finally {
+      }
+      finally {
         setLoading(false)
       }
     }
@@ -120,9 +124,11 @@ const ParticipantManager = () => {
         `Deleted ${deletedParticipant.firstName} ${deletedParticipant.lastName}.`,
         'success'
       )
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert('Error', `Failed to delete participant: ${error.message}`, 'error')
-    } finally {
+    }
+    finally {
       setLoading(false)
     }
   }
@@ -139,15 +145,18 @@ const ParticipantManager = () => {
       if (participantData.id) {
         await editParticipant(participantData.id, participantData)
         displayAlert('Edited Participant', `Edited ${participantData.firstName} ${participantData.lastName}.`, 'success')
-      } else {
+      }
+      else {
         await addNewParticipant(participantData)
         displayAlert('New Participant Added', `Added ${participantData.firstName} ${participantData.lastName}.`, 'success')
       }
       const updatedList = await getParticipantsByEvent(selectedEvent)
       setParticipants(updatedList)
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert('Error', `Failed to save participant: ${error.message}`, 'error')
-    } finally {
+    }
+    finally {
       setLoading(false)
       setPopupOpen(false)
     }
@@ -193,7 +202,7 @@ const ParticipantManager = () => {
         onAdd={handleSave}
         participantData={selectedParticipant}
         teamNames={filteredTeams}
-        selectedEvent={selectedEvent} 
+        selectedEvent={selectedEvent}
       />
       <ConfirmDeleteDialog
         open={deleteConfirmOpen}

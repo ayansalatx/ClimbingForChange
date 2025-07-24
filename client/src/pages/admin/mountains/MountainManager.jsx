@@ -65,13 +65,15 @@ const MountainManager = () => {
         return processedMountain
       })
       setMountains(mountainsWithIds)
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert(
         'Error',
         `Failed to Load Mountains: ${error.message}`,
         'error'
       )
-    } finally {
+    }
+    finally {
       setLoading(false)
     }
   }
@@ -99,13 +101,15 @@ const MountainManager = () => {
           `Loaded ${mountainsWithIds.length} mountains from the backend.`,
           'success'
         )
-      } catch (error) {
+      }
+      catch (error) {
         displayAlert(
           'Error',
           `Failed to Load Mountains: ${error.message}`,
           'error'
         )
-      } finally {
+      }
+      finally {
         setLoading(false)
       }
     }
@@ -154,14 +158,16 @@ const MountainManager = () => {
         `Mountain '${mountainToDelete.name}' has been deleted.`,
         'success'
       )
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert(
         'Error',
-        error.response?.data?.message ||
-          `Failed to delete mountain: ${error.message}`,
+        error.response?.data?.message
+        || `Failed to delete mountain: ${error.message}`,
         'error'
       )
-    } finally {
+    }
+    finally {
       setDeleteConfirmOpen(false)
       setMountainToDelete(null)
     }
@@ -195,7 +201,8 @@ const MountainManager = () => {
           'success'
         )
         loadData()
-      } else {
+      }
+      else {
         const { ...newMountainData } = mountainData
         savedMountain = await createMountain(newMountainData)
 
@@ -217,7 +224,8 @@ const MountainManager = () => {
 
       setPopupOpen(false)
       setEditedMountain(null)
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert(
         'Error',
         error.response?.data?.message || 'Failed to save mountain',
@@ -240,15 +248,15 @@ const MountainManager = () => {
       }}
     >
       <DataTable
-        tableTitle={'Mountains'}
+        tableTitle="Mountains"
         tableIcon={TerrainIcon}
         tableColumns={fullColumns}
         tableData={mountains}
         showInactive={showInactive}
         setShowInactive={setShowInactive}
-        eventsForDropdown={''}
-        selectedEvent={''}
-        setSelectedEvent={''}
+        eventsForDropdown=""
+        selectedEvent=""
+        setSelectedEvent=""
         onAddClick={onAdd}
         onEditClick={onEdit}
         onDeleteClick={onDelete}

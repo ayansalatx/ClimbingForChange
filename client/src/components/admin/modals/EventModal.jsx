@@ -1,18 +1,19 @@
 import {
   Box,
-  Button,
   Checkbox,
   FormControl,
   InputLabel,
   MenuItem,
   Modal,
   Select,
+  Switch,
   TextField,
   Typography,
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 
-import DeactivateToggle from '../buttons/DeactivateToggle'
+import CancelButton from '../buttons/CancelButton'
+import SaveButton from '../buttons/SaveButton'
 import TextInput from '../forms/fields/TextInput'
 
 const style = {
@@ -90,14 +91,15 @@ const AddEventModal = ({
       const start = new Date(eventToEdit.startDateTime)
       setStartDate(start.toISOString().slice(0, 10))
       setStartTime(start.toTimeString().slice(0, 5))
-      const durationHours =
-        (new Date(eventToEdit.endDateTime) - start) / 3600000
+      const durationHours
+        = (new Date(eventToEdit.endDateTime) - start) / 3600000
       setDuration(durationHours)
       const mountainNames = parseMountainNames(eventToEdit.mountains)
       const selectedMountains = getMountainIdsByName(mountainNames, mountains)
       setMountainSelection(selectedMountains)
       setIsActive(eventToEdit.active)
-    } else {
+    }
+    else {
       setIsActive(true)
       setMountainSelection([])
     }
@@ -116,13 +118,13 @@ const AddEventModal = ({
       startDateTime: start.toISOString(),
       endDateTime: end.toISOString(),
       hill: [],
-      //active: true,
       active: isActive,
     }
 
     if (eventToEdit) {
       await onEdit(eventToEdit.id, eventData)
-    } else {
+    }
+    else {
       await onAdd(eventData)
     }
 
@@ -133,7 +135,8 @@ const AddEventModal = ({
     const value = e.target.value
     if (typeof value === 'string') {
       setMountainSelection(value.split(','))
-    } else {
+    }
+    else {
       setMountainSelection(value)
     }
   }
@@ -157,7 +160,7 @@ const AddEventModal = ({
             <FormControl>
               <Box display="flex" alignItems="center" gap={1}>
                 <Typography>Active</Typography>
-                <DeactivateToggle
+                <Switch
                   checked={isActive}
                   onChange={(e) => setIsActive(e.target.checked)}
                   color="success"
@@ -232,10 +235,10 @@ const AddEventModal = ({
           <Box sx={{ display: 'flex', gap: 2 }}>
             <TextField
               fullWidth
-              label='Start Time'
-              type='time'
-              variant='outlined'
-              margin='normal'
+              label="Start Time"
+              type="time"
+              variant="outlined"
+              margin="normal"
               value={startTime}
               onChange={(e) => setStartTime(e.target.value)}
               InputLabelProps={{ shrink: true }}
@@ -244,9 +247,9 @@ const AddEventModal = ({
 
             <TextInput
               fullWidth
-              label='Duration (hours)'
-              type='number'
-              margin='normal'
+              label="Duration (hours)"
+              type="number"
+              margin="normal"
               value={duration}
               onChange={(e) => setDuration(e.target.value)}
               required
@@ -254,13 +257,10 @@ const AddEventModal = ({
           </Box>
 
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
-            <Button variant="outlined" onClick={onModalClose}>
-              Cancel
-            </Button>
-            <Button type="submit" variant="contained">
-              {eventToEdit ? 'Save' : 'Create'}
-            </Button>
+            <CancelButton onClick={onModalClose} color="red" />
+            <SaveButton type="submit" label={eventToEdit ? 'Save' : 'Create'} />
           </Box>
+
         </form>
       </Box>
     </Modal>

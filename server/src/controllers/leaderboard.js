@@ -3,6 +3,7 @@ import { bibToTeamMap } from '../utils/serverState.js'
 import Passing from '../models/passing.js'
 import Lap from '../models/lap.js'
 import Team from '../models/team.js'
+import Event from '../models/event.js'
 
 async function processNewPassings(newPassings) {
   const START_LOOP_ID = 1
@@ -115,47 +116,54 @@ async function processNewPassings(newPassings) {
   }
 }
 
-async function generateLeaderboard() {
-  const teams = await Team.find({})
+async function generateLeaderboard(eventId) {
+  if (!eventId) {
+    throw new Error('Event ID is required to generate leaderboard')
+  }
+  const teams = await Team.find({ event: eventId })
+    .populate('participants')
     .populate('mountain')
     .populate('hill')
     .populate('laps')
 
-  // Get elevation gain from the first team's hill (all teams use the same hill)
-  const elevationGainPerLap
-    = teams.length > 0 && teams[0].hill ? teams[0].hill.lapElevationGain : 88.48
-
   const calculatedTeams = teams.map((team) => {
-    const lapsCompleted = team.laps ? team.laps.length : 0
-    const totalElevation = lapsCompleted * elevationGainPerLap
+    // Filter laps to only completed (endDateTime)
+    const completedLaps = (team.laps || []).filter(lap => lap.endDateTime)
+    const lapsCompleted = completedLaps.length || 0
+    const lapsToGo = Math.max((team.lapsRequired || 0) - lapsCompleted, 0)
+
+    const totalElevation = team.mountain?.totalElevation || 0
+    const elevationGainPerLap = team.hill?.lapElevationGain || 0
+
+    const currentElevation = lapsCompleted * elevationGainPerLap || 0
     const progressPercentage = team.mountain
-      ? (totalElevation / team.mountain.totalElevation) * 100
+      ? (currentElevation / team.mountain.totalElevation) * 100
       : 0
 
     let lastUpdateTime = team.startDateTime
-    let bestLapTime = null
-    let averageLapTime = null
-    let totalTime = null
+    let bestLapTime = 0
+    let averageLapTime = 0
+    let timeElapsed = 0
+
     if (lapsCompleted > 0) {
-      const sortedLaps = [...team.laps].sort(
+      const sortedLaps = [...completedLaps].sort(
         (a, b) => a.lapNumber - b.lapNumber,
       )
       const lapDurations = sortedLaps.map(lap => lap.lapDuration)
       bestLapTime = Math.min(...lapDurations)
       averageLapTime
         = lapDurations.reduce((a, b) => a + b, 0) / lapDurations.length
-      totalTime
+      timeElapsed
         = sortedLaps[sortedLaps.length - 1].endDateTime
           - sortedLaps[0].startDateTime
-      const lastLap = sortedLaps[sortedLaps.length - 1]
-      lastUpdateTime = lastLap.endDateTime
+      lastUpdateTime = sortedLaps[sortedLaps.length - 1].endDateTime
     }
 
     let status = 'Not Started'
     if (lapsCompleted > 0) status = 'Running'
     if (progressPercentage >= 100) status = 'Finished'
 
-    // Log progress milestones
+    // Milestones log
     if (lapsCompleted > 0 && progressPercentage > 0) {
       const prevLaps = lapsCompleted - 1
       const prevProgress
@@ -163,7 +171,6 @@ async function generateLeaderboard() {
           / (team.mountain ? team.mountain.totalElevation : 1))
         * 100
 
-      // Log milestone achievements (25%, 50%, 75%, 100%)
       if (progressPercentage >= 25 && prevProgress < 25) {
         console.log(
           `🏔️ [Milestone] ${team.name} reached 25% of ${team.mountain?.name || 'mountain'} (${lapsCompleted}/${team.lapsRequired} laps)`,
@@ -190,37 +197,40 @@ async function generateLeaderboard() {
       id: team.id,
       name: team.name,
       mountainName: team.mountain ? team.mountain.name : 'N/A',
-      hillName: team.hill ? team.hill.name : 'N/A',
-      lapsCompleted,
-      lapsRequired: team.lapsRequired || 0,
+      lapElevation: team.hill?.lapElevationGain ?? 0,
       totalElevation,
-      progressPercentage: Math.min(progressPercentage, 100),
+      currentElevation,
+
+      lapsRequired: team.lapsRequired || 0,
+      lapsCompleted: lapsCompleted,
+      lapsToGo,
       lastUpdateTime,
       status,
-      bestLapTime, // ms
-      averageLapTime, // ms
-      totalTime, // ms
+
+      bestLap: bestLapTime,
+      averageLapTime,
+      timeElapsed,
+
+      // Participants with fullName
+      participants: team.participants.map(p => ({
+        ...p.toObject(),
+        fullName: `${p.firstName} ${p.lastName}`,
+      })),
     }
   })
 
+  // Sort alphabetically by team name (case-insensitive)
   calculatedTeams.sort((a, b) => {
-    if (a.status === 'Finished' && b.status !== 'Finished') return -1
-    if (b.status === 'Finished' && a.status !== 'Finished') return 1
-    if (a.status === 'Finished' && b.status === 'Finished')
-      return new Date(a.lastUpdateTime) - new Date(b.lastUpdateTime)
-
-    if (a.status === 'Running' && b.status !== 'Running') return -1
-    if (b.status === 'Running' && a.status !== 'Running') return 1
-    if (a.status === 'Running' && b.status === 'Running') {
-      if (b.totalElevation !== a.totalElevation)
-        return b.totalElevation - a.totalElevation
-      return new Date(a.lastUpdateTime) - new Date(b.lastUpdateTime)
-    }
-
-    return 1
+    const nameA = a.name.toLowerCase()
+    const nameB = b.name.toLowerCase()
+    if (nameA < nameB) return -1
+    if (nameA > nameB) return 1
+    return 0
   })
 
-  return calculatedTeams.map((team, index) => ({ ...team, rank: index + 1 }))
+  return calculatedTeams.map(team => ({
+    ...team,
+  }))
 }
 
 export { processNewPassings, generateLeaderboard }
@@ -243,4 +253,138 @@ export const getLeaderboard = async (req, res) => {
       message: error.message,
     })
   }
+}
+
+export const getTeamProgress = async (request, response) => {
+  try {
+    const teamId = request.params.teamId
+    const team = await Team.findById(teamId)
+      .populate('participants')
+      .populate('mountain')
+      .populate('hill')
+      .populate('laps')
+
+    if (!team) {
+      return response.status(404).json({ error: 'Team not found' })
+    }
+
+    const completedLaps = (team.laps || []).filter(lap => lap.endDateTime)
+
+    const lapsCompleted = completedLaps.length
+    const totalElevation = team.mountain?.totalElevation || 0
+    const elevationGainPerLap = team.hill?.lapElevationGain || 0
+    const currentElevation = lapsCompleted * elevationGainPerLap
+    const progressPercentage = team.mountain
+      ? (currentElevation / team.mountain.totalElevation) * 100
+      : 0
+
+    let lastUpdateTime = team.startDateTime
+    let bestLapTime = 0
+    let averageLapTime = 0
+    let timeElapsed = 0
+
+    if (lapsCompleted > 0) {
+      const sortedLaps = [...completedLaps].sort(
+        (a, b) => a.lapNumber - b.lapNumber,
+      )
+      const lapDurations = sortedLaps.map(lap => lap.lapDuration)
+      bestLapTime = Math.min(...lapDurations)
+      averageLapTime
+        = lapDurations.reduce((a, b) => a + b, 0) / lapDurations.length
+      timeElapsed
+        = sortedLaps[sortedLaps.length - 1].endDateTime
+          - sortedLaps[0].startDateTime
+      lastUpdateTime = sortedLaps[sortedLaps.length - 1].endDateTime
+    }
+
+    let status = 'Not Started'
+    if (lapsCompleted > 0) status = 'Running'
+    if (progressPercentage >= 100) status = 'Finished'
+
+    // Milestones log
+    if (lapsCompleted > 0 && progressPercentage > 0) {
+      const prevLaps = lapsCompleted - 1
+      const prevProgress
+        = ((prevLaps * elevationGainPerLap)
+          / (team.mountain ? team.mountain.totalElevation : 1))
+        * 100
+
+      if (progressPercentage >= 25 && prevProgress < 25) {
+        console.log(
+          `🏔️ [Milestone] ${team.name} reached 25% of ${team.mountain?.name || 'mountain'} (${lapsCompleted}/${team.lapsRequired} laps)`,
+        )
+      }
+      else if (progressPercentage >= 50 && prevProgress < 50) {
+        console.log(
+          `🏔️ [Milestone] ${team.name} reached 50% of ${team.mountain?.name || 'mountain'} (${lapsCompleted}/${team.lapsRequired} laps)`,
+        )
+      }
+      else if (progressPercentage >= 75 && prevProgress < 75) {
+        console.log(
+          `🏔️ [Milestone] ${team.name} reached 75% of ${team.mountain?.name || 'mountain'} (${lapsCompleted}/${team.lapsRequired} laps)`,
+        )
+      }
+      else if (progressPercentage >= 100 && prevProgress < 100) {
+        console.log(
+          `🏆 [FINISHED] ${team.name} completed ${team.mountain?.name || 'mountain'}! (${lapsCompleted}/${team.lapsRequired} laps)`,
+        )
+      }
+    }
+
+    return response.json({
+      id: team.id,
+      name: team.name,
+      mountainName: team.mountain ? team.mountain.name : 'N/A',
+      hillName: team.hill ? team.hill.name : 'N/A',
+      elevationUnit: team.mountain?.elevationUnit,
+      lapElevation: team.hill?.lapElevationGain ?? null,
+      lapElevationUnit: team.hill?.elevationUnit,
+      totalElevation: totalElevation,
+      currentElevation: lapsCompleted ? currentElevation : null,
+
+      lapsRequired: team.lapsRequired ?? 0,
+      lapsCompleted: lapsCompleted || 0,
+      lapsToGo: Math.max((team.lapsRequired || 0) - lapsCompleted, 0),
+
+      progressPercentage: Math.min(progressPercentage, 100),
+      lastUpdateTime,
+      status,
+
+      bestLap: bestLapTime,
+      averageLapTime,
+      timeElapsed,
+
+      // Participants with fullName
+      participants: team.participants.map(p => ({
+        ...p.toObject(),
+        fullName: `${p.firstName} ${p.lastName}`,
+      })),
+
+      laps: completedLaps.map((lap, idx) => {
+        return {
+          lapNumber: idx + 1,
+          startDateTime: lap.startDateTime,
+          endDateTime: lap.endDateTime,
+          duration: lap.lapDuration,
+          completed: Boolean(lap.endDateTime),
+        }
+      }),
+    })
+  }
+  catch (error) {
+    console.error('Error fetching team progress:', error)
+    response.status(500).json({ error: 'Failed to fetch team progress' })
+  }
+}
+
+export const getLeaderboardEvents = async (request, response) => {
+  const events = await Event.find({})
+    .populate('location')
+    .populate('mountains')
+    .populate({
+      path: 'teams',
+      populate: { path: 'participants' },
+    })
+
+  response.json(events)
 }

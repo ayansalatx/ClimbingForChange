@@ -1,22 +1,14 @@
-import {
-  Box,
-  Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  InputLabel,
-  MenuItem,
-  Modal,
-  Select,
-  TextField,
-  Typography,
-} from '@mui/material'
+import { Box, FormControl, InputLabel, MenuItem, Modal, Select, Typography } from '@mui/material'
+import Autocomplete from '@mui/material/Autocomplete'
+import TextField from '@mui/material/TextField'
 import { useEffect, useState } from 'react'
 
-import { useAlert } from '../../../hooks/useAlert'
 import { getAllEvents } from '../../../services/eventService'
 import { getAllHills } from '../../../services/hillService'
 import { getAllMountains } from '../../../services/mountainService'
+import CancelButton from '../buttons/CancelButton'
+import SaveButton from '../buttons/SaveButton'
+import TextInput from '../forms/fields/TextInput'
 
 const style = {
   position: 'absolute',
@@ -30,31 +22,24 @@ const style = {
   borderRadius: 2,
 }
 
-const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
+const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList }) => {
   const [name, setName] = useState('')
-  const [isSoloTeam, setIsSoloTeam] = useState(false)
-  const [lapsRequired, setLapsRequired] = useState('')
-  const [distanceRequired, setDistanceRequired] = useState('')
-  const [startDateTime, setStartDateTime] = useState('')
   const [selectedMountain, setSelectedMountain] = useState('')
   const [selectedHill, setSelectedHill] = useState('')
   const [selectedEvent, setSelectedEvent] = useState('')
+  const [selectedRfidTag, setSelectedRfidTag] = useState('')
   const [mountains, setMountains] = useState([])
   const [hills, setHills] = useState([])
   const [events, setEvents] = useState([])
-
-  const displayAlert = useAlert()
+  const [rfidTags, setRfidTags] = useState([])
 
   const onModalClose = () => {
     onClose()
     setName('')
-    setIsSoloTeam(false)
-    setLapsRequired('')
-    setDistanceRequired('')
-    setStartDateTime('')
     setSelectedMountain('')
     setSelectedHill('')
     setSelectedEvent('')
+    setSelectedRfidTag('')
   }
 
   useEffect(() => {
@@ -69,48 +54,52 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
           setMountains(mountainData)
           setHills(hillData)
           setEvents(eventData)
-        } catch (error) {
-          displayAlert('Error', `Error while fetching data: ${error}`, 'error')
+          setRfidTags(rfidTagList)
+        }
+        catch {
+          // fix
         }
       }
     }
     fetchData()
-  }, [open, displayAlert])
+  }, [open, rfidTagList])
 
   useEffect(() => {
     if (teamToEdit) {
       setName(teamToEdit.name || '')
-      setIsSoloTeam(teamToEdit.isSoloTeam || false)
-      setLapsRequired(teamToEdit.lapsRequired || '')
-      setDistanceRequired(teamToEdit.totalDistanceRequired || '')
-      setStartDateTime(teamToEdit.startDateTime?.slice(0, 16) || '')
       setSelectedMountain(teamToEdit.mountainId || '')
       setSelectedHill(teamToEdit.hillId || '')
       setSelectedEvent(teamToEdit.event || '')
+      setSelectedRfidTag(teamToEdit.rfidTag || '')
     }
-  }, [teamToEdit])
+  }, [teamToEdit, rfidTagList])
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
     const teamData = {
       name,
-      isSoloTeam,
-      lapsRequired: Number(lapsRequired),
-      totalDistanceRequired: Number(distanceRequired),
-      startDateTime: new Date(startDateTime).toISOString(),
       mountain: selectedMountain,
       hill: selectedHill,
       event: selectedEvent,
+      rfidTag: selectedRfidTag?.id || '',
+      // temp data
+      isSoloTeam: false,
+      lapsRequired: 1,
+      totalDistanceRequired: 0,
+      startDateTime: '2025-07-12T03:46:43.305Z',
     }
 
     try {
       if (teamToEdit) {
         onEdit(teamToEdit.id, teamData)
-      } else {
+      }
+      else {
         onAdd(teamData)
       }
-    } catch (error) {
-      displayAlert('Error', `Error while saving team: ${error}`, 'error')
+    }
+    catch {
+      // fix
     }
 
     onModalClose()
@@ -123,7 +112,8 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
           {teamToEdit ? 'Edit Team' : 'Add New Team'}
         </Typography>
         <form onSubmit={handleSubmit}>
-          <TextField
+
+          <TextInput
             fullWidth
             label="Team Name"
             variant="outlined"
@@ -133,55 +123,44 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
             required
           />
 
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={isSoloTeam}
-                onChange={(e) => setIsSoloTeam(e.target.checked)}
-              />
-            }
-            label="Solo Team"
-          />
+          <Box display="flex" gap={2} mt={1.5} mb={0.5}>
+            <FormControl fullWidth required sx={{ flex: 1 }}>
+              <InputLabel id="mountain-select-label">Mountain</InputLabel>
+              <Select
+                labelId="mountain-select-label"
+                value={selectedMountain}
+                label="Mountain"
+                onChange={(e) => setSelectedMountain(e.target.value)}
+              >
+                {mountains.map((mountain) => (
+                  <MenuItem key={mountain.id} value={mountain.id}>
+                    {mountain.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
-          <FormControl fullWidth margin="normal" required>
-            <InputLabel id="mountain-select-label">Mountain</InputLabel>
-            <Select
-              labelId="mountain-select-label"
-              id="mountain-select"
-              value={selectedMountain}
-              label="Mountain"
-              onChange={(e) => setSelectedMountain(e.target.value)}
-            >
-              {mountains.map((mountain) => (
-                <MenuItem key={mountain.id} value={mountain.id}>
-                  {mountain.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          <FormControl fullWidth margin="normal" required>
-            <InputLabel id="hill-select-label">Hill</InputLabel>
-            <Select
-              labelId="hill-select-label"
-              id="hill-select"
-              value={selectedHill}
-              label="Hill"
-              onChange={(e) => setSelectedHill(e.target.value)}
-            >
-              {hills.map((hill) => (
-                <MenuItem key={hill.id} value={hill.id}>
-                  {hill.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+            <FormControl fullWidth required sx={{ flex: 1 }}>
+              <InputLabel id="hill-select-label">Hill</InputLabel>
+              <Select
+                labelId="hill-select-label"
+                value={selectedHill}
+                label="Hill"
+                onChange={(e) => setSelectedHill(e.target.value)}
+              >
+                {hills.map((hill) => (
+                  <MenuItem key={hill.id} value={hill.id}>
+                    {hill.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
 
           <FormControl fullWidth margin="normal" required>
             <InputLabel id="event-select-label">Event</InputLabel>
             <Select
               labelId="event-select-label"
-              id="event-select"
               value={selectedEvent}
               label="Event"
               onChange={(e) => setSelectedEvent(e.target.value)}
@@ -194,48 +173,21 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit }) => {
             </Select>
           </FormControl>
 
-          <TextField
-            fullWidth
-            required
-            label="Laps"
-            type="number"
-            variant="outlined"
-            margin="normal"
-            value={lapsRequired}
-            onChange={(e) => setLapsRequired(e.target.value)}
-            inputProps={{ min: 1 }}
-          />
-
-          <TextField
-            fullWidth
-            required
-            label="Total Distance"
-            type="number"
-            variant="outlined"
-            margin="normal"
-            value={distanceRequired}
-            onChange={(e) => setDistanceRequired(e.target.value)}
-            inputProps={{ min: 1 }}
-          />
-          <TextField
-            fullWidth
-            label="Start Date & Time"
-            type="datetime-local"
-            variant="outlined"
-            margin="normal"
-            value={startDateTime}
-            onChange={(e) => setStartDateTime(e.target.value)}
-            InputLabelProps={{ shrink: true }}
-            required
-          />
+          <FormControl fullWidth margin="normal" required>
+            <Autocomplete
+              id="rfidTag-select"
+              disablePortal
+              options={rfidTags}
+              sx={{ width: '100%' }}
+              value={selectedRfidTag}
+              onChange={(_, newValue) => setSelectedRfidTag(newValue)}
+              renderInput={(params) => <TextField {...params} label="RFID Tag" />}
+            />
+          </FormControl>
 
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
-            <Button variant="outlined" onClick={onModalClose}>
-              Cancel
-            </Button>
-            <Button type="submit" variant="contained">
-              {teamToEdit ? 'Save' : 'Create'}
-            </Button>
+            <CancelButton onClick={onClose} color="red" />
+            <SaveButton type="submit" label={teamToEdit ? 'Save' : 'Create'} />
           </Box>
         </form>
       </Box>

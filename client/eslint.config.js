@@ -27,9 +27,8 @@ const stylisticRules = stylistic.configs.customize({
 })
 
 export default [
-  {
-    ignores: ['public', 'dist'],
-  },
+  { ignores: ['public', 'dist'] },
+  // Main app (browser environment)
   {
     files: ['**/*.{js,jsx}'],
     languageOptions: {
@@ -43,17 +42,17 @@ export default [
     },
     plugins: {
       '@stylistic': stylistic,
-      react: reactPlugin,
+      'react': reactPlugin,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
       'jsx-a11y': jsxA11y,
-      import: importPlugin,
+      'import': importPlugin,
       'simple-import-sort': simpleImportSort,
       'unused-imports': unusedImports,
-      unicorn: unicorn,
+      'unicorn': unicorn,
     },
     settings: {
-      react: {
+      'react': {
         version: 'detect',
       },
       'import/resolver': {
@@ -77,21 +76,22 @@ export default [
       'import/no-duplicates': 'error',
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
-      'no-console': 'error',
-      
-      //Don't lint
-      '@stylistic/no-trailing-spaces': 'off',
-
-      '@stylistic/multiline-ternary': 'off',
-      '@stylistic/jsx-one-expression-per-line': 'off',
-      '@stylistic/jsx-quotes': 'off',
-      '@stylistic/quote-props': 'off',
-      '@stylistic/brace-style': 'off',
-      '@stylistic/operator-linebreak': 'off',
-      '@stylistic/indent-binary-ops': 'off',
-      '@stylistic/jsx-curly-brace-presence': 'off',
-      '@stylistic/jsx-wrap-multilines': 'off',
-      '@stylistic/spaced-comment': 'off',
+      '@stylistic/indent': ['error', 2],
+      '@stylistic/quotes': ['error', 'single'],
+      '@stylistic/semi': ['error', 'never'],
+      '@stylistic/linebreak-style': ['error', 'unix'],
+      '@stylistic/arrow-parens': ['error', 'always'],
+      '@stylistic/object-curly-spacing': ['error', 'always'],
+      '@stylistic/comma-dangle': [
+        'error',
+        {
+          arrays: 'always-multiline',
+          objects: 'always-multiline',
+          imports: 'always-multiline',
+          exports: 'always-multiline',
+          functions: 'never',
+        },
+      ],
     },
   },
 ]

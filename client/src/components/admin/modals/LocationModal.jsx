@@ -33,7 +33,8 @@ const LocationModal = ({ open, onClose, onSave, locationData }) => {
       setCity(locationData.city || '')
       setProvState(locationData.provState || '')
       setCountry(locationData.country || '')
-    } else if (!open) {
+    }
+    else if (!open) {
       setId('')
       setName('')
       setAddress('')
@@ -82,37 +83,40 @@ const LocationModal = ({ open, onClose, onSave, locationData }) => {
 
         <form onSubmit={handleSave}>
           <TextInput
-            label={'Location Name'}
+            label="Location Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required={true}
           />
           <TextInput
-            label={'Address'}
+            label="Address"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             required={true}
           />
+          <Box display="flex" gap={2}>
+            <TextInput
+              label="City"
+              value={city}
+              onChange={handleLettersOnlyChange(setCity)}
+              required={true}
+            />
+
+            <TextInput
+              label="Province"
+              value={provState}
+              onChange={handleProvStateChange}
+              required={true}
+            />
+          </Box>
           <TextInput
-            label={'City'}
-            value={city}
-            onChange={handleLettersOnlyChange(setCity)}
-            required={true}
-          />
-          <TextInput
-            label={'Province/State'}
-            value={provState}
-            onChange={handleProvStateChange}
-            required={true}
-          />
-          <TextInput
-            label={'Country'}
+            label="Country"
             value={country}
             onChange={handleLettersOnlyChange(setCountry)}
             required={true}
           />
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
-            <CancelButton onClick={onClose} color={'red'} />
+            <CancelButton onClick={onClose} color="red" />
             <SaveButton
               type="submit"
               label={locationData ? 'Save' : 'Create'}

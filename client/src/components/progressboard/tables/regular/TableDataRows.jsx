@@ -11,10 +11,12 @@ import {
   TableRow,
 } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import theme from '../../../../styles/theme'
 
 const CollapsibleRow = ({ team, index, columns, participants }) => {
+  const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const expandRef = useRef(null)
   const isEven = index % 2 === 0
@@ -37,10 +39,11 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
         role="checkbox"
         tabIndex={-1}
         sx={{
-          height: { sm: '2.95rem', md: '3.15rem', lg: '3.25rem', xl: '3.5rem' },
-          p: 0,
-          border: 'none',
-          backgroundColor: open
+          'cursor': 'pointer',
+          'height': { sm: '2.95rem', md: '3.15rem', lg: '3.25rem', xl: '3.5rem' },
+          'p': 0,
+          'border': 'none',
+          'backgroundColor': open
             ? alpha(theme.palette.secondary.light, 0.5)
             : isEven
               ? alpha(theme.palette.background.paper, 0.3)
@@ -63,8 +66,8 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
           <IconButton
             disableRipple
             sx={{
-              padding: 0,
-              color: 'primary.main',
+              'padding': 0,
+              'color': 'primary.main',
               '&:focus': {
                 outline: 'none',
               },
@@ -147,6 +150,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
 
           return (
             <TableCell
+              onClick={() => navigate(`team/${team?.id}`)}
               sx={{
                 border: 'none',
                 padding: '0',
@@ -201,9 +205,9 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
                           size="small"
                           disableRipple
                           sx={{
-                            visibility: 'hidden',
-                            padding: 0,
-                            color: 'primary.main',
+                            'visibility': 'hidden',
+                            'padding': 0,
+                            'color': 'primary.main',
                             '&:focus': {
                               outline: 'none',
                             },
@@ -243,7 +247,9 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
                           color: 'primary.light',
                         }}
                       >
-                        {participant.firstName} {participant.lastName}
+                        {participant.firstName}
+                        {' '}
+                        {participant.lastName}
                       </TableCell>
                     </TableRow>
                   ))}

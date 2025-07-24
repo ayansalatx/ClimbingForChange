@@ -14,15 +14,15 @@ import CancelButton from '../buttons/CancelButton'
 import SaveButton from '../buttons/SaveButton'
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  boxShadow: 24,
-  p: 4,
-  borderRadius: 2,
+  'position': 'absolute',
+  'top': '50%',
+  'left': '50%',
+  'transform': 'translate(-50%, -50%)',
+  'width': 400,
+  'bgcolor': 'background.paper',
+  'boxShadow': 24,
+  'p': 4,
+  'borderRadius': 2,
   '& .MuiTextField-root': { mb: 2 },
 }
 
@@ -36,7 +36,8 @@ const MountainModal = ({ open, onClose, onSave, mountain }) => {
       setName(mountain.name || '')
       setTotalElevation(mountain.totalElevation?.toString() || '0')
       setElevationUnit(mountain.elevationUnit || 'FT')
-    } else if (!open) {
+    }
+    else if (!open) {
       // Reset form when closing
       setName('')
       setTotalElevation('0')
@@ -78,35 +79,33 @@ const MountainModal = ({ open, onClose, onSave, mountain }) => {
             margin="dense"
             required
           />
-
-          <TextField
-            fullWidth
-            label="Elevation"
-            type="number"
-            value={totalElevation}
-            onChange={(e) => setTotalElevation(e.target.value)}
-            margin="dense"
-            required
-          />
-
-          <FormControl fullWidth margin="dense">
-            <InputLabel>Unit</InputLabel>
-            <Select
-              value={elevationUnit}
-              label="Unit"
-              onChange={(e) => setElevationUnit(e.target.value)}
+          <Box display="flex" gap={2} alignItems="baseline">
+            <TextField
+              fullWidth
+              label="Elevation"
+              type="number"
+              value={totalElevation}
+              onChange={(e) => setTotalElevation(e.target.value)}
+              margin="dense"
               required
-            >
-              <MenuItem value="FT">Feet</MenuItem>
-              <MenuItem value="M">Meters</MenuItem>
-            </Select>
-          </FormControl>
+            />
 
-          <Box
-            sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, gap: 1 }}
-          >
-            <CancelButton onClick={onClose} />
-            <SaveButton type="submit" label={mountain?.id ? 'Update' : 'Add'} />
+            <FormControl fullWidth margin="dense">
+              <InputLabel>Unit</InputLabel>
+              <Select
+                value={elevationUnit}
+                label="Unit"
+                onChange={(e) => setElevationUnit(e.target.value)}
+                required
+              >
+                <MenuItem value="FT">Feet</MenuItem>
+                <MenuItem value="M">Meters</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+          <Box mt={2} display="flex" justifyContent="space-between" gap={2}>
+            <CancelButton onClick={onClose} color="red" />
+            <SaveButton type="submit" label={mountain?.id ? 'Save' : 'Create'} />
           </Box>
         </form>
       </Box>
