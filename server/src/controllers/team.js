@@ -28,7 +28,7 @@ export const getTeamById = async (request, response) => {
     .populate('mountain')
     .populate('hill')
     .populate('rfidTag')
-        
+
   response.json(team)
 }
 
@@ -85,7 +85,7 @@ export const updateOneTeam = async (request, response) => {
   const teamID = request.params.id
   const body = request.body
   let rfidTag
-  
+
   if (body.rfidTag && typeof body.rfidTag === 'object' && body.rfidTag.id) {
     rfidTag = await RFIDTag.findById(body.rfidTag.id)
   }
