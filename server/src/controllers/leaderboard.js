@@ -5,8 +5,9 @@ import Lap from '../models/lap.js'
 import Team from '../models/team.js'
 import Event from '../models/event.js'
 import config from '../utils/config.js'
+import { createLapAndEmitStats } from '../services/lapService.js'
 
-async function processNewPassings(newPassings) {
+async function processNewPassings(newPassings, io) {
   const START_LOOP_ID = 1
   const LAP_POINT_LOOP_ID = 2
 
@@ -110,14 +111,15 @@ async function processNewPassings(newPassings) {
           continue
         }
 
-        await Lap.create({
-          team: teamId,
-          rfidTag: team.rfidTag,
+        await createLapAndEmitStats({
+          teamId,
+          participantId: null, // or actual participant if available
+          rfidTagId: team.rfidTag,
           startDateTime: lapStartTime,
           endDateTime: lapEndTime,
           lapDuration: lapDurationMs,
           lapNumber: lapJustCompleted,
-        })
+        }, io)
 
         console.log(
           `✅ [Lap Recorded] Team ${team.name} (Bib: ${bib}) completed Lap ${lapJustCompleted} in ${(lapDurationMs / 1000).toFixed(1)}s`,
@@ -407,6 +409,7 @@ export const getLeaderboardEvents = async (request, response) => {
 export const runSimulation = async (req, res) => {
   try {
     const { eventId } = req.params
+    const io = req.app.get('io')
     console.log("🚀 ~ runSimulation ~ eventId:", eventId)
     if (!eventId) {
       return res.status(400).json({ error: 'Missing eventId' })
@@ -447,7 +450,7 @@ export const runSimulation = async (req, res) => {
         })
       }
     }
-    await processNewPassings(passings)
+    await processNewPassings(passings, io)
     return res.json({ message: `Simulated laps created for event ${eventId}`, teams: teams.length, lapsPerTeam: teams.map(t => t.lapsRequired || 1) })
   } catch (err) {
     console.error('[Simulation Error]', err)

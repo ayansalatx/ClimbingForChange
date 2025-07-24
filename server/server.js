@@ -4,7 +4,7 @@ import app from './app.js'
 import config from './src/utils/config.js'
 import connectDB from './src/utils/db.js'
 import mongoose from 'mongoose'
-import { initializeServerState } from './src/utils/serverState.js'
+import { initializeServerState, setServerIO } from './src/utils/serverState.js'
 import LapChangeWatcher from './src/sockets/lapWatcher.js'
 
 const startServer = async () => {
@@ -22,6 +22,9 @@ const startServer = async () => {
       methods: ['GET'],
     },
   })
+  app.set('io', io)
+
+  setServerIO(io)
 
   server.listen(config.PORT, () => {
     console.log(`Server started on port ${config.PORT}`)

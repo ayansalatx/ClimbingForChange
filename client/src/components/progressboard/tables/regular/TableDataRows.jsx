@@ -14,6 +14,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import theme from '../../../../styles/theme'
+import { formatDurationTimeHours, formatDurationTimeMinutes } from '../../../../utils/formatDurationTime'
 
 const CollapsibleRow = ({ team, index, columns, participants }) => {
   const navigate = useNavigate()
@@ -143,6 +144,12 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
               break
             case 'laps':
               value = `${lapsCompleted} / ${lapsRequired}`
+              break
+            case 'bestLap':
+              value = team.bestLap && team.bestLap > 0 ? formatDurationTimeMinutes(team.bestLap) : '-'
+              break
+            case 'timeElapsed':
+              value = team.timeElapsed && team.timeElapsed > 0 ? formatDurationTimeHours(team.timeElapsed) : '-'
               break
             default:
               value = team[column.id] ?? '-'

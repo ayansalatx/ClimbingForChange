@@ -116,7 +116,6 @@ const ProgressBoardFullscreen = () => {
       if (!eventId) return
       try {
         const teamsForDisplay = await getLeaderboard(eventId)
-
         setTeams(teamsForDisplay)
       } catch {
         showWarning()
@@ -124,73 +123,37 @@ const ProgressBoardFullscreen = () => {
         setLoading(false)
       }
     }
-
     loadLeaderboard()
-
-    // const intervalId = setInterval(loadLeaderboard, 2000)
-
-    return () => {
-      // clearInterval(intervalId)
-    }
   }, [eventId])
 
-  // Listen for lap updates on socket
+  // Listen for lapStatsUpdate on socket
   useEffect(() => {
-    const socketURL =
-      import.meta.env.VITE_SOCKET_SERVER_URL || 'http://localhost:5001'
-    socketRef.current = io(socketURL)
-
-    const handleLapUpdate = (change) => {
-      const updatedLap = change.fullDocument
-      // Don't update for laps without an end time
-      if (!updatedLap || !updatedLap.endDateTime) {
-        return
-      }
-
-      // Get teams and update for only the team with ID that matches
+    const socketURL = import.meta.env.VITE_SOCKET_SERVER_URL || 'http://localhost:5001'
+    const socket = io(socketURL, {
+      transports: ['websocket', 'polling'],
+      reconnectionAttempts: 3,
+    })
+    const handleLapStatsUpdate = (stats) => {
       setTeams((prevTeams) => {
-        const teamIndex = prevTeams.findIndex(
-          (team) => team.id?.toString() === updatedLap.teamId
+        const updatedTeams = prevTeams.map((team) =>
+          team.id === stats.teamId
+            ? {
+                ...team,
+                ...stats,
+                lapsCompleted: stats.totalLaps, // for xl/lg columns
+                laps: stats.totalLaps,          // for md/sm/xsm columns
+                elevation: stats.totalElevation, // for md/sm/xsm columns
+                currentElevation: stats.currentElevation, // for Current Elevation column
+              }
+            : team
         )
-        if (teamIndex === -1) return prevTeams
-
-        const team = prevTeams[teamIndex]
-        const laps = team.laps ?? []
-
-        // Update existing lap
-        const lapIndex = laps.findIndex(
-          (lap) => lap.id === updatedLap._id || lap._id === updatedLap._id
-        )
-
-        let newLaps
-
-        // Create new lap
-        if (lapIndex !== -1) {
-          newLaps = [
-            ...laps.slice(0, lapIndex),
-            updatedLap,
-            ...laps.slice(lapIndex + 1),
-          ]
-        } else {
-          newLaps = [...laps, updatedLap]
-        }
-
-        const updatedTeam = updateLeaderboardTeamLaps(team, newLaps)
-
-        // Update display for only team with lap update
-        return [
-          ...prevTeams.slice(0, teamIndex),
-          updatedTeam,
-          ...prevTeams.slice(teamIndex + 1),
-        ]
+        return updatedTeams
       })
     }
-
-    socketRef.current.on('lapUpdate', handleLapUpdate)
-
+    socket.on('lapStatsUpdate', handleLapStatsUpdate)
     return () => {
-      socketRef.current.off('lapUpdate', handleLapUpdate)
-      socketRef.current.disconnect()
+      socket.off('lapStatsUpdate', handleLapStatsUpdate)
+      socket.disconnect()
     }
   }, [])
 

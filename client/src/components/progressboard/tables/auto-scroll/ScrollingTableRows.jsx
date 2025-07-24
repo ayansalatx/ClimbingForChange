@@ -8,6 +8,7 @@ import {
 import { Fragment } from 'react'
 
 import theme from '../../../../styles/theme'
+import { formatDurationTimeHours, formatDurationTimeMinutes } from '../../../../utils/formatDurationTime'
 
 const ScrollingTableRow = ({ teams, columns, shouldScroll }) => {
   const isLarge = useMediaQuery(theme.breakpoints.up('lg'))
@@ -52,6 +53,12 @@ const ScrollingTableRow = ({ teams, columns, shouldScroll }) => {
               }
               else if (column.id === 'laps') {
                 value = `${team.lapsCompleted} / ${team.lapsRequired}`
+              }
+              else if (column.id === 'bestLap') {
+                value = team.bestLap && team.bestLap > 0 ? formatDurationTimeMinutes(team.bestLap) : '-'
+              }
+              else if (column.id === 'timeElapsed') {
+                value = team.timeElapsed && team.timeElapsed > 0 ? formatDurationTimeHours(team.timeElapsed) : '-'
               }
               else {
                 value = team[column.id] ?? '-'

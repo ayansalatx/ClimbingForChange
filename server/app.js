@@ -19,7 +19,6 @@ import authRoutes from './src/routes/auth.js'
 import { mockRouter } from './src/mock/mock.router.js'
 import config from './src/utils/config.js'
 import leaderboardRoutes from './src/routes/leaderboard.js'
-import { pollForNewData } from './src/utils/serverState.js'
 
 const app = express()
 const openapiDoc = YAML.load('./openapi.yaml')

@@ -1,3 +1,9 @@
+import mongoose from 'mongoose'
+import Lap from '../models/lap.js'
+import Team from '../models/team.js'
+import Mountain from '../models/mountain.js'
+import Hill from '../models/hill.js'
+
 export default function LapChangeWatcher(io, db) {
   const lapsConnection = db.collection('laps')
 
@@ -9,7 +15,7 @@ export default function LapChangeWatcher(io, db) {
     return {
       ...doc,
       id: doc._id.toString(),
-      teamId: doc.team?.id.toString(),
+      teamId: doc.team?.id?.toString?.() || doc.team?.toString?.(),
     }
   }
 
