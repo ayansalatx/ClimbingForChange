@@ -17,7 +17,7 @@ const ExitButton = ({ teamId, color }) => {
 
   return (
     <Tooltip
-      title={'Back to Team'}
+      title="Back to Team"
       slotProps={{
         tooltip: {
           sx: {
@@ -41,12 +41,12 @@ const ExitButton = ({ teamId, color }) => {
       <IconButton
         onClick={handleClick}
         sx={{
-          ml: '.25rem',
-          color: color,
+          'ml': '.25rem',
+          'color': color,
           '&:hover': {
             color: 'secondary.main',
           },
-          p: {
+          'p': {
             xxs: '0.25rem',
             sm: '0.45rem',
             md: '0.5rem',

@@ -4,7 +4,7 @@ const ActiveToggle = ({ checked, onChange, hidden }) => {
   return (
     <Box sx={{ display: 'flex', alignItems: 'left', visibility: hidden }}>
       <FormControlLabel
-        control={
+        control={(
           <Switch
             size="small"
             checked={checked}
@@ -21,11 +21,11 @@ const ActiveToggle = ({ checked, onChange, hidden }) => {
               },
             }}
           />
-        }
-        label={
+        )}
+        label={(
           <Typography
-            fontSize={'small'}
-            textTransform={'uppercase'}
+            fontSize="small"
+            textTransform="uppercase"
             sx={{
               color: checked ? 'secondary.main' : 'background.paper',
               pr: 1,
@@ -33,7 +33,7 @@ const ActiveToggle = ({ checked, onChange, hidden }) => {
           >
             Show Inactive
           </Typography>
-        }
+        )}
         labelPlacement="start"
         sx={{ ml: 1.5 }}
       />

@@ -3,15 +3,15 @@ import InputBase from '@mui/material/InputBase'
 import { alpha, styled } from '@mui/material/styles'
 
 const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.background.paper, 0.25),
+  'position': 'relative',
+  'borderRadius': theme.shape.borderRadius,
+  'backgroundColor': alpha(theme.palette.background.paper, 0.25),
   '&:hover, &:focus-within': {
     backgroundColor: alpha(theme.palette.background.paper, 0.35),
   },
-  marginRight: '.75rem',
-  marginTop: '.1rem',
-  width: '100%',
+  'marginRight': '.75rem',
+  'marginTop': '.1rem',
+  'width': '100%',
   [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(1),
     width: '25.4rem',
@@ -30,8 +30,8 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 }))
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: alpha(theme.palette.background.paper, 1),
-  width: '100%',
+  'color': alpha(theme.palette.background.paper, 1),
+  'width': '100%',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon

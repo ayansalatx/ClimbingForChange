@@ -105,8 +105,8 @@ const HillModal = ({ open, onClose, onSave, hillData, onLocation }) => {
           <Box display="flex" gap={2} alignItems="baseline">
             <TextInput
               fullWidth
-              label='Lap Distance'
-              type='number'
+              label="Lap Distance"
+              type="number"
               inputProps={{ step: 'any', min: 0 }}
               value={lapDistance}
               onChange={(e) => setLapDistance(e.target.value)}
@@ -116,12 +116,12 @@ const HillModal = ({ open, onClose, onSave, hillData, onLocation }) => {
               <InputLabel>Distance Unit</InputLabel>
               <Select
                 value={distanceUnit}
-                label='Distance Unit'
+                label="Distance Unit"
                 onChange={(e) => setDistanceUnit(e.target.value)}
                 required
               >
-                <MenuItem value='KM'>Kilometers</MenuItem>
-                <MenuItem value='MI'>Miles</MenuItem>
+                <MenuItem value="KM">Kilometers</MenuItem>
+                <MenuItem value="MI">Miles</MenuItem>
               </Select>
             </FormControl>
           </Box>
@@ -129,8 +129,8 @@ const HillModal = ({ open, onClose, onSave, hillData, onLocation }) => {
           <Box display="flex" gap={2} alignItems="baseline">
             <TextInput
               fullWidth
-              label='Lap Elevation Gain'
-              type='number'
+              label="Lap Elevation Gain"
+              type="number"
               inputProps={{ step: 'any', min: 0 }}
               value={lapElevationGain}
               onChange={(e) => setLapElevationGain(e.target.value)}
@@ -140,12 +140,12 @@ const HillModal = ({ open, onClose, onSave, hillData, onLocation }) => {
               <InputLabel>Elevation Unit</InputLabel>
               <Select
                 value={elevationUnit}
-                label='Elevation Unit'
+                label="Elevation Unit"
                 onChange={(e) => setElevationUnit(e.target.value)}
                 required
               >
-                <MenuItem value='FT'>Feet</MenuItem>
-                <MenuItem value='M'>Meters</MenuItem>
+                <MenuItem value="FT">Feet</MenuItem>
+                <MenuItem value="M">Meters</MenuItem>
               </Select>
             </FormControl>
           </Box>

@@ -53,11 +53,11 @@ const EventSummaryTable = ({ events = [], loading }) => {
       <Box sx={{ display: 'flex', alignItems: 'center', pt: '.5rem', pl: '1rem' }}>
         <AlarmIcon sx={{ color: 'secondary.main' }} />
         <Typography
-          variant='h5'
-          align='left'
-          textTransform='uppercase'
-          fontWeight='bold'
-          color='secondary.main'
+          variant="h5"
+          align="left"
+          textTransform="uppercase"
+          fontWeight="bold"
+          color="secondary.main"
           sx={{
             pl: 1.5,
             letterSpacing: { xxs: '0.05rem', xl: '.1rem' },
@@ -67,7 +67,7 @@ const EventSummaryTable = ({ events = [], loading }) => {
           Upcoming Events
         </Typography>
       </Box>
-      <Table size='small'>
+      <Table size="small">
         <TableHead sx={{ backgroundColor: 'primary.main' }}>
           <TableRow>
             {headerColumns.map(({ label, align }) => (
@@ -92,83 +92,85 @@ const EventSummaryTable = ({ events = [], loading }) => {
             ))}
           </TableRow>
         </TableHead>
-        {loading ? (
-          <TableBody sx={{ height: '12rem' }}>
-            <TableRow>
-              <TableCell
-                colSpan={headerColumns.length + 1}
-                align='center'
-                sx={{ border: 'none' }}
-              >
-                <CircularProgress color='secondary' />
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        ) : (
-          <TableBody>
-            {Array.from({ length: totalRows }).map((_, index) => {
-              const event = events[index] || null
-              const isEven = index % 2 === 0
-              const bgColor = isEven ? 'primary.light' : 'primary.main'
-              const textColor = event?.isLive
-                ? 'secondary.main'
-                : 'background.paper'
+        {loading
+          ? (
+            <TableBody sx={{ height: '12rem' }}>
+              <TableRow>
+                <TableCell
+                  colSpan={headerColumns.length + 1}
+                  align="center"
+                  sx={{ border: 'none' }}
+                >
+                  <CircularProgress color="secondary" />
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          )
+          : (
+            <TableBody>
+              {Array.from({ length: totalRows }).map((_, index) => {
+                const event = events[index] || null
+                const isEven = index % 2 === 0
+                const bgColor = isEven ? 'primary.light' : 'primary.main'
+                const textColor = event?.isLive
+                  ? 'secondary.main'
+                  : 'background.paper'
 
-              return (
-                <TableRow
-                  key={event?.id || `empty-${index}`}
-                  onClick={() => navigate('events')}
-                  sx={{
-                    cursor: event ? 'pointer' : 'default',
-                    '&:hover': event
-                      ? {
+                return (
+                  <TableRow
+                    key={event?.id || `empty-${index}`}
+                    onClick={() => navigate('events')}
+                    sx={{
+                      'cursor': event ? 'pointer' : 'default',
+                      '&:hover': event
+                        ? {
                           backgroundColor: alpha(
                             theme.palette.background.paper,
                             0.2
                           ),
                         }
-                      : {},
-                    backgroundColor: bgColor,
-                    color: textColor,
-                    border: '1px solid',
-                    borderColor: 'primary.dark',
-                  }}
-                >
-                  {headerColumns.map((column) => {
-                    let value = event?.[column.id] ?? '-'
+                        : {},
+                      'backgroundColor': bgColor,
+                      'color': textColor,
+                      'border': '1px solid',
+                      'borderColor': 'primary.dark',
+                    }}
+                  >
+                    {headerColumns.map((column) => {
+                      let value = event?.[column.id] ?? '-'
 
-                    if (column.id === 'isLive') {
-                      value = event ? (event.isLive ? 'LIVE' : '-') : '-'
-                    }
+                      if (column.id === 'isLive') {
+                        value = event ? (event.isLive ? 'LIVE' : '-') : '-'
+                      }
 
-                    return (
-                      <TableCell
-                        key={column.id}
-                        align={column.align}
-                        sx={{
-                          width: column.width,
-                          fontSize: {
-                            xxs: '0.9rem',
-                            md: '1rem',
-                            lg: '1.1rem',
-                            xl: '1.2rem',
-                          },
-                          color: textColor,
-                          textTransform:
+                      return (
+                        <TableCell
+                          key={column.id}
+                          align={column.align}
+                          sx={{
+                            width: column.width,
+                            fontSize: {
+                              xxs: '0.9rem',
+                              md: '1rem',
+                              lg: '1.1rem',
+                              xl: '1.2rem',
+                            },
+                            color: textColor,
+                            textTransform:
                             column.id === 'isLive' ? 'uppercase' : undefined,
-                          borderBottom: '1px solid',
-                          borderColor: 'primary.dark',
-                        }}
-                      >
-                        {value}
-                      </TableCell>
-                    )
-                  })}
-                </TableRow>
-              )
-            })}
-          </TableBody>
-        )}
+                            borderBottom: '1px solid',
+                            borderColor: 'primary.dark',
+                          }}
+                        >
+                          {value}
+                        </TableCell>
+                      )
+                    })}
+                  </TableRow>
+                )
+              })}
+            </TableBody>
+          )}
       </Table>
     </TableContainer>
   )

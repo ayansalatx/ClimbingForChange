@@ -17,7 +17,7 @@ export const getTeamsByEvent = async (eventId) => {
 export const addTeam = async (data) => {
   const payload = {
     ...data,
-    rfidTag: data.rfidTag, 
+    rfidTag: data.rfidTag,
   }
 
   try {
@@ -33,7 +33,7 @@ export const addTeam = async (data) => {
 export const editTeam = async (id, data) => {
   const payload = {
     ...data,
-    rfidTag: data.rfidTag, 
+    rfidTag: data.rfidTag,
   }
 
   try {

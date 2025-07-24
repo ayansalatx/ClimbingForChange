@@ -17,7 +17,7 @@ const TableDataRows = ({
   const mountainsHref = '/admin/mountains'
   const hillsHref = '/admin/hills'
   const locationsHref = '/admin/locations'
-  const teamsHref = '/admin/teams' 
+  const teamsHref = '/admin/teams'
   return (
     <TableBody>
       {rows
@@ -26,11 +26,11 @@ const TableDataRows = ({
           return (
             <TableRow
               hover
-              role='checkbox'
+              role="checkbox"
               tabIndex={-1}
               key={row.id || index}
               sx={{
-                backgroundColor:
+                'backgroundColor':
                   index % 2 === 0 ? 'background.paper' : 'background.default',
                 '&:hover > *': {
                   backgroundColor: alpha(theme.palette.secondary.light, 0.9),
@@ -63,8 +63,8 @@ const TableDataRows = ({
                     >
                       <Link
                         href={locationsHref}
-                        underline='hover'
-                        color='inherit'
+                        underline="hover"
+                        color="inherit"
                         sx={{ fontSize: '1rem' }}
                       >
                         {value || 'N/A'}
@@ -77,12 +77,14 @@ const TableDataRows = ({
                   let href = null
                   if (column.id === 'mountain') {
                     href = mountainsHref
-                  } else if (column.id === 'hill') {
+                  }
+                  else if (column.id === 'hill') {
                     href = hillsHref
                   }
                   else if (column.id === 'location') {
                     href = locationsHref
-                  } else if (column.id === 'teamName') {
+                  }
+                  else if (column.id === 'teamName') {
                     href = teamsHref
                   }
 
@@ -97,8 +99,8 @@ const TableDataRows = ({
                     >
                       <Link
                         href={href}
-                        underline='hover'
-                        color='inherit'
+                        underline="hover"
+                        color="inherit"
                         sx={{ fontSize: '1rem' }}
                       >
                         {value || 'N/A'}
@@ -125,7 +127,7 @@ const TableDataRows = ({
 
               <TableCell
                 key={row.id}
-                align={'center'}
+                align="center"
                 sx={{ py: 0, minWidth: '5rem' }}
               >
                 <RowActions

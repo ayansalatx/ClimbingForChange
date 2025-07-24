@@ -6,7 +6,7 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
   return (
     <Box
       sx={{
-        width: {
+        'width': {
           xxs: '100%',
           xs: '100%',
           sm: '100%',
@@ -14,13 +14,13 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
           lg: '40%',
           xl: '35%',
         },
-        textAlign: 'left',
-        backgroundColor: {
+        'textAlign': 'left',
+        'backgroundColor': {
           xxs: 'gray.light',
           sm: alpha(theme.palette.background.paper, 0.4),
         },
-        color: 'primary.main',
-        borderRadius: '3px',
+        'color': 'primary.main',
+        'borderRadius': '3px',
         '&:hover': {
           backgroundColor: {
             xxs: 'info.main',
@@ -44,24 +44,24 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
         slotProps={{
           paper: {
             sx: {
-              minHeight: { xxs: 'unset', xs: 'unset', sm: 0 },
-              borderRadius: '3px',
-              backgroundColor: 'background.paper',
-              color: 'primary.main',
-              fontSize: { xxs: '.9rem', md: '1rem', xl: '1.05rem' },
-              mx: 0.75,
-              transition: 'background-color 0.2s ease',
+              'minHeight': { xxs: 'unset', xs: 'unset', sm: 0 },
+              'borderRadius': '3px',
+              'backgroundColor': 'background.paper',
+              'color': 'primary.main',
+              'fontSize': { xxs: '.9rem', md: '1rem', xl: '1.05rem' },
+              'mx': 0.75,
+              'transition': 'background-color 0.2s ease',
               '& .MuiAutocomplete-option': {
-                minHeight: { xxs: 'unset', xs: 'unset' },
-                fontSize: {
+                'minHeight': { xxs: 'unset', xs: 'unset' },
+                'fontSize': {
                   xxs: '0.9rem',
                   xs: '0.9rem',
                   sm: '0.9rem',
                   md: '1rem',
                 },
                 '&:hover': {
-                  borderRadius: '3px',
-                  backgroundColor: alpha(theme.palette.secondary.main, 0.7),
+                  'borderRadius': '3px',
+                  'backgroundColor': alpha(theme.palette.secondary.main, 0.7),
                   '&:focus': {
                     borderRadius: '3px',
                     backgroundColor: alpha(theme.palette.secondary.main, 0.7),
@@ -77,7 +77,7 @@ const ProgressSearch = ({ searchString, onChange, teamNames }) => {
         renderInput={(params) => (
           <TextField
             {...params}
-            placeholder={'Search...'}
+            placeholder="Search..."
             slotProps={{
               input: {
                 ...params.InputProps,

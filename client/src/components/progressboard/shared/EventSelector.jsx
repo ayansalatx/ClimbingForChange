@@ -39,13 +39,13 @@ const EventSelector = ({
           sx: { borderRadius: '3px !important' },
         }}
         sx={{
-          textAlign: 'left',
-          backgroundColor: {
+          'textAlign': 'left',
+          'backgroundColor': {
             xxs: 'gray.light',
             sm: alpha(theme.palette.background.paper, 0.4),
           },
-          borderRadius: '3px',
-          color: 'primary.light',
+          'borderRadius': '3px',
+          'color': 'primary.light',
           '&:before, &:after': {
             borderBottom: 'none !important',
           },
@@ -134,11 +134,11 @@ const EventSelector = ({
               key={event.id || eventsIndex}
               value={event.id}
               sx={{
-                mx: 0.75,
-                borderRadius: '3px',
-                minHeight: { xxs: 'unset', xs: 'unset', sm: 0 },
-                color: 'primary.main',
-                fontSize: {
+                'mx': 0.75,
+                'borderRadius': '3px',
+                'minHeight': { xxs: 'unset', xs: 'unset', sm: 0 },
+                'color': 'primary.main',
+                'fontSize': {
                   xxs: '0.9rem',
                   xs: '0.9rem',
                   sm: '0.9rem',
@@ -167,7 +167,7 @@ const EventSelector = ({
         {pastEvents.length > 0 && [
           <MenuItem
             key={0}
-            value=''
+            value=""
             disabled
             sx={{
               minHeight: { xxs: 'unset' },
@@ -191,11 +191,11 @@ const EventSelector = ({
               key={event.id || pastEventsIndex}
               value={event.id}
               sx={{
-                mx: 0.75,
-                borderRadius: '3px',
-                minHeight: { xxs: 'unset', xs: 'unset', sm: 0 },
-                color: 'primary.main',
-                fontSize: {
+                'mx': 0.75,
+                'borderRadius': '3px',
+                'minHeight': { xxs: 'unset', xs: 'unset', sm: 0 },
+                'color': 'primary.main',
+                'fontSize': {
                   xxs: '0.9rem',
                   xs: '0.9rem',
                   sm: '0.9rem',

@@ -280,7 +280,8 @@ const EventManager = () => {
       )
 
       fetchEvents()
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert('Toggle Error', `Failed to update active status: ${error.message}`, 'error')
     } finally {
       setConfirmDialog(null)

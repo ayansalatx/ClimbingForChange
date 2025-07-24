@@ -131,59 +131,63 @@ const LapTable = ({ tableColumns, laps = [], loading, exitVisible }) => {
           boxShadow: '0px 3px 1px rgba(49, 47, 47, 0.3)',
         })}
       >
-        {loading ? (
-          <Table stickyHeader height="100%">
-            <LapHeaderRow columns={tableColumns} />
-            <TableBody>
-              <TableRow>
-                <TableCell
-                  colSpan={tableColumns.length + 1}
-                  align="center"
-                  sx={{ border: 'none' }}
-                >
-                  <CircularProgress color="secondary" />
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        ) : laps.length > 0 ? (
-          <Table
-            stickyHeader
-            size="small"
-            sx={{
-              width: '100%',
-              '&:hover': { bgcolor: alpha(theme.palette.primary.light, 0.05) },
-            }}
-          >
-            <LapHeaderRow columns={tableColumns} />
-            <LapDataRows
-              rows={laps}
-              columns={tableColumns}
-              page={page}
-              rowsPerPage={rowsPerPage}
-            />
-          </Table>
-        ) : (
-          <Table height="100%" stickyHeader>
-            <LapHeaderRow columns={tableColumns} />
-            <TableBody>
-              <TableRow>
-                <TableCell
-                  colSpan={tableColumns.length + 1}
-                  align="center"
-                  sx={{
-                    backgroundColor: alpha(theme.palette.background.paper, 0.3),
-                    border: 'none',
-                  }}
-                >
-                  <Typography variant="h5" color="secondary.main">
-                    no laps to display yet
-                  </Typography>
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        )}
+        {loading
+          ? (
+            <Table stickyHeader height="100%">
+              <LapHeaderRow columns={tableColumns} />
+              <TableBody>
+                <TableRow>
+                  <TableCell
+                    colSpan={tableColumns.length + 1}
+                    align="center"
+                    sx={{ border: 'none' }}
+                  >
+                    <CircularProgress color="secondary" />
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          )
+          : laps.length > 0
+            ? (
+              <Table
+                stickyHeader
+                size="small"
+                sx={{
+                  'width': '100%',
+                  '&:hover': { bgcolor: alpha(theme.palette.primary.light, 0.05) },
+                }}
+              >
+                <LapHeaderRow columns={tableColumns} />
+                <LapDataRows
+                  rows={laps}
+                  columns={tableColumns}
+                  page={page}
+                  rowsPerPage={rowsPerPage}
+                />
+              </Table>
+            )
+            : (
+              <Table height="100%" stickyHeader>
+                <LapHeaderRow columns={tableColumns} />
+                <TableBody>
+                  <TableRow>
+                    <TableCell
+                      colSpan={tableColumns.length + 1}
+                      align="center"
+                      sx={{
+                        backgroundColor: alpha(theme.palette.background.paper, 0.3),
+                        border: 'none',
+                      }}
+                    >
+                      <Typography variant="h5" color="secondary.main">
+                        no laps to display yet
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            )}
       </TableContainer>
       <Box
         sx={{
@@ -193,7 +197,7 @@ const LapTable = ({ tableColumns, laps = [], loading, exitVisible }) => {
           backgroundColor: alpha(theme.palette.background.paper, 0.75),
         }}
       >
-        {exitVisible && <ExitButton teamId={teamId} color={'primary.main'} />}
+        {exitVisible && <ExitButton teamId={teamId} color="primary.main" />}
         <TablePagination
           rowsPerPageOptions={[15, 25, 100]}
           component="div"
@@ -203,9 +207,9 @@ const LapTable = ({ tableColumns, laps = [], loading, exitVisible }) => {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
           sx={{
-            minHeight: '3rem',
-            backgroundColor: alpha(theme.palette.background.paper, 0),
-            color: 'primary.main',
+            'minHeight': '3rem',
+            'backgroundColor': alpha(theme.palette.background.paper, 0),
+            'color': 'primary.main',
             '& .MuiSvgIcon-root': {
               fontSize: '1.25rem',
               color: 'primary.main',

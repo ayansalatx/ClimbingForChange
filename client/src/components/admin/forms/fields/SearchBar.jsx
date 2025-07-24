@@ -10,13 +10,13 @@ const SearchBar = ({ value, onChange }) => {
       value={value}
       onChange={(e) => onChange(e.target.value)}
       sx={{
-        width: 500,
-        input: { color: 'white' },
-        label: { color: '#c9d82c' },
+        'width': 500,
+        'input': { color: 'white' },
+        'label': { color: '#c9d82c' },
         '& fieldset': { borderColor: '#c9d82c' },
         '& .MuiOutlinedInput-root': {
-          color: 'var(--c4c-green)',
-          fontSize: '.9rem',
+          'color': 'var(--c4c-green)',
+          'fontSize': '.9rem',
           '&:hover input': { color: 'var(--c4c-light-blue)' },
           '&.Mui-focused input': { color: 'var(--c4c-teal)' },
           '& fieldset': { borderColor: 'var(--c4c-green)' },

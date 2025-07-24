@@ -34,7 +34,7 @@ const WarningDialog = ({ open, title, message, onCancel }) => {
       <DialogActions
         sx={{ display: 'flex', justifyContent: 'space-between', px: 3, py: 3 }}
       >
-        <CancelButton onClick={onCancel} color={'gray'}></CancelButton>
+        <CancelButton onClick={onCancel} color="gray"></CancelButton>
       </DialogActions>
     </Dialog>
   )

@@ -55,13 +55,13 @@ const NavigationCard = ({
         >
           <Typography
             variant="h4"
-            fontSize={'1.5rem'}
+            fontSize="1.5rem"
             component="div"
             color="background.paper"
             align="start"
-            textTransform={'uppercase'}
-            fontWeight={'bold'}
-            letterSpacing={'0.1rem'}
+            textTransform="uppercase"
+            fontWeight="bold"
+            letterSpacing="0.1rem"
           >
             {cardTitle}
           </Typography>

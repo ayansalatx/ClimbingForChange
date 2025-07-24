@@ -78,38 +78,40 @@ const LapProgress = () => {
     >
       {/* https://pixabay.com/videos/search/terrain%20blue%20gray%20mountain/ */}
 
-      {isXSmall ? (
-        <Box
-          component="img"
-          src="/assets/mountain-range-illustration-2.jpeg"
-          alt="Mountain background"
-          sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            zIndex: 0,
-          }}
-        />
-      ) : (
-        <video
-          src="/assets/progress-board-background.mp4"
-          autoPlay
-          loop
-          muted
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            zIndex: 0,
-          }}
-        />
-      )}
+      {isXSmall
+        ? (
+          <Box
+            component="img"
+            src="/assets/mountain-range-illustration-2.jpeg"
+            alt="Mountain background"
+            sx={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              zIndex: 0,
+            }}
+          />
+        )
+        : (
+          <video
+            src="/assets/progress-board-background.mp4"
+            autoPlay
+            loop
+            muted
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              zIndex: 0,
+            }}
+          />
+        )}
 
       <Box
         sx={{
@@ -187,48 +189,52 @@ const LapProgress = () => {
               </Box>
             )}
           </Box>
-          {loading ? (
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                height: '100%',
-                flexGrow: 1,
-                backgroundColor: alpha(theme.palette.primary.main, 0.75),
-                borderRadius: '4px',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <CircularProgress color="secondary" />
-            </Box>
-          ) : (
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                height: '100%',
-                flexGrow: 1,
-                backgroundColor: alpha(theme.palette.primary.main, 0.75),
-                borderRadius: '4px',
-                p: { xxs: 1.5, xs: 2 },
-                gap: { xxs: 1.25, xs: 2 },
-                minHeight: 0,
-              }}
-            >
-              {/* Team Header */}
-              <TeamHeader teamName={team?.name} />
+          {
+            loading
+              ? (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    height: '100%',
+                    flexGrow: 1,
+                    backgroundColor: alpha(theme.palette.primary.main, 0.75),
+                    borderRadius: '4px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <CircularProgress color="secondary" />
+                </Box>
+              )
+              : (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: '100%',
+                    flexGrow: 1,
+                    backgroundColor: alpha(theme.palette.primary.main, 0.75),
+                    borderRadius: '4px',
+                    p: { xxs: 1.5, xs: 2 },
+                    gap: { xxs: 1.25, xs: 2 },
+                    minHeight: 0,
+                  }}
+                >
+                  {/* Team Header */}
+                  <TeamHeader teamName={team?.name} />
 
-              {/* Laps Table */}
-              <LapTable tableColumns={columns} laps={team?.laps} exitVisible={true} />
-            </Box>
-          )}
+                  {/* Laps Table */}
+                  <LapTable tableColumns={columns} laps={team?.laps} exitVisible={true} />
+                </Box>
+              )
+          }
         </Box>
       </Box>
       <WarningDialog
         open={warningOpen}
-        title={'Data Loading Error'}
-        message={'Data for team laps is not loading.'}
+        title="Data Loading Error"
+        message="Data for team laps is not loading."
         onCancel={() => setWarningOpen(false)}
       />
     </Box>

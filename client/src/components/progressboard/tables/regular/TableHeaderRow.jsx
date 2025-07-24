@@ -18,9 +18,9 @@ const TableHeaderRow = ({ columns }) => {
             size="small"
             disableRipple
             sx={{
-              visibility: 'hidden',
-              padding: 0,
-              color: 'background.paper',
+              'visibility': 'hidden',
+              'padding': 0,
+              'color': 'background.paper',
               '&:focus': {
                 outline: 'none',
               },

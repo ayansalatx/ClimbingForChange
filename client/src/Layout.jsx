@@ -59,7 +59,7 @@ const Layout = () => {
           }}
         >
           <Suspense
-            fallback={
+            fallback={(
               <Box
                 sx={{
                   display: 'flex',
@@ -70,7 +70,7 @@ const Layout = () => {
               >
                 <CircularProgress />
               </Box>
-            }
+            )}
           >
             <AlertDisplay />
             <Outlet sx={{ padding: 0, margin: 0 }} />

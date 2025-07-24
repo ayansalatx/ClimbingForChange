@@ -11,7 +11,7 @@ export const formatDateLong = (dateInput) => {
   if (isNaN(date)) return '-'
   return date.toLocaleDateString('en-US', {
     month: 'long',
-    day: 'numeric', 
+    day: 'numeric',
     year: 'numeric',
   })
 }

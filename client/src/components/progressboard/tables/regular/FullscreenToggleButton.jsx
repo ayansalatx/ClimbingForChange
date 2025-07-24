@@ -16,14 +16,16 @@ const FullscreenToggleButton = ({ eventId }) => {
   return (
     <Tooltip
       title={
-        eventId ? (
-          'Fullscreen'
-        ) : (
-          <Box display="flex" alignItems="center" gap={0.5}>
-            <ErrorOutlineIcon sx={{ fontSize: '1.15rem' }} />
-            <Typography>Select Event</Typography>
-          </Box>
-        )
+        eventId
+          ? (
+            'Fullscreen'
+          )
+          : (
+            <Box display="flex" alignItems="center" gap={0.5}>
+              <ErrorOutlineIcon sx={{ fontSize: '1.15rem' }} />
+              <Typography>Select Event</Typography>
+            </Box>
+          )
       }
       slotProps={{
         tooltip: {
