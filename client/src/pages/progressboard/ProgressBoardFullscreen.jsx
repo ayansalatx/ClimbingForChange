@@ -76,13 +76,17 @@ const ProgressBoardFullscreen = () => {
   let columns
   if (isXLarge) {
     columns = xlColumns
-  } else if (isLarge) {
+  }
+  else if (isLarge) {
     columns = lgColumns
-  } else if (isMedium) {
+  }
+  else if (isMedium) {
     columns = mdColumns
-  } else if (isSmall) {
+  }
+  else if (isSmall) {
     columns = smColumns
-  } else {
+  }
+  else {
     columns = xsmColumns
   }
 
@@ -117,9 +121,11 @@ const ProgressBoardFullscreen = () => {
       try {
         const teamsForDisplay = await getLeaderboard(eventId)
         setTeams(teamsForDisplay)
-      } catch {
+      }
+      catch {
         showWarning()
-      } finally {
+      }
+      finally {
         setLoading(false)
       }
     }
@@ -248,8 +254,8 @@ const ProgressBoardFullscreen = () => {
               <Typography
                 variant="h1"
                 color="secondary.main"
-                fontWeight={'bold'}
-                textTransform={'uppercase'}
+                fontWeight="bold"
+                textTransform="uppercase"
                 sx={{
                   fontSize: {
                     xxs: '1.3rem',
@@ -293,8 +299,8 @@ const ProgressBoardFullscreen = () => {
       </Box>
       <WarningDialog
         open={warningOpen}
-        title={'Data Loading Error'}
-        message={'Data for event is not loading.'}
+        title="Data Loading Error"
+        message="Data for event is not loading."
         onCancel={() => {
           setWarningOpen(false)
           navigate('/progress', { replace: true })

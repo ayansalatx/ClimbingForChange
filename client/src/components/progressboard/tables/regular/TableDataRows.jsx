@@ -41,11 +41,11 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
         role="checkbox"
         tabIndex={-1}
         sx={{
-          cursor: 'pointer',
-          height: { sm: '2.95rem', md: '3.15rem', lg: '3.25rem', xl: '3.5rem' },
-          p: 0,
-          border: 'none',
-          backgroundColor: open
+          'cursor': 'pointer',
+          'height': { sm: '2.95rem', md: '3.15rem', lg: '3.25rem', xl: '3.5rem' },
+          'p': 0,
+          'border': 'none',
+          'backgroundColor': open
             ? alpha(theme.palette.secondary.light, 0.5)
             : isEven
               ? alpha(theme.palette.background.paper, 0.3)
@@ -68,8 +68,8 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
           <IconButton
             disableRipple
             sx={{
-              padding: 0,
-              color: 'primary.main',
+              'padding': 0,
+              'color': 'primary.main',
               '&:focus': {
                 outline: 'none',
               },
@@ -229,9 +229,9 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
                           size="small"
                           disableRipple
                           sx={{
-                            visibility: 'hidden',
-                            padding: 0,
-                            color: 'primary.main',
+                            'visibility': 'hidden',
+                            'padding': 0,
+                            'color': 'primary.main',
                             '&:focus': {
                               outline: 'none',
                             },
@@ -271,7 +271,9 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
                           color: 'primary.light',
                         }}
                       >
-                        {participant.firstName} {participant.lastName}
+                        {participant.firstName}
+                        {' '}
+                        {participant.lastName}
                       </TableCell>
                     </TableRow>
                   ))}

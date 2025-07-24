@@ -55,8 +55,9 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
           setHills(hillData)
           setEvents(eventData)
           setRfidTags(rfidTagList)
-        } catch {
-          //fix
+        }
+        catch {
+          // fix
         }
       }
     }
@@ -96,8 +97,9 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
       else {
         onAdd(teamData)
       }
-    } catch {
-      //fix
+    }
+    catch {
+      // fix
     }
 
     onModalClose()
@@ -158,7 +160,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
           <FormControl fullWidth margin="normal" required>
             <InputLabel id="event-select-label">Event</InputLabel>
             <Select
-              labelId='event-select-label'
+              labelId="event-select-label"
               value={selectedEvent}
               label="Event"
               onChange={(e) => setSelectedEvent(e.target.value)}
@@ -171,9 +173,9 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
             </Select>
           </FormControl>
 
-          <FormControl fullWidth margin='normal' required>
+          <FormControl fullWidth margin="normal" required>
             <Autocomplete
-              id='rfidTag-select'
+              id="rfidTag-select"
               disablePortal
               options={rfidTags}
               sx={{ width: '100%' }}
@@ -183,9 +185,9 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
             />
           </FormControl>
 
-          <Box mt={3} display='flex' justifyContent='space-between' gap={2}>
-            <CancelButton onClick={onClose} color='red' />
-            <SaveButton type='submit' label={teamToEdit ? 'Save' : 'Create'} />
+          <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
+            <CancelButton onClick={onClose} color="red" />
+            <SaveButton type="submit" label={teamToEdit ? 'Save' : 'Create'} />
           </Box>
         </form>
       </Box>

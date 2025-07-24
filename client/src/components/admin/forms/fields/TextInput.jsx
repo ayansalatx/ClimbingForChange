@@ -20,8 +20,8 @@ const TextInput = ({
       type={type}
       inputProps={inputProps}
       sx={{
-        borderWidth: '2px',
-        bgcolor: 'background.default',
+        'borderWidth': '2px',
+        'bgcolor': 'background.default',
         '& .MuiOutlinedInput-root': {
           '&:hover fieldset': {
             borderColor: 'primary.main',

@@ -1,4 +1,4 @@
-//JWTDecode was not letting me import it so I had to grab this from AI
+// JWTDecode was not letting me import it so I had to grab this from AI
 function parseJwt(token) {
   try {
     const base64Url = token.split('.')[1]

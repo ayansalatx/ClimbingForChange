@@ -6,10 +6,10 @@ const AddButton = ({ onAddClick, disabled }) => {
     <Button
       variant="contained"
       sx={{
-        minWidth: 0,
-        px: '.5rem',
-        backgroundColor: 'secondary.main',
-        color: 'primary.main',
+        'minWidth': 0,
+        'px': '.5rem',
+        'backgroundColor': 'secondary.main',
+        'color': 'primary.main',
         '&:hover': { backgroundColor: 'var(--med-green)' },
         '&:focus': {
           outline: 'none',

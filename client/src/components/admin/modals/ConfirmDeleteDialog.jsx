@@ -26,7 +26,7 @@ const ConfirmDeleteDialog = ({ open, onCancel, onConfirm }) => {
       onClose={onCancel}
       aria-describedby="confirm-delete-dialog"
     >
-      <DialogTitle>{'Confirm Delete'}</DialogTitle>
+      <DialogTitle>Confirm Delete</DialogTitle>
       <DialogContent sx={{ py: 0 }}>
         <DialogContentText id="alert-dialog-slide-description">
           Are you sure you want to delete this item?
@@ -35,7 +35,7 @@ const ConfirmDeleteDialog = ({ open, onCancel, onConfirm }) => {
       <DialogActions
         sx={{ display: 'flex', justifyContent: 'space-between', px: 3, py: 3 }}
       >
-        <CancelButton onClick={onCancel} color={'gray'}></CancelButton>
+        <CancelButton onClick={onCancel} color="gray"></CancelButton>
         <DeleteButton onClick={onConfirm}></DeleteButton>
       </DialogActions>
     </Dialog>

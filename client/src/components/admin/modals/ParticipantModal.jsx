@@ -23,7 +23,7 @@ const AddParticipantModal = ({
   onAdd,
   participantData,
   teamNames = [],
-  selectedEvent, 
+  selectedEvent,
 }) => {
   const [id, setId] = useState('')
   const [firstName, setFirstName] = useState('')
@@ -36,7 +36,8 @@ const AddParticipantModal = ({
       setFirstName(participantData.firstName || '')
       setLastName(participantData.lastName || '')
       setSelectedTeam(participantData.team || null)
-    } else if (!open) {
+    }
+    else if (!open) {
       setId('')
       setFirstName('')
       setLastName('')
@@ -52,7 +53,7 @@ const AddParticipantModal = ({
       firstName: firstName.trim(),
       lastName: lastName.trim(),
       team: selectedTeam || null,
-      eventId: selectedEvent || null, 
+      eventId: selectedEvent || null,
     }
     onAdd(newParticipant)
     onClose()
@@ -92,9 +93,9 @@ const AddParticipantModal = ({
           <TextField
             select
             fullWidth
-            label='Team'
-            variant='outlined'
-            margin='normal'
+            label="Team"
+            variant="outlined"
+            margin="normal"
             value={selectedTeam?.id || ''}
             onChange={(e) => {
               const selected = teamNames.find((t) => (t.id) === e.target.value)

@@ -52,9 +52,11 @@ const TeamProgress = () => {
       try {
         const teamForDisplay = await getLeaderboardTeam(teamId)
         setTeam(teamForDisplay)
-      } catch {
+      }
+      catch {
         showWarning()
-      } finally {
+      }
+      finally {
         setLoading(false)
       }
     }
@@ -125,9 +127,11 @@ const TeamProgress = () => {
   let teamStats
   if (isXXSmall) {
     teamStats = xSmTeamStats
-  } else if (isXSmall) {
+  }
+  else if (isXSmall) {
     teamStats = smTeamStats
-  } else {
+  }
+  else {
     teamStats = lgTeamStats
   }
 
@@ -142,38 +146,40 @@ const TeamProgress = () => {
     >
       {/* https://pixabay.com/videos/search/terrain%20blue%20gray%20mountain/ */}
 
-      {isXSmall ? (
-        <Box
-          component="img"
-          src="/assets/mountain-range-illustration-2.jpeg"
-          alt="Mountain background"
-          sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            zIndex: 0,
-          }}
-        />
-      ) : (
-        <video
-          src="/assets/progress-board-background.mp4"
-          autoPlay
-          loop
-          muted
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            zIndex: 0,
-          }}
-        />
-      )}
+      {isXSmall
+        ? (
+          <Box
+            component="img"
+            src="/assets/mountain-range-illustration-2.jpeg"
+            alt="Mountain background"
+            sx={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              zIndex: 0,
+            }}
+          />
+        )
+        : (
+          <video
+            src="/assets/progress-board-background.mp4"
+            autoPlay
+            loop
+            muted
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              zIndex: 0,
+            }}
+          />
+        )}
 
       <Box
         sx={{
@@ -243,267 +249,271 @@ const TeamProgress = () => {
                 />
               </Box>
             </Box>
-            <ExitButton color={'background.paper'} />
+            <ExitButton color="background.paper" />
           </Box>
-          {loading ? (
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                height: '100%',
-                flexGrow: 1,
-                backgroundColor: alpha(theme.palette.primary.main, 0.75),
-                borderRadius: '4px',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <CircularProgress color="secondary" />
-            </Box>
-          ) : (
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                height: '100%',
-                flexGrow: 1,
-                backgroundColor: alpha(theme.palette.primary.main, 0.75),
-                borderRadius: '4px',
-                p: { xxs: 1.5, xs: 2 },
-                gap: { xxs: 1.25, xs: 2 },
-                minHeight: 0,
-              }}
-            >
-              {/* Team Header */}
-              <TeamHeader teamName={team?.name} />
-
+          {loading
+            ? (
               <Box
                 sx={{
                   display: 'flex',
-                  flexDirection: { xxs: 'column', md: 'row' },
+                  flexDirection: 'row',
                   height: '100%',
                   flexGrow: 1,
+                  backgroundColor: alpha(theme.palette.primary.main, 0.75),
+                  borderRadius: '4px',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <CircularProgress color="secondary" />
+              </Box>
+            )
+            : (
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%',
+                  flexGrow: 1,
+                  backgroundColor: alpha(theme.palette.primary.main, 0.75),
+                  borderRadius: '4px',
+                  p: { xxs: 1.5, xs: 2 },
                   gap: { xxs: 1.25, xs: 2 },
                   minHeight: 0,
                 }}
               >
+                {/* Team Header */}
+                <TeamHeader teamName={team?.name} />
+
                 <Box
                   sx={{
                     display: 'flex',
+                    flexDirection: { xxs: 'column', md: 'row' },
                     height: '100%',
-                    flex: 1,
-                    flexDirection: 'column',
-                    borderRadius: '4px',
-                  }}
-                >
-                  <Box
-                    sx={{
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'flex-start',
-                      gap: { xxs: 1.25, xs: 2 },
-                    }}
-                  >
-                    {/* Participants */}
-                    <Box
-                      sx={{
-                        borderRadius: '4px',
-                        display: 'flex',
-                        flex: 1,
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'flex-start',
-                        overflowY: 'hidden',
-                        backgroundColor: alpha(
-                          theme.palette.background.paper,
-                          0.75
-                        ),
-                        boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
-                        p: { xxs: 0.5, xs: 1, sm: 0.5, md: 0.1, lg: 1 },
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          flexWrap: 'wrap',
-                          width: '100%',
-                          p: { xxs: 0.55, sm: 1 },
-                          gap: { xxs: 1, xs: 1.5, sm: 1.5, md: 1.1, lg: 2 },
-                          overflowY: 'auto',
-                        }}
-                      >
-                        {team?.participants.map((participant, index) => (
-                          <ParticipantCard
-                            key={index}
-                            participant={participant}
-                          />
-                        ))}
-                      </Box>
-                    </Box>
-
-                    {/* Team Stats */}
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'flex-start',
-                        borderRadius: '4px',
-                        backgroundColor: alpha(
-                          theme.palette.background.paper,
-                          0.75
-                        ),
-                        boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
-                        p: { xxs: 1, xs: 1.5, md: 1.1, lg: 2 },
-                        gap: { xxs: 1, xs: 1.5, md: 1.1, lg: 2 },
-                        overflowY: 'auto',
-                      }}
-                    >
-                      {/* Row 1 */}
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          flexWrap: 'wrap',
-                          width: '100%',
-                          gap: { xxs: 1, xs: 1.5, md: 1.1, lg: 2 },
-                        }}
-                      >
-                        <InfoCard
-                          label={teamStats[0].label}
-                          value={teamStats[0].value}
-                          icon={teamStats[0].icon}
-                        />
-                        <InfoCard
-                          label={teamStats[1].label}
-                          value={teamStats[1].value}
-                          icon={teamStats[1].icon}
-                        />
-                      </Box>
-
-                      {/* Row 2 */}
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          flexWrap: 'wrap',
-                          width: '100%',
-                          gap: { xxs: 1, xs: 1.5, md: 1.1, lg: 2 },
-                        }}
-                      >
-                        <InfoCard
-                          label={teamStats[2].label}
-                          value={teamStats[2].value}
-                          icon={teamStats[2].icon}
-                        />
-                        <InfoCard
-                          label={teamStats[3].label}
-                          value={teamStats[3].value}
-                          icon={teamStats[3].icon}
-                        />
-                      </Box>
-
-                      {/* Row 3 */}
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          flexWrap: 'wrap',
-                          width: '100%',
-                          gap: { xxs: 1, xs: 1.5, md: 1.1, lg: 2 },
-                        }}
-                      >
-                        <InfoCard
-                          label={teamStats[4].label}
-                          value={teamStats[4].value}
-                          icon={teamStats[4].icon}
-                        />
-                        <InfoCard
-                          label={teamStats[5].label}
-                          value={teamStats[5].value}
-                          icon={teamStats[5].icon}
-                        />
-                      </Box>
-                    </Box>
-                  </Box>
-                </Box>
-
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: { md: 'column' },
                     flexGrow: 1,
-                    maxWidth: { md: '19%', lg: '18%' },
-                    maxHeight: { xxs: '27%', xs: '30%', md: 'none' },
-                    minHeight: { xxs: '20%', md: 'none' },
                     gap: { xxs: 1.25, xs: 2 },
-                    borderRadius: '4px',
+                    minHeight: 0,
                   }}
                 >
-                  {/* Laps Progress Indicator */}
-                  <ProgressIndicator
-                    progress={team?.progressPercentage}
-                    label={`${team?.lapsCompleted} Laps`}
-                    color={'secondary.main'}
-                    shadow={'drop-shadow(0 0 4px rgba(48, 51, 31, 0.3))'}
-                  />
-
-                  {/* Elevation Progress Indicator */}
-                  <ProgressIndicator
-                    progress={team?.progressPercentage}
-                    label={`${team?.currentElevation} ${team?.elevationUnit}`}
-                    color={'info.main'}
-                    shadow={'drop-shadow(0 0 4px rgba(31, 47, 51, 0.3))'}
-                  />
-                </Box>
-
-                {/* Laps Table */}
-                {!isSmall ? (
                   <Box
                     sx={{
                       display: 'flex',
-                      flex: 1,
                       height: '100%',
-                      minWidth: '40%',
+                      flex: 1,
                       flexDirection: 'column',
                       borderRadius: '4px',
-                      gap: 2,
-                      overflowY: 'hidden',
-                      minHeight: 0,
-                      boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
                     }}
                   >
                     <Box
                       sx={{
                         height: '100%',
-                        borderRadius: '4px',
                         display: 'flex',
                         flexDirection: 'column',
-                        alignItems: 'center',
                         justifyContent: 'flex-start',
-                        overflowY: 'hidden',
+                        gap: { xxs: 1.25, xs: 2 },
                       }}
                     >
-                      <LapTable tableColumns={columns} laps={team?.laps} exitVisible={isXSmall} />
+                      {/* Participants */}
+                      <Box
+                        sx={{
+                          borderRadius: '4px',
+                          display: 'flex',
+                          flex: 1,
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          justifyContent: 'flex-start',
+                          overflowY: 'hidden',
+                          backgroundColor: alpha(
+                            theme.palette.background.paper,
+                            0.75
+                          ),
+                          boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
+                          p: { xxs: 0.5, xs: 1, sm: 0.5, md: 0.1, lg: 1 },
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            width: '100%',
+                            p: { xxs: 0.55, sm: 1 },
+                            gap: { xxs: 1, xs: 1.5, sm: 1.5, md: 1.1, lg: 2 },
+                            overflowY: 'auto',
+                          }}
+                        >
+                          {team?.participants.map((participant, index) => (
+                            <ParticipantCard
+                              key={index}
+                              participant={participant}
+                            />
+                          ))}
+                        </Box>
+                      </Box>
+
+                      {/* Team Stats */}
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          justifyContent: 'flex-start',
+                          borderRadius: '4px',
+                          backgroundColor: alpha(
+                            theme.palette.background.paper,
+                            0.75
+                          ),
+                          boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
+                          p: { xxs: 1, xs: 1.5, md: 1.1, lg: 2 },
+                          gap: { xxs: 1, xs: 1.5, md: 1.1, lg: 2 },
+                          overflowY: 'auto',
+                        }}
+                      >
+                        {/* Row 1 */}
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            width: '100%',
+                            gap: { xxs: 1, xs: 1.5, md: 1.1, lg: 2 },
+                          }}
+                        >
+                          <InfoCard
+                            label={teamStats[0].label}
+                            value={teamStats[0].value}
+                            icon={teamStats[0].icon}
+                          />
+                          <InfoCard
+                            label={teamStats[1].label}
+                            value={teamStats[1].value}
+                            icon={teamStats[1].icon}
+                          />
+                        </Box>
+
+                        {/* Row 2 */}
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            width: '100%',
+                            gap: { xxs: 1, xs: 1.5, md: 1.1, lg: 2 },
+                          }}
+                        >
+                          <InfoCard
+                            label={teamStats[2].label}
+                            value={teamStats[2].value}
+                            icon={teamStats[2].icon}
+                          />
+                          <InfoCard
+                            label={teamStats[3].label}
+                            value={teamStats[3].value}
+                            icon={teamStats[3].icon}
+                          />
+                        </Box>
+
+                        {/* Row 3 */}
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            width: '100%',
+                            gap: { xxs: 1, xs: 1.5, md: 1.1, lg: 2 },
+                          }}
+                        >
+                          <InfoCard
+                            label={teamStats[4].label}
+                            value={teamStats[4].value}
+                            icon={teamStats[4].icon}
+                          />
+                          <InfoCard
+                            label={teamStats[5].label}
+                            value={teamStats[5].value}
+                            icon={teamStats[5].icon}
+                          />
+                        </Box>
+                      </Box>
                     </Box>
                   </Box>
-                ) : (
-                  <LapsViewButton
-                    label={'View Team\'s Laps Table'}
-                    onClick={() => {
-                      if (teamId) {
-                        navigate(`/progress/team/${team.id}/laps`)
-                      }
+
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: { md: 'column' },
+                      flexGrow: 1,
+                      maxWidth: { md: '19%', lg: '18%' },
+                      maxHeight: { xxs: '27%', xs: '30%', md: 'none' },
+                      minHeight: { xxs: '20%', md: 'none' },
+                      gap: { xxs: 1.25, xs: 2 },
+                      borderRadius: '4px',
                     }}
-                  />
-                )}
+                  >
+                    {/* Laps Progress Indicator */}
+                    <ProgressIndicator
+                      progress={team?.progressPercentage}
+                      label={`${team?.lapsCompleted} Laps`}
+                      color="secondary.main"
+                      shadow="drop-shadow(0 0 4px rgba(48, 51, 31, 0.3))"
+                    />
+
+                    {/* Elevation Progress Indicator */}
+                    <ProgressIndicator
+                      progress={team?.progressPercentage}
+                      label={`${team?.currentElevation} ${team?.elevationUnit}`}
+                      color="info.main"
+                      shadow="drop-shadow(0 0 4px rgba(31, 47, 51, 0.3))"
+                    />
+                  </Box>
+
+                  {/* Laps Table */}
+                  {!isSmall
+                    ? (
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flex: 1,
+                          height: '100%',
+                          minWidth: '40%',
+                          flexDirection: 'column',
+                          borderRadius: '4px',
+                          gap: 2,
+                          overflowY: 'hidden',
+                          minHeight: 0,
+                          boxShadow: '0px 3px 0 rgba(0, 0, 0, 0.3)',
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            height: '100%',
+                            borderRadius: '4px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'flex-start',
+                            overflowY: 'hidden',
+                          }}
+                        >
+                          <LapTable tableColumns={columns} laps={team?.laps} exitVisible={isXSmall} />
+                        </Box>
+                      </Box>
+                    )
+                    : (
+                      <LapsViewButton
+                        label={'View Team\'s Laps Table'}
+                        onClick={() => {
+                          if (teamId) {
+                            navigate(`/progress/team/${team.id}/laps`)
+                          }
+                        }}
+                      />
+                    )}
+                </Box>
               </Box>
-            </Box>
-          )}
+            )}
         </Box>
       </Box>
       <WarningDialog
         open={warningOpen}
-        title={'Data Loading Error'}
-        message={'Data for team is not loading.'}
+        title="Data Loading Error"
+        message="Data for team is not loading."
         onCancel={() => setWarningOpen(false)}
       />
     </Box>

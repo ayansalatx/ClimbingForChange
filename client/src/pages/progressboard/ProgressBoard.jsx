@@ -57,11 +57,14 @@ const ProgressBoard = () => {
   let columns
   if (isLarge || isXLarge) {
     columns = lgColumns
-  } else if (isMedium) {
+  }
+  else if (isMedium) {
     columns = mdColumns
-  } else if (isSmall) {
+  }
+  else if (isSmall) {
     columns = smColumns
-  } else {
+  }
+  else {
     columns = [] // no columns for mobile
   }
 
@@ -94,7 +97,8 @@ const ProgressBoard = () => {
         const pastEventList = await getPastEvents()
         setActiveEvents(upcomingEventList)
         setPastEvents(pastEventList)
-      } catch {
+      }
+      catch {
         showWarning()
       }
     }
@@ -108,9 +112,11 @@ const ProgressBoard = () => {
   useEffect(() => {
     if (activeEvents.length > 0 && !selectedEvent) {
       setSelectedEvent(activeEvents[0].id)
-    } else if (pastEvents.length > 0 && !selectedEvent) {
+    }
+    else if (pastEvents.length > 0 && !selectedEvent) {
       setSelectedEvent(pastEvents[0].id)
-    } else if (activeEvents.length === 0 && pastEvents.length === 0) {
+    }
+    else if (activeEvents.length === 0 && pastEvents.length === 0) {
       setSelectedEvent(null)
     }
   }, [activeEvents, pastEvents, selectedEvent])
@@ -122,9 +128,11 @@ const ProgressBoard = () => {
         const teamsList = await getLeaderboard(selectedEvent)
         setTeamsLength(teamsList.length)
         setTeams(teamsList)
-      } catch {
+      }
+      catch {
         showWarning()
-      } finally {
+      }
+      finally {
         setLoading(false)
       }
     }
@@ -143,8 +151,8 @@ const ProgressBoard = () => {
 
       const participantMatch = team.participants.some((participant) => {
         return (
-          participant.firstName.toLowerCase().includes(search) ||
-          participant.lastName.toLowerCase().includes(search)
+          participant.firstName.toLowerCase().includes(search)
+          || participant.lastName.toLowerCase().includes(search)
         )
       })
 
@@ -194,38 +202,40 @@ const ProgressBoard = () => {
     >
       {/* https://pixabay.com/videos/search/terrain%20blue%20gray%20mountain/ */}
 
-      {isXSmall ? (
-        <Box
-          component="img"
-          src="/assets/mountain-range-illustration-2.jpeg"
-          alt="Mountain background"
-          sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            zIndex: 0,
-          }}
-        />
-      ) : (
-        <video
-          src="/assets/progress-board-background.mp4"
-          autoPlay
-          loop
-          muted
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            zIndex: 0,
-          }}
-        />
-      )}
+      {isXSmall
+        ? (
+          <Box
+            component="img"
+            src="/assets/mountain-range-illustration-2.jpeg"
+            alt="Mountain background"
+            sx={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              zIndex: 0,
+            }}
+          />
+        )
+        : (
+          <video
+            src="/assets/progress-board-background.mp4"
+            autoPlay
+            loop
+            muted
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              zIndex: 0,
+            }}
+          />
+        )}
 
       <Box
         sx={{
@@ -334,22 +344,9 @@ const ProgressBoard = () => {
             )}
           </Box>
 
-          {isXSmall ? (
-            <ProgressList
-              teams={filteredTeams}
-              activeEvents={activeEvents}
-              pastEvents={pastEvents}
-              selectedEvent={selectedEvent}
-              setSelectedEvent={setSelectedEvent}
-              searchString={searchString}
-              setSearchString={setSearchString}
-              teamsLength={teamsLength}
-              loading={loading}
-            />
-          ) : (
-            <Box sx={{ flexGrow: 1, width: '100%', overflowX: 'hidden' }}>
-              <ProgressTable
-                columns={columns}
+          {isXSmall
+            ? (
+              <ProgressList
                 teams={filteredTeams}
                 activeEvents={activeEvents}
                 pastEvents={pastEvents}
@@ -360,15 +357,30 @@ const ProgressBoard = () => {
                 teamsLength={teamsLength}
                 loading={loading}
               />
-            </Box>
-          )}
+            )
+            : (
+              <Box sx={{ flexGrow: 1, width: '100%', overflowX: 'hidden' }}>
+                <ProgressTable
+                  columns={columns}
+                  teams={filteredTeams}
+                  activeEvents={activeEvents}
+                  pastEvents={pastEvents}
+                  selectedEvent={selectedEvent}
+                  setSelectedEvent={setSelectedEvent}
+                  searchString={searchString}
+                  setSearchString={setSearchString}
+                  teamsLength={teamsLength}
+                  loading={loading}
+                />
+              </Box>
+            )}
         </Box>
       </Box>
 
       <WarningDialog
         open={warningOpen}
-        title={'Data Loading Error'}
-        message={'Data for event is not loading.'}
+        title="Data Loading Error"
+        message="Data for event is not loading."
         onCancel={() => setWarningOpen(false)}
       />
     </Box>

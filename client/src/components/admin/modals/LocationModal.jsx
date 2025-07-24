@@ -83,40 +83,40 @@ const LocationModal = ({ open, onClose, onSave, locationData }) => {
 
         <form onSubmit={handleSave}>
           <TextInput
-            label={'Location Name'}
+            label="Location Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required={true}
           />
           <TextInput
-            label={'Address'}
+            label="Address"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             required={true}
           />
           <Box display="flex" gap={2}>
             <TextInput
-              label={'City'}
+              label="City"
               value={city}
               onChange={handleLettersOnlyChange(setCity)}
               required={true}
             />
 
             <TextInput
-              label={'Province'}
+              label="Province"
               value={provState}
               onChange={handleProvStateChange}
               required={true}
             />
           </Box>
           <TextInput
-            label={'Country'}
+            label="Country"
             value={country}
             onChange={handleLettersOnlyChange(setCountry)}
             required={true}
           />
           <Box mt={3} display="flex" justifyContent="space-between" gap={2}>
-            <CancelButton onClick={onClose} color={'red'} />
+            <CancelButton onClick={onClose} color="red" />
             <SaveButton
               type="submit"
               label={locationData ? 'Save' : 'Create'}

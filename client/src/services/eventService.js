@@ -122,7 +122,7 @@ export const getUpcomingEventsSummary = async () => {
     // Get whether event is live or not
     const isLive = now >= start && now <= end
 
-    //Get number of events
+    // Get number of events
     const teamsList = event.teams || []
     const teamsCount = teamsList?.length
 

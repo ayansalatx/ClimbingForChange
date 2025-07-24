@@ -54,26 +54,28 @@ const AutoScrollTable = ({ teams, columns, loading }) => {
           background: 'transparent',
         }}
       >
-        {loading ? (
-          <Box
-            sx={{
-              height: '100%',
-              width: '100%',
-              display: 'flex',
-              flexGrow: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: `linear-gradient(to right, ${alpha(theme.palette.primary.main, 0.8)}, ${alpha(theme.palette.primary.main, 0.3)}, ${alpha(theme.palette.primary.main, 0.8)})`,
-              fontSize: '2rem',
-            }}
-          >
-            <CircularProgress color="secondary" />
-          </Box>
-        ) : (
-          <Table ref={tableRef} aria-label="auto scrolling table" size="small">
-            <ScrollingTableRow columns={columns} teams={shouldScroll ? [...teams, ...teams] : teams} shouldScroll={shouldScroll} />
-          </Table>
-        )}
+        {loading
+          ? (
+            <Box
+              sx={{
+                height: '100%',
+                width: '100%',
+                display: 'flex',
+                flexGrow: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: `linear-gradient(to right, ${alpha(theme.palette.primary.main, 0.8)}, ${alpha(theme.palette.primary.main, 0.3)}, ${alpha(theme.palette.primary.main, 0.8)})`,
+                fontSize: '2rem',
+              }}
+            >
+              <CircularProgress color="secondary" />
+            </Box>
+          )
+          : (
+            <Table ref={tableRef} aria-label="auto scrolling table" size="small">
+              <ScrollingTableRow columns={columns} teams={shouldScroll ? [...teams, ...teams] : teams} shouldScroll={shouldScroll} />
+            </Table>
+          )}
       </TableContainer>
     </Paper>
   )

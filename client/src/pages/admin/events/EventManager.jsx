@@ -96,7 +96,7 @@ const EventManager = () => {
           mountains: mountainNames.length ? mountainNames.join(', ') : 'None',
           mountainIds,
           active: isActive,
-          activeStatus: isActive ? 'Active' : 'Inactive', 
+          activeStatus: isActive ? 'Active' : 'Inactive',
           canReactivate: !isActive && !isPast,
         }
       })
@@ -247,9 +247,11 @@ const EventManager = () => {
       )
 
       fetchEvents()
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert('Toggle Error', `Failed to update active status: ${error.message}`, 'error')
-    } finally {
+    }
+    finally {
       setConfirmActivateOpen(false)
       setConfirmInactiveOpen(false)
       setEventToToggle(null)
@@ -281,7 +283,8 @@ const EventManager = () => {
     setEventToToggle(event)
     if (event.active) {
       setConfirmInactiveOpen(true)
-    } else {
+    }
+    else {
       setConfirmActivateOpen(true)
     }
   }
@@ -347,7 +350,7 @@ const EventManager = () => {
       <ConfirmActivateEvent
         open={confirmActivateOpen}
         onCancel={() => setConfirmActivateOpen(false)}
-        onConfirm={confirmToggleActiveStatus} 
+        onConfirm={confirmToggleActiveStatus}
       />
     </Box>
   )

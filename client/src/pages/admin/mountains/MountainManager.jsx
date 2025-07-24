@@ -248,15 +248,15 @@ const MountainManager = () => {
       }}
     >
       <DataTable
-        tableTitle={'Mountains'}
+        tableTitle="Mountains"
         tableIcon={TerrainIcon}
         tableColumns={fullColumns}
         tableData={mountains}
         showInactive={showInactive}
         setShowInactive={setShowInactive}
-        eventsForDropdown={''}
-        selectedEvent={''}
-        setSelectedEvent={''}
+        eventsForDropdown=""
+        selectedEvent=""
+        setSelectedEvent=""
         onAddClick={onAdd}
         onEditClick={onEdit}
         onDeleteClick={onDelete}
