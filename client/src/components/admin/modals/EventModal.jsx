@@ -174,7 +174,8 @@ const AddEventModal = ({
     const value = e.target.value
     if (typeof value === 'string') {
       setHillSelection(value.split(','))
-    } else {
+    }
+    else {
       setHillSelection(value)
     }
   }

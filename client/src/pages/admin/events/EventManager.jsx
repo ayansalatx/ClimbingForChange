@@ -14,10 +14,10 @@ import {
   editEvent,
   getAllEvents,
 } from '../../../services/eventService.js'
-import { getAllHills } from '../../../services/hillService.js' 
+import { getAllHills } from '../../../services/hillService.js'
 import { getAllLocations } from '../../../services/locationService.js'
 import { getAllMountains } from '../../../services/mountainService.js'
-import { formatDateTimeShortNoSec } from '../../../utils/formatDateTime.js' 
+import { formatDateTimeShortNoSec } from '../../../utils/formatDateTime.js'
 
 const fullColumns = [
   { id: 'eventName', label: 'Event', width: '30%', align: 'left' },
@@ -139,7 +139,8 @@ const EventManager = () => {
         hillMap[hill.id] = hill.name
       }
       setHills(hillMap)
-    } catch (error) {
+    }
+    catch (error) {
       displayAlert('Hills Error', error.message, 'error')
     }
   }, [displayAlert])
@@ -164,7 +165,8 @@ const EventManager = () => {
     return items.map(function (item) {
       if (typeof item === 'object' && item !== null && 'id' in item) {
         return item.id
-      } else {
+      }
+      else {
         return item
       }
     })
@@ -283,7 +285,8 @@ const EventManager = () => {
     }
     catch (error) {
       displayAlert('Toggle Error', `Failed to update active status: ${error.message}`, 'error')
-    } finally {
+    }
+    finally {
       setConfirmDialog(null)
       setEventToToggle(null)
     }
@@ -314,7 +317,8 @@ const EventManager = () => {
     setEventToToggle(event)
     if (event.active) {
       setConfirmDialog('inactive')
-    } else {
+    }
+    else {
       setConfirmDialog('activate')
     }
   }
