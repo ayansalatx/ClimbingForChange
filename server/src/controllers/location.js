@@ -1,7 +1,7 @@
 import Location from '../models/location.js'
 
 export const getLocations = async (request, response) => {
-  const locations = await Location.find({})
+  const locations = await Location.find({}).sort({'name': 1})
 
   response.json(locations)
 }
