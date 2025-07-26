@@ -15,6 +15,7 @@ import MountainManager from './pages/admin/mountains/MountainManager'
 import ParticipantManager from './pages/admin/participants/ParticipantManager'
 import ParticipantUpload from './pages/admin/participants/ParticipantUpload'
 import RFIDManager from './pages/admin/rfid/RFIDManager'
+import TeamRFIDBatchManager from './pages/admin/rfid/TeamRFIDBatchManager.jsx'
 import TeamsManager from './pages/admin/teams/TeamsManager'
 import LapProgress from './pages/progressboard/LapProgress'
 import ProgressBoard from './pages/progressboard/ProgressBoard'
@@ -59,6 +60,7 @@ function App() {
             <Route path="teams" element={<TeamsManager />} />
             <Route path="hills" element={<HillManager />} />
             <Route path="rfid" element={<RFIDManager />} />
+            <Route path="team-rfid-batch" element={<TeamRFIDBatchManager />} />
           </Route>
         </Routes>
       </Router>
