@@ -3,7 +3,7 @@ import '../models/team.js' // registring the Team model for the populate to work
 import Team from '../models/team.js'
 
 export const getParticipants = async (req, response) => {
-  const participants = await Participant.find({}).populate('team')
+  const participants = await Participant.find({}).sort({ firstName: 1, lastName: 1 }).populate('team')
 
   response.json(participants)
 }
