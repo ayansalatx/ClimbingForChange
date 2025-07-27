@@ -92,7 +92,11 @@ const TeamProgress = () => {
       value: `${team?.totalElevation} ${team?.elevationUnit}`,
     },
     { label: 'Total Laps:', value: team?.totalLaps },
-    { label: 'Lap Elev:', value: `${team?.hillLap} ${team?.hillLapUnit}` },
+    {
+      label: 'Lap Elevation:',
+      value: `${team?.lapElevation} ${team?.lapElevationUnit}`,
+    },
+
     { label: 'Best Lap:', value: team?.bestLap },
     { label: 'Time:', value: team?.timeElapsed },
   ]
@@ -491,7 +495,11 @@ const TeamProgress = () => {
                             overflowY: 'hidden',
                           }}
                         >
-                          <LapTable tableColumns={columns} laps={team?.laps} exitVisible={isXSmall} />
+                          <LapTable
+                            tableColumns={columns}
+                            laps={team?.laps}
+                            exitVisible={isXSmall}
+                          />
                         </Box>
                       </Box>
                     )
