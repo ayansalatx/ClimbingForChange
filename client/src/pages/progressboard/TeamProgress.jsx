@@ -93,7 +93,7 @@ const TeamProgress = () => {
     },
     { label: 'Total Laps:', value: team?.totalLaps },
     {
-      label: 'Lap Elevation:',
+      label: 'Lap Elev:',
       value: `${team?.lapElevation} ${team?.lapElevationUnit}`,
     },
 
@@ -118,7 +118,7 @@ const TeamProgress = () => {
     {
       label: 'Lap:',
       icon: <TerrainIcon sx={{ color: 'primary.main' }} />,
-      value: `${team?.hillLap} ${team?.hillLapUnit}`,
+      value: `${team?.lapElevation} ${team?.lapElevationUnit}`,
     },
     { label: 'Best Lap:', value: team?.bestLap },
     {
