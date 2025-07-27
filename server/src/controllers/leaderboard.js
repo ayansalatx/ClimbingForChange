@@ -210,6 +210,7 @@ async function generateLeaderboard(eventId) {
       bestLap: bestLapTime,
       averageLapTime,
       timeElapsed,
+      progressPercentage,
 
       // Participants with fullName
       participants: team.participants.map(p => ({

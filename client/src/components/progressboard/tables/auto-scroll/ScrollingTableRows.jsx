@@ -1,5 +1,5 @@
 import {
-  alpha,
+  alpha, Box, LinearProgress,
   TableBody,
   TableCell,
   TableRow,
@@ -14,7 +14,10 @@ const ScrollingTableRow = ({ teams, columns, shouldScroll }) => {
 
   const gradientBackground = `linear-gradient(to right, ${alpha(theme.palette.primary.main, 0.8)}, ${alpha(theme.palette.primary.main, 0.3)}, ${alpha(theme.palette.primary.main, 0.8)})`
   return (
-    <TableBody className="marquee__content" sx={{ '--scroll-duration': `${shouldScroll ? teams.length * 0.8 : 0}s` }}>
+    <TableBody
+      className="marquee__content"
+      sx={{ '--scroll-duration': `${shouldScroll ? teams.length * 0.8 : 0}s` }}
+    >
       {teams.map((team, index) => (
         <Fragment key={index}>
           <TableRow>
@@ -28,32 +31,45 @@ const ScrollingTableRow = ({ teams, columns, shouldScroll }) => {
               }}
             />
           </TableRow>
-          <TableRow
-            key={index}
-            sx={{ background: gradientBackground }}
-          >
+          <TableRow key={index} sx={{ background: gradientBackground }}>
             {columns.map((column, colIndex) => {
               let value = team[column.id] ?? 0
 
               if (
-                (team[column.id] === 0
-                  && column.id === 'currentElevation'
-                  && isLarge)
-                || (team[column.id] === 0
-                  && column.id === 'lapsCompleted'
-                  && isLarge)
-                || (team[column.id] === null && column.id === 'bestLap' && isLarge)
+                (team[column.id] === 0 &&
+                  column.id === 'currentElevation' &&
+                  isLarge) ||
+                (team[column.id] === 0 &&
+                  column.id === 'lapsCompleted' &&
+                  isLarge) ||
+                (team[column.id] === null && column.id === 'bestLap' && isLarge)
               ) {
                 value = '-'
               }
 
-              if (column.id === 'elevation') {
+              if (column.id === 'name') {
+                <Box>
+                  <Box>{team.name}</Box>
+                  <Box mt={0.5}>
+                    <LinearProgress
+                      variant="determinate"
+                      value={team.progressPercent}
+                      sx={{
+                        height: 6,
+                        borderRadius: 3,
+                        background: alpha(theme.palette.primary.main, 0.15),
+                        '& .MuiLinearProgress-bar': {
+                          backgroundColor: theme.palette.secondary.main,
+                        },
+                      }}
+                    />
+                  </Box>
+                </Box>
+              } else if (column.id === 'elevation') {
                 value = `${team.currentElevation} / ${team.totalElevation}`
-              }
-              else if (column.id === 'laps') {
+              } else if (column.id === 'laps') {
                 value = `${team.lapsCompleted} / ${team.lapsRequired}`
-              }
-              else {
+              } else {
                 value = team[column.id] ?? '-'
               }
 
