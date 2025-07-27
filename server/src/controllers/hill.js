@@ -1,7 +1,7 @@
 import Hill from '../models/hill.js'
 
 export const getHills = async (req, response) => {
-  const mountains = await Hill.find({}).sort({'name': 1})
+  const mountains = await Hill.find({}).sort({ name: 1 })
 
   response.json(mountains)
 }

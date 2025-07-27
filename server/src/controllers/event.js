@@ -2,7 +2,7 @@ import Event from '../models/event.js'
 
 export const getEvents = async (req, response) => {
   const events = await Event.find({})
-    .sort({ startDateTime: 1 }) 
+    .sort({ startDateTime: 1 })
     .populate('location')
     .populate('mountains')
     .populate({
