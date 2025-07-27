@@ -1,6 +1,7 @@
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import DownhillSkiingIcon from '@mui/icons-material/DownhillSkiing'
+import EditIcon from '@mui/icons-material/Edit'
 import EventIcon from '@mui/icons-material/Event'
 import Hiking from '@mui/icons-material/Hiking'
 import RfidIcon from '@mui/icons-material/Nfc'
@@ -22,6 +23,13 @@ import {
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import C4CBanner from '../../assets/C4C-branding/Climbing-For-Change-Full-Horizontal_Green.png'
+
+const CombinedRfidEditIcon = () => (
+  <Box position="relative" width={24} height={24}>
+    <RfidIcon sx={{ position: 'absolute', top: 0, left: 0, fontSize: 20 }} />
+    <EditIcon sx={{ position: 'absolute', bottom: -2, right: -2, fontSize: 20 }} />
+  </Box>
+)
 
 const SideBar = ({ open, toggleDrawer }) => {
   const navigate = useNavigate()
@@ -78,6 +86,12 @@ const SideBar = ({ open, toggleDrawer }) => {
       path: '/admin/rfid',
       icon: <RfidIcon />,
       onClick: () => navigate('/admin/rfid'),
+    },
+    {
+      text: 'Team RFID Batch Edit',
+      path: '/admin/team-rfid-batch',
+      icon: <CombinedRfidEditIcon />,
+      onClick: () => navigate('/admin/team-rfid-batch'),
     },
   ]
 

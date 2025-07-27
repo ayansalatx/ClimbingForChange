@@ -13,6 +13,11 @@ export const getTeamsByEvent = async (eventId) => {
   return res.data
 }
 
+export const getTeamById = async (teamId) => {
+  const res = await api.get(`/teams/${teamId}`)
+  return res.data
+}
+
 // Add
 export const addTeam = async (data) => {
   const payload = {
