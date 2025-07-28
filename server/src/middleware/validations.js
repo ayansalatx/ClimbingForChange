@@ -150,6 +150,27 @@ export const validateMountain = [
     .withMessage('active must be true or false'),
 ]
 
+export const validateImage = [
+  body('event')
+    .trim()
+    .notEmpty()
+    .withMessage('Event ID is required'),
+
+  body('url')
+    .trim()
+    .notEmpty()
+    .withMessage('Image URL is required')
+    .isURL()
+    .withMessage('Image URL must be a valid URL'),
+
+  body('type')
+    .trim()
+    .notEmpty()
+    .withMessage('Type is required')
+    .isIn(['charity', 'sponsor'])
+    .withMessage('Type must be either charity or sponsor'),
+]
+
 export const checkValidation = (req, res, next) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {

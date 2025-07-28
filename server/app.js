@@ -14,6 +14,7 @@ import teamsRoutes from './src/routes/team.js'
 import lapRoutes from './src/routes/lap.js'
 import hillRoutes from './src/routes/hill.js'
 import uploadCSVRoutes from './src/routes/uploadCSV.js'
+import imageRoutes from './src/routes/image.js'
 import authRoutes from './src/routes/auth.js'
 
 import { mockRouter } from './src/mock/mock.router.js'
@@ -56,6 +57,7 @@ authenticatedApiRouter.use('/rfidtags', rfidtagRoutes)
 authenticatedApiRouter.use('/teams', teamsRoutes)
 authenticatedApiRouter.use('/laps', lapRoutes)
 authenticatedApiRouter.use('/upload-csv', uploadCSVRoutes)
+authenticatedApiRouter.use('/images', imageRoutes)
 
 app.use('/api', authenticatedApiRouter)
 

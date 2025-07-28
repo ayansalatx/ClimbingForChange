@@ -3,14 +3,17 @@ import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { io } from 'socket.io-client'
 
-import C4CFavicon from '../../assets/C4C-branding/Favicon.png'
+import C4CFavicon from '../../assets/C4C-branding/Climbing-For-Change-Horizontal_Green.png'
 import WarningDialog from '../../components/admin/modals/WarningDialog'
 import AutoScrollTable from '../../components/progressboard/tables/auto-scroll/AutoScrollTable'
 import {
+  getCharities,
   getLeaderboard,
+  getSponsors,
   updateLeaderboardTeamLaps,
 } from '../../services/leaderboardService'
 import theme from '../../styles/theme'
+import ImageCarousel from '../../components/progressboard/cards/ImageCarousel'
 
 // Define columns for full width screen
 const xlColumns = [
@@ -76,17 +79,13 @@ const ProgressBoardFullscreen = () => {
   let columns
   if (isXLarge) {
     columns = xlColumns
-  }
-  else if (isLarge) {
+  } else if (isLarge) {
     columns = lgColumns
-  }
-  else if (isMedium) {
+  } else if (isMedium) {
     columns = mdColumns
-  }
-  else if (isSmall) {
+  } else if (isSmall) {
     columns = smColumns
-  }
-  else {
+  } else {
     columns = xsmColumns
   }
 
@@ -96,6 +95,8 @@ const ProgressBoardFullscreen = () => {
 
   // State for teams
   const [teams, setTeams] = useState([])
+  const [sponsors, setSponsors] = useState([])
+  const [charities, setCharities] = useState([])
   const [warningOpen, setWarningOpen] = useState(false)
   const [loading, setLoading] = useState(true)
 
@@ -120,30 +121,28 @@ const ProgressBoardFullscreen = () => {
       if (!eventId) return
       try {
         const teamsForDisplay = await getLeaderboard(eventId)
+        const sponsorImages = await getSponsors(eventId)
+        const charityImages = await getCharities(eventId)
 
         setTeams(teamsForDisplay)
-      }
-      catch {
+        setSponsors(sponsorImages)
+        setCharities(charityImages)
+        console.log(sponsorImages)
+      } catch {
         showWarning()
-      }
-      finally {
+      } finally {
         setLoading(false)
       }
     }
 
     loadLeaderboard()
 
-    const intervalId = setInterval(loadLeaderboard, 2000)
-
-    return () => {
-      clearInterval(intervalId)
-    }
   }, [eventId])
 
   // Listen for lap updates on socket
   useEffect(() => {
-    const socketURL
-      = import.meta.env.VITE_SOCKET_SERVER_URL || 'http://localhost:5001'
+    const socketURL =
+      import.meta.env.VITE_SOCKET_SERVER_URL || 'http://localhost:5001'
     socketRef.current = io(socketURL)
 
     const handleLapUpdate = (change) => {
@@ -177,8 +176,7 @@ const ProgressBoardFullscreen = () => {
             updatedLap,
             ...laps.slice(lapIndex + 1),
           ]
-        }
-        else {
+        } else {
           newLaps = [...laps, updatedLap]
         }
 
@@ -244,95 +242,63 @@ const ProgressBoardFullscreen = () => {
             width: '100%',
             height: '100%',
             display: 'flex',
-            flexDirection: 'column',
-            p: 3,
+            flexDirection: 'row',
           }}
         >
+          <ImageCarousel title={'Sponsors'} images={sponsors}/>
           <Box
             sx={{
+              width: '100%',
+              height: '100%',
               display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'flex-end',
-              mb: { xxs: 1, xs: 1, sm: 2, md: 2.5, lg: 3, xl: 3 },
+              flexDirection: 'column',
+              px: 2,
+              pb: 2,
             }}
           >
-            <Box
-              component="img"
-              src={C4CFavicon}
-              alt="Climbing for Change Logo"
-              sx={{
-                width: 'auto',
-                maxHeight: {
-                  xxs: '1rem',
-                  xs: '1.75rem',
-                  sm: '2.2rem',
-                  md: '3.8rem',
-                  lg: '5rem',
-                  xl: '5rem',
-                },
-                maxWidth: {
-                  xxs: '3rem',
-                  xs: '4rem',
-                  sm: '5rem',
-                  md: '6rem',
-                  lg: '7rem',
-                  xl: '8rem',
-                },
-                ml: { xxs: 0.25, xs: 0.25, sm: 0.5, lg: 1 },
-              }}
-            />
             <Box
               sx={{
                 display: 'flex',
-                flexGrow: 1,
-                justifyContent: 'center',
-                alignContent: 'center',
+                justifyContent: 'space-between',
+                alignItems: 'flex-end',
+                my: { xxs: 1, xs: 1, sm: 1.5, md: 1.5, lg: 1.5, xl: 1.5 },
               }}
             >
-              <Typography
-                variant="h1"
-                color="secondary.main"
-                fontWeight="bold"
-                textTransform="uppercase"
+              <Box
+                component="img"
+                src={C4CFavicon}
+                alt="Climbing for Change Logo"
                 sx={{
-                  fontSize: {
-                    xxs: '1.3rem',
-                    xs: '1.45rem',
-                    sm: '2.1rem',
-                    md: '3.4rem',
-                    lg: '5rem',
-                    xl: '5rem',
+                  width: 'auto',
+                  maxHeight: {
+                    xxs: '1rem',
+                    xs: '1.75rem',
+                    sm: '2.2rem',
+                    md: '3.8rem',
+                    lg: '4.25rem',
+                    xl: '4.5rem',
                   },
-                  lineHeight: {
-                    xxs: '1.3rem',
-                    xs: '1.5rem',
-                    sm: '2.25rem',
-                    md: '3.4rem',
-                    lg: '5rem',
-                    xl: '5rem',
-                  },
-                  fontStyle: 'italic',
+                  ml: { xxs: 0.25, xs: 0.25, sm: 0.5, lg: 1 },
                 }}
-              >
-                Team Progress
-              </Typography>
+              />
+            </Box>
+
+            <Box
+              sx={{
+                flexGrow: 1,
+                width: '100%',
+                minHeight: 0,
+                overflowY: 'hidden',
+              }}
+            >
+              <AutoScrollTable
+                columns={columns}
+                teams={teams}
+                loading={loading}
+              />
             </Box>
           </Box>
-
-          <Box
-            sx={{
-              flexGrow: 1,
-              width: '100%',
-              minHeight: 0,
-              overflowY: 'hidden',
-            }}
-          >
-            <AutoScrollTable
-              columns={columns}
-              teams={teams}
-              loading={loading}
-            />
-          </Box>
+          <ImageCarousel title={'Charities'} images={charities} />
         </Box>
       </Box>
       <WarningDialog

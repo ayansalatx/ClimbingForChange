@@ -55,7 +55,10 @@ export const getLeaderboard = async (eventId) => {
     lapsRequired: formatNumber(team.lapsRequired) || 0,
     lapsCompleted: team.lapsCompleted ? formatNumber(team.lapsCompleted) : '-',
 
-    bestLap: !team.lapsCompleted || team.bestLap === 0 ? '-' : formatDurationTimeMinutes(team.bestLap),
+    bestLap:
+      !team.lapsCompleted || team.bestLap === 0
+        ? '-'
+        : formatDurationTimeMinutes(team.bestLap),
     averageLapTime: formatDurationTimeMinutes(team.averageLapTime) ?? '-',
     timeElapsed: formatDurationTimeHours(team.timeElapsed),
   }))
@@ -78,7 +81,10 @@ export const getLeaderboardTeam = async (teamId) => {
     lapsCompleted: team.lapsCompleted ? formatNumber(team.lapsCompleted) : '-',
     lapsToGo: team.lapsToGo ? formatNumber(team.lapsToGo) : '-',
 
-    bestLap: !team.lapsCompleted || team.bestLap === 0 ? '-' : formatDurationTimeMinutes(team.bestLap),
+    bestLap:
+      !team.lapsCompleted || team.bestLap === 0
+        ? '-'
+        : formatDurationTimeMinutes(team.bestLap),
     averageLapTime: formatDurationTimeMinutes(team.averageLapTime) ?? '-',
     timeElapsed: formatDurationTimeHours(team.timeElapsed),
 
@@ -141,8 +147,8 @@ export function updateTeamWithLaps(team, newLaps) {
         startDateTime,
         endDateTime,
         duration: formatDurationTimeMinutes(
-          new Date(lap.endDateTime).getTime()
-            - new Date(lap.startDateTime).getTime()
+          new Date(lap.endDateTime).getTime() -
+            new Date(lap.startDateTime).getTime()
         ),
         completed: Boolean(lap.endDateTime),
       }
@@ -157,10 +163,10 @@ export function getBestLapTime(laps) {
   if (!completedLaps.length) return null
 
   const bestLap = completedLaps.reduce((best, current) => {
-    const bestDuration
-      = new Date(best.endDateTime) - new Date(best.startDateTime)
-    const currentDuration
-      = new Date(current.endDateTime) - new Date(current.startDateTime)
+    const bestDuration =
+      new Date(best.endDateTime) - new Date(best.startDateTime)
+    const currentDuration =
+      new Date(current.endDateTime) - new Date(current.startDateTime)
     return currentDuration < bestDuration ? current : best
   }, completedLaps[0])
 
@@ -175,4 +181,16 @@ export function getTimeElapsed(laps) {
   const start = new Date(completedLaps[0].startDateTime)
   const end = new Date(completedLaps[completedLaps.length - 1].endDateTime)
   return end - start
+}
+
+export const getCharities = async (eventId) => {
+  const res = await api.get(`/leaderboard/images/${eventId}`)
+
+  return res.data.charities || []
+}
+
+export const getSponsors = async (eventId) => {
+  const res = await api.get(`/leaderboard/images/${eventId}`)
+
+  return res.data.sponsors || []
 }
