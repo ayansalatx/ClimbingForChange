@@ -384,7 +384,6 @@ export const getLeaderboardEvents = async (request, response) => {
 export const getLeaderboardImages = async (req, res) => {
   try {
     const eventId = req.params.eventId
-    console.log(eventId)
     if (!eventId) {
       return res.status(400).json({ error: 'Event ID is required' })
     }
@@ -400,7 +399,6 @@ export const getLeaderboardImages = async (req, res) => {
     const sponsors = images.filter(img => img.type === 'sponsor')
     const charities = images.filter(img => img.type === 'charity')
 
-    console.log(sponsors)
     return res.json({
       eventId,
       sponsors,

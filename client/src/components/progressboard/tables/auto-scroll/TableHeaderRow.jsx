@@ -31,7 +31,7 @@ const TableHeaderRow = ({ columns }) => {
                   sm: '.75rem',
                   md: '1.2rem',
                   lg: '1.3rem',
-                  xl: '1.5rem',
+                  xl: '1.45rem',
                 },
                 lineHeight: {
                   xxs: '.5rem',

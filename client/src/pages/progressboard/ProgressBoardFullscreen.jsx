@@ -1,4 +1,10 @@
-import { alpha, Box, Typography, useMediaQuery } from '@mui/material'
+import {
+  alpha,
+  Box,
+  CircularProgress,
+  Typography,
+  useMediaQuery,
+} from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { io } from 'socket.io-client'
@@ -127,7 +133,6 @@ const ProgressBoardFullscreen = () => {
         setTeams(teamsForDisplay)
         setSponsors(sponsorImages)
         setCharities(charityImages)
-        console.log(sponsorImages)
       } catch {
         showWarning()
       } finally {
@@ -136,7 +141,6 @@ const ProgressBoardFullscreen = () => {
     }
 
     loadLeaderboard()
-
   }, [eventId])
 
   // Listen for lap updates on socket
@@ -245,15 +249,51 @@ const ProgressBoardFullscreen = () => {
             flexDirection: 'row',
           }}
         >
-          <ImageCarousel title={'Sponsors'} images={sponsors}/>
+          {loading ? (
+            <Box
+              sx={{
+                width: '8%',
+                backgroundColor: alpha(theme.palette.background.paper, 0.5),
+                ml: 1,
+              }}
+            >
+              <Box
+                sx={{
+                  px: 1,
+                  backgroundColor: 'primary.main',
+                  position: 'sticky',
+                  zIndex: 1,
+                  flexShrink: 0,
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  color="secondary.main"
+                  fontWeight="bold"
+                  textTransform="uppercase"
+                  fontStyle="italic"
+                  letterSpacing={'0.05rem'}
+                  sx={{ fontSize: '1rem' }}
+                >
+                  Sponsors
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%',}}>
+                <CircularProgress />
+              </Box>
+            </Box>
+          ) : (
+            <ImageCarousel title={'Sponsors'} images={sponsors} />
+          )}
+
           <Box
             sx={{
               width: '100%',
               height: '100%',
               display: 'flex',
               flexDirection: 'column',
-              px: 2,
-              pb: 2,
+              px: 1,
+              pb: 1,
             }}
           >
             <Box
@@ -298,7 +338,42 @@ const ProgressBoardFullscreen = () => {
               />
             </Box>
           </Box>
-          <ImageCarousel title={'Charities'} images={charities} />
+          {loading ? (
+            <Box
+              sx={{
+                width: '8%',
+                backgroundColor: alpha(theme.palette.background.paper, 0.5),
+                ml: 2,
+              }}
+            >
+              <Box
+                sx={{
+                  px: 1,
+                  backgroundColor: 'primary.main',
+                  position: 'sticky',
+                  zIndex: 1,
+                  flexShrink: 0,
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  color="secondary.main"
+                  fontWeight="bold"
+                  textTransform="uppercase"
+                  fontStyle="italic"
+                  letterSpacing={'0.05rem'}
+                  sx={{ fontSize: '1rem' }}
+                >
+                  Charities
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%',}}>
+                <CircularProgress />
+              </Box>
+            </Box>
+          ) : (
+            <ImageCarousel title={'Charities'} images={charities} />
+          )}
         </Box>
       </Box>
       <WarningDialog
