@@ -11,20 +11,21 @@ const ImageCarousel = ({ title, images = [] }) => {
         mr: title === 'Charities' ? 2 : 0,
       }}
     >
-      <Box sx={{ px: 2, backgroundColor: 'background.paper', position: 'sticky', zIndex: 1 }}>
+      <Box sx={{ px: 2, backgroundColor: 'primary.main', position: 'sticky', zIndex: 1 }}>
         <Typography
           variant="h6"
-          color="primary.main"
+          color="secondary.main"
           fontWeight="bold"
           textTransform="uppercase"
           fontStyle="italic"
+          letterSpacing={'0.05rem'}
         >
           {title}
         </Typography>
       </Box>
       <Box className="marquee__content"
         sx={{
-           '--scroll-duration': '15s',
+           '--scroll-duration': `${(images.length * 3 )}s`,
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
