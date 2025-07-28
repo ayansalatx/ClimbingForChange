@@ -1,11 +1,12 @@
 import { Switch } from '@mui/material'
 
-const DeactivateToggle = (checked, onChange) => {
+const DeactivateToggle = ({ checked, onChange, disabled }) => {
   return (
     <Switch
       size="small"
       checked={checked}
       onChange={onChange}
+      disabled={disabled}
       sx={{
         '& .MuiSwitch-switchBase': {
           color: 'gray.main',

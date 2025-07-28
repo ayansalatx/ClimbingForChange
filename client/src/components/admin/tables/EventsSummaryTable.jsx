@@ -106,71 +106,90 @@ const EventSummaryTable = ({ events = [], loading }) => {
               </TableRow>
             </TableBody>
           )
-          : (
-            <TableBody>
-              {Array.from({ length: totalRows }).map((_, index) => {
-                const event = events[index] || null
-                const isEven = index % 2 === 0
-                const bgColor = isEven ? 'primary.light' : 'primary.main'
-                const textColor = event?.isLive
-                  ? 'secondary.main'
-                  : 'background.paper'
-
-                return (
-                  <TableRow
-                    key={event?.id || `empty-${index}`}
-                    onClick={() => navigate('events')}
+          : events.length === 0
+            ? (
+              <TableBody>
+                <TableRow>
+                  <TableCell
+                    colSpan={headerColumns.length}
+                    align="center"
                     sx={{
-                      'cursor': event ? 'pointer' : 'default',
-                      '&:hover': event
-                        ? {
-                          backgroundColor: alpha(
-                            theme.palette.background.paper,
-                            0.2
-                          ),
-                        }
-                        : {},
-                      'backgroundColor': bgColor,
-                      'color': textColor,
-                      'border': '1px solid',
-                      'borderColor': 'primary.dark',
+                      height: totalRows * 48,
+                      color: 'background.paper',
+                      fontStyle: 'italic',
+                      userSelect: 'none',
                     }}
                   >
-                    {headerColumns.map((column) => {
-                      let value = event?.[column.id] ?? '-'
+                    No Upcoming Events
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            )
+            : (
+              <TableBody>
+                {Array.from({ length: totalRows }).map((_, index) => {
+                  const event = events[index] || null
+                  const isEven = index % 2 === 0
+                  const bgColor = isEven ? 'primary.light' : 'primary.main'
+                  const textColor = event?.isLive
+                    ? 'secondary.main'
+                    : 'background.paper'
 
-                      if (column.id === 'isLive') {
-                        value = event ? (event.isLive ? 'LIVE' : '-') : '-'
-                      }
+                  return (
+                    <TableRow
+                      key={event?.id || `empty-${index}`}
+                      onClick={() => navigate('events')}
+                      sx={{
+                        'cursor': event ? 'pointer' : 'default',
+                        '&:hover': event
+                          ? {
+                            backgroundColor: alpha(
+                              theme.palette.background.paper,
+                              0.2
+                            ),
+                          }
+                          : {},
+                        'backgroundColor': bgColor,
+                        'color': textColor,
+                        'border': '1px solid',
+                        'borderColor': 'primary.dark',
+                      }}
+                    >
+                      {headerColumns.map((column) => {
+                        let value = event?.[column.id] ?? '-'
 
-                      return (
-                        <TableCell
-                          key={column.id}
-                          align={column.align}
-                          sx={{
-                            width: column.width,
-                            fontSize: {
-                              xxs: '0.9rem',
-                              md: '1rem',
-                              lg: '1.1rem',
-                              xl: '1.2rem',
-                            },
-                            color: textColor,
-                            textTransform:
+                        if (column.id === 'isLive') {
+                          value = event ? (event.isLive ? 'LIVE' : '-') : '-'
+                        }
+
+                        return (
+                          <TableCell
+                            key={column.id}
+                            align={column.align}
+                            sx={{
+                              width: column.width,
+                              fontSize: {
+                                xxs: '0.9rem',
+                                md: '1rem',
+                                lg: '1.1rem',
+                                xl: '1.2rem',
+                              },
+                              color: textColor,
+                              textTransform:
                             column.id === 'isLive' ? 'uppercase' : undefined,
-                            borderBottom: '1px solid',
-                            borderColor: 'primary.dark',
-                          }}
-                        >
-                          {value}
-                        </TableCell>
-                      )
-                    })}
-                  </TableRow>
-                )
-              })}
-            </TableBody>
-          )}
+                              borderBottom: '1px solid',
+                              borderColor: 'primary.dark',
+                            }}
+                          >
+                            {value}
+                          </TableCell>
+                        )
+                      })}
+                    </TableRow>
+                  )
+                })}
+              </TableBody>
+            )}
       </Table>
     </TableContainer>
   )
