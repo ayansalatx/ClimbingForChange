@@ -79,6 +79,7 @@ const AddEventModal = ({
   const [mountainSelection, setMountainSelection] = useState([])
   const [hills, setHills] = useState([])
   const [hillSelection, setHillSelection] = useState([])
+  const [filteredHills, setFilteredHills] = useState([])
   const [isActive, setIsActive] = useState(true)
 
   const isPastEvent = eventToEdit
@@ -93,6 +94,8 @@ const AddEventModal = ({
     setStartTime('')
     setDuration('')
     setMountainSelection([])
+    setHillSelection([])
+    setFilteredHills([])
   }
 
   useEffect(() => {
@@ -106,6 +109,23 @@ const AddEventModal = ({
   useEffect(() => {
     setHills(onHills || [])
   }, [onHills])
+
+  useEffect(() => {
+    if (!location) {
+      setFilteredHills([])
+      setHillSelection([])
+      return
+    }
+
+    const filtered = hills.filter(
+      (hill) => String(hill.location) === String(location)
+    )
+    setFilteredHills(filtered)
+
+    setHillSelection((prevSelection) =>
+      prevSelection.filter((id) => filtered.some((hill) => hill.id === id))
+    )
+  }, [location, hills])
 
   useEffect(() => {
     if (eventToEdit) {
@@ -197,7 +217,12 @@ const AddEventModal = ({
   return (
     <Modal open={open} onClose={onModalClose}>
       <Box sx={style}>
-        <Box mb={1} display="flex" alignItems="center" justifyContent="space-between">
+        <Box
+          mb={1}
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+        >
           <Typography variant="h6" sx={{ color: 'black' }}>
             {eventToEdit ? 'Edit Event' : 'Add New Event'}
           </Typography>
@@ -260,7 +285,7 @@ const AddEventModal = ({
               label="Hills"
               renderValue={getHillNames}
             >
-              {hills.map((hill) => (
+              {filteredHills.map((hill) => (
                 <MenuItem key={hill.id} value={hill.id}>
                   <Checkbox checked={hillSelection.includes(hill.id)} />
                   {hill.name}
@@ -282,9 +307,7 @@ const AddEventModal = ({
             >
               {mountains.map((mountain) => (
                 <MenuItem key={mountain.id} value={mountain.id}>
-                  <Checkbox
-                    checked={mountainSelection.indexOf(mountain.id) > -1}
-                  />
+                  <Checkbox checked={mountainSelection.indexOf(mountain.id) > -1} />
                   {mountain.name}
                 </MenuItem>
               ))}
@@ -331,7 +354,6 @@ const AddEventModal = ({
             <CancelButton onClick={onModalClose} color="red" />
             <SaveButton type="submit" label={eventToEdit ? 'Save' : 'Create'} />
           </Box>
-
         </form>
       </Box>
     </Modal>

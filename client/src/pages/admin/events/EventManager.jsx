@@ -328,10 +328,6 @@ const EventManager = () => {
     setEventToToggle(null)
   }
 
-  const filteredHills = eventToEdit?.locationId
-    ? hillsList.filter((h) => h.location === eventToEdit.locationId)
-    : hillsList
-
   return (
     <Box
       sx={{
@@ -370,7 +366,7 @@ const EventManager = () => {
         onEdit={handleEditEvent}
         onLocation={locations}
         onMountains={mountainsList}
-        onHills={filteredHills}
+        onHills={hillsList}
         eventToEdit={eventToEdit}
       />
 
