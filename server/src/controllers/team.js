@@ -24,6 +24,7 @@ export const getTeamById = async (request, response) => {
   const id = request.params.id
 
   const team = await Team.findById(id)
+    .sort({ name: 1 })
     .populate('participants')
     .populate('mountain')
     .populate('hill')
