@@ -27,7 +27,7 @@ const lgColumns = [
 const mdColumns = [
   { id: 'name', label: 'Team', width: '30%' },
   { id: 'mountainName', label: 'Mountain', width: '15%' },
-  { id: 'currentElevation', label: 'Elevation', width: '20%' },
+  { id: 'elevation', label: 'Elevation', width: '20%' },
   { id: 'laps', label: 'Laps', width: '20%' },
   { id: 'lapsToGo', label: 'Laps To Go', width: '7%' },
   { id: 'bestLap', label: 'Best Lap', width: '8%' },
@@ -37,7 +37,7 @@ const mdColumns = [
 const smColumns = [
   { id: 'name', label: 'Team', width: '28%' },
   { id: 'mountainName', label: 'Mount.', width: '13%' },
-  { id: 'currentElevation', label: 'Elev.', width: '15%' },
+  { id: 'elevation', label: 'Elev.', width: '15%' },
   { id: 'laps', label: 'Laps', width: '13%' },
   { id: 'lapsToGo', label: 'To Go', width: '7%' },
   { id: 'bestLap', label: 'Best Lap', width: '9%' },

@@ -15,7 +15,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import theme from '../../../../styles/theme'
-import { formatDurationTimeHours, formatDurationTimeMinutes } from '../../../../utils/formatDurationTime'
+import {
+  formatDurationTimeHours,
+  formatDurationTimeMinutes,
+} from '../../../../utils/formatDurationTime'
 
 const CollapsibleRow = ({ team, index, columns, participants }) => {
   const navigate = useNavigate()
@@ -41,11 +44,11 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
         role="checkbox"
         tabIndex={-1}
         sx={{
-          'cursor': 'pointer',
-          'height': { sm: '2.95rem', md: '3.15rem', lg: '3.25rem', xl: '3.5rem' },
-          'p': 0,
-          'border': 'none',
-          'backgroundColor': open
+          cursor: 'pointer',
+          height: { sm: '2.95rem', md: '3.15rem', lg: '3.25rem', xl: '3.5rem' },
+          p: 0,
+          border: 'none',
+          backgroundColor: open
             ? alpha(theme.palette.secondary.light, 0.5)
             : isEven
               ? alpha(theme.palette.background.paper, 0.3)
@@ -68,8 +71,8 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
           <IconButton
             disableRipple
             sx={{
-              'padding': 0,
-              'color': 'primary.main',
+              padding: 0,
+              color: 'primary.main',
               '&:focus': {
                 outline: 'none',
               },
@@ -140,33 +143,41 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
           // Small screen columns
           let value
           switch (column.id) {
-            case 'currentElevation': {
-              const percent = team.progressPercent !== undefined ? team.progressPercent : (totalElevation ? Math.round((currentElevation / totalElevation) * 1000) / 10 : 0)
+            case 'name': {
+              const percent =
+                team.progressPercent !== undefined ? team.progressPercent : 0
               value = (
                 <Box sx={{ minWidth: 80 }}>
-                  <Box component="span">
-                    {currentElevation}
-                    {Number.isFinite(percent) && (
-                      <Box component="span" sx={{ color: theme.palette.primary.main, fontWeight: 'bold', display: 'inline', ml: 0.5 }}>{`(${percent}%)`}</Box>
-                    )}
-                  </Box>
+                  <Box component="span">{team.name}</Box>
                   <LinearProgress
                     variant="determinate"
-                    value={Math.min(percent, 100)}
-                    sx={{ 'height': 6, 'borderRadius': 3, 'mt': 0.5, 'background': alpha(theme.palette.primary.main, 0.15), '& .MuiLinearProgress-bar': { backgroundColor: theme.palette.secondary.main } }}
+                    value={percent}
+                    sx={{
+                      height: 6,
+                      borderRadius: 3,
+                      background: alpha(theme.palette.primary.main, 0.25),
+                      '& .MuiLinearProgress-bar': {
+                        backgroundColor: theme.palette.secondary.main,
+                        borderRadius: 3,
+                      },
+                      filter: 'drop-shadow(0 0 4px rgba(0, 0, 0, 0.3))',
+                    }}
                   />
                 </Box>
               )
               break
             }
+            case 'elevation':
+              value = `${currentElevation} / ${totalElevation}`
+              break
             case 'laps':
               value = `${lapsCompleted} / ${lapsRequired}`
               break
             case 'bestLap':
-              value = team.bestLap && team.bestLap > 0 ? formatDurationTimeMinutes(team.bestLap) : '-'
-              break
-            case 'timeElapsed':
-              value = team.timeElapsed && team.timeElapsed > 0 ? formatDurationTimeHours(team.timeElapsed) : '-'
+              value =
+                team.bestLap && team.bestLap > 0
+                  ? formatDurationTimeMinutes(team.bestLap)
+                  : '-'
               break
             default:
               value = team[column.id] ?? '-'
@@ -229,9 +240,9 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
                           size="small"
                           disableRipple
                           sx={{
-                            'visibility': 'hidden',
-                            'padding': 0,
-                            'color': 'primary.main',
+                            visibility: 'hidden',
+                            padding: 0,
+                            color: 'primary.main',
                             '&:focus': {
                               outline: 'none',
                             },
@@ -271,9 +282,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
                           color: 'primary.light',
                         }}
                       >
-                        {participant.firstName}
-                        {' '}
-                        {participant.lastName}
+                        {participant.firstName} {participant.lastName}
                       </TableCell>
                     </TableRow>
                   ))}
