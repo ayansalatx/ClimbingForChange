@@ -170,7 +170,6 @@ const ProgressBoard = () => {
     socketRef.current = io(socketURL)
 
     const handleLapStatsUpdate = (stats) => {
-      console.log(stats)
       setTeams((prevTeams) =>
         prevTeams.map((team) =>
           team.id === stats.teamId

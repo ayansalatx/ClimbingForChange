@@ -69,9 +69,9 @@ const ProgressTable = ({
   const rowsPerPageOptions = isSmall ? [] : [10, 25, 100]
 
   const handleSimulatePassings = async () => {
-    console.log('Simulate Passings for event:', selectedEvent)
+    // console.log('Simulate Passings for event:', selectedEvent)
     const passings = await runSimulatedPassings(selectedEvent)
-    console.log('Passings:', passings)
+    // console.log('Passings:', passings)
   }
 
   return (
