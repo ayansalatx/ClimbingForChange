@@ -66,7 +66,7 @@ const AutoScrollTable = ({ teams, columns, loading }) => {
                 justifyContent: 'center',
                 background: `linear-gradient(to right, ${alpha(theme.palette.primary.main, 0.8)}, ${alpha(theme.palette.primary.main, 0.3)}, ${alpha(theme.palette.primary.main, 0.8)})`,
                 fontSize: '2rem',
-                py:  4,
+                py: 4,
               }}
             >
               <CircularProgress color="secondary" />
