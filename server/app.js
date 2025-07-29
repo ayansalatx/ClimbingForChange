@@ -20,7 +20,6 @@ import authRoutes from './src/routes/auth.js'
 import { mockRouter } from './src/mock/mock.router.js'
 import config from './src/utils/config.js'
 import leaderboardRoutes from './src/routes/leaderboard.js'
-import { pollForNewData } from './src/utils/serverState.js'
 
 const app = express()
 const openapiDoc = YAML.load('./openapi.yaml')
@@ -62,11 +61,5 @@ authenticatedApiRouter.use('/images', imageRoutes)
 app.use('/api', authenticatedApiRouter)
 
 app.use(errorHandler)
-
-if (process.env.NODE_ENV !== 'test') {
-  setTimeout(() => {
-    setInterval(pollForNewData, 5000)
-  }, 2000)
-}
 
 export default app

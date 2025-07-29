@@ -23,6 +23,7 @@ let anEventId = ''
 let aMountainId = ''
 let aHillId = ''
 let anRfidTagId = ''
+let rfidTag = null
 let initialTeamId = ''
 
 let authToken = ''
@@ -62,7 +63,7 @@ beforeEach(async () => {
     lapElevationGain: 100,
     lapDistance: 1,
   }).save()
-  const rfidTag = await new RFIDTag({ serialNumber: 'TAG-INITIAL' }).save()
+  rfidTag = await new RFIDTag({ serialNumber: 'TAG-INITIAL' }).save()
   const event = await new Event({
     name: 'Test Event',
     location: location._id,
@@ -173,6 +174,9 @@ describe('Teams API (/api/teams)', () => {
       ...teamToUpdate,
       name: 'The First Climbers - Updated Name',
       isSoloTeam: true,
+      hill: teamToUpdate.hill.id,
+      mountain: teamToUpdate.mountain.id,
+      rfidTag: rfidTag,
     }
 
     await api

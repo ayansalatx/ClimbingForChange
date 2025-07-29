@@ -8,6 +8,7 @@ import {
 import { Fragment } from 'react'
 
 import theme from '../../../../styles/theme'
+import { formatDurationTimeHours, formatDurationTimeMinutes } from '../../../../utils/formatDurationTime'
 
 const ScrollingTableRow = ({ teams, columns, shouldScroll }) => {
   const isLarge = useMediaQuery(theme.breakpoints.up('lg'))
@@ -65,12 +66,34 @@ const ScrollingTableRow = ({ teams, columns, shouldScroll }) => {
                     />
                   </Box>
                 </Box>
+                //const percent = team.progressPercent !== undefined ? team.progressPercent : (team.totalElevation ? Math.round((team.currentElevation / team.totalElevation) * 1000) / 10 : 0)
+                // value = (
+                //   <div>
+                //     <span>{team.currentElevation}</span>
+                //     {team.totalElevation > 0 && Number.isFinite(percent) && team.lapsCompleted > 1 && (
+                //       <>
+                //         <span style={{ color: 'inherit', fontWeight: 'bold', marginLeft: 4 }}>{`(${percent}%)`}</span>
+                //         <LinearProgress
+                //           variant="determinate"
+                //           value={Math.min(percent, 100)}
+                //           sx={{ 'height': 6, 'borderRadius': 3, 'mt': 0.5, 'background': alpha(theme.palette.primary.main, 0.15), '& .MuiLinearProgress-bar': { backgroundColor: theme.palette.secondary.main } }}
+                //         />
+                //       </>
+                //     )}
+                //   </div>
+                // )
               }
               else if (column.id === 'elevation') {
                 value = `${team.currentElevation} / ${team.totalElevation}`
               }
               else if (column.id === 'laps') {
                 value = `${team.lapsCompleted} / ${team.lapsRequired}`
+              }
+              else if (column.id === 'bestLap') {
+                value = team.bestLap && team.bestLap > 0 ? formatDurationTimeMinutes(team.bestLap) : '-'
+              }
+              else if (column.id === 'timeElapsed') {
+                value = team.timeElapsed && team.timeElapsed > 0 ? formatDurationTimeHours(team.timeElapsed) : '-'
               }
               else {
                 value = team[column.id] ?? '-'

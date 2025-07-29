@@ -198,13 +198,45 @@ const initializeMockData = async () => {
 }
 
 router.get('/getpassings', (req, res) => {
-  const fromIndex = req.query.fromIndex ? parseInt(req.query.fromIndex, 10) : 0
-  const newPassings = allSimulatedPassings.slice(fromIndex, nextPassingIndex)
+  const eventId = req.query.eventId
+  let filteredPassings = allSimulatedPassings
 
-  res.json({
-    passings: newPassings,
-    lastIndex: nextPassingIndex,
-  })
+  // If eventId is provided, filter passings for teams in that event
+  if (eventId) {
+    // const Team = require('../models/team.js').default
+    // const mongoose = require('mongoose')
+    Team.find({ event: eventId }).populate('rfidTag').then((teams) => {
+      const bibs = teams.map(t => t.rfidTag && t.rfidTag.serialNumber).filter(Boolean)
+      filteredPassings = allSimulatedPassings.filter(p => bibs.includes(p.Code))
+      return sendFilteredPassings(req, res, filteredPassings)
+    })
+    return
+  }
+  return sendFilteredPassings(req, res, filteredPassings)
 })
+
+function sendFilteredPassings(req, res, filteredPassings) {
+  const all = req.query.all === 'true'
+  if (all) {
+    return res.json({
+      passings: filteredPassings,
+      lastIndex: filteredPassings.length,
+    })
+  }
+  const fromFile = req.query.fromFile ? parseInt(req.query.fromFile, 10) : 1
+  const fromDetection = req.query.fromDetection ? parseInt(req.query.fromDetection, 10) : 1
+  const amount = req.query.amount ? parseInt(req.query.amount, 10) : 1000
+  let filtered = filteredPassings.filter((p) => {
+    if (p.FileNo > fromFile) return true
+    if (p.FileNo === fromFile && p.PassingNo >= fromDetection) return true
+    return false
+  })
+  filtered = filtered.slice(0, amount)
+  const lastIndex = filtered.length > 0 ? allSimulatedPassings.indexOf(filtered[filtered.length - 1]) + 1 : 0
+  res.json({
+    passings: filtered,
+    lastIndex: lastIndex,
+  })
+}
 
 export { router as mockRouter, initializeMockData }

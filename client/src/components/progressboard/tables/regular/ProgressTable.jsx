@@ -2,6 +2,7 @@ import HikingIcon from '@mui/icons-material/Hiking'
 import {
   alpha,
   Box,
+  Button,
   CircularProgress,
   Paper,
   Table,
@@ -15,6 +16,7 @@ import {
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 
+import { runSimulatedPassings } from '../../../../services/leaderboardService'
 import theme from '../../../../styles/theme'
 import EventSelector from '../../shared/EventSelector'
 import ProgressSearch from '../../shared/ProgressSearch'
@@ -64,6 +66,12 @@ const ProgressTable = ({
 
   // Hide the rows per page selector on small screen
   const rowsPerPageOptions = isSmall ? [] : [10, 25, 100]
+
+  const handleSimulatePassings = async () => {
+    console.log('Simulate Passings for event:', selectedEvent)
+    const passings = await runSimulatedPassings(selectedEvent)
+    console.log('Passings:', passings)
+  }
 
   return (
     <Paper
@@ -200,7 +208,10 @@ const ProgressTable = ({
           background: `linear-gradient(to right, ${alpha(theme.palette.primary.main, 0.8)}, ${alpha(theme.palette.primary.main, 0.3)}, ${alpha(theme.palette.primary.main, 0.8)})`,
         }}
       >
-        <FullscreenToggleButton eventId={selectedEvent} />
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <FullscreenToggleButton eventId={selectedEvent} />
+          <Button variant="contained" color="primary" onClick={handleSimulatePassings} disabled={!selectedEvent}>Simulate Passings</Button>
+        </Box>
 
         {/* Only show pagination controls on non-small screens */}
         {!isSmall && (
