@@ -394,7 +394,6 @@ export const getLeaderboardImages = async (req, res) => {
     }
 
     const images = await Image.find({ event: eventId })
-    console.log(images)
 
     const sponsors = images.filter(img => img.type === 'sponsor')
     const charities = images.filter(img => img.type === 'charity')

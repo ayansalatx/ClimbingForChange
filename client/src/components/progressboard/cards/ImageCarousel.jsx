@@ -1,53 +1,52 @@
-import { alpha, Box, Typography } from '@mui/material'
+import React from 'react'
+import { Box, alpha } from '@mui/material'
 import theme from '../../../styles/theme'
 
 const ImageCarousel = ({ title, images = [] }) => {
+  const repeatedImages = [...images, ...images]
+
   return (
     <Box
       sx={{
         width: '100%',
-        height: '8vh',
-        overflowX: 'hidden',
-        backgroundColor: alpha(theme.palette.background.paper, 0.5),
-        mt: title === 'Sponsors' ? 1 : 0,
-        mb: title === 'Charities' ? 1 : 0,
-        px: 0.45,
+        height: '10vh',
+        overflow: 'hidden',
+        position: 'relative',
+        backgroundColor: alpha(theme.palette.background.paper, 0.35),
+        mb: title === 'Sponsors' ? 1 : 0,
+        mt: title === 'Charities' ? 1 : 0,
+        py: 0.75,
+        '--scroll-duration': '30s',
+        '--scroll-direction':
+          title === 'Sponsors'
+            ? 'scroll-horizontal'
+            : 'scroll-horizontal-reverse',
       }}
     >
-      {/* <Box sx={{ px: 1, backgroundColor: "background.paper", position: 'sticky', zIndex: 1 }}>
-        <Typography
-          variant="body2"
-          color="primary.main"
-          fontWeight="bold"
-          textTransform="uppercase"
-          fontStyle="italic"
-          letterSpacing={'0.05rem'}
-         sx={{fontSize: '.7rem'}}
-        >
-          {title}
-        </Typography>
-      </Box> */}
-      <Box className="marquee__content"
+      <Box
+        className="marquee__content"
         sx={{
-          '--scroll-duration': `${images.length * 3}s`,
-          '--scroll-direction': 'scroll-horizontal',
-          height: '100%',
-          objectFit: 'contain',
-          flexShrink: 0,
           display: 'flex',
           flexDirection: 'row',
-          gap: 0.45,
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100%',
+          width: '200vw',
         }}
       >
-        {[...images, ...images, ...images, ...images, ...images, ...images].map((img, i) => (
+        {repeatedImages.map((img, i) => (
           <Box
             key={i}
             component="img"
             src={img.url}
             alt={img.logoName}
             sx={{
-              backgroundColor: 'background.paper',
+              height: '100%',
+              width: 'auto',
+              minWidth: `calc(${100 / images.length}vw - ${8 * (images.length - 1) / images.length}px)`,
               objectFit: 'contain',
+              backgroundColor: 'background.paper',
+              mr: 1, 
             }}
           />
         ))}
