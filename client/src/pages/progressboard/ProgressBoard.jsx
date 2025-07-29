@@ -180,6 +180,7 @@ const ProgressBoard = () => {
               currentElevation: formatNumber(stats.currentElevation),
               timeElapsed: formatDurationTimeHours(stats.timeElapsed),
               bestLap: formatDurationTimeMinutes(stats.bestLap),
+              progressPercentage: stats.progressPercentage,
             }
             : team
         )

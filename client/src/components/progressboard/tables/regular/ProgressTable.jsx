@@ -70,7 +70,7 @@ const ProgressTable = ({
 
   const handleSimulatePassings = async () => {
     // console.log('Simulate Passings for event:', selectedEvent)
-    const passings = await runSimulatedPassings(selectedEvent)
+    await runSimulatedPassings(selectedEvent)
     // console.log('Passings:', passings)
   }
 

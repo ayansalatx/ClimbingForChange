@@ -43,7 +43,7 @@ async function calculateLapStats(teamId) {
       = mountain && mountain.totalElevation
         ? Math.min(currentElevationRaw, mountain.totalElevation)
         : currentElevationRaw
-    const progressPercent
+    const progressPercentage
       = hill && lapsCompleted ? Math.round((lapsCompleted / lapsRequired) * 100) : 0
     const stats = {
       teamId: teamId.toString(),
@@ -54,7 +54,7 @@ async function calculateLapStats(teamId) {
       lapsToGo,
       timeElapsed,
       currentElevation,
-      progressPercent,
+      progressPercentage,
     }
     return stats
   }
