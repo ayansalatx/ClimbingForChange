@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { io } from 'socket.io-client'
 
-import C4CFavicon from '../../assets/C4C-branding/Climbing-For-Change-Horizontal_Green.png'
+import C4CFavicon from '../../assets/C4C-branding/Favicon.png'
 import WarningDialog from '../../components/admin/modals/WarningDialog'
 import AutoScrollTable from '../../components/progressboard/tables/auto-scroll/AutoScrollTable'
 import {
@@ -291,25 +291,108 @@ const ProgressBoardFullscreen = () => {
               }}
             >
               <Box
-                component="img"
-                src={C4CFavicon}
-                alt="Climbing for Change Logo"
                 sx={{
-                  width: 'auto',
-                  maxHeight: {
-                    xxs: '1rem',
-                    xs: '1.75rem',
-                    sm: '2.2rem',
-                    md: '3.8rem',
-                    lg: '4.25rem',
-                    xl: '4.5rem',
-                  },
-                  ml: { xxs: 0.25, xs: 0.25, sm: 0.5, lg: 1 },
-                  mb: { xxs: 0.25, xs: 0.25, sm: 0.5, lg: 1 },
+                  width: '100%',
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-evenly',
+                  px: 1,
                 }}
-              />
-            </Box>
+              >
+                <Box
+                  sx={{
+                    width: '5%',
+                    backgroundColor: alpha(theme.palette.primary.main, 0.8),
+                    clipPath:
+                      'polygon(30px 0%, 100% 0%, calc(100% - 30px) 100%, 0% 100%)',
+                  }}
+                />
+                <Box
+                  sx={{
+                    width: '5%',
+                    backgroundColor: alpha(theme.palette.primary.main, 0.8),
+                    clipPath:
+                      'polygon(30px 0%, 100% 0%, calc(100% - 30px) 100%, 0% 100%)',
+                  }}
+                />
 
+                <Box
+                  sx={{
+                    width: '80%',
+                    background: `linear-gradient(to right, ${alpha(theme.palette.primary.main, 0.8)}, ${alpha(theme.palette.primary.main, 0.3)}, ${alpha(theme.palette.primary.main, 0.8)})`,
+                    clipPath:
+                      'polygon(30px 0%, 100% 0%, calc(100% - 30px) 100%, 0% 100%)',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: 2,
+                  }}
+                >
+                  <Box
+                    component="img"
+                    src={C4CFavicon}
+                    alt="Climbing for Change Logo"
+                    sx={{
+                      width: 'auto',
+                      maxHeight: {
+                        xxs: '1rem',
+                        xs: '1.75rem',
+                        sm: '2.2rem',
+                        md: '3.4rem',
+                        lg: '3.65rem',
+                        xl: '3.65rem',
+                      },
+                      py: 1,
+                    }}
+                  />
+                  <Typography
+                    variant="h1"
+                    color="secondary.main"
+                    fontWeight="bold"
+                    textTransform="uppercase"
+                    sx={{
+                      fontSize: {
+                        xxs: '1.3rem',
+                        xs: '1.45rem',
+                        sm: '2.1rem',
+                        md: '2.75rem',
+                        lg: '3rem',
+                        xl: '3rem',
+                      },
+                      lineHeight: {
+                        xxs: '1.3rem',
+                        xs: '1.5rem',
+                        sm: '2.25rem',
+                        md: '2.5rem',
+                        lg: '2.75rem',
+                        xl: '2.75rem',
+                      },
+                      fontStyle: 'italic',
+                      mb: .5,
+                    }}
+                  >
+                    Climbing for Change
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    width: '5%',
+                    background: alpha(theme.palette.primary.main, 0.8),
+                    clipPath:
+                      'polygon(30px 0%, 100% 0%, calc(100% - 30px) 100%, 0% 100%)',
+                  }}
+                />
+                <Box
+                  sx={{
+                    width: '5%',
+                    background: alpha(theme.palette.primary.main, 0.8),
+                    clipPath:
+                      'polygon(30px 0%, 100% 0%, calc(100% - 30px) 100%, 0% 100%)',
+                  }}
+                />
+              </Box>
+            </Box>
             <Box
               sx={{
                 flexGrow: 1,
