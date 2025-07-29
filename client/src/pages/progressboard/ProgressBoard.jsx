@@ -10,6 +10,8 @@ import ProgressTable from '../../components/progressboard/tables/regular/Progres
 import { getActiveUpcomingEvents,
   getLeaderboard, getPastEvents } from '../../services/leaderboardService'
 import theme from '../../styles/theme'
+import { formatNumber } from '../../utils/formatNumber'
+import { formatDurationTimeHours, formatDurationTimeMinutes } from '../../utils/formatDurationTime'
 
 // Define columns for full width screen
 const lgColumns = [
@@ -166,16 +168,17 @@ const ProgressBoard = () => {
     socketRef.current = io(socketURL)
 
     const handleLapStatsUpdate = (stats) => {
+      console.log(stats)
       setTeams((prevTeams) =>
         prevTeams.map((team) =>
           team.id === stats.teamId
             ? {
               ...team,
               ...stats,
-              lapsCompleted: stats.totalLaps,
-              laps: stats.totalLaps,
-              elevation: stats.totalElevation,
-              currentElevation: stats.currentElevation,
+              lapsCompleted: formatNumber(stats.lapsCompleted),
+              currentElevation: formatNumber(stats.currentElevation),
+              timeElapsed: formatDurationTimeHours(stats.timeElapsed),
+              bestLap: formatDurationTimeMinutes(stats.bestLap)
             }
             : team
         )

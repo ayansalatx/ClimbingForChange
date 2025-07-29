@@ -145,7 +145,7 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
           switch (column.id) {
             case 'name': {
               const percent =
-                team.progressPercent !== undefined ? team.progressPercent : 0
+                team.progressPercentage !== undefined ? team.progressPercentage : 0
               value = (
                 <Box sx={{ minWidth: 80 }}>
                   <Box component="span">{team.name}</Box>
@@ -172,12 +172,6 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
               break
             case 'laps':
               value = `${lapsCompleted} / ${lapsRequired}`
-              break
-            case 'bestLap':
-              value =
-                team.bestLap && team.bestLap > 0
-                  ? formatDurationTimeMinutes(team.bestLap)
-                  : '-'
               break
             default:
               value = team[column.id] ?? '-'
