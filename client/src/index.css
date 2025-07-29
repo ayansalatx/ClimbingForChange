@@ -95,6 +95,25 @@ button:focus-visible {
   }
 }
 
-.marquee__content {
-  animation: scroll-vertical var(--scroll-duration) linear infinite;
+@keyframes scroll-horizontal {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
+
+@keyframes scroll-horizontal-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.marquee__content {
+  animation: var(--scroll-direction, scroll-horizontal) var(--scroll-duration) linear infinite;
+}
+

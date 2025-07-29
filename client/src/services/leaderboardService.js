@@ -55,7 +55,10 @@ export const getLeaderboard = async (eventId) => {
     lapsRequired: formatNumber(team.lapsRequired) || 0,
     lapsCompleted: team.lapsCompleted ? formatNumber(team.lapsCompleted) : '-',
 
-    bestLap: !team.lapsCompleted || team.bestLap === 0 ? '-' : formatDurationTimeMinutes(team.bestLap),
+    bestLap:
+      !team.lapsCompleted || team.bestLap === 0
+        ? '-'
+        : formatDurationTimeMinutes(team.bestLap),
     averageLapTime: formatDurationTimeMinutes(team.averageLapTime) ?? '-',
     timeElapsed: formatDurationTimeHours(team.timeElapsed),
   }))
@@ -78,7 +81,10 @@ export const getLeaderboardTeam = async (teamId) => {
     lapsCompleted: team.lapsCompleted ? formatNumber(team.lapsCompleted) : '-',
     lapsToGo: team.lapsToGo ? formatNumber(team.lapsToGo) : '-',
 
-    bestLap: !team.lapsCompleted || team.bestLap === 0 ? '-' : formatDurationTimeMinutes(team.bestLap),
+    bestLap:
+      !team.lapsCompleted || team.bestLap === 0
+        ? '-'
+        : formatDurationTimeMinutes(team.bestLap),
     averageLapTime: formatDurationTimeMinutes(team.averageLapTime) ?? '-',
     timeElapsed: formatDurationTimeHours(team.timeElapsed),
 
@@ -175,4 +181,22 @@ export function getTimeElapsed(laps) {
   const start = new Date(completedLaps[0].startDateTime)
   const end = new Date(completedLaps[completedLaps.length - 1].endDateTime)
   return end - start
+}
+
+export const getCharities = async (eventId) => {
+  const res = await api.get(`/leaderboard/images/${eventId}`)
+
+  return res.data.charities || []
+}
+
+export const getSponsors = async (eventId) => {
+  const res = await api.get(`/leaderboard/images/${eventId}`)
+
+  return res.data.sponsors || []
+}
+
+export const runSimulatedPassings = async (eventId) => {
+  const res = await api.get(`/leaderboard/simulate/${eventId}`)
+  const passings = res.data
+  return passings
 }

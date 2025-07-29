@@ -91,7 +91,7 @@ const TeamProgress = () => {
       label: 'Elev:',
       value: `${team?.totalElevation} ${team?.elevationUnit}`,
     },
-    { label: 'Total Laps:', value: team?.totalLaps },
+    { label: 'Total Laps:', value: team?.lapsRequired },
     {
       label: 'Lap Elev:',
       value: `${team?.lapElevation} ${team?.lapElevationUnit}`,
@@ -113,7 +113,7 @@ const TeamProgress = () => {
     {
       label: 'Laps:',
       icon: <TerrainIcon sx={{ color: 'primary.main' }} />,
-      value: team?.totalLaps,
+      value: team?.lapsRequired,
     },
     {
       label: 'Lap:',
@@ -460,7 +460,7 @@ const TeamProgress = () => {
 
                     {/* Elevation Progress Indicator */}
                     <ProgressIndicator
-                      progress={team?.progressPercentage}
+                      progress={team?.elevationPercentage}
                       label={`${team?.currentElevation} ${team?.elevationUnit}`}
                       color="info.main"
                       shadow="drop-shadow(0 0 4px rgba(31, 47, 51, 0.3))"

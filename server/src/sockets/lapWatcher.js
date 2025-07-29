@@ -9,7 +9,7 @@ export default function LapChangeWatcher(io, db) {
     return {
       ...doc,
       id: doc._id.toString(),
-      teamId: doc.team?.id.toString(),
+      teamId: doc.team?.id?.toString?.() || doc.team?.toString?.(),
     }
   }
 

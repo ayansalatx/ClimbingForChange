@@ -8,8 +8,10 @@ import WarningDialog from '../../components/admin/modals/WarningDialog'
 import ProgressList from '../../components/progressboard/cards/ProgressCardList'
 import ProgressTable from '../../components/progressboard/tables/regular/ProgressTable'
 import { getActiveUpcomingEvents,
-  getLeaderboard, getPastEvents, updateLeaderboardTeamLaps } from '../../services/leaderboardService'
+  getLeaderboard, getPastEvents } from '../../services/leaderboardService'
 import theme from '../../styles/theme'
+import { formatDurationTimeHours, formatDurationTimeMinutes } from '../../utils/formatDurationTime'
+import { formatNumber } from '../../utils/formatNumber'
 
 // Define columns for full width screen
 const lgColumns = [
@@ -84,6 +86,8 @@ const ProgressBoard = () => {
   // State for teams filtered by the search input
   const [filteredTeams, setFilteredTeams] = useState([])
 
+  const isLocal = window.location.hostname === 'localhost' ? true : false
+
   const showWarning = () => {
     setWarningOpen(true)
   }
@@ -125,7 +129,6 @@ const ProgressBoard = () => {
       if (!selectedEvent) return
       try {
         const teamsList = await getLeaderboard(selectedEvent)
-
         setTeamsLength(teamsList.length)
         setTeams(teamsList)
       }
@@ -136,14 +139,7 @@ const ProgressBoard = () => {
         setLoading(false)
       }
     }
-
     loadLeaderboard()
-
-    const intervalId = setInterval(loadLeaderboard, 2000)
-
-    return () => {
-      clearInterval(intervalId)
-    }
   }, [selectedEvent])
 
   useEffect(() => {
@@ -168,60 +164,33 @@ const ProgressBoard = () => {
     setFilteredTeams(filteredTeams)
   }, [searchString, teams])
 
-  // Listen for lap updates on socket
+  // Listen for lapStatsUpdate on socket
   useEffect(() => {
     const socketURL = import.meta.env.VITE_SOCKET_SERVER_URL || 'http://localhost:5001'
     socketRef.current = io(socketURL)
 
-    const handleLapUpdate = (change) => {
-      const updatedLap = change.fullDocument
-      // Don't update for laps without an end time
-      if (!updatedLap || !updatedLap.endDateTime) {
-        return
-      }
-
-      // Get teams and update for only the team with ID that matches
-      setTeams((prevTeams) => {
-        const teamIndex = prevTeams.findIndex((team) => team.id?.toString() === updatedLap.teamId)
-        if (teamIndex === -1) return prevTeams
-
-        const team = prevTeams[teamIndex]
-        const laps = team.laps ?? []
-
-        // Update existing lap
-        const lapIndex = laps.findIndex(
-          (lap) => lap.id === updatedLap._id || lap._id === updatedLap._id
+    const handleLapStatsUpdate = (stats) => {
+      setTeams((prevTeams) =>
+        prevTeams.map((team) =>
+          team.id === stats.teamId
+            ? {
+              ...team,
+              ...stats,
+              lapsCompleted: formatNumber(stats.lapsCompleted),
+              currentElevation: formatNumber(stats.currentElevation),
+              timeElapsed: formatDurationTimeHours(stats.timeElapsed),
+              bestLap: formatDurationTimeMinutes(stats.bestLap),
+              progressPercentage: stats.progressPercentage,
+            }
+            : team
         )
-
-        let newLaps
-
-        // Create new lap
-        if (lapIndex !== -1) {
-          newLaps = [
-            ...laps.slice(0, lapIndex),
-            updatedLap,
-            ...laps.slice(lapIndex + 1),
-          ]
-        }
-        else {
-          newLaps = [...laps, updatedLap]
-        }
-
-        const updatedTeam = updateLeaderboardTeamLaps(team, newLaps)
-
-        // Update display for only team with lap update
-        return [
-          ...prevTeams.slice(0, teamIndex),
-          updatedTeam,
-          ...prevTeams.slice(teamIndex + 1),
-        ]
-      })
+      )
     }
 
-    socketRef.current.on('lapUpdate', handleLapUpdate)
+    socketRef.current.on('lapStatsUpdate', handleLapStatsUpdate)
 
     return () => {
-      socketRef.current.off('lapUpdate', handleLapUpdate)
+      socketRef.current.off('lapStatsUpdate', handleLapStatsUpdate)
       socketRef.current.disconnect()
     }
   }, [])
@@ -405,6 +374,7 @@ const ProgressBoard = () => {
                   searchString={searchString}
                   setSearchString={setSearchString}
                   teamsLength={teamsLength}
+                  isLocal={isLocal}
                   loading={loading}
                 />
               </Box>

@@ -10,6 +10,7 @@ import {
   TableCell,
   TableRow,
 } from '@mui/material'
+import LinearProgress from '@mui/material/LinearProgress'
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -138,6 +139,30 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
           // Small screen columns
           let value
           switch (column.id) {
+            case 'name': {
+              const percent
+                = team.progressPercentage !== undefined ? team.progressPercentage : 0
+              value = (
+                <Box sx={{ minWidth: 80 }}>
+                  <Box component="span">{team.name}</Box>
+                  <LinearProgress
+                    variant="determinate"
+                    value={percent}
+                    sx={{
+                      'height': 6,
+                      'borderRadius': 3,
+                      'background': alpha(theme.palette.primary.main, 0.25),
+                      '& .MuiLinearProgress-bar': {
+                        backgroundColor: theme.palette.secondary.main,
+                        borderRadius: 3,
+                      },
+                      'filter': 'drop-shadow(0 0 4px rgba(0, 0, 0, 0.3))',
+                    }}
+                  />
+                </Box>
+              )
+              break
+            }
             case 'elevation':
               value = `${currentElevation} / ${totalElevation}`
               break

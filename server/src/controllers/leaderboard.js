@@ -4,10 +4,20 @@ import Passing from '../models/passing.js'
 import Lap from '../models/lap.js'
 import Team from '../models/team.js'
 import Event from '../models/event.js'
+import Image from '../models/image.js'
+import { createLapAndEmitStats } from '../services/lapService.js'
 
-async function processNewPassings(newPassings) {
+async function processNewPassings(newPassings, io) {
   const START_LOOP_ID = 1
   const LAP_POINT_LOOP_ID = 2
+
+  if (!newPassings || newPassings.length === 0) return
+
+  // Sort passings by FileNo, then PassingNo (as Race Result API delivers)
+  newPassings.sort((a, b) => {
+    if (a.FileNo !== b.FileNo) return a.FileNo - b.FileNo
+    return a.PassingNo - b.PassingNo
+  })
 
   console.log(`[Processing] Processing ${newPassings.length} new passings...`)
 
@@ -27,6 +37,7 @@ async function processNewPassings(newPassings) {
         Code: bib,
         LoopID: passingData.LoopID,
         PassingNo: passingData.PassingNo,
+        FileNo: passingData.FileNo,
       })
       if (existingPassing) {
         continue
@@ -39,6 +50,7 @@ async function processNewPassings(newPassings) {
 
       if (parseInt(savedPassing.LoopID) === LAP_POINT_LOOP_ID) {
         const lapJustCompleted = parseInt(savedPassing.PassingNo, 10)
+        const fileNo = parseInt(savedPassing.FileNo, 10)
 
         const existingLap = await Lap.findOne({
           team: teamId,
@@ -50,10 +62,12 @@ async function processNewPassings(newPassings) {
 
         let lapStartTime
         if (lapJustCompleted === 1) {
+          // Find the first start passing in this file or previous files
           const startPassing = await Passing.findOne({
             team: teamId,
             LoopID: START_LOOP_ID,
-          })
+            FileNo: { $lte: fileNo },
+          }).sort({ FileNo: -1, PassingNo: -1 })
           if (!startPassing) {
             console.warn(
               `[Processing] Bib ${bib}: Start passing not found for lap 1, skipping.`,
@@ -63,11 +77,13 @@ async function processNewPassings(newPassings) {
           lapStartTime = startPassing.RealTime
         }
         else {
+          // Find the previous lap passing in this file or previous files
           const previousLapPassing = await Passing.findOne({
             team: teamId,
             LoopID: LAP_POINT_LOOP_ID,
+            FileNo: { $lte: fileNo },
             PassingNo: lapJustCompleted - 1,
-          })
+          }).sort({ FileNo: -1, PassingNo: -1 })
           if (!previousLapPassing) {
             console.warn(
               `[Processing] Bib ${bib}: Previous lap passing not found for lap ${lapJustCompleted}, skipping.`,
@@ -78,7 +94,8 @@ async function processNewPassings(newPassings) {
         }
 
         const lapEndTime = savedPassing.RealTime
-        const lapDurationMs = lapEndTime.getTime() - lapStartTime.getTime()
+        const lapDurationMs
+          = new Date(lapEndTime).getTime() - new Date(lapStartTime).getTime()
 
         if (lapDurationMs < 0) {
           console.error(
@@ -95,14 +112,18 @@ async function processNewPassings(newPassings) {
           continue
         }
 
-        await Lap.create({
-          team: teamId,
-          rfidTag: team.rfidTag,
-          startDateTime: lapStartTime,
-          endDateTime: lapEndTime,
-          lapDuration: lapDurationMs,
-          lapNumber: lapJustCompleted,
-        })
+        await createLapAndEmitStats(
+          {
+            teamId,
+            participantId: null, // or actual participant if available
+            rfidTagId: team.rfidTag,
+            startDateTime: lapStartTime,
+            endDateTime: lapEndTime,
+            lapDuration: lapDurationMs,
+            lapNumber: lapJustCompleted,
+          },
+          io,
+        )
 
         console.log(
           `✅ [Lap Recorded] Team ${team.name} (Bib: ${bib}) completed Lap ${lapJustCompleted} in ${(lapDurationMs / 1000).toFixed(1)}s`,
@@ -131,14 +152,10 @@ async function generateLeaderboard(eventId) {
     const completedLaps = (team.laps || []).filter(lap => lap.endDateTime)
     const lapsCompleted = completedLaps.length || 0
     const lapsToGo = Math.max((team.lapsRequired || 0) - lapsCompleted, 0)
-
     const totalElevation = team.mountain?.totalElevation || 0
     const elevationGainPerLap = team.hill?.lapElevationGain || 0
 
     const currentElevation = lapsCompleted * elevationGainPerLap || 0
-    const progressPercentage = team.mountain
-      ? (currentElevation / team.mountain.totalElevation) * 100
-      : 0
 
     let lastUpdateTime = team.startDateTime
     let bestLapTime = 0
@@ -159,6 +176,9 @@ async function generateLeaderboard(eventId) {
       lastUpdateTime = sortedLaps[sortedLaps.length - 1].endDateTime
     }
 
+    const progressPercentage = lapsCompleted && team.lapsRequired
+      ? (lapsCompleted / team.lapsRequired) * 100
+      : 0
     let status = 'Not Started'
     if (lapsCompleted > 0) status = 'Running'
     if (progressPercentage >= 100) status = 'Finished'
@@ -210,6 +230,7 @@ async function generateLeaderboard(eventId) {
       bestLap: bestLapTime,
       averageLapTime,
       timeElapsed,
+      progressPercentage,
 
       // Participants with fullName
       participants: team.participants.map(p => ({
@@ -274,10 +295,12 @@ export const getTeamProgress = async (request, response) => {
     const totalElevation = team.mountain?.totalElevation || 0
     const elevationGainPerLap = team.hill?.lapElevationGain || 0
     const currentElevation = lapsCompleted * elevationGainPerLap
-    const progressPercentage = team.mountain
+    const elevationPercentage = team.mountain
       ? (currentElevation / team.mountain.totalElevation) * 100
       : 0
-
+    const progressPercentage = team.laps
+      ? (lapsCompleted / team.lapsRequired) * 100
+      : 0
     let lastUpdateTime = team.startDateTime
     let bestLapTime = 0
     let averageLapTime = 0
@@ -347,6 +370,7 @@ export const getTeamProgress = async (request, response) => {
       lapsToGo: Math.max((team.lapsRequired || 0) - lapsCompleted, 0),
 
       progressPercentage: Math.min(progressPercentage, 100),
+      elevationPercentage: Math.min(elevationPercentage, 100),
       lastUpdateTime,
       status,
 
@@ -387,4 +411,93 @@ export const getLeaderboardEvents = async (request, response) => {
     })
 
   response.json(events)
+}
+
+export const getLeaderboardImages = async (req, res) => {
+  try {
+    const eventId = req.params.eventId
+    if (!eventId) {
+      return res.status(400).json({ error: 'Event ID is required' })
+    }
+
+    const event = await Event.findById(eventId)
+    if (!event) {
+      return res.status(404).json({ error: 'Event not found' })
+    }
+
+    const images = await Image.find({ event: eventId })
+
+    const sponsors = images.filter(img => img.type === 'sponsor')
+    const charities = images.filter(img => img.type === 'charity')
+
+    return res.json({
+      eventId,
+      sponsors,
+      charities,
+    })
+  }
+  catch (error) {
+    console.error('Error fetching sponsors:', error)
+    return res.status(500).json({ error: 'Failed to fetch images' })
+  }
+}
+
+export const runSimulation = async (req, res) => {
+  try {
+    const { eventId } = req.params
+    const io = req.app.get('io')
+    console.log('🚀 ~ runSimulation ~ eventId:', eventId)
+    if (!eventId) {
+      return res.status(400).json({ error: 'Missing eventId' })
+    }
+    const teams = await Team.find({ event: eventId }).populate('rfidTag')
+    if (!teams.length) {
+      return res.status(404).json({ error: 'No teams found for event' })
+    }
+    // Reset all laps for these teams before simulating
+    const teamIds = teams.map(t => t._id)
+    await Lap.deleteMany({ team: { $in: teamIds } })
+    const passings = []
+    const now = Date.now()
+    const LAP_INTERVAL_MS = 1000 * 60 * 10
+    for (const team of teams) {
+      if (!team.rfidTag || !team.rfidTag.serialNumber) continue
+      const bib = team.rfidTag.serialNumber
+      const numLaps = team.lapsRequired || 1
+      let cumulativeTime = 0
+      // Start passing
+      passings.push({
+        Code: bib,
+        LoopID: 1,
+        RealTime: new Date(now).toISOString(),
+        PassingNo: 1,
+        RunTime: 0,
+        FileNo: 1,
+      })
+      for (let lapNum = 1; lapNum <= numLaps; lapNum++) {
+        // Random variation: ±2 minutes
+        const variation = (Math.random() - 0.5) * 2 * 60 * 1000 // ±2 min
+        const lapTime = LAP_INTERVAL_MS + variation
+        cumulativeTime += lapTime
+        passings.push({
+          Code: bib,
+          LoopID: 2,
+          RealTime: new Date(now + cumulativeTime).toISOString(),
+          PassingNo: lapNum,
+          RunTime: cumulativeTime,
+          FileNo: 1,
+        })
+      }
+    }
+    await processNewPassings(passings, io)
+    return res.json({
+      message: `Simulated laps created for event ${eventId}`,
+      teams: teams.length,
+      lapsPerTeam: teams.map(t => t.lapsRequired || 1),
+    })
+  }
+  catch (err) {
+    console.error('[Simulation Error]', err)
+    return res.status(500).json({ error: err.message })
+  }
 }

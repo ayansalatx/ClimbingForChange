@@ -82,7 +82,7 @@ const AddTeamModal = ({ open, onClose, onAdd, onEdit, teamToEdit, rfidTagList })
       mountain: selectedMountain,
       hill: selectedHill,
       event: selectedEvent,
-      rfidTag: selectedRfidTag?.id || '',
+      rfidTag: selectedRfidTag || '',
       // temp data
       isSoloTeam: false,
       lapsRequired: 1,
