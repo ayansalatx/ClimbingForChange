@@ -9,17 +9,18 @@ const ImageCarousel = ({ title, images = [] }) => {
         backgroundColor: alpha(theme.palette.background.paper, 0.5),
         ml: title === 'Sponsors' ? 1 : 0,
         mr: title === 'Charities' ? 1 : 0,
+        px: .45
       }}
     >
-      {/* <Box sx={{ px: 1, backgroundColor: 'primary.main', position: 'sticky', zIndex: 1 }}>
+      {/* <Box sx={{ px: 1, backgroundColor: "background.paper", position: 'sticky', zIndex: 1 }}>
         <Typography
-          variant="h6"
-          color="secondary.main"
+          variant="body2"
+          color="primary.main"
           fontWeight="bold"
           textTransform="uppercase"
           fontStyle="italic"
           letterSpacing={'0.05rem'}
-         
+         sx={{fontSize: '.7rem'}}
         >
           {title}
         </Typography>
@@ -30,7 +31,7 @@ const ImageCarousel = ({ title, images = [] }) => {
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
-          gap: 1,
+          gap: .45,
         }}
       >
         {[...images, ...images, ...images, ...images].map((img, i) => (
@@ -40,6 +41,7 @@ const ImageCarousel = ({ title, images = [] }) => {
             src={img.url}
             alt={img.logoName}
             sx={{
+              backgroundColor: 'background.paper',
               width: '100%',
               height: 'auto',
               objectFit: 'cover',
