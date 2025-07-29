@@ -96,5 +96,14 @@ button:focus-visible {
 }
 
 .marquee__content {
-  animation: scroll-vertical var(--scroll-duration) linear infinite;
+  animation: var(--scroll-direction) var(--scroll-duration) linear infinite;
+}
+
+@keyframes scroll-horizontal {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }

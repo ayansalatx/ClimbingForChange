@@ -5,11 +5,13 @@ const ImageCarousel = ({ title, images = [] }) => {
   return (
     <Box
       sx={{
-        width: '5%',
+        width: '100%',
+        height: '8vh',
+        overflowX: 'hidden',
         backgroundColor: alpha(theme.palette.background.paper, 0.5),
-        ml: title === 'Sponsors' ? 1 : 0,
-        mr: title === 'Charities' ? 1 : 0,
-        px: .45
+        mt: title === 'Sponsors' ? 1 : 0,
+        mb: title === 'Charities' ? 1 : 0,
+        px: 0.45,
       }}
     >
       {/* <Box sx={{ px: 1, backgroundColor: "background.paper", position: 'sticky', zIndex: 1 }}>
@@ -27,14 +29,17 @@ const ImageCarousel = ({ title, images = [] }) => {
       </Box> */}
       <Box className="marquee__content"
         sx={{
-           '--scroll-duration': `${(images.length * 3 )}s`,
-          overflow: 'hidden',
+          '--scroll-duration': `${images.length * 3}s`,
+          '--scroll-direction': 'scroll-horizontal',
+          height: '100%',
+          objectFit: 'contain',
+          flexShrink: 0,
           display: 'flex',
-          flexDirection: 'column',
-          gap: .45,
+          flexDirection: 'row',
+          gap: 0.45,
         }}
       >
-        {[...images, ...images, ...images, ...images].map((img, i) => (
+        {[...images, ...images, ...images, ...images, ...images, ...images].map((img, i) => (
           <Box
             key={i}
             component="img"
@@ -42,9 +47,7 @@ const ImageCarousel = ({ title, images = [] }) => {
             alt={img.logoName}
             sx={{
               backgroundColor: 'background.paper',
-              width: '100%',
-              height: 'auto',
-              objectFit: 'cover',
+              objectFit: 'contain',
             }}
           />
         ))}

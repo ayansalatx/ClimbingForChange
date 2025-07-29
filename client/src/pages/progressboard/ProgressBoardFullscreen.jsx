@@ -246,39 +246,27 @@ const ProgressBoardFullscreen = () => {
             width: '100%',
             height: '100%',
             display: 'flex',
-            flexDirection: 'row',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
           }}
         >
           {loading ? (
             <Box
               sx={{
-                width: '8%',
+                width: '100%',
+                height: '5vh',
                 backgroundColor: alpha(theme.palette.background.paper, 0.5),
-                ml: 1,
+                mt: 1,
               }}
             >
               <Box
                 sx={{
-                  px: 1,
-                  backgroundColor: 'primary.main',
-                  position: 'sticky',
-                  zIndex: 1,
-                  flexShrink: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '100%',
                 }}
               >
-                <Typography
-                  variant="h6"
-                  color="secondary.main"
-                  fontWeight="bold"
-                  textTransform="uppercase"
-                  fontStyle="italic"
-                  letterSpacing={'0.05rem'}
-                  sx={{ fontSize: '1rem' }}
-                >
-                  Sponsors
-                </Typography>
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%',}}>
                 <CircularProgress />
               </Box>
             </Box>
@@ -289,11 +277,10 @@ const ProgressBoardFullscreen = () => {
           <Box
             sx={{
               width: '100%',
-              height: '100%',
+              height: '80vh',
               display: 'flex',
               flexDirection: 'column',
-              px: 1,
-              pb: 1,
+              py: 1,
             }}
           >
             <Box
@@ -301,7 +288,6 @@ const ProgressBoardFullscreen = () => {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'flex-end',
-                my: { xxs: 1, xs: 1, sm: 1.5, md: 1.5, lg: 1.5, xl: 1.5 },
               }}
             >
               <Box
@@ -319,6 +305,7 @@ const ProgressBoardFullscreen = () => {
                     xl: '4.5rem',
                   },
                   ml: { xxs: 0.25, xs: 0.25, sm: 0.5, lg: 1 },
+                  mb: { xxs: 0.25, xs: 0.25, sm: 0.5, lg: 1 },
                 }}
               />
             </Box>
@@ -341,33 +328,20 @@ const ProgressBoardFullscreen = () => {
           {loading ? (
             <Box
               sx={{
-                width: '8%',
+                width: '100%',
+                height: '5vh',
                 backgroundColor: alpha(theme.palette.background.paper, 0.5),
-                ml: 2,
+                mt: 1,
               }}
             >
               <Box
                 sx={{
-                  px: 1,
-                  backgroundColor: 'primary.main',
-                  position: 'sticky',
-                  zIndex: 1,
-                  flexShrink: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '100%',
                 }}
               >
-                <Typography
-                  variant="h6"
-                  color="secondary.main"
-                  fontWeight="bold"
-                  textTransform="uppercase"
-                  fontStyle="italic"
-                  letterSpacing={'0.05rem'}
-                  sx={{ fontSize: '1rem' }}
-                >
-                  Charities
-                </Typography>
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%',}}>
                 <CircularProgress />
               </Box>
             </Box>

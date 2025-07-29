@@ -16,7 +16,7 @@ const ScrollingTableRow = ({ teams, columns, shouldScroll }) => {
   return (
     <TableBody
       className="marquee__content"
-      sx={{ '--scroll-duration': `${shouldScroll ? teams.length * 0.8 : 0}s` }}
+      sx={{ '--scroll-duration': `${shouldScroll ? teams.length * 0.8 : 0}s`, '--scroll-direction': 'scroll-vertical' }}
     >
       {teams.map((team, index) => (
         <Fragment key={index}>
