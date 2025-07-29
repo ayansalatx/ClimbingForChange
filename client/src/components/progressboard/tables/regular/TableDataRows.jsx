@@ -15,10 +15,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import theme from '../../../../styles/theme'
-import {
-  formatDurationTimeHours,
-  formatDurationTimeMinutes,
-} from '../../../../utils/formatDurationTime'
 
 const CollapsibleRow = ({ team, index, columns, participants }) => {
   const navigate = useNavigate()
@@ -44,11 +40,11 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
         role="checkbox"
         tabIndex={-1}
         sx={{
-          cursor: 'pointer',
-          height: { sm: '2.95rem', md: '3.15rem', lg: '3.25rem', xl: '3.5rem' },
-          p: 0,
-          border: 'none',
-          backgroundColor: open
+          'cursor': 'pointer',
+          'height': { sm: '2.95rem', md: '3.15rem', lg: '3.25rem', xl: '3.5rem' },
+          'p': 0,
+          'border': 'none',
+          'backgroundColor': open
             ? alpha(theme.palette.secondary.light, 0.5)
             : isEven
               ? alpha(theme.palette.background.paper, 0.3)
@@ -71,8 +67,8 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
           <IconButton
             disableRipple
             sx={{
-              padding: 0,
-              color: 'primary.main',
+              'padding': 0,
+              'color': 'primary.main',
               '&:focus': {
                 outline: 'none',
               },
@@ -144,8 +140,8 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
           let value
           switch (column.id) {
             case 'name': {
-              const percent =
-                team.progressPercentage !== undefined ? team.progressPercentage : 0
+              const percent
+                = team.progressPercentage !== undefined ? team.progressPercentage : 0
               value = (
                 <Box sx={{ minWidth: 80 }}>
                   <Box component="span">{team.name}</Box>
@@ -153,14 +149,14 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
                     variant="determinate"
                     value={percent}
                     sx={{
-                      height: 6,
-                      borderRadius: 3,
-                      background: alpha(theme.palette.primary.main, 0.25),
+                      'height': 6,
+                      'borderRadius': 3,
+                      'background': alpha(theme.palette.primary.main, 0.25),
                       '& .MuiLinearProgress-bar': {
                         backgroundColor: theme.palette.secondary.main,
                         borderRadius: 3,
                       },
-                      filter: 'drop-shadow(0 0 4px rgba(0, 0, 0, 0.3))',
+                      'filter': 'drop-shadow(0 0 4px rgba(0, 0, 0, 0.3))',
                     }}
                   />
                 </Box>
@@ -234,9 +230,9 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
                           size="small"
                           disableRipple
                           sx={{
-                            visibility: 'hidden',
-                            padding: 0,
-                            color: 'primary.main',
+                            'visibility': 'hidden',
+                            'padding': 0,
+                            'color': 'primary.main',
                             '&:focus': {
                               outline: 'none',
                             },
@@ -276,7 +272,9 @@ const CollapsibleRow = ({ team, index, columns, participants }) => {
                           color: 'primary.light',
                         }}
                       >
-                        {participant.firstName} {participant.lastName}
+                        {participant.firstName}
+                        {' '}
+                        {participant.lastName}
                       </TableCell>
                     </TableRow>
                   ))}

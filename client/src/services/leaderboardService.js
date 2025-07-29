@@ -199,5 +199,4 @@ export const runSimulatedPassings = async (eventId) => {
   const res = await api.get(`/leaderboard/simulate/${eventId}`)
   const passings = res.data
   return passings
-
 }

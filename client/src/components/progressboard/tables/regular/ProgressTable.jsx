@@ -34,6 +34,7 @@ const ProgressTable = ({
   searchString,
   setSearchString,
   teamsLength,
+  isLocal,
   loading,
 }) => {
   // Get media queries to render appropriate content
@@ -210,7 +211,17 @@ const ProgressTable = ({
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <FullscreenToggleButton eventId={selectedEvent} />
-          <Button variant="contained" color="primary" onClick={handleSimulatePassings} disabled={!selectedEvent}>Simulate Passings</Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSimulatePassings}
+            disabled={!selectedEvent}
+            sx={{
+              visibility: isLocal ? 'visible' : 'hidden',
+            }}
+          >
+            Simulate Passings
+          </Button>
         </Box>
 
         {/* Only show pagination controls on non-small screens */}

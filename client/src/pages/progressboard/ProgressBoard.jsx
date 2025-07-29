@@ -10,8 +10,8 @@ import ProgressTable from '../../components/progressboard/tables/regular/Progres
 import { getActiveUpcomingEvents,
   getLeaderboard, getPastEvents } from '../../services/leaderboardService'
 import theme from '../../styles/theme'
-import { formatNumber } from '../../utils/formatNumber'
 import { formatDurationTimeHours, formatDurationTimeMinutes } from '../../utils/formatDurationTime'
+import { formatNumber } from '../../utils/formatNumber'
 
 // Define columns for full width screen
 const lgColumns = [
@@ -85,6 +85,8 @@ const ProgressBoard = () => {
   const [searchString, setSearchString] = useState('')
   // State for teams filtered by the search input
   const [filteredTeams, setFilteredTeams] = useState([])
+
+  const isLocal = window.location.hostname === 'localhost' ? true : false
 
   const showWarning = () => {
     setWarningOpen(true)
@@ -178,7 +180,7 @@ const ProgressBoard = () => {
               lapsCompleted: formatNumber(stats.lapsCompleted),
               currentElevation: formatNumber(stats.currentElevation),
               timeElapsed: formatDurationTimeHours(stats.timeElapsed),
-              bestLap: formatDurationTimeMinutes(stats.bestLap)
+              bestLap: formatDurationTimeMinutes(stats.bestLap),
             }
             : team
         )
@@ -372,6 +374,7 @@ const ProgressBoard = () => {
                   searchString={searchString}
                   setSearchString={setSearchString}
                   teamsLength={teamsLength}
+                  isLocal={isLocal}
                   loading={loading}
                 />
               </Box>

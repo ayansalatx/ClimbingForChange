@@ -1,7 +1,6 @@
 import express from 'express'
 import { getLeaderboard, getTeamProgress, getLeaderboardEvents, getLeaderboardImages, runSimulation } from '../controllers/leaderboard.js'
 
-
 const router = express.Router()
 
 router.get('/', getLeaderboard)
