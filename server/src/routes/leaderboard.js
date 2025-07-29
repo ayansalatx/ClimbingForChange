@@ -11,5 +11,4 @@ router.get('/events', getLeaderboardEvents)
 
 router.get('/images/:eventId', getLeaderboardImages)
 
-
 export default router

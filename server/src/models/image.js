@@ -27,7 +27,7 @@ const imageSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 )
 
 imageSchema.virtual('eventName', {
