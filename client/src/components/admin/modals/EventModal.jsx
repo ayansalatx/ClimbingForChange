@@ -155,6 +155,15 @@ const AddEventModal = ({
     }
   }, [eventToEdit, mountains, hills])
 
+  const handleDateChange = (e) => {
+    const value = e.target.value
+    //  date 4 digits
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/
+    if (value === '' || dateRegex.test(value)) {
+      setStartDate(value)
+    }
+  }
+
   const handleAdd = async (e) => {
     e.preventDefault()
 
@@ -321,8 +330,13 @@ const AddEventModal = ({
             variant="outlined"
             margin="normal"
             value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
+            onChange={handleDateChange}
             InputLabelProps={{ shrink: true }}
+            inputProps={{
+              min: '1900-01-01',
+              max: '2099-12-31',
+              pattern: '\\d{4}-\\d{2}-\\d{2}',
+            }}
             required
           />
 
