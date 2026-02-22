@@ -1,0 +1,57 @@
+# ClimbingForChange
+
+## Overview
+ClimbingForChange is a full-stack web application designed to manage and track event-based activities, including participants, teams, and progress tracking.
+
+The system provides both an **admin dashboard** for managing data and a **progress board** for real-time visualization of event performance.
+
+---
+
+## Key Features
+- Admin dashboard for managing events, teams, and participants
+- Real-time progress tracking and leaderboard display
+- RFID-based participant tracking system (simulated)
+- Interactive UI for monitoring event performance
+- Data-driven insights through tables and progress views
+
+---
+
+## Tech Stack
+**Frontend:**
+- React (Vite)
+- JavaScript
+- CSS
+
+**Backend:**
+- Node.js
+- Express
+
+**Database:**
+- SQL
+
+---
+
+## Architecture
+The application follows a full-stack architecture:
+
+- **Frontend (React):** Handles UI and user interactions
+- **Backend (Node.js / Express):** Manages API logic and data processing
+- **Database (SQL):** Stores event, team, and participant data
+
+All components communicate through REST APIs.
+
+---
+
+## Getting Started
+
+### Prerequisites
+- Node.js
+- npm
+
+---
+
+### Installation
+
+Clone the repository:
+```bash
+git clone https://github.com/your-username/ClimbingForChange.git
