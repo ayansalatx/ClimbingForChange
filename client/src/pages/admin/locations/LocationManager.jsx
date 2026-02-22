@@ -1,6 +1,7 @@
 import PlaceIcon from '@mui/icons-material/Place'
 import { Box } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
 import LocationModal from '../../../components/admin/modals/LocationModal.jsx'
@@ -29,34 +30,70 @@ const LocationManager = () => {
   const [popupOpen, setPopupOpen] = useState(false)
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
   const [deletedLocation, setDeleteLocation] = useState(null)
+  const [highlightedLocationId, setHighlightedLocationId] = useState(null)
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(10)
 
+  const [searchParams] = useSearchParams()
   const displayAlert = useAlert()
 
+  const loadData = useCallback(async () => {
+    try {
+      const locationsList = await getAllLocations()
+
+      const locationsWithHighlight = locationsList.map((location) => ({
+        ...location,
+        isHighlighted: location.id === highlightedLocationId,
+      }))
+      displayAlert(
+        'Fresh backend data',
+        `Loaded ${locationsList.length} locations from the backend.`,
+        'success'
+      )
+      setLocations(locationsWithHighlight)
+    }
+    catch (error) {
+      displayAlert(
+        'Error',
+        `Failed to Load Locations: ${error.message}`,
+        'error'
+      )
+    }
+    finally {
+      setLoading(false)
+    }
+  }, [displayAlert, highlightedLocationId])
+
   useEffect(() => {
-    async function loadData() {
-      try {
-        const locationsList = await getAllLocations()
-        displayAlert(
-          'Fresh backend data',
-          `Loaded ${locationsList.length} locations from the backend.`,
-          'success'
-        )
-        setLocations(locationsList)
-      }
-      catch (error) {
-        displayAlert(
-          'Error',
-          `Failed to Load Locations: ${error.message}`,
-          'error'
-        )
-      }
-      finally {
-        setLoading(false)
+    loadData()
+  }, [loadData])
+
+  // Handle pagination for highlighted locations
+  useEffect(() => {
+    if (highlightedLocationId && locations.length > 0) {
+      const highlightedIndex = locations.findIndex((location) => location.id === highlightedLocationId)
+      if (highlightedIndex !== -1) {
+        const correctPage = Math.floor(highlightedIndex / rowsPerPage)
+        setPage(correctPage)
       }
     }
+  }, [highlightedLocationId, locations, rowsPerPage])
 
-    loadData()
-  }, [displayAlert])
+  useEffect(() => {
+    // Check URL parameters for location highlighting
+    const locationParam = searchParams.get('location')
+    if (locationParam) {
+      setHighlightedLocationId(locationParam)
+      // Show a brief alert to indicate which location was clicked
+      setTimeout(() => {
+        displayAlert('Location Selected', 'Showing the selected location from hills view.', 'info')
+      }, 500)
+      // Clear highlight after 5 seconds
+      setTimeout(() => {
+        setHighlightedLocationId(null)
+      }, 5000)
+    }
+  }, [displayAlert, searchParams])
 
   const onAdd = () => {
     setCurrentLocation(null)
@@ -174,6 +211,10 @@ const LocationManager = () => {
         onEditClick={onEdit}
         onDeleteClick={onDelete}
         loading={loading}
+        externalPage={page}
+        externalSetPage={setPage}
+        externalRowsPerPage={rowsPerPage}
+        externalSetRowsPerPage={setRowsPerPage}
       />
 
       <LocationModal

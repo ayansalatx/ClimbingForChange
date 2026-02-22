@@ -1,6 +1,7 @@
 import HikingIcon from '@mui/icons-material/Hiking'
 import { Box } from '@mui/material'
 import { useEffect, useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
 import HillModal from '../../../components/admin/modals/HillModal.jsx'
@@ -41,6 +42,10 @@ const HillManager = () => {
   const [deletedHill, setDeletedHill] = useState(null)
   const [loading, setLoading] = useState(false)
   const [locations, setLocations] = useState([])
+  const [highlightedHillId, setHighlightedHillId] = useState(null)
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [searchParams] = useSearchParams()
 
   const displayAlert = useAlert()
 
@@ -52,6 +57,23 @@ const HillManager = () => {
         setHills(hillList)
         const locationList = await getAllLocations()
         setLocations(locationList)
+
+        // Check for hill parameter in URL for highlighting
+        const hillParam = searchParams.get('hill')
+        if (hillParam) {
+          const hillExists = hillList.find((hill) => hill.id === hillParam)
+          if (hillExists) {
+            setHighlightedHillId(hillParam)
+            // Show alert and clear highlight after 5 seconds
+            setTimeout(() => {
+              displayAlert('Hill Located', `Showing hill "${hillExists.name}" from teams view.`, 'info')
+            }, 500)
+            setTimeout(() => {
+              setHighlightedHillId(null)
+            }, 5000)
+          }
+        }
+
         displayAlert(
           'Hills Loaded',
           `Loaded ${hillList.length} hills from the backend.`,
@@ -66,7 +88,7 @@ const HillManager = () => {
       }
     }
     loadData()
-  }, [displayAlert])
+  }, [displayAlert, searchParams])
 
   const hillData = useMemo(() => {
     return hills.map((hill) => {
@@ -76,9 +98,21 @@ const HillManager = () => {
         ...hill,
         locationName: locationObj?.name || '',
         active: true,
+        isHighlighted: hill.id === highlightedHillId,
       }
     })
-  }, [hills, locations])
+  }, [hills, locations, highlightedHillId])
+
+  // Handle pagination for highlighted hills
+  useEffect(() => {
+    if (highlightedHillId && hillData.length > 0) {
+      const highlightedIndex = hillData.findIndex((hill) => hill.id === highlightedHillId)
+      if (highlightedIndex !== -1) {
+        const correctPage = Math.floor(highlightedIndex / rowsPerPage)
+        setPage(correctPage)
+      }
+    }
+  }, [highlightedHillId, hillData, rowsPerPage])
 
   const onAdd = () => {
     if (loading) return
@@ -183,6 +217,10 @@ const HillManager = () => {
         onAddClick={onAdd}
         onEditClick={onEdit}
         onDeleteClick={onDelete}
+        externalPage={page}
+        externalSetPage={setPage}
+        externalRowsPerPage={rowsPerPage}
+        externalSetRowsPerPage={setRowsPerPage}
       />
 
       <HillModal

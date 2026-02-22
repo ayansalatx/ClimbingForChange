@@ -1,14 +1,15 @@
 import { People } from '@mui/icons-material'
 import { Box } from '@mui/material'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog.jsx'
-import AddTeamModal from '../../../components/admin/modals/TeamModal.jsx'
+import TeamModal from '../../../components/admin/modals/TeamModal.jsx'
 import DataTable from '../../../components/admin/tables/DataTable.jsx'
 import { useAlert } from '../../../hooks/useAlert.js'
 import { getAllEvents } from '../../../services/eventService.js'
 import { getRfidTags } from '../../../services/rfidService.js'
-import { addTeam, deleteTeam, editTeam, getAllTeams } from '../../../services/teamService.js'
+import { addTeam, deleteTeam, editTeam, getTeamsByEvent } from '../../../services/teamService.js'
 
 const fullColumns = [
   { id: 'name', label: 'Team Name', width: '40%', align: 'left' },
@@ -26,32 +27,13 @@ const TeamsManager = () => {
   const [events, setEvents] = useState([])
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [rfidTags, setrfidTags] = useState([])
+  const [highlightedTeamId, setHighlightedTeamId] = useState(null)
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(10)
+
+  const [searchParams] = useSearchParams()
 
   const displayAlert = useAlert()
-
-  const teamsDataForDisplay = useMemo(() => {
-    return teams.map((team) => ({
-      id: team.id,
-      name: team.name,
-      mountain: team.mountain,
-      mountainId: team.mountainId,
-      hill: team.hill,
-      hillId: team.hillId,
-      eventId: team.event,
-      rfidTag: team.rfidTag,
-      active: true,
-    }))
-  }, [teams])
-
-  const getRfidTagList = async () => {
-    const result = await getRfidTags()
-    const formatted = result.map((tag) => ({
-      id: tag.id,
-      label: tag.serialNumber,
-    }))
-    setrfidTags(formatted)
-    return formatted
-  }
 
   const getTeamFromId = (id) => {
     return teams.find((team) => team.id === id)
@@ -65,14 +47,16 @@ const TeamsManager = () => {
   const handleOpenPopup = () => setOpenPopup(true)
   const handleClosePopup = () => setOpenPopup(false)
 
-  const fetchTeams = useCallback(async (formattedEvents, rfidList) => {
+  const fetchRfids = async () => {
+    const rfidtags = await getRfidTags()
+    return rfidtags
+  }
+
+  const fetchTeams = useCallback(async () => {
     try {
-      const teams = await getAllTeams()
-      const usedRfidIds = teams
-        .map((team) => team.rfidTag?._id || team.rfidTag?.id || team.rfidTag)
-        .filter(Boolean)
-      const availableRfidTags = rfidList.filter((tag) => !usedRfidIds.includes(tag.id))
-      setrfidTags(availableRfidTags)
+      if (!selectedEvent) return
+
+      const teams = await getTeamsByEvent(selectedEvent)
 
       const formattedTeams = teams.map((team) => {
         return {
@@ -82,52 +66,80 @@ const TeamsManager = () => {
           mountain: team.mountain.name,
           hillId: team.hill?.id,
           hill: team.hill?.name,
-          event: team.event,
-          eventName: getEventName(formattedEvents, team.event),
+          eventId: team.event,
+          eventName: getEventName(events, team.event),
           rfidTag: (() => {
             const tagId = team.rfidTag?._id || team.rfidTag?.id || team.rfidTag
-            const match = rfidList.find((tag) => tag.id === tagId)
-            return match?.label || ''
+            const match = rfidTags.find((tag) => tag.id === tagId)
+            return match?.serialNumber || ''
           })(),
+          active: true,
+          isHighlighted: team.id === highlightedTeamId,
         }
       })
-
       setTeams(formattedTeams)
-      displayAlert('Loaded', `Loaded ${teams.length} teams from the backend.`, 'success')
     }
     catch (error) {
       displayAlert('Teams Error', `${error.message}`, 'error')
     }
-  }, [displayAlert])
-
-  const fetchEvents = useCallback(async () => {
-    try {
-      const result = await getAllEvents()
-      const formattedEvents = result.map((event) => ({
-        id: event.id,
-        name: event.name || '',
-      }))
-      setEvents(formattedEvents)
-
-      const rfidList = await getRfidTagList()
-      await fetchTeams(formattedEvents, rfidList)
-    }
-    catch (error) {
-      displayAlert('Events Error', `${error.message}`, 'error')
-    }
-  }, [displayAlert, fetchTeams])
+  }, [displayAlert, selectedEvent, events, rfidTags, highlightedTeamId])
 
   useEffect(() => {
+    fetchTeams()
+  }, [fetchTeams])
+
+  useEffect(() => {
+    if (highlightedTeamId && teams.length > 0) {
+      const highlightedIndex = teams.findIndex((team) => team.id === highlightedTeamId)
+      if (highlightedIndex !== -1) {
+        const correctPage = Math.floor(highlightedIndex / rowsPerPage)
+        setPage(correctPage)
+      }
+    }
+  }, [highlightedTeamId, teams, rowsPerPage])
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const events = await getAllEvents()
+        setEvents(events)
+
+        const rfidList = await fetchRfids()
+        setrfidTags(rfidList)
+
+        // Check URL parameters and set selected event if provided
+        const eventParam = searchParams.get('event')
+        const teamParam = searchParams.get('team')
+        if (eventParam && events.length > 0) {
+          const eventExists = events.find((event) => event.id === eventParam)
+          if (eventExists) {
+            setSelectedEvent(eventParam)
+          }
+        }
+        if (teamParam) {
+          setHighlightedTeamId(teamParam)
+          // Show a brief alert to indicate which team was clicked
+          setTimeout(() => {
+            displayAlert('Team Selected', 'Showing teams for the selected event from RFID batch view.', 'info')
+          }, 500)
+          setTimeout(() => {
+            setHighlightedTeamId(null)
+          }, 5000)
+        }
+      }
+      catch (error) {
+        displayAlert('Events Error', `${error.message}`, 'error')
+      }
+    }
     fetchEvents()
-  }, [fetchEvents])
+  }, [displayAlert, searchParams])
 
   const handleAddTeam = async (teamData) => {
     try {
       const response = await addTeam(teamData)
       if (response.status === 201 || response.status === 200) {
         displayAlert('Team Created', 'The team has been successfully created.', 'success')
-        const rfidList = await getRfidTagList()
-        fetchTeams(events, rfidList)
+        fetchTeams()
         handleClosePopup()
       }
       else {
@@ -144,8 +156,8 @@ const TeamsManager = () => {
       const response = await editTeam(id, teamData)
       if (response.status === 201 || response.status === 200) {
         displayAlert('Team Edited', 'The team has been successfully edited.', 'success')
-        const rfidList = await getRfidTagList()
-        fetchTeams(events, rfidList)
+        await fetchRfids()
+        fetchTeams()
         handleClosePopup()
       }
       else {
@@ -162,8 +174,8 @@ const TeamsManager = () => {
       const success = await deleteTeam(teamToDelete.id)
       if (success) {
         displayAlert('Team Deleted', 'The team has been successfully deleted.', 'success')
-        const rfidList = await getRfidTagList()
-        fetchTeams(events, rfidList)
+        await fetchRfids()
+        fetchTeams()
         setDeleteConfirmOpen(false)
       }
       else {
@@ -218,7 +230,7 @@ const TeamsManager = () => {
         tableTitle="Teams"
         tableIcon={People}
         tableColumns={fullColumns}
-        tableData={(selectedEvent === null || selectedEvent.toString() === '') ? [] : teamsDataForDisplay}
+        tableData={selectedEvent === null ? [] : teams}
         showInactive={true}
         eventsForDropdown={events}
         selectedEvent={selectedEvent}
@@ -226,9 +238,13 @@ const TeamsManager = () => {
         onAddClick={onAdd}
         onEditClick={onEdit}
         onDeleteClick={onDelete}
+        externalPage={page}
+        externalSetPage={setPage}
+        externalRowsPerPage={rowsPerPage}
+        externalSetRowsPerPage={setRowsPerPage}
       />
 
-      <AddTeamModal
+      <TeamModal
         open={openPopup}
         onClose={() => {
           handleClosePopup()
@@ -238,6 +254,8 @@ const TeamsManager = () => {
         onEdit={handleEditTeam}
         teamToEdit={teamToEdit}
         rfidTagList={rfidTags}
+        preSelectedEvent={selectedEvent}
+        eventsData={events}
       />
 
       <ConfirmDeleteDialog

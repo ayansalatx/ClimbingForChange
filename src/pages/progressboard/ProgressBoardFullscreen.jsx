@@ -1,0 +1,423 @@
+import {
+  alpha,
+  Box,
+  CircularProgress,
+  Typography,
+  useMediaQuery,
+} from '@mui/material'
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { io } from 'socket.io-client'
+
+import C4CFavicon from '../../assets/C4C-branding/Favicon.png'
+import WarningDialog from '../../components/admin/modals/WarningDialog'
+import ImageCarousel from '../../components/progressboard/cards/ImageCarousel'
+import AutoScrollTable from '../../components/progressboard/tables/auto-scroll/AutoScrollTable'
+import {
+  getCharities,
+  getLeaderboard,
+  getSponsors,
+} from '../../services/leaderboardService'
+import theme from '../../styles/theme'
+import { formatDurationTimeHours, formatDurationTimeMinutes } from '../../utils/formatDurationTime'
+import { formatNumber } from '../../utils/formatNumber'
+
+// Define columns for full width screen
+const xlColumns = [
+  { id: 'name', label: 'Team', width: '25%' },
+  { id: 'mountainName', label: 'Mountain', width: '12%' },
+  { id: 'totalElevation', label: 'Total Elevation', width: '12%' },
+  { id: 'currentElevation', label: 'Current Elevation', width: '12%' },
+  { id: 'lapsRequired', label: 'Total Laps', width: '8%' },
+  { id: 'lapsCompleted', label: 'Laps', width: '7%' },
+  { id: 'lapsToGo', label: 'Laps To Go', width: '7%' },
+  { id: 'bestLap', label: 'Best Lap', width: '7%' },
+  { id: 'timeElapsed', label: 'Time Elapsed', width: '10%' },
+]
+
+const lgColumns = [
+  { id: 'name', label: 'Team', width: '25%' },
+  { id: 'mountainName', label: 'Mountain', width: '12%' },
+  { id: 'totalElevation', label: 'Total Elev.', width: '12%' },
+  { id: 'currentElevation', label: 'Elev.', width: '9%' },
+  { id: 'lapsRequired', label: 'Total Laps', width: '9%' },
+  { id: 'lapsCompleted', label: 'Laps', width: '7%' },
+  { id: 'lapsToGo', label: 'To Go', width: '5%' },
+  { id: 'bestLap', label: 'Best Lap', width: '10%' },
+  { id: 'timeElapsed', label: 'Time', width: '10%' },
+]
+
+const mdColumns = [
+  { id: 'name', label: 'Team', width: '29%' },
+  { id: 'mountainName', label: 'Mount.', width: '12%' },
+  { id: 'elevation', label: 'Elev.', width: '18%' },
+  { id: 'laps', label: 'Laps', width: '12%' },
+  { id: 'lapsToGo', label: 'To Go', width: '7%' },
+  { id: 'bestLap', label: 'Best Lap', width: '10%' },
+  { id: 'timeElapsed', label: 'Time', width: '12%' },
+]
+
+const smColumns = [
+  { id: 'name', label: 'Team', width: '33%' },
+  { id: 'mountainName', label: 'Mount.', width: '14%' },
+  { id: 'elevation', label: 'Elevation', width: '20%' },
+  { id: 'laps', label: 'Laps', width: '13%' },
+  { id: 'lapsToGo', label: 'To Go', width: '10%' },
+  { id: 'timeElapsed', label: 'Time', width: '10%' },
+]
+
+const xsmColumns = [
+  { id: 'name', label: 'Team', width: '33%' },
+  { id: 'mountainName', label: 'Mount.', width: '14%' },
+  { id: 'elevation', label: 'Elev.', width: '20%' },
+  { id: 'laps', label: 'Laps', width: '13%' },
+  { id: 'lapsToGo', label: 'To Go', width: '10%' },
+  { id: 'timeElapsed', label: 'Time', width: '10%' },
+]
+
+const ProgressBoardFullscreen = () => {
+  // Get media queries to render appropriate content
+  const isXLarge = useMediaQuery(theme.breakpoints.up('xl'))
+  const isLarge = useMediaQuery(theme.breakpoints.up('lg'))
+  const isMedium = useMediaQuery(theme.breakpoints.up('md'))
+  const isSmall = useMediaQuery(theme.breakpoints.up('sm'))
+
+  // Calc size to determine columns
+  let columns
+  if (isXLarge) {
+    columns = xlColumns
+  }
+  else if (isLarge) {
+    columns = lgColumns
+  }
+  else if (isMedium) {
+    columns = mdColumns
+  }
+  else if (isSmall) {
+    columns = smColumns
+  }
+  else {
+    columns = xsmColumns
+  }
+
+  const { eventId } = useParams()
+  const navigate = useNavigate()
+  // const socketRef = useRef(null)
+
+  // State for teams
+  const [teams, setTeams] = useState([])
+  const [sponsors, setSponsors] = useState([])
+  const [charities, setCharities] = useState([])
+  const [warningOpen, setWarningOpen] = useState(false)
+  const [loading, setLoading] = useState(true)
+
+  const showWarning = () => {
+    setWarningOpen(true)
+  }
+
+  useEffect(() => {
+    const handleSpace = (event) => {
+      if (event.code === 'Space') {
+        navigate('/progress', { replace: true })
+      }
+    }
+
+    window.addEventListener('keydown', handleSpace)
+    return () => window.removeEventListener('keydown', handleSpace)
+  }, [navigate])
+
+  // Load Team data from server
+  useEffect(() => {
+    const loadLeaderboard = async () => {
+      if (!eventId) return
+      try {
+        const teamsForDisplay = await getLeaderboard(eventId)
+        const sponsorImages = await getSponsors(eventId)
+        const charityImages = await getCharities(eventId)
+
+        setTeams(teamsForDisplay)
+        setSponsors(sponsorImages)
+        setCharities(charityImages)
+      }
+      catch {
+        showWarning()
+      }
+      finally {
+        setLoading(false)
+      }
+    }
+    loadLeaderboard()
+  }, [eventId])
+
+  // Listen for lapStatsUpdate on socket
+  useEffect(() => {
+    const socketURL
+      = import.meta.env.VITE_SOCKET_SERVER_URL || 'http://localhost:5001'
+    const socket = io(socketURL, {
+      transports: ['websocket', 'polling'],
+      reconnectionAttempts: 3,
+    })
+    const handleLapStatsUpdate = (stats) => {
+      setTeams((prevTeams) => {
+        const updatedTeams = prevTeams.map((team) =>
+          team.id === stats.teamId
+            ? {
+              ...team,
+              ...stats,
+              lapsCompleted: formatNumber(stats.lapsCompleted),
+              currentElevation: formatNumber(stats.currentElevation),
+              timeElapsed: formatDurationTimeHours(stats.timeElapsed),
+              bestLap: formatDurationTimeMinutes(stats.bestLap),
+            }
+            : team
+        )
+        return updatedTeams
+      })
+    }
+    socket.on('lapStatsUpdate', handleLapStatsUpdate)
+    return () => {
+      socket.off('lapStatsUpdate', handleLapStatsUpdate)
+      socket.disconnect()
+    }
+  }, [])
+
+  return (
+    <Box
+      sx={{
+        position: 'relative',
+        width: '100vw',
+        height: '100vh',
+        overflow: 'hidden',
+      }}
+    >
+      {/* https://pixabay.com/videos/search/terrain%20blue%20gray%20mountain/ */}
+      <video
+        src="/assets/progress-board-background.mp4"
+        autoPlay
+        loop
+        muted
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          zIndex: 0,
+        }}
+      />
+
+      <Box
+        sx={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: alpha(theme.palette.primary.main, 0.7),
+        }}
+      >
+        <Box
+          sx={{
+            position: 'relative',
+            zIndex: 2,
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            py: 1,
+          }}
+        >
+          {loading
+            ? (
+              <Box
+                sx={{
+                  width: '100%',
+                  height: '10vh',
+                  backgroundColor: alpha(theme.palette.background.paper, 0.5),
+                }}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: '100%',
+                  }}
+                >
+                  <CircularProgress />
+                </Box>
+              </Box>
+            )
+            : (
+              <ImageCarousel title="Sponsors" images={sponsors} />
+            )}
+
+          <Box
+            sx={{
+              width: '100%',
+              height: '75vh',
+              display: 'flex',
+              flexDirection: 'column',
+              px: 1,
+            }}
+          >
+            {' '}
+            <Box
+              sx={{
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-evenly',
+                pb: 2,
+              }}
+            >
+              <Box
+                sx={{
+                  width: '5%',
+                  backgroundColor: alpha(theme.palette.primary.main, 0.8),
+                  clipPath:
+                    'polygon(30px 0%, 100% 0%, calc(100% - 30px) 100%, 0% 100%)',
+                }}
+              />
+              <Box
+                sx={{
+                  width: '5%',
+                  backgroundColor: alpha(theme.palette.primary.main, 0.8),
+                  clipPath:
+                    'polygon(30px 0%, 100% 0%, calc(100% - 30px) 100%, 0% 100%)',
+                }}
+              />
+
+              <Box
+                sx={{
+                  width: '80%',
+                  background: `linear-gradient(to right, ${alpha(theme.palette.primary.main, 0.8)}, ${alpha(theme.palette.primary.main, 0.3)}, ${alpha(theme.palette.primary.main, 0.8)})`,
+                  clipPath:
+                    'polygon(30px 0%, 100% 0%, calc(100% - 30px) 100%, 0% 100%)',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: 2,
+                }}
+              >
+                <Box
+                  component="img"
+                  src={C4CFavicon}
+                  alt="Climbing for Change Logo"
+                  sx={{
+                    width: 'auto',
+                    maxHeight: {
+                      xxs: '1rem',
+                      xs: '1.75rem',
+                      sm: '2.2rem',
+                      md: '3.4rem',
+                      lg: '3.65rem',
+                      xl: '3.65rem',
+                    },
+                    py: 1,
+                  }}
+                />
+                <Typography
+                  variant="h1"
+                  color="secondary.main"
+                  fontWeight="bold"
+                  textTransform="uppercase"
+                  sx={{
+                    fontSize: {
+                      xxs: '1.3rem',
+                      xs: '1.45rem',
+                      sm: '2.1rem',
+                      md: '2.75rem',
+                      lg: '3rem',
+                      xl: '3rem',
+                    },
+                    lineHeight: {
+                      xxs: '1.3rem',
+                      xs: '1.5rem',
+                      sm: '2.25rem',
+                      md: '2.5rem',
+                      lg: '2.75rem',
+                      xl: '2.75rem',
+                    },
+                    fontStyle: 'italic',
+                    mb: 0.5,
+                  }}
+                >
+                  Climbing for Change
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  width: '5%',
+                  background: alpha(theme.palette.primary.main, 0.8),
+                  clipPath:
+                    'polygon(30px 0%, 100% 0%, calc(100% - 30px) 100%, 0% 100%)',
+                }}
+              />
+              <Box
+                sx={{
+                  width: '5%',
+                  background: alpha(theme.palette.primary.main, 0.8),
+                  clipPath:
+                    'polygon(30px 0%, 100% 0%, calc(100% - 30px) 100%, 0% 100%)',
+                }}
+              />
+            </Box>
+            <Box
+              sx={{
+                flexGrow: 1,
+                width: '100%',
+                minHeight: 0,
+                overflowY: 'hidden',
+              }}
+            >
+              <AutoScrollTable
+                columns={columns}
+                teams={teams}
+                loading={loading}
+              />
+            </Box>
+          </Box>
+          {loading
+            ? (
+              <Box
+                sx={{
+                  width: '100%',
+                  height: '10vh',
+                  backgroundColor: alpha(theme.palette.background.paper, 0.5),
+                  mt: 1,
+                }}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: '100%',
+                  }}
+                >
+                  <CircularProgress />
+                </Box>
+              </Box>
+            )
+            : (
+              <ImageCarousel title="Charities" images={charities} />
+            )}
+        </Box>
+      </Box>
+      <WarningDialog
+        open={warningOpen}
+        title="Data Loading Error"
+        message="Data for event is not loading."
+        onCancel={() => {
+          setWarningOpen(false)
+          navigate('/progress', { replace: true })
+        }}
+      />
+    </Box>
+  )
+}
+
+export default ProgressBoardFullscreen

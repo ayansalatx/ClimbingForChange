@@ -1,6 +1,13 @@
+import DownhillSkiingIcon from '@mui/icons-material/DownhillSkiing'
+import EditIcon from '@mui/icons-material/Edit'
+import RfidIcon from '@mui/icons-material/Nfc'
+import PeopleIcon from '@mui/icons-material/People'
+import PlaceIcon from '@mui/icons-material/Place'
+import UploadIcon from '@mui/icons-material/Upload'
 import {
   Box,
   CircularProgress,
+  IconButton,
   Paper,
   Table,
   TableBody,
@@ -12,13 +19,22 @@ import {
 } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import theme from '../../../styles/theme'
 import ActiveToggle from '../buttons/ShowInactiveToggle'
+import CustomTooltip from './CustomTooltip'
 import EventSelector from './EventSelector'
 import SearchBar from './SearchBar'
 import TableDataRows from './TableDataRows'
 import TableHeaderRow from './TableHeaderRow'
+
+const CombinedRfidEditIcon = () => (
+  <Box position="relative" width={24} height={24}>
+    <RfidIcon sx={{ position: 'absolute', top: 0, left: 0, fontSize: 20 }} />
+    <EditIcon sx={{ position: 'absolute', bottom: -2, right: -2, fontSize: 20 }} />
+  </Box>
+)
 
 const DataTable = ({
   tableTitle,
@@ -35,10 +51,22 @@ const DataTable = ({
   onEditClick,
   onDeleteClick,
   loading,
+  // Optional pagination control from parent
+  externalPage,
+  externalSetPage,
+  externalRowsPerPage,
+  externalSetRowsPerPage,
 }) => {
+  const navigate = useNavigate()
   const [searchTerm, setSearchTerm] = useState('')
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(10)
+  const [internalPage, setInternalPage] = React.useState(0)
+  const [internalRowsPerPage, setInternalRowsPerPage] = React.useState(10)
+
+  // Use external pagination if provided, otherwise use internal
+  const page = externalPage !== undefined ? externalPage : internalPage
+  const setPage = externalSetPage || setInternalPage
+  const rowsPerPage = externalRowsPerPage !== undefined ? externalRowsPerPage : internalRowsPerPage
+  const setRowsPerPage = externalSetRowsPerPage || setInternalRowsPerPage
 
   const activeToggleOption = tableTitle == 'Events' ? 'visible' : 'hidden'
 
@@ -83,6 +111,33 @@ const DataTable = ({
   }
 
   const disableAdd = tableTitle === 'Participants' && !selectedEvent
+
+  const handleTeamsNavigation = () => {
+    if (tableTitle === 'Participants' && selectedEvent) {
+      // Navigate to teams page with pre-selected event
+      navigate(`/admin/teams?event=${selectedEvent}`)
+    }
+    else {
+      // Navigate to teams page normally
+      navigate('/admin/teams')
+    }
+  }
+
+  const handleUploadParticipantsNavigation = () => {
+    navigate('/admin/upload')
+  }
+
+  const handleTeamRfidBatchNavigation = () => {
+    navigate('/admin/team-rfid-batch')
+  }
+
+  const handleLocationsNavigation = () => {
+    navigate('/admin/locations')
+  }
+
+  const handleHillsNavigation = () => {
+    navigate('/admin/hills')
+  }
 
   return (
     <Paper
@@ -283,11 +338,101 @@ const DataTable = ({
           backgroundColor: 'primary.main',
         }}
       >
-        <ActiveToggle
-          checked={showInactive}
-          onChange={() => setShowInactive((prev) => !prev)}
-          hidden={activeToggleOption}
-        />
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+
+          {/* Teams navigation icon - only show on Participants page */}
+          {tableTitle === 'Participants' && (
+            <CustomTooltip title="Teams" placement="top">
+              <IconButton
+                onClick={handleTeamsNavigation}
+                sx={{
+                  'color': 'background.paper',
+                  'ml': 1,
+                  '&:hover': {
+                    backgroundColor: 'primary.light',
+                  },
+                }}
+              >
+                <PeopleIcon />
+              </IconButton>
+            </CustomTooltip>
+          )}
+
+          {/* Teams page icons */}
+          {tableTitle === 'Teams' && (
+            <>
+              <CustomTooltip title="Upload Participants" placement="top">
+                <IconButton
+                  onClick={handleUploadParticipantsNavigation}
+                  sx={{
+                    'color': 'background.paper',
+                    'ml': 1,
+                    '&:hover': {
+                      backgroundColor: 'primary.light',
+                    },
+                  }}
+                >
+                  <UploadIcon />
+                </IconButton>
+              </CustomTooltip>
+              <CustomTooltip title="Team RFID Batch Edit" placement="top">
+                <IconButton
+                  onClick={handleTeamRfidBatchNavigation}
+                  sx={{
+                    'color': 'background.paper',
+                    'ml': 1,
+                    '&:hover': {
+                      backgroundColor: 'primary.light',
+                    },
+                  }}
+                >
+                  <CombinedRfidEditIcon />
+                </IconButton>
+              </CustomTooltip>
+            </>
+          )}
+
+          {/* Hills page icons */}
+          {tableTitle === 'Hills' && (
+            <CustomTooltip title="Locations" placement="top">
+              <IconButton
+                onClick={handleLocationsNavigation}
+                sx={{
+                  'color': 'background.paper',
+                  'ml': 1,
+                  '&:hover': {
+                    backgroundColor: 'primary.light',
+                  },
+                }}
+              >
+                <PlaceIcon />
+              </IconButton>
+            </CustomTooltip>
+          )}
+
+          {/* Locations page icons */}
+          {tableTitle === 'Locations' && (
+            <CustomTooltip title="Hills" placement="top">
+              <IconButton
+                onClick={handleHillsNavigation}
+                sx={{
+                  'color': 'background.paper',
+                  'ml': 1,
+                  '&:hover': {
+                    backgroundColor: 'primary.light',
+                  },
+                }}
+              >
+                <DownhillSkiingIcon />
+              </IconButton>
+            </CustomTooltip>
+          )}
+          <ActiveToggle
+            checked={showInactive}
+            onChange={() => setShowInactive((prev) => !prev)}
+            hidden={activeToggleOption}
+          />
+        </Box>
 
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}

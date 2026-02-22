@@ -1,6 +1,7 @@
 import TerrainIcon from '@mui/icons-material/Terrain'
 import { Box } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 import ConfirmDeleteDialog from '../../../components/admin/modals/ConfirmDeleteDialog'
 import MountainModal from '../../../components/admin/modals/MountainModal'
@@ -45,9 +46,13 @@ const MountainManager = () => {
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
   const [mountainToDelete, setMountainToDelete] = useState(null)
   const [editedMountain, setEditedMountain] = useState(null)
+  const [highlightedMountainId, setHighlightedMountainId] = useState(null)
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(10)
 
+  const [searchParams] = useSearchParams()
   const displayAlert = useAlert()
-  async function loadData() {
+  const loadData = useCallback(async () => {
     try {
       const mountainsList = await getAllMountains()
 
@@ -59,6 +64,7 @@ const MountainManager = () => {
           totalElevation: mountain.totalElevation?.toString() || '0',
           elevationUnit: mountain.elevationUnit || 'FT',
           active: mountain.active !== undefined ? mountain.active : true,
+          isHighlighted: (mountain._id || mountain.id) === highlightedMountainId,
           ...mountain, // Spread the rest of the properties
         }
 
@@ -76,45 +82,37 @@ const MountainManager = () => {
     finally {
       setLoading(false)
     }
-  }
+  }, [displayAlert, highlightedMountainId])
   useEffect(() => {
-    async function loadMountains() {
-      try {
-        const mountainsList = await getAllMountains()
+    loadData()
+  }, [loadData])
 
-        const mountainsWithIds = mountainsList.map((mountain) => {
-          // Ensure all required fields have default values
-          const processedMountain = {
-            id: mountain._id || mountain.id,
-            name: mountain.name || 'Unnamed Mountain',
-            totalElevation: mountain.totalElevation?.toString() || '0',
-            elevationUnit: mountain.elevationUnit || 'FT',
-            active: mountain.active !== undefined ? mountain.active : true,
-            ...mountain, // Spread the rest of the properties
-          }
-
-          return processedMountain
-        })
-        setMountains(mountainsWithIds)
-        displayAlert(
-          'Success',
-          `Loaded ${mountainsWithIds.length} mountains from the backend.`,
-          'success'
-        )
-      }
-      catch (error) {
-        displayAlert(
-          'Error',
-          `Failed to Load Mountains: ${error.message}`,
-          'error'
-        )
-      }
-      finally {
-        setLoading(false)
+  // Handle pagination for highlighted mountains
+  useEffect(() => {
+    if (highlightedMountainId && mountains.length > 0) {
+      const highlightedIndex = mountains.findIndex((mountain) => mountain.id === highlightedMountainId)
+      if (highlightedIndex !== -1) {
+        const correctPage = Math.floor(highlightedIndex / rowsPerPage)
+        setPage(correctPage)
       }
     }
-    loadMountains()
-  }, [displayAlert])
+  }, [highlightedMountainId, mountains, rowsPerPage])
+
+  useEffect(() => {
+    // Check URL parameters for mountain highlighting
+    const mountainParam = searchParams.get('mountain')
+    if (mountainParam) {
+      setHighlightedMountainId(mountainParam)
+      // Show a brief alert to indicate which mountain was clicked
+      setTimeout(() => {
+        displayAlert('Mountain Selected', 'Showing the selected mountain from teams view.', 'info')
+      }, 500)
+      // Clear highlight after 5 seconds
+      setTimeout(() => {
+        setHighlightedMountainId(null)
+      }, 5000)
+    }
+  }, [displayAlert, searchParams])
 
   const onAdd = () => {
     setEditedMountain({
@@ -261,6 +259,10 @@ const MountainManager = () => {
         onEditClick={onEdit}
         onDeleteClick={onDelete}
         loading={loading}
+        externalPage={page}
+        externalSetPage={setPage}
+        externalRowsPerPage={rowsPerPage}
+        externalSetRowsPerPage={setRowsPerPage}
       />
 
       <MountainModal
