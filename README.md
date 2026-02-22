@@ -20,18 +20,18 @@ The system includes an **admin dashboard** for data management and a **progress 
 
 ## Tech Stack
 
-**Frontend**
+### Frontend
 
 * React (Vite)
 * JavaScript
 * CSS
 
-**Backend**
+### Backend
 
 * Node.js
 * Express
 
-**Database**
+### Database
 
 * SQL
 
@@ -119,7 +119,8 @@ server/   → Backend (Node.js / Express)
 
 ---
 
-## Author
+## Authors
 
-Fatima Khalif, Ayan Salat
-Junior Software Developer
+Fatima Khalif
+Ayan Salat
+Junior Software Developers
